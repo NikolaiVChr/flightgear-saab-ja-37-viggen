@@ -168,18 +168,18 @@ TI: The runway approach line, for some reason do not get updated fast, so when t
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
-TI: When inertial navigation is not ready and GPS is off, don't show moving map.
-TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach.
+TI: When inertial navigation is not ready and GPS is off, don't show moving map?
+TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach. Whats delta time?
 TI: MSDA menu should only show polygon legs for the primary plan. (but still steerpoints for all)
 TI: MPOL should only be able to hold 24 legs, and RPOL only 8. 48 + B0 + BDL in total.
-DAP: Possible to enter date and revision number of LV/FF 001-189
+DAP: Possible to enter date and revision number of LV/FF 001-189. But how?
 DAP: IN pos/out showing info on next steerpoint, for steerpoints greater than 09, show hex. 11-15 = landing bases.
-DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base.
-TI: Steerpoint B0 is start pos. Its shown as destination till take-off.
-TI: In menu SYST place cursor over steerpoint to see ETA (passagetid?).
+DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm?
+TI: Steerpoint B0 is start pos. Its shown as destination till take-off. Cofusing, must know more.
+TI: In menu SYST place cursor over steerpoint to see ETA (passagetid?). Most likely time planned to pass.
 TI: Some steerpoint can be forceringsbrytpunkt. Whatever that means.
 HUD/TI: FPI fin touches circle when estimated that will arrive at steerpoint in correct time.
-DAP: Can enter K time for steerpoints. When that is done it also becomes target steerpoint?
+DAP: Can enter K time for steerpoints. What is that? When that is done it also becomes target steerpoint?
 
 
 

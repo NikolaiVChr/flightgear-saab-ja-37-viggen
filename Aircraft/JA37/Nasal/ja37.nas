@@ -1465,7 +1465,20 @@ var main_init = func {
       settimer(cruise, 1.5);
   }
   recharge_battery();
+  setup_custom_stick_bindings();
 }
+
+var setup_custom_stick_bindings = func {
+  call(func {
+      append(joystick.buttonBindings, joystick.NasalHoldButton.new  ("JA37 Cursor Click", 'setprop("ja37/systems/cursor-select",1);', 'setprop("ja37/systems/cursor-select",0);'));
+      append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("JA37 Cursor Vertical", "/ja37/systems/cursor-control-Y"));
+      append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("JA37 Cursor Horizontal", "/ja37/systems/cursor-control-X"));
+  },nil,var err=[]);
+  var dlg = gui.Dialog.new("/sim/gui/dialogs/button-axis-config/dialog", "Aircraft/JA37/gui/dialogs/button-axis-config.xml", "button-axis-config");
+  var dlg = gui.Dialog.new("/sim/gui/dialogs/button-config/dialog", "Aircraft/JA37/gui/dialogs/button-config.xml", "button-config");
+}
+
+
 
 var cruise = func {
   setprop("controls/gear/gear-down", 0);
