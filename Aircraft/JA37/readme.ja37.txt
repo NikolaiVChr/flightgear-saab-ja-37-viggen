@@ -142,7 +142,7 @@ READDATA - Technician data readout. (Not implemented.)
 
 GPS
 ---
-FIX  - When GPS has started this will make a fix on the TI/MI/HUD. Will stay until PEK switched off or something else selected.
+FIX  - Used for establishing a GPS fix to correct INS drift. (not implemented)
 INIT - Start GPS. (approx 40 seconds to start, including BIT self-test)
 
 SIDV

@@ -61,7 +61,7 @@ Arms: The auto pattern scan should not jump from bottom to top.
 Arms: When electrical power is off, the RB24J should not be able to cool.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
-DAP: Input TACAN with REG/STR.
+DAP: Input TACAN with REG/STR?
 DAP: Minneslista JA37 has some DAP addresses. Make.
 DAP: Show sign of input at leftmost char always.
 DAP: When saving FF,LV,BE and L. Maybe consider saving alot of other addresses/settings also?
@@ -90,7 +90,7 @@ MI: DLZ indicator.
 MI: Implement radar sweep.
 MI: Improve BIT test. [X1]
 MI: Improve mark event [X3]
-MI: Make TNF to stop/start inertial nav.
+MI: Make TNF to stop/start inertial nav. (unsure about how this work and how the light react to it)
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
 Radar: Make ECM jamming.
 Radar: Make other planes notice when radar is off. (semi done, think F15, mig21 and mirage does it)
@@ -145,7 +145,8 @@ Test: Engine starter should be hold in for 30 secs before quiting test, not inst
 Test: Individual tests with test knob.
 Test: Shut down also some indicators during testing.
 Test: Testing from TI.
-TI: Add missiles to SVY.
+Test: Red and green lights should also lit up when pressing 'test indicator lights button'.
+TI: Add rb-99 to SVY?
 TI: Navigation mode RR probably was intercept vector.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing.
 TI: Be able to set steerorder to LV or FF points. (I cannot see in manual where that should be possible, so is on hold)
@@ -211,13 +212,14 @@ Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of 
 Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?) If line is there, the number is line length.
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
 The FPI in HUD was really limited to +- 7.5 degs lateral.
-In the orig plane the HUD decimal delimiter is ',' not '.'.
-VOR, ADF navigation, the real did not have this.
+In the orig plane the HUD/TI/MI decimal delimiter is ',' not '.'.
+VOR, ADF radio navigation, the real did not have this.
 Aerobatic smoke, the real probably didn't have.
 TI: Append or insert steerpoint should really be controlled from R1 switch, not be part of TI menu.
 TI: OPT should really be a button on the flightstick, not be part of TI menu.
 In the real nav. panel you could select STRIL supplied base.
 The real Viggen displays had 2 cursors; lock-cursor and TIM-cursor. The flightgear Viggen has combined it into 1 cursor.
+GPS fix was used to correct the INS, not to put a point on the TI.
 
 
 
