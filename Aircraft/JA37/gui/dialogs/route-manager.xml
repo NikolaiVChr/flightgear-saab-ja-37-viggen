@@ -806,7 +806,7 @@
             <row>2</row>
             <col>6</col>
             <halign>left</halign>
-            <label>Interaction with the routes and areas is done on the TI color display.</label>
+            <label>Interact with the routes and areas on the TI color display and the DAP.</label>
         </text>
         
         <text>
@@ -820,7 +820,7 @@
             <row>4</row>
             <col>6</col>
             <halign>left</halign>
-            <label>Notice that all this can be loaded at startup. See manual for that.</label>
+            <label>Airports from loaded plans, will get replaced by the base settings.</label>
         </text>
         
         <text>

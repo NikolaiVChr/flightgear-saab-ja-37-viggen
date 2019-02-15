@@ -1023,7 +1023,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         beta:             "orientation/side-slip-deg",
         callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
-        carrierNear:      "fdm/jsbsim/ground/carrier-near",
         combat:           "ja37/hud/combat",
         ctrlRadar:        "controls/altimeter-radar",
         currentMode:      "ja37/hud/current-mode",

@@ -292,9 +292,6 @@
   <system file="jsb-fuel"/>
   <external_reactions file="Systems/jsb-external-reactions"/>
   <ground_reactions file="Systems/jsb-ground-reactions"/>
-
-  <!--  Carrier (note, these functions are not offical. As the real Viggen did not have carrier capacity, and so is not documented) -->
-  <system file="jsb-carrier"/>
   
 <!--<output name="C:/Users/Nikolai/Documents/ja37_datalog.csv" type="CSV" rate="10">
     <property> /position/latitude-deg </property>

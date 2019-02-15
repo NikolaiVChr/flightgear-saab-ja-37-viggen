@@ -293,8 +293,4 @@
   <external_reactions file="Systems/jsb-external-reactions"/>
   <ground_reactions file="Systems/jsb-ground-reactions"/>
 
-
-  <!--  Carrier (note, these functions are not offical. As the real Viggen did not have carrier capacity, and so is not documented) -->
-  <system file="jsb-carrier"/>
-
 </fdm_config>

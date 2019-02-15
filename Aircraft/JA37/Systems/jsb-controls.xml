@@ -1710,24 +1710,6 @@
     </channel>
 
 
-
-    <!--<channel name="Hook">
-        <kinematic name="names/carrier/hook-pos-norm">
-            <input>fcs/carrier/hook-engage</input>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>1</position>
-                    <time>2.5</time>
-                </setting>
-            </traverse>
-            <output>fcs/carrier/hook-pos-norm</output>
-        </kinematic>
-    </channel>-->
-
     <!--<channel name="View">
       <summer name="position/h-sl-pilot-ft">
         <input>position/h-sl-ft</input>

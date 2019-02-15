@@ -6,7 +6,7 @@ var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
-var radarRange = getprop("ja37/systems/variant") == 0?120000:120000;#meter, is estimate. The AJ(S)-37 has 120KM and JA37 is almost 10 years newer, so is reasonable I think.
+var radarRange = getprop("ja37/systems/variant") == 0?120000:120000;#meter
 
 var containsVector = func (vec, item) {
   foreach(test; vec) {
@@ -92,7 +92,6 @@ var input = {
         roll:             "/orientation/roll-deg",
         tracks_enabled:   "ja37/hud/tracks-enabled",
         callsign:         "/ja37/hud/callsign",
-        carrierNear:      "fdm/jsbsim/ground/carrier-near",
         voltage:          "systems/electrical/outputs/ac-main-voltage",
         hydrPressure:     "fdm/jsbsim/systems/hydraulics/system1/pressure",
         ai_models:        "/ai/models",
@@ -207,7 +206,6 @@ var RadarLogic = {
   },
 
   processTracks: func (vector, carrier, missile = 0, mp = 0, type = -1) {
-    me.carrierNear = FALSE;
     foreach (var track; vector) {
       if(track != nil and track.getChild("valid") != nil and track.getChild("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
         me.trackInfo = nil;
@@ -232,10 +230,6 @@ var RadarLogic = {
             if (me.pathNode != nil) {
               me.path = me.pathNode.getValue();
               me.model = split(".", split("/", me.path)[-1])[0];
-
-              if (me.distance < 1000 and (me.model == "mp-clemenceau" or me.model == "mp-eisenhower" or me.model == "mp-nimitz" or me.model == "mp-vinson")) {
-                me.carrierNear = TRUE;
-              }
 
               me.model = me.remove_suffix(me.model, "-model");
               me.model = me.remove_suffix(me.model, "-anim");
@@ -276,12 +270,6 @@ var RadarLogic = {
 
               funcHash.new(track, me.pathNode);
             }
-          }
-
-          # tell the jsbsim hook system that if we are near a carrier
-          if(carrier == TRUE and me.distance < 1000) {
-            # is carrier and is within 1 Km range
-            me.carrierNear = TRUE;
           }
 
           me.unique = track.getChild("unique");
@@ -329,11 +317,6 @@ var RadarLogic = {
   #});      
       }#end of valid check
     }#end of foreach
-    if(carrier == TRUE) {
-      if(me.carrierNear != input.carrierNear.getValue()) {
-        input.carrierNear.setBoolValue(me.carrierNear);
-      }      
-    }
   },#end of processTracks
 
   paint: func (node, painted) {
@@ -511,12 +494,6 @@ var RadarLogic = {
 
         return me.contact;
         
-      } elsif (carrier == TRUE) {
-        # need to return carrier even if out of radar cone, due to carrierNear calc
-        me.contact = Contact.new(node, type);
-        #me.contact.setPolar(900000, me.xa_rad_corr, me.xa_rad, me.ya_rad);#TODO: fix
-        #me.contact.setCartesian(900000, 900000);# 900000 used in hud to know if out of radar cone.
-        return me.contact;
       }
     }
     return nil;

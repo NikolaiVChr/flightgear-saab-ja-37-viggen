@@ -1792,17 +1792,6 @@ var toggleRollDamper = func {
   }
 }
 
-var toggleHook = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm");
-  setprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm", !enabled);
-  if(enabled == FALSE) {
-    notice("Arrester hook: Extended");
-  } else {
-    notice("Arrester hook: Retracted");
-  }
-}
-
 var toggleNosewheelSteer = func {
   ja37.click();
   var enabled = getprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable");

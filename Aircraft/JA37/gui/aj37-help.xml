@@ -161,18 +161,7 @@
         <name>F6</name>
         <desc>Eject</desc>
     </key>
-    <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
-      <name>L</name>
-      <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
-     </key>
-     <key>
-      <name>C</name>
-      <desc>Carrier catapult launch</desc>
-     </key>
-     <key>
-      <name>l</name>
-      <desc>Toggle arrester hook</desc>
-     </key>
+    <!--
      <key>
       <name>Shift-backspace</name>
       <desc>Reload A/P</desc>

@@ -3581,3 +3581,4 @@ Radar: Steerorder (styrledning) from radar now gives proper intercept course.
 TI: Fixed a timing issue where a variable would not be init before used.
 Radar: Fixed that at first contact an echo would show even when its radar cross-section would make it invisible.
 Model: Made some JA indicators more dull when not lit. (master-warning, autopilot pushbuttons, test-panel, reserve-course)
+Sim: Removed all remnants of carrier launch and landing code.

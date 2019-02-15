@@ -900,25 +900,10 @@
                     </nose-wheel-steering>
                 </unit>
             </gear>
-            <ground>
-                <carrier-near type="bool">false</carrier-near>
-            </ground>
             <systems>
-                <catapult_free>
-                    <cat-launch-cmd type="bool">false</cat-launch-cmd>
-                </catapult_free>
-                <holdback_free>
-                    <holdback-cmd type="bool">false</holdback-cmd>
-                </holdback_free>
-                <launchbar_free>
-                    <lock-cmd type="bool">false</lock-cmd>
-                </launchbar_free>
                 <flapscontrol>
                     <serviceable/>
                 </flapscontrol>
-                <hook>
-                    <tailhook-cmd-norm type="bool">false</tailhook-cmd-norm>
-                </hook>
                 <hydraulics>
                     <system1>
                         <main>
@@ -1018,9 +1003,6 @@
                     <cutoff-commanded type="bool">true</cutoff-commanded>
                 </engine>
             </propulsion>
-            <launchbar>
-                <launch-bar-pos-norm type="double">0</launch-bar-pos-norm>
-            </launchbar>
             <position>
                 <selection-view-offset type="double">5</selection-view-offset>
             </position>
