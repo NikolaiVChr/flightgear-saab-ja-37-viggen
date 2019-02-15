@@ -1156,6 +1156,18 @@ var Contact = {
       me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
       return geo.normdeg(me.get_bearing() + me.mag_offset);
     },
+    
+    getMagInterceptBearing: func() {
+      # intercept vector to radar echo
+      me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
+      var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, getprop("velocities/groundspeed-kt")*KT2MPS);
+      if (ic == nil) {
+        #printf("no intercept, return %d",me.get_bearing());
+        return me.getMagBearing();
+      }
+      #printf("intercept! return %d - %d",ic[1], getprop("instrumentation/gps/magnetic-bug-error-deg"));
+      return geo.normdeg(ic[1] + me.mag_offset);
+    },
 
     get_reciprocal_bearing: func(){
         return geo.normdeg(me.get_bearing() + 180);
@@ -1438,6 +1450,10 @@ var ContactGPS = {
     me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
     return geo.normdeg(me.get_bearing() + me.mag_offset);
   },
+  
+  getMagInterceptBearing: func {
+    return me.getMagBearing();
+  },
 
   get_deviation: func(true_heading_ref, coord){
       me.deviation =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
@@ -1702,6 +1718,16 @@ var ContactGhost = {
     me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
     return geo.normdeg(me.get_bearing() + me.mag_offset);
   },
+  
+  getMagInterceptBearing: func() {
+    # intercept vector to radar echo
+    me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
+    var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, getprop("velocities/groundspeed-kt")*KT2MPS);
+    if (ic == nil) {
+      return me.getMagBearing();
+    }
+    return geo.normdeg(ic[1]+me.mag_offset);
+  },
 
   get_deviation: func(true_heading_ref, coord){
       me.deviation =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
@@ -1868,3 +1894,47 @@ var starter = func () {
   }
 };
 #var lsnr = setlistener("ja37/supported/initialized", starter);
+
+var get_intercept = func(bearing, dist_m, runnerHeading, runnerSpeed, chaserSpeed) {
+    # implementation by pinto
+    # needs: bearing, dist_m, runnerHeading, runnerSpeed, chaserSpeed
+    #        dist_m > 0 and chaserSpeed > 0
+
+    #var bearing = 184;var dist_m=31000;var runnerHeading=186;var runnerSpeed= 200;var chaserSpeed=250;
+
+    var trigAngle = 90-bearing;
+    var RunnerPosition = [dist_m*math.cos(trigAngle*D2R), dist_m*math.sin(trigAngle*D2R),0];
+    var ChaserPosition = [0,0,0];
+
+    var VectorFromRunner = vector.Math.minus(ChaserPosition, RunnerPosition);
+    var runner_heading = 90-runnerHeading;
+    var RunnerVelocity = [runnerSpeed*math.cos(runner_heading*D2R), runnerSpeed*math.sin(runner_heading*D2R),0];
+
+    var a = chaserSpeed * chaserSpeed - runnerSpeed * runnerSpeed;
+    var b = 2 * vector.Math.dotProduct(VectorFromRunner, RunnerVelocity);
+    var c = -dist_m * dist_m;
+
+    if ((b*b-4*a*c)<0) {
+      # intercept not possible
+      return nil;
+    }
+    var t1 = (-b+math.sqrt(b*b-4*a*c))/(2*a);
+    var t2 = (-b-math.sqrt(b*b-4*a*c))/(2*a);
+
+    var timeToIntercept = 0;
+    if (t1 > 0 and t2 > 0) {
+          timeToIntercept = math.min(t1, t2);
+    } else {
+          timeToIntercept = math.max(t1, t2);
+    }
+    var InterceptPosition = vector.Math.plus(RunnerPosition, vector.Math.product(timeToIntercept, RunnerVelocity));
+
+    var ChaserVelocity = vector.Math.product(1/timeToIntercept, vector.Math.minus(InterceptPosition, ChaserPosition));
+
+    var interceptAngle = vector.Math.angleBetweenVectors([0,1,0], ChaserVelocity);
+    var interceptHeading = geo.normdeg(ChaserVelocity[0]<0?-interceptAngle:interceptAngle);
+    #print("output:");
+    #print("time: " ~ timeToIntercept);
+    #print("heading: " ~ interceptHeading);
+    return [timeToIntercept, interceptHeading];
+}
