@@ -179,7 +179,7 @@ TI: Some steerpoint can be forceringsbrytpunkt. Whatever that means.
 HUD/TI: FPI fin touches circle when estimated that will arrive at steerpoint in correct time.
 DAP: Can enter K time for steerpoints. What is that? When that is done it also becomes target steerpoint?
 DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm, need to know more..
-TI: Steerpoint B0 is start pos. Its shown as destination till take-off. When route is started being flown it is set at current position. Should not be saved with plans. Confusing, must know more.
+TI: Steerpoint B0 is start pos. Its shown as current till take-off. When route is started being flown it is set at current position. Should not be saved with plans. Confusing, must know more.
 
 
 

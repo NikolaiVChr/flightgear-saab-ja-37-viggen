@@ -207,6 +207,7 @@ var rGreen = 0.0; # own side
 var gGreen = 1.0;
 var bGreen = 0.0;
 var COLOR_GREEN = [0,1,0];
+var COLOR_GREEN_DARK = [0,0.5,0];
 
 var COLOR_BLUE_LIGHT = [0.65,0.65,1];
 
@@ -3312,84 +3313,84 @@ var TI = {
 			} elsif (radar_logic.rwr[11] == TRUE) {
 				me.ecm12.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm12.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm12.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming1") == TRUE) {
 				me.ecm1.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[0] == TRUE) {
 				me.ecm1.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm1.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm1.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming2") == TRUE) {
 				me.ecm2.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[1] == TRUE) {
 				me.ecm2.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm2.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm2.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming3") == TRUE) {
 				me.ecm3.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[2] == TRUE) {
 				me.ecm3.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm3.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm3.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming4") == TRUE) {
 				me.ecm4.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[3] == TRUE) {
 				me.ecm4.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm4.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm4.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming5") == TRUE) {
 				me.ecm5.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[4] == TRUE) {
 				me.ecm5.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm5.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm5.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming6") == TRUE) {
 				me.ecm6.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[5] == TRUE) {
 				me.ecm6.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm6.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm6.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming7") == TRUE) {
 				me.ecm7.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[6] == TRUE) {
 				me.ecm7.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm7.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm7.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming8") == TRUE) {
 				me.ecm8.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[7] == TRUE) {
 				me.ecm8.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm8.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm8.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming9") == TRUE) {
 				me.ecm9.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[8] == TRUE) {
 				me.ecm9.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm9.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm9.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming10") == TRUE) {
 				me.ecm10.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[9] == TRUE) {
 				me.ecm10.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm10.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm10.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming11") == TRUE) {
 				me.ecm11.setColor(rRed,gRed,bRed,a);
 			} elsif (radar_logic.rwr[10] == TRUE) {
 				me.ecm11.setColor(rYellow,gYellow,bYellow,a);
 			} else {
-				me.ecm11.setColor(rGreen,gGreen,bGreen,a);
+				me.ecm11.setColor(COLOR_GREEN_DARK);
 			}
 			me.ecm_grp.show();
 		} else {
@@ -3444,10 +3445,24 @@ var TI = {
 				.setStrokeLineWidth(w)
 				.setColor(rWhite,gWhite,bWhite,a);
 
-			me.selfSymbolSvy.setTranslation(me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt);
+			me.selfSvyPos = [me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt];
+			me.selfSymbolSvy.setTranslation(me.selfSvyPos);
 			me.selfSymbolSvy.setRotation(90*D2R);
-			me.selfVectorSvy.setTranslation(me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt);
-			#me.selfVectorSvy.setRotation(90*D2R);
+			me.selfVectorSvy.setTranslation(me.selfSvyPos);#scale is set elsewhere
+			
+			# this code works, but is kinda stupid as long as radar bar size is +/- 60 degs:
+			#me.svyRadarLowX = me.SVYoriginX+me.SVYwidth*(FT2M*-me.input.alt_ft.getValue()/math.tan(-60*D2R))/me.SVYrange;
+			#me.svyRadarLowY = me.SVYoriginY;
+			#me.svyRadarHighX = me.SVYoriginX+me.SVYwidth*((me.SVYalt-FT2M*me.input.alt_ft.getValue())/math.tan(60*D2R))/me.SVYrange;
+			#me.svyRadarHighY = me.SVYoriginY-me.SVYheight;
+			
+			#me.svy_grp2.createChild("path")
+			#	.moveTo(me.selfSvyPos)
+			#	.lineTo(me.svyRadarLowX,me.svyRadarLowY)
+			#	.moveTo(me.selfSvyPos)
+			#	.lineTo(me.svyRadarHighX,me.svyRadarHighY)
+			#	.setStrokeLineWidth(w)
+			#	.setColor(rWhite,gWhite,bWhite,a);
 
 			me.textX = "";
 			me.textY = "";
