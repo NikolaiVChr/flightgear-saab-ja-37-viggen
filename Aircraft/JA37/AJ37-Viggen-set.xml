@@ -825,6 +825,7 @@
 
     <limits>
         <vne>729</vne><!-- AJ37 manual -->
+        <vne-mach>2.00</vne-mach>
     </limits>
 
     <fdm>

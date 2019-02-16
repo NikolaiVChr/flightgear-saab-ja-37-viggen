@@ -2771,7 +2771,7 @@
                 systems/indicators/master-warning/fuel-low gt 1
                 /ja37/avionics/master-warning-button == 1
             </test>
-            <test logic="AND" value="2">
+            <test logic="AND" value="3">
                 systems/indicators/low-fuel-primary == 1
             </test>
         </switch>
@@ -2803,7 +2803,7 @@
                 systems/indicators/master-warning/fuel-low-2 gt 1
                 /ja37/avionics/master-warning-button == 1
             </test>
-            <test logic="AND" value="2">
+            <test logic="AND" value="3">
                 systems/indicators/low-fuel-secondary == 1
             </test>
         </switch>
@@ -2969,7 +2969,7 @@
 
         <switch name="systems/indicators/master-warning/audio">
             <default value="0"/>
-            <test logic="OR" value="/ja37/blink/third-Hz/state">
+            <test logic="OR" value="1">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/master-warning/warning == 3
             </test>

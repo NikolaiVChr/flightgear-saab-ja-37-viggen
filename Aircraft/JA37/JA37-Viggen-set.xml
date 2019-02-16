@@ -910,6 +910,7 @@
 
     <limits>
         <vne>789</vne>
+        <vne-mach>2.03</vne-mach>
     </limits>
 
     <fdm>

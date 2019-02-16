@@ -3594,3 +3594,4 @@ Sim: Save/load all now includes lots of CK37 settings including interoperability
 TI: Sideview (SVY) scales now uses the proper interoperability settings.
 TI: Headings of TRAP log pages is now in Swedish when in that mode.
 TI: Cleaned up some code a bit.
+Sound: Most annunciator sounds replaced with correct tones.
