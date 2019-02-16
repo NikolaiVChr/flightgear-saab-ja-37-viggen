@@ -876,6 +876,16 @@
             </function>
             <output>/ja37/accelerations/pilot-G-norm</output>
         </fcs_function>
+        
+        <fcs_function name="names/instruments/sound-g-force-norm">
+            <function>
+                    <quotient>
+                        <p>/ja37/accelerations/pilot-G-lag</p>
+                        <p>/limits/max-positive-g</p>
+                    </quotient>
+            </function>
+            <output>/ja37/sound/pilot-G-norm</output>
+        </fcs_function>
 
         <!--<washout_filter name="names/instruments/g-force-damped">
           <input> /ja37/accelerations/pilot-G </input>

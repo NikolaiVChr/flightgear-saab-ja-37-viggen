@@ -143,12 +143,13 @@
         </pure_gain>
 
         <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
+            <description>Just some random guesses</description>
             <function>
                 <table>
                     <independentVar lookup="row">inertia/weight-lbs</independentVar>
                     <tableData>
-                        0.00  7.00
-                        30864.72  7.00
+                        0.00  8.00 
+                        30864.72  8.00
                         40340.00  5.00
                     </tableData>
                 </table>
@@ -156,7 +157,7 @@
         </fcs_function>
 
         <switch name="fcs/elevator/cmg-limit-pos">
-            <description>As per manual with gears out no more than 3G allowed.</description>
+            <description>As per my guessing with gears out no more than 3G allowed.</description>
             <default value="fcs/elevator/cmg-limit-pos-weight"/>
             <test logic="AND" value="3">
                 gear/gear-pos-norm ne 0
