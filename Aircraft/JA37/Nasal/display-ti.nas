@@ -1645,8 +1645,12 @@ var TI = {
 		# SVY
 		ti.SVYactive    = FALSE;
 		ti.SVYscale     = SVY_ELKA;
-		ti.SVYrmax      = 120;# 15 -120
-		ti.SVYhmax      = 20;# 5, 10, 20 or 40 KM
+		ti.SVYrmax      = 3;
+		ti.SVYrmaxSE    = [15,30,60, 120];#km
+		ti.SVYrmaxEN    = [8, 16, 32, 64];#nm
+		ti.SVYhmax      = 2;
+		ti.SVYhmaxSE    = [5, 10, 20, 40];#km
+		ti.SVYhmaxEN    = [15,30,50, 100];#kFT
 		ti.SVYsize      = 2;#size 1-3
 		ti.SVYinclude   = SVY_ALL;
 		ti.SVYheight    = 0;
@@ -2498,12 +2502,17 @@ var TI = {
 			me.menuButtonSub[14].setText(me.vertStr(me.skal));
 			me.menuButtonSub[14].show();
 			me.menuButtonSubBox[14].show();
-
-			me.menuButtonSub[15].setText(me.vertStr(sprintf("%d", me.SVYrmax*1000*M2NM)));
+			if (me.swedishMode) {
+				me.menuButtonSub[15].setText(me.vertStr(sprintf("%d", me.SVYrmaxSE[me.SVYrmax])));
+				me.menuButtonSub[16].setText(me.vertStr(sprintf("%d", me.SVYhmaxSE[me.SVYhmax])));
+			} else {
+				me.menuButtonSub[15].setText(me.vertStr(sprintf("%d", me.SVYrmaxEN[me.SVYrmax])));
+				me.menuButtonSub[16].setText(me.vertStr(sprintf("%d", me.SVYhmaxEN[me.SVYhmax])));
+			}
 			me.menuButtonSub[15].show();
 			me.menuButtonSubBox[15].show();
 
-			me.menuButtonSub[16].setText(me.vertStr(sprintf("%d", me.SVYhmax*M2FT)));
+			
 			me.menuButtonSub[16].show();
 			me.menuButtonSubBox[16].show();
 		}
@@ -3407,8 +3416,8 @@ var TI = {
 			me.SVYoriginY = height*0.125+height*0.125*me.SVYsize-height*0.05;#texel
 			me.SVYwidth   = width*0.90;#texel
 			me.SVYheight  = height*0.125+height*0.125*me.SVYsize-height*0.10;#texel
-			me.SVYalt     = me.SVYhmax*1000;#meter
-			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?me.SVYrmax*1000:me.SVYwidth/M2TEX);#meter
+			me.SVYalt     = me.swedishMode?me.SVYhmaxSE[me.SVYhmax]*1000:me.SVYhmaxEN[me.SVYhmax]*1000*FT2M;#meter
+			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?(me.swedishMode?me.SVYrmaxSE[me.SVYrmax]*1000:me.SVYrmaxEN[me.SVYrmax]*NM2M):me.SVYwidth/M2TEX);#meter
 			me.SVYticksize= width*0.01;#texel
 
 			# not the most efficient code..
@@ -3444,11 +3453,11 @@ var TI = {
 			me.textY = "";
 
 			if (me.swedishMode) {
-				me.textX = sprintf("%d KM" ,me.SVYrange*0.001);
-				me.textY = sprintf("%d KM" ,me.SVYhmax);
+				me.textX = sprintf("%d KM" ,me.SVYscale==SVY_MI?me.input.radarRange.getValue()*0.001:(me.SVYscale==SVY_RMAX?me.SVYrmaxSE[me.SVYrmax]:0.001*me.SVYwidth/M2TEX));
+				me.textY = sprintf("%d KM" ,me.SVYhmaxSE[me.SVYhmax]);
 			} else {
-				me.textX = sprintf("%d NM" ,me.SVYrange*M2NM);
-				me.textY = sprintf("%dK FT" ,me.SVYhmax*M2FT);
+				me.textX = sprintf("%d NM" ,me.SVYscale==SVY_MI?me.input.radarRange.getValue()*M2NM:(me.SVYscale==SVY_RMAX?me.SVYrmaxEN[me.SVYrmax]:M2NM*me.SVYwidth/M2TEX));
+				me.textY = sprintf("%d kFT" ,me.SVYhmaxEN[me.SVYhmax]);
 			}
 
 			me.textSvyX.setText(me.textX);
@@ -5714,9 +5723,9 @@ var TI = {
 				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
-				me.SVYrmax *= 2;
-				if (me.SVYrmax > 120) {
-					me.SVYrmax = 15;
+				me.SVYrmax += 1;
+				if (me.SVYrmax > 3) {
+					me.SVYrmax = 0;
 				}
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
@@ -5743,9 +5752,9 @@ var TI = {
 				me.displayTime = !me.displayTime;
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
-				me.SVYhmax *= 2;
-				if (me.SVYhmax > 40) {
-					me.SVYhmax = 5;
+				me.SVYhmax += 1;
+				if (me.SVYhmax > 3) {
+					me.SVYhmax = 0;
 				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {

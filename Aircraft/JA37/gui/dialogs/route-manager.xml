@@ -1022,9 +1022,9 @@
         <button>
             <legend>Save Data...</legend>
             <equal>true</equal>
-            <enable>
+            <!--<enable>
                 <property>autopilot/plan-manager/points/save</property>
-            </enable>
+            </enable>-->
             <binding>
                 <command>nasal</command>
                 <script>save_selector_ff.open();</script>
@@ -1032,7 +1032,7 @@
         </button>
         <text>
             <halign>left</halign>
-            <label>Pilot-points (FF), bulls-eye, landing bases and anti-aircraft (LV) areas.</label>
+            <label>Pilot-points (FF), bulls-eye, landing bases, anti-aircraft (LV) areas, interoperability and various other settings.</label>
         </text>
         <empty><stretch>1</stretch></empty>
     </group>

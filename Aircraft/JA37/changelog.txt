@@ -3589,3 +3589,6 @@ HUD: TILS now blink when TILS locked to ILS only, steady when glideslope is also
 GUI: Fixed parse error in route-manager.
 GUI: Added custom cursor bindings in joystick dialog.
 Sim: Removed support for seperate departure. It should be one of the landing bases.
+TI: Adjusted the distance-scale ticks.
+Sim: Save/load all now includes lots of CK37 settings including interoperability and some TI settings. Basically its a data-cartridge.
+TI: Sideview (SVY) scales now uses the proper interoperability settings.

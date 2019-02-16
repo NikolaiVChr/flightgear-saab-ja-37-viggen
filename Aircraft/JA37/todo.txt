@@ -186,7 +186,6 @@ TI: Steerpoint B0 is start pos. Its shown as destination till take-off. When rou
 
 
 
-
 Map accuracy zoom level:
 ========================
 real scale | m/px | choosen | approx ideal (display assumed to be 30cm wide)

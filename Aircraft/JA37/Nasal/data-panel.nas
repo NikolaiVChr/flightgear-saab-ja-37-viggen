@@ -74,7 +74,7 @@ var KNOB_FUEL = 2;
 var KNOB_REG  = 3;
 var KNOB_TI   = 4;
 var KNOB_DATE = 5;
-var KNOB_DATA = 6;
+var KNOB_DATA = 6;#FPLDATA
 
 var OUTPUT    = 1;
 var INPUT     = 0;
@@ -998,7 +998,7 @@ var savePoints = func (path) {
     }
 }
 
-var loadPoints = func (path,clear=0) {
+var loadPoints = func (path,clear=1) {
     var text = nil;
     call(func{text=io.readfile(path);},nil, var err = []);
     if (size(err)) {
@@ -1014,6 +1014,7 @@ var loadPoints = func (path,clear=0) {
 }
 
 var checkLVSave = func {
+  return;
   if (size(keys(lv)) or getprop("ja37/navigation/bulls-eye-defined") or getprop("autopilot/plan-manager/destination/airport-1")!="" or getprop("autopilot/plan-manager/destination/airport-2")!="" or getprop("autopilot/plan-manager/destination/airport-3")!="" or getprop("autopilot/plan-manager/destination/airport-4")!="") {
     setprop("autopilot/plan-manager/points/save",1);
   } else {
@@ -1026,18 +1027,20 @@ checkLVSave();
 var serialize = func(m) {
   var ret = "";
   foreach(key;keys(m)) {
-    ret = ret~sprintf("%s,%d,%d,%d,%d,%.6f,%.6f|",key,m[key].address,m[key].color,m[key].radius,m[key].type,m[key].lon,m[key].lat);
+    ret = ret~sprintf("TI,%d,%d,%d,%d,%d,%.6f,%.6f|",m[key].address,m[key].color,m[key].radius,m[key].type,m[key].lon,m[key].lat);
   }
   if (getprop("ja37/navigation/bulls-eye-defined")) {
     var beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
-    ret = ret~sprintf("p179,179,2,-1,3,%.6f,%.6f|",beLaLo[1],beLaLo[0]);
+    ret = ret~sprintf("TI,179,%.6f,%.6f|",beLaLo[1],beLaLo[0]);
   }
-  if (getprop("autopilot/plan-manager/destination/airport-1")!="") {
-    ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
-  }
+  ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
+  ret = ret~sprintf("FPLDATA,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"));
+  ret = ret~sprintf("REG,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"));
+  ret = ret~sprintf("FUEL,%d|",getprop("ja37/systems/fuel-warning-extra-percent"));
+  ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.fData);
   return ret;
 }
-
+#TODO: Consider adding stuff like HORI setting on TI.
 var unserialize = func(m) {
   var ret = {};
   var points = split("|",m);
@@ -1050,12 +1053,33 @@ var unserialize = func(m) {
         setprop("autopilot/plan-manager/destination/airport-2", items[2]);
         setprop("autopilot/plan-manager/destination/airport-3", items[3]);
         setprop("autopilot/plan-manager/destination/airport-4", items[4]);
-      } elsif (key == "p179") {
-        setprop("ja37/navigation/bulls-eye-defined",1);
-        setprop("ja37/navigation/bulls-eye-lat",num(items[6]));
-        setprop("ja37/navigation/bulls-eye-lon",num(items[5]));
-      } else {
-        ret[key] = {address: num(items[1]),color: num(items[2]),radius: num(items[3]),type: num(items[4]),lon: num(items[5]),lat: num(items[6])};
+      } elsif (key == "TI") {
+        if (num(items[1])==179) {
+          setprop("ja37/navigation/bulls-eye-defined",1);
+          setprop("ja37/navigation/bulls-eye-lon",num(items[2]));
+          setprop("ja37/navigation/bulls-eye-lat",num(items[3]));
+        } else {
+          ret["p"~items[1]] = {address: num(items[1]),color: num(items[2]),radius: num(items[3]),type: num(items[4]),lon: num(items[5]),lat: num(items[6])};
+        }
+      } elsif (key == "FPLDATA") {
+        setprop("ja37/hud/units-metric", num(items[1]));
+        setprop("ja37/navigation/gps-installed", num(items[2]));
+      } elsif (key == "EP12") {
+        # TI237 and MI settings:
+        TI.ti.SVYactive  = num(items[1]);
+        TI.ti.SVYscale   = num(items[2]);
+        TI.ti.SVYrmax    = num(items[3]);
+        TI.ti.SVYhmax    = num(items[4]);
+        TI.ti.SVYsize    = num(items[5]);
+        TI.ti.SVYinclude = num(items[6]);
+        TI.ti.ECMon      = num(items[7]);
+        TI.ti.lnk99      = num(items[8]);
+        TI.ti.fData      = num(items[9]);
+      } elsif (key == "REG") {
+        setprop("ja37/sound/floor-ft", num(items[1]));
+        setprop("fdm/jsbsim/fcs/max-alpha-deg", num(items[2]));
+      } elsif (key == "FUEL") {
+        setprop("ja37/systems/fuel-warning-extra-percent", num(items[1]));
       }
     }
   }
