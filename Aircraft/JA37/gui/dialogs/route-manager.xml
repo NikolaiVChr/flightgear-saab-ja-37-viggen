@@ -339,7 +339,7 @@
         <empty><stretch>1</stretch></empty>
 
         <text>
-            <label>Saab JA-37 Viggen Route Manager System</label>
+            <label>Saab JA-37Di Viggen Route Manager System</label>
         </text>
 
         <empty><stretch>1</stretch></empty>
@@ -1044,7 +1044,7 @@
         <empty><stretch>1</stretch></empty>
         <text>
             <halign>right</halign>
-            <label>Save/load everything to a folder. Recommend saving all only to a empty folder. Loading all will clear all old data.</label>
+            <label>Save/load everything to a folder. Recommend saving all only to a empty folder. Loading all will clear all old data and routes.</label>
         </text>
         <button>
             <legend>Load All...</legend>

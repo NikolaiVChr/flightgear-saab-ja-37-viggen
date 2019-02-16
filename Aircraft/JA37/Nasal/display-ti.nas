@@ -188,55 +188,18 @@ var contrastM = func {
 var bright = 0;
 
 #TI symbol colors
-var rWhite = 1.0; # other / self / own_missile
-var gWhite = 1.0;
-var bWhite = 1.0;
-var COLOR_WHITE = [1,1,1];#I will slowly convert all of TI to use vectored colors instead.
-
-var rYellow = 1.0;# possible threat
-var gYellow = 1.0;
-var bYellow = 0.0;
-var COLOR_YELLOW = [1,1,0];
-
-var rRed = 1.0;   # threat
-var gRed = 0.0;
-var bRed = 0.0;
-var COLOR_RED = [1,0,0];
-
-var rGreen = 0.0; # own side
-var gGreen = 1.0;
-var bGreen = 0.0;
-var COLOR_GREEN = [0,1,0];
-var COLOR_GREEN_DARK = [0,0.5,0];
-
-var COLOR_BLUE_LIGHT = [0.65,0.65,1];
-
-var rDTyrk = 0.20; # route polygon
-var gDTyrk = 0.75;
-var bDTyrk = 0.60;
-var COLOR_TYRK_DARK = [0.20,0.75,0.60];
-
-var rTyrk = 0.35; # navigation aid
-var gTyrk = 1.00;
-var bTyrk = 0.90;
-var COLOR_TYRK = [0.35,1.00,0.90];
-
-var rGrey = 0.5;   # inactive
-var gGrey = 0.5;
-var bGrey = 0.5;
-var COLOR_GREY = [0.5,0.5,0.5];
-
+var COLOR_WHITE      = [1.00,1.00,1.00];# self
+var COLOR_YELLOW     = [1.00,1.00,0.00];# possible threat LV
+var COLOR_RED        = [1.00,0.00,0.00];# threat LV
+var COLOR_GREEN      = [0.00,1.00,0.00];# own side LV
+var COLOR_GREEN_DARK = [0.00,0.50,0.00];# RWR
+var COLOR_BLUE_LIGHT = [0.65,0.65,1.00];
+var COLOR_TYRK_DARK  = [0.20,0.75,0.60];# route polygon
+var COLOR_TYRK       = [0.35,1.00,0.90];# navigation aids
+var COLOR_GREY       = [0.50,0.50,0.50];# inactive
 var COLOR_GREY_LIGHT = [0.70,0.70,0.70];
-
-var rBlack = 0.0;   # active
-var gBlack = 0.0;
-var bBlack = 0.0;
-var COLOR_BLACK = [0.0,0.0,0.0];
-
-var rGB = 0.5;   # flight data
-var gGB = 0.5;
-var bGB = 0.75;
-var COLOR_GB = [0.5,0.5,0.75];
+var COLOR_BLACK      = [0.00,0.00,0.00];# active
+var COLOR_GREY_BLUE  = [0.60,0.60,0.85];# flight data
 
 var COLOR_DAY   = "rgb(128,128,128)";# color fill behind map which will modulate to make it darker.
 var COLOR_NIGHT = "rgb( 64, 64, 64)";
@@ -406,82 +369,82 @@ var TI = {
 		me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, height)
 			.vert(-height*2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTick0 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTick0Txt = me.mapScale.createChild("text")
     		.setText("0")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, 0)
     		.setFontSize(15, 1);
     	me.mapScaleTick1 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTick1Txt = me.mapScale.createChild("text")
     		.setText("50")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, -height/4)
     		.setFontSize(15, 1);
     	me.mapScaleTick2 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTick2Txt = me.mapScale.createChild("text")
     		.setText("100")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, -height/2)
     		.setFontSize(15, 1);
     	me.mapScaleTick3 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTick3Txt = me.mapScale.createChild("text")
     		.setText("150")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, -height/4)
     		.setFontSize(15, 1);
     	me.mapScaleTickM1 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTickM1Txt = me.mapScale.createChild("text")
     		.setText("-50")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, -height/4)
     		.setFontSize(15, 1);
     	me.mapScaleTickM2 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTickM2Txt = me.mapScale.createChild("text")
     		.setText("-100")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, -height/2)
     		.setFontSize(15, 1);
     	me.mapScaleTickM3 = me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, 0)
 			.horiz(-width*0.025/2)
-			.setColor(rWhite,gWhite,bWhite, a)
+			.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.mapScaleTickM3Txt = me.mapScale.createChild("text")
     		.setText("-150")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-center")
     		.setTranslation(me.mapScaleTickPosTxtX, -height/4)
     		.setFontSize(15, 1);
@@ -494,7 +457,7 @@ var TI = {
 		me.navBugs.createChild("path")
 		      .moveTo( width/2,  0)
 		      .vert(7.5*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w)
 		      .set("z-index", 5);
 		# commanded direction of travel indicator
@@ -505,7 +468,7 @@ var TI = {
 		      .vert(12*MM2TEX)
 		      .moveTo(2.5*MM2TEX,  6*MM2TEX)
 		      .vert(9*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w)
 		      .set("z-index", 5);
 
@@ -515,7 +478,7 @@ var TI = {
 		      .lineTo( 0,         0*MM2TEX)
 		      .lineTo( 5*MM2TEX, 15*MM2TEX)
 		      .lineTo(-5*MM2TEX, 15*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .set("z-index", 10)
 		      .setStrokeLineWidth(w);
 		me.selfSymbolGPS = me.rootCenter.createChild("path")
@@ -523,8 +486,8 @@ var TI = {
 		      .lineTo( 0,         0*MM2TEX)
 		      .lineTo( 5*MM2TEX, 15*MM2TEX)
 		      .lineTo(-5*MM2TEX, 15*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
-		      .setColorFill(rWhite,gWhite,bWhite)
+		      .setColor(COLOR_WHITE)
+		      .setColorFill(COLOR_WHITE)
 		      .set("z-index", 10)
 		      .setStrokeLineWidth(w);
 		me.selfVectorG = me.rootCenter.createChild("group")
@@ -534,7 +497,7 @@ var TI = {
 			  .set("z-index", 10)
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
-			  .setColor(rWhite,gWhite,bWhite, a)
+			  .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 
 		me.ppGrp = me.rootCenter.createChild("group")
@@ -555,7 +518,7 @@ var TI = {
 		var vector = grp2.createChild("path")
 		  .moveTo(0,  0)
 		  .lineTo(0, -1*MM2TEX)
-		  .setColor(rYellow,gYellow,bYellow, a)
+		  .setColor(COLOR_YELLOW)
 	      .setStrokeLineWidth(w);
 		var tri = grp.createChild("path")
 	       .moveTo(-7.5, 7.5)
@@ -564,7 +527,7 @@ var TI = {
            .moveTo(-3.75, 11.25)
            .arcSmallCW(3.75, 3.75, 0, 7.5, 0)
            .arcSmallCW(3.75, 3.75, 0, -7.5, 0)
-	       .setColor(rYellow,gYellow,bYellow, a)
+	       .setColor(COLOR_YELLOW)
 	       .setStrokeLineWidth(w);
 	    me.rrSymbol = me.radar_group.createChild("path")
 	       .moveTo(-15, 7.5)
@@ -585,7 +548,7 @@ var TI = {
 			var vector = grp2.createChild("path")
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
-			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+			  .setColor(i!=0?COLOR_YELLOW:COLOR_RED)
 		      .setStrokeLineWidth(w);
 			var tri = grp.createChild("path")
 		      .moveTo(-5*MM2TEX, 15*MM2TEX)
@@ -594,7 +557,7 @@ var TI = {
 		      .lineTo( 0,         0*MM2TEX)
 		      .moveTo(-5*MM2TEX, 15*MM2TEX)
 		      .lineTo( 5*MM2TEX, 15*MM2TEX)
-		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+		      .setColor(i!=0?COLOR_YELLOW:COLOR_RED)
 		      .setStrokeLineWidth(w);
 		    append(me.echoesAircraft, grp);
 		    append(me.echoesAircraftTri, tri);
@@ -617,7 +580,7 @@ var TI = {
 		var vectorS = grpS2.createChild("path")
 		  .moveTo(0,  0)
 		  .lineTo(0, -1*MM2TEX)
-		  .setColor(rYellow,gYellow,bYellow, a)
+		  .setColor(COLOR_YELLOW)
 	      .setStrokeLineWidth(w);
 		var tri = grpS.createChild("path")
 	       .moveTo(-7.5, 7.5)
@@ -626,7 +589,7 @@ var TI = {
            .moveTo(-3.75, 11.25)
            .arcSmallCW(3.75, 3.75, 0, 7.5, 0)
            .arcSmallCW(3.75, 3.75, 0, -7.5, 0)
-	       .setColor(rYellow,gYellow,bYellow, a)
+	       .setColor(COLOR_YELLOW)
 	       .setStrokeLineWidth(w);
 	    append(me.echoesAircraftSvy, grpS);
 	    append(me.echoesAircraftSvyTri, tri);
@@ -637,7 +600,7 @@ var TI = {
 			var vector = grp.createChild("path")
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
-			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+			  .setColor(i!=0?COLOR_YELLOW:COLOR_RED)
 		      .setStrokeLineWidth(w);
 			var tri = grp.createChild("path")
 		      .moveTo(-5*MM2TEX, 15*MM2TEX)
@@ -646,7 +609,7 @@ var TI = {
 		      .lineTo( 0,         0*MM2TEX)
 		      .moveTo(-5*MM2TEX, 15*MM2TEX)
 		      .lineTo( 5*MM2TEX, 15*MM2TEX)
-		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+		      .setColor(i!=0?COLOR_YELLOW:COLOR_RED)
 		      .setStrokeLineWidth(w);
 		    append(me.echoesAircraftSvy, grp);
 		    append(me.echoesAircraftSvyTri, tri);
@@ -659,26 +622,26 @@ var TI = {
 		      .lineTo( 0,       0*MM2TEX)
 		      .moveTo(-5*MM2TEX,  15*MM2TEX)
 		      .lineTo( 5*MM2TEX,  15*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .set("z-index", 10)
 		      .setStrokeLineWidth(w);
 		me.selfVectorSvy = me.svy_grp.createChild("path")
 			  .moveTo(0,  0)
 			  .set("z-index", 10)
 			  .lineTo(1*MM2TEX, 0)
-			  .setColor(rWhite,gWhite,bWhite, a)
+			  .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 		# SVY coordinate text
 		me.textSvyY = me.svy_grp.createChild("text")
     		.setText("40 KM")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("left-bottom")
     		.setTranslation(0, 0)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
     	me.textSvyX = me.svy_grp.createChild("text")
     		.setText("120 KM")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-top")
     		.setTranslation(0, 0)
     		.set("z-index", 7)
@@ -693,18 +656,18 @@ var TI = {
 	               .lineTo(0, -1)
 	               .setStrokeLineWidth(w*1.5)
 	               .setStrokeLineCap("butt")
-	               .setColor(rTyrk,gTyrk,bTyrk, a)
+	               .setColor(COLOR_TYRK)
 	               .hide();
 	    me.runway_line = me.dest.createChild("path")
 	               .moveTo(0, 0)
 	               .lineTo(0, 1)
 	               .setStrokeLineWidth(w*4.5)
 	               .setStrokeLineCap("butt")
-	               .setColor(rWhite,gWhite,bWhite, a)
+	               .setColor(COLOR_WHITE)
 	               .hide();
 	    me.runway_name = me.dest.createChild("text")
     		.setText("32")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-center")
     		.setTranslation(25, 0)
     		.setFontSize(15, 1);
@@ -713,14 +676,14 @@ var TI = {
 	               .arcSmallCW(12.5, 12.5, 0, 25, 0)
 	               .arcSmallCW(12.5, 12.5, 0, -25, 0)
 	               .setStrokeLineWidth(w)
-	               .setColor(rTyrk,gTyrk,bTyrk, a);
+	               .setColor(COLOR_TYRK);
 	    me.approach_circle = me.rootCenter.createChild("path")
 	    			.set("z-index", 7)
 	               .moveTo(-100, 0)
 	               .arcSmallCW(100, 100, 0, 200, 0)
 	               .arcSmallCW(100, 100, 0, -200, 0)
 	               .setStrokeLineWidth(w*1.5)
-	               .setColor(rTyrk,gTyrk,bTyrk, a);
+	               .setColor(COLOR_TYRK);
 
 	    # threat circles
 	    me.threats = [];
@@ -730,7 +693,7 @@ var TI = {
 	               .arcSmallCW(100, 100, 0, 200, 0)
 	               .arcSmallCW(100, 100, 0, -200, 0)
 	               .setStrokeLineWidth(w)
-	               .setColor(rRed,gRed,bRed, a));
+	               .setColor(COLOR_RED));
 	    }
 
 	    # route symbols
@@ -760,7 +723,7 @@ var TI = {
 			var vector = grp2.createChild("path")
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
-			  .setColor(rWhite,gWhite,bWhite, a)
+			  .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 			grp.createChild("path")
 		      .moveTo(-2.5*MM2TEX,  5*MM2TEX)
@@ -769,7 +732,7 @@ var TI = {
 		      .lineTo(   0,       -10*MM2TEX)
 		      .moveTo(-2.5*MM2TEX,  5*MM2TEX)
 		      .lineTo( 2.5*MM2TEX,  5*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 		    append(me.missiles, grp);
 		    append(me.missilesVector, vector);
@@ -782,7 +745,7 @@ var TI = {
 		      .horiz(            20*MM2TEX)
 		      .vert(             20*MM2TEX)
 		      .horiz(           -20*MM2TEX)
-		      .setColor(rTyrk,gTyrk,bTyrk, a)
+		      .setColor(COLOR_TYRK)
 		      .setStrokeLineWidth(w);
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
@@ -803,7 +766,7 @@ var TI = {
 				.setTranslation(50*MM2TEX, height*0.5)
 				.setStrokeLineCap("butt")
 				.set("z-index", 25)#max
-		        .setColor(rWhite,gWhite,bWhite, a);
+		        .setColor(COLOR_WHITE);
 
 		# bulls eye
 
@@ -847,13 +810,13 @@ var TI = {
 
 		me.beTextDesc = me.beTextField.createChild("text")
     		.setText("B-E")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(beStartx+width*beW*0.1, beStarty-w)
     		.setFontSize(15, 1);
     	me.beText = me.beTextField.createChild("text")
     		.setText("190  A132")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(beStartx+width*beW*0.6, beStarty-w)
     		.setFontSize(15, 1);
@@ -880,41 +843,41 @@ var TI = {
 		      .horiz(            width*tgtW)
 		      .moveTo(tgtStartx+width*tgtW*0.2, tgtStarty)
 		      .vert(            -height*tgtH)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 		me.tgtTextDistDesc = me.tgtTextField.createChild("text")
     		.setText("A")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(tgtStartx+width*tgtW*0.1, tgtStarty-height*tgtH*0.66-w)
     		.setFontSize(15, 1);
     	me.tgtTextDist = me.tgtTextField.createChild("text")
     		.setText("74")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(tgtStartx+width*tgtW*0.60, tgtStarty-height*tgtH*0.66-w)
     		.setFontSize(15, 1);
     	me.tgtTextHeiDesc = me.tgtTextField.createChild("text")
     		.setText("H")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(tgtStartx+width*tgtW*0.1, tgtStarty-height*tgtH*0.33-w)
     		.setFontSize(15, 1);
     	me.tgtTextHei = me.tgtTextField.createChild("text")
     		.setText("4700")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(tgtStartx+width*tgtW*0.60, tgtStarty-height*tgtH*0.33-w)
     		.setFontSize(15, 1);
     	me.tgtTextSpdDesc = me.tgtTextField.createChild("text")
     		.setText("M")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(tgtStartx+width*tgtW*0.1, tgtStarty-height*tgtH*0.0-w)
     		.setFontSize(15, 1);
     	me.tgtTextSpd = me.tgtTextField.createChild("text")
     		.setText("0,80")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(tgtStartx+width*tgtW*0.60, tgtStarty-height*tgtH*0.0-w)
     		.setFontSize(15, 1);
@@ -943,7 +906,7 @@ var TI = {
 		      .horiz(            width*me.wpW)
 		      .moveTo(me.wpStartx+width*me.wpW*0.3, me.wpStarty)
 		      .vert(            -height*me.wpH)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 		me.wpTextFrame1    = me.wpTextField.createChild("path")
 			.moveTo(me.wpStartx,  me.wpStarty-height*me.wpH)#above bottom text field and next to fast menu sub boxes
@@ -952,77 +915,77 @@ var TI = {
 		      .vert(             height*me.wpH*0.2)
 		      .moveTo(me.wpStartx+width*me.wpW*0.3, me.wpStarty-height*me.wpH)
 		      .vert(            -height*me.wpH*0.2)
-		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
 		me.wpText2Desc = me.wpTextField.createChild("text")
     		.setText("BEN")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.8-w)
     		.setFontSize(15, 1);
     	me.wpText2 = me.wpTextField.createChild("text")
     		.setText("1 AV 4")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.8-w)
     		.setFontSize(15, 1);
     	me.wpText3Desc = me.wpTextField.createChild("text")
     		.setText("B")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.6-w)
     		.setFontSize(15, 1);
     	me.wpText3 = me.wpTextField.createChild("text")
     		.setText("0 -> 1")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.6-w)
     		.setFontSize(15, 1);
     	me.wpText4Desc = me.wpTextField.createChild("text")
     		.setText("H")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.4-w)
     		.setFontSize(15, 1);
     	me.wpText4 = me.wpTextField.createChild("text")
     		.setText("10000")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.4-w)
     		.setFontSize(15, 1);
     	me.wpText5Desc = me.wpTextField.createChild("text")
     		.setText("M")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.2-w)
     		.setFontSize(15, 1);
     	me.wpText5 = me.wpTextField.createChild("text")
     		.setText("300")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.2-w)
     		.setFontSize(15, 1);
     	me.wpText6Desc = me.wpTextField.createChild("text")
     		.setText("ETA")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.0-w)
     		.setFontSize(15, 1);
     	me.wpText6 = me.wpTextField.createChild("text")
     		.setText("3:43")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.0-w)
     		.setFontSize(15, 1);
     	me.wpText1Desc = me.wpTextField.createChild("text")
     		.setText("TOP")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*1.0-w)
     		.setFontSize(15, 1);
     	me.wpText1 = me.wpTextField.createChild("text")
     		.setText("BLABLA")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*1.0-w)
     		.setFontSize(15, 1);
@@ -1032,31 +995,31 @@ var TI = {
 		me.bottom_text_grp = root.createChild("group");
 		me.textBArmType = me.bottom_text_grp.createChild("text")
     		.setText("74")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("left-top")
     		.setTranslation(0, height-height*0.09)
     		.setFontSize(35, 1);
     	me.textBArmAmmo = me.bottom_text_grp.createChild("text")
     		.setText("71")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(25, height-height*0.01)
     		.setFontSize(15, 1);
     	me.textBTactType1 = me.bottom_text_grp.createChild("text")
     		.setText("J")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08)
     		.setFontSize(13, 1);
     	me.textBTactType2 = me.bottom_text_grp.createChild("text")
     		.setText("K")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08+15)
     		.setFontSize(13, 1);
     	me.textBTactType3 = me.bottom_text_grp.createChild("text")
     		.setText("T")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08+30)
     		.setFontSize(13, 1);
@@ -1066,11 +1029,11 @@ var TI = {
     		.vert(45)
     		.horiz(-12)
     		.vert(-45)
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
     	me.textBBase = me.bottom_text_grp.createChild("text")
     		.setText("9040T")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
     		.setTranslation(80, height-height*0.01)
     		.setFontSize(10, 1);
@@ -1087,7 +1050,7 @@ var TI = {
     		.vert(12)
     		.horiz(-16)
     		.vert(-12)
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.textBLinkFrame2 = me.bottom_text_grp.createChild("path")
     		.moveTo(65, height-height*0.085)
@@ -1095,9 +1058,9 @@ var TI = {
     		.vert(12)
     		.horiz(-16)
     		.vert(-12)
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.set("z-index", 1)
-		    .setColorFill(rGreen, gGreen, bGreen, a)
+		    .setColorFill(COLOR_GREEN)
 		    .setStrokeLineWidth(w);
 		me.textBerror = me.bottom_text_grp.createChild("text")
     		.setText("F")
@@ -1112,7 +1075,7 @@ var TI = {
     		.vert(12)
     		.horiz(-10)
     		.vert(-12)
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
 		    .setStrokeLineWidth(w);
 		me.textBerrorFrame2 = me.bottom_text_grp.createChild("path")
     		.moveTo(85, height-height*0.085)
@@ -1120,38 +1083,38 @@ var TI = {
     		.vert(12)
     		.horiz(-10)
     		.vert(-12)
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.hide()
     		.set("z-index", 1)
-		    .setColorFill(rGreen, gGreen, bGreen, a)
+		    .setColorFill(COLOR_GREEN)
 		    .setStrokeLineWidth(w);
     	me.textBMode = me.bottom_text_grp.createChild("text")
     		.setText("LF")
-    		.setColor(rTyrk,gTyrk,bTyrk, a)
+    		.setColor(COLOR_TYRK)
     		.setAlignment("center-center")
     		.setTranslation(125, height-height*0.05)
     		.setFontSize(40, 1);
     	me.textBDistN = me.bottom_text_grp.createChild("text")
     		.setText("A")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-bottom")
     		.setTranslation(width/2, height-height*0.015)
     		.setFontSize(20, 1);
     	me.textBDist = me.bottom_text_grp.createChild("text")
     		.setText("11")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("left-bottom")
     		.setTranslation(width/2, height-height*0.015)
     		.setFontSize(27, 1);
     	me.textBAlpha = me.bottom_text_grp.createChild("text")
     		.setText("ALFA 20,5")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-bottom")
     		.setTranslation(width, height-height*0.01)
     		.setFontSize(16, 1);
     	me.textBWeight = me.bottom_text_grp.createChild("text")
     		.setText("VIKT 13,4")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-top")
     		.setTranslation(width, height-height*0.085)
     		.setFontSize(16, 1);
@@ -1162,7 +1125,7 @@ var TI = {
     		.hide();
     	me.errorList = me.logRoot.createChild("text")
     		.setText("..OKAY..\n..OKAY..")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("left-top")
     		.setTranslation(0, 20)
     		.setFontSize(10, 1);
@@ -1182,7 +1145,7 @@ var TI = {
 			append(me.menuButton,
 				me.menuFastRoot.createChild("text")
     				.setText("M\nE\nN\nY")
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
     				.setAlignment("left-center")
     				.setTranslation(width*0.025, height*0.09+(i-1)*height*0.11)
     				.setFontSize(12.5, 1));
@@ -1190,7 +1153,7 @@ var TI = {
 		for(var i = 8; i <= 13; i+=1) {
 			append(me.menuButton, me.menuMainRoot.createChild("text")
     			.setText("MAIN")
-    			.setColor(rWhite,gWhite,bWhite, a)
+    			.setColor(COLOR_WHITE)
     			.setAlignment("center-bottom")
     			.setPadding(0,0,0,0)
     			.setTranslation(width*0.135+(i-8)*width*0.1475, height)
@@ -1200,7 +1163,7 @@ var TI = {
 			append(me.menuButton,
 				me.menuFastRoot.createChild("text")
     				.setText("M\nE\nN\nY")
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
     				.setAlignment("right-center")
     				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
     				.setFontSize(12.5, 1));
@@ -1217,7 +1180,7 @@ var TI = {
     				.vert(6.25*8)
     				.horiz(-6.25*2)
     				.vert(-6.25*8)
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
 		    		.setStrokeLineWidth(w));
 		}
 		for(var i = 8; i <= 13; i+=1) {
@@ -1227,7 +1190,7 @@ var TI = {
     				.vert(-6.25*2)
     				.horiz(-6.25*6)
     				.vert(6.25*2)
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
 		    		.setStrokeLineWidth(w));
 		}
     	for(var i = 14; i <= 20; i+=1) {
@@ -1238,7 +1201,7 @@ var TI = {
     				.vert(6.25*8)
     				.horiz(6.25*2)
     				.vert(-6.25*8)
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
 		    		.setStrokeLineWidth(w));
 		}
 
@@ -1249,7 +1212,7 @@ var TI = {
 			append(me.menuButtonSub,
 				me.menuFastRoot.createChild("text")
     				.setText("M\nE\nN\nY")
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
     				.setColorFill(COLOR_GREY)
     				.setAlignment("left-center")
     				.setTranslation(width*0.060, height*0.09+(i-1)*height*0.11)
@@ -1262,7 +1225,7 @@ var TI = {
 			append(me.menuButtonSub,
 				me.menuFastRoot.createChild("text")
     				.setText("M\nE\nN\nY")
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
     				.setColorFill(COLOR_GREY)
     				.setAlignment("right-center")
     				.setTranslation(width*0.940, height*0.09+(6-(i-14))*height*0.11)
@@ -1280,7 +1243,7 @@ var TI = {
     				.vert(6.25*8)
     				.horiz(-6.25*2)
     				.vert(-6.25*8)
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
 		    		.setStrokeLineWidth(w));
 		}
 		for(var i = 8; i <= 13; i+=1) {
@@ -1294,7 +1257,7 @@ var TI = {
     				.vert(6.25*8)
     				.horiz(6.25*2)
     				.vert(-6.25*8)
-    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColor(COLOR_WHITE)
 		    		.setStrokeLineWidth(w));
 		}
 
@@ -1312,11 +1275,11 @@ var TI = {
 	               .arcSmallCW(20, 20, 0, 40, 0)
 	               .arcSmallCW(20, 20, 0, -40, 0)
 	               .setStrokeLineWidth(w)
-	               .setColor(rTyrk,gTyrk,bTyrk, a));
+	               .setColor(COLOR_TYRK));
 			append(me.baseLargeText,
 				me.base_grp.createChild("text")
     				.setText("ICAO")
-    				.setColor(rTyrk,gTyrk,bTyrk, a)
+    				.setColor(COLOR_TYRK)
     				.setAlignment("center-center")
     				.setTranslation(0,0)
     				.hide()
@@ -1330,62 +1293,62 @@ var TI = {
 			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rGreen,gGreen,bGreen, a);
+	        .setColor(COLOR_GREEN);
 	    me.ecm1 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(16, me.ecmRadius)[0], circlePosH(16, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(44, me.ecmRadius)[0]-circlePosH(16, me.ecmRadius)[0], circlePosH(44, me.ecmRadius)[1]-circlePosH(16, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rRed,gRed,bRed, a);
+	        .setColor(COLOR_RED);
 	    me.ecm2 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(46, me.ecmRadius)[0], circlePosH(46, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(74, me.ecmRadius)[0]-circlePosH(46, me.ecmRadius)[0], circlePosH(74, me.ecmRadius)[1]-circlePosH(46, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm3 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(76, me.ecmRadius)[0], circlePosH(76, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(104, me.ecmRadius)[0]-circlePosH(76, me.ecmRadius)[0], circlePosH(104, me.ecmRadius)[1]-circlePosH(76, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm4 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(106, me.ecmRadius)[0], circlePosH(106, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(134, me.ecmRadius)[0]-circlePosH(106, me.ecmRadius)[0], circlePosH(134, me.ecmRadius)[1]-circlePosH(106, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm5 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(136, me.ecmRadius)[0], circlePosH(136, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(164, me.ecmRadius)[0]-circlePosH(136, me.ecmRadius)[0], circlePosH(164, me.ecmRadius)[1]-circlePosH(136, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm6 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(166, me.ecmRadius)[0], circlePosH(166, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(194, me.ecmRadius)[0]-circlePosH(166, me.ecmRadius)[0], circlePosH(194, me.ecmRadius)[1]-circlePosH(166, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm7 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(196, me.ecmRadius)[0], circlePosH(196, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(224, me.ecmRadius)[0]-circlePosH(196, me.ecmRadius)[0], circlePosH(224, me.ecmRadius)[1]-circlePosH(196, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm8 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(226, me.ecmRadius)[0], circlePosH(226, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(254, me.ecmRadius)[0]-circlePosH(226, me.ecmRadius)[0], circlePosH(254, me.ecmRadius)[1]-circlePosH(226, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm9 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(256, me.ecmRadius)[0], circlePosH(256, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(284, me.ecmRadius)[0]-circlePosH(256, me.ecmRadius)[0], circlePosH(284, me.ecmRadius)[1]-circlePosH(256, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm10 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(286, me.ecmRadius)[0], circlePosH(286, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(314, me.ecmRadius)[0]-circlePosH(286, me.ecmRadius)[0], circlePosH(314, me.ecmRadius)[1]-circlePosH(286, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 	    me.ecm11 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(316, me.ecmRadius)[0], circlePosH(316, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(344, me.ecmRadius)[0]-circlePosH(316, me.ecmRadius)[0], circlePosH(344, me.ecmRadius)[1]-circlePosH(316, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(rYellow,gYellow,bYellow, a);
+	        .setColor(COLOR_YELLOW);
 
 		# small airports
 		me.baseSmallText = [];
@@ -1419,11 +1382,11 @@ var TI = {
 	               .arcSmallCW(15, 15, 0, circlePos(355, 15)[0]-circlePos(320, 15)[0], circlePos(355, 15)[1]-circlePos(320, 15)[1])
 
 	               .setStrokeLineWidth(w)
-	               .setColor(rTyrk,gTyrk,bTyrk, a));
+	               .setColor(COLOR_TYRK));
 			append(me.baseSmallText,
 				me.base_grp.createChild("text")
     				.setText("ICA")
-    				.setColor(rTyrk,gTyrk,bTyrk, a)
+    				.setColor(COLOR_TYRK)
     				.setAlignment("center-center")
     				.setTranslation(0,0)
     				.hide()
@@ -1457,7 +1420,7 @@ var TI = {
 		      .moveTo(w*1, -texel_per_degree*fpi_min)
 		      .lineTo(w*1, -texel_per_degree*fpi_med)
 		      .setStrokeLineWidth(w*2)
-		      .setColor(rGB,gGB,bGB, a);
+		      .setColor(COLOR_GREY_BLUE);
 
 
 		me.horizon_group = me.rootRealCenter.createChild("group");
@@ -1467,13 +1430,13 @@ var TI = {
 		                     .moveTo(-height*0.75, 0)
 		                     .horiz(height*1.5)
 		                     .setStrokeLineWidth(w*2)
-		                     .setColor(rGB,gGB,bGB, a);
+		                     .setColor(COLOR_GREY_BLUE);
 		me.horizon_alt = me.horizon_group2.createChild("text")
 				.setText("????")
 				.setFontSize((25/512)*width, 1.0)
 		        .setAlignment("center-bottom")
 		        .setTranslation(-width*1/3, -w*4)
-		        .setColor(rGB,gGB,bGB, a);
+		        .setColor(COLOR_GREY_BLUE);
 
 		# ground
 		me.ground_grp = me.rootRealCenter.createChild("group");
@@ -1489,7 +1452,7 @@ var TI = {
 				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree)
 				.lineTo(  60*texel_per_degree, 30*texel_per_degree)
 				.setStrokeLineWidth(w*2)
-		        .setColor(rGB,gGB,bGB, a);
+		        .setColor(COLOR_GREY_BLUE);
 
 		# Collision warning arrow
 		me.arr_15  = 5*0.75;
@@ -1501,8 +1464,8 @@ var TI = {
 		me.arrow_trans = me.arrow_group.createTransform();
 		me.arrow =
 		      me.arrow_group.createChild("path")
-		      .setColor(rRed,gRed,bRed, a)
-		      .setColorFill(rRed,gRed,bRed, a)
+		      .setColor(COLOR_RED)
+		      .setColorFill(COLOR_RED)
 		      .moveTo(-me.arr_15*MM2TEX,  me.arr_90*MM2TEX)
 		      .lineTo(-me.arr_15*MM2TEX, -me.arr_90*MM2TEX)
 		      .lineTo(-me.arr_30*MM2TEX, -me.arr_90*MM2TEX)
@@ -1516,14 +1479,14 @@ var TI = {
 		# time
 		me.textTime = root.createChild("text")
     		.setText("h:min:s")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("right-top")
     		.setTranslation(width, 4)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
     	me.textFTime = root.createChild("text")
     		.setText("FTIME h:min")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(COLOR_WHITE)
     		.setAlignment("left-top")
     		.setTranslation(0, 4)
     		.set("z-index", 7)
@@ -3309,86 +3272,86 @@ var TI = {
 	ecmOverlay: func {
 		if (me.ECMon == TRUE) {
 			if (getprop("ja37/sound/incoming12") == TRUE) {
-				me.ecm12.setColor(rRed,gRed,bRed,a);
+				me.ecm12.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[11] == TRUE) {
-				me.ecm12.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm12.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm12.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming1") == TRUE) {
-				me.ecm1.setColor(rRed,gRed,bRed,a);
+				me.ecm1.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[0] == TRUE) {
-				me.ecm1.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm1.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm1.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming2") == TRUE) {
-				me.ecm2.setColor(rRed,gRed,bRed,a);
+				me.ecm2.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[1] == TRUE) {
-				me.ecm2.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm2.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm2.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming3") == TRUE) {
-				me.ecm3.setColor(rRed,gRed,bRed,a);
+				me.ecm3.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[2] == TRUE) {
-				me.ecm3.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm3.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm3.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming4") == TRUE) {
-				me.ecm4.setColor(rRed,gRed,bRed,a);
+				me.ecm4.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[3] == TRUE) {
-				me.ecm4.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm4.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm4.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming5") == TRUE) {
-				me.ecm5.setColor(rRed,gRed,bRed,a);
+				me.ecm5.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[4] == TRUE) {
-				me.ecm5.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm5.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm5.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming6") == TRUE) {
-				me.ecm6.setColor(rRed,gRed,bRed,a);
+				me.ecm6.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[5] == TRUE) {
-				me.ecm6.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm6.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm6.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming7") == TRUE) {
-				me.ecm7.setColor(rRed,gRed,bRed,a);
+				me.ecm7.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[6] == TRUE) {
-				me.ecm7.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm7.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm7.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming8") == TRUE) {
-				me.ecm8.setColor(rRed,gRed,bRed,a);
+				me.ecm8.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[7] == TRUE) {
-				me.ecm8.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm8.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm8.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming9") == TRUE) {
-				me.ecm9.setColor(rRed,gRed,bRed,a);
+				me.ecm9.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[8] == TRUE) {
-				me.ecm9.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm9.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm9.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming10") == TRUE) {
-				me.ecm10.setColor(rRed,gRed,bRed,a);
+				me.ecm10.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[9] == TRUE) {
-				me.ecm10.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm10.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm10.setColor(COLOR_GREEN_DARK);
 			}
 			if (getprop("ja37/sound/incoming11") == TRUE) {
-				me.ecm11.setColor(rRed,gRed,bRed,a);
+				me.ecm11.setColor(COLOR_RED);
 			} elsif (radar_logic.rwr[10] == TRUE) {
-				me.ecm11.setColor(rYellow,gYellow,bYellow,a);
+				me.ecm11.setColor(COLOR_YELLOW);
 			} else {
 				me.ecm11.setColor(COLOR_GREEN_DARK);
 			}
@@ -3443,7 +3406,7 @@ var TI = {
 				.moveTo(me.SVYoriginX+me.SVYwidth*0.25, me.SVYoriginY-me.SVYticksize)
 				.vert(me.SVYticksize*2)
 				.setStrokeLineWidth(w)
-				.setColor(rWhite,gWhite,bWhite,a);
+				.setColor(COLOR_WHITE);
 
 			me.selfSvyPos = [me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt];
 			me.selfSymbolSvy.setTranslation(me.selfSvyPos);
@@ -3462,7 +3425,7 @@ var TI = {
 			#	.moveTo(me.selfSvyPos)
 			#	.lineTo(me.svyRadarHighX,me.svyRadarHighY)
 			#	.setStrokeLineWidth(w)
-			#	.setColor(rWhite,gWhite,bWhite,a);
+			#	.setColor(COLOR_WHITE);
 
 			me.textX = "";
 			me.textY = "";
@@ -3994,7 +3957,7 @@ var TI = {
 	   		var stGrp = me.rootCenter.createChild("group").setTranslation(2000, 2000);
 	   		append(me.steerpointText, stGrp.createChild("text")
 	    		.setText("B2")
-	    		.setColor(rWhite,gWhite,bWhite, a)
+	    		.setColor(COLOR_WHITE)
 	    		.setAlignment("right-center")
 	    		.setTranslation(-15*MM2TEX, 0)
 	    		.set("z-index", 6)
@@ -4007,7 +3970,7 @@ var TI = {
 	           .lineTo(0, 15*MM2TEX)
 	           .lineTo(-10*MM2TEX, 0)
 	           .setStrokeLineWidth(w)
-	           .setColor(rDTyrk,gDTyrk,bDTyrk, a));
+	           .setColor(COLOR_TYRK_DARK));
 			append(me.steerpoint, stGrp);
 			me.steerPointMax += 1;
 		}
@@ -4615,9 +4578,9 @@ var TI = {
 			me.ground_grp_trans.setRotation(-me.input.roll.getValue() * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
 			if (me.time < 10 and me.time != 0) {
-				me.groundCurve.setColor(rRed,gRed,bRed, a);
+				me.groundCurve.setColor(COLOR_RED);
 			} else {
-				me.groundCurve.setColor(rGB,gGB,bGB, a);
+				me.groundCurve.setColor(COLOR_GREY_BLUE);
 			}
 			me.ground_grp.show();
 		} else {
@@ -4670,32 +4633,32 @@ var TI = {
 		# RR: radar guided steering
 		if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
 			me.mode = "RR";# landing steerpoint
-			me.textBMode.setColor(rWhite,gWhite,bWhite);
+			me.textBMode.setColor(COLOR_WHITE);
 		} elsif (land.mode_LB_active == TRUE) {
 			me.mode = me.swedishMode?"LB":"LS";# landing steerpoint
-			me.textBMode.setColor(rWhite,gWhite,bWhite);
+			me.textBMode.setColor(COLOR_WHITE);
 		} elsif (land.mode_LF_active == TRUE) {
 			me.mode = me.swedishMode?"LF":"LT";# landing touchdown point
-			me.textBMode.setColor(rWhite,gWhite,bWhite);
+			me.textBMode.setColor(COLOR_WHITE);
 		} elsif (land.mode_L_active == TRUE) {
 			me.mode = "L ";# steering to landing base
-			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
+			me.textBMode.setColor(COLOR_TYRK);
 		} elsif (land.mode_OPT_active == TRUE) {
 			me.mode = "OP";# visual landing phase
-			me.textBMode.setColor(rWhite,gWhite,bWhite);
+			me.textBMode.setColor(COLOR_WHITE);
 		} elsif ((land.mode_B_active == TRUE or land.mode_LA_active == TRUE) and route.Polygon.primary != nil) {
 			me.target_wp = route.Polygon.primary.isTarget(route.Polygon.primary.getIndex());
 			me.wp_pre = route.Polygon.primary.type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA));
 			me.wp_post = route.Polygon.primary.getIndex()+1;
 			me.mode = me.wp_pre~me.wp_post;
 			if (route.Polygon.primary.type == route.TYPE_MIX or !me.target_wp) {
-				me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
+				me.textBMode.setColor(COLOR_TYRK);
 			} else {
-				me.textBMode.setColor(rWhite,gWhite,bWhite);
+				me.textBMode.setColor(COLOR_WHITE);
 			}
 		} else {
 			me.mode = "  ";# VFR
-			me.textBMode.setColor(rWhite,gWhite,bWhite);
+			me.textBMode.setColor(COLOR_WHITE);
 		}
 		me.textBMode.setText(me.mode);
 
@@ -4756,16 +4719,14 @@ var TI = {
 			} else {
 				me.textBAlpha.setText("");
 			}
-		}# else {
-		#	me.textBWeight.setText("");
-		#	me.textBAlpha.setText("");
-		#}
+		}
+		
 		if (displays.common.error == FALSE) {
 			me.textBerror.setColor(COLOR_GREY);
 			me.textBerrorFrame2.hide();
 			me.textBerrorFrame1.show();
 		} else {
-			me.textBerror.setColor(rBlack, gBlack, bBlack, a);
+			me.textBerror.setColor(COLOR_BLACK);
 			me.textBerrorFrame1.hide();
 			me.textBerrorFrame2.show();
 		}
@@ -4774,7 +4735,7 @@ var TI = {
 			me.textBLinkFrame2.hide();
 			me.textBLinkFrame1.show();
 		} else {
-			me.textBlink.setColor(rBlack, gBlack, bBlack, a);
+			me.textBlink.setColor(COLOR_BLACK);
 			me.textBLinkFrame1.hide();
 			me.textBLinkFrame2.show();
 		}
@@ -4795,7 +4756,7 @@ var TI = {
 					.lineTo(me.leftX*0.80, me.leftY*0.80)
 					.moveTo(-me.leftX, me.leftY)
 					.lineTo(-me.leftX*0.80, me.leftY*0.80)
-					.setColor(rTyrk,gTyrk,bTyrk, a)
+					.setColor(COLOR_TYRK)
 			    	.setStrokeLineWidth(w);
 			    me.lastRRT = me.input.timeElapsed.getValue();
 			    me.lastRR  = me.input.radarRange.getValue();
@@ -5004,14 +4965,14 @@ var TI = {
 				}
 
 		    	if (me.boogie == 1) {
-		    		me.echoesAircraftTri[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
-		    		me.echoesAircraftVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+		    		me.echoesAircraftTri[me.currentIndexT].setColor(COLOR_GREEN);
+		    		me.echoesAircraftVector[me.currentIndexT].setColor(COLOR_GREEN);
 		    	} elsif (me.boogie == -1) {
-		    		me.echoesAircraftTri[me.currentIndexT].setColor(rRed,gRed,bRed,a);
-		    		me.echoesAircraftVector[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+		    		me.echoesAircraftTri[me.currentIndexT].setColor(COLOR_RED);
+		    		me.echoesAircraftVector[me.currentIndexT].setColor(COLOR_RED);
 		    	} else {
-		    		me.echoesAircraftTri[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
-		    		me.echoesAircraftVector[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+		    		me.echoesAircraftTri[me.currentIndexT].setColor(COLOR_YELLOW);
+		    		me.echoesAircraftVector[me.currentIndexT].setColor(COLOR_YELLOW);
 		    	}
 
 			    if (me.tgtHeading != nil) {
@@ -5056,14 +5017,14 @@ var TI = {
 					}
 
 					if (me.boogie == 1) {
-			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
-			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(COLOR_GREEN);
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(COLOR_GREEN);
 			    	} elsif (me.boogie == -1) {
-			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rRed,gRed,bRed,a);
-			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(COLOR_RED);
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(COLOR_RED);
 			    	} else {
-			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
-			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(COLOR_YELLOW);
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(COLOR_YELLOW);
 			    	}
 				    if (me.tgtHeading != nil) {
 				        me.relHeading = me.tgtHeading - me.myHeading;
@@ -5124,9 +5085,9 @@ var TI = {
 					me.threatIndex += 1;
 					me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
 					if (me.boogie == 1) {
-			    		me.threats[me.threatIndex].setColor(rGreen,gGreen,bGreen,a);
+			    		me.threats[me.threatIndex].setColor(COLOR_GREEN);
 			    	} else {
-			    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
+			    		me.threats[me.threatIndex].setColor(COLOR_RED);
 			    	}
 					me.scale = me.threatRadiusNM*NM2M*M2TEX/100;
 			      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
