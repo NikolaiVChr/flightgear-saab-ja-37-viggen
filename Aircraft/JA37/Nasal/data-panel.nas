@@ -1037,7 +1037,7 @@ var serialize = func(m) {
   ret = ret~sprintf("FPLDATA,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"));
   ret = ret~sprintf("REG,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"));
   ret = ret~sprintf("FUEL,%d|",getprop("ja37/systems/fuel-warning-extra-percent"));
-  ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.fData);
+  ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.displayFlight);
   return ret;
 }
 #TODO: Consider adding stuff like HORI setting on TI.
@@ -1066,15 +1066,15 @@ var unserialize = func(m) {
         setprop("ja37/navigation/gps-installed", num(items[2]));
       } elsif (key == "EP12") {
         # TI237 and MI settings:
-        TI.ti.SVYactive  = num(items[1]);
-        TI.ti.SVYscale   = num(items[2]);
-        TI.ti.SVYrmax    = num(items[3]);
-        TI.ti.SVYhmax    = num(items[4]);
-        TI.ti.SVYsize    = num(items[5]);
-        TI.ti.SVYinclude = num(items[6]);
-        TI.ti.ECMon      = num(items[7]);
-        TI.ti.lnk99      = num(items[8]);
-        TI.ti.fData      = num(items[9]);
+        TI.ti.SVYactive     = num(items[1]);
+        TI.ti.SVYscale      = num(items[2]);
+        TI.ti.SVYrmax       = num(items[3]);
+        TI.ti.SVYhmax       = num(items[4]);
+        TI.ti.SVYsize       = num(items[5]);
+        TI.ti.SVYinclude    = num(items[6]);
+        TI.ti.ECMon         = num(items[7]);
+        TI.ti.lnk99         = num(items[8]);
+        TI.ti.displayFlight = num(items[9]);
       } elsif (key == "REG") {
         setprop("ja37/sound/floor-ft", num(items[1]));
         setprop("fdm/jsbsim/fcs/max-alpha-deg", num(items[2]));
