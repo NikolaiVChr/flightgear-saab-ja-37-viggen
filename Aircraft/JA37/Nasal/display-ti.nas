@@ -242,10 +242,10 @@ var extrapolate = func (x, x1, x2, y1, y2) {
     return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
 
-# notice the Swedish letter are missing accents in vertical menu items {ÅÖÄ} due to them not being always read correct by Nasal substr().
-# Å = \xC3\x85
-# Ö = \xC3\x96
-# Ä = \xC3\x84
+# notice the Swedish letter are missing accents in vertical menu items {ÅÖÄ} due to them not being always read correct by Nasal substr(). (fixed)
+# Å = \xC3\x85 å = \xC3\xA5
+# Ö = \xC3\x96 ö = \xC3\xB6
+# Ä = \xC3\x84 ä = \xC3\xA4
 
 # degree
 # \xc2\xb0
@@ -275,7 +275,7 @@ var dictSE = {
 	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [TRUE, "INIT"]},
 	'SVY': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'5': [TRUE, "F\xC3\x96ST"], '6': [TRUE, "VISA"], '7': [TRUE, "MENU"], '14': [TRUE, "SKAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "HMAX"]},
+			'5': [TRUE, "F\xC3\x96ST"], '6': [FALSE, "VISA"], '7': [TRUE, "MENU"], '14': [TRUE, "SKAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "HMAX"]},
 };
 
 #ÅPOL = Return to base polygon (RPOL)
@@ -306,7 +306,7 @@ var dictEN = {
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [TRUE, "INIT"]},
 	'SIDV': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'5': [TRUE, "WIN"], '6': [TRUE, "SHOW"], '7': [TRUE, "MENU"], '14': [TRUE, "SCAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "AMAX"]},
+			'5': [TRUE, "WIN"], '6': [FALSE, "SHOW"], '7': [TRUE, "MENU"], '14': [TRUE, "SCAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "AMAX"]},
 };
 
 var edgeButtonsStruct = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -1289,66 +1289,67 @@ var TI = {
 		me.ecm_grp = me.rootCenter.createChild("group")
 			.set("z-index", 0);
 		me.ecmRadius = 50;
-		me.ecm12 = me.ecm_grp.createChild("path")
-			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
-	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
-	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_GREEN);
-	    me.ecm1 = me.ecm_grp.createChild("path")
+		me.ecm = [];
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(16, me.ecmRadius)[0], circlePosH(16, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(44, me.ecmRadius)[0]-circlePosH(16, me.ecmRadius)[0], circlePosH(44, me.ecmRadius)[1]-circlePosH(16, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_RED);
-	    me.ecm2 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_RED));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(46, me.ecmRadius)[0], circlePosH(46, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(74, me.ecmRadius)[0]-circlePosH(46, me.ecmRadius)[0], circlePosH(74, me.ecmRadius)[1]-circlePosH(46, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm3 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(76, me.ecmRadius)[0], circlePosH(76, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(104, me.ecmRadius)[0]-circlePosH(76, me.ecmRadius)[0], circlePosH(104, me.ecmRadius)[1]-circlePosH(76, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm4 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(106, me.ecmRadius)[0], circlePosH(106, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(134, me.ecmRadius)[0]-circlePosH(106, me.ecmRadius)[0], circlePosH(134, me.ecmRadius)[1]-circlePosH(106, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm5 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(136, me.ecmRadius)[0], circlePosH(136, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(164, me.ecmRadius)[0]-circlePosH(136, me.ecmRadius)[0], circlePosH(164, me.ecmRadius)[1]-circlePosH(136, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm6 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(166, me.ecmRadius)[0], circlePosH(166, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(194, me.ecmRadius)[0]-circlePosH(166, me.ecmRadius)[0], circlePosH(194, me.ecmRadius)[1]-circlePosH(166, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm7 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(196, me.ecmRadius)[0], circlePosH(196, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(224, me.ecmRadius)[0]-circlePosH(196, me.ecmRadius)[0], circlePosH(224, me.ecmRadius)[1]-circlePosH(196, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm8 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(226, me.ecmRadius)[0], circlePosH(226, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(254, me.ecmRadius)[0]-circlePosH(226, me.ecmRadius)[0], circlePosH(254, me.ecmRadius)[1]-circlePosH(226, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm9 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(256, me.ecmRadius)[0], circlePosH(256, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(284, me.ecmRadius)[0]-circlePosH(256, me.ecmRadius)[0], circlePosH(284, me.ecmRadius)[1]-circlePosH(256, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm10 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(286, me.ecmRadius)[0], circlePosH(286, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(314, me.ecmRadius)[0]-circlePosH(286, me.ecmRadius)[0], circlePosH(314, me.ecmRadius)[1]-circlePosH(286, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
-	    me.ecm11 = me.ecm_grp.createChild("path")
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(316, me.ecmRadius)[0], circlePosH(316, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(344, me.ecmRadius)[0]-circlePosH(316, me.ecmRadius)[0], circlePosH(344, me.ecmRadius)[1]-circlePosH(316, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_YELLOW);
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(COLOR_GREEN));
 
 		# small airports
 		me.baseSmallText = [];
@@ -1568,14 +1569,18 @@ var TI = {
       	}
 
       	ti.setupCanvasSymbols();
-      	ti.day = TRUE;
-      	ti.setupMap();
-
+      	
       	#map
       	ti.lat = ti.input.latitude.getValue();
 		ti.lon = ti.input.longitude.getValue();
       	ti.mapSelfCentered = TRUE;
+      	ti.day = TRUE;
+		ti.ownPosition = 0.25;
+		ti.ownPositionDigital = 2;
+		ti.mapPlaces = CLEANMAP;
+      	ti.setupMap();
 
+      	# radar limit overlay
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
 		ti.lastZ   = 0;
@@ -1589,9 +1594,12 @@ var TI = {
 		ti.gridTextA = [];
 		ti.gridTextMaxA = -1;
 		ti.gridTextMaxO = -1;
-
+		
+		# display
 		ti.brightness = 1;
+		ti.active = TRUE;
 
+		# menu system
 		ti.menuShowMain = FALSE;
 		ti.menuShowFast = FALSE;
 		ti.menuMain     = -MAIN_SYSTEMS;
@@ -1605,8 +1613,13 @@ var TI = {
 		ti.trapECM      = FALSE;
 		ti.trapLand     = FALSE;
 		ti.trapAll      = FALSE;
+		ti.upText = FALSE;
+		ti.logPage = 0;
+		ti.off = FALSE;
+		ti.showFullMenus = TRUE;
+		ti.mapshowing = TRUE;
 
-		# SVY
+		# SidVY
 		ti.SVYactive    = FALSE;
 		ti.SVYscale     = SVY_ELKA;
 		ti.SVYrmax      = 3;
@@ -1620,23 +1633,23 @@ var TI = {
 		ti.SVYheight    = 0;
 		ti.SVYoriginY   = 0;
 
-		ti.upText = FALSE;
-		ti.logPage = 0;
-		ti.off = FALSE;
-		ti.showFullMenus = TRUE;
+		# flight data overlay
 		ti.displayFlight = FLIGHTDATA_OFF;
+		
+		# time/startfix overlay
 		ti.displayTime = FALSE;
 		ti.displayFTime = FALSE;
-		ti.ownPosition = 0.25;
-		ti.ownPositionDigital = 2;
-		ti.mapPlaces = CLEANMAP;
+		
+		# system stuff
 		ti.ModeAttack = FALSE;
-		#ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
 		ti.dataLink   = FALSE;
-		ti.mapshowing = TRUE;
+		
+		# Base overlay
 		ti.basesNear  = [];
 		ti.basesEnabled = FALSE;
+		
+		# log pages
 		ti.logEvents  = events.LogBuffer.new(echo: 0);#compatible with older FG?
 		ti.logBIT     = events.LogBuffer.new(echo: 0);#compatible with older FG?
 		ti.logLand    = events.LogBuffer.new(echo: 0);#compatible with older FG?
@@ -1646,15 +1659,23 @@ var TI = {
 		ti.BITok2 = FALSE;
 		ti.BITok3 = FALSE;
 		ti.BITok4 = FALSE;
-		ti.active = TRUE;
-		ti.showHostileZones = TRUE;
-		ti.showFriendlyZones = TRUE;
 		ti.newFails = FALSE;
 		ti.lastFailBlink = TRUE;
+		ti.battChargeReported = 0;
 		ti.landed = TRUE;
+		
+		# LV overlay
+		ti.showHostileZones = TRUE;
+		ti.showFriendlyZones = TRUE;
+		
+		# radar echoes overlay
 		ti.foes    = [];
 		ti.friends = [];
+		
+		# rwr overlay
 		ti.ECMon   = FALSE;
+		
+		# RB99 datalink
 		ti.lnk99   = FALSE;
 		ti.tele    = [];
 
@@ -1686,12 +1707,11 @@ var TI = {
 		# MI
 		ti.mreg = FALSE;
 
-		#ti.cursorIsClicking = FALSE;
-
 		ti.startFailListener();
-
+		
+		# misc
 		ti.twoHz = 0;
-		ti.battChargeReported = 0;
+		
 
       	return ti;
 	},
@@ -1717,9 +1737,6 @@ var TI = {
 
 
 	loop: func {
-		#if ( gone == TRUE) {
-		#	return;
-		#}
 		me.interoperability = me.input.units.getValue();
 		me.swedishMode = me.interoperability == displays.METRIC;
 
@@ -1732,7 +1749,7 @@ var TI = {
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
-			#settimer(func me.loop(), 0.25);
+			
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-ti", me.brightness);
@@ -1767,8 +1784,7 @@ var TI = {
 		me.ecmOverlay();
 		me.gridOverlay();
 		me.showBullsEye();
-		#settimer(func me.loop(), 0.5);
-		#me.cursorIsClicking = FALSE;# TODO: test that this works proper
+		
 		me.twoHz = !me.twoHz;
 		if (!me.battChargeReported and getprop("fdm/jsbsim/systems/electrical/battery-charge-norm") < 0.1) {
             FailureMgr._failmgr.logbuf.push("Warning: Battery charge less than 10%!");# dangerous, is private method!
@@ -1793,18 +1809,14 @@ var TI = {
 		#me.rate = getprop("sim/frame-rate-worst");
 		#me.rate = me.rate !=nil?clamp(1/(me.rate+0.001), 0.05, 0.5):0.5;
 		#me.rate = 0.05;
-		#settimer(func me.loopFast(), me.rate);#0.001 is to prevent divide by zero
 	},
 
 	loopSlow: func {
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			#settimer(func me.loopSlow(), 0.05);
 			return;
-		} else {
 		}
 		me.updateBasesNear();
-
-		#settimer(func me.loopSlow(), 180);
 	},
 
 
@@ -1858,27 +1870,45 @@ var TI = {
 				me.drawLog = FALSE;
 				if (me.trapFire == TRUE) {
 					me.buffer = armament.fireLog;
-					me.bufferStr = "       Fire log:\n";
+					if (me.swedishMode)
+						me.bufferStr = "       Registrerede avfyringar:\n";
+					else
+						me.bufferStr = "       Fire log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapMan == TRUE) {
 					me.buffer = me.logEvents;
-					me.bufferStr = "       Event log:\n";
+					if (me.swedishMode)
+						me.bufferStr = "       Manuella markeringar:\n";
+					else
+						me.bufferStr = "       Manual event log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapLock == TRUE) {
 					me.buffer = radar_logic.lockLog;
-					me.bufferStr = "       Lock log:\n";
+					if (me.swedishMode)
+						me.bufferStr = "       Registrerede inl\xC3\xA5sninger:\n";
+					else
+						me.bufferStr = "       Lock log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapLand == TRUE) {
 					me.buffer = me.logLand;
-					me.bufferStr = "       Landing log:\n";
+					if (me.swedishMode)
+						me.bufferStr = "       Registrerede s\xC3\xA4ttningar:\n";
+					else
+						me.bufferStr = "       Landing log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapECM == TRUE) {
 					me.buffer = armament.ecmLog;
-					me.bufferStr = "       ECM log:\n";
+					if (me.swedishMode)
+						me.bufferStr = "       Registrerede motmedelsf\xC3\xA4llninger:\n";
+					else
+						me.bufferStr = "       ECM log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapAll == TRUE) {
 					me.bufferContent = events.combineBuffers([armament.ecmLog.get_buffer(), me.logLand.get_buffer(), radar_logic.lockLog.get_buffer(), me.logEvents.get_buffer(), armament.fireLog.get_buffer()]);
-					me.bufferStr = "       All logs:\n";
+					if (me.swedishMode)
+						me.bufferStr = "       Alla h\xC3\xA4ndelser:\n";
+					else
+						me.bufferStr = "       All logs:\n";
 					me.drawLog = TRUE;
 				}
 				if (me.drawLog == TRUE) {
@@ -1904,7 +1934,7 @@ var TI = {
 				me.logRoot.show();
 				call(func {
 					me.buffer = FailureMgr.get_log_buffer();
-					me.str = "       Failure log:\n";
+					me.str = "       F\xC3\xB6rvillelser:\n";
 	    			foreach(entry; me.buffer) {
 	      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 	    			}
@@ -2504,7 +2534,7 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 	#
-	#  MI functions
+	#  functions called from MI display buttons
 	#
 	#
 	########################################################################################################
@@ -2881,6 +2911,7 @@ var TI = {
 	},
 
 	showCursor: func {
+		# this function is called more often than regular overlays
 		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
 			me.cursorSpeedY = me.input.cursorControlY.getValue();
 			me.cursorSpeedX = me.input.cursorControlX.getValue();
@@ -2946,15 +2977,6 @@ var TI = {
 					me.cursorDidSomething = TRUE;
 				}
 				#me.newSteerPos = nil;
-#				if (menuMain != MAIN_MISSION_DATA and me.cursorTrigger and !me.cursorTriggerPrev) {
-#						me.cursorIsClicking = TRUE;
-#						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
-#						#print("selecting on map: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
-#						me.selectResult = route.Polygon.cursorSelectSteer(me.newSteerPos[0],me.newSteerPos[1]);
-#						if (!me.selectResult) {
-#							radar_logic.cursorSelectEcho(me.newSteerPos[0],me.newSteerPos[1]);
-#						}
-#					}
 			} elsif (me.cursorTrigger and !me.cursorTriggerPrev) {
 				# click on edge buttons
 				me.newSteerPos = nil;
@@ -3271,89 +3293,14 @@ var TI = {
 
 	ecmOverlay: func {
 		if (me.ECMon == TRUE) {
-			if (getprop("ja37/sound/incoming12") == TRUE) {
-				me.ecm12.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[11] == TRUE) {
-				me.ecm12.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm12.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming1") == TRUE) {
-				me.ecm1.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[0] == TRUE) {
-				me.ecm1.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm1.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming2") == TRUE) {
-				me.ecm2.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[1] == TRUE) {
-				me.ecm2.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm2.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming3") == TRUE) {
-				me.ecm3.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[2] == TRUE) {
-				me.ecm3.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm3.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming4") == TRUE) {
-				me.ecm4.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[3] == TRUE) {
-				me.ecm4.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm4.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming5") == TRUE) {
-				me.ecm5.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[4] == TRUE) {
-				me.ecm5.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm5.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming6") == TRUE) {
-				me.ecm6.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[5] == TRUE) {
-				me.ecm6.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm6.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming7") == TRUE) {
-				me.ecm7.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[6] == TRUE) {
-				me.ecm7.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm7.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming8") == TRUE) {
-				me.ecm8.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[7] == TRUE) {
-				me.ecm8.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm8.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming9") == TRUE) {
-				me.ecm9.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[8] == TRUE) {
-				me.ecm9.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm9.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming10") == TRUE) {
-				me.ecm10.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[9] == TRUE) {
-				me.ecm10.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm10.setColor(COLOR_GREEN_DARK);
-			}
-			if (getprop("ja37/sound/incoming11") == TRUE) {
-				me.ecm11.setColor(COLOR_RED);
-			} elsif (radar_logic.rwr[10] == TRUE) {
-				me.ecm11.setColor(COLOR_YELLOW);
-			} else {
-				me.ecm11.setColor(COLOR_GREEN_DARK);
+			for (me.ijk =0;me.ijk<12;me.ijk+=1) {
+				if (getprop("ja37/sound/incoming"~(me.ijk+1)) == TRUE) {
+					me.ecm[me.ijk].setColor(COLOR_RED);
+				} elsif (radar_logic.rwr[me.ijk] == TRUE) {
+					me.ecm[me.ijk].setColor(COLOR_YELLOW);
+				} else {
+					me.ecm[me.ijk].setColor(COLOR_GREEN_DARK);
+				}
 			}
 			me.ecm_grp.show();
 		} else {
@@ -3461,6 +3408,7 @@ var TI = {
 	},
 
 	updateBasesNear: func {
+		# this function is run in a very slow loop as its very expensive
 		if (me.basesEnabled == TRUE) {
 			me.basesNear = [];
 			me.ports = findAirportsWithinRange(75);
@@ -3620,7 +3568,7 @@ var TI = {
 
 	showTargetInfo: func {
 		if (me.mapshowing == TRUE and radar_logic.selection != nil and (me.tgt_dist != nil or me.tgt_alt != nil)) {# and me.input.currentMode.getValue() == displays.COMBAT and radar_logic.selection.isPainted() == TRUE) {
-			# this is info about the locked target.
+			# this is a little infobox about the locked target.
 
 	  		if (me.tgt_dist != nil) {
 	  			# distance
@@ -3984,24 +3932,7 @@ var TI = {
 		me.steerRot = -me.input.heading.getValue()*D2R;
 		if (me.menuMain == MAIN_MISSION_DATA) {
 			if (route.Polygon.primary.type == route.TYPE_MIX) {
-				append(me.all_plans, [route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE]);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
+				me.all_plans = [[route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
 			} else {
 				append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
@@ -4024,18 +3955,7 @@ var TI = {
 			}
 		} else {
 			if (route.Polygon.primary.type != route.TYPE_MIX) {
-				append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
+				me.all_plans = [[route.Polygon.primary, FALSE, FALSE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
 				append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
 				append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
 				append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
@@ -4043,24 +3963,7 @@ var TI = {
 				append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
 				append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
 			} else {
-				append(me.all_plans, [route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE]);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
-				append(me.all_plans, nil);
+				me.all_plans = [[route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
 			}
 		}
 
@@ -4486,6 +4389,7 @@ var TI = {
 	},
 
 	showFlightTime: func {
+		# set true from DAP, when DAP knob is in TI (OUT).
 		if (me.displayFTime == TRUE) {
 			me.fhour = int(displays.common.ftime/60/60);
 			me.fmin  = int((displays.common.ftime-me.fhour*60*60)/60);
@@ -5255,11 +5159,6 @@ var TI = {
 					me.active = !me.off;
 				} else {
 					radar_logic.toggleRadarSteerOrder();
-#					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
-#						auto.unfollow();
-#					} else {
-#						auto.follow();
-#					}
 				}
 			}
 		}
@@ -5635,19 +5534,7 @@ var TI = {
 				armament.ecmLog.clear();
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
-				# GPS fix
-#				if (getprop("ja37/avionics/gps-nav") == TRUE) {
-#					  me.coord = geo.aircraft_position();
-#
-#					  me.ground = geo.elevation(me.coord.lat(), me.coord.lon());
-#    				  if(me.ground != nil) {
-#      						me.coord.set_alt(me.ground);
-#      				  }
-#                                                                                    disabled feature since this is not what the fix is for
-#					  me.contact = radar_logic.ContactGPS.new("FIX", me.coord);
-#
-#					  radar_logic.setSelection(me.contact);
-#				}
+
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 				# svy scale
