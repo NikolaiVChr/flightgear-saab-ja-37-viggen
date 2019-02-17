@@ -181,8 +181,8 @@ DAP: Can enter K time for steerpoints. What is that? When that is done it also b
 DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm, need to know more..
 TI: Steerpoint B0 is start pos. Its shown as current till take-off. When route is started being flown it is set at current position. Should not be saved with plans. Confusing, must know more.
 Sound: Make proper radar lock sound work.
-Sound: Make load-factor warning sounds work, 3/8Hz. And delete the stall sounds.
-
+Sound: Replace the "incoming" annunciator warnings with radar lock radio noise.
+TI: Info on target should be given even if not in steerorder mode.
 
 
 
@@ -232,9 +232,8 @@ VOR, ADF radio navigation, the real did not have this.
 Aerobatic smoke, the real probably didn't have.
 TI: Append or insert steerpoint should really be controlled from R1 switch, not be part of TI menu.
 TI: OPT should really be a button on the flightstick, not be part of TI menu.
-In the real nav. panel you could select STRIL supplied base.
 The real Viggen displays had 2 cursors; lock-cursor and TIM-cursor. The flightgear Viggen has combined it into 1 cursor.
-GPS fix was used to correct the INS, not to put a point on the TI.
+
 
 
 

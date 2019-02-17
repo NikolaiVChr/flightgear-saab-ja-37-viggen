@@ -3526,7 +3526,7 @@ Effect: Normal map is now DDS format.
 Aero: {Richard} Fixed some ambiguous JSB calcs.
 HUD: Fixed that at higher speeds, the digital readout would show in KT for metric mode.
 
-4.314
+4.990
 =====
 Effect: Make wingtip and high-G vapor not be bright at evening. (thanks Richard and Legoboy)
 Effect: Mach vapor cone is now shader based.
@@ -3571,7 +3571,7 @@ DAP: .ck37 files now also hold landing base ICAOs.
 TI: Steerpoint symbols now only get allocated when needed.
 TI: Moved some plan logic to plan-manager.
 Sim: JA plan-manager now has 8 RTB routes instead of 2. For each landing base there is A and B.
-TI: Geo location numbers now show swedish Ö and V instead of E and W.
+TI: Geo location numbers now show swedish Ö and V instead of E and W in Swedish mode.
 GUI: Route-manager redesigned to fit the new RTB routes.
 DAP: '<-' button on nav-panel now works properly as backspace.
 Sim: Button Snabbresn (quick ins init) now appear to do something.
@@ -3581,6 +3581,7 @@ Radar: Steerorder (styrledning) from radar now gives proper intercept course.
 TI: Fixed a timing issue where a variable would not be init before used.
 Radar: Fixed that at first contact an echo would show even when its radar cross-section would make it invisible.
 Model: Made some JA indicators more dull when not lit. (master-warning, autopilot pushbuttons, test-panel, reserve-course)
+Model: Made master-warning more bright.
 Sim: Removed all remnants of carrier launch and landing code.
 Sim: Ground collision warnings can now be toggled on JA nav-panel.
 Sim: Ground collision warnings is now always off when Main power switch is off, so on batt alone it wont work.
@@ -3592,6 +3593,11 @@ Sim: Removed support for seperate departure. It should be one of the landing bas
 TI: Adjusted the distance-scale ticks.
 Sim: Save/load all now includes lots of CK37 settings including interoperability and some TI settings. Basically its a data-cartridge.
 TI: Sideview (SVY) scales now uses the proper interoperability settings.
+TI: Made RWR green segments darker.
+TI: Made radar limut lines on sideview (SVY). Not enabled though.
+DAP: Fixed that the wrong variable for HORI option was saved/loaded.
+TI: Cleaned up some code, mainly color assignments.
 TI: Headings of TRAP log pages is now in Swedish when in that mode.
 TI: Cleaned up some code a bit.
 Sound: Most annunciator sounds replaced with correct tones.
+Sound: Added correct-sounding load-factor warnings.
