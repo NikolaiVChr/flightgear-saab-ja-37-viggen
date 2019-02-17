@@ -61,7 +61,7 @@ var redout_fast_log = math.log10(invert(redout_fast));
 var blackout = 0;
 var redout   = 0;
 
-var suit = 3;
+var suit = -1;
 
 var init_suit = func {
 	blackout_onset_log = math.log10(blackout_onset);
@@ -94,16 +94,29 @@ var changeSuit = func {
 }
 
 var redout_loop = func { 
+	
+	if (suit != getprop("ja37/effect/g-suit")) {
+		suit = getprop("ja37/effect/g-suit");
+		changeSuit();
+		setprop("sim/rendering/redout/parameters/blackout-onset-g", blackout_onset);
+		setprop("sim/rendering/redout/parameters/blackout-complete-g", blackout_fast);
+		setprop("sim/rendering/redout/parameters/redout-onset-g", redout_onset);
+		setprop("sim/rendering/redout/parameters/redout-complete-g", redout_fast);
+		setprop("sim/rendering/redout/parameters/onset-blackout-sec", blackout_onset_time);
+		setprop("sim/rendering/redout/parameters/fast-blackout-sec", blackout_fast_time);
+		setprop("sim/rendering/redout/parameters/onset-redout-sec", redout_onset_time);
+		setprop("sim/rendering/redout/parameters/fast-redout-sec", redout_fast_time);
+		setprop("sim/rendering/redout/parameters/recover-fast-sec", fast_time_recover);
+		setprop("sim/rendering/redout/parameters/recover-slow-sec", slow_time_recover);
+	}
+	
 	if (getprop("payload/armament/msg") == 0) {
 		settimer(redout_loop, 0.5);
 		return;
 	}
 	setprop("sim/rendering/redout/enabled", 1);# enable the Fg default redout/blackout system.
 
-	if (suit != getprop("ja37/effect/g-suit")) {
-		suit = getprop("ja37/effect/g-suit");
-		changeSuit();
-	}
+	changeSuit();
 
 	setprop("sim/rendering/redout/parameters/blackout-onset-g", blackout_onset);
 	setprop("sim/rendering/redout/parameters/blackout-complete-g", blackout_fast);
@@ -115,7 +128,7 @@ var redout_loop = func {
 	setprop("sim/rendering/redout/parameters/fast-redout-sec", redout_fast_time);
 	setprop("sim/rendering/redout/parameters/recover-fast-sec", fast_time_recover);
 	setprop("sim/rendering/redout/parameters/recover-slow-sec", slow_time_recover);
-
+	
     settimer(redout_loop, 0.5);
 }
 

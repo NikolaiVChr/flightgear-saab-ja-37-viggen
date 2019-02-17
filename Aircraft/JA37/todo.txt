@@ -177,10 +177,9 @@ DAP: IN pos/out showing info on next steerpoint, for steerpoints greater than 09
 TI: In menu SYST place cursor over steerpoint to see ETA (passagetid?). Most likely time planned to pass.
 TI: Some steerpoint can be forceringsbrytpunkt. Whatever that means.
 HUD/TI: FPI fin touches circle when estimated that will arrive at steerpoint in correct time.
-DAP: Can enter K time for steerpoints. What is that? When that is done it also becomes target steerpoint?
+DAP: Can enter K time (attack-time) for steerpoints. When that is done, it also becomes target steerpoint?
 DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm, need to know more..
 TI: Steerpoint B0 is start pos. Its shown as current till take-off. When route is started being flown it is set at current position. Should not be saved with plans. Confusing, must know more.
-Sound: Make proper radar lock sound work.
 Sound: Replace the "incoming" annunciator warnings with radar lock radio noise.
 TI: Info on target should be given even if not in steerorder mode.
 DAP: Be able to enter threshold in percent for load-factor warnings.
