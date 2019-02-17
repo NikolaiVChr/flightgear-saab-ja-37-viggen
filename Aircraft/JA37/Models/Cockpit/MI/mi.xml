@@ -33,26 +33,15 @@
         <object-name>warninglighthousing</object-name>
     </effect>
 
-    <effect><!-- for Rembrandt to render illuminated canvas texture correct -->
-     <inherits-from>Effects/model-transparent</inherits-from>
-     <object-name>screen</object-name>
-     <condition>
-        <equals>
-          <property>/sim/rendering/rembrandt/enabled</property>
-          <value>1</value>
-        </equals>
-    </condition>
-    </effect>
-
-    <effect><!--  -->
-     <inherits-from>Effects/model-deferred</inherits-from>
-     <object-name>screen</object-name>
-     <condition>
-        <equals>
-          <property>/sim/rendering/rembrandt/enabled</property>
-          <value>0</value>
-        </equals>
-    </condition>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/displays/lcd</inherits-from>
+        <parameters>
+            <inner-angle type="float">88</inner-angle><!-- 0-90, use 90 for LED or plasma display-->
+            <outer-angle type="float">89</outer-angle><!-- 0-90, but greater than inner -->
+            <black-angle type="float">90</black-angle><!-- 0-90, but greater than outer -->
+            <contrast type="float">1</contrast>
+        </parameters>
+        <object-name>screen</object-name>
     </effect>
 
     <animation>

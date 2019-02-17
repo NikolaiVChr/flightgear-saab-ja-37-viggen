@@ -3607,3 +3607,9 @@ Sound: The volume knob on left vertical panel now only is for missile lock/searc
 Sound: Volume for aural limit warnings is now on vol. knob on FR29 panel (left aft radio panel).
 Sound: Fixed radar lock sound and enabled it for rb71 and rb99.
 Sound: Adjusted sidewinder growl.
+Effect: Some changes to blackout.
+Sim: Removed printout to console of battery start/re-init recharge.
+Sound: Limit aural warnings is now inhibited if terrain warning is on.
+Sound: Removed some clicks from some aural limit warnings.
+Sound: Pre-warnings are now inhibited while Vne warning is in effect.
+MI: Display will no longer stay visible under black/redout.

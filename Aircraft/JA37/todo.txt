@@ -183,8 +183,9 @@ TI: Steerpoint B0 is start pos. Its shown as current till take-off. When route i
 Sound: Replace the "incoming" annunciator warnings with radar lock radio noise.
 TI: Info on target should be given even if not in steerorder mode.
 DAP: Be able to enter threshold in percent for load-factor warnings.
-Model: GVV circuit breaker should disable all aural limit warnings.
+Model: GVV circuit breaker should disable all aural limit warnings (GVV).
 Sound: I think I broke the AJ stall warn switch, fix.
+Sound: Pre-warnings should be inhibited while transonic tone is playing. (irritating to make as have to time the sample played for transonic)
 
 
 
