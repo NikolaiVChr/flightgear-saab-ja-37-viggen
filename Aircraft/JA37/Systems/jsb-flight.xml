@@ -877,11 +877,22 @@
             <output>/ja37/accelerations/pilot-G-norm</output>
         </fcs_function>
         
+        <fcs_function name="names/instruments/max-positive-g-set">
+            <function>
+                    <product>
+                        <v>0.01</v>                        
+                        <p>/ja37/sound/loadfactor-percent</p>
+                        <p>/limits/max-positive-g</p>
+                    </product>
+            </function>
+            <output>/limits/max-positive-g-set</output>
+        </fcs_function>
+        
         <fcs_function name="names/instruments/sound-g-force-norm">
             <function>
                     <quotient>
                         <p>/ja37/accelerations/pilot-G-lag</p>
-                        <p>/limits/max-positive-g</p>
+                        <p>/limits/max-positive-g-set</p>
                     </quotient>
             </function>
             <output>/ja37/sound/pilot-G-norm</output>

@@ -650,6 +650,7 @@
             <fuel-low-on type="bool">false</fuel-low-on>
             <fuel-low-2-on type="bool">false</fuel-low-2-on>
             <floor-ft type="double">-10000</floor-ft>
+            <loadfactor-percent type="int">100</loadfactor-percent>
         </sound>
         <damage>
             <enabled type="bool">true</enabled>

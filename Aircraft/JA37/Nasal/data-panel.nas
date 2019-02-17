@@ -567,6 +567,19 @@ var main = func {
             input = inputDefault;
             digit = 0;
             resetSign();
+        } elsif (ok==HOLD and digit == 6 and num(left(input,2))==52) {
+            # set max loadfactor percent
+            var percent = num(substr(input,2,3));
+            if (percent < 75) {
+              percent = 75;
+            } elsif (percent > 110) {
+              percent = 110;
+            }
+            printDA("set loadfactor percent "~percent~"%");
+            setprop("ja37/sound/loadfactor-percent", percent);
+            input = inputDefault;
+            digit = 0;
+            resetSign();
         } elsif (ok==HOLD and digit == 6) {
             printDA("set unknown address "~input);
             input = inputDefault;
@@ -823,6 +836,9 @@ var disp = func {
           # max alpha
           #printDA("displaying alpha");
           display = sprintf("00%02d00", getprop("fdm/jsbsim/fcs/max-alpha-deg"));
+      } elsif (address != nil and address==52) {
+          # loadfactor percent warn
+          display = sprintf("52%03d0", getprop("ja37/sound/loadfactor-percent"));
       } elsif (address != nil and address==19) {
           # floor warn
           if (getprop("ja37/sound/floor-ft") < 0) {
@@ -900,6 +916,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # REG/STR UD IN
 # 19xxxx  training floor in meters
 # 23-bcd  Cannon burst number of shots in OP mode.
+# 52xxxd  Load-factor nominal warning in percent. (not correct address, but dont know the real address)
 #
 # TI UD IN
 # xxx--P  TI mappoints (square: 100-109) then OK
@@ -1035,12 +1052,12 @@ var serialize = func(m) {
   }
   ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
   ret = ret~sprintf("FPLDATA,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"));
-  ret = ret~sprintf("REG,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"));
+  ret = ret~sprintf("REG,%d,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"),getprop("ja37/sound/loadfactor-percent"));
   ret = ret~sprintf("FUEL,%d|",getprop("ja37/systems/fuel-warning-extra-percent"));
   ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.displayFlight);
   return ret;
 }
-#TODO: Consider adding stuff like HORI setting on TI.
+
 var unserialize = func(m) {
   var ret = {};
   var points = split("|",m);
@@ -1074,10 +1091,13 @@ var unserialize = func(m) {
         TI.ti.SVYinclude    = num(items[6]);
         TI.ti.ECMon         = num(items[7]);
         TI.ti.lnk99         = num(items[8]);
-        TI.ti.displayFlight = num(items[9]);
+        TI.ti.displayFlight = num(items[9]);# consider not loading this back in
       } elsif (key == "REG") {
         setprop("ja37/sound/floor-ft", num(items[1]));
         setprop("fdm/jsbsim/fcs/max-alpha-deg", num(items[2]));
+        if (size(items) >= 4) {
+          setprop("ja37/sound/loadfactor-percent", num(items[3]));
+        }
       } elsif (key == "FUEL") {
         setprop("ja37/systems/fuel-warning-extra-percent", num(items[1]));
       }

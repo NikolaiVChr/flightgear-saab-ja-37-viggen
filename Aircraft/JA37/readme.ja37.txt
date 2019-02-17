@@ -131,7 +131,7 @@ MMAN    - MapManual movement, and map no longer follows own position. See cursor
 
 FAIL
 ----
-Is just a log page. FAIL will blink at new unseen failures, when main manu is shown, also a text will display on the MI about unread fails.
+Is just a log page. FAIL will blink at new unseen failures, when main menu is shown, also a text will display on the MI about unread fails.
 
 CONF
 ----
@@ -170,7 +170,9 @@ When clicking on a radar echo in MI, it get selected/locked. Same for TI, but on
 In MSDA/UDAT menu LV/FF points can be dragged when no polygon is being edited. To grab them hold trigger on center of symbol.
 When a polygon is being edited and a steerpoint/aera-point has been selected, pressing |X| button on nav panel will delete it. (cannot delete landing bases or take-off base, use route-manager for that)
 
-To control cursor directly while flying, bind these properties to your stick/hotas:
+In Flightgear joystick settings you can bind cursor control to your stick/hotas.
+
+If you are skilled with editing stick/hotas input files, you can manually bind these properties:
 
 ja37/systems/cursor-control-X
 ja37/systems/cursor-control-Y
@@ -187,7 +189,7 @@ bottom buttons (hold P3 for help)
 2  - SDV - Toggle sideview on TI
 X1 - BIT - RB99 self tests
 X3 - EVN - Register manual event (can be viewed in TI TRAP menu)
-M2 - ECM - Toggle ECM on TI
+M2 - ECM - Toggle ECM on TI (essentially a RWR)
 X2 - LNK - Toggle RB99 telemetry on TI
 
 left buttons
@@ -229,7 +231,7 @@ OUT
 IN
 - TILS:  
 - CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
-- FUEL:   Set extra fuel warning in percent on display.
+- FUEL:   Set extra fuel warning in percent. (threshold will trigger master warning)
 - LOLA:  
 
 ACDATA:
@@ -245,6 +247,7 @@ REG/STR:
 - ADDRESSES:
     00xxcd is maximum angle of attack setting. c and d is ignored. Setting 00 reverts to default.
     19xxxx is training floor altitude.
+    52xxxd is loadfactor in percent for aural g-force warning. d is ignored. From 075 to 110.
 
 TI
 note1: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address number will also be shown.
