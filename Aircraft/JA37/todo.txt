@@ -183,6 +183,8 @@ TI: Steerpoint B0 is start pos. Its shown as current till take-off. When route i
 Sound: Make proper radar lock sound work.
 Sound: Replace the "incoming" annunciator warnings with radar lock radio noise.
 TI: Info on target should be given even if not in steerorder mode.
+DAP: Be able to enter threshold in percent for load-factor warnings.
+
 
 
 

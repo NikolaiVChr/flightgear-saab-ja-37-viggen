@@ -274,7 +274,22 @@ note2: LV stands for airdefense area, and FF for pilot point.
 When inputting, pay notice to the switch +/-, as that is the sign of what you input. For some inputs its ignored though and hence not shown when you input.
 
 
+Aural warning tones
+===================
+There is different warning tones for the following:
+- High angle-of-attack (3 stages)
+- High G-force (3 stages)
+- Low speed
+- Below training floor
+- Ground collision
+- Flare/chaff release
+- Flares out
+- Master warning
+- Entering transonic regime
+- Vne speed exceeded.
 
+Volume can be adjusted on left vertical panel.
+Ground collision warning (including the displays/HUD arrows) can be switched off on the navpanel.
 
 
 Pre-load flightplans and/or map areas on startup.

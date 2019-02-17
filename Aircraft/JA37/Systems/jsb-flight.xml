@@ -921,6 +921,37 @@
             </function>
             <output>/ja37/accelerations/pilot-G-damped</output>
         </fcs_function>
+        
+        <fcs_function name="systems/sound/alpha-limit-low">
+            <description>When 3hz tone comes</description>
+            <function>
+                <table>
+                    <independentVar lookup="row">/position/altitude-ft</independentVar>
+                    <tableData>
+                        32808  17.00 
+                        41010  14.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+        
+        <fcs_function name="systems/sound/alpha-limit-medium">
+            <function>
+                    <sum>
+                        <p>systems/sound/alpha-limit-low</p>
+                        <v>3</v>
+                    </sum>
+            </function>
+        </fcs_function>
+        
+        <fcs_function name="systems/sound/alpha-limit-high">
+            <function>
+                    <sum>
+                        <p>systems/sound/alpha-limit-low</p>
+                        <v>6</v>
+                    </sum>
+            </function>
+        </fcs_function>
 
 
         <!-- The ratio between N2 and N1 is approx 1:0.7184 -->

@@ -1479,24 +1479,7 @@
                     <and><!-- high alpha warning with gear retracted -->
                         <greater-than>
                             <property>orientation/alpha-deg</property>
-                            <value>23</value>
-                        </greater-than>
-                        <less-than>
-                            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>32808</value>
-                        </less-than>
-                        <not>
-                            <property>gear/gear/position-norm</property>
-                        </not>
-                    </and>
-                    <and><!-- high alpha warning with gear retracted -->
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <value>20</value>
-                        </greater-than>
-                        <greater-than>
-                            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>32808</value>
+                            <property>fdm/jsbsim/systems/sound/alpha-limit-high</property>
                         </greater-than>
                         <not>
                             <property>gear/gear/position-norm</property>
@@ -1514,7 +1497,7 @@
                         <property>gear/gear/position-norm</property>
                         <greater-than>
                             <property>orientation/alpha-deg</property>
-                            <value>18</value>
+                            <value>18</value><!-- should be 15 for normal landings and 18 for short (high aoa) landings -->
                         </greater-than>
                         <greater-than>
                             <property>systems/electrical/outputs/dc-voltage</property>
@@ -1546,8 +1529,8 @@
         </alpha>
 
         <alphawarn>
-            <name>alphawarning</name>
-            <mode>once</mode>
+            <name>alphawarning2</name>
+            <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/alpha-8hz.wav</path>
             <type>avionics</type>
             <condition>
@@ -1559,30 +1542,12 @@
                     <and>
                         <greater-than>
                             <property>orientation/alpha-deg</property>
-                            <value>20</value>
+                            <property>fdm/jsbsim/systems/sound/alpha-limit-medium</property>
                         </greater-than>
                         <less-than>
                             <property>orientation/alpha-deg</property>
-                            <value>23</value>
+                            <property>fdm/jsbsim/systems/sound/alpha-limit-high</property>
                         </less-than>
-                        <less-than>
-                            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>32808</value>
-                        </less-than>
-                    </and>
-                    <and>
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <value>17</value>
-                        </greater-than>
-                        <less-than>
-                            <property>orientation/alpha-deg</property>
-                            <value>20</value>
-                        </less-than>
-                        <greater-than>
-                            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>32808</value>
-                        </greater-than>
                     </and>
                 </or>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1603,7 +1568,7 @@
         
         <alphawarn>
             <name>alphawarning</name>
-            <mode>once</mode>
+            <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/alpha-3hz.wav</path>
             <type>avionics</type>
             <condition>
@@ -1615,30 +1580,12 @@
                     <and>
                         <greater-than>
                             <property>orientation/alpha-deg</property>
-                            <value>17</value>
+                            <property>fdm/jsbsim/systems/sound/alpha-limit-low</property>
                         </greater-than>
                         <less-than>
                             <property>orientation/alpha-deg</property>
-                            <value>20</value>
+                            <property>fdm/jsbsim/systems/sound/alpha-limit-medium</property>
                         </less-than>
-                        <less-than>
-                            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>32808</value>
-                        </less-than>
-                    </and>
-                    <and>
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <value>14</value>
-                        </greater-than>
-                        <less-than>
-                            <property>orientation/alpha-deg</property>
-                            <value>17</value>
-                        </less-than>
-                        <greater-than>
-                            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>32808</value>
-                        </greater-than>
                     </and>
                 </or>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1659,7 +1606,7 @@
         
         <pullup>
             <name>pull-up</name>
-            <mode>once</mode>
+            <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/collision.wav</path>
             <type>avionics</type>
             <condition>

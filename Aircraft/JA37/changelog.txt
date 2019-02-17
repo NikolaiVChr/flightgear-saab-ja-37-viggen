@@ -3601,3 +3601,5 @@ TI: Headings of TRAP log pages is now in Swedish when in that mode.
 TI: Cleaned up some code a bit.
 Sound: Most annunciator sounds replaced with correct tones.
 Sound: Added correct-sounding load-factor warnings.
+Sound: The high-alpha warning now has a transition altitude as per JA manual.
+Sound: Fixed some warnings were only played once, instead of looping.
