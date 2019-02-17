@@ -1403,6 +1403,7 @@
             <type>avionics</type>
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
+                <not><property>/instrumentation/terrain-override</property></not>
                 <not>
                     <property>gear/gear/position-norm</property>
                 </not>
@@ -1436,6 +1437,7 @@
             <path>Aircraft/JA37/Sounds/tones/n-8hz.wav</path>
             <type>avionics</type>
             <condition>
+                <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not>
                     <property>gear/gear/position-norm</property>
@@ -1471,6 +1473,7 @@
             <path>Aircraft/JA37/Sounds/tones/alpha-n-low-speed.wav</path>
             <type>avionics</type>
             <condition>
+                <not><property>/instrumentation/terrain-override</property></not>
                 <or>
                     <and><!-- high alpha warning with gear retracted -->
                         <greater-than>
@@ -1530,6 +1533,7 @@
             <path>Aircraft/JA37/Sounds/tones/alpha-8hz.wav</path>
             <type>avionics</type>
             <condition>
+                <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not>
                     <property>gear/gear/position-norm</property>
@@ -1568,6 +1572,7 @@
             <path>Aircraft/JA37/Sounds/tones/alpha-3hz.wav</path>
             <type>avionics</type>
             <condition>
+                <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not>
                     <property>gear/gear/position-norm</property>

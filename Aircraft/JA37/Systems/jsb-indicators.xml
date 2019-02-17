@@ -2151,6 +2151,14 @@
                 /instrumentation/terrain-warning-steady gt sim-time-sec
             </test>
         </switch>
+        
+        <switch name="/instrumentation/terrain-override">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /ja37/sound/terrain-on == 1
+                /instrumentation/terrain-warning-steady gt sim-time-sec
+            </test>
+        </switch>
 
         <switch name="/instrumentation/terrain-warning-test">
             <default value="0"/>
