@@ -730,6 +730,10 @@
             <me31>
                 <button-mhz type="bool">true</button-mhz>
             </me31>
+            <fr29>
+                <!-- fr29 aka. fr31 knob for aural warning tones -->
+                <knob-vol type="double">1</knob-vol>
+            </fr29>
         </radio>
         <faf>
             <friend-1 userarchive="y" type="string"></friend-1>

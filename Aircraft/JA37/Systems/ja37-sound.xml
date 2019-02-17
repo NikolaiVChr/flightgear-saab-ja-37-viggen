@@ -65,10 +65,6 @@
                     <value>1.0</value>
                 </equals>
             </condition>
-            <volume>
-                <property>ja37/sound/helmet</property>
-                <factor>1</factor>
-            </volume>
         </welcome>
 
         <!--                                          battery                                   -->
@@ -1307,7 +1303,7 @@
                 </less-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1331,7 +1327,7 @@
                 <property>fdm/jsbsim/systems/indicators/transonic</property>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1391,7 +1387,7 @@
                 </or>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1425,7 +1421,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1459,7 +1455,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1519,7 +1515,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1557,7 +1553,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1595,7 +1591,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1619,7 +1615,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1643,7 +1639,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1651,6 +1647,56 @@
                 <factor>1</factor>
             </volume>
         </master>
+        
+        <flare>
+            <name>flare</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/tones/ecm-done.wav</path>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ai/submodels/submodel[0]/flare-release-snd</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </flare>
+
+        <flare>
+            <name>flareOut</name>
+            <mode>once</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/tones/flares-out.wav</path>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ai/submodels/submodel[0]/flare-release-out-snd</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </flare>
 
         <incoming>
             <name>incoming</name>
@@ -1667,7 +1713,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
             <volume>
@@ -1692,7 +1738,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1713,7 +1759,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1734,7 +1780,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1755,7 +1801,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1776,7 +1822,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1797,7 +1843,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1818,7 +1864,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1839,7 +1885,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1860,7 +1906,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1881,7 +1927,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1902,7 +1948,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -1923,7 +1969,7 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
@@ -2426,12 +2472,16 @@
             <pitch>
                 <property>payload/armament/rb-24/sound-volume</property>
                 <factor>1.00</factor>
-                <offset>1.60</offset>
+                <offset>0.85</offset>
                 <min>0</min>
-                <max>1</max>
+                <max>2</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-24/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb24-signal>
 
@@ -2451,12 +2501,16 @@
             <pitch>
                 <property>payload/armament/rb-24j/sound-volume</property>
                 <factor>1.00</factor>
-                <offset>1.60</offset>
+                <offset>0.85</offset>
                 <min>0</min>
-                <max>1</max>
+                <max>2</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-24j/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb24j-signal>
 
@@ -2476,12 +2530,16 @@
             <pitch>
                 <property>payload/armament/rb-74/sound-volume</property>
                 <factor>1.00</factor>
-                <offset>1.60</offset>
+                <offset>0.85</offset>
                 <min>0</min>
-                <max>1</max>
+                <max>2</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-74/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb74-signal>
 		
@@ -2489,7 +2547,7 @@
             <name>rb71-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
             <condition>
                 <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-71/sound-on-off</property>
@@ -2498,12 +2556,16 @@
                     <value>2</value>
                 </equals>
             </condition>
-            <pitch>
-                <factor>1.1</factor><!-- changes it to beep -->
+            <!--<pitch>
+                <factor>1.1</factor>
                 <max>2</max>
-            </pitch>
+            </pitch>-->
             <volume>
                 <property>payload/armament/rb-71/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb71-signal>
 
@@ -2511,7 +2573,7 @@
             <name>rb99-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
             <condition>
                 <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-99/sound-on-off</property>
@@ -2520,12 +2582,16 @@
                     <value>2</value>
                 </equals>
             </condition>
-            <pitch>
-                <factor>1.8</factor><!-- changes it to beep -->
+            <!--<pitch>
+                <factor>1.8</factor>
                 <max>2</max>
-            </pitch>
+            </pitch>-->
             <volume>
                 <property>payload/armament/rb-99/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb99-signal>
 
@@ -2549,6 +2615,10 @@
             <volume>
                 <property>payload/armament/rb-15f/sound-volume</property>
             </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
+            </volume>
         </rb15-signal>
 
         <rb04-signal>
@@ -2570,6 +2640,10 @@
             </pitch>
             <volume>
                 <property>payload/armament/rb-04e/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb04-signal>
 
@@ -2593,6 +2667,10 @@
             <volume>
                 <property>payload/armament/rb-05a/sound-volume</property>
             </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
+            </volume>
         </rb05-signal>
 
         <rb75-signal>
@@ -2614,6 +2692,10 @@
             </pitch>
             <volume>
                 <property>payload/armament/rb-75/sound-volume</property>
+            </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </rb75-signal>
 
@@ -2637,51 +2719,11 @@
             <volume>
                 <property>payload/armament/m90/sound-volume</property>
             </volume>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
+            </volume>
         </m90-signal>
-
-        <flare>
-            <name>flare</name>
-            <mode>once</mode>
-            <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/tones/ecm-done.wav</path>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ai/submodels/submodel[0]/flare-release-snd</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/sound/helmet</property>
-                <factor>1</factor>
-                <max>1</max>
-            </volume>
-        </flare>
-
-        <flare>
-            <name>flareOut</name>
-            <mode>once</mode>
-            <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/tones/flares-out.wav</path>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ai/submodels/submodel[0]/flare-release-out-snd</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/sound/helmet</property>
-                <factor>1</factor>
-                <max>1</max>
-            </volume>
-        </flare>
 
         <missile-hit>
             <!-- multiple of these so the sound can be played over each other -->

@@ -277,8 +277,8 @@ When inputting, pay notice to the switch +/-, as that is the sign of what you in
 Aural warning tones
 ===================
 There is different warning tones for the following:
-- High angle-of-attack (3 stages)
-- High G-force (3 stages)
+- High angle-of-attack (3 stages, limits depends on altitude and gears)
+- High G-force (3 stages, limits depend on aircraft weight and gears) 
 - Low speed
 - Below training floor
 - Ground collision
@@ -292,44 +292,6 @@ Volume can be adjusted on left vertical panel.
 Ground collision warning (including the displays/HUD arrows) can be switched off on the navpanel.
 
 
-Pre-load flightplans and/or map areas on startup.
-=================================================
-Use these command lines to pass a plan/area in launcher: (they must be in GPX or FG route format)
-
---prop:string:/xmlPlans/mission1=
---prop:string:/xmlPlans/mission1=
---prop:string:/xmlPlans/mission1=
---prop:string:/xmlPlans/mission1=
---prop:string:/xmlPlans/rtb1A=
---prop:string:/xmlPlans/rtb1B=
---prop:string:/xmlPlans/rtb2A=
---prop:string:/xmlPlans/rtb2B=
---prop:string:/xmlPlans/rtb3A=
---prop:string:/xmlPlans/rtb3B=
---prop:string:/xmlPlans/rtb4A=
---prop:string:/xmlPlans/rtb4B=
---prop:string:/xmlPlans/area1=
---prop:string:/xmlPlans/area1=
---prop:string:/xmlPlans/area1=
---prop:string:/xmlPlans/area1=
---prop:string:/xmlPlans/area1=
---prop:string:/xmlPlans/area1=
-
-Areas should have max 8 waypoints each.
-Missions/RTB should have max 48 waypoints each.
-Pre-loading needs FG 2017.3.1 to work.
-
-Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
-
-If a file cannot get loaded, the console will print a warning.
-
-Bulls-eye can be preloaded with enabling 3 properties.
-
-This example will place a Bulls-eye in Nevada, US:
-
---prop:bool:/ja37/navigation/bulls-eye-defined=true
---prop:double:ja37/navigation/bulls-eye-lat=37.20
---prop:double:ja37/navigation/bulls-eye-lon=-115.60
 
 Testing
 =======
@@ -402,6 +364,12 @@ Max touchdown pitch: 20.5 deg clearing uncompressed, 16 deg partial compressed a
 Minimum touchdown speed 100 kt (only at 15.5 AoA short landings of course).
 Nosewheel touchdown speed: latest at 160 KM/h (86 kt).
 
+
+
+Check here for more up to date landing info: https://www.youtube.com/watch?v=lL3nb-itZqU&list=PLogi97V-ki0GfCLqimTtIq9RIVcm-GRFE&index=8
+
+NOTICE: The following examples are outdated:
+
 Example 1: Ad-hoc visual landing
 --------------------------------
 In no particular order do these:
@@ -437,3 +405,44 @@ In no particular order do these:
 7: Click the button 15.5 for short runways.
 
 Notice there is now shown altitude lines on HUD and radar, start descending to align to them and aim for hitting tangentially the circle shown on radar Pinto talks about. When you hit the approach circle, you are supposed to be at 550Km/h or 297 Kt and 500m/1640ft above the airport, and you just follow the circle around keeping that speed. The approach circle is always 4.1 Km radius. For short approaches you will then immediately start descending when you hit the approach line, and for long approaches you will follow that line until half (5.4 NM out) and then start descending. The HUD will show the 2.86 deg descent line when you hit that 10 Km mark, which of-course fits, since there is 10000m left to touchdown and you are 500m above it, so a 1:20 slope. Notice though that that same line will start to indicate maximum sink rate (2.8 m/s) below 15m (or 35m if radar altimeter is off), so when that happens be sure to keep the flight path indicator above or on the line when that happens to not risk stress the landing gears, but still below the horizon so you don't overshoot. You will notice when that happens if u keep your eyes peeled on the HUD, the line will do a 'jump' and no longer be fixed, and at the same time if ILS/glideslope is set, it will no longer follow that, so last part is always a non aided (except for sink rate) visual landing. Also notice that the HUD will before descent when in landing mode assist you in hitting the 550Km/h speed, by moving the 'tail' on the flight path indicator. That same tail will during descent help you keep your AoA (9-12 or 15.5 if that button is engaged).
+
+
+
+Pre-load flightplans and/or map areas on startup.
+=================================================
+Use these command lines to pass a plan/area in launcher: (they must be in GPX or FG route format)
+
+--prop:string:/xmlPlans/mission1=
+--prop:string:/xmlPlans/mission1=
+--prop:string:/xmlPlans/mission1=
+--prop:string:/xmlPlans/mission1=
+--prop:string:/xmlPlans/rtb1A=
+--prop:string:/xmlPlans/rtb1B=
+--prop:string:/xmlPlans/rtb2A=
+--prop:string:/xmlPlans/rtb2B=
+--prop:string:/xmlPlans/rtb3A=
+--prop:string:/xmlPlans/rtb3B=
+--prop:string:/xmlPlans/rtb4A=
+--prop:string:/xmlPlans/rtb4B=
+--prop:string:/xmlPlans/area1=
+--prop:string:/xmlPlans/area1=
+--prop:string:/xmlPlans/area1=
+--prop:string:/xmlPlans/area1=
+--prop:string:/xmlPlans/area1=
+--prop:string:/xmlPlans/area1=
+
+Areas should have max 8 waypoints each.
+Missions/RTB should have max 48 waypoints each.
+Pre-loading needs FG 2017.3.1 to work.
+
+Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
+
+If a file cannot get loaded, the console will print a warning.
+
+Bulls-eye can be preloaded with enabling 3 properties.
+
+This example will place a Bulls-eye in Nevada, US:
+
+--prop:bool:/ja37/navigation/bulls-eye-defined=true
+--prop:double:ja37/navigation/bulls-eye-lat=37.20
+--prop:double:ja37/navigation/bulls-eye-lon=-115.60

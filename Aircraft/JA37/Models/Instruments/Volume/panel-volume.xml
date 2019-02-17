@@ -20,7 +20,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>knob-vol</tooltip-id>
-                <label>Helmet speaker volume</label>
+                <label>Missile lock/search volume</label>
             </binding>
         </hovered>
     </animation>
@@ -41,7 +41,7 @@
         <type>knob</type>
         <object-name>knob-volume</object-name>
         <property>ja37/sound/helmet</property>
-        <factor>150</factor>
+        <factor>90</factor>
         <offset-deg>0</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
@@ -58,7 +58,7 @@
                 <command>property-adjust</command>
                 <property>ja37/sound/helmet</property>
                 <factor>1</factor>
-                <step>0.05</step>
+                <step>0.1</step>
                 <min>0</min>
                 <max>1</max>           
                 <wrap>false</wrap>
@@ -69,7 +69,7 @@
                 <command>property-adjust</command>
                 <property>ja37/sound/helmet</property>
                 <factor>1</factor>
-                <step>-0.05</step>
+                <step>-0.1</step>
                 <min>0</min>
                 <max>1</max>
                 <wrap>false</wrap>

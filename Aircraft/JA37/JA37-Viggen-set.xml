@@ -529,9 +529,8 @@
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
-                    <vol-search type="double">0.075</vol-search>
-                    <vol-track type="double">0.25</vol-track>
-                    <vol-track-weak type="double">0.175</vol-track-weak>
+                    <vol-search type="double">0.15</vol-search>
+                    <vol-track type="double">1.00</vol-track>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">7.83</max-fire-range-nm> <!-- source -->
@@ -575,9 +574,8 @@
                     <ready-time type="double">1.5</ready-time>
                 </rb-24j>
                 <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) -->
-                    <vol-search type="double">0.075</vol-search>
-                    <vol-track type="double">0.25</vol-track>
-                    <vol-track-weak type="double">0.175</vol-track-weak>
+                    <vol-search type="double">0.15</vol-search>
+                    <vol-track type="double">1</vol-track>
                     <guidance type="string">heat</guidance>                                   <!-- authentic -->
                     <all-aspect type="bool">true</all-aspect>                                 <!-- authentic -->
                     <max-fire-range-nm type="double">9.7</max-fire-range-nm>                  <!-- source -->
@@ -656,8 +654,7 @@
                 </rb-71>
                 <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
                     <vol-search type="double">0.00</vol-search>
-                    <vol-track type="double">0.15</vol-track>
-                    <vol-track-weak type="double">0.1</vol-track-weak>
+                    <vol-track type="double">1.00</vol-track>
                     <guidance type="string">radar</guidance>
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="int">38.8</max-fire-range-nm>

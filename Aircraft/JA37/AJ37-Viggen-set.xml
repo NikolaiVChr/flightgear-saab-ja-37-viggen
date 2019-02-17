@@ -523,9 +523,8 @@
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
-                    <vol-search type="double">0.075</vol-search>
-                    <vol-track type="double">0.25</vol-track>
-                    <vol-track-weak type="double">0.175</vol-track-weak>
+                    <vol-search type="double">0.15</vol-search>
+                    <vol-track type="double">1</vol-track>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
                     <navigation type="string">direct</navigation>
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
@@ -561,9 +560,8 @@
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
-                    <vol-search type="double">0.075</vol-search>
-                    <vol-track type="double">0.25</vol-track>
-                    <vol-track-weak type="double">0.175</vol-track-weak>
+                    <vol-search type="double">0.15</vol-search>
+                    <vol-track type="double">1</vol-track>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
                     <navigation type="string">PN</navigation>                     <!-- source: AIM-9D and forward had PN or APN -->
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->

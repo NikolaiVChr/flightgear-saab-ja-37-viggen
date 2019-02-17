@@ -3603,3 +3603,7 @@ Sound: Most annunciator sounds replaced with correct tones.
 Sound: Added correct-sounding load-factor warnings.
 Sound: The high-alpha warning now has a transition altitude as per JA manual.
 Sound: Fixed some warnings were only played once, instead of looping.
+Sound: The volume knob on left vertical panel now only is for missile lock/search.
+Sound: Volume for aural limit warnings is now on vol. knob on FR29 panel (left aft radio panel).
+Sound: Fixed radar lock sound and enabled it for rb71 and rb99.
+Sound: Adjusted sidewinder growl.

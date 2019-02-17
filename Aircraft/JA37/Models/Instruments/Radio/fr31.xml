@@ -53,7 +53,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rdioVol</tooltip-id>
-                <label>Volume</label>
+                <label>Aural warning tones volume</label>
             </binding>
         </hovered>
     </animation>
@@ -61,8 +61,8 @@
     <animation>
         <type>knob</type>
         <object-name>knobVol</object-name>
-        <property>ja37/radio/fr31/knob-v</property>
-        <factor>90</factor>
+        <property>ja37/radio/fr29/knob-vol</property>
+        <factor>45</factor>
         <offset-deg>-135</offset-deg>
         <center>
             <x-m>  -0.04043 </x-m>
@@ -77,9 +77,9 @@
         <increase>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-v</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
-                <step>0.05</step>
+                <step>0.10</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
@@ -88,9 +88,9 @@
         <decrease>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-v</property>
+                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
-                <step>-0.05</step>
+                <step>-0.10</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
