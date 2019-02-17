@@ -17,10 +17,12 @@ https://www.youtube.com/playlist?list=PLogi97V-ki0GfCLqimTtIq9RIVcm-GRFE
 Suggested Settings
 ------------------
 Wildfire: On (for crashing)
-Particles: On (Used for various stuff)
-Advanced weather: METAR, Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
+Particles, precipitation, 3D clouds: On
+Use detailed MP models: On
+Detailed weather: On
+Detailed weather, Advanced settings: wind-model:Generate aloft-waypoints, Terrain presampling, Realistic visibility. (it's an all-weather fighter, it can handle it)
 Model-shader: top setting
-Cockpit view options: Enable dynamic cockpit view. Redout/blackout is enabled by default and cannot be disabled, it will show as not checked though in older Fg versions.
+Cockpit view options: Disable headmovement due to g-force. Redout/blackout is enabled by default when MP discharge is ON and cannot then be disabled.
 
 
 Compatibility with Flightgear 2.8
