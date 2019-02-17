@@ -288,7 +288,7 @@ There is different warning tones for the following:
 - Entering transonic regime
 - Vne speed exceeded.
 
-Volume can be adjusted on left vertical panel.
+Volume can be adjusted on left FR29 radio panel (the smaller knob).
 Ground collision warning (including the displays/HUD arrows) can be switched off on the navpanel.
 
 

@@ -4,7 +4,7 @@ Readme for the JA-37Di / AJ-37 / AJS-37 Viggen aircraft for the Flightgear simul
 
 Install
 ----------
-1 - Have flightgear installed. Version 2018.3.1 is tested. Earlier version will probably not work, later might.
+1 - Have flightgear installed. Version 2018.3.2 is tested. Earlier version will probably not work, later might.
 2 - Copy the entire 'JA37' folder into a folder where Flightgear will look for aircraft.
 3 - Happy flying. Check the aircraft help page inside the sim for instructions.
 
@@ -42,6 +42,7 @@ Hangar: https://sites.google.com/site/fghangar  (not up-to date)
 Wiki: http://wiki.flightgear.org/Saab_JA-37_Viggen  (not up-to date)
 Issues: https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen/issues
 Git: https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen/tree/master/Aircraft/JA37
+Discord: https://discord.gg/qB3Cg4A
 
 
 Help?
