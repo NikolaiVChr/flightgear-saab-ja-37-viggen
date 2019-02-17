@@ -1516,7 +1516,7 @@ var recharge_battery = func {
 var recharge_battery2 = func {
   setprop("ja37/systems/battery-reinit",0);
   setprop("ja37/systems/battery-recharge-rate",0.001666);
-  print("Init: Battery fully recharged.");
+  #print("Init: Battery fully recharged.");
 }
 
 var asymVortex = func () {
