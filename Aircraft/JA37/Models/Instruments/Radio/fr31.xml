@@ -62,7 +62,7 @@
         <type>knob</type>
         <object-name>knobVol</object-name>
         <property>ja37/radio/fr29/knob-vol</property>
-        <factor>45</factor>
+        <factor>60</factor>
         <offset-deg>-135</offset-deg>
         <center>
             <x-m>  -0.04043 </x-m>

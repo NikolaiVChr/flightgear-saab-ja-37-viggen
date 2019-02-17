@@ -1396,16 +1396,26 @@
             </volume>
         </vne>
         
-        <load>
-            <name>load-factor-1</name>
+        <gvv>
+            <name>load-factor-pre-warning-1</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/n-3hz.wav</path>
             <type>avionics</type>
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not><property>/instrumentation/terrain-override</property></not>
+                <not><property>gear/gear/position-norm</property></not>
                 <not>
-                    <property>gear/gear/position-norm</property>
+                    <or>
+                        <greater-than>
+                            <property>velocities/airspeed-kt</property>
+                            <property>limits/vne</property>
+                        </greater-than>
+                        <greater-than>
+                            <property>velocities/mach</property>
+                            <property>limits/vne-mach</property>
+                        </greater-than>
+                    </or>
                 </not>
                 <greater-than>
                     <property>ja37/sound/pilot-G-norm</property>
@@ -1429,18 +1439,28 @@
                 <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
-        </load>
+        </gvv>
         
-        <load>
-            <name>load-factor-2</name>
+        <gvv>
+            <name>load-factor-pre-warning-2</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/n-8hz.wav</path>
             <type>avionics</type>
             <condition>
                 <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
+                <not><property>gear/gear/position-norm</property></not>
                 <not>
-                    <property>gear/gear/position-norm</property>
+                    <or>
+                        <greater-than>
+                            <property>velocities/airspeed-kt</property>
+                            <property>limits/vne</property>
+                        </greater-than>
+                        <greater-than>
+                            <property>velocities/mach</property>
+                            <property>limits/vne-mach</property>
+                        </greater-than>
+                    </or>
                 </not>
                 <greater-than>
                     <property>ja37/sound/pilot-G-norm</property>
@@ -1464,11 +1484,11 @@
                 <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
-        </load>
+        </gvv>
 
         <!-- Alpha warnings taken from Viggen pilot manual page 242 -->
-        <alpha>
-            <name>alpha</name>
+        <gvv>
+            <name>alpha-gforce-speed-warning</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/alpha-n-low-speed.wav</path>
             <type>avionics</type>
@@ -1498,10 +1518,6 @@
                             <property>orientation/alpha-deg</property>
                             <value>18</value><!-- should be 15 for normal landings and 18 for short (high aoa) landings -->
                         </greater-than>
-                        <greater-than>
-                            <property>systems/electrical/outputs/dc-voltage</property>
-                            <value>23</value>
-                        </greater-than>
                         <not>
                             <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                         </not>
@@ -1525,18 +1541,28 @@
                 <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
-        </alpha>
+        </gvv>
 
-        <alphawarn>
-            <name>alphawarning2</name>
+        <gvv>
+            <name>alpha pre warning 2</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/alpha-8hz.wav</path>
             <type>avionics</type>
             <condition>
                 <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
+                <not><property>gear/gear/position-norm</property></not>
                 <not>
-                    <property>gear/gear/position-norm</property>
+                    <or>
+                        <greater-than>
+                            <property>velocities/airspeed-kt</property>
+                            <property>limits/vne</property>
+                        </greater-than>
+                        <greater-than>
+                            <property>velocities/mach</property>
+                            <property>limits/vne-mach</property>
+                        </greater-than>
+                    </or>
                 </not>
                 <or>
                     <and>
@@ -1564,18 +1590,28 @@
                 <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
-        </alphawarn>
+        </gvv>
         
-        <alphawarn>
-            <name>alphawarning</name>
+        <gvv>
+            <name>alpha pre warning 1</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/alpha-3hz.wav</path>
             <type>avionics</type>
             <condition>
                 <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
+                <not><property>gear/gear/position-norm</property></not>
                 <not>
-                    <property>gear/gear/position-norm</property>
+                    <or>
+                        <greater-than>
+                            <property>velocities/airspeed-kt</property>
+                            <property>limits/vne</property>
+                        </greater-than>
+                        <greater-than>
+                            <property>velocities/mach</property>
+                            <property>limits/vne-mach</property>
+                        </greater-than>
+                    </or>
                 </not>
                 <or>
                     <and>
@@ -1603,7 +1639,7 @@
                 <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
-        </alphawarn>
+        </gvv>
         
         <pullup>
             <name>pull-up</name>
