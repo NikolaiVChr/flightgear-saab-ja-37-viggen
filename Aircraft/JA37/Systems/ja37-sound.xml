@@ -1324,7 +1324,7 @@
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
                 </greater-than>
-                <property>fdm/jsbsim/systems/indicators/transonic</property>
+                <property>fdm/jsbsim/systems/indicators/transonic-aural</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1405,6 +1405,7 @@
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not><property>/instrumentation/terrain-override</property></not>
                 <not><property>gear/gear/position-norm</property></not>
+                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
                 <not>
                     <or>
                         <greater-than>
@@ -1450,6 +1451,7 @@
                 <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not><property>gear/gear/position-norm</property></not>
+                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
                 <not>
                     <or>
                         <greater-than>
@@ -1552,6 +1554,7 @@
                 <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not><property>gear/gear/position-norm</property></not>
+                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
                 <not>
                     <or>
                         <greater-than>
@@ -1601,6 +1604,7 @@
                 <not><property>/instrumentation/terrain-override</property></not>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <not><property>gear/gear/position-norm</property></not>
+                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
                 <not>
                     <or>
                         <greater-than>

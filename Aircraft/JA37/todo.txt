@@ -164,16 +164,16 @@ TI: Prioritize showing only 10 FF/LV points.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 TI: Run different through plans when drawing them on canvas. (what did I mean by this?)
 TI: Select self and then show in lower right corner infobox on own flight.
-TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
+TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.(or more likely opposite)
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
-TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
+TI: When display is not showing image, backup menu is in effect, with hard-coded functions for the buttons.
 TI: When inertial navigation is not ready and GPS is off, don't show moving map?
 TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach. Whats delta time?
 TI: MSDA menu should only show polygon legs for the primary plan. (but still steerpoints for all)
 TI: MPOL should only be able to hold 24 legs, and RPOL only 8. 48 + B0 + BDL in total.
 DAP: Possible to enter date and revision number of LV/FF 001-189. But how?
-DAP: IN pos/out showing info on next steerpoint, for steerpoints greater than 09, show hex. 11-15 = landing bases.
+DAP: In pos/out showing info on next steerpoint, for steerpoints greater than 09, show hex. 11-15 = landing bases.
 TI: In menu SYST place cursor over steerpoint to see ETA (passagetid?). Most likely time planned to pass.
 TI: Some steerpoint can be forceringsbrytpunkt. Whatever that means.
 HUD/TI: FPI fin touches circle when estimated that will arrive at steerpoint in correct time.
@@ -185,7 +185,7 @@ TI: Info on target should be given even if not in steerorder mode.
 DAP: Be able to enter threshold in percent for load-factor warnings.
 Model: GVV circuit breaker should disable all aural limit warnings (GVV).
 Sound: I think I broke the AJ stall warn switch, fix.
-Sound: Pre-warnings should be inhibited while transonic tone is playing. (irritating to make as have to time the sample played for transonic)
+
 
 
 

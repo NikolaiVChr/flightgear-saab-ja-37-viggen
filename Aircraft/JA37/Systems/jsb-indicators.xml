@@ -1902,6 +1902,30 @@
                 </and>
             </function>
         </fcs_function>
+        
+        <switch name="systems/indicators/transonic-aural-starttime">
+            <default value="sim-time-sec"/>
+            <test logic="AND" value="systems/indicators/transonic-aural-starttime">
+                systems/indicators/transonic == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/indicators/transonic-aural-stoptime">
+            <function>
+                <sum>
+                    <p>systems/indicators/transonic-aural-starttime</p>
+                    <v>2.1</v><!-- sample is 2 secs -->
+                </sum>
+            </function>
+        </fcs_function>
+        
+        <switch name="systems/indicators/transonic-aural">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                systems/indicators/transonic-aural-stoptime gt sim-time-sec
+                systems/indicators/transonic-aural-starttime lt sim-time-sec
+            </test>
+        </switch>
 
         <fcs_function name="systems/indicators/transonic-warning">
             <function>

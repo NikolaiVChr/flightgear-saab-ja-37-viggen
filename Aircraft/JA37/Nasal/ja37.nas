@@ -95,7 +95,6 @@ input = {
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
   indRev:           "/instrumentation/reverse-indicator",
-  indTrn:           "/instrumentation/transonic-indicator",
   lampCanopy:       "ja37/avionics/canopyAndSeat",
   lampData:         "ja37/avionics/primaryData",
   lampIgnition:     "ja37/avionics/ignitionSys",
