@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 700;
+var DIALOG_HEIGHT = 600;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -8,7 +8,7 @@ var Dialog = {
     init: func(x = nil, y = nil) {
         me.x = x;
         me.y = y;
-        me.bg = [0.3, 0.3, 0.3, 0.4];    # background color
+        me.bg = [0.3, 0.3, 0.3, 0.8];    # background color
         me.fg = [[0.9, 0.9, 0.2, 1], [1, 1, 1, 1], [1, 0.5, 0, 1]]; # alternative active & disabled color
         var font = { name: "FIXED_8x13" };
 
@@ -160,19 +160,19 @@ var Dialog = {
           #me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
 
           ######   hud button   #####
-          var hudRow = topRow.addChild("group");
-          hudRow.set("layout", "hbox");
-          hudRow.set("pref-height", 25);
-          hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var hudRow = topRow.addChild("group");
+          #hudRow.set("layout", "hbox");
+          #hudRow.set("pref-height", 25);
+          #hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #hudRow.set("valign", "center");
           
-          var reverseText = hudRow.addChild("text").set("label", "Custom JA-37 specific HUD:");
-          hudRow.addChild("empty").set("stretch", 1);
-          me.dialog.hudButton = hudRow.addChild("button");
-          me.dialog.hudButton.set("halign", "right");
-          me.dialog.hudButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #var reverseText = hudRow.addChild("text").set("label", "Custom JA-37 specific HUD:");
+          #hudRow.addChild("empty").set("stretch", 1);
+          #me.dialog.hudButton = hudRow.addChild("button");
+          #me.dialog.hudButton.set("halign", "right");
+          #me.dialog.hudButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.hudButton.setBinding("nasal", "ja37.Dialog.hudToggle()");
+          #me.dialog.hudButton.setBinding("nasal", "ja37.Dialog.hudToggle()");
 
           ######   radar button   #####
 #          var radarRow = topRow.addChild("group");
@@ -604,11 +604,11 @@ var Dialog = {
     #  me.refreshButtons();
     #},
 
-    hudToggle: func {
-      var enabled = getprop("ja37/hud/mode");
-      setprop("ja37/hud/mode", !enabled);
-      me.refreshButtons();
-    },  
+#    hudToggle: func {
+#      var enabled = getprop("ja37/hud/mode");
+#      setprop("ja37/hud/mode", !enabled);
+#      me.refreshButtons();
+#    },  
 
 #    radarToggle: func {
 #      ja37.click();
@@ -820,13 +820,13 @@ var Dialog = {
       #}
       #me.dialog.reverseButton.node.setValues({"legend": legend});
 
-      enabled = getprop("ja37/hud/mode");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.hudButton.node.setValues({"legend": legend});
+      #enabled = getprop("ja37/hud/mode");
+      #if(enabled == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.hudButton.node.setValues({"legend": legend});
 
 #      enabled = getprop("ja37/radar/enabled");
 #      if(enabled == 1) {
