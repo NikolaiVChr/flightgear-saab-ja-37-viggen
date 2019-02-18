@@ -279,22 +279,30 @@ When inputting, pay notice to the switch +/-, as that is the sign of what you in
 
 Aural warning tones
 ===================
-There is different warning tones for the following:
-- High angle-of-attack (3 stages, limits depends on altitude and gears)
-- High G-force (3 stages, limits depend on aircraft weight and gears) 
-- Low speed
-- Below training floor
-- Ground collision
+There is different warning tones for the following: (ordered in priority, notice pre-warnings has lowest priority)
+- Master warning (can be played at same time as other tones)
+- Ground collision (volume cannot be changed)
 - Flare/chaff release
 - Flares out
-- Master warning
-- Entering transonic regime
+- Low speed
+- High angle-of-attack (2 pre and 1 main, limits depends on altitude and gears)
+- High G-force (2 pre and 1 main, limits depend on aircraft weight and gears) 
 - Vne speed exceeded.
+- Entering transonic regime
+- Below training floor
 
 Volume can be adjusted on left FR29 radio panel (the smaller knob).
 Ground collision warning (including the displays/HUD arrows) can be switched off on the navpanel.
+G-force (loadfactor) warning threshold can be changed on DAP, REG address 52.
 
 
+Aural information tones
+=======================
+- Incoming missile (positional)
+- Radar missile lock
+- Sidewinder growl
+
+Volume can be adjusted on left vertical panel.
 
 Testing
 =======

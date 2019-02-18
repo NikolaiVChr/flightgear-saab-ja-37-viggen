@@ -587,13 +587,13 @@ var loop_stores = func {
       setprop("ai/submodels/submodel[0]/flare-release-out-snd", TRUE);
     }
   }
-  if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
-    setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
+  if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1.3) < input.elapsed.getValue()) {
+    setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);# sound sample is 0.7s long
     setprop("rotors/main/blade[3]/flap-deg", 0);
     setprop("rotors/main/blade[3]/position-deg", 0);#MP interpolates between numbers, so nil is better than 0.
   }
-  if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
-    setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
+  if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 2) < input.elapsed.getValue()) {
+    setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);#sound sample is 1.4s long
   }
   if (flareCount > getprop("ai/submodels/submodel[0]/count")) {
     # A flare was released in last loop, we stop releasing flares, so user have to press button again to release new.

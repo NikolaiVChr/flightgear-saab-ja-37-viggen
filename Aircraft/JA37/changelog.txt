@@ -3618,3 +3618,7 @@ Sound: Aural warning tones now has less default volume.
 Sound: Pre-warnings is now inhibited while transonic tone is playing.
 Sound: Ground collision warning can no longer be lowered in volume.
 Sound: Temp. solution: replaced incoming sounds with App73 med-high sounds.
+Sound: Warning tones from CK37 is now prioritized, except master warning as per manual.
+Sound: Max volume of warning tones, is now lower.
+GUI: Rmoved annuciation option from option dialog.
+Sound: During and 10 seconds after ground collision warning has stopped load-factor limit will force stay at 110%.

@@ -1291,16 +1291,7 @@
             <path>Aircraft/JA37/Sounds/tones/below-floor.wav</path>
             <type>avionics</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-                <less-than>
-                    <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                    <property>ja37/sound/floor-ft</property>
-                </less-than>
+                <property>ja37/sound/tones/floor</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1318,13 +1309,7 @@
             <path>Aircraft/JA37/Sounds/tones/transonic.wav</path>
             <type>avionics</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-                <property>fdm/jsbsim/systems/indicators/transonic-aural</property>
+                <property>ja37/sound/tones/transonic</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1369,22 +1354,7 @@
             <path>Aircraft/JA37/Sounds/tones/vne.wav</path>
             <type>avionics</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-                <or>
-                    <greater-than>
-                        <property>velocities/airspeed-kt</property>
-                        <property>limits/vne</property>
-                    </greater-than>
-                    <greater-than>
-                        <property>velocities/mach</property>
-                        <property>limits/vne-mach</property>
-                    </greater-than>
-                </or>
+                <property>ja37/sound/tones/vne</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1402,35 +1372,7 @@
             <path>Aircraft/JA37/Sounds/tones/n-3hz.wav</path>
             <type>avionics</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <not><property>/instrumentation/terrain-override</property></not>
-                <not><property>gear/gear/position-norm</property></not>
-                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
-                <not>
-                    <or>
-                        <greater-than>
-                            <property>velocities/airspeed-kt</property>
-                            <property>limits/vne</property>
-                        </greater-than>
-                        <greater-than>
-                            <property>velocities/mach</property>
-                            <property>limits/vne-mach</property>
-                        </greater-than>
-                    </or>
-                </not>
-                <greater-than>
-                    <property>ja37/sound/pilot-G-norm</property>
-                    <value>0.85</value>
-                </greater-than>
-                <less-than>
-                    <property>ja37/sound/pilot-G-norm</property>
-                    <value>0.92</value>
-                </less-than>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/load-pre-1</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1448,35 +1390,7 @@
             <path>Aircraft/JA37/Sounds/tones/n-8hz.wav</path>
             <type>avionics</type>
             <condition>
-                <not><property>/instrumentation/terrain-override</property></not>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <not><property>gear/gear/position-norm</property></not>
-                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
-                <not>
-                    <or>
-                        <greater-than>
-                            <property>velocities/airspeed-kt</property>
-                            <property>limits/vne</property>
-                        </greater-than>
-                        <greater-than>
-                            <property>velocities/mach</property>
-                            <property>limits/vne-mach</property>
-                        </greater-than>
-                    </or>
-                </not>
-                <greater-than>
-                    <property>ja37/sound/pilot-G-norm</property>
-                    <value>0.92</value>
-                </greater-than>
-                <less-than>
-                    <property>ja37/sound/pilot-G-norm</property>
-                    <value>1.00</value>
-                </less-than>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/load-pre-2</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1495,45 +1409,7 @@
             <path>Aircraft/JA37/Sounds/tones/alpha-n-low-speed.wav</path>
             <type>avionics</type>
             <condition>
-                <not><property>/instrumentation/terrain-override</property></not>
-                <or>
-                    <and><!-- high alpha warning with gear retracted -->
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <property>fdm/jsbsim/systems/sound/alpha-limit-high</property>
-                        </greater-than>
-                        <not>
-                            <property>gear/gear/position-norm</property>
-                        </not>
-                    </and>
-                    <and>
-                        <greater-than><!-- high G warning -->
-                            <property>ja37/sound/pilot-G-norm</property>
-                            <value>1.00</value>
-                        </greater-than>
-                    </and>
-                    <property>ja37/sound/speed-on</property><!-- low speed warning -->
-                    <and>
-                        <!-- high alpha warning with gears down -->
-                        <property>gear/gear/position-norm</property>
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <value>18</value><!-- should be 15 for normal landings and 18 for short (high aoa) landings -->
-                        </greater-than>
-                        <not>
-                            <property>fdm/jsbsim/gear/unit[0]/WOW</property>
-                        </not>
-                        <not>
-                            <property>fdm/jsbsim/gear/unit[2]/WOW</property>
-                        </not>
-                    </and>
-                </or>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/gvv-main</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1551,39 +1427,7 @@
             <path>Aircraft/JA37/Sounds/tones/alpha-8hz.wav</path>
             <type>avionics</type>
             <condition>
-                <not><property>/instrumentation/terrain-override</property></not>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <not><property>gear/gear/position-norm</property></not>
-                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
-                <not>
-                    <or>
-                        <greater-than>
-                            <property>velocities/airspeed-kt</property>
-                            <property>limits/vne</property>
-                        </greater-than>
-                        <greater-than>
-                            <property>velocities/mach</property>
-                            <property>limits/vne-mach</property>
-                        </greater-than>
-                    </or>
-                </not>
-                <or>
-                    <and>
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <property>fdm/jsbsim/systems/sound/alpha-limit-medium</property>
-                        </greater-than>
-                        <less-than>
-                            <property>orientation/alpha-deg</property>
-                            <property>fdm/jsbsim/systems/sound/alpha-limit-high</property>
-                        </less-than>
-                    </and>
-                </or>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/alpha-pre-2</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1601,39 +1445,7 @@
             <path>Aircraft/JA37/Sounds/tones/alpha-3hz.wav</path>
             <type>avionics</type>
             <condition>
-                <not><property>/instrumentation/terrain-override</property></not>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <not><property>gear/gear/position-norm</property></not>
-                <not><property>fdm/jsbsim/systems/indicators/transonic-aural</property></not>
-                <not>
-                    <or>
-                        <greater-than>
-                            <property>velocities/airspeed-kt</property>
-                            <property>limits/vne</property>
-                        </greater-than>
-                        <greater-than>
-                            <property>velocities/mach</property>
-                            <property>limits/vne-mach</property>
-                        </greater-than>
-                    </or>
-                </not>
-                <or>
-                    <and>
-                        <greater-than>
-                            <property>orientation/alpha-deg</property>
-                            <property>fdm/jsbsim/systems/sound/alpha-limit-low</property>
-                        </greater-than>
-                        <less-than>
-                            <property>orientation/alpha-deg</property>
-                            <property>fdm/jsbsim/systems/sound/alpha-limit-medium</property>
-                        </less-than>
-                    </and>
-                </or>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/alpha-pre-1</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1651,13 +1463,7 @@
             <path>Aircraft/JA37/Sounds/tones/collision.wav</path>
             <type>avionics</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/terrain-on</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/terrain-on</property>
             </condition>
             <!--<volume> cannot be turned down, but can be switched off
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1665,7 +1471,7 @@
             </volume>-->
             <volume>
                 <property>sim/current-view/internal</property>
-                <factor>1</factor>
+                <factor>0.4</factor>
             </volume>
         </mkv>
 
@@ -1677,7 +1483,6 @@
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <property>fdm/jsbsim/systems/indicators/master-warning/audio</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1699,13 +1504,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/tones/ecm-done.wav</path>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ai/submodels/submodel[0]/flare-release-snd</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/flare-release-out</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1724,13 +1523,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/tones/flares-out.wav</path>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ai/submodels/submodel[0]/flare-release-out-snd</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/sound/tones/flare-release-out</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1752,7 +1545,6 @@
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1776,7 +1568,6 @@
             <condition>
                 <property>ja37/sound/incoming1</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1805,7 +1596,6 @@
             <condition>
                 <property>ja37/sound/incoming2</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1834,7 +1624,6 @@
             <condition>
                 <property>ja37/sound/incoming3</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1863,7 +1652,6 @@
             <condition>
                 <property>ja37/sound/incoming11</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1892,7 +1680,6 @@
             <condition>
                 <property>ja37/sound/incoming10</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1921,7 +1708,6 @@
             <condition>
                 <property>ja37/sound/incoming9</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1950,7 +1736,6 @@
             <condition>
                 <property>ja37/sound/incoming4</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -1979,7 +1764,6 @@
             <condition>
                 <property>ja37/sound/incoming8</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -2008,7 +1792,6 @@
             <condition>
                 <property>ja37/sound/incoming5</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -2037,7 +1820,6 @@
             <condition>
                 <property>ja37/sound/incoming7</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -2066,7 +1848,6 @@
             <condition>
                 <property>ja37/sound/incoming12</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
@@ -2095,7 +1876,6 @@
             <condition>
                 <property>ja37/sound/incoming6</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>

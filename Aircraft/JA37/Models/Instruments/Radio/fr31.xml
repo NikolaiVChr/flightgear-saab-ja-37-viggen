@@ -81,7 +81,7 @@
                 <factor>1</factor>
                 <step>0.10</step>
                 <min>0</min>
-                <max>1</max>                
+                <max>0.5</max>                
                 <wrap>false</wrap>
            </binding>
         </increase>
@@ -92,7 +92,7 @@
                 <factor>1</factor>
                 <step>-0.10</step>
                 <min>0</min>
-                <max>1</max>                
+                <max>0.5</max>
                 <wrap>false</wrap>
             </binding>
         </decrease>

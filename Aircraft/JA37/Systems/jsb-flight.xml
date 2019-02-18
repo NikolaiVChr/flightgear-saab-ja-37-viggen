@@ -877,11 +877,19 @@
             <output>/ja37/accelerations/pilot-G-norm</output>
         </fcs_function>
         
+        <switch name="names/sound/max-pos-g">
+            <default value="/ja37/sound/loadfactor-percent"/>
+            <test logic="OR" value="110">
+              /instrumentation/terrain-override == 1
+            </test>
+            <output>/ja37/sound/loadfactor-percent-used</output>
+        </switch>
+        
         <fcs_function name="names/instruments/max-positive-g-set">
             <function>
                     <product>
                         <v>0.01</v>                        
-                        <p>/ja37/sound/loadfactor-percent</p>
+                        <p>/ja37/sound/loadfactor-percent-used</p>
                         <p>/limits/max-positive-g</p>
                     </product>
             </function>

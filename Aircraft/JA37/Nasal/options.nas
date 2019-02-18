@@ -370,19 +370,19 @@ var Dialog = {
           #me.dialog.cannonButton.setBinding("nasal", "ja37.Dialog.cannonToggle()");
 
           ######   annunciation button   #####
-          var annunRow = topRow.addChild("group");
-          annunRow.set("layout", "hbox");
-          annunRow.set("pref-height", 25);
-          annunRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var annunRow = topRow.addChild("group");
+          #annunRow.set("layout", "hbox");
+          #annunRow.set("pref-height", 25);
+          #annunRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var mouseText = annunRow.addChild("text").set("label", "Annunciation (in english):");
-          annunRow.addChild("empty").set("stretch", 1);
-          me.dialog.annunButton = annunRow.addChild("button");
-          me.dialog.annunButton.set("halign", "right");
-          me.dialog.annunButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #var mouseText = annunRow.addChild("text").set("label", "Annunciation (in english):");
+          #annunRow.addChild("empty").set("stretch", 1);
+          #me.dialog.annunButton = annunRow.addChild("button");
+          #me.dialog.annunButton.set("halign", "right");
+          #me.dialog.annunButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.annunButton.setBinding("nasal", "ja37.Dialog.annunToggle()");
+          #me.dialog.annunButton.setBinding("nasal", "ja37.Dialog.annunToggle()");
 
           ######   G-suit button   #####
           var suitRow = topRow.addChild("group");
@@ -441,18 +441,18 @@ var Dialog = {
           me.dialog.mapButton.setBinding("nasal", "ja37.Dialog.mapToggle()");
 
           ######   terrain can hide radar tracks button   #####
-          var realRadarRow = topRow.addChild("group");
-          realRadarRow.set("layout", "hbox");
-          realRadarRow.set("pref-height", 25);
-          realRadarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var realRadarRow = topRow.addChild("group");
+          #realRadarRow.set("layout", "hbox");
+          #realRadarRow.set("pref-height", 25);
+          #realRadarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #rb24msgRow.set("valign", "center");
           
-          var realRadarText = realRadarRow.addChild("text").set("label", "Terrain blocks radar: (always enabled in 2017.2.1+)");
-          realRadarRow.addChild("empty").set("stretch", 1);
-          me.dialog.realRadarButton = realRadarRow.addChild("button");
-          me.dialog.realRadarButton.set("halign", "right");
-          me.dialog.realRadarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
-          me.dialog.realRadarButton.setBinding("nasal", "ja37.Dialog.realRadarToggle()");
+          #var realRadarText = realRadarRow.addChild("text").set("label", "Terrain blocks radar: (always enabled in 2017.2.1+)");
+          #realRadarRow.addChild("empty").set("stretch", 1);
+          #me.dialog.realRadarButton = realRadarRow.addChild("button");
+          #me.dialog.realRadarButton.set("halign", "right");
+          #me.dialog.realRadarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #me.dialog.realRadarButton.setBinding("nasal", "ja37.Dialog.realRadarToggle()");
 
           ######   doppler radar button   #####
           #var dopplerRow = topRow.addChild("group");
@@ -711,23 +711,23 @@ var Dialog = {
       me.refreshButtons();
     },    
 
-    annunToggle: func {
-      var enabled = getprop("ja37/sound/annunciation-enabled");
-      setprop("ja37/sound/annunciation-enabled", !enabled);
-      me.refreshButtons();
-    },
+#    annunToggle: func {
+#      var enabled = getprop("ja37/sound/annunciation-enabled");
+#      setprop("ja37/sound/annunciation-enabled", !enabled);
+#      me.refreshButtons();
+#    },
 
-    realRadarToggle: func {
-      var enabled = getprop("ja37/radar/look-through-terrain");
-      setprop("ja37/radar/look-through-terrain", !enabled);
-      me.refreshButtons();
-    },
+    #realRadarToggle: func {
+    #  var enabled = getprop("ja37/radar/look-through-terrain");
+    #  setprop("ja37/radar/look-through-terrain", !enabled);
+    #  me.refreshButtons();
+    #},
 
-    dopplerToggle: func {
-      var enabled = getprop("ja37/radar/doppler-enabled");
-      setprop("ja37/radar/doppler-enabled", !enabled);
-      me.refreshButtons();
-    },
+    #dopplerToggle: func {
+    #  var enabled = getprop("ja37/radar/doppler-enabled");
+    #  setprop("ja37/radar/doppler-enabled", !enabled);
+    #  me.refreshButtons();
+    #},
 
     rb24msgToggle: func {
       var enabled = getprop("payload/armament/msg");
@@ -940,21 +940,21 @@ var Dialog = {
       #}
       #me.dialog.cannonButton.node.setValues({"legend": legend});
 
-      enabled = getprop("ja37/sound/annunciation-enabled");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.annunButton.node.setValues({"legend": legend});
+      #enabled = getprop("ja37/sound/annunciation-enabled");
+      #if(enabled == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.annunButton.node.setValues({"legend": legend});
 
-      enabled = getprop("ja37/radar/look-through-terrain");
-      if(enabled == 0 or getprop("ja37/supported/picking") == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.realRadarButton.node.setValues({"legend": legend});
+      #enabled = getprop("ja37/radar/look-through-terrain");
+      #if(enabled == 0 or getprop("ja37/supported/picking") == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.realRadarButton.node.setValues({"legend": legend});
 
       #enabled = getprop("ja37/radar/doppler-enabled");
       #if(enabled == 1) {

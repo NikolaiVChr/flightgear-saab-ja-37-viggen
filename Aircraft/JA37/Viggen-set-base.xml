@@ -624,7 +624,6 @@
             <stall-enabled type="bool">true</stall-enabled>
             <mp-volume type="double">0.4</mp-volume>
             <breath-volume type="double">0</breath-volume>
-            <annunciation-enabled type="bool">true</annunciation-enabled>
             <thunder1 type="bool">false</thunder1>
             <thunder2 type="bool">false</thunder2>
             <thunder3 type="bool">false</thunder3>
@@ -1465,6 +1464,7 @@
         <heading-indicator>
             <offset-deg type="double">0</offset-deg>
         </heading-indicator>
+        <terrain-override type="bool">false</terrain-override>
     </instrumentation>
 
     <!-- Using commandline these can be entered at start. Areas should max have 8 points. The others max 48 steerpoints including dest/dep. Format GPX or FG xml. -->

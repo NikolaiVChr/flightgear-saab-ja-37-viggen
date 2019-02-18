@@ -1903,7 +1903,8 @@
             </function>
         </fcs_function>
         
-        <switch name="systems/indicators/transonic-aural-starttime">
+        <!-- sample is 2 secs -->
+        <!--<switch name="systems/indicators/transonic-aural-starttime">
             <default value="sim-time-sec"/>
             <test logic="AND" value="systems/indicators/transonic-aural-starttime">
                 systems/indicators/transonic == 1
@@ -1914,7 +1915,7 @@
             <function>
                 <sum>
                     <p>systems/indicators/transonic-aural-starttime</p>
-                    <v>2.1</v><!-- sample is 2 secs -->
+                    <v>2.1</v>
                 </sum>
             </function>
         </fcs_function>
@@ -1925,7 +1926,7 @@
                 systems/indicators/transonic-aural-stoptime gt sim-time-sec
                 systems/indicators/transonic-aural-starttime lt sim-time-sec
             </test>
-        </switch>
+        </switch>-->
 
         <fcs_function name="systems/indicators/transonic-warning">
             <function>
@@ -2142,6 +2143,15 @@
                 </sum>
             </function>
         </fcs_function>
+        
+        <fcs_function name="/instrumentation/terrain-warning-steady-10">
+            <function>
+                <sum>
+                    <p>/instrumentation/terrain-warning-steady-time</p>
+                    <v>10</v>
+                </sum>
+            </function>
+        </fcs_function>
 
         <fcs_function name="/instrumentation/terrain-warning-hold">
             <function>
@@ -2180,7 +2190,7 @@
             <default value="0"/>
             <test logic="OR" value="1">
                 /ja37/sound/terrain-on == 1
-                /instrumentation/terrain-warning-steady gt sim-time-sec
+                /instrumentation/terrain-warning-steady-10 gt sim-time-sec
             </test>
         </switch>
 

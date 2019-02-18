@@ -185,7 +185,6 @@ TI: Info on target should be given even if not in steerorder mode.
 Model: GVV circuit breaker should disable all aural limit warnings (GVV).
 Sound: I think I broke the AJ stall warn switch, fix.
 Sound: Should limit pre warnings be lower volume?
-Sound: Is the priority list total overriding? if so make it
 
 
 
