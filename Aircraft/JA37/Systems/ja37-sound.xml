@@ -1645,7 +1645,7 @@
             </volume>
         </gvv>
         
-        <pullup>
+        <mkv>
             <name>pull-up</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/tones/collision.wav</path>
@@ -1659,15 +1659,15 @@
                     <value>23</value>
                 </greater-than>
             </condition>
-            <volume>
+            <!--<volume> cannot be turned down, but can be switched off
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
-            </volume>
+            </volume>-->
             <volume>
                 <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
-        </pullup>
+        </mkv>
 
         <master>
             <name>master warning</name>
@@ -1744,9 +1744,10 @@
         </flare>
 
         <incoming>
+            <name>sam</name>
             <name>incoming</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming.wav</path>
+            <path>Aircraft/JA37/Sounds/tones/rwr-low.wav</path><!-- todo: make this for low freq SAMs -->
             <type>avionics</type>
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
@@ -1768,256 +1769,354 @@
         </incoming>
 
         <incoming>
-            <name>incoming1</name>
+            <name>1</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-01.wav</path>
-            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming1</property>
-                <property>sim/current-view/internal</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
                 </greater-than>
             </condition>
+            <position>
+                <x>-4.666 </x><!-- 0.866 -->
+                <y>-0.50 </y>
+                <z> 0.74 </z>
+            </position>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
         </incoming>
-
+        
         <incoming>
-            <name>incoming2</name>
+            <name>2</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-02.wav</path>
-            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming2</property>
-                <property>sim/current-view/internal</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
                 </greater-than>
             </condition>
+            <position>
+                <x>-4.10 </x>
+                <y>-0.866 </y>
+                <z> 0.74 </z>
+            </position>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
         </incoming>
-
+        
         <incoming>
-            <name>incoming3</name>
+            <name>3</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-03.wav</path>
-            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming3</property>
-                <property>sim/current-view/internal</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
                 </greater-than>
             </condition>
+            <position>
+                <x>-3.60 </x>
+                <y>-1.00 </y>
+                <z> 0.74 </z>
+            </position>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
                 <factor>1</factor>
             </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming4</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-04.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming4</property>
+            <volume>
                 <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
         </incoming>
-
+        
         <incoming>
-            <name>incoming5</name>
+            <name>11</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-05.wav</path>
-            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
             <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming5</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming6</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-06.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming6</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming12</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-12.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming12</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming7</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-07.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming7</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming8</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-08.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming8</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming9</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-09.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming9</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming10</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-10.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/incoming10</property>
-                <property>sim/current-view/internal</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-        </incoming>
-
-        <incoming>
-            <name>incoming11</name>
-            <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/incoming-11.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming11</property>
-                <property>sim/current-view/internal</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
                     <property>systems/electrical/outputs/dc-voltage</property>
                     <value>23</value>
                 </greater-than>
             </condition>
+            <position>
+                <x>-4.666 </x><!-- 0.866 -->
+                <y> 0.50 </y>
+                <z> 0.74 </z>
+            </position>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
         </incoming>
+        
+        <incoming>
+            <name>10</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming10</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-4.10 </x>
+                <y> 0.866 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>9</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming9</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-3.60 </x>
+                <y> 1.00 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>4</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming4</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-3.10 </x>
+                <y>-0.866 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>8</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming8</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-3.10 </x>
+                <y> 0.866 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>5</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming5</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-2.734 </x>
+                <y>-0.50 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>7</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming7</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-2.734 </x>
+                <y> 0.50 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>12</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming12</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-4.60 </x>
+                <y> 0.00 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+        
+        <incoming>
+            <name>6</name>
+            <mode>once</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-medium-high.wav</path>
+            <type>fx</type>
+            <condition>
+                <property>ja37/sound/incoming6</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>-2.60 </x>
+                <y> 0.00 </y>
+                <z> 0.74 </z>
+            </position>
+            <volume>
+                <property>ja37/radio/fr29/knob-vol</property><!-- todo: diff. knob from RWR: apparat 73-->
+                <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+                <factor>1</factor>
+            </volume>
+        </incoming>
+
+
 
         <!-- old stall warnings:-->
 
