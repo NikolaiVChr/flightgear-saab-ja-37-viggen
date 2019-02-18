@@ -733,7 +733,7 @@
             </me31>
             <fr29>
                 <!-- fr29 aka. fr31 knob for aural warning tones -->
-                <knob-vol type="double">1</knob-vol>
+                <knob-vol type="double">0.5</knob-vol>
             </fr29>
         </radio>
         <faf>
