@@ -66,6 +66,13 @@
     <animation>
         <type>pick</type>
         <object-name>fuse1</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/fuses/krets</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -74,10 +81,28 @@
             </binding>
         </hovered>
     </animation>
+    
+    <animation>
+       <type>translate</type>
+       <object-name>fuse1</object-name>
+       <property>ja37/fuses/krets</property>
+       <factor>-0.005</factor>
+       <offset-m>0.000</offset-m>
+       <axis>
+         <z>1</z>
+       </axis>
+    </animation>
 
     <animation>
         <type>pick</type>
         <object-name>fuse2</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/fuses/sa</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -86,10 +111,28 @@
             </binding>
         </hovered>
     </animation>
+    
+    <animation>
+       <type>translate</type>
+       <object-name>fuse2</object-name>
+       <property>ja37/fuses/sa</property>
+       <factor>-0.005</factor>
+       <offset-m>0.000</offset-m>
+       <axis>
+         <z>1</z>
+       </axis>
+    </animation>
 
     <animation>
         <type>pick</type>
         <object-name>fuse3</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/fuses/trim</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -98,10 +141,28 @@
             </binding>
         </hovered>
     </animation>
+    
+    <animation>
+       <type>translate</type>
+       <object-name>fuse3</object-name>
+       <property>ja37/fuses/trim</property>
+       <factor>-0.005</factor>
+       <offset-m>0.000</offset-m>
+       <axis>
+         <z>1</z>
+       </axis>
+    </animation>
 
     <animation>
         <type>pick</type>
         <object-name>fuse4</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/fuses/gvv</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -110,10 +171,28 @@
             </binding>
         </hovered>
     </animation>
+    
+    <animation>
+       <type>translate</type>
+       <object-name>fuse4</object-name>
+       <property>ja37/fuses/gvv</property>
+       <factor>-0.005</factor>
+       <offset-m>0.000</offset-m>
+       <axis>
+         <z>1</z>
+       </axis>
+    </animation>
 
     <animation>
         <type>pick</type>
         <object-name>fuse5</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/fuses/motor</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -121,6 +200,17 @@
                 <label>Circuit breaker for engine starting system</label>
             </binding>
         </hovered>
+    </animation>
+    
+    <animation>
+       <type>translate</type>
+       <object-name>fuse5</object-name>
+       <property>ja37/fuses/motor</property>
+       <factor>-0.005</factor>
+       <offset-m>0.000</offset-m>
+       <axis>
+         <z>1</z>
+       </axis>
     </animation>
 
 </PropertyList>

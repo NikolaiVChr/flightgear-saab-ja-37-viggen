@@ -797,6 +797,13 @@
             <fel-steady type="bool">false</fel-steady>
             <fel-flash type="bool">false</fel-flash>
         </test>
+        <fuses>
+            <krets type="bool">true</krets>
+            <sa type="bool">true</sa>
+            <trim type="bool">true</trim>
+            <gvv type="bool">true</gvv>
+            <motor type="bool">true</motor>            
+        </fuses>
         <done type="bool">false</done>
     </ja37>
     <ai>

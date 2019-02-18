@@ -294,6 +294,7 @@ There is different warning tones for the following: (ordered in priority, notice
 Volume can be adjusted on left FR29 radio panel (the smaller knob).
 Ground collision warning (including the displays/HUD arrows) can be switched off on the navpanel.
 G-force (loadfactor) warning threshold can be changed on DAP, REG address 52.
+The GVV circuit breaker can disable g-force, low-speed and AoA warnings.
 
 
 Aural information tones
