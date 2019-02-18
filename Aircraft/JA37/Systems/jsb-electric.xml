@@ -681,12 +681,14 @@
             <test logic="AND" value="1">
                 /systems/electrical/outputs/dc-voltage gt 23
                 systems/electrical/starter-relay-R1 == 1
+                /ja37/fuses/motor == 1
             </test>
             <test logic="AND" value="1">
                 /systems/electrical/outputs/dc-voltage gt 23
                 propulsion/engine[0]/n2 gt 49
                 propulsion/engine[0]/n2 le 57
                 /engines/engine/running == 0
+                /ja37/fuses/motor == 1
             </test>
             <output>propulsion/starter_cmd</output>
             <output>propulsion/starter_cmd_copy</output>

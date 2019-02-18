@@ -265,6 +265,57 @@
             </binding>
         </item>
         <item>
+            <name>Circuit breakers</name>
+            <value>ON</value>
+            <condition>
+                <equals>
+                    <property>ja37/fuses/krets</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>ja37/fuses/sa</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>ja37/fuses/trim</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>ja37/fuses/gvv</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>ja37/fuses/motor</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/motor</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/gvv</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/trim</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/sa</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/krets</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
             <name>Radar altimeter</name>
             <value>ON</value>
             <marker>
