@@ -3614,4 +3614,5 @@ Sound: Removed some clicks from some aural limit warnings.
 Sound: Pre-warnings are now inhibited while Vne warning is in effect.
 MI: Display will no longer stay visible under black/redout.
 DAP: REG address 52 now sets when aural load-factor warning should start. From 75% to 110%.
+Sound: Aural warning tones now has less default volume.
 Sound: Pre-warnings is now inhibited while transonic tone is playing.
