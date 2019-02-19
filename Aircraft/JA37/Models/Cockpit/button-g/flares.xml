@@ -29,7 +29,7 @@
         <action>
             <button>0</button>
             <binding>
-                <command>property-toggle</command>
+                <command>property-assign</command>
                 <property>/ai/submodels/submodel[0]/flare-release-cmd</property>
                 <value type="bool">true</value>
             </binding>

@@ -3627,3 +3627,5 @@ Sound: Circuit breaker GVV can now disable GVV warning tones.
 Sim: Circuit breaker for engine starter now works.
 GUI: Added circuit breakers to checklist.
 Control: Autopilot now can also get disabled by circuit breaker.
+Sound: Lowered even more the warning tones.
+Sim: Fixed some issues with flares.

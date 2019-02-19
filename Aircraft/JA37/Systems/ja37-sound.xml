@@ -1471,7 +1471,7 @@
             </volume>-->
             <volume>
                 <property>sim/current-view/internal</property>
-                <factor>0.4</factor>
+                <factor>0.25</factor>
             </volume>
         </mkv>
 
@@ -1504,7 +1504,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/tones/ecm-done.wav</path>
             <condition>
-                <property>ja37/sound/tones/flare-release-out</property>
+                <property>ja37/sound/tones/flare-release</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>

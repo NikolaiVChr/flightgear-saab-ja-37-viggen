@@ -62,7 +62,7 @@
         <type>knob</type>
         <object-name>knobVol</object-name>
         <property>ja37/radio/fr29/knob-vol</property>
-        <factor>60</factor>
+        <factor>240</factor>
         <offset-deg>-135</offset-deg>
         <center>
             <x-m>  -0.04043 </x-m>
@@ -79,9 +79,9 @@
                 <command>property-adjust</command>
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
-                <step>0.10</step>
+                <step>0.05</step>
                 <min>0</min>
-                <max>0.5</max>                
+                <max>0.25</max>                
                 <wrap>false</wrap>
            </binding>
         </increase>
@@ -90,9 +90,9 @@
                 <command>property-adjust</command>
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
-                <step>-0.10</step>
+                <step>-0.05</step>
                 <min>0</min>
-                <max>0.5</max>
+                <max>0.25</max>
                 <wrap>false</wrap>
             </binding>
         </decrease>

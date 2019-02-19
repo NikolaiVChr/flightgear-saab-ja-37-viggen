@@ -565,17 +565,12 @@ var loop_stores = func {
     input.MPint19.setIntValue(ja37.encode3bits(leftRb2474, rightRb2474, wtv));
 
   # Flare/chaff release
-  if (getprop("ai/submodels/submodel[0]/flare-release-snd") == nil) {
-    setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
-    setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
-  }
-  var flareOn = getprop("ai/submodels/submodel[0]/flare-release-cmd");
-  if (flareOn == TRUE and getprop("ai/submodels/submodel[0]/flare-release") == FALSE
-      and getprop("ai/submodels/submodel[0]/flare-release-out-snd") == FALSE
-      and getprop("ai/submodels/submodel[0]/flare-release-snd") == FALSE) {
+  var flareCmd = getprop("ai/submodels/submodel[0]/flare-release-cmd");
+  if (flareCmd and !getprop("ai/submodels/submodel[0]/flare-release")
+               and !getprop("ai/submodels/submodel[0]/flare-release-out-snd")
+               and !getprop("ai/submodels/submodel[0]/flare-release-snd")) {
     flareCount = getprop("ai/submodels/submodel[0]/count");
     flareStart = input.elapsed.getValue();
-    setprop("ai/submodels/submodel[0]/flare-release-cmd", FALSE);
     if (flareCount > 0) {
       # release a flare
       setprop("ai/submodels/submodel[0]/flare-release-snd", TRUE);
@@ -587,6 +582,7 @@ var loop_stores = func {
       setprop("ai/submodels/submodel[0]/flare-release-out-snd", TRUE);
     }
   }
+  setprop("ai/submodels/submodel[0]/flare-release-cmd", FALSE);
   if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1.3) < input.elapsed.getValue()) {
     setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);# sound sample is 0.7s long
     setprop("rotors/main/blade[3]/flap-deg", 0);
