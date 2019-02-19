@@ -3629,3 +3629,6 @@ GUI: Added circuit breakers to checklist.
 Control: Autopilot now can also get disabled by circuit breaker.
 Sound: Lowered even more the warning tones.
 Sim: Fixed some issues with flares.
+HUD: Made the HUD brighter.
+HUD: Optimization of brightness code.
+HUD: Brightness knobs now uses knob animation.

@@ -1101,7 +1101,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     return HUDnasal.main;
     
   },
-
+  lastPower: 0,
       ############################################################################
       #############             main loop                         ################
       ############################################################################
@@ -1114,7 +1114,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         # on backup
         if (on_backup_power == FALSE) {
           # change the colour to amber
-          reinit(TRUE);
+          #reinit();
         }
         on_backup_power = TRUE;
       } else {
@@ -1123,10 +1123,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       }
     } elsif (on_backup_power == TRUE) {
       # was on backup, now is on primary
-      reinit(FALSE);
+      #reinit();
       on_backup_power = FALSE;
     }
-    
+    if (me.lastPower != me.input.elecDC.getValue()+me.input.elecAC.getValue()) {
+      reinit();
+    }
+    me.lastPower = me.input.elecDC.getValue()+me.input.elecAC.getValue();
     # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
     me.fromTop = HUDTop - me.input.viewZ.getValue();
     centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));
@@ -3041,8 +3044,7 @@ var init = func() {
     
     #print("HUD initialized.");
     hud_pilot.update();
-    IR_loop();
-    setlistener("sim/rendering/shaders/skydome", func {reinit(on_backup_power);});
+    #IR_loop();
   }
 };
 
@@ -3053,30 +3055,24 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 #setprop("/systems/electrical/battery", 0);
 #id = setlistener("ja37/supported/initialized", init, 0, 0);
 
-var IR_loop = func {
-  reinit(on_backup_power);
-  #settimer(IR_loop, 1.5);
-};
-
-
-
-var reinit = func(backup = FALSE) {#mostly called to change HUD color
+var reinit = func() {#mostly called to change HUD color
    #reinitHUD = 1;
-
+   
    if (getprop("sim/rendering/shaders/skydome") == TRUE) {
-     r = 0;
-     b = 0;
+     r = 0.75;
+     b = 0.75;
    } else {
      r = 0.6;
      b = 0.6;
    }
-
+   var backup = on_backup_power;
    # if on backup power then amber will be the colour
    var red = backup == FALSE?r:1;
    var green = backup == FALSE?g:0.5;
    var blue = backup == FALSE?b:0;
-   var alpha = backup == FALSE?a:clamp(a_res,0,0.85);
-
+   var alpha = backup == FALSE?getprop("ja37/hud/brightness-si"):getprop("ja37/hud/brightness-res");
+   setprop("ja37/hud/brightness",alpha);
+   #printf("alpha=%.7f",alpha);
    var IR = getprop("sim/rendering/shaders/skydome") == TRUE and getprop("sim/rendering/als-filters/use-filtering") == TRUE and getprop("sim/rendering/als-filters/use-IR-vision") == TRUE;
 
    if (1==2 and IR) {
@@ -3114,18 +3110,23 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
   #print("HUD being reinitialized.");
 };
 
+setlistener("ja37/hud/brightness-si", reinit,0,0);
+setlistener("ja37/hud/brightness-res", reinit,0,0);
+setlistener("sim/rendering/shaders/skydome", reinit,0,0);
+setlistener("sim/rendering/als-filters/use-filtering", reinit,0,0);
+setlistener("sim/rendering/als-filters/use-IR-vision", reinit,0,0);
+
 var cycle_brightness = func () {
   if(getprop("ja37/hud/mode") > 0) {
     #var br = getprop("ja37/hud/brightness");
     a += 0.05;
-    if(a > 1.0) {
+    if(a > 1.04) {
       #reset
       a = 0.55;
     }
     setprop("ja37/hud/brightness-si", a);
     #setprop("ja37/hud/brightness", br);
     reinit(on_backup_power);
-    ja37.click();
   } else {
     aircraft.HUD.cycle_brightness();
   }

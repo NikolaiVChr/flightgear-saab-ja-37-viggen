@@ -611,6 +611,8 @@
             <TILS-on type="bool">false</TILS-on>
             <landing-mode type="bool">false</landing-mode>
             <brightness type="double">1.0</brightness>
+            <brightness-si type="double">1.0</brightness-si>
+            <brightness-res type="double">0.85</brightness-res>
             <overlay type="bool">true</overlay>
             <overlay-alpha type="double">0.35</overlay-alpha>
             <overlay-glare type="double">0.40</overlay-glare>

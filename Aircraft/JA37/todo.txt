@@ -42,7 +42,7 @@ Model: The frontpanel tap is misaligned.
 Model: The JA has a chronometer right of fuel gauge.
 Model: The nosegear well, has gap between it and fuselage.
 Animation: Make jettison drop-tank actually fall down like other stores do.
-Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters, MI brightness.
+Animation: Make more use of knob animation: Radio, Altimeters, MI brightness.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Animation: The bypass handle should not stay up for long.
@@ -184,7 +184,6 @@ Sound: Replace the "incoming" annunciator warnings with radar lock radio noise. 
 TI: Info on target should be given even if not in steerorder mode. (this needs to be thought over)
 Sound: I think I broke the AJ stall warn switch, fix.
 Sound: Should limit pre warnings be lower volume?
-Control: A/P should only work when ja37/fuses/sa==1
 
 
 

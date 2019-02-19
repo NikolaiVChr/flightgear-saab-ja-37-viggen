@@ -765,31 +765,31 @@ var Dialog = {
     },
 
     light: func {
-      #setprop("ja37/hud/brightness", 1.0);
-      canvas_HUD.a = 1.00;
-      canvas_HUD.reinit(canvas_HUD.on_backup_power);
+      setprop("ja37/hud/brightness-si", 1.00);
+      #canvas_HUD.a = 1.00;
+      canvas_HUD.reinit();
     },
 
     medium: func {
-      #setprop("ja37/hud/brightness", 6.0);
-      canvas_HUD.a = 0.70;
-      canvas_HUD.reinit(canvas_HUD.on_backup_power);
+      setprop("ja37/hud/brightness-si", 0.75);
+      #canvas_HUD.a = 0.70;
+      canvas_HUD.reinit();
     },
 
     dark: func {
-      #setprop("ja37/hud/brightness", 4.0);
-      canvas_HUD.a = 0.55;
-      canvas_HUD.reinit(canvas_HUD.on_backup_power);
+      setprop("ja37/hud/brightness-si", 0.55);
+      #canvas_HUD.a = 0.55;
+      canvas_HUD.reinit();
     },
 
     thicker: func {
       setprop("ja37/hud/stroke-linewidth", getprop("ja37/hud/stroke-linewidth") + 0.5);
-      canvas_HUD.reinit(canvas_HUD.on_backup_power);
+      canvas_HUD.reinit();
     },
 
     defaultThickness: func {
       setprop("ja37/hud/stroke-linewidth", 4);
-      canvas_HUD.reinit(canvas_HUD.on_backup_power);
+      canvas_HUD.reinit();
     },    
 
     thinner: func {

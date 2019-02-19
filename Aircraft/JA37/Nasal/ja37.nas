@@ -1099,10 +1099,10 @@ var Saab37 = {
       # HUD:
       canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
       me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func canvas_HUD.hud_pilot.update());
-      me.loop_ir  = maketimer(1.5, me, func canvas_HUD.IR_loop());
+      #me.loop_ir  = maketimer(1.5, me, func canvas_HUD.IR_loop());
 
       me.loop_hud.start();
-      me.loop_ir.start();
+      #me.loop_ir.start();
 
       if (getprop("ja37/systems/variant") == 0) {
         # data-panel
