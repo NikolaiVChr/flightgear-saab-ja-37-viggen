@@ -3632,3 +3632,4 @@ Sim: Fixed some issues with flares.
 HUD: Made the HUD brighter.
 HUD: Optimization of brightness code.
 HUD: Brightness knobs now uses knob animation.
+GUI: Removed HUD brightness buttons from option dialog.

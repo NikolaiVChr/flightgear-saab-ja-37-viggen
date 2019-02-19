@@ -515,25 +515,6 @@ var Dialog = {
           me.dialog.hudDefault.setBinding("nasal", "ja37.Dialog.defaultThickness()");
           me.dialog.hudMinus.setBinding("nasal", "ja37.Dialog.thinner()");
 
-          #HUD brightness
-          var hudRow = workArea.addChild("group");
-          hudRow.set("layout", "hbox");
-          hudRow.set("pref-height", 25);
-          hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          #hudRow.set("valign", "center");
-                    
-          hudRow.addChild("text").set("label", "HUD brightness:");
-          hudRow.addChild("empty").set("stretch", 1);
-          me.dialog.hudLight = hudRow.addChild("button");
-          me.dialog.hudMedium = hudRow.addChild("button");
-          me.dialog.hudDark = hudRow.addChild("button");
-          me.dialog.hudLight.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Bright", default: 0 });
-          me.dialog.hudMedium.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Medium", default: 0 });
-          me.dialog.hudDark.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Dim", default: 0 });
-          me.dialog.hudLight.setBinding("nasal", "ja37.Dialog.light()");
-          me.dialog.hudMedium.setBinding("nasal", "ja37.Dialog.medium()");
-          me.dialog.hudDark.setBinding("nasal", "ja37.Dialog.dark()");
-
           #  mention hangar
           var hangar = workArea.addChild("group");
           hangar.set("layout", "vbox");
@@ -762,24 +743,6 @@ var Dialog = {
       setprop("ja37/effect/rust-inside", value);
       setprop("ja37/effect/rust-outside", value);
       me.refreshButtons();
-    },
-
-    light: func {
-      setprop("ja37/hud/brightness-si", 1.00);
-      #canvas_HUD.a = 1.00;
-      canvas_HUD.reinit();
-    },
-
-    medium: func {
-      setprop("ja37/hud/brightness-si", 0.75);
-      #canvas_HUD.a = 0.70;
-      canvas_HUD.reinit();
-    },
-
-    dark: func {
-      setprop("ja37/hud/brightness-si", 0.55);
-      #canvas_HUD.a = 0.55;
-      canvas_HUD.reinit();
     },
 
     thicker: func {
