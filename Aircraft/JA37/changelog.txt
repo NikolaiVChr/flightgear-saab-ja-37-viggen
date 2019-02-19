@@ -3621,8 +3621,9 @@ Sound: Temp. solution: replaced incoming sounds with App73 med-high sounds.
 Sound: Warning tones from CK37 is now prioritized, except master warning as per manual.
 Sound: Max volume of warning tones, is now lower.
 GUI: Rmoved annuciation option from option dialog.
-Sound: During and 10 seconds after ground collision warning has stopped load-factor limit will force stay at 110%.
+Sound: During and 10 seconds after ground collision warning has stopped, load-factor limit will force stay at 110%.
 GUI: Removed HUD switch option from option dialog.
 Sound: Circuit breaker GVV can now disable GVV warning tones.
 Sim: Circuit breaker for engine starter now works.
 GUI: Added circuit breakers to checklist.
+Control: Autopilot now can also get disabled by circuit breaker.
