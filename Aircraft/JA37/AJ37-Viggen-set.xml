@@ -13,6 +13,13 @@
         <long-description>
           The Saab AJ-37 Viggen is a Swedish all-weather single-engine attack jet from 1971. It has reverse thrust and very large canards.
         </long-description>
+        
+        <rating>
+            <FDM type="int">4</FDM>
+            <systems type="int">4</systems>
+            <cockpit type="int">2</cockpit>
+            <model type="int">4</model>
+        </rating>
 
         <variant-of>JA37-Viggen</variant-of>
 
