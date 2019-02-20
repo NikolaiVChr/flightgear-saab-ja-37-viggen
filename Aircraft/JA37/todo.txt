@@ -184,7 +184,7 @@ Sound: Replace the "incoming" annunciator warnings with radar lock radio noise. 
 TI: Info on target should be given even if not in steerorder mode. (this needs to be thought over)
 Sound: I think I broke the AJ stall warn switch, fix.
 Sound: Should limit pre warnings be lower volume?
-
+GUI: Convert options dilog to xml.
 
 
 Map accuracy zoom level:
