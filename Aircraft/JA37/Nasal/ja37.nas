@@ -825,9 +825,9 @@ var Saab37 = {
     acPrev = me.acSetting;
     me.tempAC = getprop("controls/ventilation/airconditioning-temperature");
     if (me.acSetting == -1) {
-      me.tempAC = -200;
+      me.tempAC = -4;
     } elsif (me.acSetting == 1) {
-      me.tempAC = 200;
+      me.tempAC = 80;
     }
 
     # Here is calculated how raindrop move over the surface of the glass
@@ -852,7 +852,7 @@ var Saab37 = {
     # The dewpoint inside the cockpit depends on the outside dewpoint and how the AC is working.
     me.tempOutside = getprop("environment/temperature-degc");
     me.ramRise     = (input.speedTrueKt.getValue()*input.speedTrueKt.getValue())/(87*87);#this is called the ram rise formula
-    me.tempOutside    += me.ramRise;
+    me.tempOutside += me.ramRise;
     me.tempInside  = getprop("environment/aircraft-effects/temperature-inside-degC");
     me.tempOutsideDew = getprop("environment/dewpoint-degc");
     me.tempInsideDew = getprop("/environment/aircraft-effects/dewpoint-inside-degC");
@@ -861,31 +861,24 @@ var Saab37 = {
 
     # calc inside temp
     me.hotAir_deg_min = 2.0;# how fast does the sources heat up cockpit.
-    me.AC_deg_min     = 6.0;
     me.pilot_deg_min  = 0.2;
+    me.glass_deg_min_per_deg_diff  = 0.25;
+    me.AC_deg_min_per_deg_diff     = 0.50;
     me.knob = getprop("controls/ventilation/windshield-hot-air-knob");
     me.hotAirOnWindshield = input.dcVolt.getValue() > 23?me.knob:0;
     if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
-      me.tempInside = me.tempOutside;
+      me.tempInside = getprop("environment/temperature-degc");
     } else {
-      me.tempInside = me.tempInside + me.hotAirOnWindshield * (me.hotAir_deg_min/(60/LOOP_SLOW_RATE)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
+      me.tempInside += me.hotAirOnWindshield * (me.hotAir_deg_min/(60/LOOP_SLOW_RATE)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
       if (me.tempInside < 37) {
-        me.tempInside = me.tempInside + (me.pilot_deg_min/(60/LOOP_SLOW_RATE)); # pilot will also heat cockpit with 1 deg per 5 mins
+        me.tempInside += me.pilot_deg_min/(60/LOOP_SLOW_RATE); # pilot will also heat cockpit with 1 deg per 5 mins
       }
       # outside temp will influence inside temp:
-      me.coolingFactor = clamp(abs(me.tempInside - me.tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
-      if (me.tempInside < me.tempOutside) {
-        me.tempInside = clamp(me.tempInside+me.coolingFactor, -1000, me.tempOutside);
-      } elsif (me.tempInside > me.tempOutside) {
-        me.tempInside = clamp(me.tempInside-me.coolingFactor, me.tempOutside, 1000);
-      }
-      if (me.ACRunning == TRUE) {
-        # AC is running and will work to adjust to influence the inside temperature
-        if (me.tempInside < me.tempAC) {
-          me.tempInside = clamp(me.tempInside+(me.AC_deg_min/(60/LOOP_SLOW_RATE)), -1000, me.tempAC);
-        } elsif (me.tempInside > me.tempAC) {
-          me.tempInside = clamp(me.tempInside-(me.AC_deg_min/(60/LOOP_SLOW_RATE)), me.tempAC, 1000);
-        }
+      me.coolingFactor = (me.tempOutside-me.tempInside)*me.glass_deg_min_per_deg_diff/(60/LOOP_SLOW_RATE);# 1 degrees difference will cool/warm with 0.5 DegCelsius/min
+      me.tempInside += me.coolingFactor;
+      if (me.ACRunning) {
+        # AC is running and will work to influence the inside temperature
+        me.tempInside += (me.tempAC-me.tempInside)*me.AC_deg_min_per_deg_diff/(60/LOOP_SLOW_RATE);# (tempAC-tempInside) = degs/mins it should change
       }
     }
 
@@ -959,6 +952,7 @@ var Saab37 = {
     setprop("/environment/aircraft-effects/temperature-glass-degC", me.tempGlass);
     setprop("/environment/aircraft-effects/dewpoint-inside-degC", me.tempInsideDew);
     setprop("/environment/aircraft-effects/temperature-inside-degC", me.tempInside);
+    setprop("/environment/aircraft-effects/temperature-outside-degC", me.tempOutside);
     # effects
     setprop("/environment/aircraft-effects/frost-level", me.frostNorm);
     setprop("/environment/aircraft-effects/fog-level", me.fogNorm);
@@ -970,8 +964,8 @@ var Saab37 = {
         } else {
           screen.log.write("You feel cold, the cockpit is cold", 1.0, 0.5, 0.0);
         }
-      } elsif (me.tempInside > 23) {
-        if (me.tempInside > 26) {
+      } elsif (me.tempInside > 25) {
+        if (me.tempInside > 28) {
           screen.log.write("You are sweating, the cabin is way too hot", 1.0, 0.0, 0.0);
         } else {
           screen.log.write("You feel its too warm in the cabin", 1.0, 0.5, 0.0);
