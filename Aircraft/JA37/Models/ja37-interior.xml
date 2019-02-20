@@ -134,5 +134,26 @@
       <z-m>0</z-m>
     </offsets>
   </model>
+  
+  <!--<model>
+    <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
+    <name>Chronometer</name>
+    <offsets>
+      <x-m> -3.885</x-m>
+      <y-m> 0.400</y-m>
+      <z-m>  0.200</z-m>
+      <heading-deg>-35</heading-deg>
+      <pitch-deg>-5</pitch-deg>
+      <roll-deg>-2.5</roll-deg>
+    </offsets>
+  </model>-->
+
+  <!--<animation>
+    <type>scale</type>
+    <object-name>Chronometer</object-name>
+    <x-offset>1.1</x-offset>
+    <y-offset>1.1</y-offset>
+    <z-offset>1.1</z-offset>
+  </animation>-->
 
 </PropertyList>

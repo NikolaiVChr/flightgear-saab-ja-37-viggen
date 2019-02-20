@@ -209,46 +209,6 @@
     <z-offset>1.05</z-offset>
   </animation>
   
-  <animation>
-    <type>select</type>
-    <object-name>ADIj</object-name>
-    <condition>
-       <equals>
-        <property>ja37/systems/variant</property>
-        <value>0</value>
-       </equals>
-    </condition>
-  </animation>
-  
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/HeadingIndicator/heading-indicator.xml</path>
-    <name>ADI</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.1225</y-m>
-      <z-m>  0.30</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>ADI</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-  
-  <animation>
-    <type>select</type>
-    <object-name>ADI</object-name>
-    <condition>
-       <greater-than>
-        <property>ja37/systems/variant</property>
-        <value>0</value>
-       </greater-than>
-    </condition>
-  </animation>
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/transonic-ja.xml</path>
     <name>Transonic</name>
