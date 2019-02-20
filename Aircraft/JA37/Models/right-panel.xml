@@ -385,6 +385,7 @@
     <object-name>Navpanel</object-name>
     <object-name>stall</object-name>
     <object-name>tilsG</object-name>
+    <object-name>switch-dme</object-name>
     <object-name>switch-radar-alt</object-name>
     <condition>
        <greater-than>
