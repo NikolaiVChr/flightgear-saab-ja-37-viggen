@@ -378,33 +378,10 @@
             <gain> 1 </gain>
         </pure_gain>
 
-        <fcs_function name="fcs/elevator/integrator-feedback-deadzone-neg">
-            <function>
-                <difference>
-                    <property> fcs/elevator/output </property>
-                    <v> -1 </v>
-                </difference>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="fcs/elevator/integrator-feedback-deadzone-pos">
-            <function>
-                <difference>
-                    <property> fcs/elevator/output </property>
-                    <v> 1 </v>
-                </difference>
-            </function>
-        </fcs_function>
-
-        <switch name="fcs/elevator/integrator-feedback-deadzone">
-            <default value="0"/>
-            <test logic="AND" value="fcs/elevator/integrator-feedback-deadzone-pos">
-                fcs/elevator/output gt  1
-            </test>
-            <test logic="AND" value="fcs/elevator/integrator-feedback-deadzone-neg">
-                fcs/elevator/output lt  -1
-            </test>
-        </switch>
+        <deadband name="fcs/elevator/integrator-feedback-deadzone">
+            <width>2</width>
+            <input> fcs/elevator/output </input>
+        </deadband>
 
         <pure_gain name="fcs/elevator/integrator-feedback">
             <input>fcs/elevator/integrator-feedback-deadzone</input>

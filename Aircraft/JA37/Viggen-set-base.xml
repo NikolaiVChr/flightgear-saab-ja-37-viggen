@@ -888,7 +888,7 @@
                     <gains>
                         <delta type="double">0.05</delta>
                         <int type="double">5</int>
-                        <int-feedback type="double">5</int-feedback>
+                        <int-feedback type="double">0.5</int-feedback>
                         <int-calm type="double">-0.5</int-calm>
                         <damp-q type="double">0.334</damp-q>
                         <damp-q-wow type="double">0.668</damp-q-wow>
@@ -1612,6 +1612,9 @@
         <view>
           <file>Aircraft/JA37/Nasal/gamma.nas</file>
         </view>
+        <!--<view>
+          <file>Aircraft/JA37/Nasal/F-PLN.nas</file>
+        </view>-->
 
         <!--<proto>
             <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>
