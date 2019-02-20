@@ -1,6 +1,6 @@
 <PropertyList>
 
-    <path>heading-indicator.ac</path>
+    <path>heading-indicator-ja.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
@@ -127,6 +127,7 @@
         <object-name>needle</object-name>
         <object-name>needle_target</object-name>
         <object-name>dial</object-name>
+        <object-name>arrow</object-name>
         <type>material</type>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
