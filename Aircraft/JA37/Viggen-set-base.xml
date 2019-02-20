@@ -656,6 +656,9 @@
         <damage>
             <enabled type="bool">true</enabled>
         </damage>
+        <engine>
+            <sparkplug type="bool">true</sparkplug>
+        </engine>
         <avionics>
             <altimeters-calibrated type="bool">0</altimeters-calibrated>
             <primaryData type="bool">false</primaryData>

@@ -2,6 +2,15 @@
 <PropertyList>
     
     <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/sparkplug.xml</path>
+        <name>switch-fuel-plug</name>
+        <offsets>
+            <x-m>  0.800</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+    <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-pneu-pump.xml</path>
         <name>switch-fuel-pneu</name>
         <offsets>
