@@ -53,7 +53,7 @@
         </offsets>
     </model>
 
-    <model>
+    <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-yaw.xml</path>
         <name>switch-damp-yaw</name>
         <offsets>
@@ -81,7 +81,7 @@
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
-    </model>
+    </model>-->
 
     <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/hud.xml</path>
