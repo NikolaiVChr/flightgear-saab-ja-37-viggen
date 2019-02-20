@@ -135,6 +135,7 @@ input = {
   rmBearingRel:     "autopilot/route-manager/wp/bearing-deg-rel",
   rmDist:           "autopilot/route-manager/wp/dist",
   rmDistKm:         "autopilot/route-manager/wp/dist-km",
+  RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   servFire:         "engines/engine[0]/fire/serviceable",
@@ -543,6 +544,7 @@ var Saab37 = {
       }
     
     me.aural();
+    me.headingBug();
     #settimer(func me.speed_loop(), LOOP_FAST_RATE);
   },
   
@@ -971,6 +973,24 @@ var Saab37 = {
           screen.log.write("You feel its too warm in the cabin", 1.0, 0.5, 0.0);
         }
       }
+    }
+  },
+  
+  headingBug: func () {
+    # for the heading indicator
+    me.desired_mag_heading = nil;
+    if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
+        me.desired_mag_heading = radar_logic.selection.getMagInterceptBearing();
+        me.itsHead = radar_logic.selection.get_heading();
+        me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
+        setprop("ja37/avionics/heading-indicator-target", geo.normdeg(input.headingMagn.getValue()-(me.itsHead + me.mag_offset)));
+    } elsif( input.rmActive.getValue() == TRUE) {
+      me.desired_mag_heading = input.RMWaypointBearing.getValue();
+    }
+    if(me.desired_mag_heading != nil) {
+      setprop("ja37/avionics/heading-indicator-bug", geo.normdeg(input.headingMagn.getValue()-me.desired_mag_heading));
+    } else {
+      setprop("ja37/avionics/heading-indicator-bug", input.headingMagn.getValue());
     }
   },
 

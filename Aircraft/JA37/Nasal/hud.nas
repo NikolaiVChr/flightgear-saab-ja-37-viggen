@@ -1353,9 +1353,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     #} els
     if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
         me.desired_mag_heading = radar_logic.selection.getMagInterceptBearing();
-        me.itsHead = radar_logic.selection.get_heading();
-        me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-        setprop("ja37/avionics/heading-indicator-target", geo.normdeg(me.input.hdg.getValue()-(me.itsHead + me.mag_offset)));
     } elsif( me.input.RMActive.getValue() == TRUE) {
       me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
 #    } elsif (me.input.nav0InRange.getValue() == TRUE) {
@@ -1430,9 +1427,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       } else {
         me.heading_bug_horz.hide();
       }
-      setprop("ja37/avionics/heading-indicator-bug", geo.normdeg(me.input.hdg.getValue()-me.desired_mag_heading));
     } else {
-      setprop("ja37/avionics/heading-indicator-bug", me.input.hdg.getValue());
       me.heading_bug.hide();
       me.heading_bug_horz.hide();
     }

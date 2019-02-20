@@ -3635,3 +3635,4 @@ HUD: Brightness knobs now uses knob animation.
 GUI: Removed HUD brightness buttons from option dialog.
 Model: Made JA heading indicator show bug and targetHeading/runwayHeading.
 Model: Removed DME switch in JA.
+Animation: Heading indicator now works also when HUD is disabled.
