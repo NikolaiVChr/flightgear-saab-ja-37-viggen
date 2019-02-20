@@ -3,7 +3,7 @@ Authors of the Saab 37 Viggen aircraft for the Flightgear simulator:
 Anders Lejczak - anders.lejczak at colacola.se
 ====================================
 Original exterior 3D model
-Original exterior textures and bumpmap
+Original 2 liveries and bumpmap
 
 Nikolai V. Chr. - emptyyetfull at gmail.com - Forum name: Necolatis - Callsign: Leto
 ==================================
@@ -21,6 +21,17 @@ Systems
 XML
 Various modelling and texturing
 
+Justin Nicholson - Forum name: Pinto
+====================================
+Most armament textures and models.
+AJ37/AJS37 variant models.
+Cannon spam filter defeating.
+Many cockpit improvements (radio, datapanel, etc..)
+Misc. model improvements. (optimizations, adjustments, UV mappings, engine plus much more)
+Grey/black camo livery.
+Radar RCS system.
+Plus many other changes.
+
 Nicola B. Bernardelli - nbb.musica at gmail.com - Forum name: JazzTp
 ====================================
 Cockpit sidepanels, switches, knobs and throttle.
@@ -35,34 +46,24 @@ Drop-tank and reverser texturing
 Front-panel sunshield
 Ambient occlusion cockpit textures
 
-Justin Nicholson - Forum name: Pinto
-====================================
-Most armament textures and models.
-AJ37/AJS37 variant models.
-Cannon spam filter defeating.
-Many cockpit improvements (radio, datapanel, etc..)
-Misc. model improvements. (optimizations, adjustments, UV mappings plus much more)
-Grey/black camo livery.
-Plus many other changes.
-
-Onox - Forum name: onox
-====
-View system
-Misc. small improvements
+Enrico Castaldi - Forum name: Spectre
+===================
+Many of the liveries.
 
 Joshua Davidson - Forum name: it0uchpods
 ========================================
 Autopilot control and tuning.
 Modified the view system.
 
+Onox - Forum name: onox
+====
+View system
+Misc. small improvements
+
 Steve Brown - Forum name: swampthing - Callsign: swamp
 ======================
 KSUU Crew 1 livery.
 2 exterior engine sounds.
-
-Enrico Castaldi - Forum name: Spectre
-===================
-Many of the liveries.
 
 Richard Harrison - Forum name: Richard
 ================
@@ -77,7 +78,7 @@ Thanks
 ======
 Thanks to all the patient people on the forums, especially those who helped with understanding aerodynamics.
 Thanks to forum user jam007 for inspirational pictures of the real aircraft.
-Thanks to the test-pilots; JazzTp, Pinto, Johan G, Jabberwocky, surpii, FGRS, Philosopher and HJ1AN, for feedback and suggestions.
+Thanks to the test-pilots; JazzTp, Pinto in particular for feedback and suggestions.
 Thanks to the Flightgear project people for a great simulator.
 Thanks to NASA for translating and declassifiying original Saab windtunnel data.
 
@@ -85,14 +86,13 @@ Note
 ====
 Various stuff adapted from other aircrafts:
 
-F16 - Afterburner flame (non ALS) and engine glow. Engine smoke and heat distortion. Texture for Strake-vortex. Cannon stuff. Chronometer. ADI. Pedals.
+F16 - Afterburner flame (non ALS). Engine smoke and heat distortion. Texture for Strake-vortex. Cannon stuff. Chronometer. Pedals.
 J35F - 8 instruments
 Mig-15 - Crash code
 Buccaneer - Flight path indicator code in HUD
 TU-154B - Remove delay when switching to external view
 Mig29 - Nav. light glow
-F-14b (yasim) - Trans-mach vapor cone, guided missiles, seat
-747-400 - Reverse thrust
+F-14b (yasim) - Guided missiles, seat
 BAC-TSR2-GR3 - G-force breathing sounds
 Zero - Performance monitor
 F15C - Stick
