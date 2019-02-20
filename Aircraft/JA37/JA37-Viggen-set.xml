@@ -920,8 +920,8 @@
     <fdm>
         <jsbsim>
             <fcs>
-                <max-alpha-deg type="int">23</max-alpha-deg>
-                <max-alpha-default-deg type="int">23</max-alpha-default-deg>
+                <max-alpha-deg type="int">34</max-alpha-deg>
+                <max-alpha-default-deg type="int">34</max-alpha-default-deg>
             </fcs>
         </jsbsim>
     </fdm>

@@ -143,7 +143,7 @@
         </pure_gain>
 
         <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
-            <description>Just some random guesses</description>
+            <description>Just some random guesses..almost</description>
             <function>
                 <table>
                     <independentVar lookup="row">inertia/weight-lbs</independentVar>

@@ -184,6 +184,7 @@ TI: Info on target should be given even if not in steerorder mode. (this needs t
 Sound: I think I broke the AJ stall warn switch, fix.
 Sound: Should limit pre warnings be lower volume?
 GUI: Convert options dilog to xml.
+Sim: I likely have confused alpha limit warning setting in DAP with setting the control limit itself. Fix.
 
 
 

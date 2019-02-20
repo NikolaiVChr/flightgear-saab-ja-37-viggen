@@ -941,7 +941,7 @@
             <output>/ja37/accelerations/pilot-G-damped</output>
         </fcs_function>
         
-        <fcs_function name="systems/sound/alpha-limit-low">
+        <fcs_function name="systems/sound/alpha-limit-low-ja">
             <description>When 3hz tone comes</description>
             <function>
                 <table>
@@ -953,6 +953,26 @@
                 </table>
             </function>
         </fcs_function>
+        
+        <fcs_function name="systems/sound/alpha-limit-low-aj">
+            <description>When 3hz tone comes, guesses</description>
+            <function>
+                <table>
+                    <independentVar lookup="row">/position/altitude-ft</independentVar>
+                    <tableData>
+                        32808  14.00
+                        41010  11.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+        
+        <switch name="systems/sound/alpha-limit-low">
+            <default value="systems/sound/alpha-limit-low-ja"/>
+            <test logic="AND" value="systems/sound/alpha-limit-low-aj">
+                /ja37/systems/variant gt 0
+            </test>
+        </switch>
         
         <fcs_function name="systems/sound/alpha-limit-medium">
             <function>
