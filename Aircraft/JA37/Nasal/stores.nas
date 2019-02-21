@@ -1585,7 +1585,65 @@ var cycle_weapons = func {
   }
 
   ja37.click();
-  setprop("controls/armament/station-select", sel)
+  setprop("controls/armament/station-select", sel);
+}
+
+var buttonIRRB = func {
+  # station 0 = cannon
+  # station 1 = inner left wing
+  # station 2 = left fuselage
+  # station 3 = inner right wing
+  # station 4 = right fuselage
+  # station 5 = outer left wing
+  # station 6 = outer right wing
+  # station 7 = center pylon
+
+  var sel = getprop("controls/armament/station-select");
+  var type = sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected");
+  var newType = "none";
+
+  var loopRan = FALSE;
+
+  while(newType == "none") {
+    if (type == "none" or (type != "RB 74 Sidewinder" and type != "RB 24J Sidewinder" and type != "RB 24 Sidewinder")) {
+        sel = selectType("RB 74 Sidewinder");
+        if (sel != -1) {
+          newType = "RB 74 Sidewinder";
+        } else {
+          type = "RB 74 Sidewinder";
+        }
+    } elsif (type == "RB 74 Sidewinder") {
+      sel = selectType("RB 24 Sidewinder");
+      if (sel != -1) {
+        newType = "RB 24 Sidewinder";
+      } else {
+        type = "RB 24 Sidewinder";
+      }
+    } elsif (type == "RB 24 Sidewinder") {
+      sel = selectType("RB 24J Sidewinder");
+      if (sel != -1) {
+        newType = "RB 24J Sidewinder";
+      } else {
+        type = "RB 24J Sidewinder";
+      }
+    } elsif (type == "RB 24J Sidewinder") {
+      sel = selectType("RB 74 Sidewinder");
+      if (sel != -1) {
+        newType = "RB 74 Sidewinder";
+      } else {
+        type = "RB 74 Sidewinder";
+        if (loopRan == FALSE) {
+          loopRan = TRUE;
+        } else {
+          # we have been here once before, so to prevent infinite loop, we just select station 1
+          sel = 1;
+          type = "none";
+          newType = "empty";
+        }
+      }
+    }
+  }
+  setprop("controls/armament/station-select", sel);
 }
 
 ############ reload #####################

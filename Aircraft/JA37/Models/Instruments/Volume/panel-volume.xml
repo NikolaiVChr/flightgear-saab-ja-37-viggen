@@ -28,13 +28,48 @@
     <animation>
         <type>pick</type>
         <object-name>knob-ir</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/stores/ir-rb-button</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>armament.buttonIRRB();</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/stores/ir-rb-button</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>knob-irrb</tooltip-id>
-                <label>IR-RB</label>
+                <label>Sidewinder quick select</label>
             </binding>
         </hovered>
+    </animation>
+    
+    <animation>
+       <type>translate</type>
+       <object-name>knob-ir</object-name>
+       <property>ja37/stores/ir-rb-button</property>
+       <factor>0.003</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
     </animation>
 
     <animation>

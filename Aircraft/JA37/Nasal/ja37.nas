@@ -273,7 +273,7 @@ var Saab37 = {
     } else {
       input.fuelWarning.setBoolValue(FALSE);
     }
-    if((me.current / total_fuel) < getprop("ja37/systems/fuel-warning-extra-percent")/100) {# warning at 24% as per sources
+    if((me.current / total_fuel) < getprop("ja37/systems/fuel-warning-extra-percent")/100) {# warning at custom as per sources
       setprop("ja37/sound/fuel-low-2-on",TRUE);
     } else {
       setprop("ja37/sound/fuel-low-2-on",FALSE);
@@ -287,10 +287,10 @@ var Saab37 = {
       bingoFuel = TRUE;
     }
 
-    if (input.tank0LvlNorm.getValue() == 0) {
-      # a bug in JSB makes NaN on fuel temp if tank has been empty.
-      input.fuelTemp.setBoolValue(FALSE);
-    }
+    #if (input.tank0LvlNorm.getValue() == 0) {
+      # a bug in JSB makes NaN on fuel temp if tank has been empty. [old bug, long fixed]
+      # input.fuelTemp.setBoolValue(FALSE);
+    #}
 
     #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
     #  setprop("fdm/jsbsim/fcs/rudder/serviceable", 1);
@@ -954,7 +954,7 @@ var Saab37 = {
     setprop("/environment/aircraft-effects/temperature-glass-degC", me.tempGlass);
     setprop("/environment/aircraft-effects/dewpoint-inside-degC", me.tempInsideDew);
     setprop("/environment/aircraft-effects/temperature-inside-degC", me.tempInside);
-    setprop("/environment/aircraft-effects/temperature-outside-degC", me.tempOutside);
+    setprop("/environment/aircraft-effects/temperature-outside-ram-degC", me.tempOutside);
     # effects
     setprop("/environment/aircraft-effects/frost-level", me.frostNorm);
     setprop("/environment/aircraft-effects/fog-level", me.fogNorm);
