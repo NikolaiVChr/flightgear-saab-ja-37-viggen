@@ -864,7 +864,7 @@ var Saab37 = {
     # calc inside temp
     me.hotAir_deg_min = 2.0;# how fast does the sources heat up cockpit.
     me.pilot_deg_min  = 0.2;
-    me.glass_deg_min_per_deg_diff  = 0.25;
+    me.glass_deg_min_per_deg_diff  = 0.15;
     me.AC_deg_min_per_deg_diff     = 0.50;
     me.knob = getprop("controls/ventilation/windshield-hot-air-knob");
     me.hotAirOnWindshield = input.dcVolt.getValue() > 23?me.knob:0;
@@ -875,8 +875,8 @@ var Saab37 = {
       if (me.tempInside < 37) {
         me.tempInside += me.pilot_deg_min/(60/LOOP_SLOW_RATE); # pilot will also heat cockpit with 1 deg per 5 mins
       }
-      # outside temp will influence inside temp:
-      me.coolingFactor = (me.tempOutside-me.tempInside)*me.glass_deg_min_per_deg_diff/(60/LOOP_SLOW_RATE);# 1 degrees difference will cool/warm with 0.5 DegCelsius/min
+      # outside temp ram air temp and static temp will influence inside temp:
+      me.coolingFactor = ((me.tempOutside+getprop("environment/temperature-degc"))*0.5-me.tempInside)*me.glass_deg_min_per_deg_diff/(60/LOOP_SLOW_RATE);# 1 degrees difference will cool/warm with 0.5 DegCelsius/min
       me.tempInside += me.coolingFactor;
       if (me.ACRunning) {
         # AC is running and will work to influence the inside temperature

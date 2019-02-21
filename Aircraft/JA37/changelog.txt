@@ -3638,3 +3638,6 @@ Model: Removed DME switch in JA.
 Animation: Heading indicator now works also when HUD is disabled.
 Model: Added sparkplug switch.
 Sim: Adjusted aircraft ratings, AJ(S) lower, JA higher.
+Control: After reading some more, I am starting to realize there probably wasn't really a alpha feedback to the control system. It was juts aural warnings. So Feedback of alpha to control system has been severely damped. I am a little weary of this commit, I hope pilots wont crash the plane too much.
+Sound: Lowered the warning threshold for alpha for AJ(S).
+Sim: Adjusted airconitioner vs. outside cooling factors.
