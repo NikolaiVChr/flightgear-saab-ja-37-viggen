@@ -797,12 +797,16 @@
             <fel-steady type="bool">false</fel-steady>
             <fel-flash type="bool">false</fel-flash>
         </test>
+        <elec>
+            
+        </elec>
         <fuses>
-            <krets type="bool">true</krets>
-            <sa type="bool">true</sa>
+            <krets type="bool">true</krets><!-- canopy ejection -->
+            <sa type="bool">true</sa><!-- dc autopilot -->
             <trim type="bool">true</trim>
             <gvv type="bool">true</gvv>
-            <motor type="bool">true</motor>            
+            <motor type="bool">true</motor>
+            <course-indicator type="bool">true</course-indicator>
         </fuses>
         <done type="bool">false</done>
     </ja37>
