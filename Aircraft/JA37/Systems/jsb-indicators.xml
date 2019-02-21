@@ -791,24 +791,29 @@
                 </or>
             </function>
         </fcs_function>
-
-        <fcs_function name="systems/indicators/oil-pressure">
+        
+        <fcs_function name="systems/indicators/oil-pressure-secondary">
             <function>
-                <and>
-                    <or>
-                        <eq>
-                            <property>systems/indicators/oil-pressure-primary</property>
-                            <value>1</value>
-                        </eq>
-                        <property>/controls/lighting/test-indicator-panels</property>
-                    </or>
-                    <eq>
-                        <property>/ja37/blink/four-Hz/state</property>
-                        <value>1</value>
-                    </eq>
-                </and>
+                <or>
+                    <lt>
+                        <property>propulsion/engine/oil-pressure-psi</property>
+                        <value>20.0</value>
+                    </lt>
+                    <gt>
+                        <property>systems/flight/oil/pressure-drop-norm</property>
+                        <value>0.20</value>
+                    </gt>
+                </or>
             </function>
         </fcs_function>
+
+        <switch name="systems/indicators/oil-pressure">
+            <default value="systems/indicators/oil-pressure-secondary"/>
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                systems/indicators/oil-pressure-primary == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
 
 
         <!-- Swedish: OLJETEMP (blinking)
@@ -2667,8 +2672,9 @@
 
         <switch name="systems/indicators/master-warning/oil-pressure-low">
             <default value="0"/>
-            <test logic="OR" value="0">
+            <test logic="AND" value="0">
                 systems/indicators/oil-pressure-primary == 0
+                systems/indicators/oil-pressure-secondary == 0
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/oil-pressure-low == 1
@@ -2679,6 +2685,9 @@
             </test>
             <test logic="AND" value="3">
                 systems/indicators/oil-pressure-primary == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/oil-pressure-secondary == 1
             </test>
         </switch>
 
