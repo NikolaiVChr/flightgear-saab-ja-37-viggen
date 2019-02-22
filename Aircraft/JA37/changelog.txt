@@ -3644,3 +3644,6 @@ Sim: Adjusted airconitioner vs. outside cooling factors.
 Model: Button IR-RB FREMSTEGN now quick selects sidewinders.
 Sim: Removed workaround for fuel bug in JSB, was fixed long ago.
 Sim: Oil pressure warning (without sound) now comes after a couple of seconds of negative G flying.
+Elec: New electrical system.
+Model: Cutoff indicator is no longer flat.
+GUI: Updated pre-flight checklists to new elec. system.
