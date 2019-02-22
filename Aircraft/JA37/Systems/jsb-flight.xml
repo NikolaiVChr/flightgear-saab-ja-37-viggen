@@ -601,7 +601,8 @@
                 /ja37/avionics/button-snabbresn == 1
             </test>
             <test logic="AND" value="systems/ins/time-steady">
-                /systems/electrical/outputs/dc-voltage gt 20
+                /ja37/elec/ac-bus-main-bool == 1
+                /ja37/elec/dc-bus-main-bool == 1
                 /ja37/avionics/ins-cmd == 1
             </test>
             <test logic="AND" value="-1000">
@@ -622,7 +623,7 @@
         <switch name="systems/ins/init">
             <default value="0"/>
             <test logic="AND" value="1">
-                /systems/electrical/outputs/dc-voltage gt 20
+                /ja37/elec/dc-bus-main-bool == 1
                 sim-time-sec le systems/ins/time-init
                 /ja37/avionics/ins-cmd == 1
             </test>
@@ -632,7 +633,7 @@
         <switch name="systems/ins/running">
             <default value="0"/>
             <test logic="AND" value="1">
-                /systems/electrical/outputs/dc-voltage gt 20
+                /ja37/elec/dc-bus-main-bool == 1
                 /ja37/avionics/ins-init == 0
                 /ja37/avionics/ins-cmd == 1
                 sim-time-sec gt systems/ins/time-init
@@ -761,7 +762,7 @@
         <switch name="names/instr/epr-direct">
             <default value="propulsion/engine/p7-p2"/>
             <test logic="OR" value="0">
-              /systems/electrical/outputs/dc-voltage lt 23
+              /ja37/elec/ac-bus-main-bool == 0
             </test>
             <output>/engines/engine/epr-direct</output>
         </switch>
@@ -775,7 +776,10 @@
         <switch name="names/instr/fuel-on">
             <default value="/instrumentation/fuel/needleF_rot"/>
             <test logic="OR" value="/instrumentation/fuel/needleF_rot_on">
-              /systems/electrical/outputs/ac-main-voltage lt 150
+              /ja37/elec/ac-bus-main-bool == 0
+            </test>
+            <test logic="OR" value="0">
+              /ja37/elec/dc-bus-main-bool == 0
             </test>
             <output>/instrumentation/fuel/needleF_rot_on</output>
         </switch>
@@ -806,7 +810,7 @@
         <switch name="names/throttle/nozzle-direct">
             <default value="propulsion/engine/zone-instr"/>
             <test logic="OR" value="0">
-              /systems/electrical/outputs/dc-voltage lt 23
+              /ja37/elec/dc-bus-main-bool == 0
             </test>
             <test logic="OR" value="/engines/engine/nozzle-pos-norm">
               propulsion/engine/zone == 0
@@ -825,7 +829,7 @@
         <switch name="names/instr/tachometer-direct">
             <default value="propulsion/engine/n2"/>
             <test logic="OR" value="0">
-              /systems/electrical/outputs/dc-voltage lt 23
+              /ja37/elec/ac-bus-main-bool == 0
             </test>
             <output>propulsion/engine/tachometer-direct</output>
         </switch>
@@ -1118,7 +1122,7 @@
                 <product>
                     <property>/ja37/systems/oxygen-bottle-pressure</property>
                     <table>
-                        <independentVar lookup="row">/systems/electrical/outputs/ac-instr-voltage</independentVar>
+                        <independentVar lookup="row">/ja37/elec/ac-bus-main-volt</independentVar>
                         <tableData>
                                  99.0         0.0
                                 100.0         1.0
@@ -1232,7 +1236,7 @@
         <switch name="systems/flight/aoa-indicator-direct">
             <default value="aero/alpha-deg"/>
             <test logic="OR" value="0">
-              /systems/electrical/outputs/dc-voltage lt 23
+              /ja37/elec/dc-bus-main-bool == 0
             </test>
             <test logic="OR" value="/instrumentation/attitude-indicator/indicated-pitch-deg">
                 gear/unit[0]/WOW == 1
@@ -1307,7 +1311,7 @@
         <switch name="systems/flight/tertiary/state-current">
             <default value="systems/flight/tertiary/state"/>
             <test logic="AND" value="systems/flight/tertiary/state-cmd">
-                /systems/electrical/outputs/dc-voltage gt 23
+                /ja37/elec/dc-bus-main-bool == 1
             </test>
         </switch>
 
@@ -1410,7 +1414,7 @@
         <switch name="systems/flight/reverse/state-current">
             <default value="systems/flight/reverse/state"/>
             <test logic="AND" value="systems/flight/reverse/state-cmd">
-                /systems/electrical/outputs/dc-voltage gt 23
+                /ja37/elec/dc-bus-main-bool == 1
                 systems/hydraulics/system1/pressure == 1
                 /controls/engines/engine[0]/reverse-system/serviceable == 1
             </test>

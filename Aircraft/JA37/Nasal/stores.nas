@@ -17,11 +17,8 @@ var ecmLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
 var jettisonAll = FALSE;
 
 input = {
-  acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
-  acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   combat:           "/ja37/hud/current-mode",
-  dcVolt:           "systems/electrical/outputs/dc-voltage",
   elapsed:          "sim/time/elapsed-sec",
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
@@ -371,7 +368,7 @@ var loop_stores = func {
           #pylon not selected, and not flying set missile on standby
           armament.AIM.active[i].stop();
           #print("not sel "~i);
-        } elsif (input.acMainVolt.getValue() < 150 or input.combat.getValue() != 2
+        } elsif (!power.prop.acMainBool.getValue() or input.combat.getValue() != 2
                   or (armament.AIM.active[i].status != MISSILE_STANDBY
                       and armament.AIM.active[i].status != MISSILE_FLYING
                       and payloadName.getValue() == "none")) {
@@ -646,7 +643,7 @@ var trigger_listener = func {
   var armSelect = input.stationSelect.getValue();
 
   #if masterarm is on and HUD in tactical mode, propagate trigger to station
-  if(input.combat.getValue() == 2 and input.dcVolt.getValue() > 23 and !(armSelect == 0 and input.acInstrVolt.getValue() < 100)) {
+  if(input.combat.getValue() == 2 and power.prop.dcMainBool.getValue() and !(armSelect == 0 and !power.prop.acMainBool.getValue())) {
     setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
     var str = "payload/weight["~(armSelect-1)~"]/selected";
     if (armSelect != 0 and getprop(str) == "M70 ARAK") {
@@ -1995,7 +1992,7 @@ var drop = func {
        screen.log.write("Can not eject drop tank while on ground!", 0.0, 1.0, 0.0);
        return;
     }
-    if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+    if (!power.prop.dcMainBool.getValue()) {
        screen.log.write("Too little DC power to eject drop tank!", 0.0, 1.0, 0.0);
        return;
     }
@@ -2009,7 +2006,7 @@ var drop = func {
        screen.log.write("Can not jettison stores while on ground!", 0.0, 1.0, 0.0);
        return;
     }
-    if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+    if (!power.prop.dcMainBool.getValue()) {
        screen.log.write("Too little DC power to jettison!", 0.0, 1.0, 0.0);
        return;
     }

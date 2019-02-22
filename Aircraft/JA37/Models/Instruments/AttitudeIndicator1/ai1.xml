@@ -45,10 +45,7 @@
         <type>rotate</type>
         <object-name>sphere</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
         <center>
@@ -65,10 +62,7 @@
         <type>rotate</type>
         <object-name>sphere</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <property>instrumentation/attitude-indicator/indicated-pitch-deg</property>
         <center>
@@ -85,10 +79,7 @@
         <type>rotate</type>
         <object-name>bank-index</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
         <axis>

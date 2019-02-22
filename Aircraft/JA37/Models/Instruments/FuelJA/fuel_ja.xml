@@ -62,7 +62,7 @@
         <object-name>Gauge</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/ac-main-voltage</property>
+                <property>ja37/elec/ac-bus-main-volt</property>
                 <value>150</value>
             </greater-than>
         </condition>
@@ -95,7 +95,7 @@
         <object-name>Needle_B</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/ac-main-voltage</property>
+                <property>ja37/elec/ac-bus-main-volt</property>
                 <value>150</value>
             </greater-than>
         </condition>
@@ -114,12 +114,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Needle_F</object-name>
-        <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-main-voltage</property>
-                <value>150</value>
-            </greater-than>
-        </condition>
         <property>/instrumentation/fuel/needleF_rot_final</property>
         <factor>1</factor>
         <offset-deg>-1</offset-deg>

@@ -249,7 +249,7 @@
                 aero/spin-norm == 0
                 fcs/pitch-damper/enable ne 0.0
                 fcs/pitch-damper/serviceable == 1
-                /systems/electrical/outputs/ac-main-voltage gt 150
+                /ja37/elec/ac-bus-main-volt gt 180
             </test>
         </switch>
 
@@ -618,7 +618,7 @@
                 aero/spin-norm == 0
                 fcs/roll-limiter/enable ne 0.0
                 fcs/roll-limiter/serviceable == 1
-                /systems/electrical/outputs/ac-main-voltage gt 150
+                /ja37/elec/ac-bus-main-volt gt 180
             </test>
             <output>fcs/roll-limiter/active</output>
         </switch>
@@ -684,7 +684,7 @@
                     aero/spin-norm == 0
                     fcs/roll-damper/enable ne 0.0
                     fcs/roll-damper/serviceable == 1
-                    /systems/electrical/outputs/ac-main-voltage gt 150
+                    /ja37/elec/ac-bus-main-volt gt 180
             </test>
             <output>fcs/roll-damper/active</output>
         </switch>
@@ -1005,7 +1005,7 @@
                 aero/spin-norm == 0
                 fcs/yaw-damper/enable ne 0.0
                 fcs/yaw-damper/serviceable == 1
-                /systems/electrical/outputs/ac-main-voltage gt 150
+                /ja37/elec/ac-bus-main-volt gt 180
             </test>
             <output>fcs/yaw-damper/active</output>
         </switch>
@@ -1190,13 +1190,13 @@
                   gear/gear-lever-norm == 0
                   /instrumentation/airspeed-indicator/indicated-speed-kt gt 334.77
                   gear/bypass-lever lt 1
-                  /systems/electrical/outputs/dc-voltage gt 23
+                  /ja37/elec/dc-bus-main-volt gt 20
             </test>
             <test logic="AND" value="1">
                   gear/gear-lever-norm == 0
                   /instrumentation/airspeed-indicator/indicated-mach gt 0.65
                   gear/bypass-lever lt 1
-                  /systems/electrical/outputs/dc-voltage gt 23
+                  /ja37/elec/dc-bus-main-volt gt 20
             </test>
             <output>gear/gear-lever-lock-electro</output>
         </switch>
@@ -1367,7 +1367,7 @@
         <switch name="names/flaps/cmd-active">
             <default value="0"/>
             <test logic="OR" value="1">
-                /systems/electrical/outputs/dc-voltage gt 23
+                /ja37/elec/dc-bus-main-volt gt 20
             </test>
             <output>fcs/flaps/pos-cmd</output>
         </switch>

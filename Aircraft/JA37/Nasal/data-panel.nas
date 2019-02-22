@@ -129,7 +129,7 @@ var setError = func {
 
 var main = func {
   if (getprop("ja37/systems/variant") != 0 or testDisplay != "") return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()) {
     printDA("DAP: offline");
     return;
   }
@@ -883,7 +883,7 @@ var disp = func {
       }
     }
   }
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+  if (!power.prop.acMainBool.getValue()) {
     # hack
     signText.setText("-888888");
     return;

@@ -198,7 +198,7 @@
             <type>float</type>
             <property type="string">ja37/effect/landing-light</property>
         </signal>
-        <signal>
+        <!--<signal>
             <type>float</type>
             <property type="string">systems/electrical/outputs/ac-instr-voltage</property>
         </signal>
@@ -217,7 +217,7 @@
         <signal>
             <type>float</type>
             <property type="string">/systems/electrical/dc-light</property>
-        </signal>
+        </signal>-->
         <signal>
             <type>float</type>
             <property type="string">controls/lighting/instruments-norm</property>

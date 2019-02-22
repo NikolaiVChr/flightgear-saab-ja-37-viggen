@@ -135,9 +135,7 @@ var MI = {
 			rad_alt:              "position/altitude-agl-ft",
 			radarEnabled:         "ja37/hud/tracks-enabled",
 			radarRange:           "instrumentation/radar/range",
-			radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
 			radarServ:            "instrumentation/radar/serviceable",
-			radarVoltage:         "systems/electrical/outputs/ac-main-voltage",
 			rmActive:             "autopilot/route-manager/active",
 			rmDist:               "autopilot/route-manager/wp/dist",
 			rmId:                 "autopilot/route-manager/wp/id",
@@ -165,7 +163,6 @@ var MI = {
 	        ctrlRadar:        "controls/altimeter-radar",
 	        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
 	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
-	        acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
       	};
 
       	foreach(var name; keys(mi.input)) {
@@ -651,7 +648,7 @@ var MI = {
 			radar_logic.setSelection(nil);
 		}
 
-		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
+		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-mi", 0);
 			setprop("ja37/avionics/cursor-on", FALSE);
 			#settimer(func me.loop(), 0.05);

@@ -337,8 +337,8 @@
                             <value>0</value>
                         </eq>
                         <lt>
-                            <property>/systems/electrical/outputs/dc-voltage</property>
-                            <value>23</value>
+                            <property>/ja37/elec/dc-bus-main-volt</property>
+                            <value>20</value>
                         </lt>
                         <eq>
                             <property>/controls/engines/engine/reverse-system/serviceable</property>
@@ -482,7 +482,7 @@
                         <value>0</value>
                     </eq>
                     <lt>
-                        <property>systems/electrical/battery-producing-dc</property>
+                        <property>/ja37/elec/dc-bus-battery-3-volt</property>
                         <value>24</value>
                     </lt>
                 </or>
@@ -712,8 +712,8 @@
                                 <value>0</value>
                             </eq>
                             <lt>
-                                <property>/systems/electrical/outputs/dc-voltage</property>
-                                <value>23</value>
+                                <property>/ja37/elec/dc-bus-main-volt</property>
+                                <value>20</value>
                             </lt>
                             <eq>
                                 <property>/controls/engines/engine/reverse-system/serviceable</property>
@@ -1432,12 +1432,12 @@
             <function>
                 <or>
                     <lt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </lt>
                     <lt>
-                        <property>/systems/electrical/outputs/ac-main-voltage</property>
-                        <value>170</value>
+                        <property>/ja37/elec/ac-bus-secondary-volt</property>
+                        <value>180</value>
                     </lt>
                     <nq>
                         <property>systems/hydraulics/system1/pressure</property>
@@ -1473,7 +1473,7 @@
                 <or>
                     <lt>
                         <property>/systems/electrical/outputs/transponder</property>
-                        <value>23</value>
+                        <value>20</value>
                     </lt>
                     <property>/controls/lighting/test-indicator-panels</property>
                 </or>
@@ -1716,8 +1716,8 @@
             <function>
                 <and>
                     <gt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </gt>
                     <eq>
                         <property>systems/indicators/flightstick-primary</property>
@@ -1735,8 +1735,8 @@
             <function>
                 <and>
                     <gt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </gt>
                     <and>
                         <gt>
@@ -1775,8 +1775,8 @@
             <function>
                 <and>
                     <gt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </gt>   
                     <gt>
                         <property>/ja37/avionics/autopilot-mode</property>
@@ -1790,8 +1790,8 @@
             <function>
                 <and>
                     <gt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </gt>
                     <gt>
                         <property>/ja37/avionics/autopilot-mode</property>
@@ -1834,8 +1834,8 @@
             <function>
                 <and>
                     <gt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </gt>
                     <gt>
                         <property>/ja37/avionics/autopilot-mode</property>
@@ -1849,8 +1849,8 @@
             <function>
                 <and>
                     <gt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>23</value>
+                        <property>/ja37/elec/dc-bus-main-volt</property>
+                        <value>20</value>
                     </gt>
                     <gt>
                         <property>/ja37/avionics/autopilot-mode</property>
@@ -2986,7 +2986,7 @@
         <switch name="systems/indicators/master-warning/lamp1">
             <default value="0"/>
             <test logic="OR" value="0">
-                /systems/electrical/outputs/dc-voltage lt 23
+                /ja37/elec/dc-bus-main-volt lt 20
             </test>
             <test logic="OR" value="/ja37/blink/four-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
@@ -3007,7 +3007,7 @@
         <switch name="systems/indicators/master-warning/lamp2">
             <default value="0"/>
             <test logic="OR" value="0">
-                /systems/electrical/outputs/dc-voltage lt 23
+                /ja37/elec/dc-bus-main-volt lt 20
             </test>
             <test logic="OR" value="systems/indicators/master-warning/tenHz-opposite">
                 /controls/lighting/test-indicator-panels == 1

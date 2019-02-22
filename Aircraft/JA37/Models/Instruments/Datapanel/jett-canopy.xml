@@ -29,7 +29,7 @@
 			</binding>-->
 			<binding>
 				<command>nasal</command>
-				<script>FailureMgr.set_failure_level("/fdm/jsbsim/fcs/canopy/hinges", 1);</script>
+				<script>if (getprop("ja37/fuses/krets")) FailureMgr.set_failure_level("/fdm/jsbsim/fcs/canopy/hinges", 1);</script>
 			</binding>
 		</action>
 		<hovered>

@@ -1,4 +1,4 @@
-input = {
+prop = {
     dcBatt1:      "ja37/elec/dc-bus-battery-1-volt",
     dcBatt2:      "ja37/elec/dc-bus-battery-2-volt",
     dcBatt3:      "ja37/elec/dc-bus-battery-3-volt",
@@ -26,6 +26,6 @@ input = {
 };
 
 # setup property nodes for the loop
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
+foreach(var name; keys(prop)) {
+    prop[name] = props.globals.getNode(prop[name], 1);
 }

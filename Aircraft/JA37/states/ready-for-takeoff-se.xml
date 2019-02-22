@@ -23,6 +23,9 @@
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
                 </systems>
+                <electrical>
+                        <generator-takeoff type="bool">true</generator-takeoff>
+                    </electrical>
             </jsbsim>
         </fdm>
         <controls>

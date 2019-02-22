@@ -31,8 +31,6 @@ var MISSILE_FLYING = 2;
 ############### Main loop ###############
 
 input = {
-  acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
-  acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
   aeroSmoke:        "/ja37/effect/smoke",
   aeroSmokeCmd:     "/ja37/effect/smoke-cmd",
   airspeed:         "velocities/airspeed-kt",
@@ -53,7 +51,6 @@ input = {
   cutoff:           "fdm/jsbsim/propulsion/engine/cutoff-commanded",
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",
-  dcVolt:           "systems/electrical/outputs/dc-voltage",
   dens:             "fdm/jsbsim/atmosphere/density-altitude",
   dme:              "instrumentation/dme/KDI572-574/nm",
   dmeDist:          "instrumentation/dme/indicated-distance-nm",
@@ -79,9 +76,6 @@ input = {
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
   headingMagn:      "/orientation/heading-magnetic-deg",
-  hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
-  hydr2On:          "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
-  hydrCombined:     "fdm/jsbsim/systems/hydraulics/flight-surface-actuation",
   hz05:             "ja37/blink/five-Hz/state",
   hz10:             "ja37/blink/four-Hz/state",
   hzThird:          "ja37/blink/third-Hz/state",
@@ -324,25 +318,25 @@ var Saab37 = {
 
     # main electrical turned on
     me.timer = input.elapsed.getValue();
-    me.main = input.dcVolt.getValue();
-    if(me.main > 20 and mainOn == FALSE) {
+    me.main = power.prop.dcMainBool.getValue();
+    if(me.main and mainOn == FALSE) {
       #main has been switched on
       mainTimer = me.timer;
       mainOn = TRUE;
       input.lampData.setBoolValue(TRUE);
       input.insCmd.setBoolValue(TRUE);
-    } elsif (me.main > 20) {
+    } elsif (me.main) {
       if (me.timer > (mainTimer + 20)) {
         input.lampData.setBoolValue(FALSE);
       }
-    } elsif (me.main <= 20) {
+    } elsif (!me.main) {
       mainOn = FALSE;
     }
 
     # exterior lights
-    me.flash = input.dcVolt.getValue() > 20 and input.switchFlash.getValue() == 1;
-    me.beacon = input.dcVolt.getValue() > 20 and input.switchBeacon.getValue() == 1;
-    me.nav = input.dcVolt.getValue() > 20 and input.switchNav.getValue() == 1;
+    me.flash = power.prop.dcBatt2Bool.getValue() and input.switchFlash.getValue() == 1;
+    me.beacon = power.prop.dcSecondBool.getValue() and input.switchBeacon.getValue() == 1;
+    me.nav = power.prop.acSecondBool.getValue() and input.switchNav.getValue() == 1;
     input.MPint9.setIntValue(encode3bits(me.flash, me.beacon, me.nav));
 
     # contrails, damage smoke
@@ -353,7 +347,7 @@ var Saab37 = {
     input.MPint18.setIntValue(encode3bits(me.contrails, me.d_smoke, 0));
 
     # smoke
-    if (input.dcVolt.getValue() > 20) {
+    if (power.prop.dcMainBool.getValue()) {
       input.aeroSmoke.setIntValue(input.aeroSmokeCmd.getValue());
     } else {
       input.aeroSmoke.setIntValue(1);
@@ -553,7 +547,7 @@ var Saab37 = {
     #
     # at MKV ground collision warning the load-factor warning is force set at 110. (until 10 secs after)
     var warnGiven = 0;
-    if (input.dcVolt.getValue()<23 or !getprop("ja37/avionics/annunciator/serviceable")) {
+    if (!power.prop.dcMainBool.getValue() or !getprop("ja37/avionics/annunciator/serviceable")) {
       warnGiven = 1;
     }
     if (!warnGiven and getprop("ja37/sound/terrain-on")) {
@@ -700,7 +694,7 @@ var Saab37 = {
 
   tils: func {
     #TILS (not used anymore)
-    if(input.TILS.getValue() == TRUE and input.acInstrVolt.getValue() > 100) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
+    if(input.TILS.getValue() == TRUE and power.prop.acMainBool.getValue()) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
       var icao = getprop("sim/tower/airport-id");
       var runways = airportinfo(icao).runways;
       var closestRunway = -1;
@@ -763,7 +757,7 @@ var Saab37 = {
 
     
 
-    if (getprop("sim/replay/replay-state") == 0 and input.acInstrVolt.getValue() > 100) {
+    if (getprop("sim/replay/replay-state") == 0 and power.prop.dcSecondBool.getValue()) {
       setprop("ja37/avionics/record-on", TRUE);
     } else {
       setprop("ja37/avionics/record-on", FALSE);
@@ -859,7 +853,7 @@ var Saab37 = {
     me.tempOutsideDew = getprop("environment/dewpoint-degc");
     me.tempInsideDew = getprop("/environment/aircraft-effects/dewpoint-inside-degC");
     me.tempACDew = 5;# aircondition dew point target. 5 = dry
-    me.ACRunning = input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE and testing.ongoing == FALSE;
+    me.ACRunning = power.prop.dcMainBool.getValue() and getprop("controls/ventilation/airconditioning-enabled") == TRUE and testing.ongoing == FALSE;
 
     # calc inside temp
     me.hotAir_deg_min = 2.0;# how fast does the sources heat up cockpit.
@@ -867,7 +861,7 @@ var Saab37 = {
     me.glass_deg_min_per_deg_diff  = 0.15;
     me.AC_deg_min_per_deg_diff     = 0.50;
     me.knob = getprop("controls/ventilation/windshield-hot-air-knob");
-    me.hotAirOnWindshield = input.dcVolt.getValue() > 23?me.knob:0;
+    me.hotAirOnWindshield = power.prop.dcMainBool.getValue()?me.knob:0;
     if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
       me.tempInside = getprop("environment/temperature-degc");
     } else {
@@ -1200,7 +1194,7 @@ var voltage = 0;
 var signalInProgress = FALSE;
 var battery_listener = func {
 
-    if (signalInProgress == FALSE and voltage <= 23 and input.dcVolt.getValue() > 23) {
+    if (signalInProgress == FALSE and !voltage and power.prop.dcMainBool.getValue()) {
       setprop("/systems/electrical/batterysignal", TRUE);
       signalInProgress = TRUE;
       settimer(func {
@@ -1208,7 +1202,7 @@ var battery_listener = func {
         signalInProgress = FALSE;
         }, 6);
     }
-    voltage = input.dcVolt.getValue();
+    voltage = power.prop.dcMainBool.getValue();
     settimer(battery_listener, 0.5);
 }
 
@@ -1587,6 +1581,7 @@ var main_init = func {
   }
   recharge_battery();
   setup_custom_stick_bindings();
+  settimer(func{setprop("fdm/jsbsim/systems/electrical/generator-takeoff",0);},10);
 }
 
 var setup_custom_stick_bindings = func {
@@ -1781,7 +1776,7 @@ var endSupply = func {
   setprop("controls/engines/engine/reverser-cmd", FALSE);
   setprop("controls/fuel/auto", TRUE);
   setprop("controls/altimeter-radar", TRUE);
-  if (getprop("systems/electrical/outputs/dc-voltage") > 23) {
+  if (power.prop.dcSecondBool.getValue()) {
     # have power to start
     settimer(autostart, 1.5, 1);
   } else {
@@ -1815,7 +1810,7 @@ var waiting_n1 = func {
   if (start_count > 45) {
     if(bingoFuel == TRUE) {
       notice("Engine start failed. Check fuel.");
-    } elsif (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+    } elsif (!power.prop.dcSecondBool.getValue()) {
       notice("Engine start failed. Check battery.");
     } else {
       notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
@@ -1858,7 +1853,7 @@ var final_engine = func () {
   if (start_count > 70) {
     if(bingoFuel == TRUE) {
       notice("Engine start failed. Check fuel.");
-    } elsif (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+    } elsif (!power.prop.dcSecondBool.getValue()) {
       notice("Engine start failed. Check battery.");
     } else {
       notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");

@@ -1502,13 +1502,10 @@ var TI = {
 			APTgtAgl:             "autopilot/settings/target-agl-ft",
 			APTgtAlt:             "autopilot/settings/target-altitude-ft",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
-			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
 			rad_alt:              "position/altitude-agl-ft",
 			radarEnabled:         "ja37/hud/tracks-enabled",
 			radarRange:           "instrumentation/radar/range",
-			radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
 			radarServ:            "instrumentation/radar/serviceable",
-			radarVoltage:         "systems/electrical/outputs/ac-main-voltage",
 			rmActive:             "autopilot/route-manager/active",
 			rmDist:               "autopilot/route-manager/wp/dist",
 			rmId:                 "autopilot/route-manager/wp/id",
@@ -1534,7 +1531,6 @@ var TI = {
 	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
 	        ctrlRadar:        	  "controls/altimeter-radar",
-	        acInstrVolt:      	  "systems/electrical/outputs/ac-instr-voltage",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
 	        fullMenus:            "ja37/displays/show-full-menus",
 	        APLockHeading:    	  "autopilot/locks/heading",
@@ -1746,7 +1742,7 @@ var TI = {
 			me.brightness = 1;
 		}
 
-		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
+		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
 			
@@ -1796,7 +1792,7 @@ var TI = {
 	},
 
 	loopFast: func {
-		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
+		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
 			#settimer(func me.loopFast(), 0.05);
 			return;
 		} else {
@@ -1812,7 +1808,7 @@ var TI = {
 	},
 
 	loopSlow: func {
-		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
+		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
 			#settimer(func me.loopSlow(), 0.05);
 			return;
 		}

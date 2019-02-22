@@ -1271,7 +1271,7 @@
                 </greater-than>
                 <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <property>ja37/elec/dc-bus-main-volt</property>
                     <value>23</value>
                 </greater-than>
             </condition>
@@ -1330,7 +1330,7 @@
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/annunciation-enabled</property>
                 <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <property>ja37/elec/dc-bus-main-volt</property>
                     <value>23</value>
                 </greater-than>
                 <or>
@@ -1483,10 +1483,7 @@
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <property>fdm/jsbsim/systems/indicators/master-warning/audio</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/dc-bus-main-bool</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1545,10 +1542,7 @@
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
@@ -1568,10 +1562,7 @@
             <condition>
                 <property>ja37/sound/incoming1</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-4.666 </x><!-- 0.866 -->
@@ -1596,10 +1587,7 @@
             <condition>
                 <property>ja37/sound/incoming2</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-4.10 </x>
@@ -1624,10 +1612,7 @@
             <condition>
                 <property>ja37/sound/incoming3</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-3.60 </x>
@@ -1652,10 +1637,7 @@
             <condition>
                 <property>ja37/sound/incoming11</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-4.666 </x><!-- 0.866 -->
@@ -1680,10 +1662,7 @@
             <condition>
                 <property>ja37/sound/incoming10</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-4.10 </x>
@@ -1708,10 +1687,7 @@
             <condition>
                 <property>ja37/sound/incoming9</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-3.60 </x>
@@ -1736,10 +1712,7 @@
             <condition>
                 <property>ja37/sound/incoming4</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-3.10 </x>
@@ -1764,10 +1737,7 @@
             <condition>
                 <property>ja37/sound/incoming8</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-3.10 </x>
@@ -1792,10 +1762,7 @@
             <condition>
                 <property>ja37/sound/incoming5</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-2.734 </x>
@@ -1820,10 +1787,7 @@
             <condition>
                 <property>ja37/sound/incoming7</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-2.734 </x>
@@ -1848,10 +1812,7 @@
             <condition>
                 <property>ja37/sound/incoming12</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-4.60 </x>
@@ -1876,10 +1837,7 @@
             <condition>
                 <property>ja37/sound/incoming6</property>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/dc-voltage</property>
-                    <value>23</value>
-                </greater-than>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <position>
                 <x>-2.60 </x>

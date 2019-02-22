@@ -41,10 +41,7 @@
         <type>rotate</type>
         <object-name>needle</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <property>ja37/accelerations/pilot-G-lag</property>
         <interpolation>

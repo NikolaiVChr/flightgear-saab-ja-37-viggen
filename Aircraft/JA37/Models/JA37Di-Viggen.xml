@@ -990,7 +990,7 @@
   <object-name>radarHeading</object-name>
   <condition>   
     <greater-than>
-    <property>systems/electrical/outputs/dc-voltage</property>
+    <property>ja37/elec/dc-bus-main-volt</property>
     <value>23</value>
    </greater-than>
   </condition>

@@ -186,6 +186,27 @@ Sound: Should limit pre warnings be lower volume?
 GUI: Convert options dilog to xml.
 Sim: I likely have confused alpha limit warning setting in DAP with setting the control limit itself. Fix.
 GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no longer is shared.
+Elec: Check that everything is on the right bus. (interior/landing lights is not, check JA37C manual)
+Model: The cutoff indicator was beveled.
+Elec: Stop comparing volts in model files. Use bools except for emissions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

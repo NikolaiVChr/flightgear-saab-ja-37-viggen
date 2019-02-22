@@ -798,7 +798,24 @@
             <fel-flash type="bool">false</fel-flash>
         </test>
         <elec>
+            <dc-bus-battery-1-volt type="double">0</dc-bus-battery-1-volt>
+            <dc-bus-battery-2-volt type="double">0</dc-bus-battery-2-volt>
+            <dc-bus-battery-3-volt type="double">0</dc-bus-battery-3-volt>
+            <dc-bus-main-volt type="double">0</dc-bus-main-volt>
+            <dc-bus-secondary-volt type="double">0</dc-bus-secondary-volt>
+            <ac-bus-main-volt type="double">0</ac-bus-main-volt>
+            <ac-bus-secondary-volt type="double">0</ac-bus-secondary-volt>
+            <dc-bus-main-norm type="double">0</dc-bus-main-norm>
+            <dc-bus-secondary-norm type="double">0</dc-bus-secondary-norm>
+            <dc-bus-battery-2-norm type="double">0</dc-bus-battery-2-norm>
             
+            <dc-bus-battery-1-bool type="bool">false</dc-bus-battery-1-bool>
+            <dc-bus-battery-2-bool type="bool">false</dc-bus-battery-2-bool>
+            <dc-bus-battery-3-bool type="bool">false</dc-bus-battery-3-bool>
+            <dc-bus-main-bool type="bool">false</dc-bus-main-bool>
+            <dc-bus-secondary-bool type="bool">false</dc-bus-secondary-bool>
+            <ac-bus-main-bool type="bool">false</ac-bus-main-bool>
+            <ac-bus-secondary-bool type="bool">false</ac-bus-secondary-bool>
         </elec>
         <fuses>
             <krets type="bool">true</krets><!-- canopy ejection -->
@@ -948,6 +965,8 @@
                     <battery-charging-norm type="double">1.0</battery-charging-norm>
                     <battery-active type="bool">false</battery-active>
                     <generator-reserve-pos-norm type="double">0.0</generator-reserve-pos-norm>
+                    <generator-running-norm type="double">0.0</generator-running-norm>
+                    <generator-takeoff type="bool">false</generator-takeoff>
                     <external>
                         <enable-cmd type="bool">false</enable-cmd>
                         <switch type="bool">false</switch>
@@ -1258,8 +1277,8 @@
         <path>Aircraft/JA37/Systems/systems.xml</path>
         <electrical>
             <outputs>
-                <dc-voltage type="double">0</dc-voltage>
-                <ac-instr-voltage type="double">0</ac-instr-voltage>
+                <!--<dc-voltage type="double">0</dc-voltage>
+                <ac-instr-voltage type="double">0</ac-instr-voltage>-->
                 <!--
       <hud type="double">0</hud>
       <radar type="double">0</radar>
@@ -1267,7 +1286,7 @@
       <comm n="0" type="double">0</comm>
       <comm n="1" type="double">0</comm>-->
             </outputs>
-            <dc-light type="double">0</dc-light>
+            <!--<dc-light type="double">0</dc-light>-->
         </electrical>
         <generator>
             <serviceable type="bool">true</serviceable>
@@ -1520,6 +1539,9 @@
         <hack>
             <file>Aircraft/JA37/Nasal/hackCanvas.nas</file>
         </hack>
+        <power>
+            <file>Aircraft/JA37/Nasal/power.nas</file>
+        </power>
         <auto>
             <file>Aircraft/JA37/Nasal/flightPlanDelegate.nas</file>
             <file>Aircraft/JA37/Nasal/autopilot.nas</file>

@@ -44,7 +44,7 @@
         <object-name>AI2Cylinder</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <property>ja37/elec/ac-bus-main-volt</property>
                 <value>100</value>
             </greater-than>
         </condition>
@@ -64,7 +64,7 @@
         <object-name>AI2Pointer</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <property>ja37/elec/ac-bus-main-volt</property>
                 <value>100</value>
             </greater-than>
         </condition>
@@ -84,7 +84,7 @@
         <object-name>AI2Cylinder</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <property>ja37/elec/ac-bus-main-volt</property>
                 <value>100</value>
             </greater-than>
         </condition>

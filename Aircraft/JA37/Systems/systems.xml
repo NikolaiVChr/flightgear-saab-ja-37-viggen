@@ -20,7 +20,7 @@
     <vacuum>
         <name>vacuum</name>
         <number>0</number>
-        <rpm>systems/electrical/outputs/ac-main-voltage</rpm>
+        <rpm>ja37/elec/ac-bus-main-volt</rpm>
         <scale>25.0</scale>
     </vacuum>
 

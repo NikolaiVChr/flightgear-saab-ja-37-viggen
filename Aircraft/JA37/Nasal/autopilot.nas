@@ -6,9 +6,6 @@ inputAP = {
   indAAH:           "ja37/avionics/auto-altitude-hold-on",
   indAH:            "ja37/avionics/auto-attitude-on",
   indAT:            "ja37/avionics/auto-throttle-on",
-  hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
-  dcVolt:           "systems/electrical/outputs/dc-voltage",
-  acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
   elapsed:          "sim/time/elapsed-sec",
 };
 
@@ -70,10 +67,10 @@ var transonic_time = 0;
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
   var ap = TRUE;
-  if (inputAP.hydr1On.getValue() == 0) {
+  if (!power.prop.hyd1Bool.getValue()) {
     ap = FALSE;
   }
-  if (inputAP.dcVolt.getValue() < 23) {
+  if (!power.prop.dcMainBool.getValue()) {
     ap = FALSE;
     if (lostDC_sec == -1) {
       lostDC_sec = 0;
@@ -84,10 +81,10 @@ var hydr1Lost = func {
   } else {
     lostDC_sec = -1;
   }
-  if (lostAC_sec == -1 and inputAP.acMainVolt.getValue() < 150) {
+  if (lostAC_sec == -1 and !power.prop.acMainBool.getValue()) {
     lostAC_sec = 0;
     lostAC_time = inputAP.elapsed.getValue();
-  } elsif (lostAC_sec != -1 and inputAP.acMainVolt.getValue() < 150) {
+  } elsif (lostAC_sec != -1 and !power.prop.acMainBool.getValue()) {
     lostAC_sec = inputAP.elapsed.getValue() - lostAC_time;
   } else {
     lostAC_sec = -1;
@@ -313,7 +310,7 @@ var nextPitch = 1;
 var apLoop = func {
     if (DEBUG_OUT) print("looping:");
 
-    if (inputAP.dcVolt.getValue() < 23 or !getprop("ja37/fuses/sa")) {
+    if (!power.prop.dcMainBool.getValue() or !power.prop.acMainBool.getValue() or !getprop("ja37/fuses/sa")) {
       # TODO: find out if should be DC or AC.
       stopAP();
       apStopAT();
@@ -372,7 +369,7 @@ var apLoop = func {
       #mode = 0;
       #apStopDamp();
     }
-    if (inputAP.hydr1On.getValue() == 0) {
+    if (!power.prop.hyd1Bool.getValue()) {
       # 
       mode = ja37.clamp(mode, 0, 1);
       if (DEBUG_OUT) print("hydr cmd mode "~mode);

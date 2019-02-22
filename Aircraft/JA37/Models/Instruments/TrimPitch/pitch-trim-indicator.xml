@@ -25,7 +25,7 @@
         <object-name>needle</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <property>ja37/elec/ac-bus-main-volt</property>
                 <value>100</value>
             </greater-than>
         </condition>
@@ -57,7 +57,7 @@
         <object-name>glass</object-name>
         <condition>
             <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
+                <property>ja37/elec/dc-bus-main-volt</property>
                 <value>20</value>
             </greater-than>
         </condition>

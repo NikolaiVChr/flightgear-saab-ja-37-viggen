@@ -74,10 +74,13 @@ MiscMonitor.properties = func() {
     { property : "gate",         name : "Tertiary gate",         format : "%s"   , unit : ""   ,    halign : "right" },    
     { property : "ram",          name : "Ram Air Turbine Pos",   format : "%s"   , unit : ""   ,    halign : "right" },
     { property : "ram-rpm",      name : "Ram Air Turbine",       format : "%2.1f", unit : "r/min",  halign : "right" },
-    { property : "AC-major",     name : "Main AC",               format : "%2.1f", unit : "volt",   halign : "right" },
-    { property : "AC-minor",     name : "Instrument AC",         format : "%2.1f", unit : "volt",   halign : "right" },
-    { property : "DC",           name : "Main DC",               format : "%2.1f", unit : "volt",   halign : "right" },
-    { property : "Battery",      name : "Battery",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "AC-major",     name : "Main AC bus",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "AC-minor",     name : "Secondary AC bus",         format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "DCm",           name : "Main DC bus",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "DCs",           name : "Secondary DC bus",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "batt1",           name : "Battery DC bus 1",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "batt2",           name : "Battery DC bus 2",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "batt3",      name : "Battery DC bus 3",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "Battery-charge",name : "Battery charge",       format : "%3d",   unit : "%",      halign : "right" },
     { property : "fuel-ratio",   name : "Fuel quantity",         format : "%3d",   unit : "%",      halign : "right" },
     { property : "buffet",       name : "Buffeting",             format : "%1.1f", unit : "%",      halign : "right" },
@@ -100,10 +103,13 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("fdm/jsbsim/propulsion/engine/oil-pressure-psi"));
   setprop("/sim/gui/dialogs/systems-monitor/fuelT", getprop("consumables/fuel/tank[0]/temperature_degC"));
 
-  setprop("/sim/gui/dialogs/systems-monitor/Battery", getprop("fdm/jsbsim/systems/electrical/battery-producing-dc"));
-  setprop("/sim/gui/dialogs/systems-monitor/AC-minor", getprop("systems/electrical/outputs/ac-instr-voltage"));
-  setprop("/sim/gui/dialogs/systems-monitor/DC", getprop("systems/electrical/outputs/dc-voltage"));
-  setprop("/sim/gui/dialogs/systems-monitor/AC-major", getprop("systems/electrical/outputs/ac-main-voltage"));
+  setprop("/sim/gui/dialogs/systems-monitor/batt1", getprop("/ja37/elec/dc-bus-battery-1-volt"));
+  setprop("/sim/gui/dialogs/systems-monitor/batt2", getprop("/ja37/elec/dc-bus-battery-2-volt"));
+  setprop("/sim/gui/dialogs/systems-monitor/batt3", getprop("/ja37/elec/dc-bus-battery-3-volt"));
+  setprop("/sim/gui/dialogs/systems-monitor/AC-minor", getprop("/ja37/elec/ac-bus-secondary-volt"));
+  setprop("/sim/gui/dialogs/systems-monitor/DCm", getprop("/ja37/elec/dc-bus-main-volt"));
+  setprop("/sim/gui/dialogs/systems-monitor/DCs", getprop("/ja37/elec/dc-bus-secondary-volt"));
+  setprop("/sim/gui/dialogs/systems-monitor/AC-major", getprop("/ja37/elec/ac-bus-main-volt"));
   setprop("/sim/gui/dialogs/systems-monitor/Battery-charge", getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")*100);
   setprop("/sim/gui/dialogs/systems-monitor/oxygen", getprop("fdm/jsbsim/systems/flight/oxygen-pressure-kPa")*0.0098692);
   setprop("/sim/gui/dialogs/systems-monitor/cabin", getprop("fdm/jsbsim/systems/flight/cabin-pressure-kPa")*0.0098692);

@@ -92,8 +92,6 @@ var input = {
         roll:             "/orientation/roll-deg",
         tracks_enabled:   "ja37/hud/tracks-enabled",
         callsign:         "/ja37/hud/callsign",
-        voltage:          "systems/electrical/outputs/ac-main-voltage",
-        hydrPressure:     "fdm/jsbsim/systems/hydraulics/system1/pressure",
         ai_models:        "/ai/models",
         lookThrough:      "ja37/radar/look-through-terrain",
         dopplerOn:        "ja37/radar/doppler-enabled",
@@ -178,7 +176,7 @@ var RadarLogic = {
       me.processTracks(me.carriers, TRUE, FALSE, FALSE, MARINE);
 
       if(input.tracks_enabled.getValue() == TRUE and input.radar_serv.getValue() > FALSE
-         and input.voltage.getValue() > 170 and input.hydrPressure.getValue() == TRUE) {
+         and power.prop.dcSecondBool.getValue() and power.prop.acSecondBool.getValue() and power.prop.hyd1Bool.getValue()) {
         setprop("ja37/radar/active" , TRUE);
       } else {
         # Do not supply target info to the missiles if radar is off.

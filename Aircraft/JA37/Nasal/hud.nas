@@ -1029,8 +1029,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         elapsedSec:       "sim/time/elapsed-sec",
-        elecAC:           "systems/electrical/outputs/ac-instr-voltage",
-        elecDC:           "systems/electrical/outputs/dc-voltage",
         fdpitch:          "autopilot/settings/fd-pitch-deg",
         fdroll:           "autopilot/settings/fd-roll-deg",
         fdspeed:          "autopilot/settings/target-speed-kt",
@@ -1108,9 +1106,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   update: func() {
     #setprop("instrumentation/airspeed-indicator/indicated-speed-kmh", getprop("instrumentation/airspeed-indicator/indicated-speed-kt")*KT2KMH);
     me.has_power = TRUE;
-    if (me.input.elecAC.getValue() < 100) {
+    if (!power.prop.acSecondBool.getValue()) {
       # primary power is off
-      if (me.input.elecDC.getValue() > 23) {
+      if (power.prop.dcMainBool.getValue()) {
         # on backup
         if (on_backup_power == FALSE) {
           # change the colour to amber
@@ -1126,10 +1124,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       #reinit();
       on_backup_power = FALSE;
     }
-    if (me.lastPower != me.input.elecDC.getValue()+me.input.elecAC.getValue()) {
+    if (me.lastPower != power.prop.dcMain.getValue()+power.prop.acSecond.getValue()) {
       reinit();
     }
-    me.lastPower = me.input.elecDC.getValue()+me.input.elecAC.getValue();
+    me.lastPower = power.prop.dcMain.getValue()+power.prop.acSecond.getValue();
     # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
     me.fromTop = HUDTop - me.input.viewZ.getValue();
     centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));

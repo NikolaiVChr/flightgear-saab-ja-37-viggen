@@ -35,10 +35,7 @@
         <type>rotate</type>
         <object-name>smallNeedle</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>fdm/jsbsim/propulsion/engine/n2-mod</property>
         <interpolation>

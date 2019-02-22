@@ -17,10 +17,16 @@
         <object-name>dial</object-name>
         <property>orientation/heading-magnetic-deg</property>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
+            <or>
+                <and>
+                    <not><property>ja37/avionics/reservkurs</property></not>
+                    <property>ja37/elec/dc-bus-main-bool</property>
+                </and>
+                <and>
+                    <property>ja37/avionics/reservkurs</property>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </and>
+            </or>
         </condition>
         <interpolation>
             <entry>
@@ -49,10 +55,16 @@
         <object-name>needle</object-name>
         <property>ja37/avionics/heading-indicator-bug</property>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
+            <or>
+                <and>
+                    <not><property>ja37/avionics/reservkurs</property></not>
+                    <property>ja37/elec/dc-bus-main-bool</property>
+                </and>
+                <and>
+                    <property>ja37/avionics/reservkurs</property>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </and>
+            </or>
         </condition>
         <interpolation>
             <entry>
@@ -81,10 +93,16 @@
         <object-name>needle_target</object-name>
         <property>ja37/avionics/heading-indicator-target</property>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
+            <or>
+                <and>
+                    <not><property>ja37/avionics/reservkurs</property></not>
+                    <property>ja37/elec/dc-bus-main-bool</property>
+                </and>
+                <and>
+                    <property>ja37/avionics/reservkurs</property>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </and>
+            </or>
         </condition>
         <interpolation>
             <entry>

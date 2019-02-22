@@ -26,10 +26,7 @@
         <object-name>glass</object-name>
         <object-name>mount</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>

@@ -343,7 +343,7 @@ TODO: manual fuel controls
             <test logic="OR" value="0">
                 propulsion/tank[4]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
-                /systems/electrical/outputs/ac-main-voltage lt 150
+                /ja37/elec/ac-bus-main-bool == 0
                 systems/fuel/fuel-pumps/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -369,7 +369,7 @@ TODO: manual fuel controls
             <test logic="OR" value="0">
                 propulsion/tank[5]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
-                /systems/electrical/outputs/ac-main-voltage lt 150        
+                /ja37/elec/ac-bus-main-bool == 0       
                 systems/fuel/fuel-pumps/serviceable == 0
             </test>
             <test logic="AND" value="0">
