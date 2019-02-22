@@ -3620,7 +3620,7 @@ Sound: Ground collision warning can no longer be lowered in volume.
 Sound: Temp. solution: replaced incoming sounds with App73 med-high sounds.
 Sound: Warning tones from CK37 is now prioritized, except master warning as per manual.
 Sound: Max volume of warning tones, is now lower.
-GUI: Rmoved annuciation option from option dialog.
+GUI: Removed annuciation option from option dialog.
 Sound: During and 10 seconds after ground collision warning has stopped, load-factor limit will force stay at 110%.
 GUI: Removed HUD switch option from option dialog.
 Sound: Circuit breaker GVV can now disable GVV warning tones.
@@ -3648,4 +3648,5 @@ Elec: New electrical system.
 Model: Cutoff indicator is no longer flat.
 GUI: Updated pre-flight checklists to new elec. system.
 Elec: Stopped comparing volts in model files. Use bools except for emissions.
-Model: Added yaw trim centered indicator.
+Model: Added yaw trim centered indicator and added check to checklist.
+Elec: Changed schedule for RAT rpm.

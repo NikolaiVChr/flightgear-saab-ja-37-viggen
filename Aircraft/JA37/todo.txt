@@ -189,7 +189,7 @@ GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no lo
 Elec: Check that everything is on the right bus. (interior lights is not, check JA37C manual)
 Elec: Gun, radar and IR missiles was on seperate buses, fix.
 Model: Reservkurs does not lit up when doing light control, fix.
-
+Elec: Flying above 1170Km/h with RAT might damage it.
 
 
 

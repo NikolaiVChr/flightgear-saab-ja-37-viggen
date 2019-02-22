@@ -236,11 +236,24 @@
                 </setting>
             </traverse>
         </kinematic>
-
-        <pure_gain name="systems/electrical/generator-reserve-rpm">
-            <input>systems/electrical/generator-reserve-running-norm</input>
-            <gain>12000.0</gain>
-        </pure_gain>
+        
+        <fcs_function name="systems/electrical/generator-reserve-rpm">
+            <description>
+                      Generator reserve (Ram Air turbine) running speed
+            </description>
+            <function>
+                    <table>
+                        <independentVar lookup="row">/velocities/airspeed-kt</independentVar>
+                        <independentVar lookup="column">systems/electrical/generator-reserve-running-norm</independentVar>
+                        <tableData>
+                                    0    1
+                              0.0   0.0  0
+                            145.8   0.0  1000
+                            727.0   0.0  12000
+                        </tableData>
+                    </table>
+            </function>
+        </fcs_function>
 
         <switch name="systems/electrical/generator-reserve-supplying">
             <description>
