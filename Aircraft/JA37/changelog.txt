@@ -3645,6 +3645,13 @@ Model: Button IR-RB FREMSTEGN now quick selects sidewinders.
 Sim: Removed workaround for fuel bug in JSB, was fixed long ago.
 Sim: Oil pressure warning (without sound) now comes after a couple of seconds of negative G flying.
 Elec: New electrical system.
+Elec: Heading indicator now has functional backup power when that is enabled.
+Elec: Removed battery and extarnal/internal selector switches.
+Elec: Removed battery charging indicator, this is in an external bay and not presented to pilot.
+Elec: Battery drain now depends on how many systems draws power from it.
+Elec: Battery now stop charging after 50 mins.
+Elec: If generator spins down for some reason, it is now required to cycle the generator switch to get it started again.
+Elec: System is now properly divided up into buses.
 Model: Cutoff indicator is no longer flat.
 GUI: Updated pre-flight checklists to new elec. system.
 Elec: Stopped comparing volts in model files. Use bools except for emissions.

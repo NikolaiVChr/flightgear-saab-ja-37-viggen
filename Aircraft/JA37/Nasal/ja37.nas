@@ -1753,7 +1753,7 @@ var startSupply = func {
     setprop("controls/electric/reserve", FALSE);
     notice("Enabling power using external supply.");
     settimer(endSupply, 1.5, 1);
-  } elsif (getprop("fdm/jsbsim/systems/electrical/battery-producing-dc") > 23) {
+  } elsif (getprop("ja37/elec/dc-bus-battery-3-volt") > 20) {
     # using battery
     click();
     setprop("/controls/electric/battery", TRUE);
