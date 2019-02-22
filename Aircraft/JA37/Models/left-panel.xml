@@ -159,8 +159,7 @@
     <path>Aircraft/JA37/Models/Instruments/Indicators/cutoff-indicator.xml</path>
     <name>cutoffReady</name>
     <offsets>
-      <pitch-deg>90</pitch-deg>
-      <x-m>  0.330</x-m>
+      <x-m>  0.3275</x-m>
       <y-m> -0.05</y-m>
       <z-m>  0.00</z-m>
     </offsets>
