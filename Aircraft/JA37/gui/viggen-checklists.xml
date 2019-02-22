@@ -284,6 +284,16 @@
                 </marker>
             </item>
             <item>
+                <name>Yaw trim</name>
+                <value>Check that its centered (white)</value>
+                <marker>
+                    <x-m>-3.3628</x-m>
+                    <y-m>-0.4604</y-m>
+                    <z-m>0.0000</z-m>
+                    <scale>1.0000</scale>
+                </marker>
+            </item>
+            <item>
                 <name>Radio mode</name>
                 <value>F+N</value>
                 <marker>
