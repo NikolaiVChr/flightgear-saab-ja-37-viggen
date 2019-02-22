@@ -1999,6 +1999,17 @@
             </test>
         </switch>
         
+        <switch name="/ja37/avionics/yaw-trim-centered">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="AND" value="/systems/electrical/dc-light">
+                /controls/flight/rudder-trim lt 0.025
+                /controls/flight/rudder-trim gt -0.025
+            </test>
+        </switch>
+        
 
         <switch name="systems/electrical/battery-charging-test">
             <description>

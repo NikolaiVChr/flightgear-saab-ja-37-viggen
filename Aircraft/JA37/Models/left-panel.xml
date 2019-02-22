@@ -285,6 +285,17 @@
       <z-m>  0.00</z-m>
     </offsets>
   </model>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/RollTrimIndicator/indicator-yaw.xml</path>
+    <name>trim-yaw</name>
+    <offsets>
+      <pitch-deg>0</pitch-deg>
+      <x-m>  0.74</x-m>
+      <y-m> -0.06</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/gearsBox/gearsBox.xml</path>
