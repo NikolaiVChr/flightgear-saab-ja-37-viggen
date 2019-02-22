@@ -527,10 +527,7 @@
         <object-name>lampRespond</object-name>
         <condition>
             <property>instrumentation/transponder/ident</property>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <emission>
             <red>   1.00 </red>

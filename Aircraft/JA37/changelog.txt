@@ -3647,3 +3647,5 @@ Sim: Oil pressure warning (without sound) now comes after a couple of seconds of
 Elec: New electrical system.
 Model: Cutoff indicator is no longer flat.
 GUI: Updated pre-flight checklists to new elec. system.
+Elec: Stopped comparing volts in model files. Use bools except for emissions.
+Model: Added yaw trim centered indicator.

@@ -183,13 +183,13 @@ Sound: Replace the "incoming" annunciator warnings with radar lock radio noise. 
 TI: Info on target should be given even if not in steerorder mode. (this needs to be thought over)
 Sound: I think I broke the AJ stall warn switch, fix.
 Sound: Should limit pre warnings be lower volume?
-GUI: Convert options dilog to xml.
+GUI: Convert options dialog to xml.
 Sim: I likely have confused alpha limit warning setting in DAP with setting the control limit itself. Fix.
 GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no longer is shared.
-Elec: Check that everything is on the right bus. (interior/landing lights is not, check JA37C manual)
-Elec: Stop comparing volts in model files. Use bools except for emissions.
+Elec: Check that everything is on the right bus. (interior lights is not, check JA37C manual)
 Model: White indicator for trim yaw centered.
-
+Elec: Gun, radar and IR missiles was on seperate buses, fix.
+Model: Reservkurs does not lit up when doing light control, fix.
 
 
 

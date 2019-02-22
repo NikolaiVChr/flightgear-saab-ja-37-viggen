@@ -15,10 +15,7 @@
         <object-name>waypointHeadingIndicator</object-name>
         <property>autopilot/route-manager/wp/bearing-deg-rel-rate</property>
 		<condition>
-            <greater-than>
-                <property>ja37/elec/dc-bus-main-volt</property>
-                <value>23</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <interpolation>
 			<entry>

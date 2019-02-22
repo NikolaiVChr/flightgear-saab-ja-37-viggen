@@ -29,10 +29,7 @@
         <object-name>FuelGlass</object-name>
         <object-name>Gauge</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>150</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>

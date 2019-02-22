@@ -14,10 +14,7 @@
         <object-name>Number2</object-name>
         <object-name>Number3</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/dc-bus-main-volt</property>
-                <value>23</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>
@@ -51,10 +48,7 @@
                             <value>3</value>
                         </equals>
                     </or>
-                    <greater-than>
-                        <property>ja37/elec/dc-bus-main-volt</property>
-                        <value>23</value>
-                    </greater-than>
+                    <property>ja37/elec/dc-bus-main-bool</property>
         			<equals>
         				<property>controls/engines/engine[0]/cutoff-augmentation</property>
         				<value>0</value>
@@ -87,10 +81,7 @@
                             <value>3</value>
                         </equals>
                     </or>
-                    <greater-than>
-                        <property>ja37/elec/dc-bus-main-volt</property>
-                        <value>23</value>
-                    </greater-than>
+                    <property>ja37/elec/dc-bus-main-bool</property>
         			<equals>
         				<property>controls/engines/engine[0]/cutoff-augmentation</property>
         				<value>0</value>
@@ -117,10 +108,7 @@
                         <property>fdm/jsbsim/propulsion/engine/zone</property>
                         <value>3</value>
                     </equals>
-                    <greater-than>
-                        <property>ja37/elec/dc-bus-main-volt</property>
-                        <value>23</value>
-                    </greater-than>
+                    <property>ja37/elec/dc-bus-main-bool</property>
         			<equals>
         				<property>controls/engines/engine[0]/cutoff-augmentation</property>
         				<value>0</value>

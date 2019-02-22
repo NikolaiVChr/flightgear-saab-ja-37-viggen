@@ -2279,10 +2279,7 @@
   <type>rotate</type>
   <object-name>radarHeading</object-name>
   <condition>   
-    <greater-than>
-    <property>ja37/elec/dc-bus-main-volt</property>
-    <value>23</value>
-   </greater-than>
+    <property>ja37/elec/dc-bus-main-bool</property>
   </condition>
   <property>ja37/avionics/heading-magnetic-limited-deg</property>
   <factor>-1.0</factor>

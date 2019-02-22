@@ -24,12 +24,7 @@
         <type>rotate</type>
         <object-name>needle</object-name>
         <condition>
-			<and>
-				<greater-than>
-					<property>ja37/elec/ac-bus-main-volt</property>
-					<value>100</value>
-				</greater-than>
-			</and>
+			<property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>autopilot/route-manager/wp/dist-km</property>
         <interpolation>
@@ -55,10 +50,7 @@
         <object-name>mount</object-name>
         <condition>
 			<and>
-				<greater-than>
-					<property>ja37/elec/dc-bus-main-volt</property>
-					<value>20</value>
-				</greater-than>
+				<property>ja37/elec/dc-bus-main-bool</property>
 				<less-than>
 					<property>autopilot/route-manager/wp/dist-km</property>
 					<value>40</value>

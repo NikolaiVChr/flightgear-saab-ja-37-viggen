@@ -21,10 +21,7 @@
         <type>rotate</type>
         <object-name>needle</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>instrumentation/altimeter/indicated-altitude-meter</property>
         <factor>0.36</factor>
@@ -40,10 +37,7 @@
         <type>textranslate</type>
         <object-name>drum-1</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>instrumentation/altimeter/indicated-altitude-meter</property>
         <factor>0.001</factor>
@@ -62,10 +56,7 @@
         <type>textranslate</type>
         <object-name>drum-2</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>instrumentation/altimeter/indicated-altitude-meter</property>
         <factor>0.0001</factor>
@@ -84,10 +75,7 @@
         <type>textranslate</type>
         <object-name>drum-3</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>instrumentation/altimeter/indicated-altitude-meter</property>
         <factor>0.00001</factor>
@@ -311,10 +299,7 @@
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/dc-bus-main-volt</property>
-                <value>20</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>

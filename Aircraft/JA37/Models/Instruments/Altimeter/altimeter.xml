@@ -20,10 +20,7 @@
         <object-name>Cube</object-name>
         <object-name>glassAlt1</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/dc-bus-main-volt</property>
-                <value>20</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>
@@ -75,10 +72,7 @@
         <type>rotate</type>
         <object-name>Hundred_meter_hand</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
         <factor>0.1098</factor>
@@ -98,10 +92,7 @@
         <type>rotate</type>
         <object-name>km_hand</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
         <factor>0.01098</factor>

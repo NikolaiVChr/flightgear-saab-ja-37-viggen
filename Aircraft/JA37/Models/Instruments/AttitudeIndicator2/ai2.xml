@@ -43,10 +43,7 @@
         <type>rotate</type>
         <object-name>AI2Cylinder</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>orientation/roll-deg</property>
         <center>
@@ -63,10 +60,7 @@
         <type>rotate</type>
         <object-name>AI2Pointer</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>orientation/roll-deg</property>
         <center>
@@ -83,10 +77,7 @@
         <type>rotate</type>
         <object-name>AI2Cylinder</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>orientation/pitch-deg</property>
         <factor>2</factor>

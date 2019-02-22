@@ -24,10 +24,7 @@
         <type>rotate</type>
         <object-name>needle</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/ac-bus-main-volt</property>
-                <value>100</value>
-            </greater-than>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <property>fdm/jsbsim/systems/flight/cabin-diff-pressure-kpm2</property>
         <interpolation>
@@ -52,10 +49,7 @@
         <object-name>dial</object-name>
         <object-name>glass</object-name>
         <condition>
-            <greater-than>
-                <property>ja37/elec/dc-bus-main-volt</property>
-                <value>20</value>
-            </greater-than>
+            <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>
