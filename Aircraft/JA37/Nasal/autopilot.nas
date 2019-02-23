@@ -310,7 +310,7 @@ var nextPitch = 1;
 var apLoop = func {
     if (DEBUG_OUT) print("looping:");
 
-    if (!power.prop.dcMainBool.getValue() or !power.prop.acMainBool.getValue() or !getprop("ja37/fuses/sa")) {
+    if (!power.prop.dcMainBool.getValue() or !getprop("ja37/fuses/sa")) {
       # TODO: find out if should be DC or AC.
       stopAP();
       apStopAT();
