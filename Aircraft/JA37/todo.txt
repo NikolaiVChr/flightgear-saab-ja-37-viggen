@@ -188,10 +188,9 @@ Elec: Flying above 1170Km/h with RAT might damage it.
 Elec: Make logic for secondary DC bus G. It depends on BRAGG.
 Model: Pretty much all gauges had a red/white flag, when not reliable.
 GUI: STop perf. monitor from running when dialog is off.
-Animation: After acknowledge, consider removing the low fuel waring from the panel, instead of having it steady.
-not switch to åpol
-
-
+Animation: After acknowledge, consider removing the low fuel warning from the panel, instead of having it steady.
+Sim: Reinit dont repair (sometimes).
+Sim: Strange slowdown of FPS after flying for a while and fighting with aim9.
 
 
 
