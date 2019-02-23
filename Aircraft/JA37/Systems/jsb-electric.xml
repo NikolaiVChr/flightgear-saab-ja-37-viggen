@@ -853,7 +853,7 @@
                     <property>/controls/lighting/flood-knob</property>
                     <property>/ja37/light/flood-bt</property>
                     <property>/ja37/elec/ac-bus-main-norm</property>
-                    <value>0.5</value>
+                    <value>1.5</value>
                     <difference>
                         <value>1</value>
                         <property>/rendering/scene/diffuse/red</property>
@@ -862,7 +862,7 @@
             </function>
             <clipto>
                 <min> 0 </min>
-                <max> 1 </max>
+                <max> 0.5 </max>
             </clipto>
             <output>/controls/lighting/flood-norm</output>
         </fcs_function>
