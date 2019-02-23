@@ -114,8 +114,10 @@ var bright = 0;
 var cursor = func {
 	cursorOn = !cursorOn;
 	if (!cursorOn) {
+		if (!getprop("ja37/systems/input-controls-flight")) {
+			ja37.notice("Cursor OFF. Flight ctrl ON.");
+		}
 		setprop("/ja37/systems/input-controls-flight", 1);
-		ja37.notice("Cursor OFF. Flight ctrl ON.");
 	}
 }
 
