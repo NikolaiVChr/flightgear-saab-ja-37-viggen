@@ -154,10 +154,11 @@ units:                "ja37/hud/units-metric",
 			me.distance_model = radar_logic.selection.get_model();
 	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1 and (steers or land.mode > 0)) {
 	    	# next steerpoint
-	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
-	    	me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
-	    	me.distance_name = me.theID!=nil?me.theID:"";
-			me.distance_model = me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
+	    	#me.distance_m = me.input.rmDist.getValue()*NM2M;
+	    	#me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
+	    	# disabled, these names should not show up: TODO: replace?
+	    	me.distance_name = "";#me.theID!=nil?me.theID:""; 
+			me.distance_model = "";#me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
 		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
 			# DME
 	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
