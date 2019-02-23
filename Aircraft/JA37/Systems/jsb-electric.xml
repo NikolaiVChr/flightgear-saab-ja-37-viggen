@@ -80,7 +80,7 @@
             <description>
                       Generator running command
                       
-                      TODO: Why 10-30% N2?
+                      TODO: 25-50% N2 is just a guess
             </description>
             <input>/systems/electrical/serviceable</input>
             <table>
@@ -88,8 +88,8 @@
                 <independentVar lookup="column">systems/electrical/generator-ready</independentVar>
                 <tableData>
                      0   1
-                10   0   0
-                35   0   1
+                25   0   0
+                50   0   1
             </tableData>
             </table>
             <clipto>
@@ -262,7 +262,6 @@
             <default value="0"/>
             <test logic="AND" value="1">
                 systems/electrical/generator-reserve-running-norm == 1
-                systems/electrical/external/switch == 0
                 systems/electrical/generator-reserve-pos-norm == 1
             </test>
         </switch>
@@ -271,12 +270,9 @@
             <description>
                       Have AC supply, normalized
             </description>
-            <default value="0"/>
+            <default value="systems/electrical/generator-running-norm"/>
             <test logic="AND" value="1">
                 systems/electrical/external/supplying == 1
-            </test>
-            <test logic="AND" value="systems/electrical/generator-running-norm">
-                systems/electrical/external/switch == 0
             </test>
         </switch>
 
@@ -286,7 +282,6 @@
             </description>
             <default value="systems/electrical/AC-secondary-supply-norm"/>
             <test logic="AND" value="systems/electrical/generator-reserve-running-norm">
-                systems/electrical/external/switch == 0
                 systems/electrical/generator-reserve-deploy-emergency-cmd == 1
             </test>
         </switch>
@@ -333,7 +328,7 @@
             <test logic="AND" value="0">
                 gear/gear-pos-norm == 1
                 systems/electrical/generator-reserve-deploy-emergency-cmd == 1
-                /controls/electric/engine/generator == 1
+                /systems/electrical/serviceable == 0
             </test>
         </switch>
         
@@ -341,8 +336,7 @@
     
     
     
-    
-    
+   
     
     
     

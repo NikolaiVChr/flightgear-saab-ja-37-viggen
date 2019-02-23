@@ -477,14 +477,30 @@
                         <property>systems/electrical/generator-running-norm</property>
                         <value>1</value>
                     </nq>
-                    <eq>
-                        <property>/controls/electric/main</property>
-                        <value>0</value>
-                    </eq>
                     <lt>
                         <property>/ja37/elec/dc-bus-battery-3-volt</property>
-                        <value>24</value>
+                        <value>20</value>
                     </lt>
+                    <and>
+                        <or>
+                            <eq>
+                                <property>/gear/gear[1]/position-norm</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>/gear/gear[2]/position-norm</property>
+                                <value>1</value>
+                            </eq>
+                        </or>
+                        <eq>
+                            <property>systems/electrical/generator-reserve-deploy-emergency-cmd</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>/systems/electrical/serviceable</property>
+                            <value>0</value>
+                        </eq>
+                    </and>
                 </or>
             </function>
         </fcs_function>
@@ -516,19 +532,41 @@
                     </and>
                     <and>
                         <eq>
-                            <property>/controls/electric/reserve</property>
+                            <property>systems/electrical/generator-reserve-deploy-emergency-cmd</property><!-- should really be RAT extended but dont make sense.. -->
                             <value>1</value>
                         </eq>
-                        <or>
-                            <eq>
-                                <property>systems/electrical/generator-running-norm</property>
-                                <value>1</value>
-                            </eq>
-                            <eq>
-                                <property>/controls/electric/main</property>
-                                <value>0</value>
-                            </eq>
-                        </or>
+                        <eq>
+                            <property>systems/electrical/generator-running-norm</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <and>
+                        <ne>
+                            <property>systems/electrical/generator-reserve-pos-norm</property>
+                            <value>1</value>
+                        </ne>
+                        <eq>
+                            <property>propulsion/starter_cmd</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <and>
+                        <eq>
+                            <property>systems/electrical/generator-reserve-supplying</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[0]/wow</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </eq>                        
+                        <eq>
+                            <property>propulsion/starter_cmd</property>
+                            <value>1</value>
+                        </eq>
                     </and>
                 </or>
             </function>

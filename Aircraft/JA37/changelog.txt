@@ -3657,3 +3657,6 @@ GUI: Updated pre-flight checklists to new elec. system.
 Elec: Stopped comparing volts in model files. Use bools except for emissions.
 Model: Added yaw trim centered indicator and added check to checklist.
 Elec: Changed schedule for RAT rpm.
+Sim: Fixed swedish take-off state would give warnings.
+Sim: More accurate logic for left indicator panel electric warnings.
+Elec: Change in how much N2 for generator operation.
