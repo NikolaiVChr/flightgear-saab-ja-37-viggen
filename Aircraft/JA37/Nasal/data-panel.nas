@@ -1208,7 +1208,7 @@ var switch = func {
 
 var keyPress = func (key) {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("DAP: offline");
     return;
   }
@@ -1225,7 +1225,7 @@ var keyPress = func (key) {
 
 var okPress = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1235,7 +1235,7 @@ var okPress = func {
 
 var okRelease = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1245,7 +1245,7 @@ var okRelease = func {
 
 var lPress = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1255,7 +1255,7 @@ var lPress = func {
 
 var lRelease = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1265,7 +1265,7 @@ var lRelease = func {
 
 var gPress = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1275,7 +1275,7 @@ var gPress = func {
 
 var gRelease = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1285,7 +1285,7 @@ var gRelease = func {
 
 var xPress = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1299,7 +1299,7 @@ var xPress = func {
 
 var xRelease = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }
@@ -1309,7 +1309,7 @@ var xRelease = func {
 
 var backPress = func {
   if (getprop("ja37/systems/variant") != 0) return;
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
   }

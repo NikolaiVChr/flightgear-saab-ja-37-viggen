@@ -3660,3 +3660,4 @@ Elec: Changed schedule for RAT rpm.
 Sim: Fixed swedish take-off state would give warnings.
 Sim: More accurate logic for left indicator panel electric warnings.
 Elec: Change in how much N2 for generator operation.
+DAP: Fix regression nil pointer.
