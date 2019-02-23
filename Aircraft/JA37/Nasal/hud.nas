@@ -2554,7 +2554,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           } else {
             me.tower_symbol_dist.setText(sprintf("%02d", me.tower_dist/1000));
           }          
-          me.tower_symbol_icao.setText(me.hud_pos.get_Callsign());
+          me.tower_symbol_icao.setText("");#me.hud_pos.get_Callsign());  disabled for realism
           me.tower_symbol.show();
           me.tower_symbol.update();
         } else {
