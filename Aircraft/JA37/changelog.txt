@@ -3671,3 +3671,4 @@ TI: Fixed last steerpoint in a route was not shown.
 Sim: Fixed that plans loaded from disk would not autoswitch to RTB.
 Arms: Fixed selecting loadout in dialog did not work anymore due to changes in FG dialog.
 Sim: Fixed bad operator in indicator logic.
+Model: If master-warning for second fuel warning has been acknowledged this warning goes away from panel.

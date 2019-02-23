@@ -1671,10 +1671,17 @@
         <fcs_function name="systems/indicators/low-fuel">
             <function>
                 <or>
-                    <eq>
-                        <property>systems/indicators/low-fuel-secondary</property>
-                        <value>1</value>
-                    </eq>
+                    <and>
+                        <eq>
+                            <property>systems/indicators/low-fuel-secondary</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <!-- delicate but works. If master-warning has been acknowledged this warning goes away -->
+                            <property>systems/indicators/master-warning/fuel-low-2</property>
+                            <value>3</value>
+                        </eq>
+                    </and>
                     <and>
                         <or>
                             <eq>
