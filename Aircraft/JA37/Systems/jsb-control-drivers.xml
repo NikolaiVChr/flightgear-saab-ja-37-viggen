@@ -1,0 +1,25 @@
+<!-- Viggen FCS Drivers -->
+<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+
+<system name="Viggen FCS Drivers">
+	
+	<channel name="Roll Damper and Limiter">
+		
+		<switch name="fcs/roll/rate-limiter-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				aero/alpha-deg ge -10
+				aero/alpha-deg le 10
+				gear/unit[0]/WOW ne 1
+				gear/unit[1]/WOW ne 1
+				gear/unit[2]/WOW ne 1
+				aero/spin-norm eq 0
+				fcs/roll-limiter/enable ne 0
+				fcs/roll-limiter/serviceable eq 1
+				/ja37/elec/ac-bus-main-volt gt 180
+			</test>
+		</switch>
+	
+	</channel>
+
+</system>

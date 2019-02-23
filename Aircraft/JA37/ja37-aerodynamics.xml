@@ -144,7 +144,7 @@
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar><!-- sadly 3D tables needs to have minimum 2 columns -->
-                    <independentVar lookup="table">fcs/elevator-pos-deg</independentVar>
+                    <independentVar lookup="table">fcs/elevon/average-aero-deg</independentVar>
                     <!-- [measured using graph analyser] -->
                     <tableData breakPoint="-20.0"><!-- from graph 31a page 46 -->
                                       0         1
@@ -339,7 +339,7 @@
                 <property>metrics/Sw-sqft</property>
                 <table>
                     <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
-                    <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
+                    <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <tableData>
                               -25.0   -20.0   -15.0   -10.0     -5.0     0.0
                       0.0    -0.310  -0.210  -0.130  -0.070   -0.030   0.000
@@ -546,16 +546,16 @@
     <function name="aero/function/left-elevon-pos-rad-squared">
         <description>Elevon left squared</description>
         <product>
-            <property>fcs/left-elevon-pos-rad</property>
-            <property>fcs/left-elevon-pos-rad</property>
+            <property>fcs/elevon/left-avg-aero-rad</property>
+            <property>fcs/elevon/left-avg-aero-rad</property>
         </product>
     </function>
 
     <function name="aero/function/right-elevon-pos-rad-squared">
         <description>Elevon right squared</description>
         <product>
-            <property>fcs/right-elevon-pos-rad</property>
-            <property>fcs/right-elevon-pos-rad</property>
+            <property>fcs/elevon/right-avg-aero-rad</property>
+            <property>fcs/elevon/right-avg-aero-rad</property>
         </product>
     </function>
 
@@ -683,7 +683,7 @@
                     <product>
                         <table>
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
-                            <independentVar lookup="column"> fcs/left-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
+                            <independentVar lookup="column"> fcs/elevon/left-avg-aero-deg </independentVar><!-- note misleading name, its in deg -->
                             <tableData><!-- drag -->
                       -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
              -2.0000     .0156     .0110     .0079     .0024     .0000     .0031     .0092     .0126     .0148
@@ -714,7 +714,7 @@
                     </product>
                     <product>
                         <table>
-                            <independentVar lookup="row"> fcs/left-aileron-pos-norm </independentVar>
+                            <independentVar lookup="row"> fcs/elevon/left-avg-aero-deg </independentVar>
                             <tableData><!-- lift -->
                                 -40.0000    -.3086
                                 -30.0000    -.2613
@@ -749,7 +749,7 @@
                     <product>
                         <table>
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
-                            <independentVar lookup="column"> fcs/right-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
+                            <independentVar lookup="column"> fcs/elevon/right-avg-aero-deg </independentVar><!-- note misleading name, its in deg -->
                             <tableData><!-- drag -->
                   -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
          -2.0000     .0156     .0110     .0079     .0024     .0000     .0031     .0092     .0126     .0148
@@ -780,7 +780,7 @@
                     </product>
                     <product>
                         <table>
-                            <independentVar lookup="row"> fcs/right-aileron-pos-norm </independentVar>
+                            <independentVar lookup="row"> fcs/elevon/right-avg-aero-deg </independentVar>
                             <tableData><!-- lift -->
                                 -40.0000    -.3086
                                 -30.0000    -.2613
@@ -813,7 +813,7 @@
                 <property>aero/drag/rudder</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">fcs/rudder-pos-norm</independentVar>
+                    <independentVar lookup="column">fcs/rudder/final-norm</independentVar>
                     <tableData>
                                -1     0      1  <!-- -25 to 25 degrees -->
                        -180  -1.00   0.0   -1.00
@@ -1459,7 +1459,7 @@
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <property>fcs/rudder-pos-rad</property>
+                <property>fcs/rudder/final-rad</property>
                 <value>0.0860</value>
             </product>
         </function>
@@ -1469,7 +1469,7 @@
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <property>fcs/left-aileron-pos-rad</property>
+                <property>fcs/elevon/diff-aero-rad</property>
                 <value>-0.0226</value>
             </product>
         </function>
@@ -1804,10 +1804,10 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <property>fcs/left-aileron-pos-rad</property>
+                <property>fcs/elevon/diff-aero-rad</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
+                    <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <independentVar lookup="table">aero/beta-deg</independentVar>
                     <tableData breakPoint="-50.0">
                                   0.0     1.0
@@ -2148,7 +2148,7 @@
                 <table>
                     <!-- this is for low speed only, hence the table above -->
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
+                    <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <independentVar lookup="table">aero/beta-deg</independentVar>
                     <tableData breakPoint="-50.0">
                                   0.0     1.0
@@ -2702,10 +2702,10 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <property>fcs/left-aileron-pos-rad</property>
+                <property>fcs/elevon/diff-aero-rad</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
+                    <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <tableData>
                                    -25.0     0.0       20.0
                         -50.0      0.045    0.055     0.010
@@ -2732,7 +2732,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <property>fcs/rudder-pos-rad</property>
+                <property>fcs/rudder/final-rad</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/beta-deg</independentVar>
