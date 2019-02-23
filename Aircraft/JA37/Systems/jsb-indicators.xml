@@ -541,10 +541,10 @@
                         </eq>
                     </and>
                     <and>
-                        <ne>
+                        <lt>
                             <property>systems/electrical/generator-reserve-pos-norm</property>
                             <value>1</value>
-                        </ne>
+                        </lt>
                         <eq>
                             <property>propulsion/starter_cmd</property>
                             <value>1</value>
