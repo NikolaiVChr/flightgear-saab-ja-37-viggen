@@ -3668,3 +3668,4 @@ Effect: Flood light now brighter in dusk/dawn conditions.
 Animation: Fixed the TLS light indicator.
 TI: No longer shows steerpoint at bottom-right.
 TI: Fixed last steerpoint in a route was not shown.
+Sim: Fixed that plans loaded from disk would not autoswitch to RTB.
