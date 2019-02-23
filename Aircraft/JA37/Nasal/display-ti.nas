@@ -3992,6 +3992,8 @@ var TI = {
 				} else {
 					me.wpSelect = nil;
 				}
+			} else {
+				me.points = 0;
 			}
 			for (var wp = 0; wp < me.points; wp += 1) {
 				# wp      = local index inside a polygon
