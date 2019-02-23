@@ -4129,7 +4129,8 @@ var TI = {
 				}
 	  		}
 	  	}
-	  	me.wpIndex = me.wpIndex==-1?0:me.wpIndex;
+	  	#me.wpIndex = me.wpIndex==-1?0:me.wpIndex;
+	  	me.wpIndex += 1;
 	  	for (me.j = me.wpIndex;me.j<=me.steerPointMax;me.j+=1) {
 	  		me.steerpoint[me.j].hide();
 	  	}

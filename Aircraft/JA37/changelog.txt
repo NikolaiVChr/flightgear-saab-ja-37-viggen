@@ -3667,3 +3667,4 @@ MI: When clicking PEK, it will now only msg. on screen if flight ctrl was off.
 Effect: Flood light now brighter in dusk/dawn conditions.
 Animation: Fixed the TLS light indicator.
 TI: No longer shows steerpoint at bottom-right.
+TI: Fixed last steerpoint in a route was not shown.

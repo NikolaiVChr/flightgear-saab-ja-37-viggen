@@ -187,9 +187,9 @@ Model: Reservkurs does not lit up when doing light control, fix.
 Elec: Flying above 1170Km/h with RAT might damage it.
 Elec: Make logic for secondary DC bus G. It depends on BRAGG.
 Model: Pretty much all gauges had a red/white flag, when not reliable.
-
-
-
+GUI: STop perf. monitor from running when dialog is off.
+Animation: After acknowledge, consider removing the low fuel waring from the panel, instead of having it steady.
+not switch to åpol
 
 
 
