@@ -534,7 +534,11 @@ var Landing = {
                 }
                 if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE and getprop("ja37/hud/TILS") == TRUE) {
                     setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
-                    setprop("ja37/hud/TILS-on", TRUE);
+                    if (mode > 1) {
+                        setprop("ja37/hud/TILS-on", TRUE);
+                    } else {
+                        setprop("ja37/hud/TILS-on", FALSE);
+                    }
                 } else {
                     setprop("ja37/hud/TILS-on", FALSE);
                 }

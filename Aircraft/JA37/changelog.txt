@@ -3661,3 +3661,8 @@ Sim: Fixed swedish take-off state would give warnings.
 Sim: More accurate logic for left indicator panel electric warnings.
 Elec: Change in how much N2 for generator operation.
 DAP: Fix regression nil pointer.
+Model: Tachometer is now on DC bus.
+HUD: Towers no longer list ICAO in HUD.
+MI: When clicking PEK, it will now only msg. on screen if flight ctrl was off.
+Effect: Flood light now brighter in dusk/dawn conditions.
+Animation: Fixed the TLS light indicator.

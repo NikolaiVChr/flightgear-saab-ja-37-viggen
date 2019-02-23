@@ -2299,21 +2299,40 @@
             </function>
         </fcs_function>
         
-        <switch name="/instrumentation/TLS-light">
+        <switch name="/instrumentation/TLS-light-steady">
             <default value="0"/>
             <test logic="AND" value="1">
                 /ja37/hud/TILS-on == 1
                 /instrumentation/nav[0]/gs-in-range == 1
                 /instrumentation/nav[0]/has-gs == 1
             </test>
-            <test logic="OR" value="/ja37/blink/four-Hz/state">
-                /ja37/hud/TILS-on == 1
+            <test logic="AND" value="0">
+                /instrumentation/TLS-light-steady-hyst lt sim-time-sec
             </test>
             <test logic="AND" value="1">
                 /instrumentation/TLS-light-steady-hyst gt sim-time-sec
+                /instrumentation/TLS-light-steady == 1
             </test>
-            <test logic="AND" value="/ja37/blink/four-Hz/state">
+        </switch>
+        
+        <switch name="/instrumentation/TLS-light-blink">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /ja37/hud/TILS-on == 1
+            </test>
+            <test logic="AND" value="0">
+                /instrumentation/TLS-light-blink-hyst lt sim-time-sec
+            </test>
+            <test logic="AND" value="1">
                 /instrumentation/TLS-light-blink-hyst gt sim-time-sec
+                /instrumentation/TLS-light-blink == 1
+            </test>
+        </switch>
+        
+        <switch name="/instrumentation/TLS-light">
+            <default value="/instrumentation/TLS-light-steady"/>
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /instrumentation/TLS-light-blink == 1
             </test>
         </switch>
         
