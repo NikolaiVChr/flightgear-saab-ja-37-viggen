@@ -829,7 +829,7 @@
         <switch name="names/instr/tachometer-direct">
             <default value="propulsion/engine/n2"/>
             <test logic="OR" value="0">
-              /ja37/elec/ac-bus-main-bool == 0
+              /ja37/elec/dc-bus-main-bool == 0
             </test>
             <output>propulsion/engine/tachometer-direct</output>
         </switch>
