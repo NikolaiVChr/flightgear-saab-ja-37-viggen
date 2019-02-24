@@ -309,7 +309,7 @@
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>
         <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>
