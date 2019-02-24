@@ -27,12 +27,22 @@
             </binding>
         </hovered>
     </animation>
-
+    
+    <animation>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <not>
+                <property>ja37/elec/dc-bus-main-bool</property>
+            </not>
+        </condition>
+    </animation>
 
     <animation>
         <type>material</type>
         <object-name>sphere</object-name>
         <object-name>bank-index</object-name>
+        <object-name>off</object-name>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
             <green-prop>instrumentation/instrumentation-light/g</green-prop>

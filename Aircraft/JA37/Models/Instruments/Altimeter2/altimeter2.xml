@@ -16,6 +16,16 @@
         <object-name>knob</object-name>
         <object-name>mount</object-name>
     </effect>
+    
+    <animation>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <not>
+                <property>ja37/elec/ac-bus-main-bool</property>
+            </not>
+        </condition>
+    </animation>
 
     <animation>
         <type>rotate</type>
@@ -319,6 +329,7 @@
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>
+        <object-name>off</object-name>
         <type>material</type>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>

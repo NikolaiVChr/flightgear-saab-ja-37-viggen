@@ -125,6 +125,25 @@
             <z>0</z>
         </axis>
     </animation>
+    
+    <animation>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <not>
+                <or>
+                    <and>
+                        <not><property>ja37/avionics/reservkurs</property></not>
+                        <property>ja37/elec/dc-bus-main-bool</property>
+                    </and>
+                    <and>
+                        <property>ja37/avionics/reservkurs</property>
+                        <property>ja37/elec/ac-bus-main-bool</property>
+                    </and>
+                </or>
+            </not>
+        </condition>
+    </animation>
 
     <animation>
         <type>pick</type>
@@ -146,6 +165,7 @@
         <object-name>needle_target</object-name>
         <object-name>dial</object-name>
         <object-name>arrow</object-name>
+        <object-name>off</object-name>
         <type>material</type>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>

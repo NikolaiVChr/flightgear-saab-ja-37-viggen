@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>../gauge.ac</path>
+    <path>airspeed.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
@@ -20,6 +20,16 @@
         <property-base>ja37/texture</property-base>
         <texture-prop>gauge-airspeed</texture-prop>
         <texture>airspeed-face.png</texture>
+    </animation>
+    
+    <animation>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <not>
+                <property>ja37/elec/ac-bus-main-bool</property>
+            </not>
+        </condition>
     </animation>
 
     <animation>
@@ -72,6 +82,7 @@
     <animation>
         <object-name>needle</object-name>
         <object-name>dial</object-name>
+        <object-name>off</object-name>
         <type>material</type>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>

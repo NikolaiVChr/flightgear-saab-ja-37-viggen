@@ -3679,3 +3679,4 @@ TI: Fixed that clicking RR in SYST menu would seemingly enable steerorder even i
 Model: Made panel callsign be a sticker on the panel instead of emissive letters.
 Model: Mipmapped the callsign sticker.
 Model: Accelerometer now has second neddle for maximum G done. And a button for reseting it.
+Model: Some gauges has now a red/white flag, when not reliable.
