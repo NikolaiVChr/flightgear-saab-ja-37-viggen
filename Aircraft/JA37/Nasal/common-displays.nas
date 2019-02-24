@@ -188,7 +188,7 @@ units:                "ja37/hud/units-metric",
 	armName: func {
 		  me.armSelect = me.input.station.getValue();
 		  if (me.armSelect == -1) {
-		  	me.currArmName = "CLR";
+		  	me.currArmName = getprop("ja37/hud/units-metric")==1?"RENS":"CLR";
 		  	return;
 		  }
 	      if (me.armSelect > 0) {
@@ -236,7 +236,7 @@ units:                "ja37/hud/units-metric",
 	armNameMedium: func {
 		  me.armSelect = me.input.station.getValue();
 		  if (me.armSelect == -1) {
-		  	me.currArmNameMedium = "CLR";
+		  	me.currArmNameMedium = getprop("ja37/hud/units-metric")==1?"RENS":"CLR";
 		  	return;
 		  }
 	      if (me.armSelect > 0) {
