@@ -440,7 +440,7 @@ var radar = {
         me.dt = 5;
       }            
       # compute new stroke angle if has hydr pressure
-      if(power.prop.hydr1Bool.getValue()) {
+      if(power.prop.hyd1Bool.getValue()) {
         # AJ37 manual: 110 degrees per second: 1.0733775 x 1radian= 123 degrees. 123deg = 2.14675498 rad for full scan.
         me.stroke_angle = math.sin(me.dt*2.14675498)*1.0733775;
         forindex (i; me.stroke) me.stroke[i].show();
