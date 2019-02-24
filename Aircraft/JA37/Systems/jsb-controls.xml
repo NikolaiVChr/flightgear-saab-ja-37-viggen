@@ -211,7 +211,7 @@
 		<summer name="fcs/elevon/roll-input-sum">
 			<input>fcs/elevon/roll-cmd-geared</input> <!-- Input from Roll Stick Gearing -->
 			<input>fcs/roll-trim-cmd-norm</input> <!-- Roll Trim -->
-			<!--input>fcs/drivers/roll-output</input--> <!-- Roll Rate Damper/Limiter -->
+			<input>fcs/drivers/roll-output</input> <!-- Roll Rate Damper/Limiter -->
 			<!--input>fcs/drivers/roll-autotrim</input--> <!-- Roll Autotrim -->
 			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
@@ -402,25 +402,25 @@
 				<sum>
 					<product>
 						<property>fcs/elevon/left-outer-deg</property>
-						<value>0.5</value>
+						<value>0.25</value>
 					</product>
 					<product>
 						<property>fcs/elevon/left-inner-deg</property>
-						<value>0.5</value>
+						<value>0.25</value>
 					</product>
 					<product>
 						<property>fcs/elevon/right-inner-deg</property>
-						<value>-0.5</value>
+						<value>-0.25</value>
 					</product>
 					<product>
 						<property>fcs/elevon/right-outer-deg</property>
-						<value>-0.5</value>
+						<value>-0.25</value>
 					</product>
 				</sum>
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fcs/elevon/diff-aero-rad">
+		<pure_gain name="fcs/elevon/diff-half-aero-rad">
 			<input>fcs/elevon/diff-aero-deg</input>
 			<gain>0.0174533</gain> <!-- Deg to Rad -->
 		</pure_gain>

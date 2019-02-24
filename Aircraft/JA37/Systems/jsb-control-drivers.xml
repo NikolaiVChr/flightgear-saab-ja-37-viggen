@@ -5,7 +5,7 @@
 	
 	<channel name="Roll Damper and Limiter">
 		
-		<switch name="fcs/roll/rate-limiter-enable">
+		<switch name="fcs/drivers/roll/rate-limiter-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				aero/alpha-deg ge -10
@@ -19,6 +19,81 @@
 				/ja37/elec/ac-bus-main-volt gt 180
 			</test>
 		</switch>
+		
+		<pure_gain name="velocities/p-deg_sec">
+			<input>velocities/p-rad_sec</input>
+			<gain>57.2958</gain>
+		</pure_gain>
+		
+		<fcs_function name="fcs/drivers/roll/rate-limiter">
+			<function>
+				<product>
+					<table> <!-- Kicks in at 225 degrees per second -->
+						<independentVar lookup="row">velocities/p-deg_sec</independentVar>
+						<tableData>
+							-300  1
+							-225  0
+							 225  0
+							 300 -1
+						</tableData>
+					</table>
+					<table> <!-- System Gain -->
+						<independentVar lookup="row">velocities/vc-kts</independentVar>
+						<independentVar lookup="column">fcs/drivers/roll/rate-limiter-enable</independentVar>
+						<tableData>
+							     0    1
+							200  0.0  5.0
+							700  0.0  2.0
+						</tableData>
+					</table>
+				</product>
+			</function>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+		</fcs_function>
+		
+		<switch name="fcs/drivers/roll/rate-damper-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				aero/alpha-deg ge -30
+				aero/alpha-deg le  30
+				gear/unit[0]/WOW ne 1
+				gear/unit[1]/WOW ne 1
+				gear/unit[2]/WOW ne 1
+				aero/spin-norm == 0
+				fcs/roll-damper/enable ne 0.0
+				fcs/roll-damper/serviceable == 1
+				/ja37/elec/ac-bus-main-volt gt 180
+			</test>
+		</switch>
+		
+		<scheduled_gain name="fcs/drivers/roll/rate-damper">
+			<input>velocities/p-rad_sec</input>
+			<table>
+				<independentVar lookup="row">velocities/vc-kts</independentVar>
+				<independentVar lookup="column">fcs/drivers/roll/rate-damper-enable</independentVar>
+				<tableData>
+                         0    1
+					200  0.0 -0.8
+					700  0.0 -0.1
+				</tableData>
+			</table>
+			<clipto> <!-- 4 deg / 15 deg -->
+				<min>-0.18182</min>
+				<max>0.18182</max>
+			</clipto>
+		</scheduled_gain>
+		
+		<summer name="fcs/drivers/roll-output">
+			<input>fcs/drivers/roll/rate-limiter</input>
+			<input>fcs/drivers/roll/rate-damper</input>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+		</summer>
 	
 	</channel>
 

@@ -1469,7 +1469,7 @@
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <property>fcs/elevon/diff-aero-rad</property>
+                <property>fcs/elevon/diff-half-aero-rad</property>
                 <value>-0.0226</value>
             </product>
         </function>
@@ -1804,7 +1804,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <property>fcs/elevon/diff-aero-rad</property>
+                <property>fcs/elevon/diff-half-aero-rad</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
@@ -2702,7 +2702,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <property>fcs/elevon/diff-aero-rad</property>
+                <property>fcs/elevon/diff-half-aero-rad</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
