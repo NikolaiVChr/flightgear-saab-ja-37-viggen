@@ -397,7 +397,7 @@
 			<gain>0.0174533</gain> <!-- Deg to Rad -->
 		</pure_gain>
 		
-		<fcs_function name="fcs/elevon/diff-aero-deg">
+		<fcs_function name="fcs/elevon/diff-half-aero-deg">
 			<function>
 				<sum>
 					<product>
@@ -421,7 +421,7 @@
 		</fcs_function>
 		
 		<pure_gain name="fcs/elevon/diff-half-aero-rad">
-			<input>fcs/elevon/diff-aero-deg</input>
+			<input>fcs/elevon/diff-half-aero-deg</input>
 			<gain>0.0174533</gain> <!-- Deg to Rad -->
 		</pure_gain>
 		

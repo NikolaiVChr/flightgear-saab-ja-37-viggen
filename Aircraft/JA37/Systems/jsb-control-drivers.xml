@@ -13,7 +13,6 @@
 				gear/unit[0]/WOW ne 1
 				gear/unit[1]/WOW ne 1
 				gear/unit[2]/WOW ne 1
-				aero/spin-norm eq 0
 				fcs/roll-limiter/enable ne 0
 				fcs/roll-limiter/serviceable eq 1
 				/ja37/elec/ac-bus-main-volt gt 180
@@ -62,9 +61,8 @@
 				gear/unit[0]/WOW ne 1
 				gear/unit[1]/WOW ne 1
 				gear/unit[2]/WOW ne 1
-				aero/spin-norm == 0
 				fcs/roll-damper/enable ne 0.0
-				fcs/roll-damper/serviceable == 1
+				fcs/roll-damper/serviceable eq 1
 				/ja37/elec/ac-bus-main-volt gt 180
 			</test>
 		</switch>
@@ -75,8 +73,8 @@
 				<independentVar lookup="row">velocities/vc-kts</independentVar>
 				<independentVar lookup="column">fcs/drivers/roll/rate-damper-enable</independentVar>
 				<tableData>
-                         0    1
-					200  0.0 -0.8
+					     0    1
+					200  0.0 -0.3
 					700  0.0 -0.1
 				</tableData>
 			</table>
