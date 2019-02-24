@@ -1063,7 +1063,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         speed_d:          "velocities/speed-down-fps",
         speed_e:          "velocities/speed-east-fps",
         speed_n:          "velocities/speed-north-fps",
-        station:          "controls/armament/station-select",
+        station:          "controls/armament/station-select-custom",
         tenHz:            "ja37/blink/four-Hz/state",
         twoHz:            "ja37/blink/two-Hz/state",
         terrainOn:        "ja37/sound/terrain-on",
@@ -1159,7 +1159,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       #}
 
       me.cannon = me.station == 0;
-      me.cannon = me.cannon or getprop("payload/weight["~ (me.station-1) ~"]/selected") == "M55 AKAN";
+      me.cannon = me.cannon or (me.station != -1 and getprop("payload/weight["~ (me.station-1) ~"]/selected") == "M55 AKAN");
       me.cannon = mode == COMBAT and me.cannon;
       me.out_of_ammo = FALSE;
       #if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
@@ -2042,6 +2042,15 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       air2ground = FALSE;
       return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
     } elsif (mode == COMBAT and cannon == FALSE) {
+      if (me.station == -1) {
+        air2air = FALSE;
+        air2ground = FALSE;
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.hide();
+        me.reticle_c_missile.hide();
+        return;
+      }
       me.armament = getprop("payload/weight["~ (me.station-1) ~"]/selected");
       if(me.armament == "M70 ARAK") {
         air2air = FALSE;
@@ -2572,7 +2581,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     if(mode == COMBAT) {
 
       me.armSelect = me.station;
-      if(me.armSelect != 0 and (getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett" or getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)")) {
+      if(me.armSelect > 0 and (getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett" or getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)")) {
 
         me.bomb = nil;
         if(armament.AIM.active[me.armSelect-1] != nil) {

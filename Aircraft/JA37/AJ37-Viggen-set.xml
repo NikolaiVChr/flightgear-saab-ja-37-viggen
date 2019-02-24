@@ -301,7 +301,7 @@
 
     <controls>
         <armament>
-            <station-select type="int">1</station-select>            <!-- cannon selected by default -->
+            <station-select-custom type="int">1</station-select-custom>            <!-- cannon selected by default -->
         </armament>
     </controls>
 

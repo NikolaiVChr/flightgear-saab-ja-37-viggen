@@ -206,7 +206,7 @@
                 <desc>Select missile 1</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>1</value>
                 </binding>
                 <binding>
@@ -221,7 +221,7 @@
                 <desc>Select missile 2</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>2</value>
                 </binding>
                 <binding>
@@ -236,7 +236,7 @@
                 <desc>Select missile 3</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>3</value>
                 </binding>
                 <binding>
@@ -251,7 +251,7 @@
                 <desc>Select missile 4</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>4</value>
                 </binding>
                 <binding>
@@ -266,7 +266,7 @@
                 <desc>Select missile outer left</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>5</value>
                 </binding>
                 <binding>
@@ -281,7 +281,7 @@
                 <desc>Select missile outer right</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>6</value>
                 </binding>
                 <binding>
@@ -296,7 +296,7 @@
                 <desc>Select missile center</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
+                    <property>controls/armament/station-select-custom</property>
                     <value>7</value>
                 </binding>
                 <binding>

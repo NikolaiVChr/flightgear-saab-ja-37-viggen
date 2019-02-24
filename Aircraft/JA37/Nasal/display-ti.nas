@@ -1518,7 +1518,7 @@ var TI = {
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
 #			twoHz:                "ja37/blink/two-Hz/state",
-			station:          	  "controls/armament/station-select",
+			station:          	  "controls/armament/station-select-custom",
 			roll:             	  "orientation/roll-deg",
 			pitch:             	  "orientation/pitch-deg",
 			units:                "ja37/hud/units-metric",
@@ -1528,7 +1528,6 @@ var TI = {
 			tenHz:            	  "ja37/blink/four-Hz/state",
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
-	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
 	        ctrlRadar:        	  "controls/altimeter-radar",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
@@ -2131,6 +2130,9 @@ var TI = {
 		}
 		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
+		}
+		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == -1) {
+			me.menuButtonBox[15].show();
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
@@ -5575,7 +5577,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (me.menuMain == MAIN_WEAPONS) {
-				#clear weapon selection
+				me.input.station.setIntValue(-1);
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				setprop("ja37/avionics/gps-cmd", !getprop("ja37/avionics/gps-cmd"));

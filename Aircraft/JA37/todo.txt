@@ -144,7 +144,6 @@ TI: Add rb-99 to SVY?
 TI: Navigation mode RR probably was intercept vector.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing.
 TI: Be able to set steerorder to LV or FF points. (I cannot see in manual where that should be possible, so is on hold)
-TI: Clear pylon selection.
 TI: Has almost 100 getprop calls, convert to getValue.
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.

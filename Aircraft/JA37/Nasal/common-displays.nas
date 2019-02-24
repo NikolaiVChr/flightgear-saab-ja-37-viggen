@@ -63,7 +63,7 @@ var Common = {
         RMActive:         "autopilot/route-manager/active",
         rmDist:           "autopilot/route-manager/wp/dist",
 units:                "ja37/hud/units-metric",
-	        station:          "controls/armament/station-select",
+	        station:          "controls/armament/station-select-custom",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -187,6 +187,10 @@ units:                "ja37/hud/units-metric",
 
 	armName: func {
 		  me.armSelect = me.input.station.getValue();
+		  if (me.armSelect == -1) {
+		  	me.currArmName = "CLR";
+		  	return;
+		  }
 	      if (me.armSelect > 0) {
 	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
 	      } else {
@@ -231,6 +235,10 @@ units:                "ja37/hud/units-metric",
 
 	armNameMedium: func {
 		  me.armSelect = me.input.station.getValue();
+		  if (me.armSelect == -1) {
+		  	me.currArmNameMedium = "CLR";
+		  	return;
+		  }
 	      if (me.armSelect > 0) {
 	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
 	      } else {
@@ -294,6 +302,10 @@ units:                "ja37/hud/units-metric",
 
 	armNameShort: func {
 		  me.armSelect = me.input.station.getValue();
+		  if (me.armSelect == -1) {
+		  	me.currArmNameSh = "";
+		  	return;
+		  }
 	      if (me.armSelect > 0) {
 	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
 	      } else {
@@ -313,6 +325,8 @@ units:                "ja37/hud/units-metric",
 	        me.currArmNameSh = "99";	        
 	      } elsif(me.armament == "TEST") {
 	        me.currArmNameSh = "TS";	        
+	      } elsif(me.armament == "") {
+	        me.currArmNameSh = "";
 	      } else {
 	        me.currArmNameSh = "--";	        
 	      }

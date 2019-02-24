@@ -63,7 +63,7 @@
     <animation>
         <type>rotate</type>
         <object-name>arm-selector</object-name>
-        <property>controls/armament/station-select</property>
+        <property>controls/armament/station-select-custom</property>
         <factor>30</factor>
         <center>
             <x-m>0.0842</x-m>
