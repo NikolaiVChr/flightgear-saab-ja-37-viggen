@@ -1,31 +1,31 @@
 AC3Db
-MATERIAL "callsignMat" rgb 1 1 1  amb 1 1 1  emis 1 1 1  spec 1 1 1  shi 50  trans 0.2
+MATERIAL "callsignMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 50 trans 0.000
 OBJECT world
-kids 1
-OBJECT group
-name "group"
-loc 0.0 0.0 0.0
+name "Blender_exporter_v2.26__callsign.ac"
 kids 1
 OBJECT poly
 name "Callsign"
+data 13
+Callsign.mesh
+crease 45.0
 texture "buttons/button-empty.png"
-crease 45.000000
+texrep 1 1
 numvert 4
-0 0.000 -0.06
-0 0.000  0.06
-0 0.015  0.06
+0 0 -0.06
+0 -0 0.06
+0 0.015 0.06
 0 0.015 -0.06
 numsurf 2
-SURF 0x30
+SURF 0X10
 mat 0
 refs 3
 0 1 0
+2 0 1
 1 0 0
-2 0 1
-SURF 0x30
+SURF 0X10
 mat 0
 refs 3
 0 1 0
-2 0 1
 3 1 1
+2 0 1
 kids 0
