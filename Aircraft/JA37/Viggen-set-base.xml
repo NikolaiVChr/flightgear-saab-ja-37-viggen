@@ -523,6 +523,8 @@
     <ja37>
         <accelerations>
             <pilot-G type="double">1.0</pilot-G>
+            <pilot-G-lag type="double">1.0</pilot-G-lag>
+            <pilot-G-max type="double">1.0</pilot-G-max>
         </accelerations>
         <supported>
             <old-custom-fails type="int">0</old-custom-fails>

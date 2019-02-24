@@ -3672,7 +3672,10 @@ Sim: Fixed that plans loaded from disk would not autoswitch to RTB.
 Arms: Fixed selecting loadout in dialog did not work anymore due to changes in FG dialog.
 Sim: Fixed bad operator in indicator logic.
 Model: If master-warning for second fuel warning has been acknowledged this warning goes away from panel.
+Model: Small shading change to oxygen knob.
 TI: Enabled the CLR button in WEAP menu.
 Radar: Fixed AJ radar.
 TI: Fixed that clicking RR in SYST menu would seemingly enable steerorder even if nothing was selected.
 Model: Made panel callsign be a sticker on the panel instead of emissive letters.
+Model: Mipmapped the callsign sticker.
+Model: Accelerometer now has second neddle for maximum G done. And a button for reseting it.
