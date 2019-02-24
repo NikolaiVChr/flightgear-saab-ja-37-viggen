@@ -4,7 +4,7 @@ var callInit = func {
         "name": "Callsign",
         "size": [128, 16],
         "view": [128, 16],
-        "mipmapping": 0
+        "mipmapping": 1
   });
       
   canvasCallsign.addPlacement({"node": "Callsign", "texture": "button-empty.png"});
