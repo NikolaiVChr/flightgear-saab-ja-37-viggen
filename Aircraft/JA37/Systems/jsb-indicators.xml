@@ -477,14 +477,30 @@
                         <property>systems/electrical/generator-running-norm</property>
                         <value>1</value>
                     </nq>
-                    <eq>
-                        <property>/controls/electric/main</property>
-                        <value>0</value>
-                    </eq>
                     <lt>
                         <property>/ja37/elec/dc-bus-battery-3-volt</property>
-                        <value>24</value>
+                        <value>20</value>
                     </lt>
+                    <and>
+                        <or>
+                            <eq>
+                                <property>/gear/gear[1]/position-norm</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>/gear/gear[2]/position-norm</property>
+                                <value>1</value>
+                            </eq>
+                        </or>
+                        <eq>
+                            <property>systems/electrical/generator-reserve-deploy-emergency-cmd</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>/systems/electrical/serviceable</property>
+                            <value>0</value>
+                        </eq>
+                    </and>
                 </or>
             </function>
         </fcs_function>
@@ -516,19 +532,41 @@
                     </and>
                     <and>
                         <eq>
-                            <property>/controls/electric/reserve</property>
+                            <property>systems/electrical/generator-reserve-deploy-emergency-cmd</property><!-- should really be RAT extended but dont make sense.. -->
                             <value>1</value>
                         </eq>
-                        <or>
-                            <eq>
-                                <property>systems/electrical/generator-running-norm</property>
-                                <value>1</value>
-                            </eq>
-                            <eq>
-                                <property>/controls/electric/main</property>
-                                <value>0</value>
-                            </eq>
-                        </or>
+                        <eq>
+                            <property>systems/electrical/generator-running-norm</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <and>
+                        <lt>
+                            <property>systems/electrical/generator-reserve-pos-norm</property>
+                            <value>1</value>
+                        </lt>
+                        <eq>
+                            <property>propulsion/starter_cmd</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <and>
+                        <eq>
+                            <property>systems/electrical/generator-reserve-supplying</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[0]/wow</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </eq>                        
+                        <eq>
+                            <property>propulsion/starter_cmd</property>
+                            <value>1</value>
+                        </eq>
                     </and>
                 </or>
             </function>
@@ -1633,10 +1671,17 @@
         <fcs_function name="systems/indicators/low-fuel">
             <function>
                 <or>
-                    <eq>
-                        <property>systems/indicators/low-fuel-secondary</property>
-                        <value>1</value>
-                    </eq>
+                    <and>
+                        <eq>
+                            <property>systems/indicators/low-fuel-secondary</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <!-- delicate but works. If master-warning has been acknowledged this warning goes away -->
+                            <property>systems/indicators/master-warning/fuel-low-2</property>
+                            <value>3</value>
+                        </eq>
+                    </and>
                     <and>
                         <or>
                             <eq>
@@ -2261,21 +2306,41 @@
             </function>
         </fcs_function>
         
-        <switch name="/instrumentation/TLS-light">
+        <switch name="/instrumentation/TLS-light-steady">
             <default value="0"/>
             <test logic="AND" value="1">
                 /ja37/hud/TILS-on == 1
                 /instrumentation/nav[0]/gs-in-range == 1
                 /instrumentation/nav[0]/has-gs == 1
             </test>
-            <test logic="OR" value="/ja37/blink/four-Hz/state">
-                /ja37/hud/TILS-on == 1
+            <test logic="AND" value="0">
+                /instrumentation/TLS-light-steady-hyst lt sim-time-sec
             </test>
             <test logic="AND" value="1">
                 /instrumentation/TLS-light-steady-hyst gt sim-time-sec
+                /instrumentation/TLS-light-steady == 1
             </test>
-            <test logic="AND" value="/ja37/blink/four-Hz/state">
+        </switch>
+        
+        <switch name="/instrumentation/TLS-light-blink">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /ja37/hud/TILS-on == 1
+            </test>
+            <test logic="AND" value="0">
+                /instrumentation/TLS-light-blink-hyst lt sim-time-sec
+            </test>
+            <test logic="AND" value="1">
                 /instrumentation/TLS-light-blink-hyst gt sim-time-sec
+                /instrumentation/TLS-light-blink == 1
+            </test>
+        </switch>
+        
+        <switch name="/instrumentation/TLS-light">
+            <default value="/instrumentation/TLS-light-steady"/>
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /instrumentation/TLS-light-blink == 1
+                /controls/lighting/test-indicator-panels == 1
             </test>
         </switch>
         

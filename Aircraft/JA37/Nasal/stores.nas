@@ -40,7 +40,7 @@ input = {
   MPint9:           "sim/multiplay/generic/int[9]",
   replay:           "sim/replay/replay-state",
   serviceElec:      "systems/electrical/serviceable",
-  stationSelect:    "controls/armament/station-select",
+  stationSelect:    "controls/armament/station-select-custom",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   subAmmo9:         "ai/submodels/submodel[9]/count", 
@@ -343,7 +343,7 @@ var loop_stores = func {
 
     #activate searcher on selected pylon if missile mounted
     var armSelect = input.stationSelect.getValue();
-    if (armSelect == 0) {
+    if (armSelect == 0 or armSelect == -1) {
       setprop("ja37/avionics/vid", FALSE);
     }
     for(i = 0; i <= 6; i += 1) {
@@ -643,7 +643,7 @@ var trigger_listener = func {
   var armSelect = input.stationSelect.getValue();
 
   #if masterarm is on and HUD in tactical mode, propagate trigger to station
-  if(input.combat.getValue() == 2 and power.prop.dcMainBool.getValue() and !(armSelect == 0 and !power.prop.acMainBool.getValue())) {
+  if(armSelect != -1 and input.combat.getValue() == 2 and power.prop.dcMainBool.getValue() and !(armSelect == 0 and !power.prop.acMainBool.getValue())) {
     setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
     var str = "payload/weight["~(armSelect-1)~"]/selected";
     if (armSelect != 0 and getprop(str) == "M70 ARAK") {
@@ -687,7 +687,9 @@ var trigger_listener = func {
       }
     }
   } else {
-    setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
+    if (armSelect != -1) {
+      setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
+    }
     setprop("/controls/armament/station["~1~"]/trigger-m70", FALSE);
     setprop("/controls/armament/station["~2~"]/trigger-m70", FALSE);
     setprop("/controls/armament/station["~3~"]/trigger-m70", FALSE);
@@ -705,7 +707,7 @@ var trigger_listener = func {
     fired = getprop("payload/weight["~ (armSelect-1) ~"]/selected");
   }
 
-  if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
+  if(armSelect > 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
     if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
       # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
       if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == MISSILE_LOCK and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE)) {
@@ -1306,8 +1308,9 @@ var count99 = func () {
 
 var ammoCount = func (station) {
   var ammo = -1;
-
-  if (station == 0) {
+  if (station == -1) {
+    ammo == -1;
+  } elsif (station == 0) {
     ammo = getprop("ai/submodels/submodel[3]/count");
   } else {
     var type = getprop("payload/weight["~(station-1)~"]/selected");
@@ -1419,12 +1422,13 @@ var ammoCount = func (station) {
 
 var selectCannon = func {
   if(getprop("ja37/systems/variant") == 0) {
-    setprop("controls/armament/station-select", 0);
+    setprop("controls/armament/station-select-custom", 0);
     ja37.click();
   }
 }
 
 var cycle_weapons = func {
+  # station -1= none selected
   # station 0 = cannon
   # station 1 = inner left wing
   # station 2 = left fuselage
@@ -1434,8 +1438,8 @@ var cycle_weapons = func {
   # station 6 = outer right wing
   # station 7 = center pylon
 
-  var sel = getprop("controls/armament/station-select");
-  var type = sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected");
+  var sel = getprop("controls/armament/station-select-custom");
+  var type = sel==-1?"none":(sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected"));
   var newType = "none";
 
   var loopRan = FALSE;
@@ -1582,7 +1586,7 @@ var cycle_weapons = func {
   }
 
   ja37.click();
-  setprop("controls/armament/station-select", sel);
+  setprop("controls/armament/station-select-custom", sel);
 }
 
 var buttonIRRB = func {
@@ -1595,8 +1599,8 @@ var buttonIRRB = func {
   # station 6 = outer right wing
   # station 7 = center pylon
 
-  var sel = getprop("controls/armament/station-select");
-  var type = sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected");
+  var sel = getprop("controls/armament/station-select-custom");
+  var type = sel==-1?"none":(sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected"));
   var newType = "none";
 
   var loopRan = FALSE;
@@ -1632,15 +1636,15 @@ var buttonIRRB = func {
         if (loopRan == FALSE) {
           loopRan = TRUE;
         } else {
-          # we have been here once before, so to prevent infinite loop, we just select station 1
-          sel = 1;
+          # we have been here once before, so to prevent infinite loop, we just select nothing
+          sel = -1;
           type = "none";
           newType = "empty";
         }
       }
     }
   }
-  setprop("controls/armament/station-select", sel);
+  setprop("controls/armament/station-select-custom", sel);
 }
 
 ############ reload #####################

@@ -57,6 +57,7 @@
             <z-m>0</z-m>
         </center>
     </animation>
+    
     <animation>
         <type>material</type>
         <object-name>lamp</object-name>

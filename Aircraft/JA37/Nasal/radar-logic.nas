@@ -38,9 +38,11 @@ var getClock = func (bearing) {
 }
 
 var toggleRadarSteerOrder = func {
-  steerOrder = !steerOrder;
-  if (steerOrder == TRUE) {
+  if (!steerOrder and selection != nil) {
+    steerOrder = TRUE;
     land.RR();
+  } else {
+    steerOrder = FALSE;
   }
 }
 

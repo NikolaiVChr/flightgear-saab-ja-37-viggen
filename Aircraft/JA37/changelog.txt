@@ -3657,3 +3657,27 @@ GUI: Updated pre-flight checklists to new elec. system.
 Elec: Stopped comparing volts in model files. Use bools except for emissions.
 Model: Added yaw trim centered indicator and added check to checklist.
 Elec: Changed schedule for RAT rpm.
+Sim: Fixed swedish take-off state would give warnings.
+Sim: More accurate logic for left indicator panel electric warnings.
+Elec: Change in how much N2 for generator operation.
+DAP: Fix regression nil pointer.
+Model: Tachometer is now on DC bus.
+HUD: Towers no longer list ICAO in HUD.
+MI: When clicking PEK, it will now only msg. on screen if flight ctrl was off.
+Effect: Flood light now brighter in dusk/dawn conditions.
+Animation: Fixed the TLS light indicator.
+TI: No longer shows steerpoint at bottom-right.
+TI: Fixed last steerpoint in a route was not shown.
+Sim: Fixed that plans loaded from disk would not autoswitch to RTB.
+Arms: Fixed selecting loadout in dialog did not work anymore due to changes in FG dialog.
+Sim: Fixed bad operator in indicator logic.
+Model: If master-warning for second fuel warning has been acknowledged this warning goes away from panel.
+Model: Small shading change to oxygen knob.
+TI: Enabled the CLR button in WEAP menu.
+Radar: Fixed AJ radar.
+TI: Fixed that clicking RR in SYST menu would seemingly enable steerorder even if nothing was selected.
+Model: Made panel callsign be a sticker on the panel instead of emissive letters.
+Model: Mipmapped the callsign sticker.
+Model: Accelerometer now has second neddle for maximum G done. And a button for reseting it.
+Model: Some gauges has now a red/white flag, when not reliable.
+Animation: Made TLS indiactor blink when doing light test.

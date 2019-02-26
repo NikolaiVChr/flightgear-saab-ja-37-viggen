@@ -285,7 +285,7 @@ var dictEN = {
 	'HORI': {'0': [TRUE, "OFF"], '1': [TRUE, "CLR"], '2': [TRUE, "ON"]},
 	'0':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"]},
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
-			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"], '3': [TRUE, "SEEK"], '17': [TRUE, "MODE"], '18': [TRUE, "MODE"], '19': [TRUE, "SEEK"], '20': [TRUE, "STA"], '2': [TRUE, "CAGE"]},
+			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [TRUE, "CLR"], '3': [TRUE, "SEEK"], '17': [TRUE, "MODE"], '18': [TRUE, "MODE"], '19': [TRUE, "SEEK"], '20': [TRUE, "STA"], '2': [TRUE, "CAGE"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "S"], '5': [TRUE, "MPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
 	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [TRUE, "RPOL"], '17': [TRUE, "LR"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
@@ -1518,7 +1518,7 @@ var TI = {
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
 #			twoHz:                "ja37/blink/two-Hz/state",
-			station:          	  "controls/armament/station-select",
+			station:          	  "controls/armament/station-select-custom",
 			roll:             	  "orientation/roll-deg",
 			pitch:             	  "orientation/pitch-deg",
 			units:                "ja37/hud/units-metric",
@@ -1528,7 +1528,6 @@ var TI = {
 			tenHz:            	  "ja37/blink/four-Hz/state",
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
-	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
 	        ctrlRadar:        	  "controls/altimeter-radar",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
@@ -2131,6 +2130,9 @@ var TI = {
 		}
 		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
+		}
+		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == -1) {
+			me.menuButtonBox[15].show();
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
@@ -3992,6 +3994,8 @@ var TI = {
 				} else {
 					me.wpSelect = nil;
 				}
+			} else {
+				me.points = 0;
 			}
 			for (var wp = 0; wp < me.points; wp += 1) {
 				# wp      = local index inside a polygon
@@ -4129,7 +4133,8 @@ var TI = {
 				}
 	  		}
 	  	}
-	  	me.wpIndex = me.wpIndex==-1?0:me.wpIndex;
+	  	#me.wpIndex = me.wpIndex==-1?0:me.wpIndex;
+	  	me.wpIndex += 1;
 	  	for (me.j = me.wpIndex;me.j<=me.steerPointMax;me.j+=1) {
 	  		me.steerpoint[me.j].hide();
 	  	}
@@ -5572,7 +5577,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (me.menuMain == MAIN_WEAPONS) {
-				#clear weapon selection
+				me.input.station.setIntValue(-1);
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				setprop("ja37/avionics/gps-cmd", !getprop("ja37/avionics/gps-cmd"));

@@ -63,7 +63,7 @@ var Common = {
         RMActive:         "autopilot/route-manager/active",
         rmDist:           "autopilot/route-manager/wp/dist",
 units:                "ja37/hud/units-metric",
-	        station:          "controls/armament/station-select",
+	        station:          "controls/armament/station-select-custom",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -155,9 +155,10 @@ units:                "ja37/hud/units-metric",
 	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1 and (steers or land.mode > 0)) {
 	    	# next steerpoint
 	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
-	    	me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
-	    	me.distance_name = me.theID!=nil?me.theID:"";
-			me.distance_model = me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
+	    	#me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
+	    	# disabled, these names should not show up: TODO: replace?
+	    	me.distance_name = "";#me.theID!=nil?me.theID:""; 
+			me.distance_model = "";#me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
 		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
 			# DME
 	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
@@ -186,6 +187,10 @@ units:                "ja37/hud/units-metric",
 
 	armName: func {
 		  me.armSelect = me.input.station.getValue();
+		  if (me.armSelect == -1) {
+		  	me.currArmName = getprop("ja37/hud/units-metric")==1?"RENS":"CLR";
+		  	return;
+		  }
 	      if (me.armSelect > 0) {
 	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
 	      } else {
@@ -230,6 +235,10 @@ units:                "ja37/hud/units-metric",
 
 	armNameMedium: func {
 		  me.armSelect = me.input.station.getValue();
+		  if (me.armSelect == -1) {
+		  	me.currArmNameMedium = getprop("ja37/hud/units-metric")==1?"RENS":"CLR";
+		  	return;
+		  }
 	      if (me.armSelect > 0) {
 	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
 	      } else {
@@ -293,6 +302,10 @@ units:                "ja37/hud/units-metric",
 
 	armNameShort: func {
 		  me.armSelect = me.input.station.getValue();
+		  if (me.armSelect == -1) {
+		  	me.currArmNameSh = "";
+		  	return;
+		  }
 	      if (me.armSelect > 0) {
 	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
 	      } else {
@@ -312,6 +325,8 @@ units:                "ja37/hud/units-metric",
 	        me.currArmNameSh = "99";	        
 	      } elsif(me.armament == "TEST") {
 	        me.currArmNameSh = "TS";	        
+	      } elsif(me.armament == "") {
+	        me.currArmNameSh = "";
 	      } else {
 	        me.currArmNameSh = "--";	        
 	      }

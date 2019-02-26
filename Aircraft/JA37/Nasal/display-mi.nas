@@ -114,8 +114,10 @@ var bright = 0;
 var cursor = func {
 	cursorOn = !cursorOn;
 	if (!cursorOn) {
+		if (!getprop("ja37/systems/input-controls-flight")) {
+			ja37.notice("Cursor OFF. Flight ctrl ON.");
+		}
 		setprop("/ja37/systems/input-controls-flight", 1);
-		ja37.notice("Cursor OFF. Flight ctrl ON.");
 	}
 }
 
@@ -148,7 +150,7 @@ var MI = {
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
-			station:          	  "controls/armament/station-select",
+			station:          	  "controls/armament/station-select-custom",
 			roll:             	  "orientation/roll-deg",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
@@ -158,7 +160,6 @@ var MI = {
 			tenHz:            	  "ja37/blink/four-Hz/state",
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
-	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
 	        ctrlRadar:        "controls/altimeter-radar",
 	        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",

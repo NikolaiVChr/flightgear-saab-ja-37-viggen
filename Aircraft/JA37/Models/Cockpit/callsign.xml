@@ -9,8 +9,13 @@
         <y-m>  0.0</y-m>
         <z-m>  0.0</z-m>
     </offsets>
-
+    
     <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Callsign</object-name>
+    </effect>
+
+<!--    <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
         <parameters>
           <splash-x>0</splash-x>
@@ -32,9 +37,9 @@
           <lightmap-multi type="int">0</lightmap-multi>
         </parameters>
         <object-name>Callsign</object-name>
-    </effect>
+    </effect>-->
 
-    <animation>
+<!--    <animation>
         <type>material</type>
         <object-name>Callsign</object-name>
         <condition>
@@ -145,7 +150,7 @@
             <blue>0</blue>
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
-    </animation>
+    </animation>-->
 
     <animation>
         <type>scale</type>

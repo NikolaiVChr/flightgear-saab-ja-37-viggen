@@ -22,10 +22,10 @@
                         <switch type="bool">false</switch>
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
-                </systems>
-                <electrical>
+                    <electrical>
                         <generator-takeoff type="bool">true</generator-takeoff>
                     </electrical>
+                </systems>                
             </jsbsim>
         </fdm>
         <controls>

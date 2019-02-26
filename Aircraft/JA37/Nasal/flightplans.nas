@@ -209,6 +209,7 @@ var Polygon = {
 				# loading failed, we clear the plan.
 				Polygon.editStop();
 				Polygon.polys[pln].plan = createFlightplan();
+				Polygon.polys[pln].plan.id = pln;
 				if (Polygon.polys[pln].type == TYPE_RTB) {
 					Polygon.setLand(pln);
 				}
@@ -224,6 +225,7 @@ var Polygon = {
 			if (Polygon.polys[pln].type == TYPE_RTB) {
 				Polygon.setLand(pln);
 			}
+			newPlan.id = pln;
 			#Polygon._setDestDep(Polygon.polys[pln]);# gpx does not have destination support, so we check if its likely to be an airport and set it
 			if (Polygon.polys[pln].isPrimary()) {
 				Polygon._activating = TRUE;

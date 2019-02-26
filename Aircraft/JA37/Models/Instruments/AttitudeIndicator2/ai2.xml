@@ -26,11 +26,22 @@
             </binding>
         </hovered>
     </animation>
+    
+    <animation>
+        <type>select</type>
+        <object-name>off</object-name>
+        <condition>
+            <not>
+                <property>ja37/elec/ac-bus-main-bool</property>
+            </not>
+        </condition>
+    </animation>
 
     <animation>
         <type>material</type>
         <object-name>AI2Cylinder</object-name>
         <object-name>AI2Pointer</object-name>
+        <object-name>off</object-name>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
             <green-prop>instrumentation/instrumentation-light/g</green-prop>

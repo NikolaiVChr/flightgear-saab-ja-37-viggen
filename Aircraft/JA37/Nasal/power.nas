@@ -19,10 +19,10 @@ prop = {
     acMainBool:       "ja37/elec/ac-bus-main-bool",
     acSecondBool:     "ja37/elec/ac-bus-secondary-bool",
     
-    hyd1Bool:         "systems/hydraulics/system1/pressure",
-    hyd2MainBool:     "systems/hydraulics/system2/pressure-main",
-    hyd2ResBool:      "systems/hydraulics/system2/pressure-reserve",
-    hyd2Bool:         "systems/hydraulics/system2/pressure",
+    hyd1Bool:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
+    hyd2MainBool:     "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
+    hyd2ResBool:      "fdm/jsbsim/systems/hydraulics/system2/pressure-reserve",
+    hyd2Bool:         "fdm/jsbsim/systems/hydraulics/system2/pressure",
 };
 
 # setup property nodes for the loop

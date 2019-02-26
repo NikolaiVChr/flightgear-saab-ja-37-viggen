@@ -36,9 +36,9 @@ Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Stores jettisoned indicator on top right of front panel. (AJ)
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Model: In JA the 2 gauges on right panel sat in a panel.
-Model: The A/P pushbuttons light can still be hard to see.
+Model: The A/P pushbuttons light can still be hard to see. It need textranslate and white middle.
 Model: The frontpanel tap is misaligned.
-Model: The JA has a chronometer right of fuel gauge.
+Model: The JA has a small chronometer right of fuel gauge.
 Model: The nosegear well, has gap between it and fuselage.
 Animation: Make jettison drop-tank actually fall down like other stores do.
 Animation: Make more use of knob animation: Radio, Altimeters, MI brightness.
@@ -63,7 +63,6 @@ CI: Slew cursor.
 DAP: Input TACAN with REG/STR?
 DAP: Minneslista JA37 has some DAP addresses. Make.
 DAP: Show sign of input at leftmost char always.
-DAP: When saving FF,LV,BE and L. Maybe consider saving alot of other addresses/settings also?
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2020.
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
 Effect: Fix that with engine off, the wind can drive the fan which will produce smoke.
@@ -96,13 +95,10 @@ Radar: Make other planes notice when radar is off. (semi done, think F15, mig21 
 Radar: Make rb71 notchable again, by introducing 3 diff painted properties instead of one.
 Radar: No voice warning of incoming missiles. (reported by pinto, not reproducable)
 Radar: Openradar has no roll and heading. Fix radar to handle that.
-Radar: RCS takes a moment to kick in apparently. Might be fixed. No its not, just saw it.
-Sim: A/P does auto trim of roll.
-Sim: AC should just blow air, not keep temperature.
-Sim: After exiting transonic the altitude hold should be recomputed. 
+Control: A/P does auto trim of roll.
+Control: After exiting transonic the altitude hold should be recomputed. 
 Sim: Check terrain warning for when gears is down/landing mode in manual. (its now set to gears down detect)
 Sim: Complete hydraulic dependencies: Brakes.
-Sim: Electric drain.
 Sim: Engine fire improvement: reduced thrust, stuck throttle.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: Hydraulic drain.
@@ -122,7 +118,7 @@ Sim: Make speed, roll, Nz and altitude limits on firing missiles.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
-Sim: Pilot sometimes complains of lack of oxygen after relocation.
+Sim: Pilot sometimes complains of lack of oxygen after relocation. [Probably fixed]
 Sim: Pitot depend on AC power.
 Sim: Replace all generic setValue in nasal with specific types.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
@@ -137,7 +133,6 @@ Sim: Stop auto-selecting when in tactical mode. (semi-done)
 Sim: To disengage A/P to mode 0 press switch on stick or pull fuse (will also disengage A/T).
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Knobs for pylon and master-arm has no sound, fix.
-Sound: More annunciater warnings and other sounds. (transonic/Vne is same signal)
 Sound: Rework how missile buzz and growl works.
 Sound: Sound from wind hitting the gears when extended.
 Test: Engine starter should be hold in for 30 secs before quiting test, not instantly.
@@ -149,7 +144,6 @@ TI: Add rb-99 to SVY?
 TI: Navigation mode RR probably was intercept vector.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing.
 TI: Be able to set steerorder to LV or FF points. (I cannot see in manual where that should be possible, so is on hold)
-TI: Clear pylon selection.
 TI: Has almost 100 getprop calls, convert to getValue.
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.
@@ -188,8 +182,15 @@ Sim: I likely have confused alpha limit warning setting in DAP with setting the 
 GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no longer is shared.
 Elec: Check that everything is on the right bus. (interior lights is not, check JA37C manual)
 Elec: Gun, radar and IR missiles was on seperate buses, fix.
-Model: Reservkurs does not lit up when doing light control, fix.
 Elec: Flying above 1170Km/h with RAT might damage it.
+Elec: Make logic for secondary DC bus G. It depends on BRAGG.
+GUI: Stop perf. monitor from running when dialog is off.
+Sim: Reinit dont repair (sometimes).
+Sim: Strange slowdown of FPS after flying for a while and fighting with aim9.
+DAP: Output of not defined addresses should just be 0000?
+DAP: entering traning floor should be tens of meters.
+Model: The 2 altimeters is wrong models.
+Model: The fuel gauge had a second needle.
 
 
 
@@ -200,44 +201,6 @@ Elec: Flying above 1170Km/h with RAT might damage it.
 
 
 
-
-
-
-
-
-
-
-
-Map accuracy zoom level:
-========================
-real scale | m/px | choosen | approx ideal (display assumed to be 30cm wide)
-200   = 157.4803149606299 >  9    8.50
-400   = 314.9606299212599 >  8    7.75
-800   = 629.9212598425197 >  7    6.75
-1.6   = 1259.842519685039 >  6    5.80
-3.2   = 2519.685039370079 >  5    4.80
-
-slippy lvl for sweden (lat=65)
-0  =66102.56755538628 m/px
-1  =33051.28377769314 m/px
-2  =16525.64188884657 m/px
-3  =8262.609635292414 m/px
-4  =4131.516126777078 m/px
-5  =2065.758063388539 m/px
-6  =1032.879031694269 m/px
-7  =516.4395158471348 m/px
-8  =258.2129960313795 m/px
-9  =129.1064980156898 m/px
-10  =64.55324900784488 m/px
-11  =32.27662450392244 m/px
-12  =16.13852356109209 m/px
-13  =8.069050471415174 m/px
-14  =4.034736544838458 m/px
-15  =2.017156963288358 m/px
-16  =1.008789790775049 m/px
-17  =0.5041835862566544 m/px
-18  =0.2518804839974569 m/px
-19  =0.1259402419987284 m/px
 
 
 

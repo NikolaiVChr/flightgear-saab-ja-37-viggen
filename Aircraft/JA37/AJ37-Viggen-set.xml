@@ -301,7 +301,7 @@
 
     <controls>
         <armament>
-            <station-select type="int">1</station-select>            <!-- cannon selected by default -->
+            <station-select-custom type="int">1</station-select-custom>            <!-- cannon selected by default -->
         </armament>
     </controls>
 
@@ -317,23 +317,23 @@
             </opt>
             <opt>
                 <name>RB 04E Attackrobot</name>
-                <lbs>1378</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M55 AKAN</name>
-                <lbs>802.5</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett</name>
-                <lbs>1060</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett (Retarded)</name>
-                <lbs>1062</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="1">
@@ -347,31 +347,31 @@
             </opt>
             <opt>
                 <name>RB 05A Attackrobot</name>
-                <lbs>672.4</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 24 Sidewinder</name>
-                <lbs>160.94</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 75 Maverick</name>
-                <lbs>462</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett</name>
-                <lbs>1060</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett (Retarded)</name>
-                <lbs>1062</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="2">
@@ -385,23 +385,23 @@
             </opt>
             <opt>
                 <name>RB 04E Attackrobot</name>
-                <lbs>1378</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M55 AKAN</name>
-                <lbs>802.5</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett</name>
-                <lbs>1060</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett (Retarded)</name>
-                <lbs>1062</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="3">
@@ -415,31 +415,31 @@
             </opt>
             <opt>
                 <name>RB 05A Attackrobot</name>
-                <lbs>672.4</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 24 Sidewinder</name>
-                <lbs>160.94</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 75 Maverick</name>
-                <lbs>462</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett</name>
-                <lbs>1060</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett (Retarded)</name>
-                <lbs>1062</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="4">
@@ -475,15 +475,15 @@
             </opt>
             <opt>
                 <name>Drop tank</name>
-                <lbs>211.64</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 04E Attackrobot</name>
-                <lbs>1378</lbs>
+                <lbs>0</lbs>
             </opt>            
             <opt>
                 <name>RB 05A Attackrobot</name>
-                <lbs>672.4</lbs>
+                <lbs>0</lbs>
             </opt>
             <!-- not enough room for this
             <opt>
@@ -492,19 +492,19 @@
             </opt>-->
             <opt>
                 <name>M55 AKAN</name>
-                <lbs>802.5</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett</name>
-                <lbs>1060</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M71 Bomblavett (Retarded)</name>
-                <lbs>1062</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->

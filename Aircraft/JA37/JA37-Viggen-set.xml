@@ -339,7 +339,7 @@
 
     <controls>
         <armament>
-            <station-select type="int">0</station-select>            <!-- cannon selected by default -->
+            <station-select-custom type="int">0</station-select-custom>            <!-- cannon selected by default -->
         </armament>
     </controls>
 
@@ -354,23 +354,23 @@
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 74 Sidewinder</name>
-                <lbs>188</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 71 Skyflash</name>
-                <lbs>425</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 99 Amraam</name>
-                <lbs>291</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="1">
@@ -383,19 +383,19 @@
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 74 Sidewinder</name>
-                <lbs>188</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 99 Amraam</name>
-                <lbs>291</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="2">
@@ -408,23 +408,23 @@
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 74 Sidewinder</name>
-                <lbs>188</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 71 Skyflash</name>
-                <lbs>425</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 99 Amraam</name>
-                <lbs>291</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="3">
@@ -437,19 +437,19 @@
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 74 Sidewinder</name>
-                <lbs>188</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 99 Amraam</name>
-                <lbs>291</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="4">
@@ -462,11 +462,11 @@
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 74 Sidewinder</name>
-                <lbs>188</lbs>
+                <lbs>0</lbs>
             </opt>
         </weight>
         <weight n="5">
@@ -479,11 +479,11 @@
             </opt>
             <opt>
                 <name>RB 24J Sidewinder</name>
-                <lbs>179</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>RB 74 Sidewinder</name>
-                <lbs>188</lbs>
+                <lbs>0</lbs>
             </opt>
             <!--<opt>
                 <name>TEST</name>
@@ -500,11 +500,11 @@
             </opt>
             <opt>
                 <name>Drop tank</name>
-                <lbs>211.64</lbs>
+                <lbs>0</lbs>
             </opt>
             <opt>
                 <name>M70 ARAK</name>
-                <lbs>794</lbs>
+                <lbs>0</lbs>
             </opt>
             <!--  there is no room for these:
             <opt>
