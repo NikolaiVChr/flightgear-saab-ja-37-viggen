@@ -95,10 +95,25 @@
 	
 	<channel name="Elevons">
 		
-		<fcs_function name="fcs/elevon/pitch-cmd-geared">
+		<fcs_function name="fcs/elevon/pitch-cmd-deadzone">
 			<function>
 				<table>
 					<independentVar lookup="row">fcs/elevator/input</independentVar> <!-- Input from control/TI selector -->
+					<tableData>
+						-1.0000 -1.0
+						-0.0415  0.0
+						 0.0000  0.0
+						 0.0415  0.0
+						 1.0000  1.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fcs/elevon/pitch-cmd-geared">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/elevon/pitch-cmd-deadzone</independentVar>
 					<tableData>
 						-1.00 -1.000
 						-0.86 -0.740
@@ -122,84 +137,51 @@
 			</function>
 			<clipto>
 				<min>-1.0</min>
-				<max>1.0</max>
+				<max>0.727272</max> <!-- Clipping for linear deflection end -->
 			</clipto>
 		</fcs_function>
 		
-		<fcs_function name="fcs/elevon/pitch-cmd-non-linear">
-			<description>Modify pitch stick to stick non-linear</description>
-			<function>
-				<table>
-					<independentVar lookup="row">fcs/elevon/pitch-cmd-geared</independentVar>
-					<tableData> <!-- 150mm back, 100mm forward -->
-						-1.0 -1.0000000000
-						 0.0  0.0000000000
-						 1.0  0.6666666667
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
-		<fcs_function name="fcs/elevon/pitch-cmd-modified">
-			<description>Modify pitch stick for elevon non-linear</description>
-			<function>
-				<table>
-					<independentVar lookup="row">fcs/elevon/pitch-cmd-non-linear</independentVar>
-					<tableData> <!-- 0.8 from 80% of 25 is 20 -->
-						-1.0000000000 -1.0
-						 0.0000000000  0.0
-						 0.6666666667  0.8
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
 		<summer name="fcs/elevon/pitch-input-sum">
-			<input>fcs/elevon/pitch-cmd-modified</input> <!-- Input from Modified Pitch Command -->
+			<input>fcs/elevon/pitch-cmd-geared</input> <!-- Input from Pitch Stick Gearing -->
 			<input>fcs/pitch-trim-cmd-norm</input> <!-- Pitch Trim -->
 			<!--input>fcs/drivers/pitch-output</input--> <!-- Pitch Rate Damper -->
 			<!--input>fcs/drivers/pitch-autotrim</input--> <!-- Pitch Autotrim -->
 			<!--input>autoflight/output/pitch-cmd</input--> <!-- A/P Pitch Command -->
 		</summer>
 		
+		<fcs_function name="fcs/elevon/roll-stick-geared">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
+					<tableData>
+						-1.00 -1.000
+						-0.86 -0.740
+						-0.75 -0.560
+						-0.62 -0.400
+						-0.50 -0.280
+						-0.38 -0.190
+						-0.23 -0.110
+						-0.10 -0.045
+						 0.00  0.000
+						 0.10  0.045
+						 0.23  0.110
+						 0.38  0.190
+						 0.50  0.280
+						 0.62  0.400
+						 0.75  0.560
+						 0.86  0.740
+						 1.00  1.000
+					</tableData>
+				</table>
+			</function>
+			<output>fcs/drivers/roll/stick-geared</output>
+		</fcs_function>
+		
 		<fcs_function name="fcs/elevon/roll-cmd-geared">
 			<function>
 				<product>
-					<table>
-						<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
-						<tableData>
-							-1.00 -1.000
-							-0.86 -0.740
-							-0.75 -0.560
-							-0.62 -0.400
-							-0.50 -0.280
-							-0.38 -0.190
-							-0.23 -0.110
-							-0.10 -0.045
-							 0.00  0.000
-							 0.10  0.045
-							 0.23  0.110
-							 0.38  0.190
-							 0.50  0.280
-							 0.62  0.400
-							 0.75  0.560
-							 0.86  0.740
-							 1.00  1.000
-						</tableData>
-					</table>
-					<table> <!-- Reduce deflection at high speeds -->
-						<independentVar lookup="row">velocities/mach</independentVar>
-						<independentVar lookup="column">atmosphere/density-altitude</independentVar>
-						<tableData>
-							      0     60000
-							0.00  1.00  1.000
-							0.10  0.45  1.000
-							0.50  0.35  0.705 <!-- roll rate 125 - 150 degrees/sec with roll damper on -->
-							0.75  0.65  0.600
-							1.00  0.30  0.450 <!-- roll rate 200 - 225 degrees/sec with roll damper on -->
-							2.20  0.06  0.225 <!-- roll rate 200 - 225 degrees/sec with roll damper on -->
-						</tableData>
-					</table>
+					<property>fcs/elevon/roll-stick-geared</property> <!-- Used in jsb-control-drivers too, so it is seperate -->
+					<!-- FIXME: Add Roll Stick Gearing -->
 				</product>
 			</function>
 			<clipto>
@@ -494,18 +476,7 @@
 							 1.00  1.000
 						</tableData>
 					</table>
-					<table>
-						<independentVar lookup="row">velocities/mach</independentVar>
-						<independentVar lookup="column">atmosphere/density-altitude</independentVar>
-						<tableData>
-							     0     70000
-							0.0  1.00  1.00
-							0.1  0.65  1.00
-							0.5  0.25  0.50
-							1.0  0.17  0.30
-							2.2  0.05  0.10
-						</tableData>
-					</table>
+					<!-- FIXME: Add Yaw Stick Gearing -->
 				</product>
 			</function>
 		</fcs_function>
