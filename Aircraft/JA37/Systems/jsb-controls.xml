@@ -540,13 +540,13 @@
                   gear/gear-lever-norm == 0
                   /instrumentation/airspeed-indicator/indicated-speed-kt gt 334.77
                   gear/bypass-lever lt 1
-                  /ja37/elec/dc-bus-main-volt gt 20
+                  /ja37/elec/dc-bus-main-bool == 1
             </test>
             <test logic="AND" value="1">
                   gear/gear-lever-norm == 0
                   /instrumentation/airspeed-indicator/indicated-mach gt 0.65
                   gear/bypass-lever lt 1
-                  /ja37/elec/dc-bus-main-volt gt 20
+                  /ja37/elec/dc-bus-main-bool == 1
             </test>
             <output>gear/gear-lever-lock-electro</output>
         </switch>
@@ -717,7 +717,7 @@
         <switch name="names/flaps/cmd-active">
             <default value="0"/>
             <test logic="OR" value="1">
-                /ja37/elec/dc-bus-main-volt gt 20
+                /ja37/elec/dc-bus-main-bool == 1
             </test>
             <output>fcs/flaps/pos-cmd</output>
         </switch>
