@@ -2543,3 +2543,14 @@ var action_view_handler = {
 };
 
 view.manager.register("Fly-By View", action_view_handler);
+
+
+var KIAStoGS = func (kt,ft) {
+  return (0.02*(ft*0.001)+1)*kt;
+}
+
+var horiSpeed = func () {
+  var e = getprop("velocities/speed-east-fps");
+  var n = getprop("velocities/speed-north-fps");
+  return math.sqrt(n*n+e*e)*FPS2KT;
+}

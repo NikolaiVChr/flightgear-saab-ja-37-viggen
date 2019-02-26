@@ -1133,10 +1133,10 @@ var Contact = {
     getMagInterceptBearing: func() {
       # intercept vector to radar echo
       me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-      var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, getprop("velocities/groundspeed-kt")*KT2MPS);
+      var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, ja37.horiSpeed()*KT2MPS);
       if (ic == nil) {
-        #printf("no intercept, return %d",me.get_bearing());
-        return me.getMagBearing();
+        printf("no intercept, return %d", me.getMagBearing());
+        return nil;#me.getMagBearing();
       }
       #printf("intercept! return %d - %d",ic[1], getprop("instrumentation/gps/magnetic-bug-error-deg"));
       return geo.normdeg(ic[1] + me.mag_offset);
@@ -1695,9 +1695,9 @@ var ContactGhost = {
   getMagInterceptBearing: func() {
     # intercept vector to radar echo
     me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-    var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, getprop("velocities/groundspeed-kt")*KT2MPS);
+    var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, ja37.horiSpeed()*KT2MPS);
     if (ic == nil) {
-      return me.getMagBearing();
+      return nil;#me.getMagBearing();
     }
     return geo.normdeg(ic[1]+me.mag_offset);
   },
@@ -1874,6 +1874,11 @@ var get_intercept = func(bearing, dist_m, runnerHeading, runnerSpeed, chaserSpee
     #        dist_m > 0 and chaserSpeed > 0
 
     #var bearing = 184;var dist_m=31000;var runnerHeading=186;var runnerSpeed= 200;var chaserSpeed=250;
+    print();
+    if (dist_m == 0 or chaserSpeed == 0) {
+      return nil;
+    }
+    #printf("intercept - bearing=%d dist=%dNM itspeed=%d myspeed=%d",bearing, dist_m*M2NM, runnerSpeed*MPS2KT, chaserSpeed*MPS2KT);
 
     var trigAngle = 90-bearing;
     var RunnerPosition = [dist_m*math.cos(trigAngle*D2R), dist_m*math.sin(trigAngle*D2R),0];
@@ -1895,6 +1900,11 @@ var get_intercept = func(bearing, dist_m, runnerHeading, runnerSpeed, chaserSpee
     var t2 = (-b-math.sqrt(b*b-4*a*c))/(2*a);
 
     var timeToIntercept = 0;
+
+    if (t1 < 0 and t2 < 0) {
+      # intercept not possible
+      return nil;
+    }
     if (t1 > 0 and t2 > 0) {
           timeToIntercept = math.min(t1, t2);
     } else {
@@ -1908,6 +1918,8 @@ var get_intercept = func(bearing, dist_m, runnerHeading, runnerSpeed, chaserSpee
     var interceptHeading = geo.normdeg(ChaserVelocity[0]<0?-interceptAngle:interceptAngle);
     #print("output:");
     #print("time: " ~ timeToIntercept);
-    #print("heading: " ~ interceptHeading);
+    #var InterceptVector = vector.Math.minus(InterceptPosition, ChaserPosition);
+    #printf("(%d,%d) %.1f min",InterceptVector[0]*M2NM,InterceptVector[1]*M2NM, timeToIntercept/60);
+    #print((ChaserVelocity[0]<0)~" intercept-heading: " ~ interceptHeading);
     return [timeToIntercept, interceptHeading];
 }
