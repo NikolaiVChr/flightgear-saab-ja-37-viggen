@@ -791,7 +791,7 @@ var Saab37 = {
 
     #warning if max rolling speed is exceeded
     me.max = getprop("limits/vroll");
-    if ((input.wow0.getValue() == TRUE or input.wow2.getValue() == TRUE) and me.max != nil and getprop("velocities/groundspeed-kt") > me.max) {
+    if ((input.wow0.getValue() == TRUE or input.wow2.getValue() == TRUE) and me.max != nil and getprop("instrumentation/airspeed-indicator/indicated-speed-kt") > me.max) {
       screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
     }
 

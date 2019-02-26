@@ -1422,7 +1422,7 @@
         <!--<max-gear-extension-speed>334.77</max-gear-extension-speed> -->       <!-- as per manual -->
         <max-positive-g>8.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
         <max-negative-g>-3.0</max-negative-g> <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
-        <vroll>172.8</vroll> <!-- source: SFI Fragår JA37 -->
+        <vroll>172.8</vroll> <!-- source: SFI Fragår JA37 (is KIAS) -->
     </limits>
 
     <!--**********************************************************************
@@ -1431,7 +1431,7 @@
 
 
 *************************************************************************-->
-
+<a type="double">0</a>
     <instrumentation>
         <comm n="0">
             <power-btn type="bool">true</power-btn>
