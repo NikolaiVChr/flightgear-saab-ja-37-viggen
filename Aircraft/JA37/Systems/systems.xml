@@ -14,14 +14,14 @@
         <tau>0.1</tau>
         <type>2</type>
         <!-- single static sensor at center of aircraft with measurement failures -->
-        <error-factor>0.2</error-factor>
+        <error-factor>0.05</error-factor>
     </static>
 
     <vacuum>
         <name>vacuum</name>
         <number>0</number>
         <rpm>ja37/elec/ac-bus-main-volt</rpm>
-        <scale>25.0</scale>
+        <scale>50.0</scale>
     </vacuum>
 
 </PropertyList>

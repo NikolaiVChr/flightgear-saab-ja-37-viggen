@@ -791,7 +791,7 @@ var Saab37 = {
 
     #warning if max rolling speed is exceeded
     me.max = getprop("limits/vroll");
-    if ((input.wow0.getValue() == TRUE or input.wow2.getValue() == TRUE) and me.max != nil and getprop("velocities/groundspeed-kt") > me.max) {
+    if ((input.wow0.getValue() == TRUE or input.wow2.getValue() == TRUE) and me.max != nil and getprop("instrumentation/airspeed-indicator/indicated-speed-kt") > me.max) {
       screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
     }
 
@@ -2543,3 +2543,14 @@ var action_view_handler = {
 };
 
 view.manager.register("Fly-By View", action_view_handler);
+
+
+var KIAStoGS = func (kt,ft) {
+  return (0.02*(ft*0.001)+1)*kt;
+}
+
+var horiSpeed = func () {
+  var e = getprop("velocities/speed-east-fps");
+  var n = getprop("velocities/speed-north-fps");
+  return math.sqrt(n*n+e*e)*FPS2KT;
+}

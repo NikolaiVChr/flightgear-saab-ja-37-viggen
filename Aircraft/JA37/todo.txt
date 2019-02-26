@@ -174,13 +174,12 @@ DAP: Can enter K time (attack-time) for steerpoints. When that is done, it also 
 DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm, need to know more..
 TI: Steerpoint B0 is start pos. Its shown as current till take-off. When route is started being flown it is set at current position. Should not be saved with plans. Confusing, must know more.
 Sound: Replace the "incoming" annunciator warnings with radar lock radio noise. (not sure it worked like that, seems Apparat63 had 2 tones, hmm)
-TI: Info on target should be given even if not in steerorder mode. (this needs to be thought over)
 Sound: I think I broke the AJ stall warn switch, fix.
 Sound: Should limit pre warnings be lower volume?
 GUI: Convert options dialog to xml.
 Sim: I likely have confused alpha limit warning setting in DAP with setting the control limit itself. Fix.
 GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no longer is shared.
-Elec: Check that everything is on the right bus. (interior lights is not, check JA37C manual)
+Elec: Double check that everything is on the right bus.
 Elec: Gun, radar and IR missiles was on seperate buses, fix.
 Elec: Flying above 1170Km/h with RAT might damage it.
 Elec: Make logic for secondary DC bus G. It depends on BRAGG.
@@ -191,7 +190,7 @@ DAP: Output of not defined addresses should just be 0000?
 DAP: entering traning floor should be tens of meters.
 Model: The 2 altimeters is wrong models.
 Model: The fuel gauge had a second needle.
-
+Animation: Main attitude indicator lazy and jumps from 180 to -180.
 
 
 
