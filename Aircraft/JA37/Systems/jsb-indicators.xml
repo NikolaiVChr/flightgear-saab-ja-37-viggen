@@ -2340,6 +2340,7 @@
             <default value="/instrumentation/TLS-light-steady"/>
             <test logic="OR" value="/ja37/blink/four-Hz/state">
                 /instrumentation/TLS-light-blink == 1
+                /controls/lighting/test-indicator-panels == 1
             </test>
         </switch>
         

@@ -172,10 +172,7 @@
 	    <type>material</type>
 	    <object-name>indicator_tls</object-name>
 	    <condition>
-	    	<or>
-	            <property>/instrumentation/TLS-light</property>
-	            <property>/controls/lighting/test-indicator-panels</property>
-	        </or>
+	        <property>/instrumentation/TLS-light</property>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 

@@ -182,7 +182,6 @@ Sim: I likely have confused alpha limit warning setting in DAP with setting the 
 GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no longer is shared.
 Elec: Check that everything is on the right bus. (interior lights is not, check JA37C manual)
 Elec: Gun, radar and IR missiles was on seperate buses, fix.
-Model: Reservkurs does not lit up when doing light control, fix.
 Elec: Flying above 1170Km/h with RAT might damage it.
 Elec: Make logic for secondary DC bus G. It depends on BRAGG.
 GUI: Stop perf. monitor from running when dialog is off.
@@ -201,36 +200,7 @@ Model: The fuel gauge had a second needle.
 
 
 
-Map accuracy zoom level:
-========================
-real scale | m/px | choosen | approx ideal (display assumed to be 30cm wide)
-200   = 157.4803149606299 >  9    8.50
-400   = 314.9606299212599 >  8    7.75
-800   = 629.9212598425197 >  7    6.75
-1.6   = 1259.842519685039 >  6    5.80
-3.2   = 2519.685039370079 >  5    4.80
 
-slippy lvl for sweden (lat=65)
-0  =66102.56755538628 m/px
-1  =33051.28377769314 m/px
-2  =16525.64188884657 m/px
-3  =8262.609635292414 m/px
-4  =4131.516126777078 m/px
-5  =2065.758063388539 m/px
-6  =1032.879031694269 m/px
-7  =516.4395158471348 m/px
-8  =258.2129960313795 m/px
-9  =129.1064980156898 m/px
-10  =64.55324900784488 m/px
-11  =32.27662450392244 m/px
-12  =16.13852356109209 m/px
-13  =8.069050471415174 m/px
-14  =4.034736544838458 m/px
-15  =2.017156963288358 m/px
-16  =1.008789790775049 m/px
-17  =0.5041835862566544 m/px
-18  =0.2518804839974569 m/px
-19  =0.1259402419987284 m/px
 
 
 

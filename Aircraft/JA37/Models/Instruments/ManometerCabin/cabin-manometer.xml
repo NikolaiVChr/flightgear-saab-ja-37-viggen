@@ -49,7 +49,7 @@
         <object-name>dial</object-name>
         <object-name>glass</object-name>
         <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
         <hovered>
             <binding>
