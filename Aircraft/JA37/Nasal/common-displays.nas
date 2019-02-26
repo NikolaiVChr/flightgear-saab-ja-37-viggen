@@ -145,41 +145,23 @@ units:                "ja37/hud/units-metric",
 	},
 
 	distance: func {
-		var steers = TRUE;
-		call(func {steers = TI.ti.showSteers;}, nil, var err = []);# to make it work on AJ and older FG, TODO: review if variable is even used anymore..
 		if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
 			# radar steer order
 			me.distance_m = radar_logic.selection.get_range()*NM2M;
-			me.distance_name = radar_logic.selection.get_Callsign();
-			me.distance_model = radar_logic.selection.get_model();
-	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1 and (steers or land.mode > 0)) {
+	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1) {
 	    	# next steerpoint
 	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
-	    	#me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
-	    	# disabled, these names should not show up: TODO: replace?
-	    	me.distance_name = "";#me.theID!=nil?me.theID:""; 
-			me.distance_model = "";#me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
-		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
-			# DME
-	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
-	    	#if (me.input.nav0InRange.getValue() == TRUE) {
-	    	#	me.distance_name = "Radio nav";
-	    	#} else {
-	    		me.distance_name = "";
-	    	#}
-			me.distance_model = "DME";
-#	    } elsif (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
-#	    	# radar selection / GPS selection
-#	    	me.distance_m = radar_logic.selection.get_range()*NM2M;
-#	    	me.distance_name = radar_logic.selection.get_Callsign();
-#			me.distance_model = radar_logic.selection.get_model();
-		#} elsif (me.input.nav0InRange.getValue() == TRUE) {
-		#	me.distance_m = -1;
-		#	me.distance_name = "Radio nav";
-		#	me.distance_model = "";
-	  	} else {
+		} else {
 	  		# nothing
 	  		me.distance_m = -1;
+	  	}
+	  	
+	  	if (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
+			# IFF
+			me.distance_name = radar_logic.selection.get_Callsign();
+			me.distance_model = radar_logic.selection.get_model();
+	    } else {
+	  		# nothing
 	  		me.distance_name = "";
 			me.distance_model = "";
 	  	}
