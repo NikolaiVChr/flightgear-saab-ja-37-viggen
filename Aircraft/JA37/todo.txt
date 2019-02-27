@@ -18,7 +18,7 @@ Model: Make stick from throttle to gears handle housing. The throttle is too wid
 Model: Improve texturing of gears handle housing, it had some details on it.
 Model: JA version of radar control stick.
 Model: Airspeed indicator should have mach number also.
-Model: The reserve generator. (ram air turbine on left side just behind and under canard)
+Model: The reserve generator RAT. (ram air turbine on left side just behind and under canard)
 Model: Model speedbrakes.
 Model: Chair specific to Viggen.
 Model: Side position lights.
@@ -73,7 +73,7 @@ Effect: Replace beacon, landing and strobe lights with procedural lights in ALS.
 Engine: Model compressor surge/stall including bang sound.
 Engine: Switch aug. type in engine?
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
-GUI: Improve Checklists. Use <group> for grouping them.
+GUI: Improve Checklists.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Altitude scale should only be shown when engine is running due to it need AC power. (pitot-static needs AC?)
 HUD: Do not show rb99 seeker diamond. (not sure if I haven't fixed)
@@ -89,11 +89,8 @@ MI: Implement radar sweep.
 MI: Improve BIT test. [X1]
 MI: Improve mark event [X3]
 MI: Make TNF to stop/start inertial nav. (unsure about how this work and how the light react to it)
-Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
 Radar: Make ECM jamming.
-Radar: Make other planes notice when radar is off. (semi done, think F15, mig21 and mirage does it)
 Radar: Make rb71 notchable again, by introducing 3 diff painted properties instead of one.
-Radar: No voice warning of incoming missiles. (reported by pinto, not reproducable)
 Radar: Openradar has no roll and heading. Fix radar to handle that.
 Control: A/P does auto trim of roll.
 Control: After exiting transonic the altitude hold should be recomputed. 
@@ -126,7 +123,6 @@ Sim: Reset controls after A/P let go of them.
 Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Review all replay signals.
 Sim: Shift-m should be a key without shift instead for convenience.
-Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Startup with engines on, should have inertial navigation ready. (maybe altimeter should be preset too)
 Sim: Stop auto-selecting when in tactical mode. (semi-done)
@@ -191,7 +187,7 @@ DAP: entering traning floor should be tens of meters.
 Model: The 2 altimeters is wrong models.
 Model: The fuel gauge had a second needle.
 Animation: Main attitude indicator lazy and jumps from 180 to -180.
-
+Sim: In all fast nasal loops replace setprops!
 
 
 
@@ -222,20 +218,14 @@ The real Viggen displays had 2 cursors; lock-cursor and TIM-cursor. The flightge
 
 Bugs:
 --------------
-Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
-HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
-HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-Model: CTRL-X in HUD view will not zoom to correct level.
 Model: AJ Droptank indicator should really be a steerpoint indicator.
-Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 Model: All shader use of <use> does not work over MP.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: If HoT (/sim/multiplay/hot) is enabled, geo reports wrong ground elevation at a AI/MP aircraft location.
-Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
-Sim: Sometimes when exploding, the sim freezes, typically at redout. [was bug in jsbsim, fixed in 2016.1]
+Sim: Sometimes when exploding, the sim freezes, typically at redout. [was bug in jsbsim, semi-fixed in 2016.1]
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Sim: When relocating or pausing, autostart might fail. [reproduced]

@@ -1431,7 +1431,9 @@
 
 
 *************************************************************************-->
-<a type="double">0</a>
+    <timings>
+        <aaaa type="bool">false</aaaa>
+    </timings>
     <instrumentation>
         <comm n="0">
             <power-btn type="bool">true</power-btn>
@@ -1557,6 +1559,9 @@
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>
+        <timer>
+            <file>Aircraft/JA37/Nasal/timer.nas</file>
+        </timer>
         <ja37>
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
