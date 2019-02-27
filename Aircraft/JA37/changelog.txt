@@ -3683,3 +3683,6 @@ Model: Some gauges has now a red/white flag, when not reliable.
 Animation: Made TLS indicator blink when doing light test.
 TI: Bottom right-most IFF info will now show whenever radar echo is selected.
 Sim: Fixed intercept bearing would sometimes be wrong. Now it does not show any bearing if we fly too slow to intercept.
+Sim: Added timer for loops.
+TI: Fixed wow check for landing event.
+Sim: Cleaned up the reverser code.

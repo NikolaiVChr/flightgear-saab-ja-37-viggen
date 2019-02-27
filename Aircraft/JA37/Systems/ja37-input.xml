@@ -341,8 +341,12 @@
             <name>Backspace</name>
             <desc>Toggle Reversers</desc>
             <binding>
+                <command>property-toggle</command>
+                <property>/controls/engines/engine[0]/reverser-cmd</property>
+            </binding>
+            <binding>
                 <command>nasal</command>
-                <script>reversethrust.togglereverser();</script>
+                <script>ja37.click();</script>
             </binding>
         </key>
         <!--<key n="127">
