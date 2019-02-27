@@ -141,15 +141,20 @@
 			</clipto>
 		</fcs_function>
 		
-		<summer name="fcs/elevon/pitch-input-sum">
+		<summer name="fcs/elevon/pitch-gear-input-sum">
+			<description>Sum of inputs passed through gearing</description>
 			<input>fcs/elevon/pitch-cmd-geared</input> <!-- Input from Pitch Stick Gearing -->
 			<input>fcs/pitch-trim-cmd-norm</input> <!-- Pitch Trim -->
-			<!--input>fcs/drivers/pitch-output</input--> <!-- Pitch Rate Damper -->
+		</summer>
+		
+		<summer name="fcs/elevon/pitch-nogear-input-sum">
+			<description>Sum of inputs NOT passed through gearing</description>
+			<input>fcs/drivers/pitch-output</input> <!-- Pitch Rate Damper -->
 			<!--input>fcs/drivers/pitch-autotrim</input--> <!-- Pitch Autotrim -->
 			<!--input>autoflight/output/pitch-cmd</input--> <!-- A/P Pitch Command -->
 		</summer>
 		
-		<fcs_function name="fcs/elevon/roll-stick-geared">
+		<fcs_function name="fcs/elevon/roll-cmd-geared">
 			<function>
 				<table>
 					<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
@@ -177,19 +182,6 @@
 			<output>fcs/drivers/roll/stick-geared</output>
 		</fcs_function>
 		
-		<fcs_function name="fcs/elevon/roll-cmd-geared">
-			<function>
-				<product>
-					<property>fcs/elevon/roll-stick-geared</property> <!-- Used in jsb-control-drivers too, so it is seperate -->
-					<!-- FIXME: Add Roll Stick Gearing -->
-				</product>
-			</function>
-			<clipto>
-				<min>-1.0</min>
-				<max>1.0</max>
-			</clipto>
-		</fcs_function>
-		
 		<summer name="fcs/elevon/roll-input-sum">
 			<input>fcs/elevon/roll-cmd-geared</input> <!-- Input from Roll Stick Gearing -->
 			<input>fcs/roll-trim-cmd-norm</input> <!-- Roll Trim -->
@@ -198,6 +190,25 @@
 			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
 		
+		<pure_gain name="atmosphere/P-psf-clipped">
+			<input>atmosphere/P-psf</input>
+			<gain>1.0</gain>
+			<clipto> <!-- Prevent NaN caused by divide by 0 -->
+				<min>0.01</min>
+				<max>5000</max>
+			</clipto>
+		</pure_gain>
+		
+        <fcs_function name="fcs/elevon/qbar-psf-div-p-psf">
+            <description>Dynamic pressure divided by static pressure</description>
+            <function>
+                <quotient>
+                    <property>aero/qbar-psf</property>
+                    <property>atmosphere/P-psf-clipped</property>
+                </quotient>
+            </function>
+        </fcs_function>
+		
 		<fcs_function name="fcs/elevon/pitch-gearing">
 			<function>
 				<ifthen>
@@ -205,54 +216,46 @@
 						<property>fcs/elevator/gearing-enable</property>
 						<value>1</value>
 					</eq>
-					<ifthen>
-						<gt>
-							<property>/ja37/systems/variant</property>
-							<value>0</value>
-						</gt>
-						<table> <!-- AJ37 Gearing -->
-							<independentVar lookup="row">velocities/mach</independentVar>
-							<independentVar lookup="column">atmosphere/density-altitude</independentVar>
-							<tableData>
-								      0     6562  13123 19685 26247 29527 36089
-								0.32  22.0  22.0  22.0  22.0  22.0  22.0  22.0
-								0.70   8.7  10.0  13.0  16.0  18.5  20.0  22.0
-								0.95   8.7   8.7  10.0  15.0  20.0  20.0  22.0
-								1.05  11.8  11.8  13.5  16.5  21.0  22.0  22.0
-								1.20  11.8  11.8  15.0  18.5  22.0  22.0  22.0
-								1.40  11.8  14.0  16.0  20.0  22.0  22.0  22.0
-								1.50  11.8  15.0  17.0  21.0  22.0  22.0  22.0
-							</tableData>
-						</table>
-						<table> <!-- JA37 Gearing -->
-							<independentVar lookup="row">velocities/mach</independentVar>
-							<independentVar lookup="column">atmosphere/density-altitude</independentVar>
-							<tableData>
-								      0     6562  9843  13123 16404 19685 22966 26247 29527
-								0.40  22.0  22.0  22.0  22.0  22.0  22.0  22.0  22.0  22.0
-								0.70  11.8  12.5  15.3  15.5  17.5  20.0  17.5  22.0  22.0
-								0.95  15.3  15.3  11.8  12.5  15.3  16.5  18.0  20.0  22.0
-								1.05  15.3  15.3  15.5  15.5  17.5  20.0  22.0  22.0  22.0
-								1.20  15.3  15.3  16.5  18.0  20.0  22.0  22.0  22.0  22.0
-								1.40  15.3  16.0  18.7  20.5  22.0  22.0  22.0  22.0  22.0
-								1.50  15.3  20.0  20.0  22.0  22.0  22.0  22.0  22.0  22.0
-							</tableData>
-						</table>
-					</ifthen>
+					<table> <!-- All guesses -->
+						<independentVar lookup="row">fcs/elevon/qbar-psf-div-p-psf</independentVar>
+						<tableData>
+							0.10  22
+							2.65   4
+						</tableData>
+					</table>
 					<value>22.0</value>
 			   </ifthen>
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fcs/elevon/pitch-pos-deg">
-			<description>Deflection pitch surface linearly</description>
-			<input>fcs/elevon/pitch-input-sum</input>
+		<pure_gain name="fcs/elevon/pitch-gear-input-deg">
+			<description>Deflection pitch surface linearly for inputs passed through gearing</description>
+			<input>fcs/elevon/pitch-gear-input-sum</input>
 			<gain>fcs/elevon/pitch-gearing</gain>
 			<clipto>
 				<min>-22.0</min>
 				<max>16.0</max>
 			</clipto>
 		</pure_gain>
+		
+		<pure_gain name="fcs/elevon/pitch-nogear-input-deg">
+			<description>Deflection pitch surface linearly for inputs NOT passed through gearing</description>
+			<input>fcs/elevon/pitch-nogear-input-sum</input>
+			<gain>22.0</gain>
+			<clipto>
+				<min>-22.0</min>
+				<max>16.0</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/elevon/pitch-pos-deg">
+			<input>fcs/elevon/pitch-gear-input-deg</input>
+			<input>fcs/elevon/pitch-nogear-input-deg</input>
+			<clipto>
+				<min>-22.0</min>
+				<max>16.0</max>
+			</clipto>
+		</summer>
 		
 		<pure_gain name="fcs/elevon/roll-pos-deg">
 			<input>fcs/elevon/roll-input-sum</input>
@@ -451,38 +454,35 @@
 	
 	<channel name="Rudder"> <!-- Negative is Right, Positive is Left -->
 		
-		<fcs_function name="fcs/rudder/pedal-geared">
+		<fcs_function name="fcs/rudder/pedal-cmd-geared">
 			<function>
-				<product>
-					<table>
-						<independentVar lookup="row">fcs/rudder/input</independentVar>
-						<tableData>
-							-1.00 -1.000
-							-0.86 -0.740
-							-0.75 -0.560
-							-0.62 -0.400
-							-0.50 -0.280
-							-0.38 -0.190
-							-0.23 -0.110
-							-0.10 -0.045
-							 0.00  0.000
-							 0.10  0.045
-							 0.23  0.110
-							 0.38  0.190
-							 0.50  0.280
-							 0.62  0.400
-							 0.75  0.560
-							 0.86  0.740
-							 1.00  1.000
-						</tableData>
-					</table>
-					<!-- FIXME: Add Yaw Stick Gearing -->
-				</product>
+				<table>
+					<independentVar lookup="row">fcs/rudder/input</independentVar>
+					<tableData>
+						-1.00 -1.000
+						-0.86 -0.740
+						-0.75 -0.560
+						-0.62 -0.400
+						-0.50 -0.280
+						-0.38 -0.190
+						-0.23 -0.110
+						-0.10 -0.045
+						 0.00  0.000
+						 0.10  0.045
+						 0.23  0.110
+						 0.38  0.190
+						 0.50  0.280
+						 0.62  0.400
+						 0.75  0.560
+						 0.86  0.740
+						 1.00  1.000
+					</tableData>
+				</table>
 			</function>
 		</fcs_function>
 		
 		<summer name="fcs/rudder/input-sum">
-			<input>fcs/rudder/pedal-geared</input> <!-- Input from Rudder Pedal Gearing -->
+			<input>fcs/rudder/pedal-cmd-geared</input> <!-- Input from Rudder Pedal Gearing -->
 			<input>fcs/yaw-trim-cmd-norm</input> <!-- Yaw Trim -->
 			<!--input>fcs/drivers/yaw-output</input--> <!-- Yaw Rate Damper -->
 			<!--input>fcs/drivers/yaw-autotrim</input--> <!-- Yaw Autotrim -->
