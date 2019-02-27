@@ -135,6 +135,7 @@
 					</tableData>
 				</table>
 			</function>
+			<output>fcs/drivers/pitch/stick-geared</output>
 			<clipto>
 				<min>-1.0</min>
 				<max>0.727272</max> <!-- Clipping for linear deflection end -->
