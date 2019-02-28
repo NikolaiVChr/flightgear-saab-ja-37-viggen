@@ -191,25 +191,6 @@
 			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
 		
-		<pure_gain name="atmosphere/P-psf-clipped">
-			<input>atmosphere/P-psf</input>
-			<gain>1.0</gain>
-			<clipto> <!-- Prevent NaN caused by divide by 0 -->
-				<min>0.01</min>
-				<max>5000</max>
-			</clipto>
-		</pure_gain>
-		
-        <fcs_function name="fcs/elevon/qbar-psf-div-p-psf">
-            <description>Dynamic pressure divided by static pressure</description>
-            <function>
-                <quotient>
-                    <property>aero/qbar-psf</property>
-                    <property>atmosphere/P-psf-clipped</property>
-                </quotient>
-            </function>
-        </fcs_function>
-		
 		<fcs_function name="fcs/elevon/pitch-gearing">
 			<function>
 				<ifthen>
@@ -218,10 +199,10 @@
 						<value>1</value>
 					</eq>
 					<table> <!-- All guesses -->
-						<independentVar lookup="row">fcs/elevon/qbar-psf-div-p-psf</independentVar>
+						<independentVar lookup="row">aero/qbar-psf</independentVar>
 						<tableData>
-							0.10  22
-							2.65   4
+							 150  22
+							2300   4
 						</tableData>
 					</table>
 					<value>22.0</value>
@@ -482,9 +463,14 @@
 			</function>
 		</fcs_function>
 		
-		<summer name="fcs/rudder/input-sum">
+		<summer name="fcs/rudder/gear-input-sum">
+			<description>Sum of inputs passed through gearing</description>
 			<input>fcs/rudder/pedal-cmd-geared</input> <!-- Input from Rudder Pedal Gearing -->
 			<input>fcs/yaw-trim-cmd-norm</input> <!-- Yaw Trim -->
+		</summer>
+		
+		<summer name="fcs/rudder/nogear-input-sum">
+			<description>Sum of inputs NOT passed through gearing</description>
 			<input>fcs/drivers/yaw-output</input> <!-- Yaw Rate Damper -->
 			<!--input>fcs/drivers/yaw-autotrim</input--> <!-- Yaw Autotrim -->
 			<clipto>
@@ -493,8 +479,38 @@
 			</clipto>
 		</summer>
 		
-		<pure_gain name="fcs/rudder/input-deg">
-			<input>fcs/rudder/input-sum</input>
+		<fcs_function name="fcs/rudder/gearing">
+			<function>
+				<ifthen>
+					<eq>
+						<property>fcs/rudder/gearing-enable</property>
+						<value>1</value>
+					</eq>
+					<table> <!-- All guesses -->
+						<independentVar lookup="row">aero/qbar-psf</independentVar>
+						<tableData>
+							 150  25
+							2300   4
+						</tableData>
+					</table>
+					<value>25.0</value>
+			   </ifthen>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/rudder/gear-input-deg">
+			<description>Deflection rudder surface linearly for inputs passed through gearing</description>
+			<input>fcs/rudder/gear-input-sum</input>
+			<gain>fcs/rudder/gearing</gain>
+			<clipto>
+				<min>-25.0</min>
+				<max>25.0</max>
+			</clipto>
+		</pure_gain>
+		
+		<pure_gain name="fcs/rudder/nogear-input-deg">
+			<description>Deflection rudder surface linearly for inputs NOT passed through gearing</description>
+			<input>fcs/rudder/nogear-input-sum</input>
 			<gain>25.0</gain>
 			<clipto>
 				<min>-25.0</min>
@@ -502,8 +518,17 @@
 			</clipto>
 		</pure_gain>
 		
+		<summer name="fcs/rudder/input-pos-deg">
+			<input>fcs/rudder/gear-input-deg</input>
+			<input>fcs/rudder/nogear-input-deg</input>
+			<clipto>
+				<min>-25.0</min>
+				<max>25.0</max>
+			</clipto>
+		</summer>
+		
 		<switch name="fcs/rudder/input-deg-cmd">
-			<default value="fcs/rudder/input-deg"/>
+			<default value="fcs/rudder/input-pos-deg"/>
 			<test logic="OR" value="0">
 				systems/hydraulics/flight-surface-actuation eq 0
 				fcs/rudder/serviceable eq 0
