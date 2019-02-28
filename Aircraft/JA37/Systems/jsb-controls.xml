@@ -93,6 +93,8 @@
 	<!-- Begin new FCS by Joshua Davidson (it0uchpods) -->
 	<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
 	
+	<property value="15">fcs/elevon/roll-gearing-feedback</property>
+	
 	<channel name="Elevons">
 		
 		<fcs_function name="fcs/elevon/pitch-cmd-deadzone">
@@ -155,42 +157,6 @@
 			<!--input>autoflight/output/pitch-cmd</input--> <!-- A/P Pitch Command -->
 		</summer>
 		
-		<fcs_function name="fcs/elevon/roll-cmd-geared">
-			<function>
-				<table>
-					<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
-					<tableData>
-						-1.00 -1.000
-						-0.86 -0.740
-						-0.75 -0.560
-						-0.62 -0.400
-						-0.50 -0.280
-						-0.38 -0.190
-						-0.23 -0.110
-						-0.10 -0.045
-						 0.00  0.000
-						 0.10  0.045
-						 0.23  0.110
-						 0.38  0.190
-						 0.50  0.280
-						 0.62  0.400
-						 0.75  0.560
-						 0.86  0.740
-						 1.00  1.000
-					</tableData>
-				</table>
-			</function>
-			<output>fcs/drivers/roll/stick-geared</output>
-		</fcs_function>
-		
-		<summer name="fcs/elevon/roll-input-sum">
-			<input>fcs/elevon/roll-cmd-geared</input> <!-- Input from Roll Stick Gearing -->
-			<input>fcs/roll-trim-cmd-norm</input> <!-- Roll Trim -->
-			<input>fcs/drivers/roll-output</input> <!-- Roll Rate Damper/Limiter -->
-			<!--input>fcs/drivers/roll-autotrim</input--> <!-- Roll Autotrim -->
-			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
-		</summer>
-		
 		<fcs_function name="fcs/elevon/pitch-gearing">
 			<function>
 				<ifthen>
@@ -239,14 +205,92 @@
 			</clipto>
 		</summer>
 		
-		<pure_gain name="fcs/elevon/roll-pos-deg">
-			<input>fcs/elevon/roll-input-sum</input>
-			<gain>15.0</gain> <!-- FIXME: This number is not confirmed -->
+		<fcs_function name="fcs/elevon/roll-cmd-geared">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
+					<tableData>
+						-1.00 -1.000
+						-0.86 -0.740
+						-0.75 -0.560
+						-0.62 -0.400
+						-0.50 -0.280
+						-0.38 -0.190
+						-0.23 -0.110
+						-0.10 -0.045
+						 0.00  0.000
+						 0.10  0.045
+						 0.23  0.110
+						 0.38  0.190
+						 0.50  0.280
+						 0.62  0.400
+						 0.75  0.560
+						 0.86  0.740
+						 1.00  1.000
+					</tableData>
+				</table>
+			</function>
+			<output>fcs/drivers/roll/stick-geared</output>
+		</fcs_function>
+		
+		<summer name="fcs/elevon/roll-gear-input-sum">
+			<description>Sum of inputs passed through gearing</description>
+			<input>fcs/elevon/roll-cmd-geared</input> <!-- Input from Roll Stick Gearing -->
+			<input>fcs/roll-trim-cmd-norm</input> <!-- Roll Trim -->
+		</summer>
+		
+		<summer name="fcs/elevon/roll-nogear-input-sum">
+			<description>Sum of inputs NOT passed through gearing</description>
+			<input>fcs/drivers/roll-output</input> <!-- Roll Rate Damper/Limiter -->
+			<!--input>fcs/drivers/roll-autotrim</input--> <!-- Roll Autotrim -->
+			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
+		</summer>
+		
+		<switch name="fcs/elevon/roll-gearing">
+			<default value="fcs/elevon/roll-gearing-feedback"/>
+			<test logic="OR" value="15"> <!-- Low Speed Gear -->
+				velocities/vc-kts le 349
+			</test>
+			<test logic="OR" value="10"> <!-- High Speed Gear -->
+				velocities/vc-kts ge 351
+			</test>
+			<output>fcs/elevon/roll-gearing-feedback</output>
+		</switch>
+		
+		<actuator name="fcs/elevon/roll-gearing-actuator">
+			<input>fcs/elevon/roll-gearing</input>
+			<rate_limit sense="incr">0.5</rate_limit> <!-- 10 seconds high to low -->
+			<rate_limit sense="decr">1.0</rate_limit> <!-- 5 seconds low to high -->
+		</actuator>
+		
+		<pure_gain name="fcs/elevon/roll-gear-input-deg">
+			<description>Deflection roll surface linearly for inputs passed through gearing</description>
+			<input>fcs/elevon/roll-gear-input-sum</input>
+			<gain>fcs/elevon/roll-gearing-actuator</gain>
 			<clipto>
 				<min>-15.0</min>
 				<max>15.0</max>
 			</clipto>
 		</pure_gain>
+		
+		<pure_gain name="fcs/elevon/roll-nogear-input-deg">
+			<description>Deflection roll surface linearly for inputs NOT passed through gearing</description>
+			<input>fcs/elevon/roll-nogear-input-sum</input>
+			<gain>15.0</gain>
+			<clipto>
+				<min>-15.0</min>
+				<max>15.0</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/elevon/roll-pos-deg">
+			<input>fcs/elevon/roll-gear-input-deg</input>
+			<input>fcs/elevon/roll-nogear-input-deg</input>
+			<clipto>
+				<min>-15.0</min>
+				<max>15.0</max>
+			</clipto>
+		</summer>
 		
 		<summer name="fcs/elevon/left-outer-mixer">
 			<input>fcs/elevon/pitch-pos-deg</input>
