@@ -102,10 +102,6 @@
 					</table>
 				</product>
 			</function>
-			<clipto>
-				<min>-1.0</min>
-				<max>1.0</max>
-			</clipto>
 		</fcs_function>
 		
 		<pure_gain name="fcs/drivers/roll/rate-damper">
@@ -135,7 +131,6 @@
 			<test logic="AND" value="1">
 				fcs/pitch-damper/enable ne 0
 				fcs/pitch-damper/serviceable eq 1
-				position/wow eq 0
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>
@@ -147,15 +142,11 @@
 					<independentVar lookup="column">fcs/drivers/pitch/rate-damper-enable</independentVar>
 					<tableData>
 						     0    1
-						200  0.0  1.7
+						200  0.0  1.0
 						700  0.0  0.5
 					</tableData>
 				</table>
 			</function>
-			<clipto>
-				<min>-1.0</min>
-				<max>1.0</max>
-			</clipto>
 		</fcs_function>
 		
 		<pure_gain name="fcs/drivers/pitch/rate-damper">
