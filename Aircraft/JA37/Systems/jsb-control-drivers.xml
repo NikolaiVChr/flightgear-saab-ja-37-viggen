@@ -68,7 +68,7 @@
 			</clipto>
 		</fcs_function>
 		
-		<switch name="fcs/drivers/roll/rate-damper-enable">
+		<switch name="fcs/drivers/roll/damper-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				aero/alpha-deg ge -30
@@ -85,7 +85,7 @@
 				<product>
 					<table>
 						<independentVar lookup="row">velocities/vc-kts</independentVar>
-						<independentVar lookup="column">fcs/drivers/roll/rate-damper-enable</independentVar>
+						<independentVar lookup="column">fcs/drivers/roll/damper-enable</independentVar>
 						<tableData>
 							     0    1
 							200  0.0 -0.6
@@ -126,7 +126,7 @@
 	
 	<channel name="Pitch Axis">
 		
-		<switch name="fcs/drivers/pitch/rate-damper-enable">
+		<switch name="fcs/drivers/pitch/damper-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				fcs/pitch-damper/enable ne 0
@@ -139,7 +139,7 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
-					<independentVar lookup="column">fcs/drivers/pitch/rate-damper-enable</independentVar>
+					<independentVar lookup="column">fcs/drivers/pitch/damper-enable</independentVar>
 					<tableData>
 						     0    1
 						200  0.0  1.0
@@ -157,6 +157,47 @@
 				<max>0.18182</max>
 			</clipto>
 		</pure_gain>
+		
+		<fcs_function name="fcs/drivers/pitch/accel-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="column">fcs/drivers/pitch/damper-enable</independentVar>
+					<tableData>
+						     0     1
+						200  0.00  0.05
+						700  0.00  0.01
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fcs/drivers/pitch/Nz-input">
+			<function>
+				<sum>
+					<property>accelerations/Nz</property>
+					<value>-1</value>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/pitch/accel-damper">
+			<input>fcs/drivers/pitch/Nz-input</input>
+			<gain>fcs/drivers/pitch/accel-damper-gain</gain>
+			<clipto> <!-- 4 deg / 22 deg -->
+				<min>-0.18182</min>
+				<max>0.18182</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/drivers/pitch/damper-sum">
+			<input>fcs/drivers/pitch/rate-damper</input>
+			<input>fcs/drivers/pitch/accel-damper</input>
+			<clipto> <!-- 4 deg / 22 deg -->
+				<min>-0.18182</min>
+				<max>0.18182</max>
+			</clipto>
+		</summer>
 		
 		<fcs_function name="fcs/drivers/pitch/flap-compensator">
 			<function>
@@ -182,7 +223,7 @@
 		</fcs_function>
 		
 		<summer name="fcs/drivers/pitch-output">
-			<input>fcs/drivers/pitch/rate-damper</input>
+			<input>fcs/drivers/pitch/damper-sum</input>
 			<input>fcs/drivers/pitch/flap-compensator</input>
 			<clipto>
 				<min>-1.0</min>
@@ -194,12 +235,11 @@
 	
 	<channel name="Yaw Axis"> <!-- Negative is Right, Positive is Left -->
 		
-		<switch name="fcs/drivers/yaw/rate-damper-enable">
+		<switch name="fcs/drivers/yaw/damper-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				fcs/yaw-damper/enable ne 0
 				fcs/yaw-damper/serviceable eq 1
-				position/wow eq 0
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>
@@ -208,7 +248,7 @@
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
-					<independentVar lookup="column">fcs/drivers/yaw/rate-damper-enable</independentVar>
+					<independentVar lookup="column">fcs/drivers/yaw/damper-enable</independentVar>
 					<tableData>
 						     0    1
 						200  0.0  0.8
@@ -218,22 +258,27 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fcs/drivers/yaw/rate-damper-mixer">
+		<fcs_function name="fcs/drivers/yaw/rate-mixer">
 			<description>Mix Roll into Yaw Signal</description>
 			<function>
 				<sum>
 					<property>velocities/r-rad_sec</property>
-					<!-- Needs to be fixed -->
-					<!--product>
+					<product>
 						<property>velocities/p-rad_sec</property>
-						<value>-0.025</value>
-					</product-->
+						<table>
+							<independentVar lookup="row">velocities/vc-kts</independentVar>
+							<tableData>
+								200 -0.075
+								700 -0.005
+							</tableData>
+						</table>
+					</product>
 				</sum>
 			</function>
 		</fcs_function>
 		
 		<pure_gain name="fcs/drivers/yaw/rate-damper">
-			<input>fcs/drivers/yaw/rate-damper-mixer</input>
+			<input>fcs/drivers/yaw/rate-mixer</input>
 			<gain>fcs/drivers/yaw/rate-damper-gain</gain>
 			<clipto> <!-- 4 deg / 25 deg -->
 				<min>-0.16</min>
@@ -241,8 +286,40 @@
 			</clipto>
 		</pure_gain>
 		
-		<summer name="fcs/drivers/yaw-output">
+		<fcs_function name="fcs/drivers/yaw/accel-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="column">fcs/drivers/yaw/damper-enable</independentVar>
+					<tableData>
+						     0     1
+						200  0.00  0.05
+						700  0.00  0.01
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/yaw/accel-damper">
+			<input>accelerations/Ny</input>
+			<gain>fcs/drivers/yaw/accel-damper-gain</gain>
+			<clipto> <!-- 4 deg / 25 deg -->
+				<min>-0.16</min>
+				<max>0.16</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/drivers/yaw/damper-sum">
 			<input>fcs/drivers/yaw/rate-damper</input>
+			<input>fcs/drivers/yaw/accel-damper</input>
+			<clipto> <!-- 4 deg / 25 deg -->
+				<min>-0.16</min>
+				<max>0.16</max>
+			</clipto>
+		</summer>
+		
+		<summer name="fcs/drivers/yaw-output">
+			<input>fcs/drivers/yaw/damper-sum</input>
 			<clipto>
 				<min>-1.0</min>
 				<max>1.0</max>
