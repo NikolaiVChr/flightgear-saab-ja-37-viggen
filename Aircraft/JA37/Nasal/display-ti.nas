@@ -1557,12 +1557,19 @@ var TI = {
 			ailCmd:               "fdm/jsbsim/fcs/aileron-cmd-norm",
 			trigger:              "controls/armament/trigger",
 			instrNorm:            "controls/lighting/instruments-norm",
+			bullseyeOn:           "ja37/navigation/bulls-eye-defined",
+			bullseyeLat:          "ja37/navigation/bulls-eye-lat",
+			bullseyeLon:          "ja37/navigation/bulls-eye-lon",
       	};
 
       	foreach(var name; keys(ti.input)) {
         	ti.input[name] = props.globals.getNode(ti.input[name], 1);
       	}
-
+      	ti.input["tiLight"] = [];
+      	for (i=0;i<22;i+=1) {
+      		append(ti.input.tiLight, props.globals.getNode("ja37/light/ti"~i,1));
+      	}
+      	
       	ti.setupCanvasSymbols();
       	
       	#map
@@ -1794,7 +1801,6 @@ var TI = {
 		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
 			#settimer(func me.loopFast(), 0.05);
 			return;
-		} else {
 		}
 		me.updateFlightData();
 		me.showHeadingBug();
@@ -2634,9 +2640,9 @@ var TI = {
 		for (me.i = 0; me.i <22;me.i+=1) {
 			if (me.elapsedTime-edgeButtonsStruct[me.i]<0.30) {
 				# todo: stop using setprop
-				setprop("ja37/light/ti"~me.i,0.75);
+				me.input.tiLight[me.i].setDoubleValue(0.75);
 			} else {
-				setprop("ja37/light/ti"~me.i,me.lightNorm);
+				me.input.tiLight[me.i].setDoubleValue(me.lightNorm);
 			}
 		}
 	},
@@ -2943,9 +2949,9 @@ var TI = {
 			if (route.Polygon.editBullsEye) {
 				if(me.cursorTrigger and !me.cursorTriggerPrev) {
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
-					setprop("ja37/navigation/bulls-eye-defined", TRUE);
-					setprop("ja37/navigation/bulls-eye-lat", me.newSteerPos[0]);
-					setprop("ja37/navigation/bulls-eye-lon", me.newSteerPos[1]);
+					me.input.bullseyeOn.setBoolValue(TRUE);
+					me.input.bullseyeLat.setDoubleValue(me.newSteerPos[0]);
+					me.input.bullseyeLon.setDoubleValue(me.newSteerPos[1]);
 					dap.checkLVSave();
 					me.cursorDidSomething = TRUE;
 				}

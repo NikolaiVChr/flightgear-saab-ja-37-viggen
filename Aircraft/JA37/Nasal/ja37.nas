@@ -176,7 +176,15 @@ input = {
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
+  cutoffOrig:       "controls/engines/engine[0]/cutoff",
+  cutoffActual:     "fdm/jsbsim/propulsion/engine/cutoff-actual",
+  inputFlight:      "ja37/systems/input-controls-flight",
+  terrainWarn:      "instrumentation/terrain-warning",
+  parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
+  parachuteForce:    "ja37/force",
 };
+
+
 var msgA = "If you need to repair now, then use Menu-Location-SelectAirport instead.";
 var msgB = "Please land before changing payload or refuel.";
 var Saab37 = {
@@ -459,7 +467,7 @@ var Saab37 = {
   # fast updating loop
   speed_loop: func {
 
-    setprop("controls/engines/engine[0]/cutoff", getprop("fdm/jsbsim/propulsion/engine/cutoff-actual"));
+    input.cutoffOrig.setBoolValue(input.cutoffActual.getValue());
 
     # switch on and off ALS landing lights
     if(input.landLight.getValue() > 0) {    
@@ -526,17 +534,17 @@ var Saab37 = {
     me.theShakeEffect();
 
     logTime();
-
-    if (getprop("ja37/systems/input-controls-flight") == FALSE and getprop("/instrumentation/terrain-warning") == TRUE) {
-      setprop("ja37/systems/input-controls-flight", TRUE);
+  
+    if (!input.inputFlight.getValue() and input.terrainWarn.getValue()) {
+      input.inputFlight.setBoolValue(TRUE);
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
 
-    if (getprop("payload/armament/es/flags/deploy-id-10")!= nil) {
-      setprop("ja37/force", 7-5*getprop("payload/armament/es/flags/deploy-id-10"));
-      } else {
-        setprop("ja37/force", 7);
-      }
+    if (input.parachuteDeploy.getValue() != nil) {
+        input.parachuteForce.setDoubleValue(7-5*input.parachuteDeploy.getValue());
+    } else {
+      input.parachuteForce.setDoubleValue(7);
+    }
     
     me.aural();
     me.headingBug();

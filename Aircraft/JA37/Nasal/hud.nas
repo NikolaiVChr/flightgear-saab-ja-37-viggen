@@ -1087,7 +1087,16 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         gs:               "velocities/groundspeed-kt",
         terrainWarn:      "/instrumentation/terrain-warning",
         qfeActive:        "ja37/displays/qfe-active",
-        qfeShown:     "ja37/displays/qfe-shown",
+        qfeShown:         "ja37/displays/qfe-shown",
+        fpiHorz:          "ja37/displays/fpi-horz-deg",
+        fpiVert:          "ja37/displays/fpi-vert-deg",
+        hudBright:        "ja37/hud/brightness",
+        hudBrightSI:      "ja37/hud/brightness-si",
+        hudBrightRES:     "ja37/hud/brightness-res",
+        als:              "sim/rendering/shaders/skydome",
+        alsFilter:        "sim/rendering/als-filters/use-filtering",
+        alsIR:            "sim/rendering/als-filters/use-IR-vision",
+        stroke:           "ja37/hud/stroke-linewidth",
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -2247,8 +2256,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
     me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
     
-    setprop("ja37/displays/fpi-horz-deg", me.dir_x);#used in MI display
-    setprop("ja37/displays/fpi-vert-deg", me.dir_y);
+    me.input.fpiHorz.setDoubleValue(me.dir_x);#used in MI display
+    me.input.fpiVert.setDoubleValue(me.dir_y);
 
     me.pos_x = clamp(me.dir_x * pixelPerDegreeX, -max_width, max_width);
     me.pos_y = clamp((me.dir_y * pixelPerDegreeY)+centerOffset, -max_width, (430/1024)*canvasWidth);
@@ -3077,10 +3086,10 @@ var reinit = func() {#mostly called to change HUD color
    var red = backup == FALSE?r:1;
    var green = backup == FALSE?g:0.5;
    var blue = backup == FALSE?b:0;
-   var alpha = backup == FALSE?getprop("ja37/hud/brightness-si"):getprop("ja37/hud/brightness-res");
-   setprop("ja37/hud/brightness",alpha);
+   var alpha = backup == FALSE?hud_pilot.input.hudBrightSI.getValue():hud_pilot.input.hudBrightRES.getValue();
+   hud_pilot.input.hudBright.setDoubleValue(alpha);
    #printf("alpha=%.7f",alpha);
-   var IR = getprop("sim/rendering/shaders/skydome") == TRUE and getprop("sim/rendering/als-filters/use-filtering") == TRUE and getprop("sim/rendering/als-filters/use-IR-vision") == TRUE;
+   var IR = hud_pilot.input.als.getValue() and hud_pilot.input.alsFilter.getValue() and hud_pilot.input.alsIR.getValue();
 
    if (1==2 and IR) {
       # IR vision enabled, lets not have a green HUD:
@@ -3090,12 +3099,12 @@ var reinit = func() {#mostly called to change HUD color
 
    foreach(var item; artifacts0) {
     item.setColor(red, green, blue, alpha);
-    item.setStrokeLineWidth((getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth);
+    item.setStrokeLineWidth((hud_pilot.input.stroke.getValue()/1024)*canvasWidth);
    }
 
    foreach(var item; artifacts1) {
     item.setColor(red, green, blue, alpha);
-    item.setStrokeLineWidth((getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth);
+    item.setStrokeLineWidth((hud_pilot.input.stroke.getValue()/1024)*canvasWidth);
    }
 
    foreach(var item; artifactsText0) {
