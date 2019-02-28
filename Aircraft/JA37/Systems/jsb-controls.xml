@@ -485,7 +485,7 @@
 		<summer name="fcs/rudder/input-sum">
 			<input>fcs/rudder/pedal-cmd-geared</input> <!-- Input from Rudder Pedal Gearing -->
 			<input>fcs/yaw-trim-cmd-norm</input> <!-- Yaw Trim -->
-			<!--input>fcs/drivers/yaw-output</input--> <!-- Yaw Rate Damper -->
+			<input>fcs/drivers/yaw-output</input> <!-- Yaw Rate Damper -->
 			<!--input>fcs/drivers/yaw-autotrim</input--> <!-- Yaw Autotrim -->
 			<clipto>
 				<min>-1.0</min>

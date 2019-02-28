@@ -168,7 +168,7 @@
 							30  1.0
 						</tableData>
 					</table>
-					<value>0.25</value>
+					<value>0.175</value>
 					<ifthen>
 						<eq>
 							<property>position/wow</property>
@@ -184,6 +184,65 @@
 		<summer name="fcs/drivers/pitch-output">
 			<input>fcs/drivers/pitch/rate-damper</input>
 			<input>fcs/drivers/pitch/flap-compensator</input>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+		</summer>
+	
+	</channel>
+	
+	<channel name="Yaw Axis"> <!-- Negative is Right, Positive is Left -->
+		
+		<switch name="fcs/drivers/yaw/rate-damper-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				fcs/yaw-damper/enable ne 0
+				fcs/yaw-damper/serviceable eq 1
+				position/wow eq 0
+				/ja37/elec/ac-bus-main-bool eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/drivers/yaw/rate-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="column">fcs/drivers/yaw/rate-damper-enable</independentVar>
+					<tableData>
+						     0    1
+						200  0.0  0.8
+						700  0.0  0.4
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fcs/drivers/yaw/rate-damper-mixer">
+			<description>Mix Roll into Yaw Signal</description>
+			<function>
+				<sum>
+					<property>velocities/r-rad_sec</property>
+					<!-- Needs to be fixed -->
+					<!--product>
+						<property>velocities/p-rad_sec</property>
+						<value>-0.025</value>
+					</product-->
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/yaw/rate-damper">
+			<input>fcs/drivers/yaw/rate-damper-mixer</input>
+			<gain>fcs/drivers/yaw/rate-damper-gain</gain>
+			<clipto> <!-- 4 deg / 25 deg -->
+				<min>-0.16</min>
+				<max>0.16</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/drivers/yaw-output">
+			<input>fcs/drivers/yaw/rate-damper</input>
 			<clipto>
 				<min>-1.0</min>
 				<max>1.0</max>
