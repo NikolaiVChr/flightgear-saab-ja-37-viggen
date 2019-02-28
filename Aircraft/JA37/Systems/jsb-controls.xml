@@ -172,7 +172,7 @@
 						</tableData>
 					</table>
 					<value>22.0</value>
-			   </ifthen>
+				</ifthen>
 			</function>
 		</fcs_function>
 		
@@ -538,7 +538,7 @@
 						</tableData>
 					</table>
 					<value>25.0</value>
-			   </ifthen>
+				</ifthen>
 			</function>
 		</fcs_function>
 		
