@@ -52,7 +52,7 @@
 						</tableData>
 					</table>
 					<table> <!-- System Gain -->
-						<independentVar lookup="row">velocities/vc-kts</independentVar>
+						<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 						<independentVar lookup="column">fcs/drivers/roll/rate-limiter-enable</independentVar>
 						<tableData>
 							     0    1
@@ -84,12 +84,12 @@
 			<function>
 				<product>
 					<table>
-						<independentVar lookup="row">velocities/vc-kts</independentVar>
+						<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 						<independentVar lookup="column">fcs/drivers/roll/damper-enable</independentVar>
 						<tableData>
 							     0    1
-							200  0.0 -0.6
-							700  0.0 -0.1
+							200  0.0 -0.52
+							700  0.0 -0.06
 						</tableData>
 					</table>
 					<table> <!-- Prevent damper from causing bad roll rate -->
@@ -105,7 +105,7 @@
 		</fcs_function>
 		
 		<pure_gain name="fcs/drivers/roll/rate-damper">
-			<input>velocities/p-rad_sec</input>
+			<input>velocities/p-rad_sec</input> <!-- No washout, that makes bad behavior -->
 			<gain>fcs/drivers/roll/rate-damper-gain</gain>
 			<clipto> <!-- 4 deg / 15 deg -->
 				<min>-0.26667</min>
@@ -138,7 +138,7 @@
 		<fcs_function name="fcs/drivers/pitch/rate-damper-gain">
 			<function>
 				<table>
-					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 					<independentVar lookup="column">fcs/drivers/pitch/damper-enable</independentVar>
 					<tableData>
 						     0    1
@@ -149,8 +149,13 @@
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fcs/drivers/pitch/rate-damper">
+		<washout_filter name="fcs/drivers/pitch/q-washout">
 			<input>velocities/q-rad_sec</input>
+			<c1>1.0</c1>
+		</washout_filter>
+		
+		<pure_gain name="fcs/drivers/pitch/rate-damper">
+			<input>fcs/drivers/pitch/q-washout</input>
 			<gain>fcs/drivers/pitch/rate-damper-gain</gain>
 			<clipto> <!-- 4 deg / 22 deg -->
 				<min>-0.18182</min>
@@ -158,10 +163,15 @@
 			</clipto>
 		</pure_gain>
 		
+		<pure_gain name="fcs/drivers/pitch/rate-damper-deg"> <!-- Debugging -->
+			<input>fcs/drivers/pitch/rate-damper</input>
+			<gain>22.0</gain>
+		</pure_gain>
+		
 		<fcs_function name="fcs/drivers/pitch/accel-damper-gain">
 			<function>
 				<table>
-					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 					<independentVar lookup="column">fcs/drivers/pitch/damper-enable</independentVar>
 					<tableData>
 						     0     1
@@ -188,6 +198,11 @@
 				<min>-0.18182</min>
 				<max>0.18182</max>
 			</clipto>
+		</pure_gain>
+		
+		<pure_gain name="fcs/drivers/pitch/accel-damper-deg"> <!-- Debugging -->
+			<input>fcs/drivers/pitch/accel-damper</input>
+			<gain>22.0</gain>
 		</pure_gain>
 		
 		<summer name="fcs/drivers/pitch/damper-sum">
@@ -247,7 +262,7 @@
 		<fcs_function name="fcs/drivers/yaw/rate-damper-gain">
 			<function>
 				<table>
-					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 					<independentVar lookup="column">fcs/drivers/yaw/damper-enable</independentVar>
 					<tableData>
 						     0    1
@@ -258,15 +273,25 @@
 			</function>
 		</fcs_function>
 		
+		<washout_filter name="fcs/drivers/yaw/p-washout">
+			<input>velocities/p-rad_sec</input>
+			<c1>1.0</c1>
+		</washout_filter>
+		
+		<washout_filter name="fcs/drivers/yaw/r-washout">
+			<input>velocities/r-rad_sec</input>
+			<c1>1.0</c1>
+		</washout_filter>
+		
 		<fcs_function name="fcs/drivers/yaw/rate-mixer">
 			<description>Mix Roll into Yaw Signal</description>
 			<function>
 				<sum>
-					<property>velocities/r-rad_sec</property>
+					<property>fcs/drivers/yaw/r-washout</property>
 					<product>
-						<property>velocities/p-rad_sec</property>
+						<property>fcs/drivers/yaw/p-washout</property>
 						<table>
-							<independentVar lookup="row">velocities/vc-kts</independentVar>
+							<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 							<tableData>
 								200 -0.075
 								700 -0.005
@@ -289,7 +314,7 @@
 		<fcs_function name="fcs/drivers/yaw/accel-damper-gain">
 			<function>
 				<table>
-					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
 					<independentVar lookup="column">fcs/drivers/yaw/damper-enable</independentVar>
 					<tableData>
 						     0     1
