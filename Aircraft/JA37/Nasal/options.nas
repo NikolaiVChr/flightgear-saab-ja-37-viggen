@@ -751,7 +751,7 @@ var Dialog = {
     },
 
     defaultThickness: func {
-      setprop("ja37/hud/stroke-linewidth", 4);
+      setprop("ja37/hud/stroke-linewidth", 5);
       canvas_HUD.reinit();
     },    
 

@@ -435,7 +435,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.alt.setColor(r,g,b, a);
     me.alt.setAlignment("center-center");
     me.alt.setTranslation(-(375/1024)*canvasWidth, dig_alt_position);
-    me.alt.setFontSize((80/1024)*canvasWidth*fs, ar);
+    me.alt.setFontSize((70/1024)*canvasWidth*fs, ar);
 
     
     # Collision warning arrow
