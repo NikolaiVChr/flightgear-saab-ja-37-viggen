@@ -111,7 +111,7 @@
                 <table>
                     <independentVar lookup="row">fcs/elevator/input</independentVar>
                     <tableData>
-                        -1.00  7.00
+                        -1.00  7.30
                         -0.20  0.50
                         -0.05  0.00
                         0.00  0.00
@@ -557,6 +557,21 @@
             </range>
             <output>fcs/elevator-pos-rad</output>
         </aerosurface_scale>
+        
+        <pure_gain name="fcs/elevator/output-deg">
+            <input>fcs/elevator/output-rad</input>
+            <gain>57.3</gain>
+        </pure_gain>
+        
+        <pure_gain name="aero/qbar-psf-red">
+            <input>aero/qbar-psf</input>
+            <gain>0.01</gain>
+        </pure_gain>
+        
+        <pure_gain name="atmosphere/density-altitude-red">
+            <input>atmosphere/density-altitude</input>
+            <gain>0.001</gain>
+        </pure_gain>
 
     </channel>
 
