@@ -166,9 +166,17 @@
 					</eq>
 					<table> <!-- All guesses -->
 						<independentVar lookup="row">aero/qbar-psf</independentVar>
+						<independentVar lookup="column">atmosphere/density-altitude</independentVar>
 						<tableData>
-							 150  22
-							2300   4
+							      0     15000 35000
+							 150  22.0  22.0  22.0
+							 295  20.8  22.0  22.0
+							 530  18.8  19.7  22.0
+							1200  13.2  13.1  10.0
+							1530  10.4   9.9   4.0
+							1750   8.6   7.7   4.0
+							2120   5.7   4.0   4.0
+							2300   4.0   4.0   4.0
 						</tableData>
 					</table>
 					<value>22.0</value>
