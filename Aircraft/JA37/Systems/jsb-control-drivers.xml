@@ -3,9 +3,10 @@
 
 <system name="Viggen FCS Drivers">
 	
-	<property value="0">gain</property> <!-- Just for tuning -->
 	<property value="0">fcs/drivers/roll/stick-geared</property>
 	<property value="0">fcs/drivers/pitch/stick-geared</property>
+	<property value="0">fcs/drivers/series-trim/mach-switch-feedback</property>
+	<property value="0">gain</property> <!-- Just for tuning -->
 	
 	<channel name="Libraries">
 		
@@ -245,6 +246,121 @@
 				<max>1.0</max>
 			</clipto>
 		</summer>
+	
+	</channel>
+	
+	<channel name="Series Trim">
+		
+		<switch name="fcs/drivers/series-trim/mach-switch">
+			<default value="fcs/drivers/series-trim/mach-switch-feedback"/>
+			<test logic="OR" value="0">
+				velocities/mach le 0.929
+			</test>
+			<test logic="OR" value="1">
+				velocities/mach ge 0.931
+			</test>
+			<output>fcs/drivers/series-trim/mach-switch-feedback</output>
+		</switch>
+		
+		<switch name="fcs/drivers/series-trim/active">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				fcs/drivers/series-trim/mach-switch eq 1
+				position/wow eq 0
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/drivers/series-trim/accel-cmd">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/drivers/pitch/stick-geared</independentVar>
+					<tableData>
+						-1.000000  8.0
+						 0.000000  1.0
+						 0.727272 -3.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<lag_filter name="fcs/drivers/series-trim/accel-cmd-lag">
+			<input>fcs/drivers/series-trim/accel-cmd</input>
+			<c1>9.0</c1>
+		</lag_filter>
+		
+		<lag_filter name="fcs/drivers/series-trim/Nz-lag">
+			<input>accelerations/Nz</input>
+			<c1>12.0</c1>
+		</lag_filter>
+		
+		<summer name="fcs/drivers/series-trim/accel-error">
+			<input>fcs/drivers/series-trim/Nz-lag</input>
+			<input>-fcs/drivers/series-trim/accel-cmd-lag</input>
+		</summer>
+		
+		<fcs_function name="fcs/drivers/series-trim/authority-max">
+			<function>
+				<quotient>
+					<ifthen>
+						<eq>
+							<property>/ja37/systems/variant</property>
+							<value>0</value>
+						</eq>
+						<table>
+							<independentVar lookup="row">velocities/mach</independentVar>
+							<tableData>
+								0.930  0.0
+								1.035  3.5
+							</tableData>
+						</table>
+						<value>3.5</value>
+					</ifthen>
+					<value>22.0</value> <!-- Normalize -->
+				</quotient>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/series-trim/authority-min">
+			<input>fcs/drivers/series-trim/authority-max</input>
+			<gain>-1.0</gain>
+		</pure_gain>
+		
+		<pure_gain name="fcs/drivers/series-trim/command">
+			<input>fcs/drivers/series-trim/accel-error</input>
+			<gain>0.01</gain>
+			<clipto>
+				<min>fcs/drivers/series-trim/authority-min</min>
+				<max>fcs/drivers/series-trim/authority-max</max>
+			</clipto>
+		</pure_gain>
+		
+		<switch name="fcs/drivers/series-trim/command-switch">
+			<default value="0"/>
+			<test value="fcs/drivers/series-trim/command">
+				fcs/drivers/series-trim/active eq 1
+			</test>
+		</switch>
+		
+		<switch name="fcs/drivers/series-trim/actuator-rate">
+			<default value="0.010606061"/> <!-- (3.5 deg / 15 seconds) / 22 normalize -->
+			<test value="0"> <!-- No movement -->
+				/ja37/elec/ac-bus-main-bool ne 1
+			</test>
+			<test value="10.0"> <!-- Don't restrict -->
+				fcs/drivers/series-trim/active eq 1
+			</test>
+		</switch>
+		
+		<actuator name="fcs/drivers/series-trim-output">
+			<input>fcs/drivers/series-trim/command-switch</input>
+			<rate_limit>fcs/drivers/series-trim/actuator-rate</rate_limit>
+			<output>fcs/drivers/series-trim/feedback</output>
+		</actuator>
+		
+		<pure_gain name="fcs/drivers/series-trim/output-deg"> <!-- Debugging -->
+			<input>fcs/drivers/series-trim-output</input>
+			<gain>22.0</gain>
+		</pure_gain>
 	
 	</channel>
 	

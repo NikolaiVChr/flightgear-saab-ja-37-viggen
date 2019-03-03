@@ -153,7 +153,7 @@
 		<summer name="fcs/elevon/pitch-nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
 			<input>fcs/drivers/pitch-output</input> <!-- Pitch Rate Damper -->
-			<!--input>fcs/drivers/pitch-autotrim</input--> <!-- Pitch Autotrim -->
+			<input>fcs/drivers/series-trim-output</input> <!-- Series Trim -->
 			<!--input>autoflight/output/pitch-cmd</input--> <!-- A/P Pitch Command -->
 		</summer>
 		
@@ -250,7 +250,6 @@
 		<summer name="fcs/elevon/roll-nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
 			<input>fcs/drivers/roll-output</input> <!-- Roll Rate Damper/Limiter -->
-			<!--input>fcs/drivers/roll-autotrim</input--> <!-- Roll Autotrim -->
 			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
 		
@@ -524,7 +523,6 @@
 		<summer name="fcs/rudder/nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
 			<input>fcs/drivers/yaw-output</input> <!-- Yaw Rate Damper -->
-			<!--input>fcs/drivers/yaw-autotrim</input--> <!-- Yaw Autotrim -->
 			<clipto>
 				<min>-1.0</min>
 				<max>1.0</max>
