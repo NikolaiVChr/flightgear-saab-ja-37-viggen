@@ -93,7 +93,8 @@
 	<!-- Begin new FCS by Joshua Davidson (it0uchpods) -->
 	<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
 	
-	<property value="15">fcs/elevon/roll-gearing-feedback</property>
+	<property value="22.0">fcs/elevon/pitch-gearing-feedback</property>
+	<property value="15.0">fcs/elevon/roll-gearing-feedback</property>
 	
 	<channel name="Elevons">
 		
@@ -159,35 +160,129 @@
 		
 		<fcs_function name="fcs/elevon/pitch-gearing">
 			<function>
-				<ifthen>
-					<eq>
-						<property>fcs/elevator/gearing-enable</property>
-						<value>1</value>
-					</eq>
-					<table> <!-- All guesses -->
-						<independentVar lookup="row">aero/qbar-psf</independentVar>
-						<independentVar lookup="column">atmosphere/density-altitude</independentVar>
-						<tableData>
-							      0     15000 35000
-							 150  22.0  22.0  22.0
-							 295  20.8  22.0  22.0
-							 530  18.8  19.7  22.0
-							1200  13.2  13.1  10.0
-							1530  10.4   9.9   4.0
-							1750   8.6   7.7   4.0
-							2120   5.7   4.0   4.0
-							2300   4.0   4.0   4.0
-						</tableData>
-					</table>
-					<value>22.0</value>
-				</ifthen>
+				<table> <!-- Calculated by Necolatis, do not remove spaces in lines, they have a purpose despite being ugly :) -->
+					<independentVar lookup="row">aero/qbar-psf</independentVar>
+					<independentVar lookup="column">fcs/elevator/gearing-enable</independentVar>
+					<independentVar lookup="table">atmosphere/density-altitude</independentVar>
+					<tableData breakPoint="0">
+						      0     1
+						 150  22.0  22.0
+						 295  22.0  20.8
+						 
+						 390  22.0  16.8
+						 465  22.0  14.3
+						 530  22.0  12.2
+						 590  22.0  11.0
+						 645  22.0  10.3
+						 700  22.0   9.7
+						 745  22.0   9.3
+						 790  22.0   8.9
+						 834  22.0   8.6
+						 880  22.0   8.3
+						 925  22.0   8.2
+						 975  22.0   8.2
+						1070  22.0   8.0
+						1120  22.0   8.0
+						1175  22.0   7.9
+						1230  22.0   7.6
+						1290  22.0   7.4
+						1350  22.0   7.3
+						1423  22.0   7.7
+						1500  22.0   7.3
+						1575  22.0   7.0
+						1650  22.0   6.4
+						1725  22.0   6.3
+						
+						2120  22.0   5.7
+						2300  22.0   4.0
+					</tableData>   
+					<tableData breakPoint="10000"> 
+						      0     1
+						 300  22.0  22.0
+						 
+						 465  22.0  11.8
+						 515  22.0  10.7
+						 565  22.0   9.9
+						 610  22.0   9.5
+						 655  22.0   9.2
+						 700  22.0   9.0
+						 745  22.0   8.9
+						 790  22.0   8.8
+						 835  22.0   8.7
+						 880  22.0   8.5
+						 930  22.0   8.6
+						 977  22.0   9.0
+						1025  22.0   9.1
+						1075  22.0   8.7
+						1130  22.0   8.4
+						1180  22.0   8.0
+						1230  22.0   7.7
+						1290  22.0   7.4
+						1350  22.0   7.1
+						1405  22.0   6.8
+						1460  22.0   6.6
+						1520  22.0   6.4
+						1574  22.0   6.1
+						
+						1750  22.0   7.9
+						2120  22.0   4.5
+						2300  22.0   4.0
+					</tableData>
+					<tableData breakPoint="20000"> 
+						      0     1
+						 150  22.0  22.0
+						 295  22.0  22.0
+						 530  22.0  21.0
+						 
+						 780  22.0  10.0
+						 850  22.0   9.3
+						 925  22.0   8.8
+						1000  22.0   8.4
+						1035  22.0   8.1
+						1065  22.0   7.9
+						1165  22.0   7.7
+						1200  22.0   7.5
+						1235  22.0   6.9
+						1270  22.0   7.1
+						1305  22.0   6.6
+						1335  22.0   6.9
+						1360  22.0   6.8
+						1385  22.0   6.3
+						1410  22.0   6.5
+						
+						1750  22.0   4.0
+					</tableData>
+					<tableData breakPoint="35000"> 
+						      0     1
+						 520  22.0  22.0
+						 575  22.0  19.1
+						 630  22.0  17.1
+						 680  22.0  15.7
+						 733  22.0  14.6
+						 785  22.0  14.0
+						 835  22.0  13.5
+						 885  22.0  12.6
+						 930  22.0  11.5
+						 965  22.0  10.5
+						 
+						1500  22.0   4.0
+					</tableData>
+				</table>
 			</function>
 		</fcs_function>
+		
+		<switch name="fcs/elevon/pitch-gearing-switched">
+			<default value="fcs/elevon/pitch-gearing"/>
+			<test value="fcs/elevon/pitch-gearing-feedback">
+				/ja37/elec/ac-bus-main-bool ne 1
+			</test>
+			<output>fcs/elevon/pitch-gearing-feedback</output>
+		</switch>
 		
 		<pure_gain name="fcs/elevon/pitch-gear-input-deg">
 			<description>Deflection pitch surface linearly for inputs passed through gearing</description>
 			<input>fcs/elevon/pitch-gear-input-sum</input>
-			<gain>fcs/elevon/pitch-gearing</gain>
+			<gain>fcs/elevon/pitch-gearing-switched</gain>
 			<clipto>
 				<min>-22.0</min>
 				<max>16.0</max>

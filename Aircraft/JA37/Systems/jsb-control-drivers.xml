@@ -183,17 +183,13 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="fcs/drivers/pitch/Nz-input">
-			<function>
-				<sum>
-					<property>accelerations/Nz</property>
-					<value>-1</value>
-				</sum>
-			</function>
-		</fcs_function>
+		<washout_filter name="fcs/drivers/pitch/Nz-washout">
+			<input>accelerations/Nz</input>
+			<c1>3.5</c1>
+		</washout_filter>
 		
 		<pure_gain name="fcs/drivers/pitch/accel-damper">
-			<input>fcs/drivers/pitch/Nz-input</input>
+			<input>fcs/drivers/pitch/Nz-washout</input>
 			<gain>fcs/drivers/pitch/accel-damper-gain</gain>
 			<clipto> <!-- 4 deg / 22 deg -->
 				<min>-0.18182</min>
@@ -441,8 +437,13 @@
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fcs/drivers/yaw/accel-damper">
+		<washout_filter name="fcs/drivers/yaw/Ny-washout">
 			<input>accelerations/Ny</input>
+			<c1>3.5</c1>
+		</washout_filter>
+		
+		<pure_gain name="fcs/drivers/yaw/accel-damper">
+			<input>fcs/drivers/yaw/Ny-washout</input>
 			<gain>fcs/drivers/yaw/accel-damper-gain</gain>
 			<clipto> <!-- 4 deg / 25 deg -->
 				<min>-0.16</min>
