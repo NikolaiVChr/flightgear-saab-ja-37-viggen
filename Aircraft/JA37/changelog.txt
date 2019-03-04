@@ -3690,5 +3690,5 @@ Sim: Optimized some property reading for fast loops.
 HUD: Made the hud symbols more transparent and made lines thicker per default.
 Sound: Optimized property settings for tones.
 Sim: Elevon testing; special logging code for new pitch gearing.
-
+Elec: Made the auto switch between external (BRAGG) and generator be seamless without power interuption on secondary AC bus.
 
