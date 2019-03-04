@@ -473,10 +473,10 @@
                         <property>/systems/electrical/serviceable</property>
                         <value>0</value>
                     </eq>
-                    <nq>
+                    <lt>
                         <property>systems/electrical/generator-running-norm</property>
-                        <value>1</value>
-                    </nq>
+                        <value>0.99</value>
+                    </lt>
                     <lt>
                         <property>/ja37/elec/dc-bus-battery-3-volt</property>
                         <value>20</value>
@@ -504,7 +504,7 @@
                 </or>
             </function>
         </fcs_function>
-
+        
         <switch name="systems/indicators/electrical">
             <default value="0"/>
             <test logic="OR" value="/ja37/blink/four-Hz/state">

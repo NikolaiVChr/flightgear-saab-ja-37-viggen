@@ -92,17 +92,13 @@
                 50   0   1
             </tableData>
             </table>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
         </scheduled_gain>
 
         <kinematic name="systems/electrical/generator-running-norm">
             <description>
                       Generator running normalized
                       
-                      TODO: Why 0.5 seconds, wont it just spin up with engine? What did I think..
+                      TODO: Why 1.0 seconds, wont it just spin up with engine? What did I think..
             </description>
             <input>systems/electrical/generator-cmd</input>
             <traverse>
@@ -112,7 +108,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      0.5 </time>
+                    <time>      1.0 </time>
                 </setting>
             </traverse>
         </kinematic>
