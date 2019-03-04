@@ -111,7 +111,7 @@
                 <table>
                     <independentVar lookup="row">fcs/elevator/input</independentVar>
                     <tableData>
-                        -1.00  7.30
+                        -1.00  7.00
                         -0.20  0.50
                         -0.05  0.00
                         0.00  0.00
