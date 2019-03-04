@@ -557,21 +557,6 @@
             </range>
             <output>fcs/elevator-pos-rad</output>
         </aerosurface_scale>
-        
-        <pure_gain name="fcs/elevator/output-deg">
-            <input>fcs/elevator/output-rad</input>
-            <gain>57.3</gain>
-        </pure_gain>
-        
-        <pure_gain name="aero/qbar-psf-red">
-            <input>aero/qbar-psf</input>
-            <gain>0.01</gain>
-        </pure_gain>
-        
-        <pure_gain name="atmosphere/density-altitude-red">
-            <input>atmosphere/density-altitude</input>
-            <gain>0.001</gain>
-        </pure_gain>
 
     </channel>
 
