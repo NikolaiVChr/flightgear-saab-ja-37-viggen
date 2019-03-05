@@ -43,10 +43,11 @@
         <object-name>sphere</object-name>
         <object-name>bank-index</object-name>
         <object-name>off</object-name>
+        <object-name>level</object-name>
         <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
     </animation>
@@ -84,6 +85,24 @@
             <y>1</y>
         </axis>
     </animation>
+    
+    <animation>
+        <type>rotate</type>
+        <object-name>sphere</object-name>
+        <condition>
+            <property>ja37/elec/dc-bus-main-bool</property>
+        </condition>
+        <property>orientation/heading-magnetic-deg</property><!--instrumentation/heading-indicator/indicated-heading-deg-->
+        <factor>-1</factor>
+        <center>
+            <x-m>-0.02692</x-m>
+            <y-m>0</y-m>
+            <z-m>0.0</z-m>
+        </center>
+        <axis>
+            <z>1</z>
+        </axis>
+    </animation>
 
     <animation>
         <type>rotate</type>
@@ -98,7 +117,25 @@
     </animation>
 
 	<!--glideslope and heading indicator-->
-
+    
+    <animation>
+        <type>select</type>
+        <object-name>glideslopeIndicator</object-name>
+        <condition>
+            <property>/ja37/hud/TILS-on</property>
+            <property>instrumentation/nav[0]/gs-in-range</property>
+            <property>instrumentation/nav[0]/has-gs</property>
+        </condition>
+    </animation>
+    
+    <animation>
+        <type>select</type>
+        <object-name>headingIndicator</object-name>
+        <condition>
+            <property>/ja37/hud/TILS-on</property>
+        </condition>
+    </animation>
+    
 	<animation>
 		<type>translate</type>
 		<object-name>headingIndicator</object-name>

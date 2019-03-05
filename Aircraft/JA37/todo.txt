@@ -187,7 +187,6 @@ DAP: entering traning floor should be tens of meters.
 Model: The 2 altimeters is wrong models.
 Model: The fuel gauge had a second needle.
 Animation: Main attitude indicator lazy and jumps from 180 to -180.
-Model: Attitude indicator had compass on the ball.
 
 
 
