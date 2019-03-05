@@ -5,7 +5,7 @@ MATERIAL "Material" rgb 0.640 0.640 0.640  amb 1.000 1.000 1.000  emis 0.000 0.0
 MATERIAL "levelMat.001" rgb 1.000 1.000 1.000  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 0.000 0.000 0.000  shi 50 trans 0.000
 OBJECT world
 name "Blender_exporter_v2.26__ai1.ac"
-kids 6
+kids 8
 OBJECT poly
 name "ai-ring"
 data 12
@@ -634,6 +634,48 @@ refs 3
 44 0.008263 0.988106
 45 0.0001 0.959254
 36 0.000099 0.038766
+kids 0
+OBJECT poly
+name "glideslopeIndicator"
+data 9
+Plane.003
+crease 35.0
+texture "ai_ring.png"
+texrep 1 1
+numvert 4
+0.01546 -0.0001 -0.02146
+0.01546 0.00086 -0.02146
+0.01546 -0.00011 0.02072
+0.01546 0.00085 0.02072
+numsurf 1
+SURF 0X0
+mat 0
+refs 4
+0 0.292052 0.487928
+1 0.290506 0.457484
+3 0.448181 0.457664
+2 0.449727 0.488109
+kids 0
+OBJECT poly
+name "headingIndicator"
+data 9
+Plane.002
+crease 35.0
+texture "ai_ring.png"
+texrep 1 1
+numvert 4
+0.01546 -0.02072 0.00047
+0.01546 -0.02072 -0.00049
+0.01546 0.02147 0.00047
+0.01546 0.02147 -0.00049
+numsurf 1
+SURF 0X0
+mat 0
+refs 4
+0 0.292052 0.487928
+1 0.290506 0.457484
+3 0.448181 0.457664
+2 0.449727 0.488109
 kids 0
 OBJECT poly
 name "level"
