@@ -183,7 +183,7 @@ GUI: Stop perf. monitor from running when dialog is off.
 Sim: Reinit dont repair (sometimes).
 Sim: Strange slowdown of FPS after flying for a while and fighting with aim9.
 DAP: Output of not defined addresses should just be 0000?
-DAP: entering traning floor should be tens of meters.
+DAP: entering training floor should be tens of meters.
 Model: The 2 altimeters is wrong models.
 Model: The fuel gauge had a second needle.
 Animation: Main attitude indicator lazy and jumps from 180 to -180.
