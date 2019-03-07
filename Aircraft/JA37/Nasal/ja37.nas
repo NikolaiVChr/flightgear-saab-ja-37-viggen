@@ -182,6 +182,17 @@ input = {
   terrainWarn:      "instrumentation/terrain-warning",
   parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
   parachuteForce:    "ja37/force",
+  toneTerr: "ja37/sound/tones/terrain-on",
+  toneOut: "ja37/sound/tones/flare-release-out",
+  toneCM: "ja37/sound/tones/flare-release",
+  toneGVV: "ja37/sound/tones/gvv-main",
+  toneVne: "ja37/sound/tones/vne",
+  toneTs: "ja37/sound/tones/transonic",
+  toneFloor: "ja37/sound/tones/floor",
+  tonePreA2: "ja37/sound/tones/alpha-pre-2",
+  tonePreA1: "ja37/sound/tones/alpha-pre-1",
+  tonePreL2: "ja37/sound/tones/load-pre-2",
+  tonePreL1: "ja37/sound/tones/load-pre-1",
 };
 
 
@@ -555,58 +566,58 @@ var Saab37 = {
     # CK37 issued aural warnings (minus master-warning, as its played seperate)
     #
     # at MKV ground collision warning the load-factor warning is force set at 110. (until 10 secs after)
-    var warnGiven = 0;
+    me.warnGiven = 0;
     if (!power.prop.dcMainBool.getValue() or !getprop("ja37/avionics/annunciator/serviceable")) {
-      warnGiven = 1;
+      me.warnGiven = 1;
     }
-    if (!warnGiven and getprop("ja37/sound/terrain-on")) {
-      setprop("ja37/sound/tones/terrain-on",1);
-      warnGiven = 1;
+    if (!me.warnGiven and getprop("ja37/sound/terrain-on")) {
+      input.toneTerr.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/terrain-on",0);
+      input.toneTerr.setBoolValue(0);
     }
-    if (!warnGiven and getprop("ai/submodels/submodel[0]/flare-release-out-snd")) {
-      setprop("ja37/sound/tones/flare-release-out",1);
-      warnGiven = 1;
+    if (!me.warnGiven and getprop("ai/submodels/submodel[0]/flare-release-out-snd")) {
+      input.toneOut.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/flare-release-out",0);
+      input.toneOut.setBoolValue(0);
     }
-    if (!warnGiven and getprop("ai/submodels/submodel[0]/flare-release-snd")) {
-      setprop("ja37/sound/tones/flare-release",1);
-      warnGiven = 1;
+    if (!me.warnGiven and getprop("ai/submodels/submodel[0]/flare-release-snd")) {
+      input.toneCM.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/flare-release",0);
+      input.toneCM.setBoolValue(0);
     }
-    if (!warnGiven and input.fuseGVV.getValue() and ((input.alpha.getValue()>getprop("fdm/jsbsim/systems/sound/alpha-limit-high") and !input.gearsPos.getValue()) or getprop("ja37/sound/pilot-G-norm")>1 or getprop("ja37/sound/speed-on") or (input.alpha.getValue()>18 and getprop("gear/gear/position-norm") and !getprop("fdm/jsbsim/gear/unit[0]/WOW") and !getprop("fdm/jsbsim/gear/unit[2]/WOW")))) {
-      setprop("ja37/sound/tones/gvv-main",1);
-      warnGiven = 1;
+    if (!me.warnGiven and input.fuseGVV.getValue() and ((input.alpha.getValue()>getprop("fdm/jsbsim/systems/sound/alpha-limit-high") and !input.gearsPos.getValue()) or getprop("ja37/sound/pilot-G-norm")>1 or getprop("ja37/sound/speed-on") or (input.alpha.getValue()>18 and getprop("gear/gear/position-norm") and !getprop("fdm/jsbsim/gear/unit[0]/WOW") and !getprop("fdm/jsbsim/gear/unit[2]/WOW")))) {
+      input.toneGVV.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/gvv-main",0);
+      input.toneGVV.setBoolValue(0);
     }
-    if (!warnGiven and (input.speedKt.getValue()>getprop("limits/vne") or input.speedMach.getValue()>getprop("limits/vne-mach"))) {
-      setprop("ja37/sound/tones/vne",1);
-      warnGiven = 1;
+    if (!me.warnGiven and (input.speedKt.getValue()>getprop("limits/vne") or input.speedMach.getValue()>getprop("limits/vne-mach"))) {
+      input.toneVne.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/vne",0);
+      input.toneVne.setBoolValue(0);
     }
-    if (me.tsPlaying) warnGiven = 1;
+    if (me.tsPlaying) me.warnGiven = 1;
     if (getprop("fdm/jsbsim/systems/indicators/transonic")) {
-      if (!warnGiven and !me.ts) {
-        setprop("ja37/sound/tones/transonic",1);
+      if (!me.warnGiven and !me.ts) {
+        input.toneTs.setBoolValue(1);
         settimer(func {me.tsTimed()},2.1);
-        warnGiven = 1;
+        me.warnGiven = 1;
         me.tsPlaying = 1;
       }
       me.ts = 1;
     } else {
       me.ts = 0;
     }
-    if (me.floorPlaying) warnGiven = 1;
+    if (me.floorPlaying) me.warnGiven = 1;
     if (input.indAltFt.getValue() < getprop("ja37/sound/floor-ft")) {
-      if (!warnGiven and !me.floor) {
-        setprop("ja37/sound/tones/floor",1);
+      if (!me.warnGiven and !me.floor) {
+        input.toneFloor.setBoolValue(1);
         settimer(func {me.floorTimed()},2.1);
-        warnGiven = 1;
+        me.warnGiven = 1;
         me.floorPlaying = 1;
         
       }
@@ -615,29 +626,29 @@ var Saab37 = {
       me.floor = 0;
       #setprop("ja37/sound/tones/floor",0);
     }
-    if (!warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and input.alpha.getValue() > getprop("fdm/jsbsim/systems/sound/alpha-limit-medium") and input.alpha.getValue() < getprop("fdm/jsbsim/systems/sound/alpha-limit-high")) {
-      setprop("ja37/sound/tones/alpha-pre-2",1);
-      warnGiven = 1;
+    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and input.alpha.getValue() > getprop("fdm/jsbsim/systems/sound/alpha-limit-medium") and input.alpha.getValue() < getprop("fdm/jsbsim/systems/sound/alpha-limit-high")) {
+      input.tonePreA2.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/alpha-pre-2",0);
+      input.tonePreA2.setBoolValue(0);
     }
-    if (!warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and input.alpha.getValue() > getprop("fdm/jsbsim/systems/sound/alpha-limit-low") and input.alpha.getValue() < getprop("fdm/jsbsim/systems/sound/alpha-limit-medium")) {
-      setprop("ja37/sound/tones/alpha-pre-1",1);
-      warnGiven = 1;
+    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and input.alpha.getValue() > getprop("fdm/jsbsim/systems/sound/alpha-limit-low") and input.alpha.getValue() < getprop("fdm/jsbsim/systems/sound/alpha-limit-medium")) {
+      input.tonePreA1.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/alpha-pre-1",0);
+      input.tonePreA1.setBoolValue(0);
     }
-    if (!warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and getprop("ja37/sound/pilot-G-norm") > 0.92 and getprop("ja37/sound/pilot-G-norm") < 1) {
-      setprop("ja37/sound/tones/load-pre-2",1);
-      warnGiven = 1;
+    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and getprop("ja37/sound/pilot-G-norm") > 0.92 and getprop("ja37/sound/pilot-G-norm") < 1) {
+      input.tonePreL2.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/load-pre-2",0);
+      input.tonePreL2.setBoolValue(0);
     }
-    if (!warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and getprop("ja37/sound/pilot-G-norm") > 0.85 and getprop("ja37/sound/pilot-G-norm") < 0.92) {
-      setprop("ja37/sound/tones/load-pre-1",1);
-      warnGiven = 1;
+    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and getprop("ja37/sound/pilot-G-norm") > 0.85 and getprop("ja37/sound/pilot-G-norm") < 0.92) {
+      input.tonePreL1.setBoolValue(1);
+      me.warnGiven = 1;
     } else {
-      setprop("ja37/sound/tones/load-pre-1",0);
+      input.tonePreL1.setBoolValue(0);
     }
   },
   
@@ -647,12 +658,12 @@ var Saab37 = {
   tsPlaying: 0,
   
   floorTimed: func {
-    setprop("ja37/sound/tones/floor",0);
+    input.toneFloor.setBoolValue(0);
     me.floorPlaying = 0;
   },
   
   tsTimed: func {
-    setprop("ja37/sound/tones/transonic",0);
+    input.toneTs.setBoolValue(0);
     me.tsPlaying = 0;
   },
 

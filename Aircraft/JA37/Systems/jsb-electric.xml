@@ -10,7 +10,7 @@
                 main power on/off
                 (external truck)
             Lights:
-                Battery charge
+                
             Fuses:
                 Battery
             Relays:
@@ -40,7 +40,7 @@
             </description>
             <default value="0"/>
             <test logic="AND" value="1">
-                systems/electrical/generator-running-norm == 0
+                systems/electrical/generator-running-norm lt 1
                 systems/electrical/external/available == 1
             </test>
         </switch>
@@ -92,17 +92,13 @@
                 50   0   1
             </tableData>
             </table>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
         </scheduled_gain>
 
         <kinematic name="systems/electrical/generator-running-norm">
             <description>
                       Generator running normalized
                       
-                      TODO: Why 3 seconds
+                      TODO: Why 1.0 seconds, wont it just spin up with engine? What did I think..
             </description>
             <input>systems/electrical/generator-cmd</input>
             <traverse>
@@ -112,7 +108,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      3.0 </time>
+                    <time>      1.0 </time>
                 </setting>
             </traverse>
         </kinematic>

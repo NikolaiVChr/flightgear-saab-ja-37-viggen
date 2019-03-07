@@ -603,7 +603,7 @@
             <combat type="bool">false</combat>
             <bank-indicator type="bool">false</bank-indicator>
             <callsign type="bool">true</callsign>
-            <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
+            <stroke-linewidth userarchive="y" type="double">5.0</stroke-linewidth>
             <TILS type="bool">true</TILS>
             <TILS-on type="bool">false</TILS-on>
             <landing-mode type="bool">false</landing-mode>
@@ -614,7 +614,10 @@
             <overlay-alpha type="double">0.35</overlay-alpha>
             <overlay-glare type="double">0.40</overlay-glare>
             <mask type="bool">true</mask>
+            <reflection type="bool">false</reflection>
             <emission type="double">1</emission>
+            <sample-res type="double">0.0009</sample-res><!-- was 0.0006-->
+            <sample-far type="double">1.0</sample-far><!-- was 2.5 -->
         </hud>
         <sound>
             <click-on type="bool">false</click-on>
@@ -1674,37 +1677,37 @@
          Remember that the filename below is absolute path, so modify that also -->
 
     <logging>
-      <!--<log>
-       <filename>C:/Users/Nikolai/Documents/ja37_flightlog.csv</filename>
+      <log>
+       <filename>C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/ja37_flightlog.csv</filename>
        <enabled>false</enabled>
-       <interval-ms>500</interval-ms>
+       <interval-ms>1000</interval-ms>
        <delimiter>,</delimiter>
        <entry>
         <enabled>true</enabled>
-        <title>Latitude</title>
-        <property>/position/latitude-deg</property>
+        <title>qbar</title>
+        <property>/fdm/jsbsim/aero/qbar-psf-red</property>
        </entry>
        <entry>
         <enabled>true</enabled>
-        <title>Longitude</title>
-        <property>/position/longitude-deg</property>
+        <title>alt</title>
+        <property>/fdm/jsbsim/atmosphere/density-altitude-red</property>
        </entry>
        <entry>
         <enabled>true</enabled>
-        <title>alt ft</title>
-        <property>/position/altitude-ft</property>
+        <title>elevon</title>
+        <property>/fdm/jsbsim/fcs/elevator/output-deg</property>
        </entry>
        <entry>
         <enabled>true</enabled>
-        <title>date</title>
-        <property>logging/date-log</property>
+        <title>alpha</title>
+        <property>/fdm/jsbsim/aero/alpha-deg</property>
        </entry>
        <entry>
         <enabled>true</enabled>
-        <title>time</title>
-        <property>logging/time-log</property>
+        <title>Nz</title>
+        <property>/fdm/jsbsim/accelerations/Nz</property>
        </entry>
-      </log>-->
+      </log>
       <!--<log>
        <filename>C:/Users/Nikolai/Documents/ja37_missile_flightlog.csv</filename>
        <enabled>false</enabled>
@@ -1814,7 +1817,7 @@
             <property>logging/missile/LOS-rate</property>
            </entry>
         </log>-->
-        <log>
+        <!--<log>
            <filename>C:/Users/Nikolai/Documents/ja37_drag_test.csv</filename>
            <enabled>false</enabled>
            <interval-ms>100</interval-ms>
@@ -1839,7 +1842,7 @@
             <title>Vi</title>
             <property>instrumentation/airspeed-indicator/indicated-speed-kmh</property>
            </entry>
-        </log>
+        </log>-->
         <time-log type="string">0:0:0</time-log>
         <date-log type="string">0/0/0</date-log>
         <missile>
