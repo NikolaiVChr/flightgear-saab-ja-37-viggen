@@ -3698,3 +3698,4 @@ Model: Attitude indicator needles and level indicator is now yellow.
 Arms: RB-74 and RB-99 now use shader for exhaust flame.
 Arms: RB-74 and RB-99 now has less dense smoke, and it no longer lits up in dark.
 Arms: RB-74 flying and any sidewinder hanging is now shaded properly.
+Arms: RB-71 now also uses the new smoke and exhaust flame shader.
