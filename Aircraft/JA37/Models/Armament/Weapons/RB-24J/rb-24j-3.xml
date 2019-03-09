@@ -18,7 +18,7 @@
 	<model>
 		<path>Aircraft/JA37/Models/Armament/Weapons/RB-24J/motor-smoke-3.xml</path>
 		<offsets>
-			<x-m>1.44</x-m>
+			<x-m>0</x-m>
 			<y-m>0</y-m>
 			<z-m>0</z-m>
 		</offsets>
@@ -35,8 +35,18 @@
 	</model>
 
 	<animation>
-  		<object-name>aim-9</object-name>
+  		<object-name>canard</object-name>
+	  	<object-name>tail</object-name>
+	  	<object-name>body</object-name>
+	  	<object-name>aim-9</object-name>
   		<enable-hot type="bool">false</enable-hot>
  	</animation>
+ 	
+ 	<effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal-paint</inherits-from>
+	  <object-name>canard</object-name>
+	  <object-name>tail</object-name>
+	  <object-name>body</object-name>
+	</effect>
 
 </PropertyList>

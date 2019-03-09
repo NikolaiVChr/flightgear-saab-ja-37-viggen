@@ -1126,6 +1126,7 @@ var AIM = {
 			} else {
 				# rail is pointing forward
 				me.rail_speed_into_wind = getprop("velocities/uBody-fps");# wind from nose
+				#printf("Rail: ac_fps=%d uBody_fps=%d", math.sqrt(me.speed_down_fps*me.speed_down_fps+math.pow(math.sqrt(me.speed_east_fps*me.speed_east_fps+me.speed_north_fps*me.speed_north_fps),2)), me.rail_speed_into_wind);
 			}
 		} elsif (me.intoBore == FALSE) {
 			# to prevent the missile from falling up, we need to sometimes pitch it into wind:
@@ -1768,6 +1769,7 @@ var AIM = {
 		if (me.rail == TRUE and me.rail_passed == FALSE) {
 			# missile still on rail, lets calculate its speed relative to the wind coming in from the aircraft nose.
 			me.rail_speed_into_wind = me.rail_speed_into_wind + me.speed_change_fps;
+			#printf("Rail: ms_fps=%d", me.rail_speed_into_wind);
 		} elsif (me.observing != "gyro-pitch" or me.speed_m < me.min_speed_for_guiding) {
 			# gravity acc makes the weapon pitch down			
 			me.pitch = math.atan2(-me.speed_down_fps, me.speed_horizontal_fps ) * R2D;
@@ -1799,6 +1801,7 @@ var AIM = {
 			}			
 
 			me.speed_on_rail = me.clamp(me.rail_speed_into_wind - me.opposing_wind, 0, 1000000);
+			#printf("Rail: ms_rail_fps=%d", me.speed_on_rail);
 			me.movement_on_rail = me.speed_on_rail * me.dt;
 			
 			me.rail_pos = me.rail_pos + me.movement_on_rail;
@@ -1828,7 +1831,14 @@ var AIM = {
 					me.coord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
 				} else {
 					me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue());
-				}				
+				}
+			} elsif (me.rail_forward) {
+				if (offsetMethod == TRUE) {
+					me.geodPos = aircraftToCart({x:-me.x, y:me.y, z: -me.z});
+					me.coord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
+				} else {
+					me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue());
+				}
 			} else {
 				# kind of a hack, but work for static launcher
 				me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue()+me.rail_pitch_deg);
@@ -1839,6 +1849,7 @@ var AIM = {
 			me.speed_horizontal_fps = math.cos(me.pitch * D2R) * me.rail_speed_into_wind;
 			me.speed_north_fps      = math.cos(me.hdg * D2R) * me.speed_horizontal_fps;
 			me.speed_east_fps       = math.sin(me.hdg * D2R) * me.speed_horizontal_fps;
+			#printf("Rail: ms_after_fps=%d ac_fps=%d", math.sqrt(me.speed_down_fps*me.speed_down_fps+math.pow(math.sqrt(me.speed_east_fps*me.speed_east_fps+me.speed_north_fps*me.speed_north_fps),2)),math.sqrt(getprop("velocities/speed-down-fps")*getprop("velocities/speed-down-fps")+math.pow(math.sqrt(getprop("velocities/speed-east-fps")*getprop("velocities/speed-east-fps")+getprop("velocities/speed-north-fps")*getprop("velocities/speed-north-fps")),2)));
 		}
 		if (me.alt_ft > me.maxAlt) {
 			me.maxAlt = me.alt_ft;
