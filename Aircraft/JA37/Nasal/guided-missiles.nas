@@ -1598,6 +1598,7 @@ var AIM = {
 		if (me.dt == 0) {
 			#FG is likely paused
 			me.paused = 1;
+			me.elapsed_last = systime();
 			continue;
 		}
 		#if just called from release() then dt is almost 0 (cannot be zero as we use it to divide with)
@@ -1606,13 +1607,19 @@ var AIM = {
 		me.elapsed = systime();
 		if (me.paused == 1) {
 			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
+			
+			# this pause detection system does not work anymore, since we now only get called when not paused.
+			
 			me.paused = 0;
-			me.elapsed_last = me.elapsed-0.02;
+			#me.elapsed_last = me.elapsed-0.02;
 		}
 		me.init_launch = 0;
+		me.dt_old = me.dt;
 		if (me.elapsed_last != 0) {
 			#if (getprop("sim/speed-up") == 1) {
+				
 				me.dt = (me.elapsed - me.elapsed_last)*speedUp.getValue();
+				
 			#} else {
 			#	dt = getprop("sim/time/delta-sec")*getprop("sim/speed-up");
 			#}
@@ -1622,6 +1629,10 @@ var AIM = {
 				# could happen if the OS adjusts the clock backwards
 				me.dt = 0.00001;
 			}
+		}
+		if (me.dt > 0.5 and speedUp.getValue() == 1) {
+			# we were paused so we use last dt
+			me.dt = me.dt_old;
 		}
 		
 		#if (me.dt < 0.025) {
