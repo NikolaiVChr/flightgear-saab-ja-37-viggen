@@ -25,5 +25,14 @@
 	  <object-name>mountFront</object-name>
 	  <object-name>tail</object-name>
 	</effect>
-
+	
+	<!--<model>
+		<path>missile-smoke-trail.xml</path>
+	   
+	    <offsets>
+	      <x-m>0</x-m>
+	      <y-m>0</y-m>
+	      <z-m>0</z-m>
+	    </offsets>
+	</model>-->
 </PropertyList>

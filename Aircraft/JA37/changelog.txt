@@ -3695,3 +3695,6 @@ Model: Attitude indicator ball now has compass and look more like the real.
 Model: Attitude indicator instr. light is now white.
 Model: Attitude indicator needles now only is used for TILS.
 Model: Attitude indicator needles and level indicator is now yellow.
+Arms: RB-74 and RB-99 now use shader for exhaust flame.
+Arms: RB-74 and RB-99 now has less dense smoke, and it no longer lits up in dark.
+Arms: RB-74 flying and any sidewinder hanging is now shaded properly.
