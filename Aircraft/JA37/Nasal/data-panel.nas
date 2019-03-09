@@ -1044,7 +1044,7 @@ checkLVSave();
 var serialize = func(m) {
   var ret = "";
   foreach(key;keys(m)) {
-    ret = ret~sprintf("TI,%d,%d,%d,%d,%d,%.6f,%.6f|",m[key].address,m[key].color,m[key].radius,m[key].type,m[key].lon,m[key].lat);
+    ret = ret~sprintf("TI,%d,%d,%d,%d,%.6f,%.6f|",m[key].address,m[key].color,m[key].radius,m[key].type,m[key].lon,m[key].lat);
   }
   if (getprop("ja37/navigation/bulls-eye-defined")) {
     var beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
