@@ -188,7 +188,8 @@ TI: When display is not showing image, backup menu is in effect, with hard-coded
 TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach. Whats delta time?
 TI: When inertial navigation is not ready and GPS is off, don't show moving map?
 Arms: Missiles have a time deficiency when time is slowed down more than 1/4. The JSB slowdown might not be accurate.
-
+TI: STill shows auto LV.
+Sim: Still dont repair when reinit.
 
 
 
