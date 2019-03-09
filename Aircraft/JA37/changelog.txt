@@ -3700,3 +3700,4 @@ Arms: RB-74 and RB-99 now has less dense smoke, and it no longer lits up in dark
 Arms: RB-74 flying and any sidewinder hanging is now shaded properly.
 Arms: RB-71 now also uses the new smoke and exhaust flame shader.
 Arms: RB24J now has shaded flame and better smoke.
+Arms: M70 now has better smoke.

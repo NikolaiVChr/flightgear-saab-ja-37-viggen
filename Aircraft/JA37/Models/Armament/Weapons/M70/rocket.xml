@@ -52,10 +52,10 @@
      <particle>
        <start>
          <color>
-           <red><value>   0.0 </value></red>
-           <green><value> 0.0 </value></green>
-           <blue><value>  0.0 </value></blue>
-           <alpha><value> 0.9 </value></alpha>
+           <red><expression><product><value>0.3</value><property>rendering/scene/diffuse/red</property></product></expression></red>
+           <green><expression><product><value>0.3</value><property>rendering/scene/diffuse/red</property></product></expression></green>
+           <blue><expression><product><value>0.3</value><property>rendering/scene/diffuse/red</property></product></expression></blue>
+           <alpha><value> 0.8 </value></alpha>
          </color>
          <size>
            <value>0.5</value>
@@ -64,13 +64,13 @@
 
        <end>
          <color>
-           <red><value>   0.9 </value></red>
-           <green><value> 0.9 </value></green>
-           <blue><value>  0.9 </value></blue>
-           <alpha><value> 0.1 </value></alpha>
+           <red><expression><product><value>0.3</value><property>rendering/scene/diffuse/red</property></product></expression></red>
+           <green><expression><product><value>0.3</value><property>rendering/scene/diffuse/red</property></product></expression></green>
+           <blue><expression><product><value>0.3</value><property>rendering/scene/diffuse/red</property></product></expression></blue>
+           <alpha><value> 0.01 </value></alpha>
          </color>
          <size>
-           <value>3</value>
+           <value>2</value>
          </size>
        </end>
 
