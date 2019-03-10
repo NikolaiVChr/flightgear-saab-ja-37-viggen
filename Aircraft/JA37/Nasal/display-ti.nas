@@ -5362,7 +5362,7 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# change zoom
-				zoomIn();
+				zoomOut();
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.setToggleAreaEdit();

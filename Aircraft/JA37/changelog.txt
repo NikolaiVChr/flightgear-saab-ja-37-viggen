@@ -3704,3 +3704,4 @@ Arms: M70 now has better smoke.
 Arms: When shooting missiles at AI targets and pausing sim, they will now continue where they left off when unpausing.
 TI: Fixed auto-LV aerea was still working.
 Sim: Fixed that when MP discharge was enabled and relocating it sometimes would not repair.
+TI: Fixed that display zoom button zoomed in, now it zoom out.
