@@ -295,7 +295,10 @@ var AIM = {
         m.follow                = getprop(m.nodeString~"terrain-follow");             # bool. used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
         m.reaquire              = getprop(m.nodeString~"reaquire");                   # bool. If weapon will try to reaquire lock after losing it. [optional]
         m.maxPitch              = getprop(m.nodeString~"max-pitch-deg");              # After propulsion it will not be able to steer up more than this. [optional]
-        m.guidanceEnabled       = getprop(m.nodeString~"guidance-enabled");             # Boolean. If guidance will activate when launched. [optional]
+        m.guidanceEnabled       = getprop(m.nodeString~"guidance-enabled");           # Boolean. If guidance will activate when launched. [optional]
+        m.terminal_alt_factor   = getprop(m.nodeString~"terminal-alt-factor");        # Float. Cruise alt multiplied by this factor determines how much is rise up in terminal. Default: 2
+        m.terminal_rise_time    = getprop(m.nodeString~"terminal-rise-time");         # Float. Seconds before reaching target that cruise missile will start to rise up. Default: 6
+        m.terminal_dive_time    = getprop(m.nodeString~"terminal-dive-time");         # Float. Seconds before reaching target that cruise missile will start to dive down. Default: 4
 		# engine
 		m.force_lbf_1           = getprop(m.nodeString~"thrust-lbf-stage-1");         # stage 1 thrust [optional]
 		m.force_lbf_2           = getprop(m.nodeString~"thrust-lbf-stage-2");         # stage 2 thrust [optional]
@@ -420,6 +423,18 @@ var AIM = {
 
         if(m.canSwitch == nil) {
         	m.canSwitch = FALSE;
+        }
+        
+        if(m.terminal_alt_factor == nil) {
+        	m.terminal_alt_factor = 2;
+        }
+        
+        if(m.terminal_rise_time == nil) {
+        	m.terminal_rise_time = 6;
+        }
+        
+        if(m.terminal_dive_time == nil) {
+        	m.terminal_dive_time = 4;
         }
         
         # three variables used for trigonometry hit calc:
@@ -2806,12 +2821,12 @@ var AIM = {
 	                me.Daground = me.nextGroundElevation * M2FT;
 	            }
 	            me.loft_alt_curr = me.loft_alt;
-	            if (me.dist_curr < me.old_speed_fps * 6 * FT2M and me.dist_curr > me.old_speed_fps * 4 * FT2M) {
+	            if (me.dist_curr < me.old_speed_fps * me.terminal_rise_time * FT2M and me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {
 	            	# the missile lofts a bit at the end to avoid APN to slam it into ground before target is reached.
 	            	# end here is between 2.5-4 seconds
-	            	me.loft_alt_curr = me.loft_alt*2;
+	            	me.loft_alt_curr = me.loft_alt*me.terminal_alt_factor;
 	            }
-	            if (me.dist_curr > me.old_speed_fps * 4 * FT2M) {# need to give the missile time to do final navigation
+	            if (me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {# need to give the missile time to do final navigation
 	                # it's 1 or 2 seconds for this kinds of missiles...
 	                me.t_alt_delta_ft = (me.loft_alt_curr + me.Daground - me.alt_ft);
 	                me.printGuideDetails("var t_alt_delta_m : "~me.t_alt_delta_ft*FT2M);
@@ -2876,12 +2891,12 @@ var AIM = {
 	                me.Daground = me.nextGroundElevation * M2FT;
 	            }
 	            me.loft_alt_curr = me.loft_alt;
-	            if (me.dist_curr < me.old_speed_fps * 6 * FT2M and me.dist_curr > me.old_speed_fps * 4 * FT2M) {
+	            if (me.dist_curr < me.old_speed_fps * me.terminal_rise_time * FT2M and me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {
 	            	# the missile lofts a bit at the end to avoid APN to slam it into ground before target is reached.
 	            	# end here is between 2.5-4 seconds
-	            	me.loft_alt_curr = me.loft_alt*2;
+	            	me.loft_alt_curr = me.loft_alt*me.terminal_alt_factor;
 	            }
-	            if (me.dist_curr > me.old_speed_fps * 4 * FT2M) {# need to give the missile time to do final navigation
+	            if (me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {# need to give the missile time to do final navigation
 	                # it's 1 or 2 seconds for this kinds of missiles...
 	                me.t_alt_delta_ft = (me.loft_alt_curr + me.Daground - me.alt_ft);
 	                me.printGuideDetails("var t_alt_delta_m : "~me.t_alt_delta_ft*FT2M);
