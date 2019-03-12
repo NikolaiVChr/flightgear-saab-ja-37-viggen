@@ -99,11 +99,6 @@
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja10.png</path>
-            </preview>
-            <preview>
-                <type>exterior</type>
-                <splash type="bool">true</splash>
                 <path>gui/newSplashes/ja11.png</path>
             </preview>
             <preview>
