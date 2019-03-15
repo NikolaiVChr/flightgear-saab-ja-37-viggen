@@ -5122,6 +5122,16 @@
 <!-- ===================== start payload =========================== -->
 
 <!-- ====== rb 24j/74 ====== -->
+
+ <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal-paint</inherits-from>
+    <object-name>missile</object-name>
+    <object-name>missile1</object-name>
+    <object-name>missile2</object-name>
+    <object-name>missile3</object-name>
+    <object-name>missileLWO</object-name>
+    <object-name>missileRWO</object-name>
+  </effect>
  
 <animation>
   <object-name>missile</object-name><!-- Left wing pylon -->

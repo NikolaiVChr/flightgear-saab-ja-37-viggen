@@ -1755,14 +1755,14 @@ var cruise = func {
 
 # re init
 var re_init = func {
-  if (getprop("/sim/signals/reinit")==0) return;
+  if (getprop("/sim/signals/reinit")==0) {return;}
   print("Re-initializing Saab 37 Viggen systems");
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
-  print("Reinit: Oxygen replenished.");
+  #print("Reinit: Oxygen replenished.");
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
@@ -2163,21 +2163,21 @@ var _popupTip = func(label, y, delay) {
 }
 
 var repair = func (c = 1) {
-  if (getprop("payload/armament/msg")==1 and !getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+  if (c==1 and getprop("payload/armament/msg")==1 and !getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
     screen.log.write(msgA);
   } else {
-  var ver = getprop("ja37/supported/crash-system");
-  if (ver == 0) {
-    crash0.repair();
-  } else {
-    crash1.repair();
-    failureSys.armAllTriggers();
+    var ver = getprop("ja37/supported/crash-system");
+    if (ver == 0) {
+      crash0.repair();
+    } else {
+      crash1.repair();
+      failureSys.armAllTriggers();
+    }
+    setprop("environment/damage", FALSE);
+    setprop("ja37/done",0);
+    setprop("sim/view[0]/enabled",1);
+    setprop("/sim/current-view/view-number", 0);
   }
-  setprop("environment/damage", FALSE);
-  setprop("ja37/done",0);
-  setprop("sim/view[0]/enabled",1);
-  setprop("/sim/current-view/view-number", 0);
-}
   if (c == TRUE) {
     #ct("rp");
   }

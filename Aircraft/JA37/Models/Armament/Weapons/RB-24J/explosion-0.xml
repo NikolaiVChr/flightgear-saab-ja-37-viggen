@@ -86,25 +86,7 @@
 
  </particlesystem>
 
-  <submodel>
-    <name>RB-24J missile 1 explosion</name>
-    <model>explosion-bounds.xml</model>
-    <trigger>payload/armament/rb-24j/flags/explode-id-0</trigger>
-    <speed>0.0</speed>
-    <repeat>false</repeat>
-    <delay>0.00</delay>
-    <count>-1</count>
-    <cd>0.00003</cd><!-- drag -->
-    <eda>0.00136354</eda><!-- drag area -->
-    <weight>0</weight>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
-    <wind>false</wind>
-    <buoyancy>0</buoyancy>
-    <life>0.5</life>
-  </submodel>
+
 
 <particlesystem>
    <name>explosion-smoke</name>

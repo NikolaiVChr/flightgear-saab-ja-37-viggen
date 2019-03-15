@@ -9,10 +9,8 @@
 <PropertyList>
     <sim>
         <aircraft-version>4.313</aircraft-version>
-        <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Nikolai V. Chr., Joshua Davidson (FCS/Autopilot)</author>
-        <minimum-fg-version>2018.2.1</minimum-fg-version>
-
-        
+        <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Joshua Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Nikolai V. Chr.</author>
+        <minimum-fg-version>2018.3.1</minimum-fg-version>
 
         <tags>
             <tag>saab</tag>
@@ -507,7 +505,7 @@
             </controls>
         </failure-manager>
         <model>
-            <fallback-model-index type="int">222</fallback-model-index>
+            <fallback-model-index type="int">522</fallback-model-index>
             <j37><!-- This will be written into the property tree of all that see this model, but it should not interfere with anything -->
                 <effect>
                     <flame-low-color-r type="double">0</flame-low-color-r>

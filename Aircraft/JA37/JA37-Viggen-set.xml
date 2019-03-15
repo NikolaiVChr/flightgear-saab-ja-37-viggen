@@ -11,7 +11,7 @@
         <description>Saab JA-37Di Viggen</description>
         <status>Early production</status>
         <long-description>
-          The Saab JA-37 Viggen is a Swedish all-weather single-engine fighter jet from 1979. It has reverse thrust and very large canards. The JA-37Di is the midlife upgrade from 1993.
+          The Saab JA-37 Viggen is a Swedish all-weather single-engine fighter jet from 1979. It has glass-cockpit, reverse thrust and very large canards. The JA-37Di is the midlife upgrade from 1993.
         </long-description>
         
         <rating>
@@ -79,16 +79,6 @@
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja2.png</path>
-            </preview>
-            <preview>
-                <type>exterior</type>
-                <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja15.png</path>
-            </preview>
-            <preview>
-                <type>exterior</type>
-                <splash type="bool">true</splash>
                 <path>gui/newSplashes/ja4.png</path>
             </preview>
             <preview>
@@ -109,6 +99,11 @@
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
+                <path>gui/newSplashes/ja11.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
                 <path>gui/newSplashes/ja13.png</path>
             </preview>
             <preview>
@@ -116,20 +111,31 @@
                 <splash type="bool">true</splash>
                 <path>gui/newSplashes/ja14.png</path>
             </preview>
+            
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja10.png</path>
+                <path>gui/newSplashes/ja15.png</path>
             </preview>
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja11.png</path>
+                <path>gui/newSplashes/ja16.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ja17.png</path>
             </preview>
             <preview>
                 <type>panel</type>
                 <splash type="bool">false</splash>
-                <path>gui/newSplashes/ja12.png</path>
+                <path>gui/newSplashes/ja-interior-1.png</path>
+            </preview>
+            <preview>
+                <type>panel</type>
+                <splash type="bool">false</splash>
+                <path>gui/newSplashes/ja-interior-2.png</path>
             </preview>
         </previews>
 
