@@ -3706,3 +3706,5 @@ TI: Fixed auto-LV aerea was still working.
 Sim: Fixed that when MP discharge was enabled and relocating it sometimes would not repair.
 TI: Fixed that display zoom button zoomed in, now it zoom out.
 Effect: Dust on display effect.
+Sim: Added damage from some cruise missiles.
+Effect: Made more stars visible. (2019.1+ only)

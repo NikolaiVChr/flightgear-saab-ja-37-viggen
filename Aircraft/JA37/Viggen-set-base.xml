@@ -1202,6 +1202,7 @@
     <environment>
         <damage type="bool">false</damage>
         <damage-smoke type="bool">false</damage-smoke>
+        <star-magnitude-cutoff type="float">6.5</star-magnitude-cutoff>
         <aircraft-effects>
             <splash-vector-x type="float" userarchive="n">0.0</splash-vector-x>
             <splash-vector-y type="float" userarchive="n">0.1</splash-vector-y>
