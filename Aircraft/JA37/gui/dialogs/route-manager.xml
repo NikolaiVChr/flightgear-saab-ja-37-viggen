@@ -86,40 +86,40 @@
                 route.Polygon.save("4B",path.getValue());
             }
             
-            var load_route11 = func(path) {
+            var load_routeO1 = func(path) {
                 route.Polygon.load("OP1",path.getValue());
             }
-            var save_route11 = func(path) {
+            var save_routeO1 = func(path) {
                 route.Polygon.save("OP1",path.getValue());
             }
-            var load_route22 = func(path) {
+            var load_routeO2 = func(path) {
                 route.Polygon.load("OP2",path.getValue());
             }
-            var save_route22 = func(path) {
+            var save_routeO2 = func(path) {
                 route.Polygon.save("OP2",path.getValue());
             }
-            var load_route33 = func(path) {
+            var load_routeO3 = func(path) {
                 route.Polygon.load("OP3",path.getValue());
             }
-            var save_route33 = func(path) {
+            var save_routeO3 = func(path) {
                 route.Polygon.save("OP3",path.getValue());
             }
-            var load_route44 = func(path) {
+            var load_routeO4 = func(path) {
                 route.Polygon.load("OP4",path.getValue());
             }
-            var save_route44 = func(path) {
+            var save_routeO4 = func(path) {
                 route.Polygon.save("OP4",path.getValue());
             }
-            var load_route55 = func(path) {
+            var load_routeO5 = func(path) {
                 route.Polygon.load("OP5",path.getValue());
             }
-            var save_route55 = func(path) {
+            var save_routeO5 = func(path) {
                 route.Polygon.save("OP5",path.getValue());
             }
-            var load_route66 = func(path) {
+            var load_routeO6 = func(path) {
                 route.Polygon.load("OP6",path.getValue());
             }
-            var save_route66 = func(path) {
+            var save_routeO6 = func(path) {
                 route.Polygon.save("OP6",path.getValue());
             }
             
@@ -226,45 +226,45 @@
               
               
             var file_selector_p1 = gui.FileSelector.new(
-              callback: load_route11, title: "Load area 1", button: "Load",
+              callback: load_routeO1, title: "Load area 1", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p1 = gui.FileSelector.new(
-              callback: save_route11, title: "Save area 1", button: "Save",
+              callback: save_routeO1, title: "Save area 1", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-1.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p2 = gui.FileSelector.new(
-              callback: load_route22, title: "Load area 2", button: "Load",
+              callback: load_routeO2, title: "Load area 2", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p2 = gui.FileSelector.new(
-              callback: save_route22, title: "Save area 2", button: "Save",
+              callback: save_routeO2, title: "Save area 2", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-2.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p3 = gui.FileSelector.new(
-              callback: load_route33, title: "Load area 3", button: "Load",
+              callback: load_routeO3, title: "Load area 3", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p3 = gui.FileSelector.new(
-              callback: save_route33, title: "Save area 3", button: "Save",
+              callback: save_routeO3, title: "Save area 3", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-3.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p4 = gui.FileSelector.new(
-              callback: load_route44, title: "Load area 4", button: "Load",
+              callback: load_routeO4, title: "Load area 4", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p4 = gui.FileSelector.new(
-              callback: save_route44, title: "Save area 4", button: "Save",
+              callback: save_routeO4, title: "Save area 4", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-4.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p5 = gui.FileSelector.new(
-              callback: load_route55, title: "Load area 5", button: "Load",
+              callback: load_routeO5, title: "Load area 5", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p5 = gui.FileSelector.new(
-              callback: save_route55, title: "Save area 5", button: "Save",
+              callback: save_routeO5, title: "Save area 5", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-5.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p6 = gui.FileSelector.new(
-              callback: load_route66, title: "Load area 6", button: "Load",
+              callback: load_routeO6, title: "Load area 6", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p6 = gui.FileSelector.new(
-              callback: save_route66, title: "Save area 6", button: "Save",
+              callback: save_routeO6, title: "Save area 6", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-6.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_ff = gui.FileSelector.new(

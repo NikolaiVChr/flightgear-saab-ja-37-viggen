@@ -40,6 +40,14 @@
             <outer-angle type="float">89</outer-angle><!-- 0-90, but greater than inner -->
             <black-angle type="float">90</black-angle><!-- 0-90, but greater than outer -->
             <contrast type="float">1</contrast>
+            <texture n="1">
+                <type>2d</type>
+                <filter>linear-mipmap-linear</filter>
+                <wrap-s>clamp</wrap-s>
+                <wrap-t>clamp</wrap-t>
+                <internal-format>normalized</internal-format>
+                <image>Aircraft/JA37/Models/Effects/displays/dust-effect-overlay2.png</image>
+            </texture>
         </parameters>
         <object-name>screen</object-name>
     </effect>

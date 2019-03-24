@@ -201,10 +201,11 @@ var Polygon = {
 		# Load a plan from disc.
 		#
 		var newPlan = nil;
+print("load "~pln~" clear "~clear~" file "~file);
 		call(func {newPlan = createFlightplan(file);}, nil, var err = []);
 		if (size(err) or newPlan == nil) {
-			#print(err[0]);
-			#print("Load failed.");
+			print(err[0]);
+			print("Load failed.");
 			if(clear) {
 				# loading failed, we clear the plan.
 				Polygon.editStop();
@@ -222,6 +223,7 @@ var Polygon = {
 		} else {
 			Polygon.editStop();
 			Polygon.polys[pln].plan = newPlan;
+print("newPlan set on a "~Polygon.polys[pln].type);
 			if (Polygon.polys[pln].type == TYPE_RTB) {
 				Polygon.setLand(pln);
 			}
