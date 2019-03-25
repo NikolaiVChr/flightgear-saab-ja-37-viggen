@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Viggen Autoflight System -->
+<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+
+<PropertyList>
+
+	<name>autopilot</name>
+	<layout>vbox</layout>
+	
+	<group>
+		<layout>hbox</layout>
+		
+		<text>
+			<halign>left</halign>
+			<label>Viggen Autoflight System Help</label>
+		</text>
+		
+		<empty><stretch>1</stretch></empty>
+		
+		<button>
+			<row>0</row>
+			<col>1</col>
+			<halign>right</halign>
+			<pref-width>20</pref-width>
+			<pref-height>20</pref-height>
+			<legend>X</legend>
+			<key>Esc</key>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+	</group>
+	
+	<hrule/>
+	
+	<text>
+		<halign>left</halign>
+		<label>AP Help goes here... until I have time to write this, use the cockpit controls! :)</label>
+	</text>
+
+</PropertyList>

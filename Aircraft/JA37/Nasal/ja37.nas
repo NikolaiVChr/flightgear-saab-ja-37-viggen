@@ -195,7 +195,7 @@ input = {
   tonePreL1: "ja37/sound/tones/load-pre-1",
 };
 
-
+auto.modeT = 0; # Temporary, until new A/T exits
 var msgA = "If you need to repair now, then use Menu-Location-SelectAirport instead.";
 var msgB = "Please land before changing payload or refuel.";
 var Saab37 = {
@@ -1048,10 +1048,6 @@ var Saab37 = {
     me.loop_common.start();
     me.loop_commonF.start();
     
-    # autopilot
-    me.loop_ap       = maketimer(0.20, me, func auto.apLoop());
-    me.loop_hydrLost = maketimer(0.50, me, func auto.hydr1Lost());
-
     me.loop_chrono   = maketimer(0.26, me, func ja37.chrono_update());
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
     me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
@@ -1065,9 +1061,7 @@ var Saab37 = {
     me.loop_slow.start();
     me.loop_beacon.start();
     #me.loop_ct.start();
-    #me.loop_not.start();
-    me.loop_ap.start();
-    me.loop_hydrLost.start();    
+    #me.loop_not.start(); 
     me.loop_chrono.start();
     me.loop_land.start();
     me.loop_nav.start();

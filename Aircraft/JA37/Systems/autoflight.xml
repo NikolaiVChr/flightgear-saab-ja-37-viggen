@@ -1,0 +1,55 @@
+<!-- Viggen Autoflight System -->
+<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+
+<system name="Viggen Autoflight">
+	
+	<!-- 0 GSA, 1 STICK, 2 ATT, 3 ALT -->
+	<property value="0">autoflight/can-engage-out</property>
+	
+	<channel name="Autoflight: Logic">
+		
+		<switch name="autoflight/power-switch">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				/ja37/elec/ac-bus-main-bool eq 1
+				/ja37/elec/dc-bus-main-bool eq 1
+				systems/hydraulics/system1/pressure eq 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/can-engage">
+			<default value="1"/>
+			<test logic="OR" value="0"> <!-- Add conditions where AP fails here -->
+				autoflight/power-switch ne 1	
+				/ja37/fuses/sa eq 0
+			</test>
+			<output>autoflight/can-engage-out</output>
+		</switch>
+		
+		<switch name="autoflight/stick-out-of-neutral">
+			<default value="autoflight/stick-out-of-neutral"/>
+			<test logic="AND" value="0">
+				fcs/aileron/stick-newtons ge -5
+				fcs/aileron/stick-newtons le 5
+				fcs/elevator/stick-newtons ge -8
+				fcs/elevator/stick-newtons le 8
+			</test>
+			<test logic="OR" value="1">
+				fcs/aileron/stick-newtons lt -12
+				fcs/aileron/stick-newtons gt 12
+				fcs/elevator/stick-newtons lt -22
+				fcs/elevator/stick-newtons gt 22
+			</test>
+		</switch>
+		
+		<switch name="autoflight/internal-mode">
+			<default value="autoflight/mode"/>
+			<test logic="AND" value="1"> <!-- Stick out of center, so go to STICK -->
+				autoflight/stick-out-of-neutral eq 1
+				autoflight/mode gt 1
+			</test>
+		</switch>
+	
+	</channel>
+
+</system>

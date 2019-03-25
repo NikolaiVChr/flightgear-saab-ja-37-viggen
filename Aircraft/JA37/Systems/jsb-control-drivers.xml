@@ -30,7 +30,6 @@
 				aero/alpha-deg le 10
 				position/wow eq 0
 				fcs/roll-limiter/enable ne 0
-				fcs/roll-limiter/serviceable eq 1
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>
@@ -40,7 +39,7 @@
 			<gain>57.2958</gain>
 		</pure_gain>
 		
-		<fcs_function name="fcs/drivers/roll/rate-limiter">
+		<fcs_function name="fcs/drivers/roll/rate-limiter"> <!-- I don't know if this exists in real life, but old FCS had it -->
 			<function>
 				<product>
 					<table> <!-- Kicks in at 225 degrees per second -->
@@ -75,8 +74,7 @@
 				aero/alpha-deg ge -30
 				aero/alpha-deg le  30
 				position/wow eq 0
-				fcs/roll-damper/enable ne 0
-				fcs/roll-damper/serviceable eq 1
+				autoflight/internal-mode eq 1
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>
@@ -89,16 +87,16 @@
 						<independentVar lookup="column">fcs/drivers/roll/damper-enable</independentVar>
 						<tableData>
 							     0    1
-							200  0.0 -0.52
-							700  0.0 -0.06
+							200  0.0 -0.51
+							700  0.0 -0.04
 						</tableData>
 					</table>
 					<table> <!-- Prevent damper from causing bad roll rate -->
 						<independentVar lookup="row">fcs/drivers/roll/stick-geared</independentVar>
 						<tableData>
-							-1.0  0.025
-							 0.0  1.000
-							 1.0  0.025
+							-1.0  0.01
+							 0.0  1.00
+							 1.0  0.01
 						</tableData>
 					</table>
 				</product>
@@ -130,8 +128,7 @@
 		<switch name="fcs/drivers/pitch/damper-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
-				fcs/pitch-damper/enable ne 0
-				fcs/pitch-damper/serviceable eq 1
+				autoflight/internal-mode gt 0
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>
@@ -365,8 +362,7 @@
 		<switch name="fcs/drivers/yaw/damper-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
-				fcs/yaw-damper/enable ne 0
-				fcs/yaw-damper/serviceable eq 1
+				autoflight/internal-mode gt 0
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>

@@ -3102,6 +3102,15 @@
             </test>
         </switch>
 
+		<!-- Reset it -->
+		<switch name="autoflight/mw-reset">
+			<default value="/ja37/avionics/autopilot-soft-warn"/>
+			<test value="0">
+				systems/indicators/master-warning/ap-downgrade eq 1
+			</test>
+			<output>/ja37/avionics/autopilot-soft-warn</output>
+		</switch>
+
     </channel>
 
 </system>

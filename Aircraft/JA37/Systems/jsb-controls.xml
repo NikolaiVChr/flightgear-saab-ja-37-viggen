@@ -55,41 +55,6 @@
 
 -->
 
-
-
-
-
-
-
-
-    <channel execrate="1" name="input">
-
-        <switch name="fcs/elevator/input">
-            <description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
-            <default value="fcs/elevator-cmd-norm"/>
-            <test logic="AND" value="fcs/elevator/input">
-                /ja37/systems/input-controls-flight == 0
-            </test>
-        </switch>
-
-        <switch name="fcs/aileron/input">
-            <description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
-            <default value="fcs/aileron-cmd-norm"/>
-            <test logic="AND" value="fcs/aileron/input">
-                /ja37/systems/input-controls-flight == 0
-            </test>
-        </switch>
-
-        <switch name="fcs/rudder/input">
-            <description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
-            <default value="fcs/rudder-cmd-norm"/>
-            <test logic="AND" value="fcs/rudder/input">
-                /ja37/systems/input-controls-flight == 0
-            </test>
-        </switch>
-
-    </channel>
-
 	<!-- Begin new FCS by Joshua Davidson (it0uchpods) -->
 	<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
 	
@@ -98,45 +63,37 @@
 	
 	<channel name="Elevons">
 		
-		<fcs_function name="fcs/elevon/pitch-cmd-deadzone">
-			<function>
-				<table>
-					<independentVar lookup="row">fcs/elevator/input</independentVar> <!-- Input from control/TI selector -->
-					<tableData>
-						-1.0000 -1.0
-						-0.0415  0.0
-						 0.0000  0.0
-						 0.0415  0.0
-						 1.0000  1.0
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
-		
 		<fcs_function name="fcs/elevon/pitch-cmd-geared">
 			<function>
-				<table>
-					<independentVar lookup="row">fcs/elevon/pitch-cmd-deadzone</independentVar>
-					<tableData>
-						-1.00 -1.000
-						-0.86 -0.740
-						-0.75 -0.560
-						-0.62 -0.400
-						-0.50 -0.280
-						-0.38 -0.190
-						-0.23 -0.110
-						-0.10 -0.045
-						 0.00  0.000
-						 0.10  0.045
-						 0.23  0.110
-						 0.38  0.190
-						 0.50  0.280
-						 0.62  0.400
-						 0.75  0.560
-						 0.86  0.740
-						 1.00  1.000
-					</tableData>
-				</table>
+				<ifthen>
+					<le> <!-- GSA, STICK, or CSS -->
+						<property>autoflight/internal-mode</property>
+						<value>1</value>
+					</le>
+					<table>
+						<independentVar lookup="row">fcs/elevator/input</independentVar> <!-- Input from control/TI selector -->
+						<tableData>
+							-1.00 -1.000
+							-0.86 -0.740
+							-0.75 -0.560
+							-0.62 -0.400
+							-0.50 -0.280
+							-0.38 -0.190
+							-0.23 -0.110
+							-0.10 -0.045
+							 0.00  0.000
+							 0.10  0.045
+							 0.23  0.110
+							 0.38  0.190
+							 0.50  0.280
+							 0.62  0.400
+							 0.75  0.560
+							 0.86  0.740
+							 1.00  1.000
+						</tableData>
+					</table>
+					<value>0</value>
+				</ifthen>
 			</function>
 			<output>fcs/drivers/pitch/stick-geared</output>
 			<clipto>
@@ -310,28 +267,35 @@
 		
 		<fcs_function name="fcs/elevon/roll-cmd-geared">
 			<function>
-				<table>
-					<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
-					<tableData>
-						-1.00 -1.000
-						-0.86 -0.740
-						-0.75 -0.560
-						-0.62 -0.400
-						-0.50 -0.280
-						-0.38 -0.190
-						-0.23 -0.110
-						-0.10 -0.045
-						 0.00  0.000
-						 0.10  0.045
-						 0.23  0.110
-						 0.38  0.190
-						 0.50  0.280
-						 0.62  0.400
-						 0.75  0.560
-						 0.86  0.740
-						 1.00  1.000
-					</tableData>
-				</table>
+				<ifthen>
+					<le> <!-- GSA, STICK, or CSS -->
+						<property>autoflight/internal-mode</property>
+						<value>1</value>
+					</le>
+					<table>
+						<independentVar lookup="row">fcs/aileron/input</independentVar> <!-- Input from control/TI selector -->
+						<tableData>
+							-1.00 -1.000
+							-0.86 -0.740
+							-0.75 -0.560
+							-0.62 -0.400
+							-0.50 -0.280
+							-0.38 -0.190
+							-0.23 -0.110
+							-0.10 -0.045
+							 0.00  0.000
+							 0.10  0.045
+							 0.23  0.110
+							 0.38  0.190
+							 0.50  0.280
+							 0.62  0.400
+							 0.75  0.560
+							 0.86  0.740
+							 1.00  1.000
+						</tableData>
+					</table>
+					<value>0</value>
+				</ifthen>
 			</function>
 			<output>fcs/drivers/roll/stick-geared</output>
 		</fcs_function>

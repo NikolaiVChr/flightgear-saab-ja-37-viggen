@@ -21,18 +21,17 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Attitude Indicator</tooltip-id>
-                <label>Automatic Attitude/pitch</label>
+                <label>Autopilot: ATT Mode</label>
                 <property>/instrumentation/attitude-indicator</property>
             </binding>
         </hovered>
         <action>
-            <name>auto att</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
-                    auto.mode2();
+                    autoflight.System.engageMode(2);
                     ja37.click();
                 </script>
             </binding>
@@ -86,18 +85,17 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Altitude Warning Indicator</tooltip-id>
-                <label>Automatic Altitude/attitude</label>
+                <label>Autopilot: HOLD Mode</label>
                 <property>/instrumentation/altitude-indicator</property>
             </binding>
         </hovered>
         <action>
-            <name>auto alt</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
-                    auto.mode3();
+                    autoflight.System.engageMode(3);
                     ja37.click();
                 </script>
             </binding>
@@ -151,18 +149,17 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Spak Indicator</tooltip-id>
-                <label>Dampers active</label>
+                <label>Autopilot: STICK Mode</label>
                 <property>/instrumentation/joystick-indicator</property>
             </binding>
         </hovered>
         <action>
-            <name>A/P disengage</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
                 <script>
-                    auto.mode1();
+                    autoflight.System.engageMode(1);
                     ja37.click();
                 </script>
             </binding>

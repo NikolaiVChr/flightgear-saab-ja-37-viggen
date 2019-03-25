@@ -52,7 +52,7 @@ Many of the liveries.
 
 Joshua Davidson - Forum name: it0uchpods
 ========================================
-Autopilot control and tuning.
+Flight Control System/Autopilot
 Modified the view system.
 
 Onox - Forum name: onox

@@ -850,6 +850,9 @@
             <accelerations>
                 <gravity-ft_sec2 type="double">32.1740</gravity-ft_sec2><!-- start value for compatibility with older FG versions -->
             </accelerations>
+            <autoflight n="0">
+                <mode type="int">0</mode>
+            </autoflight>
             <structural>
                 <wings>
                     <serviceable type="bool">true</serviceable>
@@ -865,33 +868,10 @@
                     </hinges>
                     <pos-norm type="double">1.0</pos-norm>
                 </canopy>
-                <yaw-damper>
-                    <serviceable type="bool">true</serviceable>
-                    <enable type="bool">true</enable>
-                    <yaw-rate-gain type="double">1</yaw-rate-gain>
-                    <roll-rate-gain type="double">0.125</roll-rate-gain>
-                    <lateral-acc-gain type="double">-0.010</lateral-acc-gain>
-                    <washout-factor type="double">1.55</washout-factor>
-                </yaw-damper>
-                <pitch-damper>
-                    <serviceable type="bool">true</serviceable>
-                    <enable type="bool">true</enable>
-                    <pitch-rate-gain type="double">2</pitch-rate-gain>
-                    <nz-rate-gain type="double">1</nz-rate-gain>
-                    <washout-factor type="double">1.33</washout-factor>
-                </pitch-damper>
                 <roll-limiter>
                     <serviceable type="bool">true</serviceable>
                     <enable type="bool">true</enable>
-                    <!--<washout-factor type="double">1.0</washout-factor>-->
-                    <roll-rate-gain type="double">0.10</roll-rate-gain>
                 </roll-limiter>
-                <roll-damper>
-                    <serviceable type="bool">true</serviceable>
-                    <enable type="bool">true</enable>
-                    <!--<washout-factor type="double">1.0</washout-factor>-->
-                    <roll-rate-gain type="double">0.25</roll-rate-gain>
-                </roll-damper>
                 <rudder>
                     <gearing-enable type="bool">true</gearing-enable>
                     <serviceable alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>
@@ -906,15 +886,6 @@
                     <pos-norm type="double">0.0</pos-norm>
                     <gearing-enable type="bool">true</gearing-enable>
                     <serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
-                    <integrator-feedback-calm type="double">0.0</integrator-feedback-calm>
-                    <gains>
-                        <delta type="double">0.05</delta>
-                        <int type="double">5</int>
-                        <int-feedback type="double">0.5</int-feedback>
-                        <int-calm type="double">-0.5</int-calm>
-                        <damp-q type="double">0.334</damp-q>
-                        <damp-q-wow type="double">0.668</damp-q-wow>
-                    </gains>
                 </elevator>
                 <flaps>
                     <pos-cmd type="double">0</pos-cmd>
@@ -1550,8 +1521,10 @@
         </power>
         <auto>
             <file>Aircraft/JA37/Nasal/flightPlanDelegate.nas</file>
-            <file>Aircraft/JA37/Nasal/autopilot.nas</file>
         </auto>
+        <autoflight>
+            <file>Aircraft/JA37/Nasal/autoflight.nas</file>
+        </autoflight>
         <reversethrust>
             <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
         </reversethrust>
