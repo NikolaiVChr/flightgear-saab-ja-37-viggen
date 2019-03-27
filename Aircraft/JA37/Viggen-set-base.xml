@@ -463,7 +463,7 @@
                      Autopilot
       ********************************-->
             <autopilot>
-                <path>Aircraft/JA37/Systems/Autopilot.xml</path>
+                <path>Aircraft/JA37/Systems/autoflight-rules.xml</path>
             </autopilot>
             <property-rule n="101">
               <name>altitude_agl-m</name>

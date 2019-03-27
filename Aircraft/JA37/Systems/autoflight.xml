@@ -1,3 +1,5 @@
+<?xml version="1.0"?>
+
 <!-- Viggen Autoflight System -->
 <!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
 
@@ -138,7 +140,7 @@
 		<switch name="autoflight/roll/att-hold-active">
 			<default value="0"/>
 			<test logic="AND" value="1"> <!-- TODO: Add heading/attitude condition -->
-				autoflight/internal-mode le 1
+				autoflight/internal-mode gt 1
 			</test>
 		</switch>
 		
@@ -172,6 +174,10 @@
 					<property>attitude/roll-rad</property>
 				</ifthen>
 			</function>
+			<clipto>
+				<min>-autoflight/roll/max-bank-rad</min>
+				<max>autoflight/roll/max-bank-rad</max>
+			</clipto>
 		</fcs_function>
 		
 		<switch name="autoflight/roll/roll-rad-input">

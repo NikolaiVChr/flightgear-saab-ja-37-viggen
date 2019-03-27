@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 
+<!-- Viggen Autoflight System -->
+<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+
 <PropertyList>
-
- <!-- =============================================================== -->
- <!-- Velocity Modes                                                  -->
- <!-- =============================================================== -->
-
+	
+	
+	
+	<!-- Just for testing -->
+	
 	<pid-controller>
 		<name>Auto throttle</name>
 		<debug>false</debug>
