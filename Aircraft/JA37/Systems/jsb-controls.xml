@@ -309,6 +309,7 @@
 		<summer name="fcs/elevon/roll-nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
 			<input>fcs/drivers/roll-output</input> <!-- Roll Rate Damper/Limiter -->
+			<input>autoflight/roll/roll-command</input> <!-- Autopilot Roll Axis -->
 			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
 		

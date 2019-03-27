@@ -4,7 +4,7 @@
 <system name="Viggen Autoflight">
 	
 	<!-- 0 GSA, 1 STICK, 2 ATT, 3 ALT -->
-	<property value="0">autoflight/can-engage-out</property>
+	<property value="0">tuning</property>
 	
 	<channel name="Autoflight: Logic">
 		
@@ -26,27 +26,290 @@
 			<output>autoflight/can-engage-out</output>
 		</switch>
 		
-		<switch name="autoflight/stick-out-of-neutral">
-			<default value="autoflight/stick-out-of-neutral"/>
+		<fcs_function name="autoflight/ss/delay">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						150  0.50
+						320  0.35
+						600  0.11
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<lag_filter name="autoflight/ss/roll-input">
+			<input>fcs/aileron/stick-newtons</input>
+			<c1>25.6</c1>
+		</lag_filter>
+		
+		<lag_filter name="autoflight/ss/pitch-input">
+			<input>fcs/elevator/stick-newtons</input>
+			<c1>25.6</c1>
+		</lag_filter>
+		
+		<lag_filter name="autoflight/ss/yaw-input">
+			<input>fcs/rudder/pedal-newtons</input>
+			<c1>25.6</c1>
+		</lag_filter>
+		
+		<switch name="autoflight/ss/force">
+			<default value="autoflight/ss/force"/>
 			<test logic="AND" value="0">
-				fcs/aileron/stick-newtons ge -5
-				fcs/aileron/stick-newtons le 5
-				fcs/elevator/stick-newtons ge -8
-				fcs/elevator/stick-newtons le 8
+				autoflight/ss/roll-input ge -5
+				autoflight/ss/roll-input le 5
+				autoflight/ss/pitch-input ge -8
+				autoflight/ss/pitch-input le 8
+				autoflight/ss/yaw-input ge -12
+				autoflight/ss/yaw-input le 12
 			</test>
 			<test logic="OR" value="1">
-				fcs/aileron/stick-newtons lt -12
-				fcs/aileron/stick-newtons gt 12
-				fcs/elevator/stick-newtons lt -22
-				fcs/elevator/stick-newtons gt 22
+				autoflight/ss/roll-input lt -12
+				autoflight/ss/roll-input gt 12
+				autoflight/ss/pitch-input lt -22
+				autoflight/ss/pitch-input gt 22
+				autoflight/ss/yaw-input lt -29
+				autoflight/ss/yaw-input gt 29
+			</test>
+		</switch>
+		
+		<switch name="autoflight/ss/reset-time">
+			<default value="/sim/time/elapsed-sec"/>
+			<test value="autoflight/ss/reset-time">
+				autoflight/ss/force eq 0
+			</test>
+		</switch>
+		
+		<summer name="autoflight/ss/reset-time-delay">
+			<input>autoflight/ss/reset-time</input>
+			<input>autoflight/ss/delay</input>
+		</summer>
+		
+		<switch name="autoflight/ss/active">
+			<default value="0"/>
+			<test value="1">
+				/sim/time/elapsed-sec lt autoflight/ss/reset-time-delay
+			</test>
+		</switch>
+		
+		<switch name="autoflight/att-ok">
+			<default value="0"/>
+			<test logic="AND" value="1"> <!-- Less than 66 roll, 60 pitch -->
+				attitude/roll-rad ge -1.15192
+				attitude/roll-rad le 1.15192
+				attitude/pitch-rad ge -1.0472
+				attitude/pitch-rad le 1.0472
 			</test>
 		</switch>
 		
 		<switch name="autoflight/internal-mode">
 			<default value="autoflight/mode"/>
-			<test logic="AND" value="1"> <!-- Stick out of center, so go to STICK -->
-				autoflight/stick-out-of-neutral eq 1
+			<test value="1"> <!-- Stay in STICK if out of range -->
+				autoflight/att-ok ne 1
+			</test>
+			<test logic="AND" value="1"> <!-- Stick out of center, or attitude out of range, so go to STICK -->
+				autoflight/ss/active eq 1
 				autoflight/mode gt 1
+			</test>
+		</switch>
+	
+	</channel>
+	
+	<channel name="Autoflight: Roll Channel">
+		
+		<fcs_function name="autoflight/roll/max-bank-deg">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						124.190  20
+						350.972  60
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="autoflight/roll/max-bank-rad">
+			<input>autoflight/roll/max-bank-deg</input>
+			<gain>0.0174533</gain> <!-- DEG to RAD -->
+		</pure_gain>
+		
+		<switch name="autoflight/roll/att-hold-active">
+			<default value="0"/>
+			<test logic="AND" value="1"> <!-- TODO: Add heading/attitude condition -->
+				autoflight/internal-mode le 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/roll/att-hold-switch">
+			<default value="autoflight/roll/att-hold-switch"/>
+			<test logic="OR" value="0">
+				autoflight/roll/att-hold-active ne 1
+				autoflight/ss/active eq 1
+			</test>
+			<test logic="AND" value="1">
+				velocities/p-rad_sec gt -0.0174533
+				velocities/p-rad_sec lt 0.0174533
+			</test>
+		</switch>
+		
+		<fcs_function name="autoflight/roll/roll-hold-target">
+			<function>
+				<ifthen>
+					<and>
+						<gt>
+							<property>autoflight/internal-mode</property>
+							<value>1</value>
+						</gt>
+						<!-- TODO: Add heading/attitude condition -->
+						<eq>
+							<property>autoflight/roll/att-hold-switch</property>
+							<value>1</value>
+						</eq>
+					</and>
+					<property>autoflight/roll/roll-hold-target</property>
+					<property>attitude/roll-rad</property>
+				</ifthen>
+			</function>
+		</fcs_function>
+		
+		<switch name="autoflight/roll/roll-rad-input">
+			<default value="attitude/roll-rad"/>
+			<!--test logic="AND" value="autoflight/roll/roll-cmd-target">
+				autoflight/internal-mode gt 1
+			</test-->
+			<test value="autoflight/roll/roll-hold-target">
+				autoflight/internal-mode gt 1
+			</test>
+			<clipto>
+				<min>-autoflight/roll/max-bank-rad</min>
+				<max>autoflight/roll/max-bank-rad</max>
+			</clipto>
+		</switch>
+		
+		<summer name="autoflight/roll/roll-rad-error">
+			<input>attitude/roll-rad</input>
+			<input>-autoflight/roll/roll-rad-input</input>
+		</summer>
+		
+		<pure_gain name="autoflight/roll/roll-rate-p"> <!-- Calculate optimum roll rate -->
+			<input>autoflight/roll/roll-rad-error</input>
+			<gain>-2.5</gain>
+			<clipto>
+				<min>-0.349066</min>
+				<max>0.349066</max>
+			</clipto>
+		</pure_gain>
+		
+		<fcs_function name="autoflight/roll/p-rad_sec">
+			<function>
+				<toradians>
+					<property>/orientation/roll-rate-degps</property>
+				</toradians>
+			</function>
+		</fcs_function>
+		
+		<summer name="autoflight/roll/roll-rate-error">
+			<input>autoflight/roll/p-rad_sec</input>
+			<input>-autoflight/roll/roll-rate-p</input>
+			<clipto>
+				<min>-0.349066</min>
+				<max>0.349066</max>
+			</clipto>
+		</summer>
+		
+		<fcs_function name="autoflight/roll/p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						200 -3.0
+						320 -2.0
+						600 -0.4
+						750 -0.2
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/roll/i-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						200 -2.0
+						320 -1.0
+						600 -0.2
+						750 -0.1
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/roll/d-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						200 -0.35
+						320 -0.10
+						600 -0.03
+						750 -0.02
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<switch name="autoflight/roll/p-gain-switched">
+			<default value="0"/>
+			<test logic="AND" value="autoflight/roll/p-gain">
+				autoflight/internal-mode gt 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/roll/i-gain-switched"> 
+			<default value="0"/>
+			<test logic="AND" value="autoflight/roll/i-gain">
+				autoflight/internal-mode gt 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/roll/d-gain-switched">
+			<default value="0"/>
+			<test logic="AND" value="autoflight/roll/d-gain">
+				autoflight/internal-mode gt 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/roll/trigger">
+			<default value="0"/>
+			<test value="-1">
+				autoflight/internal-mode le 1
+			</test>
+			<test logic="OR" value="1">
+				autoflight/roll/master-pid le -0.999
+				autoflight/roll/master-pid ge 0.999
+			</test>
+		</switch>
+		
+		<pid name="autoflight/roll/master-pid-v">
+			<input>autoflight/roll/roll-rate-error</input>
+			<kp>autoflight/roll/p-gain-switched</kp>
+			<ki>autoflight/roll/i-gain-switched</ki>
+			<kd>autoflight/roll/d-gain-switched</kd>
+			<trigger>autoflight/roll/trigger</trigger>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+			<output>autoflight/roll/master-pid</output>
+		</pid>
+		
+		<switch name="autoflight/roll/roll-command">
+			<default value="0"/>
+			<test value="autoflight/roll/master-pid">
+				autoflight/internal-mode gt 1
 			</test>
 		</switch>
 	

@@ -11,19 +11,9 @@
 		<debug>false</debug>
 		<enable>
 			<condition>
-				<or>
-					<equals>
-						<property>/autopilot/locks/speed</property>
-						<value>speed-with-throttle</value>
-					</equals>
-					<equals>
-						<property>/autopilot/locks/speed</property>
-						<value>constant-AoA</value>
-					</equals>
-				</or>
 				<equals>
-					<property>/ja37/avionics/autopilot</property>
-					<value>1</value>
+					<property>/autopilot/locks/speed</property>
+					<value>test</value>
 				</equals>
 			</condition>
 		</enable>

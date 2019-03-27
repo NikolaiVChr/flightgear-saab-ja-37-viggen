@@ -851,6 +851,13 @@
                 <gravity-ft_sec2 type="double">32.1740</gravity-ft_sec2><!-- start value for compatibility with older FG versions -->
             </accelerations>
             <autoflight n="0">
+                <can-engage-out type="bool">0</can-engage-out>
+                <roll>
+                    <d-gain type="double">0</d-gain>
+                    <i-gain type="double">0</i-gain>
+                    <master-pid type="double">0</master-pid>
+                    <p-gain type="double">0</p-gain>
+                </roll>
                 <mode type="int">0</mode>
             </autoflight>
             <structural>

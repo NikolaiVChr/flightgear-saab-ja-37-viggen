@@ -53,6 +53,19 @@
 				/ja37/systems/input-controls-flight == 0
 			</test>
 		</switch>
+		
+		<fcs_function name="fcs/rudder/pedal-newtons">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/rudder/input</independentVar>
+					<tableData>
+						-1 -155
+						 0    0
+						 1  155
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
 	
 	</channel>
 
