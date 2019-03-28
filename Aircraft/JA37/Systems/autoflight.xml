@@ -15,7 +15,6 @@
 			<test logic="OR" value="1">
 				/ja37/elec/ac-bus-main-bool eq 1
 				/ja37/elec/dc-bus-main-bool eq 1
-				systems/hydraulics/system1/pressure eq 1
 			</test>
 		</switch>
 		
@@ -23,6 +22,7 @@
 			<default value="1"/>
 			<test logic="OR" value="0"> <!-- Add conditions where AP fails here -->
 				autoflight/power-switch ne 1	
+				systems/hydraulics/system1/pressure ne 1
 				/ja37/fuses/sa eq 0
 			</test>
 			<output>autoflight/can-engage-out</output>
@@ -115,10 +115,42 @@
 				autoflight/mode gt 1
 			</test>
 		</switch>
+		
+		<switch name="autoflight/roll-mode">
+			<description>Allows to be toggled, and overwritten</description>
+			<default value="autoflight/roll-mode-cmd"/>
+			<test logic="OR" value="0"> <!-- No HDG Hold with gears out -->
+				/gear/gear/position-norm ge 0.01
+			</test>
+		</switch>
+		
+		<switch name="autoflight/stick-light">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/power-switch eq 1
+				autoflight/mode ge 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/att-light">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/power-switch eq 1
+				autoflight/mode ge 2
+			</test>
+		</switch>
+		
+		<switch name="autoflight/alt-light">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/power-switch eq 1
+				autoflight/mode eq 3
+			</test>
+		</switch>
 	
 	</channel>
 	
-	<channel name="Autoflight: Roll Channel">
+	<channel name="Autoflight: Drivers">
 		
 		<fcs_function name="autoflight/roll/max-bank-deg">
 			<function>
@@ -132,15 +164,117 @@
 			</function>
 		</fcs_function>
 		
+		<fcs_function name="autoflight/roll/max-bank-deg-trigger">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						124.190  19.99
+						350.972  59.99
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="autoflight/roll/min-bank-deg-trigger">
+			<input>autoflight/roll/max-bank-deg-trigger</input>
+			<gain>-1.0</gain>
+		</pure_gain>
+		
 		<pure_gain name="autoflight/roll/max-bank-rad">
 			<input>autoflight/roll/max-bank-deg</input>
 			<gain>0.0174533</gain> <!-- DEG to RAD -->
 		</pure_gain>
 		
+		<!-- HDG HOLD -->
+		<switch name="autoflight/roll/hdg-hold-active">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/internal-mode gt 1
+				autoflight/roll-mode eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="autoflight/roll/hdg-hold-target">
+			<function>
+				<integer>
+					<sum>
+						<ifthen>
+							<eq>
+								<property>autoflight/roll/hdg-hold-active</property>
+								<value>1</value>
+							</eq>
+							<property>autoflight/roll/hdg-hold-target</property>
+							<property>/orientation/heading-magnetic-deg</property>
+						</ifthen>
+						<value>0.5</value> <!-- Make the integer rounded correctly -->
+					</sum>
+				</integer>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/roll/heading/p-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="column">autoflight/roll/hdg-hold-active</independentVar>
+					<tableData>
+						     0    1
+						200  0.0  1.8
+						600  0.0  3.7
+						950  0.0  4.1
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/roll/heading/i-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="column">autoflight/roll/hdg-hold-active</independentVar>
+					<tableData>
+						     0      1
+						250  0.000  0.005
+						600  0.000  1.100
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<switch name="autoflight/roll/heading/trigger">
+			<default value="0"/>
+			<test logic="OR" value="-1">
+				autoflight/roll/hdg-hold-active ne 1
+			</test>
+			<test logic="OR" value="1">
+				autoflight/roll/heading/pi le autoflight/roll/min-bank-deg-trigger
+				autoflight/roll/heading/pi ge autoflight/roll/max-bank-deg-trigger
+			</test>
+		</switch>
+		
+		<pid name="autoflight/roll/heading/pi-v">
+			<input>autoflight/roll/heading-error-deg</input>
+			<kp>autoflight/roll/heading/p-gain</kp>
+			<ki>autoflight/roll/heading/i-gain</ki>
+			<kd>0.0</kd>
+			<trigger>autoflight/roll/heading/trigger</trigger>
+			<clipto>
+				<min>-autoflight/roll/max-bank-deg</min>
+				<max>autoflight/roll/max-bank-deg</max>
+			</clipto>
+			<output>autoflight/roll/heading/pi</output>
+		</pid>
+	
+	</channel>
+	
+	<channel name="Autoflight: Roll Channel">
+		
 		<switch name="autoflight/roll/att-hold-active">
 			<default value="0"/>
 			<test logic="AND" value="1"> <!-- TODO: Add heading/attitude condition -->
 				autoflight/internal-mode gt 1
+				autoflight/roll-mode ne 1
 			</test>
 		</switch>
 		
@@ -160,11 +294,10 @@
 			<function>
 				<ifthen>
 					<and>
-						<gt>
-							<property>autoflight/internal-mode</property>
+						<eq>
+							<property>autoflight/roll/att-hold-active</property>
 							<value>1</value>
-						</gt>
-						<!-- TODO: Add heading/attitude condition -->
+						</eq>
 						<eq>
 							<property>autoflight/roll/att-hold-switch</property>
 							<value>1</value>
@@ -180,11 +313,33 @@
 			</clipto>
 		</fcs_function>
 		
+		<switch name="autoflight/roll/target-roll-deg">
+			<default value="/orientation/roll-deg"/>
+			<test logic="AND" value="autoflight/roll/heading/pi">
+				autoflight/roll/hdg-hold-active eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="autoflight/roll/roll-cmd-target">
+			<function>
+				<ifthen>
+					<eq>
+						<property>autoflight/roll/hdg-hold-active</property>
+						<value>1</value>
+					</eq>
+					<toradians> <!-- It's easier to tune for target degree than target radian -->
+						<property>autoflight/roll/target-roll-deg</property>
+					</toradians>
+					<property>attitude/roll-rad</property>
+				</ifthen>
+			</function>
+		</fcs_function>
+		
 		<switch name="autoflight/roll/roll-rad-input">
 			<default value="attitude/roll-rad"/>
-			<!--test logic="AND" value="autoflight/roll/roll-cmd-target">
-				autoflight/internal-mode gt 1
-			</test-->
+			<test value="autoflight/roll/roll-cmd-target">
+				autoflight/roll/hdg-hold-active eq 1
+			</test>
 			<test value="autoflight/roll/roll-hold-target">
 				autoflight/internal-mode gt 1
 			</test>

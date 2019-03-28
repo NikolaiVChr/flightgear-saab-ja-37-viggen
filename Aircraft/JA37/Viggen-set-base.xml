@@ -852,13 +852,18 @@
             </accelerations>
             <autoflight n="0">
                 <can-engage-out type="bool">0</can-engage-out>
+                <mode type="int">0</mode>
                 <roll>
                     <d-gain type="double">0</d-gain>
+                    <heading>
+                        <pi type="double">0</pi>
+                    </heading>
                     <i-gain type="double">0</i-gain>
+                    <heading-error-deg type="double">0</heading-error-deg> <!-- autoflight-rules.xml -->
                     <master-pid type="double">0</master-pid>
                     <p-gain type="double">0</p-gain>
                 </roll>
-                <mode type="int">0</mode>
+                <roll-mode-cmd type="int">0</roll-mode-cmd> <!-- DO NOT MOVE/REMOVE! -->
             </autoflight>
             <structural>
                 <wings>

@@ -5,6 +5,7 @@ var canEngage = props.globals.getNode("/fdm/jsbsim/autoflight/can-engage");
 var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STICK, 2 ATT, 3 ALT
 var apSoftWarn = props.globals.getNode("/ja37/avionics/autopilot-soft-warn");
 var apDowngradeMW = props.globals.getNode("/fdm/jsbsim/systems/indicators/master-warning/ap-downgrade");
+var gear = props.globals.getNode("/gear/gear/position-norm");
 
 var System = {
 	engageMode: func(m) {
