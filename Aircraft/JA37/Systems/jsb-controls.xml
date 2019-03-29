@@ -108,9 +108,26 @@
 			<input>fcs/pitch-trim-cmd-norm</input> <!-- Pitch Trim -->
 		</summer>
 		
+		<fcs_function name="fcs/elevon/flap-compensator">
+			<description>Fade out compensator at high pitch up commands, prevents authority loss</description>
+			<function>
+				<product>
+					<property>fcs/drivers/pitch/flap-compensator</property>
+					<table>
+						<independentVar lookup="row">fcs/elevon/pitch-cmd-geared</independentVar>
+						<tableData>
+							-1.00  0.0
+							-0.74  1.0
+						</tableData>
+					</table>
+				</product>
+			</function>
+		</fcs_function>
+		
 		<summer name="fcs/elevon/pitch-nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
-			<input>fcs/drivers/pitch-output</input> <!-- Pitch Rate Damper -->
+			<input>fcs/drivers/pitch-output</input> <!-- Pitch Damper -->
+			<input>fcs/elevon/flap-compensator</input> <!-- Flap Compensator -->
 			<input>fcs/drivers/series-trim-output</input> <!-- Series Trim -->
 			<!--input>autoflight/output/pitch-cmd</input--> <!-- A/P Pitch Command -->
 		</summer>
@@ -308,7 +325,7 @@
 		
 		<summer name="fcs/elevon/roll-nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
-			<input>fcs/drivers/roll-output</input> <!-- Roll Rate Damper/Limiter -->
+			<input>fcs/drivers/roll-output</input> <!-- Roll Damper/Limiter -->
 			<input>autoflight/roll/roll-command</input> <!-- Autopilot Roll Axis -->
 			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
@@ -318,7 +335,7 @@
 			<test logic="OR" value="15"> <!-- Low Speed Gear -->
 				velocities/vc-kts le 349
 			</test>
-			<test logic="OR" value="10"> <!-- High Speed Gear -->
+			<test logic="OR" value="9"> <!-- High Speed Gear -->
 				velocities/vc-kts ge 351
 			</test>
 			<output>fcs/elevon/roll-gearing-feedback</output>
@@ -326,8 +343,9 @@
 		
 		<actuator name="fcs/elevon/roll-gearing-actuator">
 			<input>fcs/elevon/roll-gearing</input>
-			<rate_limit sense="incr">0.5</rate_limit> <!-- 10 seconds high to low -->
-			<rate_limit sense="decr">1.0</rate_limit> <!-- 5 seconds low to high -->
+			<rate_limit sense="incr">0.6</rate_limit> <!-- 10 seconds high to low -->
+			<rate_limit sense="decr">1.2</rate_limit> <!-- 5 seconds low to high -->
+			<output>fcs/elevon/roll-gearing-debug</output>
 		</actuator>
 		
 		<pure_gain name="fcs/elevon/roll-gear-input-deg">
@@ -582,7 +600,7 @@
 		
 		<summer name="fcs/rudder/nogear-input-sum">
 			<description>Sum of inputs NOT passed through gearing</description>
-			<input>fcs/drivers/yaw-output</input> <!-- Yaw Rate Damper -->
+			<input>fcs/drivers/yaw-output</input> <!-- Yaw Damper -->
 			<clipto>
 				<min>-1.0</min>
 				<max>1.0</max>

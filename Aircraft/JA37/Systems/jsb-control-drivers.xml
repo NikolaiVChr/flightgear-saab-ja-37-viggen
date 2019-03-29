@@ -200,7 +200,7 @@
 			<gain>22.0</gain>
 		</pure_gain>
 		
-		<summer name="fcs/drivers/pitch/damper-sum">
+		<summer name="fcs/drivers/pitch-output">
 			<input>fcs/drivers/pitch/rate-damper</input>
 			<input>fcs/drivers/pitch/accel-damper</input>
 			<clipto> <!-- 4 deg / 22 deg -->
@@ -223,15 +223,6 @@
 				</product>
 			</function>
 		</fcs_function>
-		
-		<summer name="fcs/drivers/pitch-output">
-			<input>fcs/drivers/pitch/damper-sum</input>
-			<input>fcs/drivers/pitch/flap-compensator</input>
-			<clipto>
-				<min>-1.0</min>
-				<max>1.0</max>
-			</clipto>
-		</summer>
 	
 	</channel>
 	
@@ -440,20 +431,12 @@
 			</clipto>
 		</pure_gain>
 		
-		<summer name="fcs/drivers/yaw/damper-sum">
+		<summer name="fcs/drivers/yaw-output">
 			<input>fcs/drivers/yaw/rate-damper</input>
 			<input>fcs/drivers/yaw/accel-damper</input>
 			<clipto> <!-- 4 deg / 25 deg -->
 				<min>-0.16</min>
 				<max>0.16</max>
-			</clipto>
-		</summer>
-		
-		<summer name="fcs/drivers/yaw-output">
-			<input>fcs/drivers/yaw/damper-sum</input>
-			<clipto>
-				<min>-1.0</min>
-				<max>1.0</max>
 			</clipto>
 		</summer>
 	
