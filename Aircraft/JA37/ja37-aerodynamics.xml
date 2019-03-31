@@ -128,7 +128,7 @@
     <axis name="NORMAL">
 
 
-        <function name="aero/coefficient/CN">
+        <function name="aero/coefficient/CN" apply_at_cg="false"><!-- apply at CG is false per default, just added here so I dont forget the option exist -->
             <description>
                Normal force due to alpha, ground-effect and elevator
 

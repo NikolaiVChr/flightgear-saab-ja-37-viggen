@@ -25,7 +25,9 @@ prop = {
     hyd2Bool:         "fdm/jsbsim/systems/hydraulics/system2/pressure",
 };
 
-# setup property nodes for the loop
-foreach(var name; keys(prop)) {
-    prop[name] = props.globals.getNode(prop[name], 1);
+var init = func {
+    # setup property nodes for the loop
+    foreach(var name; keys(prop)) {
+        prop[name] = props.globals.getNode(prop[name], 1);
+    }
 }
