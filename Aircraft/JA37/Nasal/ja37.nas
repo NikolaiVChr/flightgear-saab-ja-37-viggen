@@ -1620,6 +1620,9 @@ var test_support = func {
 
 
 var main_init = func {
+  
+  power.init();
+  
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
   test_support();
