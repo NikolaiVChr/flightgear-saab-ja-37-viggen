@@ -117,10 +117,14 @@
 		</switch>
 		
 		<switch name="autoflight/roll-mode">
-			<description>Allows to be toggled, and overwritten</description>
-			<default value="autoflight/roll-mode-cmd"/>
-			<test logic="OR" value="0"> <!-- No HDG Hold with gears out -->
+			<default value="0"/>
+			<test value="0"> <!-- No HDG Hold with gears out -->
 				/gear/gear/position-norm ge 0.01
+			</test>
+			<test logic="AND" value="1">
+				attitude/roll-rad ge -0.122173
+				attitude/roll-rad le 0.122173
+				autoflight/internal-mode gt 1
 			</test>
 		</switch>
 		

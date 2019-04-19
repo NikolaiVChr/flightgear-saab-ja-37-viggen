@@ -863,7 +863,6 @@
                     <master-pid type="double">0</master-pid>
                     <p-gain type="double">0</p-gain>
                 </roll>
-                <roll-mode-cmd type="int">0</roll-mode-cmd> <!-- DO NOT MOVE/REMOVE! -->
             </autoflight>
             <structural>
                 <wings>
