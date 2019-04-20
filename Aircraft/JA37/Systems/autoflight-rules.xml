@@ -28,27 +28,27 @@
 		<name>Stick Light Exponential</name>
 		<debug>false</debug>
 		<type>exponential</type>
-		<input>/fdm/jsbsim/autoflight/stick-light</input>
-		<output>/fdm/jsbsim/autoflight/stick-light-lag</output>
-		<filter-time>0.16</filter-time>
+		<input>/fdm/jsbsim/autoflight/stick-button</input>
+		<output>/fdm/jsbsim/autoflight/stick-light</output>
+		<filter-time>0.06</filter-time>
 	</filter>
 	
 	<filter>
 		<name>ATT Light Exponential</name>
 		<debug>false</debug>
 		<type>exponential</type>
-		<input>/fdm/jsbsim/autoflight/att-light</input>
-		<output>/fdm/jsbsim/autoflight/att-light-lag</output>
-		<filter-time>0.16</filter-time>
+		<input>/fdm/jsbsim/autoflight/att-light-cmd</input>
+		<output>/fdm/jsbsim/autoflight/att-light</output>
+		<filter-time>0.06</filter-time>
 	</filter>
 	
 	<filter>
 		<name>ALT Light Exponential</name>
 		<debug>false</debug>
 		<type>exponential</type>
-		<input>/fdm/jsbsim/autoflight/alt-light</input>
-		<output>/fdm/jsbsim/autoflight/alt-light-lag</output>
-		<filter-time>0.16</filter-time>
+		<input>/fdm/jsbsim/autoflight/alt-light-cmd</input>
+		<output>/fdm/jsbsim/autoflight/alt-light</output>
+		<filter-time>0.06</filter-time>
 	</filter>
 	
 	<!-- Just for testing -->

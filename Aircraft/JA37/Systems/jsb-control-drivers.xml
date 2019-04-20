@@ -92,7 +92,7 @@
 							700  0.0 -0.04
 						</tableData>
 					</table>
-					<table> <!-- Prevent damper from causing bad roll rate -->
+					<table> <!-- Fade out damper to prevent it from causing bad roll rate -->
 						<independentVar lookup="row">fcs/drivers/roll/stick-geared</independentVar>
 						<tableData>
 							-1.0  0.01
@@ -260,14 +260,14 @@
 			</function>
 		</fcs_function>
 		
-		<lag_filter name="fcs/drivers/series-trim/accel-cmd-lag">
-			<input>fcs/drivers/series-trim/accel-cmd</input>
-			<c1>9.0</c1>
-		</lag_filter>
-		
 		<lag_filter name="fcs/drivers/series-trim/Nz-lag">
 			<input>accelerations/Nz</input>
 			<c1>12.0</c1>
+		</lag_filter>
+		
+		<lag_filter name="fcs/drivers/series-trim/accel-cmd-lag">
+			<input>fcs/drivers/series-trim/accel-cmd</input>
+			<c1>9.0</c1>
 		</lag_filter>
 		
 		<summer name="fcs/drivers/series-trim/accel-error">
@@ -297,16 +297,11 @@
 			</function>
 		</fcs_function>
 		
-		<pure_gain name="fcs/drivers/series-trim/authority-min">
-			<input>fcs/drivers/series-trim/authority-max</input>
-			<gain>-1.0</gain>
-		</pure_gain>
-		
 		<pure_gain name="fcs/drivers/series-trim/command">
 			<input>fcs/drivers/series-trim/accel-error</input>
 			<gain>0.01</gain>
 			<clipto>
-				<min>fcs/drivers/series-trim/authority-min</min>
+				<min>-fcs/drivers/series-trim/authority-max</min>
 				<max>fcs/drivers/series-trim/authority-max</max>
 			</clipto>
 		</pure_gain>

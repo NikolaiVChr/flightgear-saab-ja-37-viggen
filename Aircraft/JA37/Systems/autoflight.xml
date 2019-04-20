@@ -105,12 +105,20 @@
 			</test>
 		</switch>
 		
+		<switch name="autoflight/temp-mode-active">
+			<default value="0"/>
+			<test logic="AND" value="1"> <!-- Out of range and stick center -->
+				autoflight/att-ok ne 1
+				autoflight/ss/active ne 1
+			</test>
+		</switch>
+		
 		<switch name="autoflight/internal-mode">
 			<default value="autoflight/mode"/>
-			<test value="1"> <!-- Stay in STICK if out of range -->
-				autoflight/att-ok ne 1
+			<test value="1"> <!-- Stay in STICK if in TEMP mode -->
+				autoflight/temp-mode-active eq 1
 			</test>
-			<test logic="AND" value="1"> <!-- Stick out of center, or attitude out of range, so go to STICK -->
+			<test logic="AND" value="1"> <!-- Stick out of center so go to STICK -->
 				autoflight/ss/active eq 1
 				autoflight/mode gt 1
 			</test>
@@ -121,14 +129,14 @@
 			<test value="0"> <!-- No HDG Hold with gears out -->
 				/gear/gear/position-norm ge 0.01
 			</test>
-			<test logic="AND" value="1">
+			<test logic="AND" value="1">  <!-- HDG Hold only if less than 7 degrees of roll attitude -->
 				attitude/roll-rad ge -0.122173
 				attitude/roll-rad le 0.122173
 				autoflight/internal-mode gt 1
 			</test>
 		</switch>
 		
-		<switch name="autoflight/stick-light">
+		<switch name="autoflight/stick-button">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				autoflight/power-switch eq 1
@@ -136,7 +144,17 @@
 			</test>
 		</switch>
 		
-		<switch name="autoflight/att-light">
+		<switch name="autoflight/att-blink"> <!-- Light off when 1 -->
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/power-switch eq 1
+				autoflight/mode ge 2
+				autoflight/temp-mode-active eq 1
+				/ja37/blink/four-Hz/state ne 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/att-button">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				autoflight/power-switch eq 1
@@ -144,11 +162,26 @@
 			</test>
 		</switch>
 		
-		<switch name="autoflight/alt-light">
+		<switch name="autoflight/att-light-cmd">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/att-button eq 1
+				autoflight/att-blink ne 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/alt-button">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				autoflight/power-switch eq 1
 				autoflight/mode eq 3
+			</test>
+		</switch>
+		
+		<switch name="autoflight/alt-light-cmd">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/alt-button eq 1
 			</test>
 		</switch>
 	

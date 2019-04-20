@@ -116,8 +116,8 @@
 					<table>
 						<independentVar lookup="row">fcs/elevon/pitch-cmd-geared</independentVar>
 						<tableData>
-							-1.00  0.0
-							-0.74  1.0
+							-1.0  0.0
+							-0.4  1.0
 						</tableData>
 					</table>
 				</product>
@@ -129,7 +129,7 @@
 			<input>fcs/drivers/pitch-output</input> <!-- Pitch Damper -->
 			<input>fcs/elevon/flap-compensator</input> <!-- Flap Compensator -->
 			<input>fcs/drivers/series-trim-output</input> <!-- Series Trim -->
-			<!--input>autoflight/output/pitch-cmd</input--> <!-- A/P Pitch Command -->
+			<!--input>autoflight/pitch/pitch-cmd</input--> <!-- Autopilot Pitch Axis -->
 		</summer>
 		
 		<fcs_function name="fcs/elevon/pitch-gearing">
@@ -327,7 +327,6 @@
 			<description>Sum of inputs NOT passed through gearing</description>
 			<input>fcs/drivers/roll-output</input> <!-- Roll Damper/Limiter -->
 			<input>autoflight/roll/roll-command</input> <!-- Autopilot Roll Axis -->
-			<!--input>autoflight/output/roll-cmd</input--> <!-- A/P Roll Command -->
 		</summer>
 		
 		<switch name="fcs/elevon/roll-gearing">
