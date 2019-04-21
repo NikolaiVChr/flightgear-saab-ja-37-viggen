@@ -295,6 +295,76 @@
 				autoflight/internal-mode eq 3
 			</test>
 		</switch>
+		
+		<fcs_function name="autoflight/pitch/alt/gain">
+			<function>
+				<table>
+					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<tableData>
+						200 -7
+						600 -5
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/pitch/alt/predicted">
+			<function>
+				<sum>
+					<quotient>
+						<property>/instrumentation/gps/indicated-vertical-speed</property>
+						<product>
+							<property>autoflight/pitch/alt/gain</property>
+							<value>-1</value>
+						</product>
+					</quotient>
+					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/pitch/alt/target">
+			<function>
+				<product>
+					<integer>
+						<quotient>
+							<sum>
+								<ifthen>
+									<eq>
+										<property>autoflight/pitch/alt-hold-active</property>
+										<value>1</value>
+									</eq>
+									<property>autoflight/pitch/alt/target</property>
+									<property>autoflight/pitch/alt/predicted</property>
+								</ifthen>
+								<value>50</value> <!-- Make the integer rounded correctly -->
+							</sum>
+							<value>100</value>
+						</quotient>
+					</integer>
+					<value>100</value>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/pitch/alt/error">
+			<function>
+				<difference>
+					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+					<property>autoflight/pitch/alt/target</property>
+					<value>2</value>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="autoflight/pitch/vs/target">
+			<input>autoflight/pitch/alt/error</input>
+			<gain>autoflight/pitch/alt/gain</gain>
+			<clipto>
+				<min>-2000</min>
+				<max>2000</max>
+			</clipto>
+		</pure_gain>
 	
 	</channel>
 	
@@ -556,9 +626,9 @@
 		
 		<switch name="autoflight/pitch/target-pitch-deg">
 			<default value="/orientation/pitch-deg"/>
-			<!--test logic="AND" value="vs-pid-here">
+			<test logic="AND" value="autoflight/pitch/vs/pid">
 				autoflight/pitch/alt-hold-active eq 1
-			</test-->
+			</test>
 		</switch>
 		
 		<fcs_function name="autoflight/pitch/pitch-cmd-target">
@@ -578,9 +648,9 @@
 		
 		<switch name="autoflight/pitch/pitch-rad-input">
 			<default value="attitude/pitch-rad"/>
-			<!--test value="autoflight/pitch/pitch-cmd-target">
+			<test value="autoflight/pitch/pitch-cmd-target">
 				autoflight/pitch/alt-hold-active eq 1
-			</test-->
+			</test>
 			<test value="autoflight/pitch/pitch-hold-target">
 				autoflight/internal-mode gt 1
 			</test>
