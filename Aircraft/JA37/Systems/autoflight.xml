@@ -162,11 +162,22 @@
 			</test>
 		</switch>
 		
+		<switch name="autoflight/alt-blink"> <!-- Light off when 1 -->
+			<default value="0"/>
+			<test logic="AND" value="1">
+				/ja37/elec/dc-bus-main-bool eq 1
+				autoflight/mode eq 3
+				autoflight/temp-mode-active eq 1
+				/ja37/blink/four-Hz/state ne 1
+			</test>
+		</switch>
+		
 		<switch name="autoflight/alt-light-cmd">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				/ja37/elec/dc-bus-main-bool eq 1
 				autoflight/mode eq 3
+				autoflight/alt-blink ne 1
 			</test>
 		</switch>
 	
