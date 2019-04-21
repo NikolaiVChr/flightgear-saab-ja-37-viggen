@@ -62,18 +62,8 @@
 		<type>translate</type>
 		<object-name>att</object-name>
 		<object-name>btAtt</object-name>
-		<expression>
-			<product>
-				<min>
-					<sum>
-						<property>fdm/jsbsim/autoflight/att-button</property>
-						<property>ja37/avionics/button-att</property>
-					</sum>
-					<value>1</value>
-				</min>
-				<value>0.005</value>
-			</product>
-		</expression>
+		<property>ja37/avionics/button-att</property>
+		<factor>0.005</factor>
 		<axis>
 			<x>-1</x>
 		</axis>
@@ -135,18 +125,8 @@
 		<type>translate</type>
 		<object-name>alt</object-name>
 		<object-name>btAlt</object-name>
-		<expression>
-			<product>
-				<min>
-					<sum>
-						<property>fdm/jsbsim/autoflight/alt-button</property>
-						<property>ja37/avionics/button-alt</property>
-					</sum>
-					<value>1</value>
-				</min>
-				<value>0.005</value>
-			</product>
-		</expression>
+		<property>ja37/avionics/button-alt</property>
+		<factor>0.005</factor>
 		<axis>
 			<x>-1</x>
 		</axis>
@@ -208,18 +188,8 @@
 		<type>translate</type>
 		<object-name>stick</object-name>
 		<object-name>btStick</object-name>
-		<expression>
-			<product>
-				<min>
-					<sum>
-						<property>fdm/jsbsim/autoflight/stick-button</property>
-						<property>ja37/avionics/button-stck</property>
-					</sum>
-					<value>1</value>
-				</min>
-				<value>0.005</value>
-			</product>
-		</expression>
+		<property>ja37/avionics/button-stck</property>
+		<factor>0.005</factor>
 		<axis>
 			<x>-1</x>
 		</axis>

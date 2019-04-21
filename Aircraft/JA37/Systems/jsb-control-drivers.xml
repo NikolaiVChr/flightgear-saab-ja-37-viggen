@@ -129,7 +129,7 @@
 		<switch name="fcs/drivers/pitch/damper-enable">
 			<default value="0"/>
 			<test logic="AND" value="1">
-				autoflight/internal-mode gt 0
+				autoflight/internal-mode eq 1
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>
 		</switch>
@@ -243,6 +243,7 @@
 			<default value="0"/>
 			<test logic="AND" value="1">
 				fcs/drivers/series-trim/mach-switch eq 1
+				autoflight/internal-mode eq 1
 				position/wow eq 0
 			</test>
 		</switch>

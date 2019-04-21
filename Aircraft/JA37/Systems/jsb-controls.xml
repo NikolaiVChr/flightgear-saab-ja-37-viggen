@@ -129,7 +129,7 @@
 			<input>fcs/drivers/pitch-output</input> <!-- Pitch Damper -->
 			<input>fcs/elevon/flap-compensator</input> <!-- Flap Compensator -->
 			<input>fcs/drivers/series-trim-output</input> <!-- Series Trim -->
-			<!--input>autoflight/pitch/pitch-cmd</input--> <!-- Autopilot Pitch Axis -->
+			<input>autoflight/pitch/pitch-command</input> <!-- Autopilot Pitch Axis -->
 		</summer>
 		
 		<fcs_function name="fcs/elevon/pitch-gearing">

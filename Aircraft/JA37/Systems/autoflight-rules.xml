@@ -28,7 +28,7 @@
 		<name>Stick Light Exponential</name>
 		<debug>false</debug>
 		<type>exponential</type>
-		<input>/fdm/jsbsim/autoflight/stick-button</input>
+		<input>/fdm/jsbsim/autoflight/stick-light-cmd</input>
 		<output>/fdm/jsbsim/autoflight/stick-light</output>
 		<filter-time>0.06</filter-time>
 	</filter>

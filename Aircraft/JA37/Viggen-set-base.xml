@@ -853,7 +853,13 @@
             <autoflight n="0">
                 <can-engage-out type="bool">0</can-engage-out>
                 <mode type="int">0</mode>
-                <roll>
+                <pitch n="0">
+                    <d-gain type="double">0</d-gain>
+                    <i-gain type="double">0</i-gain>
+                    <master-pid type="double">0</master-pid>
+                    <p-gain type="double">0</p-gain>
+                </pitch>
+                <roll n="0">
                     <d-gain type="double">0</d-gain>
                     <heading>
                         <pi type="double">0</pi>
