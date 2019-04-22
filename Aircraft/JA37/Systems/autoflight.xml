@@ -246,7 +246,7 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="autoflight/roll/heading/p-gain">
+		<fcs_function name="autoflight/roll/hdg/p-gain">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
@@ -261,7 +261,7 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="autoflight/roll/heading/i-gain">
+		<fcs_function name="autoflight/roll/hdg/i-gain">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
@@ -275,28 +275,28 @@
 			</function>
 		</fcs_function>
 		
-		<switch name="autoflight/roll/heading/trigger">
+		<switch name="autoflight/roll/hdg/trigger">
 			<default value="0"/>
 			<test logic="OR" value="-1">
 				autoflight/roll/hdg-hold-active ne 1
 			</test>
 			<test logic="OR" value="1">
-				autoflight/roll/heading/pi le autoflight/roll/min-bank-deg-trigger
-				autoflight/roll/heading/pi ge autoflight/roll/max-bank-deg-trigger
+				autoflight/roll/hdg/pi le autoflight/roll/min-bank-deg-trigger
+				autoflight/roll/hdg/pi ge autoflight/roll/max-bank-deg-trigger
 			</test>
 		</switch>
 		
-		<pid name="autoflight/roll/heading/pi-v">
-			<input>autoflight/roll/heading-error-deg</input>
-			<kp>autoflight/roll/heading/p-gain</kp>
-			<ki>autoflight/roll/heading/i-gain</ki>
+		<pid name="autoflight/roll/hdg/pi-v">
+			<input>autoflight/roll/hdg/heading-error-deg</input>
+			<kp>autoflight/roll/hdg/p-gain</kp>
+			<ki>autoflight/roll/hdg/i-gain</ki>
 			<kd>0.0</kd>
-			<trigger>autoflight/roll/heading/trigger</trigger>
+			<trigger>autoflight/roll/hdg/trigger</trigger>
 			<clipto>
 				<min>-autoflight/roll/max-bank-deg</min>
 				<max>autoflight/roll/max-bank-deg</max>
 			</clipto>
-			<output>autoflight/roll/heading/pi</output>
+			<output>autoflight/roll/hdg/pi</output>
 		</pid>
 		
 		<!-- ALT HOLD -->
@@ -306,18 +306,6 @@
 				autoflight/internal-mode eq 3
 			</test>
 		</switch>
-		
-		<fcs_function name="autoflight/pitch/alt/gain">
-			<function>
-				<table>
-					<independentVar lookup="row">velocities/vc-kts</independentVar>
-					<tableData>
-						200 -7
-						600 -5
-					</tableData>
-				</table>
-			</function>
-		</fcs_function>
 		
 		<fcs_function name="autoflight/pitch/alt/predicted">
 			<function>
@@ -368,12 +356,52 @@
 			</function>
 		</fcs_function>
 		
+		<switch name="autoflight/pitch/vs/max">
+			<default value="autoflight/pitch/vs/max"/>
+			<test logic="AND" value="1000">
+				autoflight/pitch/alt/error ge -100
+				autoflight/pitch/alt/error le 100
+			</test>
+			<test logic="AND" value="/instrumentation/gps/indicated-vertical-speed">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error le 0
+			</test>
+			<test logic="AND" value="1000">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error gt 0
+			</test>
+			<clipto>
+				<min>1000</min>
+				<max>6000</max>
+			</clipto>
+		</switch>
+		
+		<switch name="autoflight/pitch/vs/min">
+			<default value="autoflight/pitch/vs/min"/>
+			<test logic="AND" value="-1000">
+				autoflight/pitch/alt/error ge -100
+				autoflight/pitch/alt/error le 100
+			</test>
+			<test logic="AND" value="/instrumentation/gps/indicated-vertical-speed">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error gt 0
+			</test>
+			<test logic="AND" value="-1000">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error le 0
+			</test>
+			<clipto>
+				<min>-6000</min>
+				<max>-1000</max>
+			</clipto>
+		</switch>
+		
 		<pure_gain name="autoflight/pitch/vs/target">
 			<input>autoflight/pitch/alt/error</input>
 			<gain>autoflight/pitch/alt/gain</gain>
 			<clipto>
-				<min>-2000</min>
-				<max>2000</max>
+				<min>autoflight/pitch/vs/min</min>
+				<max>autoflight/pitch/vs/max</max>
 			</clipto>
 		</pure_gain>
 	
@@ -427,7 +455,7 @@
 		
 		<switch name="autoflight/roll/target-roll-deg">
 			<default value="/orientation/roll-deg"/>
-			<test logic="AND" value="autoflight/roll/heading/pi">
+			<test logic="AND" value="autoflight/roll/hdg/pi">
 				autoflight/roll/hdg-hold-active eq 1
 			</test>
 		</switch>

@@ -17,7 +17,7 @@
 				<scale>-1.0</scale>
 			</offset>
 		</input>
-		<output>/fdm/jsbsim/autoflight/roll/heading-error-deg</output>
+		<output>/fdm/jsbsim/autoflight/roll/hdg/heading-error-deg</output>
 		<period>
 			<min>-180</min>
 			<max>180</max>
