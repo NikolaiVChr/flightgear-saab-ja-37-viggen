@@ -210,7 +210,39 @@
         
     </channel>
 
-    <channel execrate="4" name="autopilot">
+    <channel execrate="4" name="various controls">
+
+        <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
+            <description>Just some random guesses..almost</description>
+            <function>
+                <table>
+                    <independentVar lookup="row">inertia/weight-lbs</independentVar>
+                    <tableData>
+                        0.00  8.00 
+                        30864.72  8.00
+                        40340.00  5.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <switch name="fcs/elevator/cmg-limit-pos">
+            <description>As per my guessing with gears out no more than 3G allowed.</description>
+            <default value="fcs/elevator/cmg-limit-pos-weight"/>
+            <test logic="AND" value="3">
+                gear/gear-pos-norm ne 0
+            </test>
+            <output>/limits/max-positive-g</output>
+        </switch>
+
+        <switch name="fcs/elevator/cmg-limit-neg">
+            <description>As per manual with gears out no less than 0G allowed.</description>
+            <default value="-3"/>
+            <test logic="AND" value="0">
+                gear/gear-pos-norm ne 0
+            </test>
+            <output>/limits/max-negative-g</output>
+        </switch>
 
         <kinematic name="autopilot/throttle-lever-pos">
             <input>autopilot/throttle-lever-cmd</input>
@@ -225,7 +257,7 @@
                 </setting>
             </traverse>
         </kinematic>
-
+<!-- To be replaced -->
         <switch name="autopilot/gears-time-steady">
             <default value="sim-time-sec"/>
             <test logic="OR" value="autopilot/gears-time-steady">
@@ -248,54 +280,6 @@
                 sim-time-sec gt autopilot/gears-time-AoA-hold
             </test>
         </switch>
-
-        <fcs_function name="autopilot/max-roll">
-            <function>
-                <table>
-                    <independentVar lookup="row">velocities/vtrue-kts</independentVar>
-                    <tableData>
-                        124 20
-                        351 60
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="autopilot/min-roll">
-            <function>
-                <table>
-                    <independentVar lookup="row">velocities/vtrue-kts</independentVar>
-                    <tableData>
-                        124 -20
-                        351 -60
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-
-        <switch name="autopilot/roll-hold">
-            <default value="/autopilot/internal/target-roll-deg"/>
-            <test logic="OR" value="autopilot/max-roll">
-                /autopilot/internal/target-roll-deg gt autopilot/max-roll
-            </test>
-            <test logic="OR" value="autopilot/min-roll">
-                /autopilot/internal/target-roll-deg lt autopilot/min-roll
-            </test>
-            <output>/autopilot/internal/target-roll-deg</output>
-        </switch>
-
-        <fcs_function name="autopilot/min-g">
-            <function>
-                <table>
-                    <independentVar lookup="row">/orientation/roll-deg</independentVar>
-                    <tableData>
-                        -60 -2
-                          0 -0.75
-                         60 -2
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
 
     </channel>
 

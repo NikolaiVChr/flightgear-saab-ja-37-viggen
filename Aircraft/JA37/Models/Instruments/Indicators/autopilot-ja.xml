@@ -81,7 +81,7 @@
 			<binding>
 				<command>set-tooltip</command>
 				<tooltip-id>Altitude Warning Indicator</tooltip-id>
-				<label>Autopilot: HOLD Mode</label>
+				<label>Autopilot: ALT Mode</label>
 				<property>/instrumentation/altitude-indicator</property>
 			</binding>
 		</hovered>

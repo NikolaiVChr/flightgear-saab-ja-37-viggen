@@ -854,18 +854,24 @@
                 <can-engage-out type="bool">0</can-engage-out>
                 <mode type="int">0</mode>
                 <pitch n="0">
+                    <alt n="0">
+                        <gain type="double">-7</gain>
+                    </alt>
                     <d-gain type="double">0</d-gain>
                     <i-gain type="double">0</i-gain>
                     <master-pid type="double">0</master-pid>
                     <p-gain type="double">0</p-gain>
+                    <vs>
+                        <pid type="double">0</pid>
+                    </vs>
                 </pitch>
                 <roll n="0">
                     <d-gain type="double">0</d-gain>
-                    <heading>
+                    <hdg n="0">
+                        <heading-error-deg type="double">0</heading-error-deg> <!-- autoflight-rules.xml -->
                         <pi type="double">0</pi>
-                    </heading>
+                    </hdg>
                     <i-gain type="double">0</i-gain>
-                    <heading-error-deg type="double">0</heading-error-deg> <!-- autoflight-rules.xml -->
                     <master-pid type="double">0</master-pid>
                     <p-gain type="double">0</p-gain>
                 </roll>
@@ -1425,6 +1431,9 @@
         <aaaa type="bool">false</aaaa>
     </timings>
     <instrumentation>
+        <gps n="0">
+		    <indicated-vertical-speed type="double">0</indicated-vertical-speed>
+        </gps>
         <comm n="0">
             <power-btn type="bool">true</power-btn>
             <power-good type="bool">false</power-good>

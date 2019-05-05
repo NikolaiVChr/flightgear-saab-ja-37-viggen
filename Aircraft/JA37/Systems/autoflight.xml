@@ -162,11 +162,22 @@
 			</test>
 		</switch>
 		
+		<switch name="autoflight/alt-blink"> <!-- Light off when 1 -->
+			<default value="0"/>
+			<test logic="AND" value="1">
+				/ja37/elec/dc-bus-main-bool eq 1
+				autoflight/mode eq 3
+				autoflight/temp-mode-active eq 1
+				/ja37/blink/four-Hz/state ne 1
+			</test>
+		</switch>
+		
 		<switch name="autoflight/alt-light-cmd">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				/ja37/elec/dc-bus-main-bool eq 1
 				autoflight/mode eq 3
+				autoflight/alt-blink ne 1
 			</test>
 		</switch>
 	
@@ -235,7 +246,7 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="autoflight/roll/heading/p-gain">
+		<fcs_function name="autoflight/roll/hdg/p-gain">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
@@ -250,7 +261,7 @@
 			</function>
 		</fcs_function>
 		
-		<fcs_function name="autoflight/roll/heading/i-gain">
+		<fcs_function name="autoflight/roll/hdg/i-gain">
 			<function>
 				<table>
 					<independentVar lookup="row">velocities/vc-kts</independentVar>
@@ -264,28 +275,28 @@
 			</function>
 		</fcs_function>
 		
-		<switch name="autoflight/roll/heading/trigger">
+		<switch name="autoflight/roll/hdg/trigger">
 			<default value="0"/>
 			<test logic="OR" value="-1">
 				autoflight/roll/hdg-hold-active ne 1
 			</test>
 			<test logic="OR" value="1">
-				autoflight/roll/heading/pi le autoflight/roll/min-bank-deg-trigger
-				autoflight/roll/heading/pi ge autoflight/roll/max-bank-deg-trigger
+				autoflight/roll/hdg/pi le autoflight/roll/min-bank-deg-trigger
+				autoflight/roll/hdg/pi ge autoflight/roll/max-bank-deg-trigger
 			</test>
 		</switch>
 		
-		<pid name="autoflight/roll/heading/pi-v">
-			<input>autoflight/roll/heading-error-deg</input>
-			<kp>autoflight/roll/heading/p-gain</kp>
-			<ki>autoflight/roll/heading/i-gain</ki>
+		<pid name="autoflight/roll/hdg/pi-v">
+			<input>autoflight/roll/hdg/heading-error-deg</input>
+			<kp>autoflight/roll/hdg/p-gain</kp>
+			<ki>autoflight/roll/hdg/i-gain</ki>
 			<kd>0.0</kd>
-			<trigger>autoflight/roll/heading/trigger</trigger>
+			<trigger>autoflight/roll/hdg/trigger</trigger>
 			<clipto>
 				<min>-autoflight/roll/max-bank-deg</min>
 				<max>autoflight/roll/max-bank-deg</max>
 			</clipto>
-			<output>autoflight/roll/heading/pi</output>
+			<output>autoflight/roll/hdg/pi</output>
 		</pid>
 		
 		<!-- ALT HOLD -->
@@ -295,6 +306,104 @@
 				autoflight/internal-mode eq 3
 			</test>
 		</switch>
+		
+		<fcs_function name="autoflight/pitch/alt/predicted">
+			<function>
+				<sum>
+					<quotient>
+						<property>/instrumentation/gps/indicated-vertical-speed</property>
+						<product>
+							<property>autoflight/pitch/alt/gain</property>
+							<value>-1</value>
+						</product>
+					</quotient>
+					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/pitch/alt/target">
+			<function>
+				<product>
+					<integer>
+						<quotient>
+							<sum>
+								<ifthen>
+									<eq>
+										<property>autoflight/pitch/alt-hold-active</property>
+										<value>1</value>
+									</eq>
+									<property>autoflight/pitch/alt/target</property>
+									<property>autoflight/pitch/alt/predicted</property>
+								</ifthen>
+								<value>50</value> <!-- Make the integer rounded correctly -->
+							</sum>
+							<value>100</value>
+						</quotient>
+					</integer>
+					<value>100</value>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/pitch/alt/error">
+			<function>
+				<difference>
+					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
+					<property>autoflight/pitch/alt/target</property>
+					<value>2</value>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<switch name="autoflight/pitch/vs/max">
+			<default value="autoflight/pitch/vs/max"/>
+			<test logic="AND" value="1000">
+				autoflight/pitch/alt/error ge -100
+				autoflight/pitch/alt/error le 100
+			</test>
+			<test logic="AND" value="/instrumentation/gps/indicated-vertical-speed">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error le 0
+			</test>
+			<test logic="AND" value="1000">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error gt 0
+			</test>
+			<clipto>
+				<min>1000</min>
+				<max>6000</max>
+			</clipto>
+		</switch>
+		
+		<switch name="autoflight/pitch/vs/min">
+			<default value="autoflight/pitch/vs/min"/>
+			<test logic="AND" value="-1000">
+				autoflight/pitch/alt/error ge -100
+				autoflight/pitch/alt/error le 100
+			</test>
+			<test logic="AND" value="/instrumentation/gps/indicated-vertical-speed">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error gt 0
+			</test>
+			<test logic="AND" value="-1000">
+				autoflight/pitch/alt-hold-active ne 1
+				autoflight/pitch/alt/error le 0
+			</test>
+			<clipto>
+				<min>-6000</min>
+				<max>-1000</max>
+			</clipto>
+		</switch>
+		
+		<pure_gain name="autoflight/pitch/vs/target">
+			<input>autoflight/pitch/alt/error</input>
+			<gain>autoflight/pitch/alt/gain</gain>
+			<clipto>
+				<min>autoflight/pitch/vs/min</min>
+				<max>autoflight/pitch/vs/max</max>
+			</clipto>
+		</pure_gain>
 	
 	</channel>
 	
@@ -346,7 +455,7 @@
 		
 		<switch name="autoflight/roll/target-roll-deg">
 			<default value="/orientation/roll-deg"/>
-			<test logic="AND" value="autoflight/roll/heading/pi">
+			<test logic="AND" value="autoflight/roll/hdg/pi">
 				autoflight/roll/hdg-hold-active eq 1
 			</test>
 		</switch>
@@ -556,9 +665,9 @@
 		
 		<switch name="autoflight/pitch/target-pitch-deg">
 			<default value="/orientation/pitch-deg"/>
-			<!--test logic="AND" value="vs-pid-here">
+			<test logic="AND" value="autoflight/pitch/vs/pid">
 				autoflight/pitch/alt-hold-active eq 1
-			</test-->
+			</test>
 		</switch>
 		
 		<fcs_function name="autoflight/pitch/pitch-cmd-target">
@@ -578,9 +687,9 @@
 		
 		<switch name="autoflight/pitch/pitch-rad-input">
 			<default value="attitude/pitch-rad"/>
-			<!--test value="autoflight/pitch/pitch-cmd-target">
+			<test value="autoflight/pitch/pitch-cmd-target">
 				autoflight/pitch/alt-hold-active eq 1
-			</test-->
+			</test>
 			<test value="autoflight/pitch/pitch-hold-target">
 				autoflight/internal-mode gt 1
 			</test>

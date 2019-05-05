@@ -17,12 +17,141 @@
 				<scale>-1.0</scale>
 			</offset>
 		</input>
-		<output>/fdm/jsbsim/autoflight/roll/heading-error-deg</output>
+		<output>/fdm/jsbsim/autoflight/roll/hdg/heading-error-deg</output>
 		<period>
 			<min>-180</min>
 			<max>180</max>
 		</period>
 	</filter>
+		<filter>
+		<name>PITCH DEG SYNC</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<not-equals>
+					<property>/fdm/jsbsim/autoflight/pitch/alt-hold-active</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+		</enable>
+		<input>/orientation/pitch-deg</input>
+		<output>/fdm/jsbsim/autoflight/pitch/vs/pid</output>
+		<min>-15</min>
+		<max>30</max>
+	</filter>
+ 
+	<pid-controller>
+		<name>FPM HOLD</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/pitch/alt-hold-active</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>/instrumentation/gps/indicated-vertical-speed</property>
+		</input>
+		<reference>
+			<property>/fdm/jsbsim/autoflight/pitch/vs/target</property>
+		</reference>
+		<output>
+			<property>/fdm/jsbsim/autoflight/pitch/vs/pid</property>
+		</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/fdm/jsbsim/velocities/vc-kts</property>
+						<entry><ind>130</ind><dep>0.0029</dep></entry>
+						<entry><ind>600</ind><dep>0.0009</dep></entry>
+						<entry><ind>950</ind><dep>0.0003</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ti>2.0</Ti>
+			<Td>0.0001</Td>
+			<u_min>
+				<condition>
+					<and>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>0</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>0</value>
+						</equals>
+					</and>
+				</condition>
+				<expression>
+					<max>
+						<dif>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</dif>
+						<value>-15</value>
+					</max>
+				</expression>
+			</u_min>
+			<u_min>
+				<condition>
+					<or>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</condition>
+				<value>0</value>
+			</u_min>
+			<u_max>
+				<condition>
+					<and>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>0</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>0</value>
+						</equals>
+					</and>
+				</condition>
+				<expression>
+					<min>
+						<sum>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</sum>
+						<value>30</value>
+					</min>
+				</expression>
+			</u_max>
+			<u_max>
+				<condition>
+					<or>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</condition>
+				<value>10</value>
+			</u_max>
+		</config>
+	</pid-controller>
 	
 	<filter>
 		<name>Stick Light Exponential</name>

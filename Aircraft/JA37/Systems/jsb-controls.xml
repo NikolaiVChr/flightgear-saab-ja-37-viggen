@@ -1107,98 +1107,12 @@
 
     </channel>
 
-
-
-
-    <channel execrate="4" name="Autopilot">
-        <scheduled_gain name="names/autopilot/Autopilot-max-climb">
-            <input>autopilot/one</input>
-            <table>
-                <independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
-                <tableData>
-                              <!-- feet/min -->
-                      000             0
-                      100             0<!-- was 175-->
-                      225          2500<!-- was  50-->
-                      350         15000
-                      700         20000
-                     1400         75000
-                </tableData>
-            </table>
-            <output>autopilot/climb</output><!-- feet/sec -->
-        </scheduled_gain>
-
-        <pure_gain name="names/autopilot/Autopilot-min-climb">
-            <input>autopilot/climb</input>
-            <gain>-0.8</gain>
-            <output>autopilot/descent</output>
-        </pure_gain>
-
-        <fcs_function name="autopilot/normal-min">
-            <function>
-                <table>
-                    <independentVar lookup="row">/orientation/pitch-deg</independentVar>
-                    <tableData>
-                         -5 -0.1
-                          0  0.5
-                         30  1
-                    </tableData>
-                </table>
-            </function>
-            <output>/autopilot/internal/normal-min</output>
-        </fcs_function>
-
-        <fcs_function name="autopilot/normal-max">
-            <function>
-                <table>
-                    <independentVar lookup="row">/orientation/pitch-deg</independentVar>
-                    <tableData>
-                      -30  -1
-                        0  -0.5
-                        5  0.1
-                    </tableData>
-                </table>
-            </function>
-            <output>/autopilot/internal/normal-max</output>
-        </fcs_function>
-
-        <fcs_function name="names/autopilot/Autopilot-min-elevator">
-            <function>
-                <table>
-                    <independentVar lookup="row">/ja37/accelerations/pilot-G</independentVar>
-                    <tableData>
-                        3.0           -0.75
-                        4.5           -0.1
-                    </tableData>
-                </table>
-            </function>
-            <output>/autopilot/internal/min-elevator</output>
-        </fcs_function>
-
-        <fcs_function name="names/autopilot/Autopilot-max-elevator">
-            <function>
-                <table>
-                    <independentVar lookup="row">/ja37/accelerations/pilot-G</independentVar>
-                    <tableData>
-                       -1.20           0
-                       -0.20           0.75
-                    </tableData>
-                </table>
-            </function>
-            <output>/autopilot/internal/max-elevator</output>
-        </fcs_function>
-
-    </channel>
-
-
     <!--<channel name="View">
       <summer name="position/h-sl-pilot-ft">
         <input>position/h-sl-ft</input>
         <input>position/selection-view-offset</input>
       </summer>
     </channel>-->
-
-
 
     <channel execrate="8" name="Wings">
         <aerosurface_scale name="names/structural/Wings-normal-factor">
