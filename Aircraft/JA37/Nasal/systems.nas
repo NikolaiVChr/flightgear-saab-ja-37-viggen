@@ -117,14 +117,13 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/maxG", getprop("fdm/jsbsim/fcs/elevator/cmg-limit-pos"));
   setprop("/sim/gui/dialogs/systems-monitor/minG", getprop("fdm/jsbsim/fcs/elevator/cmg-limit-neg"));
   var ram = getprop("fdm/jsbsim/systems/electrical/generator-reserve-pos-norm");
+  var ramStr = "transit";
   if (ram == 0) {
-    ram = "retracted";
+    ramStr = "retracted";
   } elsif (ram == 1) {
-    ram = "extended";
-  } else {
-    ram = "transit";
+    ramStr = "extended";
   }
-  setprop("/sim/gui/dialogs/systems-monitor/ram", ram);
+  setprop("/sim/gui/dialogs/systems-monitor/ram", ramStr);
   setprop("/sim/gui/dialogs/systems-monitor/ram-rpm", getprop("fdm/jsbsim/systems/electrical/generator-reserve-rpm"));
   setprop("/sim/gui/dialogs/systems-monitor/buffet", getprop("ja37/effect/buffeting")*100);
   var gate = getprop("/ja37/systems/tertiary-opening");
