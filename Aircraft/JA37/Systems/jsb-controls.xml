@@ -535,10 +535,10 @@
             </traverse>
             <clipto>
                 <min>
-                    <property>-systems/hydraulics/flight-surface-actuation</property>
+                    -systems/hydraulics/flight-surface-actuation
                 </min>
                 <max>
-                    <property>systems/hydraulics/flight-surface-actuation</property>
+                    systems/hydraulics/flight-surface-actuation
                 </max>
             </clipto>
             <output>fcs/elevator/pos-norm</output>
@@ -822,10 +822,10 @@
             </traverse>
             <clipto>
                 <min>
-                    <property>-systems/hydraulics/flight-surface-actuation</property>
+                    -systems/hydraulics/flight-surface-actuation
                 </min>
                 <max>
-                    <property>systems/hydraulics/flight-surface-actuation</property>
+                    systems/hydraulics/flight-surface-actuation
                 </max>
             </clipto>
             <output>fcs/aileron/pos-norm</output>
@@ -1121,10 +1121,10 @@
             </traverse>
             <clipto>
                 <min>
-                    <property>-systems/hydraulics/flight-surface-actuation</property>
+                    -systems/hydraulics/flight-surface-actuation
                 </min>
                 <max>
-                    <property>systems/hydraulics/flight-surface-actuation</property>
+                    systems/hydraulics/flight-surface-actuation
                 </max>
             </clipto>
             <output>fcs/rudder-pos-norm</output>
