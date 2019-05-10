@@ -320,7 +320,7 @@
 				<sum>
 					<quotient>
 						<property>autoflight/pitch/alt/vs-clipped</property>
-						<value>14</value> <!-- ALT gain * 2 -->
+						<value>14</value> <!-- ALT gain * -2 -->
 					</quotient>
 					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
 				</sum>
