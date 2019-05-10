@@ -3076,23 +3076,23 @@ TI: ALFA and VIKT now only display when gears extended and in landing mode.
 Sim: The TILS switch now toggles the TILS system, and is on by default. If off and ILS is manually set and no landing base coded in, ILS will still work.
 HUD: Fixed that at extreme pitch the echoes or Fixes would not be displayed correct.
 GUI: Pressing ctrl-shift-q in cockpit view will now zoom in on HUD. The HUD view has been removed.
-Control: {it0uchpods} Overhaul Autopilot Roll
+Control: {Octal450} Overhaul Autopilot Roll
 Control: Fixed the stick had aileron control in CSS deadzone.
-Control: {it0uchpods} Autopilot Roll Tweaking
-Control: {it0uchpods} Overhaul A/T
-Control: {it0uchpods} Overhaul AP Pitch and Tweak
+Control: {Octal450} Autopilot Roll Tweaking
+Control: {Octal450} Overhaul A/T
+Control: {Octal450} Overhaul AP Pitch and Tweak
 Control: Allow A/P elevator to pull more G when banked.
-Control: {it0uchpods} Limit u_min G now dynamic
+Control: {Octal450} Limit u_min G now dynamic
 Control: Fixed pitch trim was negated and too large effect.
-Control: {it0uchpods} Autopilot logic fixes, rounding, predictino
-Control: {it0uchpods} Autopilot Pitch update, disable damper on AP Pitch
-Doc: Added it0uchpods to author document.
+Control: {Octal450} Autopilot logic fixes, rounding, predictino
+Control: {Octal450} Autopilot Pitch update, disable damper on AP Pitch
+Doc: Added Octal450 to author document.
 Control: Moved some properties to set file.
-Control: {it0uchpods} Adjust Target RoC PID for new pitch
-Control: {it0uchpods} Fix Pitch CSS not working properly, improve CSS
+Control: {Octal450} Adjust Target RoC PID for new pitch
+Control: {Octal450} Fix Pitch CSS not working properly, improve CSS
 Control: Better delay of halt AP variables.
 Control: Nasal A/P loop twice as slow.
-Control: {it0uchpods} Attempt to fix Alt oscilation issue
+Control: {Octal450} Attempt to fix Alt oscilation issue
 Control: Remove delay for engaging AP CSS.
 Control: Fixed bad init of A/P halt properties.
 Sim: JA Route-manager and TI now supports multiple flightplans. (FG 2017.3.1+)
@@ -3250,7 +3250,7 @@ Model: Changed the blue color on livery 32 Blue Peter.
 Model: Made the Fly-By View less predictable.
 Model: Made a HD version of livery 11.
 Sound: Made the datapanel switches click.
-Control: {it0uchpods} Fix missing minus sign in Ki in A/P.
+Control: {Octal450} Fix missing minus sign in Ki in A/P.
 MI: FPI is now fixed to indicator middle just like TI, horizon and ground symbol moves in relation to it.
 MI: Radar echoes now follow horizon rotation.
 TI: Small fix to how horizon moves in relation to FPI.
@@ -3395,11 +3395,11 @@ Control: Made all rotational inputs be independent from rotational winds, as the
 
 4.309 - 2017 March 4
 =====
-Control: {it0uchpods} Fixed many A/P bugs.
-Control: {it0uchpods} Fixed roll hold being affected by wind.
-Control: {it0uchpods} Fixed pitch hold worked only with integers.
-Control: {it0uchpods} Fixed A/P oscilations.
-Control: {it0uchpods} Upgrade A/P rate based control system to latest IV system.
+Control: {Octal450} Fixed many A/P bugs.
+Control: {Octal450} Fixed roll hold being affected by wind.
+Control: {Octal450} Fixed pitch hold worked only with integers.
+Control: {Octal450} Fixed A/P oscilations.
+Control: {Octal450} Upgrade A/P rate based control system to latest IV system.
 Sim: Fixed that some method were called to change canvas, before the script they were changing had been loaded.
 HUD: Upper half squares is now radar echoes, with the selection having velocity vector and distance to set it apart.
 HUD: Upper semi circle is now radar lock.
@@ -3432,7 +3432,7 @@ TI: Bulls-eye infobox shows relation from bulls-eye to cursor. When cursor is in
 DAP: Can now edit or delete bulls-eye (edit LV-area 179).
 TI: When cursor not active bulls-eye show relation to radar selection.
 TI: Bulls-eye infobox now uses degree symbol.
-Sim: Authors listed in Launcher now includes it0uchpods and Spectre, since the authors font is smaller in 2018.1.1.
+Sim: Authors listed in Launcher now includes Octal450 and Spectre, since the authors font is smaller in 2018.1.1.
 TI: The cursor is now able to select and command steer order on aircraft on SVY instead of randomly whats behind it.
 TI: SVY is no longer shown in MSDA menu. (not 100% sure this is correct, but it makes sense..)
 TI: Made bulls-eye symbol smaller.
@@ -3491,7 +3491,7 @@ Arms: print statements optimization.
 Arms: Fixed callsign for LOAL missiles.
 Sim: Damage update.
 Arms: attempt to load only single xml when firing, didnt work with smoke/explosion though.
-Sim: {it0uchpods} Add modified distance zooming for exterior views.
+Sim: {Octal450} Add modified distance zooming for exterior views.
 Control: {Colin Geniet} Adds properties for cursor controls.
 Control: {Colin Geniet} Adds new properties for cursor movements and trigger.
 Control: {Colin Geniet} Read input from those properties instead of flight controls.
@@ -3519,7 +3519,7 @@ Animation: Key 'F6' now ejects the pilot.
 4.313 - 2018 December 7 (2018.3 release)
 =====
 Effect: Heavy rain now also do spray.
-GUI: {it0uchpods} View system overhaul.
+GUI: {Octal450} View system overhaul.
 Model: {Richard} Added fallback model index. Also added a Viggen fallback model to 2018.3.1 $FGDATA.
 Arms: Updated missile code.
 Effect: Normal map is now DDS format.

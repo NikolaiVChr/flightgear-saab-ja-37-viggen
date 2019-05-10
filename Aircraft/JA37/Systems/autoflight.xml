@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 
 <!-- Viggen Autoflight System -->
-<!-- Copyright (c) 2019 Joshua Davidson (it0uchpods) -->
+<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
 
 <system name="Viggen Autoflight">
 	
 	<!-- 0 GSA, 1 STICK, 2 ATT, 3 ALT -->
-	<property value="0">tuning</property>
 	
 	<channel name="Autoflight: Logic">
 		
@@ -307,15 +306,21 @@
 			</test>
 		</switch>
 		
+		<pure_gain name="autoflight/pitch/alt/vs-clipped">
+			<input>/instrumentation/gps/indicated-vertical-speed</input>
+			<gain>1.0</gain>
+			<clipto> <!-- 750ft maximum deviation -->
+				<min>-5250</min>
+				<max>5250</max>
+			</clipto>
+		</pure_gain>
+		
 		<fcs_function name="autoflight/pitch/alt/predicted">
 			<function>
 				<sum>
 					<quotient>
-						<property>/instrumentation/gps/indicated-vertical-speed</property>
-						<product>
-							<property>autoflight/pitch/alt/gain</property>
-							<value>-1</value>
-						</product>
+						<property>autoflight/pitch/alt/vs-clipped</property>
+						<value>14</value> <!-- ALT gain * 2 -->
 					</quotient>
 					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
 				</sum>
@@ -344,64 +349,23 @@
 					<value>100</value>
 				</product>
 			</function>
+			<clipto>
+				<min>0</min>
+				<max>70000</max>
+			</clipto>
 		</fcs_function>
 		
-		<fcs_function name="autoflight/pitch/alt/error">
-			<function>
-				<difference>
-					<property>/instrumentation/altimeter/indicated-altitude-ft</property>
-					<property>autoflight/pitch/alt/target</property>
-					<value>2</value>
-				</difference>
-			</function>
-		</fcs_function>
-		
-		<switch name="autoflight/pitch/vs/max">
-			<default value="autoflight/pitch/vs/max"/>
-			<test logic="AND" value="1000">
-				autoflight/pitch/alt/error ge -100
-				autoflight/pitch/alt/error le 100
-			</test>
-			<test logic="AND" value="/instrumentation/gps/indicated-vertical-speed">
-				autoflight/pitch/alt-hold-active ne 1
-				autoflight/pitch/alt/error le 0
-			</test>
-			<test logic="AND" value="1000">
-				autoflight/pitch/alt-hold-active ne 1
-				autoflight/pitch/alt/error gt 0
-			</test>
-			<clipto>
-				<min>1000</min>
-				<max>6000</max>
-			</clipto>
-		</switch>
-		
-		<switch name="autoflight/pitch/vs/min">
-			<default value="autoflight/pitch/vs/min"/>
-			<test logic="AND" value="-1000">
-				autoflight/pitch/alt/error ge -100
-				autoflight/pitch/alt/error le 100
-			</test>
-			<test logic="AND" value="/instrumentation/gps/indicated-vertical-speed">
-				autoflight/pitch/alt-hold-active ne 1
-				autoflight/pitch/alt/error gt 0
-			</test>
-			<test logic="AND" value="-1000">
-				autoflight/pitch/alt-hold-active ne 1
-				autoflight/pitch/alt/error le 0
-			</test>
-			<clipto>
-				<min>-6000</min>
-				<max>-1000</max>
-			</clipto>
-		</switch>
+		<summer name="autoflight/pitch/alt/error">
+			<input>/instrumentation/altimeter/indicated-altitude-ft</input>
+			<input>-autoflight/pitch/alt/target</input>
+		</summer>
 		
 		<pure_gain name="autoflight/pitch/vs/target">
 			<input>autoflight/pitch/alt/error</input>
-			<gain>autoflight/pitch/alt/gain</gain>
+			<gain>-7</gain>
 			<clipto>
-				<min>autoflight/pitch/vs/min</min>
-				<max>autoflight/pitch/vs/max</max>
+				<min>-3000</min>
+				<max>3000</max>
 			</clipto>
 		</pure_gain>
 	

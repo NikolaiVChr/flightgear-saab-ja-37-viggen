@@ -50,7 +50,7 @@ Enrico Castaldi - Forum name: Spectre
 ===================
 Many of the liveries.
 
-Joshua Davidson - Forum name: it0uchpods
+Joshua Davidson - Forum name: Octal450
 ========================================
 Flight Control System/Autopilot
 Modified the view system.
