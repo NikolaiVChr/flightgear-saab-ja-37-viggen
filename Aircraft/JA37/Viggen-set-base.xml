@@ -854,9 +854,6 @@
                 <can-engage-out type="bool">0</can-engage-out>
                 <mode type="int">0</mode>
                 <pitch n="0">
-                    <alt n="0">
-                        <gain type="double">-7</gain>
-                    </alt>
                     <d-gain type="double">0</d-gain>
                     <i-gain type="double">0</i-gain>
                     <master-pid type="double">0</master-pid>

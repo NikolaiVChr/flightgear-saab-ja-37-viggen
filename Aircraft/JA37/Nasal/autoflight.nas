@@ -1,5 +1,5 @@
 # Viggen Autoflight
-# Copyright (c) 2019 Joshua Davidson (it0uchpods)
+# Copyright (c) 2019 Joshua Davidson (Octal450)
 
 var canEngage = props.globals.getNode("/fdm/jsbsim/autoflight/can-engage");
 var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STICK, 2 ATT, 3 ALT
