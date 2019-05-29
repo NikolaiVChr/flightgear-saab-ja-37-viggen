@@ -24,6 +24,11 @@ var rcs_database = {
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
     "F-16":                     2,      #guess
+    "F-16":                     2,      #guess
+    "YF-16":                    2,      #guess
+    "F-16CJ":                   2,      #guess
+    "f16":                      2,      #guess
+    "MiG-29":                   6,      #guess
     "f15-bs":                   0.001,   # low so it dont show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
@@ -63,6 +68,7 @@ var rcs_database = {
     "missile_frigate":          450,    #estimated with blender
     "frigate":                  450,    #estimated with blender
     "tower":                    60,     #estimated with blender
+    "gci":                      50,     #guess
 };
 
 var prevVisible = {};
