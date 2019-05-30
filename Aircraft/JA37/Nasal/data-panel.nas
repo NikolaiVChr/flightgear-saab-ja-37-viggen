@@ -777,7 +777,7 @@ var disp = func {
             var lat = ja37.convertDegreeToDispStringLat(la);
             display = sprintf("%s",lat);
           }
-        } elsif (address != nil and address > 1 and address < 190) {
+        } elsif (address != nil and address >= 1 and address < 190) {
           if (cycle == 0) {
             display = sprintf("%03d", address);
           } elsif (cycle == 1) {
