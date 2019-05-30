@@ -610,7 +610,7 @@ var setTime = func {
   var hour   = num(substr(input,0,2));
   var minute = num(substr(input,2,2));
   var second = num(substr(input,4,2));
-  if (hour>23 or minute > 60 or second > 60) {
+  if (hour>23 or minute > 59 or second > 59) {
     return FALSE;
   }
   var old_dt = getprop("/sim/time/gmt");
@@ -625,7 +625,7 @@ var setDate = func {
   var year   = num(substr(input,0,2));
   var month = num(substr(input,2,2));
   var day = num(substr(input,4,2));
-  if (year < 79) {
+  if (year > 79) {
     year = year+1900;
   } else {
     year = year+2000;
@@ -633,7 +633,7 @@ var setDate = func {
   if (month>12 or month < 1) {
     return FALSE;
   }
-  var maxDay = monthmax[day-1];
+  var maxDay = monthmax[month-1];
   if (day>maxDay or day<1) {
     return FALSE;
   }
