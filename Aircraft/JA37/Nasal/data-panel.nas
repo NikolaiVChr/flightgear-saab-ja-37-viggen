@@ -792,7 +792,7 @@ var disp = func {
           } else {
             var point = lv["p"~sprintf("%03d", address)];
             if (point != nil) {
-              var la = point.lon;
+              var la = point.lat;
               var lat = ja37.convertDegreeToDispStringLat(la);
               display = sprintf("%s",lat);
             } else {
