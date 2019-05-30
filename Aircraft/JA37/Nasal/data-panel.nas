@@ -673,7 +673,7 @@ var manyChar = func (char, count) {
 }
 
 var isStateChanged = func {
-  return settingPrevKnob != settingKnob or settingPrevDir != settingDir;
+  return settingPrevKnob != settingKnob or settingPrevDir != settingDir or settingPrevPos != settingPos;
 }
 
 var updateCycleMax = func {
