@@ -288,7 +288,7 @@ var main = func {
           var low = num(substr(input,0,3));
           var high = num(substr(input,3,3));
           printDA("DAP: Request to delete TI address "~low~" to "~high);
-          if (LV_lock == FALSE and low < high and high < 200 and low > 000) {
+          if (LV_lock == FALSE and low <= high and high < 200 and low > 000) {
             digit = 0;
             input = inputDefault;
             if (179 >= low and 179 <= high) {
