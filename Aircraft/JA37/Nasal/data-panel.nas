@@ -195,25 +195,20 @@ var main = func {
       
   } elsif (settingDir == OUT) {
     # MSDA/OUT
+    if (isStateChanged()) {
+      updateCycleMax();
+    }
     if (ok==HOLD and cycle != -1) {
-      cycle += 1;
-      if (cycle > cycleMax) {
-        cycle = 0;
-      }
+      cycleDisp();
     }
-    if ((settingKnob == KNOB_DATE) or (settingKnob == KNOB_LOLA) or (settingKnob == KNOB_TI)) {
-      if (cycle == -1) {
-        cycle = 0;
-      }
-      if (settingKnob == KNOB_TI) {
-        TI.ti.displayFTime = TRUE;
-      }
-    } else {
-      cycle = -1;
+    if (settingKnob == KNOB_TI) {
+      TI.ti.displayFTime = TRUE;
     }
-
   } else {
     # MSDA/IN
+    if (isStateChanged()) {
+      updateCycleMax();
+    }
     if (settingKnob == KNOB_TI) {
       # to clear the points type in 654321 and click RENSA that will clear the lock
       # then 013124 typed in means clear from 13 to 124.
@@ -221,8 +216,6 @@ var main = func {
       #
       # TODO: LOLA should only be 4 digits and LO or LA displayed to the right of those?
       if (isStateChanged()) {
-        cycle = 0;
-        cycleMax = 2;
         digit = 0;
         input = inputDefault;
         LV_lock = TRUE;
@@ -389,8 +382,6 @@ var main = func {
       }
     } elsif (settingKnob == KNOB_DATE) {
       if (isStateChanged()) {
-        cycle = 0;
-        cycleMax = 1;
         digit = 0;
         input = inputDefault;
       } else {
@@ -450,8 +441,6 @@ var main = func {
       resetSign();
     } elsif (settingKnob == KNOB_FUEL) {
       if (isStateChanged()) {
-          cycle = -1;
-          cycleMax = -1;
           digit = 0;
           input = input2Default;
           resetSign();
@@ -481,8 +470,6 @@ var main = func {
       }
     } elsif (settingKnob == KNOB_DATA) {
       if (isStateChanged()) {
-          cycle = -1;
-          cycleMax = -1;
           digit = 0;
           input = inputDefault;
           resetSign();
@@ -539,8 +526,6 @@ var main = func {
       }
     } elsif (settingKnob == KNOB_REG) {
       if (isStateChanged()) {
-          cycle = -1;
-          cycleMax = -1;
           digit = 0;
           input = inputDefault;
           resetSign();
@@ -689,6 +674,21 @@ var manyChar = func (char, count) {
 
 var isStateChanged = func {
   return settingPrevKnob != settingKnob or settingPrevDir != settingDir;
+}
+
+var updateCycleMax = func {
+  if (settingKnob == KNOB_TI) {
+    cycleMax = 2;
+  } elsif (settingKnob == KNOB_LOLA or settingKnob == KNOB_DATE) {
+    cycleMax = 1;
+  } else {
+    cycleMax = -1;
+  }
+  if (cycleMax == -1) {
+    cycle = -1;
+  } else {
+    cycle = 0;
+  }
 }
 
 var disp = func {
