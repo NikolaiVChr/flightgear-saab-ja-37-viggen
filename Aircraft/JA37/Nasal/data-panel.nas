@@ -856,7 +856,7 @@ var disp = func {
           display = sprintf("150%01d00", !getprop("ja37/hud/units-metric"));
       } elsif (address != nil and address==30) {
           # GPS Installed
-          display = sprintf("30%01d000", !getprop("ja37/navigation/gps-installed"));
+          display = sprintf("30%01d000", getprop("ja37/navigation/gps-installed"));
       } else {
         display = "000000";
       }
@@ -939,7 +939,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # FPLDATA
 # interoperability:  15a1cd, swedish: 15a0cd.
 # TI backlit intensity of frame buttons: 06xxxd
-# GPS-reciever installed: 300bcd (yes), 301bcd (no)
+# GPS-reciever installed: 301bcd (yes), 300bcd (no)
 
 # output UD UT
 #
