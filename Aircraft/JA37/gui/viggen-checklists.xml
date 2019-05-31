@@ -276,6 +276,17 @@
             <item>
                 <name>Roll trim</name>
                 <value>Check that its centered (green)</value>
+                <condition>
+                    <greater-than>
+                        <property>/ja37/avionics/roll-trim-centered</property>
+                        <value>0.01</value>
+                    </greater-than>
+                </condition>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/aileron-trim</property>
+                    <value>0</value>
+                </binding>
                 <marker>
                     <x-m>-3.9008</x-m>
                     <y-m>-0.4116</y-m>
@@ -286,6 +297,17 @@
             <item>
                 <name>Yaw trim</name>
                 <value>Check that its centered (white)</value>
+                <condition>
+                    <greater-than>
+                        <property>/ja37/avionics/yaw-trim-centered</property>
+                        <value>0.01</value>
+                    </greater-than>
+                </condition>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/rudder-trim</property>
+                    <value>0</value>
+                </binding>
                 <marker>
                     <x-m>-3.3628</x-m>
                     <y-m>-0.4604</y-m>
