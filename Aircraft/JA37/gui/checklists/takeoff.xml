@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>Takeoff</title>
+    <item>
+        <name>Transponder</name>
+        <value>ON</value>
+        <marker>
+            <x-m>-3.4174</x-m>
+            <y-m>0.2893</y-m>
+            <z-m>-0.0099</z-m>
+            <scale>1.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Throttle</name>
+        <value>OPEN FULL (PG Up)</value>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/controls/engines/engine[0]/throttle</property>
+                    <value>0.98</value>
+                </greater-than>
+            </and>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>1</value>
+        </binding>
+        <marker>
+            <x-m>-3.6000</x-m>
+            <y-m>-0.4587</y-m>
+            <z-m>0.0959</z-m>
+            <scale>7.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Parking Brakes</name>
+        <value>OFF (shift-B)</value>
+        <marker>
+            <x-m>-3.9554</x-m>
+            <y-m>-0.0595</y-m>
+            <z-m>0.0686</z-m>
+            <scale>2.4711</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>/controls/gear/brake-parking</property>
+                <value>0</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/gear/brake-parking</property>
+            <value>0</value>
+        </binding>
+    </item>
+    <item>
+        <name>Rotation speed</name>
+        <value>Distance line in HUD will show marker for rotation</value>
+    </item>
+    <item>
+        <name>Takeoff</name>
+        <condition>
+            <equals>
+                <property>gear/gear/wow</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Gear</name>
+        <value>UP (G)</value>
+        <marker>
+            <x-m>-3.0777</x-m>
+            <y-m>-0.3537</y-m>
+            <z-m>-0.0413</z-m>
+            <scale>5.7603</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>controls/gear/gear-down</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Reduce to mil thrust</name>
+        <value>Throttle down (PageDown)</value>
+        <marker>
+            <x-m>-3.6000</x-m>
+            <y-m>-0.4587</y-m>
+            <z-m>0.0959</z-m>
+            <scale>7.0000</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/propulsion/engine/zone</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </item>
+</PropertyList>

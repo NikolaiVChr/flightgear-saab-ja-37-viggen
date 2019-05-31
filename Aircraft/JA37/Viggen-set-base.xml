@@ -444,8 +444,6 @@
             </aerotow>
         </hitches>
 
-        <checklists include="gui/viggen-checklists.xml"/>
-
 
         <!--**********************************************************************
 

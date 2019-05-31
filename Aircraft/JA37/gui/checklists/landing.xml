@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>Land</title>
+    <item>
+        <name>Landing speed</name>
+        <value>195-249 Km/h</value>
+        <condition>
+            <greater-than>
+                <property>/velocities/airspeed-kt</property>
+                <value>105</value>
+            </greater-than>
+            <less-than>
+                <property>/velocities/airspeed-kt</property>
+                <value>134</value>
+            </less-than>
+        </condition>
+    </item>
+    <item>
+        <name>Gear</name>
+        <value>DOWN (G)</value>
+        <marker>
+            <x-m>-3.0777</x-m>
+            <y-m>-0.3537</y-m>
+            <z-m>-0.0413</z-m>
+            <scale>5.7603</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>controls/gear/gear-down</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Angle of attack</name>
+        <value>Up to 16.5 degrees</value>
+    </item>
+    <item>
+        <name>Touchdown</name>
+        <value>LAND</value>
+        <condition>
+            <equals>
+                <property>gear/gear/wow</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Thrust</name>
+        <value>Reverse</value>
+        <marker>
+            <x-m>-3.9481</x-m>
+            <y-m>-0.3048</y-m>
+            <z-m>0.2715</z-m>
+            <scale>5.0000</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>engines/engine/is-reversed</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Throttle</name>
+        <value>OPEN FULL (PG Up)</value>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/controls/engines/engine[0]/throttle</property>
+                    <value>0.98</value>
+                </greater-than>
+            </and>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>1</value>
+        </binding>
+        <marker>
+            <x-m>-3.6000</x-m>
+            <y-m>-0.4587</y-m>
+            <z-m>0.0959</z-m>
+            <scale>7.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Brake</name>
+        <value>ON (B)</value>
+    </item>
+</PropertyList>
