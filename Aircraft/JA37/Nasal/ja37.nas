@@ -2508,13 +2508,23 @@ dynamic_view.register(func {
    });
 
 var convertDoubleToDegree = func (value) {
-        var sign = value < 0 ? -1 : 1;
-        var abs = math.abs(math.round(value * 1000000));
-        var dec = math.fmod(abs,1000000) / 1000000;
-        var deg = math.floor(abs / 1000000) * sign;
-        var min = math.floor(dec * 60);
-        var sec = math.round((dec - min / 60) * 3600);#TODO: unsure of this round()
-        return [deg,min,sec];
+  var sign = value < 0 ? -1 : 1;
+  value = math.abs(value);
+  var deg = math.floor(value);
+  value = math.fmod(value,1) * 60;
+  var min = math.floor(value);
+  value = math.fmod(value,1) * 60;
+  var sec = math.round(value);
+  # Because of the rounding, sec may be 60.
+  if (sec == 60) {
+    sec = 0;
+    min = min + 1;
+    if (min == 60) {
+      min = 0;
+      deg = deg + 1;
+    }
+  }
+  return [sign,deg,min,sec];
 }
 var convertDegreeToStringLat = func (lat) {
   lat = convertDoubleToDegree(lat);
@@ -2522,7 +2532,7 @@ var convertDegreeToStringLat = func (lat) {
   if (lat[0]<0) {
     s = "S";
   }
-  return sprintf("%02d %02d %02d%s",math.abs(lat[0]),lat[1],lat[2],s);
+  return sprintf("%02d %02d %02d%s",lat[1],lat[2],lat[3],s);
 }
 var convertDegreeToStringLon = func (lon) {
   lon = convertDoubleToDegree(lon);
@@ -2530,16 +2540,23 @@ var convertDegreeToStringLon = func (lon) {
   if (lon[0]<0) {
     s = getprop("ja37/hud/units-metric")?"V":"W";
   }
-  return sprintf("%03d %02d %02d%s",math.abs(lon[0]),lon[1],lon[2],s);
+  return sprintf("%03d %02d %02d%s",lon[1],lon[2],lon[3],s);
 }
 var convertDegreeToDispStringLat = func (lat) {
   lat = convertDoubleToDegree(lat);
-
-  return sprintf("%02d%02d%02d",lat[0],lat[1],lat[2]);
+  var s = "";
+  if (lat[0]<0) {
+    s = "-";
+  }
+  return sprintf("%s%02d%02d%02d",s,lat[1],lat[2],lat[3]);
 }
 var convertDegreeToDispStringLon = func (lon) {
   lon = convertDoubleToDegree(lon);
-  return sprintf("%03d%02d%02d",lon[0],lon[1],lon[2]);
+  var s = "";
+  if (lon[0]<0) {
+    s = "-";
+  }
+  return sprintf("%s%03d%02d%02d",s,lon[1],lon[2],lon[3]);
 }
 var convertDegreeToDouble = func (hour, minute, second) {
   var d = hour+minute/60+second/3600;
