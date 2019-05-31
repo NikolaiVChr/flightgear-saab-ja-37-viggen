@@ -290,7 +290,7 @@
         <checklists>
             <group>
                 <name>AJ37 Normal Operations</name>
-                <checklist include="gui/checklists/preflight.xml"/>
+                <checklist include="gui/checklists/aj37-preflight.xml"/>
                 <checklist include="gui/checklists/battery-start.xml"/>
                 <checklist include="gui/checklists/external-start.xml"/>
                 <checklist include="gui/checklists/takeoff.xml"/>

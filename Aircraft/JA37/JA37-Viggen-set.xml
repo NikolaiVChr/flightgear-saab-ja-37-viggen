@@ -339,7 +339,7 @@
         <checklists>
             <group>
                 <name>JA37 Normal Operations</name>
-                <checklist include="gui/checklists/preflight.xml"/>
+                <checklist include="gui/checklists/ja37-preflight.xml"/>
                 <checklist include="gui/checklists/battery-start.xml"/>
                 <checklist include="gui/checklists/external-start.xml"/>
                 <checklist include="gui/checklists/takeoff.xml"/>
