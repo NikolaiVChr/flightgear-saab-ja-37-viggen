@@ -103,7 +103,7 @@
                               Exhaust flame
   
 -->
-    <path>Aircraft/Generic/effects/Thruster/thrust_flame.ac</path>
+    <path>Aircraft/Generic/Effects/Thruster/thrust_flame.ac</path>
    
     <offsets>
       <x-m>1.9</x-m>
