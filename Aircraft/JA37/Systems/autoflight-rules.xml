@@ -23,7 +23,8 @@
 			<max>180</max>
 		</period>
 	</filter>
-		<filter>
+	
+	<filter>
 		<name>PITCH DEG SYNC</name>
 		<type>gain</type>
 		<gain>1.0</gain>
