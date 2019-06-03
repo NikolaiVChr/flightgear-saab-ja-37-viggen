@@ -195,25 +195,20 @@ var main = func {
       
   } elsif (settingDir == OUT) {
     # MSDA/OUT
+    if (isStateChanged()) {
+      updateCycleMax();
+    }
     if (ok==HOLD and cycle != -1) {
-      cycle += 1;
-      if (cycle > cycleMax) {
-        cycle = 0;
-      }
+      cycleDisp();
     }
-    if ((settingKnob == KNOB_DATE) or (settingKnob == KNOB_LOLA) or (settingKnob == KNOB_TI)) {
-      if (cycle == -1) {
-        cycle = 0;
-      }
-      if (settingKnob == KNOB_TI) {
-        TI.ti.displayFTime = TRUE;
-      }
-    } else {
-      cycle = -1;
+    if (settingKnob == KNOB_TI) {
+      TI.ti.displayFTime = TRUE;
     }
-
   } else {
     # MSDA/IN
+    if (isStateChanged()) {
+      updateCycleMax();
+    }
     if (settingKnob == KNOB_TI) {
       # to clear the points type in 654321 and click RENSA that will clear the lock
       # then 013124 typed in means clear from 13 to 124.
@@ -221,8 +216,6 @@ var main = func {
       #
       # TODO: LOLA should only be 4 digits and LO or LA displayed to the right of those?
       if (isStateChanged()) {
-        cycle = 0;
-        cycleMax = 2;
         digit = 0;
         input = inputDefault;
         LV_lock = TRUE;
@@ -288,7 +281,7 @@ var main = func {
           var low = num(substr(input,0,3));
           var high = num(substr(input,3,3));
           printDA("DAP: Request to delete TI address "~low~" to "~high);
-          if (LV_lock == FALSE and low < high and high < 200 and low > 000) {
+          if (LV_lock == FALSE and low <= high and high < 200 and low > 000) {
             digit = 0;
             input = inputDefault;
             if (179 >= low and 179 <= high) {
@@ -389,8 +382,6 @@ var main = func {
       }
     } elsif (settingKnob == KNOB_DATE) {
       if (isStateChanged()) {
-        cycle = 0;
-        cycleMax = 1;
         digit = 0;
         input = inputDefault;
       } else {
@@ -450,8 +441,6 @@ var main = func {
       resetSign();
     } elsif (settingKnob == KNOB_FUEL) {
       if (isStateChanged()) {
-          cycle = -1;
-          cycleMax = -1;
           digit = 0;
           input = input2Default;
           resetSign();
@@ -481,8 +470,6 @@ var main = func {
       }
     } elsif (settingKnob == KNOB_DATA) {
       if (isStateChanged()) {
-          cycle = -1;
-          cycleMax = -1;
           digit = 0;
           input = inputDefault;
           resetSign();
@@ -539,8 +526,6 @@ var main = func {
       }
     } elsif (settingKnob == KNOB_REG) {
       if (isStateChanged()) {
-          cycle = -1;
-          cycleMax = -1;
           digit = 0;
           input = inputDefault;
           resetSign();
@@ -625,7 +610,7 @@ var setTime = func {
   var hour   = num(substr(input,0,2));
   var minute = num(substr(input,2,2));
   var second = num(substr(input,4,2));
-  if (hour>23 or minute > 60 or second > 60) {
+  if (hour>23 or minute > 59 or second > 59) {
     return FALSE;
   }
   var old_dt = getprop("/sim/time/gmt");
@@ -640,7 +625,7 @@ var setDate = func {
   var year   = num(substr(input,0,2));
   var month = num(substr(input,2,2));
   var day = num(substr(input,4,2));
-  if (year < 79) {
+  if (year > 79) {
     year = year+1900;
   } else {
     year = year+2000;
@@ -648,7 +633,7 @@ var setDate = func {
   if (month>12 or month < 1) {
     return FALSE;
   }
-  var maxDay = monthmax[day-1];
+  var maxDay = monthmax[month-1];
   if (day>maxDay or day<1) {
     return FALSE;
   }
@@ -688,7 +673,22 @@ var manyChar = func (char, count) {
 }
 
 var isStateChanged = func {
-  return settingPrevKnob != settingKnob or settingPrevDir != settingDir;
+  return settingPrevKnob != settingKnob or settingPrevDir != settingDir or settingPrevPos != settingPos;
+}
+
+var updateCycleMax = func {
+  if (settingKnob == KNOB_TI) {
+    cycleMax = 2;
+  } elsif (settingKnob == KNOB_LOLA or settingKnob == KNOB_DATE) {
+    cycleMax = 1;
+  } else {
+    cycleMax = -1;
+  }
+  if (cycleMax == -1) {
+    cycle = -1;
+  } else {
+    cycle = 0;
+  }
 }
 
 var disp = func {
@@ -777,7 +777,7 @@ var disp = func {
             var lat = ja37.convertDegreeToDispStringLat(la);
             display = sprintf("%s",lat);
           }
-        } elsif (address != nil and address > 1 and address < 190) {
+        } elsif (address != nil and address >= 1 and address < 190) {
           if (cycle == 0) {
             display = sprintf("%03d", address);
           } elsif (cycle == 1) {
@@ -792,7 +792,7 @@ var disp = func {
           } else {
             var point = lv["p"~sprintf("%03d", address)];
             if (point != nil) {
-              var la = point.lon;
+              var la = point.lat;
               var lat = ja37.convertDegreeToDispStringLat(la);
               display = sprintf("%s",lat);
             } else {
@@ -856,7 +856,7 @@ var disp = func {
           display = sprintf("150%01d00", !getprop("ja37/hud/units-metric"));
       } elsif (address != nil and address==30) {
           # GPS Installed
-          display = sprintf("30%01d000", !getprop("ja37/navigation/gps-installed"));
+          display = sprintf("30%01d000", getprop("ja37/navigation/gps-installed"));
       } else {
         display = "000000";
       }
@@ -939,7 +939,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # FPLDATA
 # interoperability:  15a1cd, swedish: 15a0cd.
 # TI backlit intensity of frame buttons: 06xxxd
-# GPS-reciever installed: 300bcd (yes), 301bcd (no)
+# GPS-reciever installed: 301bcd (yes), 300bcd (no)
 
 # output UD UT
 #
