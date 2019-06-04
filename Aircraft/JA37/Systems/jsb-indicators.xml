@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <system name="indicators">
+    <property value="0">unused</property> <!-- remove after lights fixed 890-1174 -->
 
     <!-- JA-37Di pilots Manual page 589 and forward. Also bits of info scattered all over the document.
          JA-37C pilots Manual page 572 and forward. Also bits of info scattered all over the document.
@@ -654,7 +655,7 @@
                     </eq>
                     <and>
                         <eq>
-                            <property>/ja37/avionics/auto-throttle-on</property>
+                            <property>unused</property>
                             <value>1</value>
                         </eq>
                         <eq>
@@ -670,12 +671,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/ja37/avionics/auto-throttle-on</property>
+                        <property>unused</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/ja37/avionics/autopilot</property>
+                            <property>unused</property>
                             <value>0</value>
                         </eq>
                         <eq>
@@ -891,7 +892,7 @@
             <function>
                 <and>
                     <gt>
-                        <property>/ja37/avionics/autopilot-mode</property>
+                        <property>unused</property>
                         <value>0</value>
                     </gt>
                     <or>
@@ -925,7 +926,7 @@
                     </eq>
                     <and>
                         <gt>
-                            <property>/ja37/avionics/autopilot-mode</property>
+                            <property>unused</property>
                             <value>0</value>
                         </gt>
                         <or>
@@ -989,7 +990,7 @@
                         </gt>
                     </or>
                     <gt>
-                        <property>/ja37/avionics/autopilot-mode</property>
+                        <property>unused</property>
                         <value>1</value>
                     </gt>
                 </and>
@@ -1001,7 +1002,7 @@
                 <or>
                     <and>
                         <gt>
-                            <property>/ja37/avionics/autopilot-mode</property>
+                            <property>unused</property>
                             <value>1</value>
                         </gt>
                         <or>
@@ -1092,7 +1093,7 @@
                         </gt>
                     </or>
                     <gt>
-                        <property>/ja37/avionics/autopilot-mode</property>
+                        <property>unused</property>
                         <value>2</value>
                     </gt>
                 </and>
@@ -1104,7 +1105,7 @@
                 <or>
                     <and>
                         <gt>
-                            <property>/ja37/avionics/autopilot-mode</property>
+                            <property>unused</property>
                             <value>2</value>
                         </gt>
                         <or>
@@ -1906,11 +1907,11 @@
             <function>
                 <and>
                     <eq>
-                        <property>/ja37/avionics/autopilot</property>
+                        <property>unused</property>
                         <value>1</value>
                     </eq>
                         <eq>
-                            <property>/ja37/avionics/auto-throttle-on</property>
+                            <property>unused</property>
                             <value>1</value>
                         </eq>
                 </and>
@@ -1921,11 +1922,11 @@
             <function>
                 <and>
                     <eq>
-                        <property>/ja37/avionics/autopilot</property>
+                        <property>unused</property>
                         <value>1</value>
                     </eq>
                     <eq>
-                        <property>/ja37/avionics/auto-throttle-on</property>
+                        <property>unused</property>
                         <value>1</value>
                     </eq>
                     <gt>

@@ -218,9 +218,9 @@
                 <table>
                     <independentVar lookup="row">inertia/weight-lbs</independentVar>
                     <tableData>
-                        0.00  8.00 
-                        30864.72  8.00
-                        40340.00  5.00
+                        00000.00  8 
+                        30864.72  8
+                        40340.00  5
                     </tableData>
                 </table>
             </function>
@@ -244,8 +244,8 @@
             <output>/limits/max-negative-g</output>
         </switch>
 
-        <kinematic name="autopilot/throttle-lever-pos">
-            <input>autopilot/throttle-lever-cmd</input>
+        <kinematic name="autoflight/athr-pos">
+            <input>autoflight/athr</input>
             <traverse>
                 <setting>
                     <position>0.0</position>
@@ -257,29 +257,6 @@
                 </setting>
             </traverse>
         </kinematic>
-<!-- To be replaced -->
-        <switch name="autopilot/gears-time-steady">
-            <default value="sim-time-sec"/>
-            <test logic="OR" value="autopilot/gears-time-steady">
-                gear/gear-pos-norm == 1
-            </test>
-        </switch>
-
-        <fcs_function name="autopilot/gears-time-AoA-hold">
-            <function>
-                <sum>
-                    <p>autopilot/gears-time-steady</p>
-                    <v>5</v>
-                </sum>
-            </function>
-        </fcs_function>
-
-        <switch name="autopilot/AoA-hold">
-            <default value="0"/>
-            <test logic="OR" value="1">
-                sim-time-sec gt autopilot/gears-time-AoA-hold
-            </test>
-        </switch>
 
     </channel>
 

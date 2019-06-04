@@ -378,46 +378,6 @@
                 </binding>
             </mod-shift>
         </key>
-        <key n="127">
-            <name>Delete</name>
-            <desc>Yaw damper on/off</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.toggleYawDamper();</script>
-            </binding>
-        </key>
-        <key n="127">
-            <name>Shift delete</name>
-            <desc>Pitch damper on/off</desc>
-            <mod-shift>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.togglePitchDamper();</script>
-                </binding>
-            </mod-shift>
-        </key>
-        <key n="127">
-            <name>Ctrl delete</name>
-            <desc>Roll damper on/off</desc>
-            <mod-ctrl>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.toggleRollDamper();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
-        <key n="119">
-            <name>w</name>
-            <desc>Pitch Gearing on/off</desc>
-            <binding>
-                <command>property-toggle</command>
-                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </key>
         <key n="111">
             <name>o</name>
             <desc>Toggle canopy</desc>
@@ -1220,10 +1180,10 @@
                 <desc>A/T speed</desc>
                 <binding>
                     <command>property-adjust</command>
-                    <property>autopilot/settings/target-speed-kt</property>
-                    <step>5</step>
-                    <min type="int">0</min>
-                    <max type="int">2000</max>
+                    <property>fdm/jsbsim/autoflight/target-speed-kmh</property>
+                    <step>1</step>
+                    <min>550</min>
+                    <max>2450</max>
                     <wrap>false</wrap>
                 </binding>
             </mod-ctrl>
@@ -1236,10 +1196,10 @@
                 <desc>A/T speed</desc>
                 <binding>
                     <command>property-adjust</command>
-                    <property>autopilot/settings/target-speed-kt</property>
-                    <step>-5</step>
-                    <min type="int">0</min>
-                    <max type="int">2000</max>
+                    <property>fdm/jsbsim/autoflight/target-speed-kmh</property>
+                    <step>-1</step>
+                    <min>550</min>
+                    <max>2450</max>
                     <wrap>false</wrap>
                 </binding>
             </mod-ctrl>

@@ -5,7 +5,7 @@
 
 <system name="Viggen Autoflight">
 	
-	<!-- 0 GSA, 1 STICK, 2 ATT, 3 ALT -->
+	<!-- Mode: 0 GSA, 1 STICK, 2 ATT, 3 ALT -->
 	
 	<channel name="Autoflight: Logic">
 		
@@ -26,6 +26,45 @@
 			</test>
 			<output>autoflight/can-engage-out</output>
 		</switch>
+		
+		<switch name="autoflight/athr-mode"> <!-- 0 IAS, 1 Alpha -->
+			<default value="0"/>
+			<test value="1">
+				gear/gear-pos-norm eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="autoflight/target-speed-kmh-tie">
+			<function>
+				<ifthen>
+					<and>
+						<eq>
+							<property>/fdm/jsbsim/autoflight/athr</property>
+							<value>1</value>
+						</eq>
+						<nq>
+							<property>/fdm/jsbsim/autoflight/athr-mode</property>
+							<value>1</value>
+						</nq>
+					</and>
+					<property>autoflight/target-speed-kmh</property>
+					<integer>
+						<sum>
+							<product>
+								<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+								<value>1.852</value> <!-- Knots to Kilometers Per Hour -->
+							</product>
+							<value>0.5</value> <!-- Make the integer rounded correctly -->
+						</sum>
+					</integer>
+				</ifthen>
+			</function>
+			<output>autoflight/target-speed-kmh</output> <!-- So we can override it via keys -->
+			<clipto>
+				<min>550</min> <!-- From Necolatis -->
+				<max>2450</max> <!-- Red line on Airspeed Indicator -->
+			</clipto>
+		</fcs_function>
 		
 		<lag_filter name="autoflight/ss/roll-input">
 			<input>fcs/aileron/stick-newtons</input>

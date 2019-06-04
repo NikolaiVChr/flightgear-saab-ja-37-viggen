@@ -85,7 +85,7 @@ input = {
   indAlt:           "/instrumentation/altitude-indicator",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
-  indAT:            "ja37/avionics/auto-throttle-on",
+  indAT:            "fdm/jsbsim/autoflight/athr",
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
   indRev:           "/instrumentation/reverse-indicator",

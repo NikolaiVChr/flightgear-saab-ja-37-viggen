@@ -8,7 +8,7 @@
         <object-name>display</object-name>
         <condition>
             <or>
-                <property>ja37/avionics/high-alpha</property>
+                <property>fdm/jsbsim/autoflight/high-alpha</property>
                 <property>controls/lighting/test-indicator-panels</property>
             </or>
         </condition>
@@ -16,7 +16,7 @@
             <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
-            <factor-prop>/systems/electrical/dc-light</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -27,8 +27,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>AFK-alpha</tooltip-id>
-                <label>Automatic throttle high alpha</label>
+                <tooltip-id>autothrottle-alpha</tooltip-id>
+                <label>Auto Throttle High Alpha</label>
             </binding>
         </hovered>
         <action>
@@ -36,8 +36,8 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>ja37/avionics/high-alpha</property>
+                <command>nasal</command>
+                <script>autoflight.System.highAlphaToggle();</script>
             </binding>
         </action>
     </animation>

@@ -676,10 +676,6 @@
             <canopyAndSeat type="bool">false</canopyAndSeat>
             <oxygen type="bool">false</oxygen>
             <approach type="bool">false</approach><!-- true = short -->
-            <autopilot type="bool">false</autopilot>
-            <autopilot-mode type="int">1</autopilot-mode>
-            <auto-throttle-on type="bool">false</auto-throttle-on>
-            <auto-throttle-max type="double">0.58333</auto-throttle-max>
             <heading-magnetic-limited-deg type="double">0</heading-magnetic-limited-deg>
             <auto-altitude-on type="bool">false</auto-altitude-on>
             <auto-attitude-on type="bool">false</auto-attitude-on>
@@ -693,10 +689,6 @@
             <tankpump type="bool">false</tankpump>
             <xtank type="bool">false</xtank>
             <fun type="bool">false</fun>
-            <high-alpha type="bool">false</high-alpha>
-            <temp-halt-ap-roll type="bool">true</temp-halt-ap-roll>
-            <temp-halt-ap-roll2 type="bool">true</temp-halt-ap-roll2>
-            <temp-halt-ap-pitch type="bool">true</temp-halt-ap-pitch>
             <welcome type="bool">false</welcome>
             <roll-trim-centered type="bool">true</roll-trim-centered>
             <annunciator>
@@ -851,7 +843,9 @@
                 <gravity-ft_sec2 type="double">32.1740</gravity-ft_sec2><!-- start value for compatibility with older FG versions -->
             </accelerations>
             <autoflight n="0">
+                <athr type="bool">0</athr>
                 <can-engage-out type="bool">0</can-engage-out>
+                <high-alpha type="bool">0</high-alpha>
                 <mode type="int">0</mode>
                 <pitch n="0">
                     <d-gain type="double">0</d-gain>
@@ -872,6 +866,7 @@
                     <master-pid type="double">0</master-pid>
                     <p-gain type="double">0</p-gain>
                 </roll>
+				<target-speed-kmh type="int">550</target-speed-kmh>
             </autoflight>
             <structural>
                 <wings>

@@ -72,7 +72,7 @@
     <animation>
         <type>rotate</type>
         <object-name>handleBrake</object-name>
-        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
+        <property>fdm/jsbsim/autoflight/athr-pos</property>
         <factor>-10</factor>
         <offset-deg>10</offset-deg>
         <center>
@@ -146,8 +146,8 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>fdm/jsbsim/autopilot/throttle-lever-cmd</property>
+                <command>nasal</command>
+                <script>autoflight.System.athrToggle();</script>
             </binding>
         </action>
     </animation>

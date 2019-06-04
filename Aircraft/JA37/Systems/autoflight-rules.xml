@@ -5,9 +5,10 @@
 
 <PropertyList>
 	
+	<!-- Roll Axis -->
+	
 	<filter>
 		<name>HEADING ERROR DEG</name>
-		<debug>false</debug>
 		<type>gain</type>
 		<gain>1.0</gain>
 		<input>
@@ -23,6 +24,8 @@
 			<max>180</max>
 		</period>
 	</filter>
+	
+	<!-- Pitch Axis -->
 	
 	<filter>
 		<name>PITCH DEG SYNC</name>
@@ -41,10 +44,9 @@
 		<min>-15</min>
 		<max>30</max>
 	</filter>
- 
+	
 	<pid-controller>
 		<name>FPM HOLD</name>
-		<debug>false</debug>
 		<enable>
 			<condition>
 				<equals>
@@ -154,9 +156,10 @@
 		</config>
 	</pid-controller>
 	
+	<!-- Various -->
+	
 	<filter>
 		<name>Stick Light Exponential</name>
-		<debug>false</debug>
 		<type>exponential</type>
 		<input>/fdm/jsbsim/autoflight/stick-light-cmd</input>
 		<output>/fdm/jsbsim/autoflight/stick-light</output>
@@ -165,7 +168,6 @@
 	
 	<filter>
 		<name>ATT Light Exponential</name>
-		<debug>false</debug>
 		<type>exponential</type>
 		<input>/fdm/jsbsim/autoflight/att-light-cmd</input>
 		<output>/fdm/jsbsim/autoflight/att-light</output>
@@ -174,43 +176,141 @@
 	
 	<filter>
 		<name>ALT Light Exponential</name>
-		<debug>false</debug>
 		<type>exponential</type>
 		<input>/fdm/jsbsim/autoflight/alt-light-cmd</input>
 		<output>/fdm/jsbsim/autoflight/alt-light</output>
 		<filter-time>0.06</filter-time>
 	</filter>
 	
-	<!-- Just for testing -->
+	<!-- Autothrottle -->
 	
 	<pid-controller>
-		<name>Auto throttle</name>
-		<debug>false</debug>
+		<name>KMH Hold</name>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/fdm/jsbsim/autoflight/athr</property>
+						<value>1</value>
+					</equals>
+					<not-equals>
+						<property>/fdm/jsbsim/autoflight/athr-mode</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+		<reference>
+			<property>/fdm/jsbsim/autoflight/target-speed-kmh</property>
+			<scale>0.539957</scale> <!-- Kilometers Per Hour to Knots -->
+		</reference>
+		<output>/controls/engines/engine[0]/throttle-pid</output>
+		<config>
+			<Kp>0.05</Kp>
+			<Ti>10.0</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.05</u_min>
+			<u_max>0.58333</u_max>
+		</config>
+	</pid-controller>
+	
+	<predict-simple>
+		<name>Alpha Predict</name>
+		<input>/fdm/jsbsim/aero/alpha-deg</input> <!-- Really should be indicated -->
+		<output>/fdm/jsbsim/aero/alpha-deg-ahead</output>
+		<seconds>1.0</seconds>
+		<filter-gain>0.0</filter-gain>
+	</predict-simple>
+	
+	<pid-controller>
+		<name>Alpha Hold</name>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/fdm/jsbsim/autoflight/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/fdm/jsbsim/autoflight/athr-mode</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/fdm/jsbsim/aero/alpha-deg-ahead</input>
+		<reference>
+			<condition>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/high-alpha</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>15.5</value>
+		</reference>
+		<reference>
+			<expression>
+				<table> <!-- According to Necolatis, 9deg at 15000kg, 15.5deg at 16500kg, I interpolated linearly -->
+					<product>
+						<property>/fdm/jsbsim/inertia/weight-lbs</property>
+						<value>0.453592</value> <!-- LB2KG -->
+					</product>
+					<entry><ind>15000.00</ind><dep> 9</dep></entry>
+					<entry><ind>15692.31</ind><dep>12</dep></entry>
+				</table>
+			</expression>
+		</reference>
+		<output>/controls/engines/engine[0]/throttle-pid</output>
+		<config>
+			<Kp>-0.15</Kp>
+			<Ti>2.5</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.05</u_min>
+			<u_max>0.58333</u_max>
+		</config>
+	</pid-controller>
+	
+	<filter>
+		<name>Throttle Filter</name>
 		<enable>
 			<condition>
 				<equals>
-					<property>/autopilot/locks/speed</property>
+					<property>/fdm/jsbsim/autoflight/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<type>noise-spike</type>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<input>/controls/engines/engine[0]/throttle-pid</input>
+		<output>/controls/engines/engine[0]/throttle</output>
+		<max-rate-of-change>0.3</max-rate-of-change>
+	</filter>
+	
+	<!-- Just for testing/tuning -->
+	
+	<!--pid-controller>
+		<name>Auto throttle</name>
+		<enable>
+			<condition>
+				<equals>
+					<property>/athr</property>
 					<value>test</value>
 				</equals>
 			</condition>
 		</enable>
-		<input>
-			<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-		</input>
-		<reference>speed</reference>
-		<output>
-			<property>/controls/engines/engine/throttle</property>
-		</output>
+		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+		<reference>/speed</reference>
+		<output>/controls/engines/engine[0]/throttle</output>
 		<config>
 			<Kp>0.05</Kp>
-			<beta>1.0</beta>
-			<alpha>0.1</alpha>
-			<gamma>0.0</gamma>
 			<Ti>10.0</Ti>
 			<Td>0.00001</Td>
-			<u_min>0</u_min>
-			<u_max>1</u_max>
+			<u_min>0.0</u_min>
+			<u_max>1.0</u_max>
 		</config>
-	</pid-controller>
+	</pid-controller-->
 
 </PropertyList>
