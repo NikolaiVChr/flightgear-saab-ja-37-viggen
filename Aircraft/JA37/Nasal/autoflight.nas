@@ -23,6 +23,7 @@ var System = {
 	},
 	athrToggle: func() {
 		if (canEngage.getBoolValue()) {
+			highAlpha.setBoolValue(0);
 			athr.setBoolValue(!athr.getBoolValue());
 		}
 	},

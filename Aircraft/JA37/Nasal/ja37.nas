@@ -195,7 +195,6 @@ input = {
   tonePreL1: "ja37/sound/tones/load-pre-1",
 };
 
-auto.modeT = 0; # Temporary, until new A/T exits
 var msgA = "If you need to repair now, then use Menu-Location-SelectAirport instead.";
 var msgB = "Please land before changing payload or refuel.";
 var Saab37 = {
@@ -321,7 +320,7 @@ var Saab37 = {
 
     # low speed warning (as per manual page 279 in JA37C part 1)
     me.lowSpeed = FALSE;
-    if (auto.modeT < 2 and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
+    if (!autoflight.athr.getBoolValue() and input.wow1.getValue() == FALSE) {
       if (input.indAltMeter.getValue() < 1200) {
         if (
           (input.gearsPos.getValue() == 1 and (getprop("controls/altimeter-radar")==TRUE?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
@@ -1763,7 +1762,7 @@ var re_init = func {
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
-  auto.stopAP();
+  autoflight.engageMode(0);
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
   setprop("ja37/done",0);

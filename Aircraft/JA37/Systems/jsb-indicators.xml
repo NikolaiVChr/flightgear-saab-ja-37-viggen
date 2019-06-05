@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <system name="indicators">
-    <property value="0">unused</property> <!-- remove after lights fixed 890-1174 -->
 
     <!-- JA-37Di pilots Manual page 589 and forward. Also bits of info scattered all over the document.
          JA-37C pilots Manual page 572 and forward. Also bits of info scattered all over the document.
@@ -655,7 +654,7 @@
                     </eq>
                     <and>
                         <eq>
-                            <property>unused</property>
+                            <property>autoflight/athr</property>
                             <value>1</value>
                         </eq>
                         <eq>
@@ -671,14 +670,10 @@
             <function>
                 <and>
                     <eq>
-                        <property>unused</property>
+                        <property>autoflight/athr</property>
                         <value>1</value>
                     </eq>
                     <or>
-                        <eq>
-                            <property>unused</property>
-                            <value>0</value>
-                        </eq>
                         <eq>
                             <property>/gear/gear[0]/wow</property>
                             <value>1</value>
@@ -892,7 +887,7 @@
             <function>
                 <and>
                     <gt>
-                        <property>unused</property>
+                        <property>autoflight/mode</property>
                         <value>0</value>
                     </gt>
                     <or>
@@ -926,7 +921,7 @@
                     </eq>
                     <and>
                         <gt>
-                            <property>unused</property>
+                            <property>autoflight/mode</property>
                             <value>0</value>
                         </gt>
                         <or>
@@ -990,7 +985,7 @@
                         </gt>
                     </or>
                     <gt>
-                        <property>unused</property>
+                        <property>autoflight/mode</property>
                         <value>1</value>
                     </gt>
                 </and>
@@ -1002,7 +997,7 @@
                 <or>
                     <and>
                         <gt>
-                            <property>unused</property>
+                            <property>autoflight/mode</property>
                             <value>1</value>
                         </gt>
                         <or>
@@ -1093,7 +1088,7 @@
                         </gt>
                     </or>
                     <gt>
-                        <property>unused</property>
+                        <property>autoflight/mode</property>
                         <value>2</value>
                     </gt>
                 </and>
@@ -1105,7 +1100,7 @@
                 <or>
                     <and>
                         <gt>
-                            <property>unused</property>
+                            <property>autoflight/mode</property>
                             <value>2</value>
                         </gt>
                         <or>
@@ -1905,16 +1900,10 @@
 
         <fcs_function name="systems/indicators/auto-throttle-light-secondary">
             <function>
-                <and>
-                    <eq>
-                        <property>unused</property>
-                        <value>1</value>
-                    </eq>
-                        <eq>
-                            <property>unused</property>
-                            <value>1</value>
-                        </eq>
-                </and>
+                <eq>
+                    <property>autoflight/athr</property>
+                    <value>1</value>
+                </eq>
             </function>
         </fcs_function>
 
@@ -1922,11 +1911,7 @@
             <function>
                 <and>
                     <eq>
-                        <property>unused</property>
-                        <value>1</value>
-                    </eq>
-                    <eq>
-                        <property>unused</property>
+                        <property>autoflight/athr</property>
                         <value>1</value>
                     </eq>
                     <gt>

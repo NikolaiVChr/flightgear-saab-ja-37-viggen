@@ -4,7 +4,7 @@
 <!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
 
 <PropertyList>
-
+	
 	<name>autopilot</name>
 	<layout>vbox</layout>
 	
@@ -15,28 +15,151 @@
 			<halign>left</halign>
 			<label>Viggen Autoflight System Help</label>
 		</text>
-		
 		<empty><stretch>1</stretch></empty>
 		
-		<button>
-			<row>0</row>
-			<col>1</col>
-			<halign>right</halign>
-			<pref-width>20</pref-width>
-			<pref-height>20</pref-height>
-			<legend>X</legend>
-			<key>Esc</key>
-			<binding>
-				<command>dialog-close</command>
-			</binding>
-		</button>
+		<group>
+			<layout>table</layout>
+			
+			<button>
+				<row>0</row>
+				<col>0</col>
+				<halign>right</halign>
+				<pref-width>20</pref-width>
+				<pref-height>20</pref-height>
+				<legend>?</legend>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>autopilot-help</dialog-name>
+				</binding>
+			</button>
+			<button>
+				<row>0</row>
+				<col>1</col>
+				<halign>right</halign>
+				<pref-width>20</pref-width>
+				<pref-height>20</pref-height>
+				<legend>X</legend>
+				<key>Esc</key>
+				<binding>
+					<command>dialog-close</command>
+				</binding>
+			</button>
+		</group>
 	</group>
 	
 	<hrule/>
 	
-	<text>
+	<group>
+		<layout>hbox</layout>
+		
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<pref-width>75</pref-width>
+			<pref-height>50</pref-height>
+			<legend>STICK</legend>
+			<binding>
+				<command>nasal</command>
+				<script>autoflight.System.engageMode(1);</script>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<pref-width>75</pref-width>
+			<pref-height>50</pref-height>
+			<legend>ATT</legend>
+			<binding>
+				<command>nasal</command>
+				<script>autoflight.System.engageMode(2);</script>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<pref-width>75</pref-width>
+			<pref-height>50</pref-height>
+			<legend>ALT</legend>
+			<binding>
+				<command>nasal</command>
+				<script>autoflight.System.engageMode(3);</script>
+			</binding>
+		</button>
+	</group>
+	
+	<group>
+		<layout>hbox</layout>
+
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+		<text>
+			<label>Lights</label>
+		</text>
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+	</group>
+	
+	<group>
+		<layout>hbox</layout>
+		
+		<text>
+			<border>1</border>
+			<label>  STICK</label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/stick-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+		<vrule/>
+		<text>
+			<border>1</border>
+			<label> ATT </label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/att-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+		<vrule/>
+		<text>
+			<border>1</border>
+			<label>ALT   </label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/alt-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+	</group>
+	
+	<hrule/>
+	
+	<checkbox>
+		<label>Auto Throttle Engaged</label>
 		<halign>left</halign>
-		<label>AP Help goes here... until I have time to write this, use the cockpit controls! :)</label>
-	</text>
+		<live>true</live>
+		<property>/fdm/jsbsim/autoflight/athr</property>
+		<binding>
+			<command>nasal</command>
+			<script>autoflight.System.athrToggle();</script>
+		</binding>
+	</checkbox>
+	
+	<checkbox>
+		<label>Auto Throttle High Alpha</label>
+		<halign>left</halign>
+		<live>true</live>
+		<property>/fdm/jsbsim/autoflight/high-alpha</property>
+		<binding>
+			<command>nasal</command>
+			<script>autoflight.System.highAlphaToggle();</script>
+		</binding>
+	</checkbox>
 
 </PropertyList>

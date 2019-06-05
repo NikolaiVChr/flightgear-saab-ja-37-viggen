@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Viggen Autoflight System -->
+<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+
+<PropertyList>
+	
+	<name>autopilot-help</name>
+	<layout>vbox</layout>
+	
+	<group>
+		<layout>hbox</layout>
+		<text>
+			<halign>left</halign>
+			<label>Viggen Autoflight System Help</label>
+		</text>
+		<button>
+			<halign>right</halign>
+			<pref-width>20</pref-width>
+			<pref-height>20</pref-height>
+			<legend>X</legend>
+			<key>Esc</key>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+		</button>
+	</group>
+	
+	<hrule/>
+	
+	<text>
+		<halign>left</halign>
+		<label>How to use the Viggen Autoflight System</label>
+	</text>
+	
+	<hrule/>
+	
+	<text>
+		<halign>left</halign>
+		<label>AP Help goes here...</label>
+	</text>
+
+</PropertyList>
