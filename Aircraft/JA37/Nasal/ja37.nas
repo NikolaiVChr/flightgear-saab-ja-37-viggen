@@ -320,7 +320,7 @@ var Saab37 = {
 
     # low speed warning (as per manual page 279 in JA37C part 1)
     me.lowSpeed = FALSE;
-    if (!autoflight.athr.getBoolValue() and input.wow1.getValue() == FALSE) {
+    if (!autoflight.athr.getBoolValue() and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
       if (input.indAltMeter.getValue() < 1200) {
         if (
           (input.gearsPos.getValue() == 1 and (getprop("controls/altimeter-radar")==TRUE?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))

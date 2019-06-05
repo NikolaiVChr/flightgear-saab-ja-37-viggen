@@ -27,6 +27,17 @@
 			<output>autoflight/can-engage-out</output>
 		</switch>
 		
+		<switch name="autoflight/can-engage-wow">
+			<default value="1"/>
+			<test logic="OR" value="0">
+				autoflight/can-engage ne 1
+				gear/unit[0]/WOW eq 1
+				gear/unit[1]/WOW eq 1
+				gear/unit[2]/WOW eq 1
+			</test>
+			<output>autoflight/can-engage-wow-out</output>
+		</switch>
+		
 		<switch name="autoflight/athr-mode"> <!-- 0 IAS, 1 Alpha -->
 			<default value="0"/>
 			<test value="1">

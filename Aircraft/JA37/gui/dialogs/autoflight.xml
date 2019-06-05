@@ -13,7 +13,7 @@
 		
 		<text>
 			<halign>left</halign>
-			<label>Viggen Autoflight System Help</label>
+			<label>Viggen Autoflight System</label>
 		</text>
 		<empty><stretch>1</stretch></empty>
 		
@@ -56,7 +56,7 @@
 			<row>0</row>
 			<col>0</col>
 			<pref-width>75</pref-width>
-			<pref-height>50</pref-height>
+			<pref-height>35</pref-height>
 			<legend>STICK</legend>
 			<binding>
 				<command>nasal</command>
@@ -67,7 +67,7 @@
 			<row>0</row>
 			<col>0</col>
 			<pref-width>75</pref-width>
-			<pref-height>50</pref-height>
+			<pref-height>35</pref-height>
 			<legend>ATT</legend>
 			<binding>
 				<command>nasal</command>
@@ -78,7 +78,7 @@
 			<row>0</row>
 			<col>0</col>
 			<pref-width>75</pref-width>
-			<pref-height>50</pref-height>
+			<pref-height>35</pref-height>
 			<legend>ALT</legend>
 			<binding>
 				<command>nasal</command>
@@ -138,7 +138,19 @@
 		</text>
 	</group>
 	
-	<hrule/>
+	<group>
+		<layout>hbox</layout>
+
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+		<text>
+			<label>Auto Throttle</label>
+		</text>
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+	</group>
 	
 	<checkbox>
 		<label>Auto Throttle Engaged</label>
@@ -159,6 +171,30 @@
 		<binding>
 			<command>nasal</command>
 			<script>autoflight.System.highAlphaToggle();</script>
+		</binding>
+	</checkbox>
+	
+	<group>
+		<layout>hbox</layout>
+
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+		<text>
+			<label>System</label>
+		</text>
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+	</group>
+	
+	<checkbox>
+		<label>SA Circuit Breaker</label>
+		<halign>left</halign>
+		<live>true</live>
+		<property>/ja37/fuses/sa</property>
+		<binding>
+			<command>dialog-apply</command>
 		</binding>
 	</checkbox>
 

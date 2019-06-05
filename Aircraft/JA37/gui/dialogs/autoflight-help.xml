@@ -37,7 +37,42 @@
 	
 	<text>
 		<halign>left</halign>
-		<label>AP Help goes here...</label>
+		<label>A/P Modes:</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>The Viggen Auto Pilot has 3 modes:</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>STICK (SPAK): Series servo dampers engaged, as well as the series trim.</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>ATT (ATT): Pitch attitude and roll attitude (&gt;= 7 deg) or heading (&lt; 7 deg) is held.</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>ALT (HOJD): Current altitude is held. Roll is the same as ATT mode.</label>
+	</text>
+	
+	<hrule/>
+	
+	<text>
+		<halign>left</halign>
+		<label>A/T Modes:</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>If the gear is in, current airspeed in KMH is held. It can be adjusted via CTRL+UP or CTRL+DN.</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>If the gear is out, alpha is held by adjusting thrust. Target is 9 deg to 12 deg based on weight.</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>High alpha mode changes the alpha target to 15 deg.</label>
 	</text>
 
 </PropertyList>
