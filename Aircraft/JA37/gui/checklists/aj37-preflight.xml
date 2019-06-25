@@ -13,26 +13,28 @@
                 <scale>7.2975</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>ja37/fuses/krets</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>ja37/fuses/sa</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>ja37/fuses/trim</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>ja37/fuses/gvv</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>ja37/fuses/motor</property>
-                    <value>1</value>
-                </equals>
+                <and>
+                    <equals>
+                        <property>ja37/fuses/krets</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/fuses/sa</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/fuses/trim</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/fuses/gvv</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/fuses/motor</property>
+                        <value>1</value>
+                    </equals>
+                </and>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -226,12 +228,10 @@
             <name>Throttle</name>
             <value>CLOSE (PG Down)</value>
             <condition>
-                <and>
-                    <less-than>
-                        <property>/controls/engines/engine[0]/throttle</property>
-                        <value>0.02</value>
-                    </less-than>
-                </and>
+                <less-than>
+                    <property>/controls/engines/engine[0]/throttle</property>
+                    <value>0.02</value>
+                </less-than>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -453,12 +453,10 @@
                 <value>1</value>
             </binding>
             <condition>
-                <and>
-                    <equals>
-                        <property>controls/oxygen</property>
-                        <value>1</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>controls/oxygen</property>
+                    <value>1</value>
+                </equals>
             </condition>
         </item>
         <item>
