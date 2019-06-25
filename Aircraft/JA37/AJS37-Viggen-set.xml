@@ -294,7 +294,7 @@
                 <checklist include="gui/checklists/aj37-external-start.xml"/>
                 <checklist include="gui/checklists/takeoff.xml"/>
                 <checklist include="gui/checklists/landing.xml"/>
-                <checklist include="gui/checklists/shutdown.xml"/>
+                <checklist include="gui/checklists/aj37-shutdown.xml"/>
             </group>
         </checklists>
     </sim>
