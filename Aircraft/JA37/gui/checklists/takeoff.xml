@@ -16,12 +16,10 @@
         <name>Throttle</name>
         <value>OPEN FULL (PG Up)</value>
         <condition>
-            <and>
-                <greater-than>
-                    <property>/controls/engines/engine[0]/throttle</property>
-                    <value>0.98</value>
-                </greater-than>
-            </and>
+            <greater-than>
+                <property>/controls/engines/engine[0]/throttle</property>
+                <value>0.98</value>
+            </greater-than>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -84,10 +82,14 @@
                 <value>0</value>
             </equals>
         </condition>
+        <binding>
+            <command>nasal</command>
+            <script>controls.gearDown(-1);</script>
+        </binding>
     </item>
     <item>
-        <name>Reduce to mil thrust</name>
-        <value>Throttle down (PageDown)</value>
+        <name>Throttle</name>
+        <value>REDUCE TO MIL THRUST (PG Down)</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
@@ -100,5 +102,10 @@
                 <value>0</value>
             </equals>
         </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0.58</value>
+        </binding>
     </item>
 </PropertyList>

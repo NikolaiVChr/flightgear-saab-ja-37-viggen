@@ -6,14 +6,16 @@
         <name>Landing speed</name>
         <value>195-249 Km/h</value>
         <condition>
-            <greater-than>
-                <property>/velocities/airspeed-kt</property>
-                <value>105</value>
-            </greater-than>
-            <less-than>
-                <property>/velocities/airspeed-kt</property>
-                <value>134</value>
-            </less-than>
+            <and>
+                <greater-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>105</value>
+                </greater-than>
+                <less-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>134</value>
+                </less-than>
+            </and>
         </condition>
     </item>
     <item>
@@ -31,6 +33,10 @@
                 <value>1</value>
             </equals>
         </condition>
+        <binding>
+            <command>nasal</command>
+            <script>controls.gearDown(1);</script>
+        </binding>
     </item>
     <item>
         <name>Angle of attack</name>
@@ -48,7 +54,7 @@
     </item>
     <item>
         <name>Thrust</name>
-        <value>Reverse</value>
+        <value>REVERSE</value>
         <marker>
             <x-m>-3.9481</x-m>
             <y-m>-0.3048</y-m>
@@ -61,32 +67,66 @@
                 <value>1</value>
             </equals>
         </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/reverser-cmd</property>
+            <value>1</value>
+        </binding>
     </item>
     <item>
         <name>Throttle</name>
-        <value>OPEN FULL (PG Up)</value>
-        <condition>
-            <and>
-                <greater-than>
-                    <property>/controls/engines/engine[0]/throttle</property>
-                    <value>0.98</value>
-                </greater-than>
-            </and>
-        </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>/controls/engines/engine[0]/throttle</property>
-            <value>1</value>
-        </binding>
+        <value>MIL THRUST (PG Up)</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
             <z-m>0.0959</z-m>
             <scale>7.0000</scale>
         </marker>
+        <condition>
+            <greater-than>
+                <property>/controls/engines/engine[0]/throttle</property>
+                <value>0.5</value>
+            </greater-than>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0.58</value>
+        </binding>
     </item>
     <item>
         <name>Brake</name>
         <value>ON (B)</value>
+    </item>
+    <item>
+        <name>At low speed</name>
+        <value>&lt; 120 Km/h</value>
+        <condition>
+            <less-than>
+                <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                <value>64.8</value>
+            </less-than>
+        </condition>
+    </item>
+    <item>
+        <name>Reduce throttle to avoid engine fire</name>
+        <value>REDUCE (PG Down)</value>
+        <marker>
+            <x-m>-3.6000</x-m>
+            <y-m>-0.4587</y-m>
+            <z-m>0.0959</z-m>
+            <scale>7.0000</scale>
+        </marker>
+        <condition>
+            <less-than>
+                <property>/controls/engines/engine[0]/throttle</property>
+                <value>0.25</value>
+            </less-than>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0</value>
+        </binding>
     </item>
 </PropertyList>
