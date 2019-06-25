@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>Start engine using battery</title>
+    <item>
+        <name>Hold engine starter (2 secs)</name>
+        <value>ON</value>
+        <marker>
+            <x-m>-3.7322</x-m>
+            <y-m>-0.4727</y-m>
+            <z-m>0.1116</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              setprop("controls/engines/engine[0]/starter-cmd-hold", 1);
+              setprop("controls/engines/engine[0]/starter-cmd", 1);
+              var timer = maketimer(2.1, func(){
+                  setprop("controls/engines/engine[0]/starter-cmd-hold", 0);
+              });
+              timer.singleShot = 1;
+              timer.start();
+            </script>
+        </binding>
+    </item>
+    <item>
+        <name>Fan RPM</name>
+        <value>5-20%</value>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/engines/engine[0]/n1</property>
+                    <value>5</value>
+                </greater-than>
+                <less-than>
+                    <property>/engines/engine[0]/n1</property>
+                    <value>20</value>
+                </less-than>
+            </and>
+        </condition>
+    </item>
+    <item>
+        <name>Cutoff</name>
+        <value>OPEN</value>
+        <marker>
+            <x-m>-3.7702</x-m>
+            <y-m>-0.4223</y-m>
+            <z-m>0.1116</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <binding>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
+            <value>0</value>
+        </binding>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Generator</name>
+        <value>ON</value>
+        <marker>
+            <x-m>-3.7223</x-m>
+            <y-m>-0.4240</y-m>
+            <z-m>0.1050</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/engine[0]/generator</property>
+            <value>1</value>
+        </binding>
+        <condition>
+            <equals>
+                <property>controls/electric/engine[0]/generator</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Canopy Flaps</name>
+        <value>DOWN (auto)</value>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/fcs/flaps/pos-normalized</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Engine</name>
+        <value>Ready</value>
+        <condition>
+            <equals>
+                <property>/engines/engine[0]/running</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Nose wheel steering</name>
+        <value>ON (M)</value>
+        <marker>
+            <x-m>-3.5397</x-m>
+            <y-m>-0.4141</y-m>
+            <z-m>0.0496</z-m>
+            <scale>1.8595</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.toggleNosewheelSteer();</script>
+        </binding>
+    </item>
+    <item>
+        <name>Set HUD Units</name>
+        <value>Metric or Imperial (Shift-I)</value>
+    </item>
+    <item>
+        <name>Calibrate altimeters</name>
+        <value>SET</value>
+        <marker>
+            <x-m>-3.9800</x-m>
+            <y-m>-0.2750</y-m>
+            <z-m>0.2400</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>ja37/avionics/altimeters-calibrated</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+</PropertyList>
