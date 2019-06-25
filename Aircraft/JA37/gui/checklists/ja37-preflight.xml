@@ -135,9 +135,15 @@
                 <scale>1.0000</scale>
             </marker>
             <binding>
-                <command>property-assign</command>
-                <property>ja37/avionics/master-warning-button</property>
-                <value>1</value>
+                <command>nasal</command>
+                <script>
+                  setprop("ja37/avionics/master-warning-button", 1);
+                  var timer = maketimer(0.3, func(){
+                      setprop("ja37/avionics/master-warning-button", 0);
+                  });
+                  timer.singleShot = 1;
+                  timer.start();
+                </script>
             </binding>
         </item>
         <item>
@@ -256,9 +262,15 @@
                 <scale>1.0000</scale>
             </marker>
             <binding>
-                <command>property-assign</command>
-                <property>/controls/lighting/test-indicator-panels</property>
-                <value>1</value>
+                <command>nasal</command>
+                <script>
+                  setprop("/controls/lighting/test-indicator-panels", 1);
+                  var timer = maketimer(3, func(){
+                      setprop("/controls/lighting/test-indicator-panels", 0);
+                  });
+                  timer.singleShot = 1;
+                  timer.start();
+                </script>
             </binding>
         </item>
         <item>
