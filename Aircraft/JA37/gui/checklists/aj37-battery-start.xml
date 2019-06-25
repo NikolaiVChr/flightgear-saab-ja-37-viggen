@@ -124,8 +124,9 @@
             </equals>
         </condition>
         <binding>
-            <command>nasal</command>
-            <script>ja37.toggleNosewheelSteer();</script>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
+            <value>1</value>
         </binding>
     </item>
     <item>
@@ -153,5 +154,12 @@
                 <value>1</value>
             </equals>
         </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              setprop("/instrumentation/altimeter/setting-inhg",
+                      getprop("/environment/pressure-inhg"));
+            </script>
+        </binding>
     </item>
 </PropertyList>
