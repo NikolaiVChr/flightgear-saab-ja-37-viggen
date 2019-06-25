@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-    <title>Start engine using ext. power</title>
+    <title>Start engine</title>
     <item>
-        <name>Toggle external power (menu)</name>
+        <name>Optional: Toggle external power (menu)</name>
         <value>ON</value>
         <binding>
             <command>property-toggle</command>
@@ -17,7 +17,7 @@
         </condition>
     </item>
     <item>
-        <name>External power available indicator</name>
+        <name>Optional: External power available indicator</name>
         <value>ON</value>
         <marker>
             <x-m>-3.7002</x-m>
