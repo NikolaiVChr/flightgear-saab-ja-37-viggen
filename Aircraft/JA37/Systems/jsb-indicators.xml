@@ -2021,15 +2021,11 @@
             </test>
         </switch>
 
-        <switch name="propulsion/engine/cutoff-ready">
+        <switch name="propulsion/engine/cutoff-indicator">
             <default value="0"/>
-            <test logic="AND" value="/systems/electrical/dc-light">
+            <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
-            </test>      
-            <test logic="AND" value="/systems/electrical/dc-light">
-                propulsion/starter_cmd_copy == 1
-                propulsion/engine/cutoff-commanded == 1
-                propulsion/engine/n1 gt 5.2
+                propulsion/engine/cutoff == 1
             </test>
         </switch>
 
