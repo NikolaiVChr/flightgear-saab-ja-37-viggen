@@ -386,6 +386,16 @@
 
     <page>
         <item>
+            <name>Engine pressure ratio</name>
+            <value>Check its about 1.0</value>
+            <marker>
+                <x-m>-3.9678</x-m>
+                <y-m>0.1800</y-m>
+                <z-m>0.2650</z-m>
+                <scale>3.0000</scale>
+            </marker>
+        </item>
+        <item>
             <name>Control fuel level</name>
             <value>CHECK</value>
             <marker>
