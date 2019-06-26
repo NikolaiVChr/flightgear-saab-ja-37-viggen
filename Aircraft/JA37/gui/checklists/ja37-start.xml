@@ -6,25 +6,10 @@
         <name>Optional: Toggle external power (menu)</name>
         <value>ON</value>
         <binding>
-            <command>property-toggle</command>
+            <command>property-assign</command>
             <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+            <value>1</value>
         </binding>
-        <condition>
-            <equals>
-                <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
-                <value>1</value>
-            </equals>
-        </condition>
-    </item>
-    <item>
-        <name>Optional: External power available indicator</name>
-        <value>ON</value>
-        <marker>
-            <x-m>-3.7002</x-m>
-            <y-m>-0.3923</y-m>
-            <z-m>0.0947</z-m>
-            <scale>2.0000</scale>
-        </marker>
         <condition>
             <equals>
                 <property>fdm/jsbsim/systems/electrical/external/available</property>
@@ -142,8 +127,9 @@
         <name>Toggle external power (menu)</name>
         <value>OFF</value>
         <binding>
-            <command>property-toggle</command>
+            <command>property-assign</command>
             <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+            <value>0</value>
         </binding>
         <condition>
             <and>
