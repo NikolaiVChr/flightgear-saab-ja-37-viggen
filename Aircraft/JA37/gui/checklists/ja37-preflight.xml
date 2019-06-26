@@ -145,6 +145,12 @@
                   timer.start();
                 </script>
             </binding>
+            <condition>
+                <less-than-equals>
+                    <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
+                    <value>1</value>
+                </less-than-equals>
+            </condition>
         </item>
         <item>
             <name>Parking Brakes</name>
