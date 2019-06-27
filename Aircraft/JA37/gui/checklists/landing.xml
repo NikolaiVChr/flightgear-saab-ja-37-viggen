@@ -72,6 +72,10 @@
             <property>/controls/engines/engine[0]/reverser-cmd</property>
             <value>1</value>
         </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Throttle</name>

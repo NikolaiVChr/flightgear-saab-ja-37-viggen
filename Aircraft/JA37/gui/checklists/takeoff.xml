@@ -43,6 +43,10 @@
             <property>/controls/gear/brake-parking</property>
             <value>0</value>
         </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Rotation speed</name>

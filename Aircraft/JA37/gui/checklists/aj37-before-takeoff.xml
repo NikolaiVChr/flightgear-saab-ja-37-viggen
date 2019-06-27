@@ -46,6 +46,12 @@
     <item>
         <name>Landing lights</name>
         <value>ON</value>
+        <marker>
+            <x-m>-3.3843</x-m>
+            <y-m>0.3850</y-m>
+            <z-m>-0.0132</z-m>
+            <scale>1.1818</scale>
+        </marker>
         <condition>
             <equals>
                 <property>controls/electric/lights-land-switch</property>
@@ -57,11 +63,9 @@
             <property>controls/electric/lights-land-switch</property>
             <value>1</value>
         </binding>
-        <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3850</y-m>
-            <z-m>-0.0132</z-m>
-            <scale>1.1818</scale>
-        </marker>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
 </PropertyList>

@@ -51,17 +51,21 @@
                 <z-m>0.1215</z-m>
                 <scale>3.0000</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/electric/main</property>
-                <value>1</value>
-            </binding>
             <condition>
                 <equals>
                     <property>/controls/electric/main</property>
                     <value>1</value>
                 </equals>
             </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/main</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <!-- Not in the real checklists, but the emerg. RAT messes with the AC power,
              and is problematic in the rest of the checklist. -->
@@ -85,6 +89,10 @@
                 <property>controls/electric/reserve</property>
                 <value>0</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Parking Brakes</name>
@@ -106,6 +114,10 @@
                 <property>/controls/gear/brake-parking</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Cutoff</name>
@@ -116,17 +128,21 @@
                 <z-m>0.1116</z-m>
                 <scale>3.0000</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                <value>0</value>
-            </binding>
             <condition>
                 <equals>
                     <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                     <value>0</value>
                 </equals>
             </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Master caution</name>
@@ -137,10 +153,17 @@
                 <z-m>0.4600</z-m>
                 <scale>1.0000</scale>
             </marker>
+            <condition>
+                <less-than-equals>
+                    <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
+                    <value>1</value>
+                </less-than-equals>
+            </condition>
             <binding>
                 <command>nasal</command>
                 <script>
                   setprop("ja37/avionics/master-warning-button", 1);
+                  ja37.click();
                   var timer = maketimer(0.3, func(){
                       setprop("ja37/avionics/master-warning-button", 0);
                   });
@@ -148,12 +171,6 @@
                   timer.start();
                 </script>
             </binding>
-            <condition>
-                <less-than-equals>
-                    <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
-                    <value>1</value>
-                </less-than-equals>
-            </condition>
         </item>
         <item>
             <name>Cockpit lights</name>
@@ -227,6 +244,10 @@
                 <property>controls/ventilation/airconditioning-enabled</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Air condition temperature</name>
@@ -258,12 +279,22 @@
                 <property>controls/ventilation/airconditioning-type</property>
                 <value>0</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
     </page>
     <page>
         <item>
             <name>Throttle</name>
             <value>CLOSE (PG Down)</value>
+            <marker>
+                <x-m>-3.6000</x-m>
+                <y-m>-0.4587</y-m>
+                <z-m>0.0959</z-m>
+                <scale>7.0000</scale>
+            </marker>
             <condition>
                 <less-than>
                     <property>/controls/engines/engine[0]/throttle</property>
@@ -275,16 +306,16 @@
                 <property>/controls/engines/engine[0]/throttle</property>
                 <value>0</value>
             </binding>
-            <marker>
-                <x-m>-3.6000</x-m>
-                <y-m>-0.4587</y-m>
-                <z-m>0.0959</z-m>
-                <scale>7.0000</scale>
-            </marker>
         </item>
         <item>
             <name>Landing lights</name>
             <value>OFF</value>
+            <marker>
+                <x-m>-3.3843</x-m>
+                <y-m>0.3850</y-m>
+                <z-m>-0.0132</z-m>
+                <scale>1.1818</scale>
+            </marker>
             <condition>
                 <equals>
                     <property>controls/electric/lights-land-switch</property>
@@ -296,12 +327,10 @@
                 <property>controls/electric/lights-land-switch</property>
                 <value>0</value>
             </binding>
-            <marker>
-                <x-m>-3.3843</x-m>
-                <y-m>0.3850</y-m>
-                <z-m>-0.0132</z-m>
-                <scale>1.1818</scale>
-            </marker>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Warning lights test</name>
@@ -327,6 +356,12 @@
         <item>
             <name>Roll trim</name>
             <value>CHECK, CENTERED (green)</value>
+            <marker>
+                <x-m>-3.9008</x-m>
+                <y-m>-0.4116</y-m>
+                <z-m>0.1612</z-m>
+                <scale>1.0000</scale>
+            </marker>
             <condition>
                 <greater-than>
                     <property>/ja37/avionics/roll-trim-centered</property>
@@ -338,12 +373,6 @@
                 <property>/controls/flight/aileron-trim</property>
                 <value>0</value>
             </binding>
-            <marker>
-                <x-m>-3.9008</x-m>
-                <y-m>-0.4116</y-m>
-                <z-m>0.1612</z-m>
-                <scale>1.0000</scale>
-            </marker>
         </item>
         <item>
             <name>Generator</name>
@@ -354,21 +383,31 @@
                 <z-m>0.1050</z-m>
                 <scale>3.0000</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/electric/engine[0]/generator</property>
-                <value>1</value>
-            </binding>
             <condition>
                 <equals>
                     <property>controls/electric/engine[0]/generator</property>
                     <value>1</value>
                 </equals>
             </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/engine[0]/generator</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Yaw trim</name>
             <value>CHECK, CENTERED (white)</value>
+            <marker>
+                <x-m>-3.3628</x-m>
+                <y-m>-0.4604</y-m>
+                <z-m>0.0000</z-m>
+                <scale>1.0000</scale>
+            </marker>
             <condition>
                 <greater-than>
                     <property>/ja37/avionics/yaw-trim-centered</property>
@@ -380,12 +419,6 @@
                 <property>/controls/flight/rudder-trim</property>
                 <value>0</value>
             </binding>
-            <marker>
-                <x-m>-3.3628</x-m>
-                <y-m>-0.4604</y-m>
-                <z-m>0.0000</z-m>
-                <scale>1.0000</scale>
-            </marker>
         </item>
         <item>
             <name>Radio mode</name>
@@ -396,11 +429,6 @@
                 <z-m>-0.0000</z-m>
                 <scale>1.9091</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>ja37/radio/fr31/knob-l</property>
-                <value>0</value>
-            </binding>
             <condition>
                 <or>
                     <equals>
@@ -413,6 +441,11 @@
                     </equals>
                 </or>
             </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/fr31/knob-l</property>
+                <value>0</value>
+            </binding>
         </item>
         <item>
             <name>Reverser</name>
@@ -433,6 +466,10 @@
                 <command>property-assign</command>
                 <property>controls/engines/engine/reverser-cmd</property>
                 <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </item>
         <item>
@@ -564,6 +601,10 @@
                 <command>property-assign</command>
                 <property>controls/altimeter-radar</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </item>
         <item>
@@ -710,6 +751,10 @@
                 <property>ja37/hud/tracks-enabled</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Pitch gearing</name>
@@ -730,6 +775,10 @@
                 <command>property-assign</command>
                 <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </item>
         <item>
@@ -752,6 +801,10 @@
                 <property>controls/engines/engine/cutoff-augmentation</property>
                 <value>0</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Fuel regulation</name>
@@ -773,6 +826,10 @@
                 <property>controls/fuel/auto</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </item>
         <item>
             <name>Sparkplug</name>
@@ -793,6 +850,10 @@
                 <command>property-assign</command>
                 <property>ja37/engine/sparkplug</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </item>
     </page>

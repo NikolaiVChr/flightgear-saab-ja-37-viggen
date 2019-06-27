@@ -90,6 +90,10 @@
             <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
             <value>1</value>
         </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Transponder</name>

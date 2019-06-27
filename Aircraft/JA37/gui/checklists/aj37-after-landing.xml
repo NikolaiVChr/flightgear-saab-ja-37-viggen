@@ -32,6 +32,10 @@
             <property>controls/altimeter-radar</property>
             <value>0</value>
         </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Transponder</name>

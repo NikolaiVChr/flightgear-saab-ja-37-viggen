@@ -32,17 +32,21 @@
             <z-m>0.1050</z-m>
             <scale>3.0000</scale>
         </marker>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/electric/engine[0]/generator</property>
-            <value>0</value>
-        </binding>
         <condition>
             <equals>
                 <property>controls/electric/engine[0]/generator</property>
                 <value>0</value>
             </equals>
         </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/engine[0]/generator</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Throttle</name>
@@ -128,6 +132,10 @@
             <property>controls/electric/lights-ext-nav</property>
             <value>0</value>
         </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Landing lights</name>
@@ -148,6 +156,10 @@
             <command>property-assign</command>
             <property>controls/electric/lights-land-switch</property>
             <value>0</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
         </binding>
     </item>
     <item>
@@ -182,19 +194,21 @@
             <z-m>0.1116</z-m>
             <scale>3.0000</scale>
         </marker>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
+                <value>1</value>
+            </equals>
+        </condition>
         <binding>
             <command>property-assign</command>
             <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
             <value>1</value>
         </binding>
-        <condition>
-            <and>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                    <value>1</value>
-                </equals>
-            </and>
-        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Generator</name>
@@ -206,17 +220,21 @@
             <z-m>0.1050</z-m>
             <scale>3.0000</scale>
         </marker>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/electric/engine[0]/generator</property>
-            <value>1</value>
-        </binding>
         <condition>
             <equals>
                 <property>controls/electric/engine[0]/generator</property>
                 <value>1</value>
             </equals>
         </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/engine[0]/generator</property>
+            <value>1</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
     <item>
         <name>Canopy</name>
@@ -248,17 +266,19 @@
             <z-m>0.1215</z-m>
             <scale>3.0000</scale>
         </marker>
+        <condition>
+            <equals>
+                <property>/controls/electric/main</property>
+                <value>0</value>
+            </equals>
+        </condition>
         <binding>
             <command>property-toggle</command>
             <property>controls/electric/main</property>
         </binding>
-        <condition>
-            <and>
-                <equals>
-                    <property>/controls/electric/main</property>
-                    <value>0</value>
-                </equals>
-            </and>
-        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
     </item>
 </PropertyList>
