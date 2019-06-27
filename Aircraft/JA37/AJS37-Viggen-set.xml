@@ -289,11 +289,15 @@
         <checklists>
             <group>
                 <name>AJS37 Normal Operations</name>
-                <checklist include="gui/checklists/aj37-preflight.xml"/>
+                <checklist include="gui/checklists/aj37-before-start.xml"/>
                 <checklist include="gui/checklists/aj37-start.xml"/>
+                <checklist include="gui/checklists/aj37-after-start.xml"/>
+                <checklist include="gui/checklists/aj37-before-taxi.xml"/>
+                <checklist include="gui/checklists/aj37-before-takeoff.xml"/>
                 <checklist include="gui/checklists/takeoff.xml"/>
                 <checklist include="gui/checklists/landing.xml"/>
-                <checklist include="gui/checklists/aj37-shutdown.xml"/>
+                <checklist include="gui/checklists/aj37-after-landing.xml"/>
+                <checklist include="gui/checklists/shutdown.xml"/>
             </group>
         </checklists>
     </sim>

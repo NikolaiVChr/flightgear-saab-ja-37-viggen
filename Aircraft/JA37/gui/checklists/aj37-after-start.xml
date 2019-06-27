@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>After Battery Engine Start</title>
+    <item>
+        <name>Those items require AC power and must be checked after engine start without external power.</name>
+    </item>
+    <item>
+        <name>Attitude indicator</name>
+        <value>CHECK ALIGNMENT</value>
+        <marker>
+            <x-m>-4.0300</x-m>
+            <y-m>-0.1400</y-m>
+            <z-m>0.4000</z-m>
+            <scale>4.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Backup heading</name>
+        <value>ENABLE, CHECK</value>
+        <marker>
+            <x-m>-4.0554</x-m>
+            <y-m>0.1700</y-m>
+            <z-m>0.5000</z-m>
+            <scale>1.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Backup heading</name>
+        <value>DISABLE</value>
+        <marker>
+            <x-m>-4.0554</x-m>>
+            <y-m>0.1700</y-m>
+            <z-m>0.5000</z-m>
+            <scale>1.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Fuel indicator</name>
+        <value>CHECK</value>
+        <marker>
+            <x-m>-3.9504</x-m>
+            <y-m>0.2400</y-m>
+            <z-m>0.2900</z-m>
+            <scale>2.1074</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Oxygen</name>
+        <value>ON, PRESSURE MIN 90</value>
+        <marker>
+            <x-m>-3.8794</x-m>
+            <y-m>0.4016</y-m>
+            <z-m>0.1570</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/oxygen</property>
+            <value>1</value>
+        </binding>
+        <condition>
+            <equals>
+                <property>controls/oxygen</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
+</PropertyList>

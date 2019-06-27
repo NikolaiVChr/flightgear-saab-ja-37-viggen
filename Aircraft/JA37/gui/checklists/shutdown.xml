@@ -3,23 +3,23 @@
 <PropertyList>
     <title>Shut down</title>
     <item>
-        <name>Radar altimeter</name>
+        <name>Auto throttle</name>
         <value>OFF</value>
         <marker>
-            <x-m>-3.8300</x-m>
-            <y-m>0.4400</y-m>
-            <z-m>0.1400</z-m>
-            <scale>1.0000</scale>
+            <x-m>-3.1500</x-m>
+            <y-m>-0.4300</y-m>
+            <z-m>0.0400</z-m>
+            <scale>3</scale>
         </marker>
         <condition>
             <equals>
-                <property>controls/altimeter-radar</property>
+                <property>/ja37/avionics/auto-throttle-on</property>
                 <value>0</value>
             </equals>
         </condition>
         <binding>
             <command>property-assign</command>
-            <property>controls/altimeter-radar</property>
+            <property>/ja37/avionics/auto-throttle-on</property>
             <value>0</value>
         </binding>
     </item>
@@ -68,62 +68,61 @@
         </marker>
     </item>
     <item>
-        <name>Anti-collision light</name>
+        <name>Identification transponder</name>
+        <value>OFF</value>
+        <binding>
+            <command>property-assign</command>
+            <property>ja37/radio/me799/knob-2</property>
+            <value>2</value>
+        </binding>
+        <condition>
+            <equals>
+                <property>ja37/radio/me799/knob-2</property>
+                <value>2</value>
+            </equals>
+        </condition>
+        <marker>
+            <x-m>-3.3355</x-m>
+            <y-m>0.3760</y-m>
+            <z-m>-0.0256</z-m>
+            <scale>2.2066</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Exterior lights</name>
         <value>OFF</value>
         <marker>
             <x-m>-3.3843</x-m>
-            <y-m>0.3586</y-m>
+            <y-m>0.3239</y-m>
             <z-m>-0.0132</z-m>
-            <scale>1.1818</scale>
+            <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/electric/lights-ext-flash</property>
-                <value>0</value>
-            </equals>
+            <and>
+                <equals>
+                    <property>controls/electric/lights-ext-flash</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>controls/electric/lights-ext-beacon</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>controls/electric/lights-ext-nav</property>
+                    <value>0</value>
+                </equals>
+            </and>
         </condition>
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-flash</property>
             <value>0</value>
         </binding>
-    </item>
-    <item>
-        <name>Beacon lights</name>
-        <value>OFF</value>
-        <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.2950</y-m>
-            <z-m>-0.0132</z-m>
-            <scale>1.1818</scale>
-        </marker>
-        <condition>
-            <equals>
-                <property>controls/electric/lights-ext-beacon</property>
-                <value>0</value>
-            </equals>
-        </condition>
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-beacon</property>
             <value>0</value>
         </binding>
-    </item>
-    <item>
-        <name>Navigation lights</name>
-        <value>OFF</value>
-        <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3239</y-m>
-            <z-m>-0.0132</z-m>
-            <scale>1.1818</scale>
-        </marker>
-        <condition>
-            <equals>
-                <property>controls/electric/lights-ext-nav</property>
-                <value>0</value>
-            </equals>
-        </condition>
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-nav</property>
@@ -197,7 +196,28 @@
             </and>
         </condition>
     </item>
-
+    <item>
+        <name>Generator</name>
+        <!-- not a typo -->
+        <value>ON (&gt;10s AFTER IDLE AND GEN OFF)</value>
+        <marker>
+            <x-m>-3.7223</x-m>
+            <y-m>-0.4240</y-m>
+            <z-m>0.1050</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/engine[0]/generator</property>
+            <value>1</value>
+        </binding>
+        <condition>
+            <equals>
+                <property>controls/electric/engine[0]/generator</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </item>
     <item>
         <name>Canopy</name>
         <value>OPEN (O)</value>
@@ -221,7 +241,7 @@
     </item>
     <item>
         <name>Main electricity</name>
-        <value>OFF</value>
+        <value>OFF (&gt;5s AFTER CUTOFF)</value>
         <marker>
             <x-m>-3.7702</x-m>
             <y-m>-0.4463</y-m>

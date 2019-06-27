@@ -3,16 +3,6 @@
 <PropertyList>
     <title>Takeoff</title>
     <item>
-        <name>Transponder</name>
-        <value>ON</value>
-        <marker>
-            <x-m>-3.4174</x-m>
-            <y-m>0.2893</y-m>
-            <z-m>-0.0099</z-m>
-            <scale>1.0000</scale>
-        </marker>
-    </item>
-    <item>
         <name>Throttle</name>
         <value>OPEN FULL (PG Up)</value>
         <condition>

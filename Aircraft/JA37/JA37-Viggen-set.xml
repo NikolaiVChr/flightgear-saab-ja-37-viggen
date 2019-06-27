@@ -339,11 +339,15 @@
         <checklists>
             <group>
                 <name>JA37 Normal Operations</name>
-                <checklist include="gui/checklists/ja37-preflight.xml"/>
+                <checklist include="gui/checklists/ja37-before-start.xml"/>
                 <checklist include="gui/checklists/ja37-start.xml"/>
+                <checklist include="gui/checklists/ja37-after-start.xml"/>
+                <checklist include="gui/checklists/ja37-before-taxi.xml"/>
+                <checklist include="gui/checklists/ja37-before-takeoff.xml"/>
                 <checklist include="gui/checklists/takeoff.xml"/>
                 <checklist include="gui/checklists/landing.xml"/>
-                <checklist include="gui/checklists/ja37-shutdown.xml"/>
+                <checklist include="gui/checklists/ja37-after-landing.xml"/>
+                <checklist include="gui/checklists/shutdown.xml"/>
             </group>
         </checklists>
     </sim>
