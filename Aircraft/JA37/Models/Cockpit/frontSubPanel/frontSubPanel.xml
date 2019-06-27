@@ -31,6 +31,10 @@
                <command>nasal</command>
                <script>controls.applyParkingBrake(1)</script>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
             <mod-up>
                <binding>
                 <command>nasal</command>
@@ -68,6 +72,10 @@
             <binding>
                 <command>property-toggle</command>
                 <property>/controls/flight/pedal-mode</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </action>
         <hovered>
