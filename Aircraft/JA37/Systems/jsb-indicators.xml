@@ -2026,6 +2026,7 @@
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
                 propulsion/engine/cutoff == 1
+                /controls/engines/engine[0]/cutoff-augmentation == 1
             </test>
         </switch>
 
