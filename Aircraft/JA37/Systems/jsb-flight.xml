@@ -1556,7 +1556,7 @@
             </function>
         </fcs_function>
 
-        <switch name="propulsion/engine/cutoff">
+        <switch name="propulsion/engine/cutoff-actual">
             <default value="1"/>
             <test logic="AND" value="0">
                 propulsion/engine/cutoff-commanded == 0
@@ -1568,8 +1568,8 @@
              Unfortunately, jsbsim requires cutoff to be on initially for startup.
              To avoid this, cutoff is always enabled for low engine speed.
         -->
-        <switch name="propulsion/engine/cutoff-actual">
-            <default value="propulsion/engine/cutoff"/>
+        <switch name="propulsion/engine/cutoff-jsbsim">
+            <default value="propulsion/engine/cutoff-actual"/>
             <test logic="AND" value="1">
                 propulsion/engine/n1 lt 5.2
             </test>
