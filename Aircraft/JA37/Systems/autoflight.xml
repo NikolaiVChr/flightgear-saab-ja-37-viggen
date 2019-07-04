@@ -155,10 +155,25 @@
 		
 		<switch name="autoflight/temp-mode-active">
 			<default value="0"/>
-			<test logic="AND" value="1"> <!-- Out of range and stick center -->
+			<test logic="AND" value="1"> <!-- Out of range and stick center in ATT or ALT -->
 				autoflight/att-ok ne 1
 				autoflight/ss/active ne 1
+				autoflight/mode gt 1
 			</test>
+		</switch>
+		
+		<actuator name="autoflight/temp-mode-actuator">
+			<input>autoflight/temp-mode-active</input>
+			<rate_limit sense="incr">0.2</rate_limit> <!-- 5 seconds -->
+			<rate_limit sense="decr">100</rate_limit> <!-- Instant -->
+		</actuator>
+		
+		<switch name="autoflight/temp-mode-expired">
+			<default value="0"/>
+			<test value="1">
+				autoflight/temp-mode-actuator eq 1
+			</test>
+			<output>autoflight/temp-mode-expired-out</output>
 		</switch>
 		
 		<switch name="autoflight/internal-mode">
@@ -172,10 +187,23 @@
 			</test>
 		</switch>
 		
+		<switch name="autoflight/manual-roll-rate-active">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/mode gt 1
+				/controls/flight/trim-yaw eq -1
+			</test>
+			<test logic="AND" value="1">
+				autoflight/mode gt 1
+				/controls/flight/trim-yaw eq 1
+			</test>
+		</switch>
+		
 		<switch name="autoflight/roll-mode">
 			<default value="0"/>
-			<test value="0"> <!-- No HDG Hold with gears out -->
+			<test logic="OR" value="0"> <!-- No HDG Hold with gears out or using Yaw Trim switches -->
 				/gear/gear/position-norm ge 0.01
+				autoflight/manual-roll-rate-active eq 1
 			</test>
 			<test logic="AND" value="1">  <!-- HDG Hold only if less than 7 degrees of roll attitude -->
 				attitude/roll-rad ge -0.122173
@@ -228,6 +256,14 @@
 				autoflight/mode eq 3
 				autoflight/alt-blink ne 1
 			</test>
+		</switch>
+		
+		<switch name="autoflight/rudder-trim-reset">
+			<default value="/controls/flight/rudder-trim"/>
+			<test value="0">
+				autoflight/mode gt 1
+			</test>
+			<output>/controls/flight/rudder-trim</output>
 		</switch>
 	
 	</channel>
@@ -428,6 +464,7 @@
 			<test logic="AND" value="1">
 				autoflight/internal-mode gt 1
 				autoflight/roll-mode ne 1
+				autoflight/manual-roll-rate-active ne 1
 			</test>
 		</switch>
 		
@@ -525,9 +562,55 @@
 			</function>
 		</fcs_function>
 		
+		<fcs_function name="autoflight/roll/bank-limit-error"> <!-- Designed so bank greater than limit is ALWAYS negative error -->
+			<function>
+				<difference>
+					<property>autoflight/roll/max-bank-rad</property>
+					<abs><property>attitude/roll-rad</property></abs>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="autoflight/roll/manual-roll-rate-limit">
+			<function>
+				<table>
+					<independentVar lookup="row">autoflight/roll/bank-limit-error</independentVar>
+					<tableData>
+						0.0000000  0.000000
+						0.0872665  0.261799
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<switch name="autoflight/roll/manual-roll-rate-min">
+			<default value="-0.261799"/>
+			<test value="-autoflight/roll/manual-roll-rate-limit">
+				attitude/roll-rad lt 0
+			</test>
+		</switch>
+		
+		<switch name="autoflight/roll/manual-roll-rate-max">
+			<default value="0.261799"/>
+			<test value="autoflight/roll/manual-roll-rate-limit">
+				attitude/roll-rad gt 0
+			</test>
+		</switch>
+		
+		<pure_gain name="autoflight/roll/manual-roll-rate">
+			<description>Makes the Yaw Trim switch generate a Roll Rate demand of 15 degrees per second</description>
+			<input>/controls/flight/trim-yaw</input>
+			<gain>0.261799</gain>
+			<clipto>
+				<min>autoflight/roll/manual-roll-rate-min</min>
+				<max>autoflight/roll/manual-roll-rate-max</max>
+			</clipto>
+		</pure_gain>
+		
 		<summer name="autoflight/roll/roll-rate-error">
 			<input>autoflight/roll/p-rad_sec</input>
 			<input>-autoflight/roll/roll-rate-p</input>
+			<input>-autoflight/roll/manual-roll-rate</input>
 			<clipto>
 				<min>-0.349066</min>
 				<max>0.349066</max>

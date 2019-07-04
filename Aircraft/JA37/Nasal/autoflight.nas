@@ -9,6 +9,7 @@ var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 
 var apSoftWarn = props.globals.getNode("/ja37/avionics/autopilot-soft-warn");
 var apDowngradeMW = props.globals.getNode("/fdm/jsbsim/systems/indicators/master-warning/ap-downgrade");
 var wow = props.globals.getNode("/fdm/jsbsim/position/wow");
+var tempModeExpired = props.globals.getNode("/fdm/jsbsim/autoflight/temp-mode-expired-out");
 
 var System = {
 	engageMode: func(m) {
@@ -48,5 +49,11 @@ setlistener("/fdm/jsbsim/autoflight/can-engage-out", func {
 setlistener("/fdm/jsbsim/autoflight/can-engage-wow-out", func {
 	if (!canEngageWow.getBoolValue() and athr.getBoolValue() != 0) {
 		athr.setBoolValue(0); # OFF
+	}
+}, 0, 0);
+
+setlistener("/fdm/jsbsim/autoflight/temp-mode-expired-out", func {
+	if (tempModeExpired.getBoolValue() and mode.getValue() > 1) {
+		System.engageMode(1);
 	}
 }, 0, 0);

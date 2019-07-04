@@ -1147,14 +1147,32 @@
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
-                    <command>property-cycle</command>
+                    <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
-                    <value type="int">1</value>
-                    <value type="int">0</value>
-                    <value type="int">-1</value>
+                    <value>-1</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <less-than-equals>
+                            <property>fdm/jsbsim/autoflight/mode</property>
+                            <value>1</value>
+                        </less-than-equals>
+                    </condition>
+                    <command>property-adjust</command>
+                    <property>/controls/flight/rudder-trim</property>
+                    <step>-0.05</step>
+                    <min>-1</min>
+                    <max>1</max>
                     <wrap>false</wrap>
                 </binding>
             </mod-ctrl>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
         </key>
 
         <key n="358">
@@ -1163,14 +1181,32 @@
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
-                    <command>property-cycle</command>
+                    <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
-                    <value type="int">-1</value>
-                    <value type="int">0</value>
-                    <value type="int">1</value>
+                    <value>1</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <less-than-equals>
+                            <property>fdm/jsbsim/autoflight/mode</property>
+                            <value>1</value>
+                        </less-than-equals>
+                    </condition>
+                    <command>property-adjust</command>
+                    <property>/controls/flight/rudder-trim</property>
+                    <step>0.05</step>
+                    <min>-1</min>
+                    <max>1</max>
                     <wrap>false</wrap>
                 </binding>
             </mod-ctrl>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
         </key>
 
         <key n="357">
