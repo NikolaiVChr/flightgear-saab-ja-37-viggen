@@ -417,8 +417,8 @@
 			<function>
 				<product>
 					<integer>
-						<quotient>
-							<sum>
+						<sum>
+							<quotient>
 								<ifthen>
 									<eq>
 										<property>autoflight/pitch/alt-hold-active</property>
@@ -427,10 +427,10 @@
 									<property>autoflight/pitch/alt/target</property>
 									<property>autoflight/pitch/alt/predicted</property>
 								</ifthen>
-								<value>50</value> <!-- Make the integer rounded correctly -->
-							</sum>
-							<value>100</value>
-						</quotient>
+								<value>100</value>
+							</quotient>
+							<value>0.5</value> <!-- Make the integer rounded correctly -->
+						</sum>
 					</integer>
 					<value>100</value>
 				</product>
