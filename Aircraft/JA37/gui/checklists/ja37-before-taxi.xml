@@ -43,10 +43,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>ja37/avionics/altimeters-calibrated</property>
-                <value>1</value>
-            </equals>
+            <property>ja37/avionics/altimeters-calibrated</property>
         </condition>
         <binding>
             <command>nasal</command>
@@ -86,10 +83,7 @@
             <scale>1.8595</scale>
         </marker>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
-                <value>1</value>
-            </equals>
+            <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -111,10 +105,7 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>ja37/avionics/ins</property>
-                <value>1</value>
-            </equals>
+            <property>ja37/avionics/ins</property>
         </condition>
         <binding>
             <command>property-assign</command>

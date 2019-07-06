@@ -15,10 +15,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                <value>1</value>
-            </equals>
+            <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -41,10 +38,7 @@
         <name>EJECT</name>
         <value>EJECT</value>
         <condition>
-            <equals>
-                <property>ja37/done</property>
-                <value>1</value>
-            </equals>
+            <property>ja37/done</property>
         </condition>
         <binding>
             <command>nasal</command>
@@ -73,12 +67,10 @@
         <name>Throttle</name>
         <value>CLOSE (PG Down)</value>
         <condition>
-            <and>
-                <less-than>
-                    <property>/controls/engines/engine[0]/throttle</property>
-                    <value>0.02</value>
-                </less-than>
-            </and>
+            <less-than>
+                <property>/controls/engines/engine[0]/throttle</property>
+                <value>0.02</value>
+            </less-than>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -102,10 +94,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>/controls/electric/main</property>
-                <value>0</value>
-            </equals>
+            <not><property>/controls/electric/main</property></not>
         </condition>
         <binding>
             <command>property-toggle</command>

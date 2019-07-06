@@ -38,10 +38,7 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/fuel/auto</property>
-                <value>0</value>
-            </equals>
+            <not><property>controls/fuel/auto</property></not>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -63,10 +60,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
-                <value>1</value>
-            </equals>
+            <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
         </condition>
         <binding>
             <command>nasal</command>
@@ -103,10 +97,7 @@
         <name>Engine</name>
         <value>Ready</value>
         <condition>
-            <equals>
-                <property>/engines/engine[0]/running</property>
-                <value>1</value>
-            </equals>
+            <property>/engines/engine[0]/running</property>
         </condition>
     </item>
     <item>

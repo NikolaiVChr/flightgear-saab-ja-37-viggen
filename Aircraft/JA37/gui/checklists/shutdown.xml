@@ -12,10 +12,7 @@
             <scale>3</scale>
         </marker>
         <condition>
-            <equals>
-                <property>/ja37/avionics/auto-throttle-on</property>
-                <value>0</value>
-            </equals>
+            <not><property>/ja37/avionics/auto-throttle-on</property></not>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -33,10 +30,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/electric/engine[0]/generator</property>
-                <value>0</value>
-            </equals>
+            <not><property>controls/electric/engine[0]/generator</property></not>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -52,12 +46,10 @@
         <name>Throttle</name>
         <value>CLOSE (PG Down)</value>
         <condition>
-            <and>
-                <less-than>
-                    <property>/controls/engines/engine[0]/throttle</property>
-                    <value>0.02</value>
-                </less-than>
-            </and>
+            <less-than>
+                <property>/controls/engines/engine[0]/throttle</property>
+                <value>0.02</value>
+            </less-than>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -81,10 +73,7 @@
             <scale>1.1818</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/electric/lights-land-switch</property>
-                <value>0</value>
-            </equals>
+            <not><property>controls/electric/lights-land-switch</property></not>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -128,18 +117,9 @@
         </marker>
         <condition>
             <and>
-                <equals>
-                    <property>controls/electric/lights-ext-flash</property>
-                    <value>0</value>
-                </equals>
-                <equals>
-                    <property>controls/electric/lights-ext-beacon</property>
-                    <value>0</value>
-                </equals>
-                <equals>
-                    <property>controls/electric/lights-ext-nav</property>
-                    <value>0</value>
-                </equals>
+                <not><property>controls/electric/lights-ext-flash</property></not>
+                <not><property>controls/electric/lights-ext-beacon</property></not>
+                <not><property>controls/electric/lights-ext-nav</property></not>
             </and>
         </condition>
         <binding>
@@ -177,12 +157,7 @@
             <value>0</value>
         </binding>
         <condition>
-            <and>
-                <equals>
-                    <property>controls/oxygen</property>
-                    <value>0</value>
-                </equals>
-            </and>
+            <not><property>controls/oxygen</property></not>
         </condition>
     </item>
     <item>
@@ -216,10 +191,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                <value>1</value>
-            </equals>
+            <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -242,10 +214,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/electric/engine[0]/generator</property>
-                <value>1</value>
-            </equals>
+            <property>controls/electric/engine[0]/generator</property>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -267,10 +236,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>/controls/electric/main</property>
-                <value>0</value>
-            </equals>
+            <not><property>/controls/electric/main</property></not>
         </condition>
         <binding>
             <command>property-toggle</command>

@@ -16,10 +16,7 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/systems/electrical/generator-ready</property>
-                <value>1</value>
-            </equals>
+            <property>fdm/jsbsim/systems/electrical/generator-ready</property>
         </condition>
         <binding>
             <command>nasal</command>
@@ -50,10 +47,7 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/electric/reserve</property>
-                <value>1</value>
-            </equals>
+            <property>controls/electric/reserve</property>
         </condition>
         <binding>
             <command>property-assign</command>

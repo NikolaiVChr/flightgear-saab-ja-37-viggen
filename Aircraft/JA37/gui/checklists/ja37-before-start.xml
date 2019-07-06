@@ -12,10 +12,7 @@
                 <value>1</value>
             </binding>
             <condition>
-                <equals>
-                    <property>fdm/jsbsim/systems/electrical/external/available</property>
-                    <value>1</value>
-                </equals>
+                <property>fdm/jsbsim/systems/electrical/external/available</property>
             </condition>
         </item>
         <item>
@@ -32,26 +29,11 @@
             </marker>
             <condition>
                 <and>
-                    <equals>
-                        <property>ja37/fuses/krets</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/fuses/sa</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/fuses/trim</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/fuses/gvv</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/fuses/motor</property>
-                        <value>1</value>
-                    </equals>
+                    <property>ja37/fuses/krets</property>
+                    <property>ja37/fuses/sa</property>
+                    <property>ja37/fuses/trim</property>
+                    <property>ja37/fuses/gvv</property>
+                    <property>ja37/fuses/motor</property>
                 </and>
             </condition>
             <binding>
@@ -90,10 +72,7 @@
                 <scale>6.5372</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>/ja37/hud/combat</property>
-                    <value>0</value>
-                </equals>
+                <not><property>/ja37/hud/combat</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -111,10 +90,7 @@
                 <scale>3.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>/controls/electric/main</property>
-                    <value>1</value>
-                </equals>
+                <property>/controls/electric/main</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -138,10 +114,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/electric/reserve</property>
-                    <value>0</value>
-                </equals>
+                <not><property>controls/electric/reserve</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -163,10 +136,7 @@
                 <scale>3.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                    <value>0</value>
-                </equals>
+                <not><property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -190,10 +160,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/engines/engine/cutoff-augmentation</property>
-                    <value>0</value>
-                </equals>
+                <not><property>controls/engines/engine/cutoff-augmentation</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -215,10 +182,7 @@
                 <scale>3.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/cutoff-indicator</property>
-                    <value>0</value>
-                </equals>
+                <not><property>fdm/jsbsim/propulsion/engine/cutoff-indicator</property></not>
             </condition>
         </item>
         <item>
@@ -260,10 +224,7 @@
                 <scale>2.4711</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>/controls/gear/brake-parking</property>
-                    <value>1</value>
-                </equals>
+                <property>/controls/gear/brake-parking</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -309,10 +270,7 @@
                 <scale>5.7603</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>/controls/gear/gear-down</property>
-                    <value>1</value>
-                </equals>
+                <property>/controls/gear/gear-down</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -330,10 +288,7 @@
                 <scale>3</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>/ja37/avionics/auto-throttle-on</property>
-                    <value>0</value>
-                </equals>
+                <not><property>/ja37/avionics/auto-throttle-on</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -388,10 +343,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/ventilation/airconditioning-enabled</property>
-                    <value>1</value>
-                </equals>
+                <property>controls/ventilation/airconditioning-enabled</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -434,10 +386,7 @@
                 <scale>1.1818</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/electric/lights-land-switch</property>
-                    <value>0</value>
-                </equals>
+                <not><property>controls/electric/lights-land-switch</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -470,10 +419,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <greater-than>
-                    <property>/ja37/avionics/roll-trim-centered</property>
-                    <value>0.01</value>
-                </greater-than>
+                <property>/ja37/avionics/roll-trim-centered</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -492,10 +438,7 @@
                 <scale>3.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/electric/engine[0]/generator</property>
-                    <value>1</value>
-                </equals>
+                <property>controls/electric/engine[0]/generator</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -517,10 +460,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <greater-than>
-                    <property>/ja37/avionics/yaw-trim-centered</property>
-                    <value>0.01</value>
-                </greater-than>
+                <property>/ja37/avionics/yaw-trim-centered</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -632,10 +572,7 @@
                 <scale>5.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/engines/engine/reverser-cmd</property>
-                    <value>0</value>
-                </equals>
+                <not><property>controls/engines/engine/reverser-cmd</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -677,10 +614,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>ja37/avionics/reservkurs</property>
-                    <value>1</value>
-                </equals>
+                <property>ja37/avionics/reservkurs</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -698,10 +632,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>ja37/avionics/reservkurs</property>
-                    <value>0</value>
-                </equals>
+                <not><property>ja37/avionics/reservkurs</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -820,10 +751,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>ja37/avionics/collision-warning</property>
-                    <value>1</value>
-                </equals>
+                <property>ja37/avionics/collision-warning</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -845,10 +773,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/altimeter-radar</property>
-                    <value>1</value>
-                </equals>
+                <property>controls/altimeter-radar</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -937,10 +862,7 @@
                 <value>1</value>
             </binding>
             <condition>
-                <equals>
-                    <property>controls/oxygen</property>
-                    <value>1</value>
-                </equals>
+                <property>controls/oxygen</property>
             </condition>
         </item>
         <item>
@@ -976,10 +898,7 @@
                 <scale>1.3636</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>ja37/hud/tracks-enabled</property>
-                    <value>1</value>
-                </equals>
+                <property>ja37/hud/tracks-enabled</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -1001,10 +920,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
-                    <value>1</value>
-                </equals>
+                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -1026,10 +942,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>controls/fuel/auto</property>
-                    <value>1</value>
-                </equals>
+                <property>controls/fuel/auto</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -1051,10 +964,7 @@
                 <scale>2.3058</scale>
             </marker>
             <condition>
-                <equals>
-                    <property>ja37/engine/sparkplug</property>
-                    <value>1</value>
-                </equals>
+                <property>ja37/engine/sparkplug</property>
             </condition>
             <binding>
                 <command>property-assign</command>

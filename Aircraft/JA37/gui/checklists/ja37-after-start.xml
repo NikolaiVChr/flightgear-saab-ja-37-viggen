@@ -45,10 +45,7 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>ja37/avionics/reservkurs</property>
-                <value>1</value>
-            </equals>
+            <property>ja37/avionics/reservkurs</property>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -66,10 +63,7 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>ja37/avionics/reservkurs</property>
-                <value>0</value>
-            </equals>
+            <not><property>ja37/avionics/reservkurs</property></not>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -142,10 +136,7 @@
             <value>1</value>
         </binding>
         <condition>
-            <equals>
-                <property>controls/oxygen</property>
-                <value>1</value>
-            </equals>
+            <property>controls/oxygen</property>
         </condition>
     </item>
 </PropertyList>

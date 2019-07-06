@@ -53,10 +53,7 @@
             <scale>1.1818</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/electric/lights-land-switch</property>
-                <value>1</value>
-            </equals>
+            <property>controls/electric/lights-land-switch</property>
         </condition>
         <binding>
             <command>property-assign</command>

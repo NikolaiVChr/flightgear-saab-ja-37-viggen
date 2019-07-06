@@ -28,10 +28,7 @@
             <scale>5.7603</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/gear/gear-down</property>
-                <value>1</value>
-            </equals>
+            <property>controls/gear/gear-down</property>
         </condition>
         <binding>
             <command>nasal</command>
@@ -46,10 +43,7 @@
         <name>Touchdown</name>
         <value>LAND</value>
         <condition>
-            <equals>
-                <property>gear/gear/wow</property>
-                <value>1</value>
-            </equals>
+            <property>gear/gear/wow</property>
         </condition>
     </item>
     <item>
@@ -62,10 +56,7 @@
             <scale>5.0000</scale>
         </marker>
         <condition>
-            <equals>
-                <property>engines/engine/is-reversed</property>
-                <value>1</value>
-            </equals>
+            <property>engines/engine/is-reversed</property>
         </condition>
         <binding>
             <command>property-assign</command>

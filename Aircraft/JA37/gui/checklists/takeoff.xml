@@ -33,10 +33,7 @@
             <scale>2.4711</scale>
         </marker>
         <condition>
-            <equals>
-                <property>/controls/gear/brake-parking</property>
-                <value>0</value>
-            </equals>
+            <not><property>/controls/gear/brake-parking</property></not>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -55,10 +52,7 @@
     <item>
         <name>Takeoff</name>
         <condition>
-            <equals>
-                <property>gear/gear/wow</property>
-                <value>0</value>
-            </equals>
+            <not><property>gear/gear/wow</property></not>
         </condition>
     </item>
     <item>
@@ -71,10 +65,7 @@
             <scale>5.7603</scale>
         </marker>
         <condition>
-            <equals>
-                <property>controls/gear/gear-down</property>
-                <value>0</value>
-            </equals>
+            <not><property>controls/gear/gear-down</property></not>
         </condition>
         <binding>
             <command>nasal</command>
