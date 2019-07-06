@@ -72,6 +72,31 @@
         </marker>
     </item>
     <item>
+        <name>Landing lights</name>
+        <value>OFF</value>
+        <marker>
+            <x-m>-3.3843</x-m>
+            <y-m>0.3867</y-m>
+            <z-m>-0.0132</z-m>
+            <scale>1.1818</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>controls/electric/lights-land-switch</property>
+                <value>0</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/lights-land-switch</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
+    </item>
+    <item>
         <name>Identification transponder</name>
         <value>OFF</value>
         <binding>
@@ -138,31 +163,6 @@
         </binding>
     </item>
     <item>
-        <name>Landing lights</name>
-        <value>OFF</value>
-        <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3867</y-m>
-            <z-m>-0.0132</z-m>
-            <scale>1.1818</scale>
-        </marker>
-        <condition>
-            <equals>
-                <property>controls/electric/lights-land-switch</property>
-                <value>0</value>
-            </equals>
-        </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/electric/lights-land-switch</property>
-            <value>0</value>
-        </binding>
-        <binding>
-            <command>nasal</command>
-            <script>ja37.click();</script>
-        </binding>
-    </item>
-    <item>
         <name>Mask oxygen</name>
         <value>OFF</value>
         <marker>
@@ -184,6 +184,27 @@
                 </equals>
             </and>
         </condition>
+    </item>
+    <item>
+        <name>Canopy</name>
+        <value>OPEN (O)</value>
+        <marker>
+            <x-m>-3.6926</x-m>
+            <y-m>-0.3033</y-m>
+            <z-m>0.3884</z-m>
+            <scale>3.5950</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/fcs/canopy/pos-norm</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/fcs/canopy/engage</property>
+            <value>1</value>
+        </binding>
     </item>
     <item>
         <name>Cutoff</name>
@@ -234,27 +255,6 @@
         <binding>
             <command>nasal</command>
             <script>ja37.click();</script>
-        </binding>
-    </item>
-    <item>
-        <name>Canopy</name>
-        <value>OPEN (O)</value>
-        <marker>
-            <x-m>-3.6926</x-m>
-            <y-m>-0.3033</y-m>
-            <z-m>0.3884</z-m>
-            <scale>3.5950</scale>
-        </marker>
-        <condition>
-            <equals>
-                <property>fdm/jsbsim/fcs/canopy/pos-norm</property>
-                <value>1</value>
-            </equals>
-        </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>fdm/jsbsim/fcs/canopy/engage</property>
-            <value>1</value>
         </binding>
     </item>
     <item>

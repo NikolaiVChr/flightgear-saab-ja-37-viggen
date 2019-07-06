@@ -737,6 +737,11 @@
                 <!-- fr29 aka. fr31 knob for aural warning tones -->
                 <knob-vol type="double">0.25</knob-vol>
             </fr29>
+            <fr31>
+                <knob-l type="int">0</knob-l>
+                <knob-t type="int">0</knob-t>
+                <s-m type="int">0</s-m>
+            </fr31>
         </radio>
         <faf>
             <friend-1 userarchive="y" type="string"></friend-1>

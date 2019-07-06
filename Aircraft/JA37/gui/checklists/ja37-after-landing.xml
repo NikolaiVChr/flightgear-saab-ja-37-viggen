@@ -13,31 +13,6 @@
         </marker>
     </item>
     <item>
-        <name>Radar altimeter</name>
-        <value>OFF</value>
-        <marker>
-            <x-m>-3.6586</x-m>
-            <y-m>0.4430</y-m>
-            <z-m>0.0975</z-m>
-            <scale>1.0000</scale>
-        </marker>
-        <condition>
-            <equals>
-                <property>controls/altimeter-radar</property>
-                <value>0</value>
-            </equals>
-        </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/altimeter-radar</property>
-            <value>0</value>
-        </binding>
-        <binding>
-            <command>nasal</command>
-            <script>ja37.click();</script>
-        </binding>
-    </item>
-    <item>
         <name>Transponder</name>
         <value>OFF</value>
         <condition>
