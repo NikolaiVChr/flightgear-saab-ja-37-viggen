@@ -398,8 +398,8 @@
                 <script>ja37.click();</script>
             </binding>
         </item>
-        <!-- This particular item may be a bit confusing. My understanding is 
-             that in the real aircraft, the warning lights which are supposed 
+        <!-- This particular item may be a bit confusing. My understanding is
+             that in the real aircraft, the warning lights which are supposed
              to be lit at this point in the checklist are marked, and the pilot
              should check this.
              Currently, we are missing the markings, and some lights are lit when

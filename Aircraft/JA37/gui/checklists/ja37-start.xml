@@ -127,5 +127,19 @@
         <condition>
             <property>/instrumentation/joystick-indicator</property>
         </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              setprop("ja37/avionics/button-stck", 1);
+              auto.mode1();
+              ja37.click();
+              var timer = maketimer(0.3, func(){
+                  setprop("ja37/avionics/button-stck", 0);
+              });
+              timer.singleShot = 1;
+              timer.simulatedTime = 1;
+              timer.start();
+            </script>
+        </binding>
     </item>
 </PropertyList>
