@@ -97,8 +97,9 @@
             <not><property>/controls/electric/main</property></not>
         </condition>
         <binding>
-            <command>property-toggle</command>
+            <command>property-assign</command>
             <property>controls/electric/main</property>
+            <value>0</value>
         </binding>
         <binding>
             <command>nasal</command>
