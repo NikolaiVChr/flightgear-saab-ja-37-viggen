@@ -7,7 +7,7 @@
     </item>
     <item>
         <name>Attitude indicator</name>
-        <value>CHECK ALIGNMENT</value>
+        <value>CHECK</value>
         <marker>
             <x-m>-4.0300</x-m>
             <y-m>-0.1400</y-m>
@@ -16,23 +16,23 @@
         </marker>
     </item>
     <item>
-        <name>Backup heading</name>
-        <value>ENABLE, CHECK</value>
+        <name>Backup altimeter</name>
+        <value>CHECK</value>
         <marker>
-            <x-m>-4.0554</x-m>
-            <y-m>0.1700</y-m>
-            <z-m>0.5000</z-m>
-            <scale>1.0000</scale>
+            <x-m>-3.9901</x-m>
+            <y-m>0.1200</y-m>
+            <z-m>0.3250</z-m>
+            <scale>3.0000</scale>
         </marker>
     </item>
     <item>
         <name>Backup heading</name>
-        <value>DISABLE</value>
+        <value>CHECK</value>
         <marker>
-            <x-m>-4.0554</x-m>>
-            <y-m>0.1700</y-m>
-            <z-m>0.5000</z-m>
-            <scale>1.0000</scale>
+            <x-m>-3.9800</x-m>
+            <y-m>0.1200</y-m>
+            <z-m>0.2500</z-m>
+            <scale>3.0000</scale>
         </marker>
     </item>
     <item>

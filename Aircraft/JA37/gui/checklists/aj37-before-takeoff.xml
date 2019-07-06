@@ -3,6 +3,9 @@
 <PropertyList>
     <title>Before Takeoff</title>
     <item>
+        <name>Aligned on runway</name>
+    </item>
+    <item>
         <name>Transponder</name>
         <value>ON</value>
         <condition>
@@ -28,6 +31,26 @@
         <value>CHECK</value>
     </item>
     <item>
+        <name>SPAK</name>
+        <value>CHECK ON</value>
+        <marker>
+            <x-m>-4.0400</x-m>
+            <y-m>-0.2420</y-m>
+            <z-m>0.4450</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <condition>
+            <property>/instrumentation/joystick-indicator</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              auto.mode1();
+              ja37.click();
+            </script>
+        </binding>
+    </item>
+    <item>
         <name>Master caution</name>
         <value>CHECK OFF</value>
         <marker>
@@ -42,6 +65,14 @@
                 <value>0</value>
             </equals>
         </condition>
+    </item>
+    <item>
+        <name>Warning lights</name>
+        <value>CHECK OFF (X-Tank Fuel disappears at 70%rpm)</value>
+    </item>
+    <item>
+        <name>HUD</name>
+        <value>CHECK</value>
     </item>
     <item>
         <name>Landing lights</name>

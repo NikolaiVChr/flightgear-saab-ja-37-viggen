@@ -115,4 +115,24 @@
             <not><property>fdm/jsbsim/systems/electrical/external/enable-cmd</property></not>
         </condition>
     </item>
+    <item>
+        <name>SPAK</name>
+        <value>CHECK ON</value>
+        <marker>
+            <x-m>-4.0400</x-m>
+            <y-m>-0.2420</y-m>
+            <z-m>0.4450</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <condition>
+            <property>/instrumentation/joystick-indicator</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              auto.mode1();
+              ja37.click();
+            </script>
+        </binding>
+    </item>
 </PropertyList>
