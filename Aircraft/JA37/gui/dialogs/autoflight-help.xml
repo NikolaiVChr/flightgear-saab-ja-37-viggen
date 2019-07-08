@@ -68,7 +68,11 @@
 	</text>
 	<text>
 		<halign>left</halign>
-		<label>If the gear is out, alpha is held by adjusting thrust. Target is 9 deg to 12 deg based on weight.</label>
+		<label>In speed mode, the A/T will turn off and won't engage if the speed is below 495KMH (267KTS.)</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>If the gear is out for 5 sec, alpha is held by adjusting thrust. Target is 9 deg to 12 deg based on weight.</label>
 	</text>
 	<text>
 		<halign>left</halign>

@@ -1153,10 +1153,10 @@
                 </binding>
                 <binding>
                     <condition>
-                        <less-than-equals>
+                        <equals>
                             <property>fdm/jsbsim/autoflight/mode</property>
-                            <value>1</value>
-                        </less-than-equals>
+                            <value>0</value>
+                        </equals>
                     </condition>
                     <command>property-adjust</command>
                     <property>/controls/flight/rudder-trim</property>
@@ -1164,6 +1164,10 @@
                     <min>-1</min>
                     <max>1</max>
                     <wrap>false</wrap>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>autoflight.System.trimStickKill();</script>
                 </binding>
             </mod-ctrl>
             <mod-up>
@@ -1187,10 +1191,10 @@
                 </binding>
                 <binding>
                     <condition>
-                        <less-than-equals>
+                        <equals>
                             <property>fdm/jsbsim/autoflight/mode</property>
-                            <value>1</value>
-                        </less-than-equals>
+                            <value>0</value>
+                        </equals>
                     </condition>
                     <command>property-adjust</command>
                     <property>/controls/flight/rudder-trim</property>
@@ -1198,6 +1202,10 @@
                     <min>-1</min>
                     <max>1</max>
                     <wrap>false</wrap>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>autoflight.System.trimStickKill();</script>
                 </binding>
             </mod-ctrl>
             <mod-up>

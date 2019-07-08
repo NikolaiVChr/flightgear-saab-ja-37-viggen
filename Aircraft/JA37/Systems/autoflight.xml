@@ -21,24 +21,6 @@
 			<rate_limit sense="decr">0.2</rate_limit> <!-- 5 seconds -->
 		</actuator>
 		
-		<switch name="autoflight/max-mode">
-			<default value="0"/>
-			<test logic="AND" value="3">
-				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/ac-bus-main-bool-timer gt 0
-				systems/hydraulics/system1/pressure eq 1
-				systems/hydraulics/system2/pressure eq 1
-				/ja37/fuses/sa ne 0
-			</test>
-			<test logic="AND" value="1">
-				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/ac-bus-main-bool-timer gt 0
-				systems/hydraulics/system1/pressure eq 1
-				/ja37/fuses/sa ne 0
-			</test>
-			<output>autoflight/max-mode-out</output>
-		</switch>
-		
 		<switch name="autoflight/gear2-bool">
 			<default value="0"/>
 			<test value="1"> <!-- Should be gear/unit[2]/pos-norm, but Nikolai doesn't use it -->
@@ -51,58 +33,6 @@
 			<rate_limit sense="incr">0.2</rate_limit> <!-- 5 seconds -->
 			<rate_limit sense="decr">100</rate_limit> <!-- Instant -->
 		</actuator>
-		
-		<switch name="autoflight/athr-mode"> <!-- 0 IAS, 1 Alpha -->
-			<default value="0"/>
-			<test value="1">
-				autoflight/gear2-timer eq 1
-			</test>
-		</switch>
-		
-		<switch name="autoflight/athr-can-engage">
-			<default value="1"/>
-			<test logic="AND" value="0">
-				autoflight/indicated-speed-kmh lt 495
-				autoflight/athr-mode eq 0
-			</test>
-			<test logic="OR" value="0">
-				/ja37/elec/dc-bus-main-bool ne 1
-				autoflight/ac-bus-main-bool-timer eq 0
-				gear/unit[0]/WOW eq 1
-				gear/unit[1]/WOW eq 1
-				gear/unit[2]/WOW eq 1
-			</test>
-			<output>autoflight/athr-can-engage-out</output>
-		</switch>
-		
-		<fcs_function name="autoflight/target-speed-kmh-tie">
-			<function>
-				<ifthen>
-					<and>
-						<eq>
-							<property>/fdm/jsbsim/autoflight/athr</property>
-							<value>1</value>
-						</eq>
-						<nq>
-							<property>/fdm/jsbsim/autoflight/athr-mode</property>
-							<value>1</value>
-						</nq>
-					</and>
-					<property>autoflight/target-speed-kmh</property>
-					<integer>
-						<sum>
-							<property>autoflight/indicated-speed-kmh</property>
-							<value>0.5</value> <!-- Make the integer rounded correctly -->
-						</sum>
-					</integer>
-				</ifthen>
-			</function>
-			<output>autoflight/target-speed-kmh</output> <!-- So we can override it via keys -->
-			<clipto>
-				<min>550</min> <!-- From Necolatis -->
-				<max>2450</max> <!-- Red line on Airspeed Indicator -->
-			</clipto>
-		</fcs_function>
 		
 		<lag_filter name="autoflight/ss/roll-input">
 			<input>fcs/aileron/stick-newtons</input>
@@ -189,18 +119,51 @@
 			</test>
 		</switch>
 		
-		<actuator name="autoflight/temp-mode-actuator">
+		<actuator name="autoflight/temp-mode-timer">
 			<input>autoflight/temp-mode-active</input>
 			<rate_limit sense="incr">0.2</rate_limit> <!-- 5 seconds -->
 			<rate_limit sense="decr">100</rate_limit> <!-- Instant -->
 		</actuator>
 		
-		<switch name="autoflight/temp-mode-expired">
+		<switch name="autoflight/alt-transonic">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/mode eq 3
+				velocities/mach ge 0.97
+				velocities/mach le 1.05
+			</test>
+		</switch>
+		
+		<actuator name="autoflight/alt-transonic-timer">
+			<input>autoflight/alt-transonic</input>
+			<rate_limit sense="incr">0.01666666666666666666666666666667</rate_limit> <!-- 1 minute -->
+			<rate_limit sense="decr">100</rate_limit> <!-- Instant -->
+		</actuator>
+		
+		<switch name="autoflight/max-mode">
 			<default value="0"/>
 			<test value="1">
-				autoflight/temp-mode-actuator eq 1
+				autoflight/temp-mode-timer eq 1
+				autoflight/mode gt 1
 			</test>
-			<output>autoflight/temp-mode-expired-out</output>
+			<test value="2">
+				autoflight/alt-transonic-timer eq 1
+				autoflight/mode eq 3
+			</test>
+			<test logic="AND" value="3">
+				/ja37/elec/dc-bus-main-bool eq 1
+				autoflight/ac-bus-main-bool-timer gt 0
+				systems/hydraulics/system1/pressure eq 1
+				systems/hydraulics/system2/pressure eq 1
+				/ja37/fuses/sa ne 0
+			</test>
+			<test logic="AND" value="1">
+				/ja37/elec/dc-bus-main-bool eq 1
+				autoflight/ac-bus-main-bool-timer gt 0
+				systems/hydraulics/system1/pressure eq 1
+				/ja37/fuses/sa ne 0
+			</test>
+			<output>autoflight/max-mode-out</output>
 		</switch>
 		
 		<switch name="autoflight/internal-mode">
@@ -238,6 +201,58 @@
 				autoflight/internal-mode gt 1
 			</test>
 		</switch>
+		
+		<switch name="autoflight/athr-mode"> <!-- 0 IAS, 1 Alpha -->
+			<default value="0"/>
+			<test value="1">
+				autoflight/gear2-timer eq 1
+			</test>
+		</switch>
+		
+		<switch name="autoflight/athr-can-engage">
+			<default value="1"/>
+			<test logic="AND" value="0">
+				autoflight/indicated-speed-kmh lt 495
+				autoflight/athr-mode eq 0
+			</test>
+			<test logic="OR" value="0">
+				/ja37/elec/dc-bus-main-bool ne 1
+				autoflight/ac-bus-main-bool-timer eq 0
+				gear/unit[0]/WOW eq 1
+				gear/unit[1]/WOW eq 1
+				gear/unit[2]/WOW eq 1
+			</test>
+			<output>autoflight/athr-can-engage-out</output>
+		</switch>
+		
+		<fcs_function name="autoflight/target-speed-kmh-tie">
+			<function>
+				<ifthen>
+					<and>
+						<eq>
+							<property>/fdm/jsbsim/autoflight/athr</property>
+							<value>1</value>
+						</eq>
+						<nq>
+							<property>/fdm/jsbsim/autoflight/athr-mode</property>
+							<value>1</value>
+						</nq>
+					</and>
+					<property>autoflight/target-speed-kmh</property>
+					<integer>
+						<sum>
+							<property>autoflight/indicated-speed-kmh</property>
+							<value>0.5</value> <!-- Make the integer rounded correctly -->
+						</sum>
+					</integer>
+				</ifthen>
+			</function>
+			<output>autoflight/target-speed-kmh</output> <!-- So we can override it via keys -->
+			<clipto>
+				<min>550</min> <!-- From Necolatis -->
+				<max>2450</max> <!-- Red line on Airspeed Indicator -->
+			</clipto>
+		</fcs_function>
 		
 		<switch name="autoflight/stick-light-cmd">
 			<default value="0"/>
