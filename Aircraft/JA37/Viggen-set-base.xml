@@ -844,8 +844,9 @@
             </accelerations>
             <autoflight n="0">
                 <athr type="bool">0</athr>
-                <can-engage-out type="bool">0</can-engage-out>
+                <athr-can-engage-out type="bool">0</athr-can-engage-out>
                 <high-alpha type="bool">0</high-alpha>
+                <max-mode-out type="int">0</max-mode-out>
                 <mode type="int">0</mode>
                 <pitch n="0">
                     <d-gain type="double">0</d-gain>
