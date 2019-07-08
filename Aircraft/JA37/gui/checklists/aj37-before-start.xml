@@ -19,6 +19,50 @@
             <name>If external power is unavailable, delay items marked *** until engine start</name>
         </item>
         <item>
+            <name>Circuit breakers</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.4645</x-m>
+                <y-m>0.4496</y-m>
+                <z-m>0.2000</z-m>
+                <scale>7.2975</scale>
+            </marker>
+            <condition>
+                <and>
+                    <property>ja37/fuses/krets</property>
+                    <property>ja37/fuses/sa</property>
+                    <property>ja37/fuses/trim</property>
+                    <property>ja37/fuses/gvv</property>
+                    <property>ja37/fuses/motor</property>
+                </and>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/motor</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/gvv</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/trim</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/sa</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/ja37/fuses/krets</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
             <name>Master arm</name>
             <value>OFF (h)</value>
             <marker>
@@ -83,28 +127,6 @@
             </binding>
         </item>
         <item>
-            <name>Parking Brakes</name>
-            <value>SET (shift-B)</value>
-            <marker>
-                <x-m>-3.9554</x-m>
-                <y-m>-0.0595</y-m>
-                <z-m>0.0686</z-m>
-                <scale>2.4711</scale>
-            </marker>
-            <condition>
-                <property>/controls/gear/brake-parking</property>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>/controls/gear/brake-parking</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </item>
-        <item>
             <name>Cutoff</name>
             <value>OPEN</value>
             <marker>
@@ -126,6 +148,8 @@
                 <script>ja37.click();</script>
             </binding>
         </item>
+        <!-- Not in the real checklist, but the ligth (next item) only goes off if
+             both cutoffs are open. -->
         <item>
             <name>Afterburner cutoff</name>
             <value>OPEN</value>
@@ -188,6 +212,28 @@
                   timer.simulatedTime = 1;
                   timer.start();
                 </script>
+            </binding>
+        </item>
+        <item>
+            <name>Parking Brakes</name>
+            <value>SET (shift-B)</value>
+            <marker>
+                <x-m>-3.9554</x-m>
+                <y-m>-0.0595</y-m>
+                <z-m>0.0686</z-m>
+                <scale>2.4711</scale>
+            </marker>
+            <condition>
+                <property>/controls/gear/brake-parking</property>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/gear/brake-parking</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </item>
         <item>
@@ -537,16 +583,6 @@
             </binding>
         </item>
         <item>
-            <name>***Attitude indicator</name>
-            <value>CHECK</value>
-            <marker>
-                <x-m>-4.0300</x-m>
-                <y-m>-0.1400</y-m>
-                <z-m>0.4000</z-m>
-                <scale>4.0000</scale>
-            </marker>
-        </item>
-        <item>
             <name>***Backup altimeter</name>
             <value>CHECK</value>
             <marker>
@@ -554,6 +590,16 @@
                 <y-m>0.1200</y-m>
                 <z-m>0.3250</z-m>
                 <scale>3.0000</scale>
+            </marker>
+        </item>
+        <item>
+            <name>***Attitude indicator</name>
+            <value>CHECK</value>
+            <marker>
+                <x-m>-4.0300</x-m>
+                <y-m>-0.1400</y-m>
+                <z-m>0.4000</z-m>
+                <scale>4.0000</scale>
             </marker>
         </item>
         <item>
@@ -566,8 +612,6 @@
                 <scale>3.0000</scale>
             </marker>
         </item>
-    </page>
-    <page>
         <item>
             <name>Engine pressure ratio</name>
             <value>AROUND 1.0</value>
@@ -584,6 +628,8 @@
                 </less-than>
             </condition>
         </item>
+    </page>
+    <page>
         <item>
             <name>***Fuel indicator</name>
             <value>CHECK</value>
@@ -592,6 +638,27 @@
                 <y-m>0.2400</y-m>
                 <z-m>0.2900</z-m>
                 <scale>2.1074</scale>
+            </marker>
+        </item>
+        <item>
+            <name>Transponder</name>
+            <value>OFF</value>
+            <condition>
+                <equals>
+                    <property>/instrumentation/transponder/inputs/knob-mode</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <value>0</value>
+            </binding>
+            <marker>
+                <x-m>-3.4174</x-m>
+                <y-m>0.2893</y-m>
+                <z-m>-0.0099</z-m>
+                <scale>1.0000</scale>
             </marker>
         </item>
         <item>
@@ -669,89 +736,6 @@
             </binding>
         </item>
         <item>
-            <name>Transponder</name>
-            <value>OFF</value>
-            <condition>
-                <equals>
-                    <property>/instrumentation/transponder/inputs/knob-mode</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>/instrumentation/transponder/inputs/knob-mode</property>
-                <value>0</value>
-            </binding>
-            <marker>
-                <x-m>-3.4174</x-m>
-                <y-m>0.2893</y-m>
-                <z-m>-0.0099</z-m>
-                <scale>1.0000</scale>
-            </marker>
-        </item>
-        <item>
-            <name>Circuit breakers</name>
-            <value>ON</value>
-            <marker>
-                <x-m>-3.4645</x-m>
-                <y-m>0.4496</y-m>
-                <z-m>0.2000</z-m>
-                <scale>7.2975</scale>
-            </marker>
-            <condition>
-                <and>
-                    <property>ja37/fuses/krets</property>
-                    <property>ja37/fuses/sa</property>
-                    <property>ja37/fuses/trim</property>
-                    <property>ja37/fuses/gvv</property>
-                    <property>ja37/fuses/motor</property>
-                </and>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>/ja37/fuses/motor</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>/ja37/fuses/gvv</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>/ja37/fuses/trim</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>/ja37/fuses/sa</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>/ja37/fuses/krets</property>
-                <value>1</value>
-            </binding>
-        </item>
-        <item>
-            <name>***Oxygen</name>
-            <value>ON, PRESSURE MIN 90</value>
-            <marker>
-                <x-m>-3.8794</x-m>
-                <y-m>0.4016</y-m>
-                <z-m>0.1570</z-m>
-                <scale>1.0000</scale>
-            </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/oxygen</property>
-                <value>1</value>
-            </binding>
-            <condition>
-                <property>controls/oxygen</property>
-            </condition>
-        </item>
-        <item>
             <name>Warning lights test</name>
             <value>HOLD DOWN, CHECK INDICATORS</value>
             <marker>
@@ -772,6 +756,24 @@
                   timer.start();
                 </script>
             </binding>
+        </item>
+        <item>
+            <name>***Oxygen</name>
+            <value>ON, PRESSURE MIN 90</value>
+            <marker>
+                <x-m>-3.8794</x-m>
+                <y-m>0.4016</y-m>
+                <z-m>0.1570</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/oxygen</property>
+                <value>1</value>
+            </binding>
+            <condition>
+                <property>controls/oxygen</property>
+            </condition>
         </item>
         <item>
             <name>Canopy</name>

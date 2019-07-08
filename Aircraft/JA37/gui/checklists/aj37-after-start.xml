@@ -6,16 +6,6 @@
         <name>Those items require AC power and must be checked after engine start without external power.</name>
     </item>
     <item>
-        <name>Attitude indicator</name>
-        <value>CHECK</value>
-        <marker>
-            <x-m>-4.0300</x-m>
-            <y-m>-0.1400</y-m>
-            <z-m>0.4000</z-m>
-            <scale>4.0000</scale>
-        </marker>
-    </item>
-    <item>
         <name>Backup altimeter</name>
         <value>CHECK</value>
         <marker>
@@ -23,6 +13,16 @@
             <y-m>0.1200</y-m>
             <z-m>0.3250</z-m>
             <scale>3.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Attitude indicator</name>
+        <value>CHECK</value>
+        <marker>
+            <x-m>-4.0300</x-m>
+            <y-m>-0.1400</y-m>
+            <z-m>0.4000</z-m>
+            <scale>4.0000</scale>
         </marker>
     </item>
     <item>

@@ -3,9 +3,6 @@
 <PropertyList>
     <title>Before Takeoff</title>
     <item>
-        <name>Aligned on runway</name>
-    </item>
-    <item>
         <name>Transponder</name>
         <value>ON</value>
         <condition>
@@ -25,6 +22,9 @@
             <z-m>-0.0099</z-m>
             <scale>1.0000</scale>
         </marker>
+    </item>
+    <item>
+        <name>Aligned on runway</name>
     </item>
     <item>
         <name>Flight instruments, main and backup</name>
