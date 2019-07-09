@@ -13,10 +13,22 @@
         <object-name>Cylinder</object-name>
         <hovered>
             <binding>
+                <condition>
+                    <not><property>fdm/jsbsim/gear/unit[0]/WOW</property></not>
+                </condition>
                 <command>set-tooltip</command>
-                <tooltip-id>AoA Indicator</tooltip-id>
-                <label>Angle of Attack: %0.1f°</label><!-- change this to show it indicates pitch at wow -->
-                <property>orientation/alpha-deg</property>
+                <tooltip-id>AoA Indicator Alpha</tooltip-id>
+                <label>Angle of Attack: %0.1f°</label>
+                <property>fdm/jsbsim/systems/flight/aoa-indicator-direct</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>AoA Indicator Pitch</tooltip-id>
+                <label>Pitch Angle: %0.1f°</label>
+                <property>fdm/jsbsim/systems/flight/aoa-indicator-direct</property>
             </binding>
         </hovered>
     </animation>
