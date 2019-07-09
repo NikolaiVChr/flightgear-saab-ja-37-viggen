@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -31,7 +31,7 @@
             <binding>
                 <command>property-assign</command>
                 <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                <value>0</value>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -48,7 +48,7 @@
             <binding>
                 <command>property-assign</command>
                 <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-                <value>1</value>
+                <value>0</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -61,8 +61,8 @@
         <type>rotate</type>
         <object-name>switchLever</object-name>
         <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
-        <factor>40</factor>
-        <offset-deg>-20</offset-deg>
+        <factor>-40</factor>
+        <offset-deg>20</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>

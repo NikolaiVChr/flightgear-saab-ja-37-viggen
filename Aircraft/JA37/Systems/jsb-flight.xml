@@ -1562,6 +1562,17 @@
                 propulsion/engine/cutoff-commanded == 0
                 systems/flight/oil/pressure-drop-norm lt 0.5625
             </test>
+        </switch>
+
+        <!-- The fuel valve should be open (cutoff off) before engaging the starter switch.
+             Unfortunately, jsbsim requires cutoff to be on initially for startup.
+             To avoid this, cutoff is always enabled for low engine speed.
+        -->
+        <switch name="propulsion/engine/cutoff-jsbsim">
+            <default value="propulsion/engine/cutoff-actual"/>
+            <test logic="AND" value="1">
+                propulsion/engine/n1 lt 5.2
+            </test>
             <!--<output>/controls/engines/engine[0]/cutoff</output>-->
         </switch>
 
