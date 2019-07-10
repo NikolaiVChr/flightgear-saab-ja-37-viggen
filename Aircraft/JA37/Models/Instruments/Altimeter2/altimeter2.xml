@@ -189,110 +189,78 @@
         </axis>
     </animation>
 
+    <animation>
+        <type>select</type>
+        <object-name>standard-flag</object-name>
+        <condition>
+            <property>instrumentation/altimeter/setting-std</property>
+        </condition>
+    </animation>
+
     <!-- Altimeter Ingh Setting Knob -->
     <animation>
-        <name>ingh-knob-left-coarse</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
+        <condition>
+            <not><property>instrumentation/altimeter/setting-std</property></not>
+        </condition>
+        <type>knob</type>
+        <object-name>knobPick</object-name>
+        <drag-scale-px>5</drag-scale-px>
         <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
-                <step>-0.025</step>
+                <factor>0.025</factor>
                 <min>20.0</min>
                 <max>33.0</max>
                 <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
+           </binding>
         </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter/setting-inhg</property>
+                <factor>0.0025</factor>
+                <min>20.0</min>
+                <max>33.0</max>
+                <wrap>false</wrap>
+           </binding>
+        </shift-action>
     </animation>
 
     <animation>
-        <name>ingh-knob-STD</name>
         <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
-        <object-name>ingh-knob-right</object-name>
+        <object-name>knob</object-name>
         <action>
-            <button>1</button>
+            <name>STD pressure</name>
+            <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <command>property-toggle</command>
+                <property>/instrumentation/altimeter/setting-std</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
                 <command>property-assign</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
                 <value>1013</value>
             </binding>
             <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <name>ingh-knob-right-coarse</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-right</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>0.025</step>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <name>ingh-knob-right-fine</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
-        <object-name>ingh-knob-right</object-name>
-        <action>
-            <button>3</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>-0.005</step>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <button>4</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>0.005</step>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
+                <condition>
+                    <not><property>/instrumentation/altimeter/setting-std</property></not>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -304,7 +272,7 @@
     <animation>
         <type>pick</type>
         <object-name>mount</object-name>
-        <object-name>knobs</object-name>
+        <object-name>knob</object-name>
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>
@@ -325,7 +293,7 @@
     <!-- lighting -->
     <animation>
         <!--<object-name>mount</object-name>-->
-        <object-name>knobs</object-name>
+        <object-name>knob</object-name>
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>

@@ -68,6 +68,7 @@
         <object-name>Dig10</object-name>
         <object-name>Dig1</object-name>
         <object-name>Dig0.1</object-name>
+        <object-name>DigSTD</object-name>
         <object-name>Face</object-name>
         <object-name>knob</object-name>
         <object-name>off</object-name>
@@ -120,6 +121,25 @@
     </animation>
 
     <!-- Pressure Display -->
+    <animation>
+        <type>select</type>
+        <object-name>Dig1000</object-name>
+        <object-name>Dig100</object-name>
+        <object-name>Dig10</object-name>
+        <object-name>Dig1</object-name>
+        <object-name>Dig0.1</object-name>
+        <condition>
+            <not><property>/instrumentation/altimeter/setting-std</property></not>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>DigSTD</object-name>
+        <condition>
+            <property>/instrumentation/altimeter/setting-std</property>
+        </condition>
+    </animation>
+        
     <animation>
         <type>textranslate</type>
         <object-name>Dig1000</object-name>
@@ -186,70 +206,69 @@
     </animation>
 
     <!--             Altimeter setting       -->
-
     <animation>
-        <type>pick</type>
-        <object-name>Click-L</object-name>
-        <visible>false</visible>
+        <condition>
+            <not><property>/instrumentation/altimeter/setting-std</property></not>
+        </condition>
+        <type>knob</type>
+        <object-name>knobPick</object-name>
+        <drag-scale-px>5</drag-scale-px>
         <action>
-            <name>decrease calibrate fine</name>
-            <button>0</button>
-            <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>-1.0</step>
+                <factor>1.0</factor>
                 <min>500.0</min>
                 <max>1200.0</max>
                 <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
+           </binding>
         </action>
+        <shift-action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+                <factor>0.1</factor>
+                <min>500.0</min>
+                <max>1200.0</max>
+                <wrap>false</wrap>
+           </binding>
+        </shift-action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knob</object-name>
         <action>
             <name>STD pressure</name>
-            <button>1</button><!-- middle button -->
+            <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <command>property-toggle</command>
+                <property>/instrumentation/altimeter/setting-std</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
                 <command>property-assign</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
                 <value>1013</value>
             </binding>
             <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <name>decrease calibrate fine (scrollwheel)</name>
-            <button>3</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
+                <condition>
+                    <not><property>/instrumentation/altimeter/setting-std</property></not>
+                </condition>
+                <command>property-assign</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>-0.1</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <name>increase calibrate fine (scrollwheel)</name>
-            <button>4</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>0.1</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -257,76 +276,4 @@
             </binding>
         </action>
     </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>Click-R</object-name>
-        <visible>false</visible>
-        <action>
-            <name>increase calibrate fine</name>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>1.0</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <name>STD pressure</name>
-            <button>1</button><!-- middle button -->
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-assign</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
-                <value>1013</value>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <name>decrease calibrate fine (scrollwheel)</name>
-            <button>3</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>-0.1</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <name>increase calibrate fine (scrollwheel)</name>
-            <button>4</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>0.1</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-
 </PropertyList>
