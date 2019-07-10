@@ -301,19 +301,33 @@
     </animation>
 
     <animation>
-        <type>knob</type>
-        <object-name>switchEnable</object-name>
-        <visible>true</visible>
-        <!--<drag-scale-px>20</drag-scale-px>-->
+        <type>pick</type>
+        <object-name>switchEnableTop</object-name>
         <action>
+            <button>0</button>
             <binding>
-                <command>property-cycle</command>
+                <command>property-assign</command>
                 <property>/instrumentation/transponder/inputs/knob-mode</property>
-                <wrap>1</wrap>
-                <value>0</value>
-                <!-- OFF -->
                 <value>5</value>
-                <!-- ON  -->
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-enable-btn</tooltip-id>
+                <label>Power</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>switchEnableBot</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <value>0</value>
             </binding>
         </action>
         <hovered>
@@ -353,19 +367,33 @@
     </animation>
 
     <animation>
-        <type>knob</type>
-        <object-name>switchMode</object-name>
-        <visible>true</visible>
-        <!--<drag-scale-px>20</drag-scale-px>-->
+        <type>pick</type>
+        <object-name>switchModeTop</object-name>
         <action>
+            <button>0</button>
             <binding>
-                <command>property-cycle</command>
+                <command>property-assign</command>
                 <property>/instrumentation/transponder/mode</property>
-                <wrap>1</wrap>
-                <value>0</value>
-                <!-- A -->
                 <value>1</value>
-                <!-- C  -->
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-mode-btn</tooltip-id>
+                <label>Mode</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>switchModeBot</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/transponder/mode</property>
+                <value>0</value>
             </binding>
         </action>
         <hovered>
