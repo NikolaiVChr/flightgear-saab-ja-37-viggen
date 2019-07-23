@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>Fire</title>
+    <item>
+        <name>If 1 or 2 fire indicator or suspected fire</name>
+    </item>
+    <item>
+        <name>Cutoff</name>
+        <value>CLOSED</value>
+        <marker>
+            <x-m>-3.7702</x-m>
+            <y-m>-0.4223</y-m>
+            <z-m>0.1116</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <condition>
+            <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
+            <value>1</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
+    </item>
+    <item>
+        <name>Minimum possible RPM</name>
+        <value></value>
+    </item>
+    <item>
+        <name>If aircraft on fire</name>
+    </item>
+    <item>
+        <name>EJECT</name>
+        <value>EJECT</value>
+        <condition>
+            <property>ja37/done</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              if (getprop("ja37/done")==1) {
+                  return;
+              }
+              setprop("ja37/done",1);
+              var es = armament.AIM.new(10, "es","gamma");
+              setprop("fdm/jsbsim/fcs/canopy/hinges/serviceable",0);
+              es.releaseAtNothing();
+              view.view_firing_missile(es);
+              #setprop("sim/view[0]/enabled",0);
+              settimer(func {crash1.exp();},3.5);
+            </script>
+        </binding>
+    </item>
+    <item>
+        <name>If aircraft not on fire</name>
+    </item>
+    <item>
+        <name>Land as soon as possible</name>
+        <value>LAND, STOP</value>
+    </item>
+    <item>
+        <name>Throttle</name>
+        <value>CLOSE (PG Down)</value>
+        <condition>
+            <less-than>
+                <property>/controls/engines/engine[0]/throttle</property>
+                <value>0.02</value>
+            </less-than>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0</value>
+        </binding>
+        <marker>
+            <x-m>-3.6000</x-m>
+            <y-m>-0.4587</y-m>
+            <z-m>0.0959</z-m>
+            <scale>7.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Main electricity</name>
+        <value>OFF (&gt;3s AFTER CUTOFF)</value>
+        <marker>
+            <x-m>-3.7702</x-m>
+            <y-m>-0.4463</y-m>
+            <z-m>0.1215</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <condition>
+            <not><property>/controls/electric/main</property></not>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/main</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
+    </item>
+    <item>
+        <name>Leave the aircraft</name>
+        <value></value>
+    </item>
+</PropertyList>

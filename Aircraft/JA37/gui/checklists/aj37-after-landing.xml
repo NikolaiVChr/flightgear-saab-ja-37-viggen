@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>After Landing</title>
+    <item>
+        <name>Landing lights</name>
+        <value>AS REQUIRED</value>
+        <marker>
+            <x-m>-3.3843</x-m>
+            <y-m>0.3867</y-m>
+            <z-m>-0.0132</z-m>
+            <scale>1.1818</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Radar altimeter</name>
+        <value>OFF</value>
+        <marker>
+            <x-m>-3.8300</x-m>
+            <y-m>0.4400</y-m>
+            <z-m>0.1400</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <condition>
+            <not><property>controls/altimeter-radar</property></not>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/altimeter-radar</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
+    </item>
+    <item>
+        <name>Transponder</name>
+        <value>OFF</value>
+        <condition>
+            <equals>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <value>0</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/instrumentation/transponder/inputs/knob-mode</property>
+            <value>0</value>
+        </binding>
+        <marker>
+            <x-m>-3.4174</x-m>
+            <y-m>0.2893</y-m>
+            <z-m>-0.0099</z-m>
+            <scale>1.0000</scale>
+        </marker>
+    </item>
+</PropertyList>

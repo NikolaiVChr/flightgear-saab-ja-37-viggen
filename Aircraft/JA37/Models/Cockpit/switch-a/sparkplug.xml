@@ -17,8 +17,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>switch-generator</tooltip-id>
-                <label>Generator</label>
+                <tooltip-id>switch-sparkplug</tooltip-id>
+                <label>Sparkplug</label>
             </binding>
         </hovered>
     </animation>

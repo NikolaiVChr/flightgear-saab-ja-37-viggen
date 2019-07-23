@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <title>Before Taxi</title>
+    <item>
+        <name>Control surfaces</name>
+        <value>CHECK MOVEMENT</value>
+    </item>
+    <item>
+        <name>Pitch trim</name>
+        <value>CHECK BETWEEN -3/0</value>
+        <marker>
+            <x-m>-3.9300</x-m>
+            <y-m>-0.4116</y-m>
+            <z-m>0.1612</z-m>
+            <scale>2.0000</scale>
+        </marker>
+        <condition>
+            <and>
+                <greater-than-equals>
+                    <property>/controls/flight/elevator-trim</property>
+                    <value>-0.3</value>
+                </greater-than-equals>
+                <less-than-equals>
+                    <property>/controls/flight/elevator-trim</property>
+                    <value>0</value>
+                </less-than-equals>
+            </and>
+        </condition>
+        <binding>
+            <command>property-assign</command>n
+            <property>/controls/flight/elevator-trim</property>
+            <value>0</value>
+        </binding>
+    </item>
+    <item>
+        <name>Calibrate altimeters</name>
+        <value>SET</value>
+        <marker>
+            <x-m>-3.9900</x-m>
+            <y-m>-0.1400</y-m>
+            <z-m>0.2600</z-m>
+            <scale>3.5000</scale>
+        </marker>
+        <condition>
+            <property>ja37/avionics/altimeters-calibrated</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              setprop("/instrumentation/altimeter/setting-inhg",
+                      getprop("/environment/pressure-inhg"));
+            </script>
+        </binding>
+    </item>
+    <item>
+        <name>Master caution</name>
+        <value>CHECK OFF</value>
+        <marker>
+            <x-m>-4.0446</x-m>
+            <y-m>-0.1450</y-m>
+            <z-m>0.4600</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
+                <value>0</value>
+            </equals>
+        </condition>
+    </item>
+    <item>
+        <name>Warning lights</name>
+        <value>CHECK OFF (X-Tank Fuel disappears at 70%rpm)</value>
+    </item>
+    <item>
+        <name>Nose wheel steering</name>
+        <value>ON (M)</value>
+        <marker>
+            <x-m>-3.5397</x-m>
+            <y-m>-0.4141</y-m>
+            <z-m>0.0496</z-m>
+            <scale>1.8595</scale>
+        </marker>
+        <condition>
+            <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
+            <value>1</value>
+        </binding>
+        <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+        </binding>
+    </item>
+    <item>
+        <name>SPAK</name>
+        <value>CHECK ON</value>
+        <marker>
+            <x-m>-4.0400</x-m>
+            <y-m>-0.2420</y-m>
+            <z-m>0.4450</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <condition>
+            <property>/instrumentation/joystick-indicator</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              auto.mode1();
+              ja37.click();
+            </script>
+        </binding>
+    </item>
+    <item>
+        <name>Transponder</name>
+        <value>CODE SET</value>
+        <marker>
+            <x-m>-3.4174</x-m>
+            <y-m>0.32</y-m>
+            <z-m>-0.0099</z-m>
+            <scale>3.0000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>Transponder</name>
+        <value>OFF</value>
+        <condition>
+            <equals>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <value>0</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/instrumentation/transponder/inputs/knob-mode</property>
+            <value>0</value>
+        </binding>
+        <marker>
+            <x-m>-3.4174</x-m>
+            <y-m>0.2893</y-m>
+            <z-m>-0.0099</z-m>
+            <scale>1.0000</scale>
+        </marker>
+    </item>
+    <!-- Item from the JA37 checklist, because the AJ model currently has the JA radio (fr29). -->
+    <item>
+        <name>Radio talk setting</name>
+        <value>A</value>
+        <marker>
+            <x-m>-3.4438</x-m>
+            <y-m>-0.3306</y-m>
+            <z-m>-0.0000</z-m>
+            <scale>1.5124</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>ja37/radio/fr31/knob-t</property>
+                <value>0</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>ja37/radio/fr31/knob-t</property>
+            <value>0</value>
+        </binding>
+    </item>
+</PropertyList>
