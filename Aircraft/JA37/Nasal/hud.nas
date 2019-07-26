@@ -56,7 +56,6 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - defaultHeadHeight)*pixelPerM
 # View is 0.71m so 0.77-0.71 = 0.06m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.06 / 0.00013671875) = 73.142857142857142857142857142857 pixels up from center. Since -y is upward, result is -73.1. (Per default)
 
-
 # Default head-HUD distance (positive is backward)
 var defaultHeadDistance = getprop("sim/view[0]/config/z-offset-m") - HUDHoriz;
 # Since the HUD is not curved, we have to choose an avarage degree where degree per pixel is calculated from. 7.5 is chosen.
@@ -70,6 +69,10 @@ var sidewindPosition = centerOffset+(10*pixelPerDegreeY); #should be 10 degrees 
 var sidewindPerKnot = max_width/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
 var headScalePlace = 2.5*pixelPerDegreeY; # vert placement of heading scale, remember to change clip also.
 var headScaleTickSpacing = (65/1024)*canvasWidth;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
+
+# Maximal angle from the hud optical center: nothing beyond that is displayed
+var HUD_max_angle = 14;
+var HUD_max_pixel = math.tan(HUD_max_angle * D2R) * defaultHeadDistance * pixelPerMeter;
 
 var reticle_factor = 1.15;# size of flight path indicator, aiming reticle, and out of ammo reticle
 var sidewind_factor = 1.0;# size of sidewind indicator
@@ -142,8 +145,13 @@ var HUDnasal = {
     me.canvas.addPlacement(me.place);
     #me.canvas.setColorBackground(0.36, g, 0.3, 0.025);
     me.canvas.setColorBackground(r, g, b, 0.0);
+
+    # Clip the display to simulate the maximum HUD display angle. In theory, it should be clipped to a disc, not a rectangle.
+    me.root_clip = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", -HUD_max_pixel, HUD_max_pixel, HUD_max_pixel, -HUD_max_pixel);
     me.root = me.canvas.createGroup()
-      .set("font", "LiberationFonts/LiberationMono-Regular.ttf") # If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
+      .set("font", "LiberationFonts/LiberationMono-Regular.ttf") # If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing.
+      .set("clip-frame", canvas.Element.LOCAL)
+      .set("clip", me.root_clip)
       .setTranslation(canvasWidth/2, canvasWidth/2)
       .set("z-order", 0);
 
