@@ -51,13 +51,16 @@ var max_width = (450/1024)*canvasWidth;
 # HUD z is 0.63 - 0.77. Height of HUD is 0.14m
 # Therefore each pixel is 0.14 / 1024 = 0.00013671875m or each meter is 7314.2857142857142857142857142857 pixels.
 var pixelPerMeter = canvasWidth / HUDHeight;
-var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/y-offset-m"))*pixelPerMeter));#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+var defaultHeadHeight = getprop("sim/view[0]/config/y-offset-m");
+var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - defaultHeadHeight)*pixelPerMeter));#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # View is 0.71m so 0.77-0.71 = 0.06m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.06 / 0.00013671875) = 73.142857142857142857142857142857 pixels up from center. Since -y is upward, result is -73.1. (Per default)
 
 
+# Default head-HUD distance (positive is backward)
+var defaultHeadDistance = getprop("sim/view[0]/config/z-offset-m") - HUDHoriz;
 # Since the HUD is not curved, we have to choose an avarage degree where degree per pixel is calculated from. 7.5 is chosen.
-var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*D2R))/7.5); 
+var pixelPerDegreeY = pixelPerMeter*((defaultHeadDistance * math.tan(7.5*D2R))/7.5);
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #printf("HUD total field of view %.1f degs (the real is 17 degs)", 512/pixelPerDegreeY);#17.3 degs in last test
 #printf("HUD optical center %.1f degs below aircraft axis. (the real is 7.3 degs, so adjust %0.2f meter up)", -centerOffset/pixelPerDegreeY, (7.3+centerOffset/pixelPerDegreeY)*pixelPerDegreeY/pixelPerMeter);
@@ -140,11 +143,9 @@ var HUDnasal = {
     #me.canvas.setColorBackground(0.36, g, 0.3, 0.025);
     me.canvas.setColorBackground(r, g, b, 0.0);
     me.root = me.canvas.createGroup()
-                .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
-    
-    #me.root.setScale(math.sin(slant*D2R), 1);
-    me.root.setTranslation(canvasWidth/2, canvasWidth/2)
-    .set("z-order", 0);
+      .set("font", "LiberationFonts/LiberationMono-Regular.ttf") # If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
+      .setTranslation(canvasWidth/2, canvasWidth/2)
+      .set("z-order", 0);
 
     # groups for horizon and FPI
     me.fpi_group = me.root.createChild("group")
@@ -1074,7 +1075,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         tracks_enabled:   "ja37/hud/tracks-enabled",
         units:            "ja37/hud/units-metric",
         viewNumber:       "sim/current-view/view-number",
-        viewZ:            "sim/current-view/y-offset-m",
+        viewX:            "sim/current-view/x-offset-m",
+        viewY:            "sim/current-view/y-offset-m",
+        viewZ:            "sim/current-view/z-offset-m",
         vs:               "velocities/vertical-speed-fps",
         windHeading:      "environment/wind-from-heading-deg",
         windSpeed:        "environment/wind-speed-kt",        
@@ -1137,10 +1140,20 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       reinit();
     }
     me.lastPower = power.prop.dcMain.getValue()+power.prop.acSecond.getValue();
-    # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
-    me.fromTop = HUDTop - me.input.viewZ.getValue();
-    centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));
-    sidewindPosition = centerOffset+(10*pixelPerDegreeY);
+
+    # Follow head translation
+    var head_x_offset = me.input.viewX.getValue() * pixelPerMeter;
+    # This one is inverted, because y+ is up in the view coord. system, and down in the HUD coord. system.
+    var head_y_offset = (defaultHeadHeight - me.input.viewY.getValue()) * pixelPerMeter;
+    var head_z_distance = me.input.viewZ.getValue() - HUDHoriz;
+    var scaling_factor = head_z_distance / defaultHeadDistance;
+    # On the y axis, scaling is centered on the HUD center, whereas we need it to be centered on the pilot eyes position.
+    # This additional vertical offset corrects the error.
+    var corrected_y_offset = head_y_offset + (1 - scaling_factor) * centerOffset;
+
+    me.root.setTranslation(canvasWidth/2 + head_x_offset, canvasWidth/2 + corrected_y_offset);
+    me.root.setScale(scaling_factor);
+
 
     mode = me.input.currentMode.getValue();
     me.station = me.input.station.getValue();
