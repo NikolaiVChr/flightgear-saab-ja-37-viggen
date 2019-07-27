@@ -1149,20 +1149,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.lastPower = power.prop.dcMain.getValue()+power.prop.acSecond.getValue();
 
-    # Follow head translation
-    var head_x_offset = me.input.viewX.getValue() * pixelPerMeter;
-    # This one is inverted, because y+ is up in the view coord. system, and down in the HUD coord. system.
-    var head_y_offset = (defaultHeadHeight - me.input.viewY.getValue()) * pixelPerMeter;
-    var head_z_distance = me.input.viewZ.getValue() - HUDHoriz;
-    var scaling_factor = head_z_distance / defaultHeadDistance;
-    # On the y axis, scaling is centered on the HUD center, whereas we need it to be centered on the pilot eyes position.
-    # This additional vertical offset corrects the error.
-    var corrected_y_offset = head_y_offset + (1 - scaling_factor) * centerOffset;
-
-    me.root.setTranslation(canvasWidth/2 + head_x_offset, canvasWidth/2 + corrected_y_offset);
-    me.root.setScale(scaling_factor);
-
-
     mode = me.input.currentMode.getValue();
     me.station = me.input.station.getValue();
 
@@ -3065,6 +3051,22 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         }
       }
     }
+  },
+
+  # Translate HUD to follow head movements
+  followHeadPosition: func () {
+    var head_x_offset = me.input.viewX.getValue() * pixelPerMeter;
+    # This one is inverted, because y+ is up in the view coord. system, and down in the HUD coord. system.
+    var head_y_offset = (defaultHeadHeight - me.input.viewY.getValue()) * pixelPerMeter;
+    var head_z_distance = me.input.viewZ.getValue() - HUDHoriz;
+    var scaling_factor = head_z_distance / defaultHeadDistance;
+    # On the y axis, scaling is centered on the HUD center,
+    # whereas we need it to be centered on the pilot eyes position.
+    # This additional vertical offset corrects the error.
+    var corrected_y_offset = head_y_offset + (1 - scaling_factor) * centerOffset;
+
+    me.root.setTranslation(canvasWidth/2 + head_x_offset, canvasWidth/2 + corrected_y_offset);
+    me.root.setScale(scaling_factor);
   },
 };#end of HUDnasal
 
