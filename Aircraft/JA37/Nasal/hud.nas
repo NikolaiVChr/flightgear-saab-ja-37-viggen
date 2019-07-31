@@ -2282,7 +2282,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.input.fpiVert.setDoubleValue(me.dir_y);
 
     me.pos_x = clamp(me.dir_x * pixelPerDegreeX, -max_width, max_width);
-    me.pos_y = clamp((me.dir_y * pixelPerDegreeY)+centerOffset, -max_width, (430/1024)*canvasWidth);
+    me.pos_y = clamp((me.dir_y * pixelPerDegreeY)+centerOffset, -max_width, (800/1024)*canvasWidth);
 
     me.fpi_group.setTranslation(me.pos_x, me.pos_y);
     if(show == TRUE) {
