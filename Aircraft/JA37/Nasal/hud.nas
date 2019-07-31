@@ -146,14 +146,29 @@ var HUDnasal = {
     #me.canvas.setColorBackground(0.36, g, 0.3, 0.025);
     me.canvas.setColorBackground(r, g, b, 0.0);
 
-    # Clip the display to simulate the maximum HUD display angle. In theory, it should be clipped to a disc, not a rectangle.
-    me.root_clip = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", -HUD_max_pixel, HUD_max_pixel, HUD_max_pixel, -HUD_max_pixel);
+    # The hud can not display anything at angles beyond 14 degrees from the optical centerline
+    # (the optical center line joins the head resting position and the hud center).
+    # This is simulated by clipping the display to a disk which moves together with the rest of the hud content.
+    #
+    # Clip the display to a square as first approximation.
+    me.root_clip_rect = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", -HUD_max_pixel, HUD_max_pixel, HUD_max_pixel, -HUD_max_pixel);
     me.root = me.canvas.createGroup()
       .set("font", "LiberationFonts/LiberationMono-Regular.ttf") # If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing.
       .set("clip-frame", canvas.Element.LOCAL)
-      .set("clip", me.root_clip)
+      .set("clip", me.root_clip_rect)
       .setTranslation(canvasWidth/2, canvasWidth/2)
       .set("z-order", 0);
+
+    # Use blending to obtain the final circular clipping area.
+    me.root_clip_disk = me.root.createChild("image")
+      .setTranslation(-HUD_max_pixel,-HUD_max_pixel)
+      .setScale(HUD_max_pixel/128)
+      .set("z-index",50)
+      .set("blend-source-rgb","zero")
+      .set("blend-source-alpha","zero")
+      .set("blend-destination-rgb","one")
+      .set("blend-destination-alpha","one-minus-src-alpha")
+      .set("src", "Aircraft/JA37/gui/canvas-blend-mask/hud-global-mask.png");
 
     # groups for horizon and FPI
     me.fpi_group = me.root.createChild("group")
