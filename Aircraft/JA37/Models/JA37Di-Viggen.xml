@@ -1705,6 +1705,7 @@
    <object-name>gearFrontScissorBottom</object-name>
    <object-name>gearFrontWheel</object-name>
    <object-name>tyre-smoke-nose</object-name>
+   <object-name>tyre-rain-nose</object-name>
    <property>gear/gear[0]/compression-norm</property><!-- auto MP transmit -->
    <factor>0.3048</factor>
    <axis>
@@ -2167,6 +2168,7 @@
    <object-name>gearLeftWheel1</object-name>
    <object-name>gearLeftWheel2</object-name>
    <object-name>tyre-smoke-left</object-name>
+   <object-name>tyre-rain-left</object-name>
    <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
@@ -2218,7 +2220,6 @@
    <object-name>gearLeftBottom</object-name>
    <object-name>gearLeftWheel1</object-name>
    <object-name>gearLeftWheel2</object-name>
-   <object-name>tyre-smoke-left</object-name>
    <property>gear/gear[1]/position-norm</property>
    <factor>-0.3048</factor>
    <offset-m>0.3048</offset-m>
@@ -2714,6 +2715,7 @@
    <object-name>gearRightWheel1</object-name>
    <object-name>gearRightWheel2</object-name>
    <object-name>tyre-smoke-right</object-name>
+   <object-name>tyre-rain-right</object-name>
    <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
@@ -2764,7 +2766,6 @@
    <object-name>gearRightBottom</object-name>
    <object-name>gearRightWheel1</object-name>
    <object-name>gearRightWheel2</object-name>
-   <object-name>tyre-smoke-right</object-name>
    <property>gear/gear[2]/position-norm</property><!-- auto MP trasmit -->
    <factor>-0.3048</factor>
    <offset-m>0.3048</offset-m>
