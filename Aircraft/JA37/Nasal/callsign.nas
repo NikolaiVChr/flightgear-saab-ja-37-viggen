@@ -22,10 +22,10 @@ var callInit = func {
 
 var loop_callsign = func {
 
-    var callsign = props.globals.getNode("/sim/multiplay/callsign").getValue();
+    var callsignTxt = props.globals.getNode("/sim/multiplay/callsign").getValue();
 
-    if (callsign != "callsign") {
-      signText.setText(callsign);
+    if (callsignTxt != "callsign") {
+      signText.setText(callsignTxt);
     } else {
       signText.setText("");
     }
