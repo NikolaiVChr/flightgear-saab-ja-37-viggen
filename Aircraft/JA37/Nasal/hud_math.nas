@@ -2,6 +2,8 @@
 #
 # Author: Nikolai V. Chr. (FPI location code adapted from Buccaneer aircraft)
 #
+# Version 1.00
+#
 # License: GPL 2.0
 	
 var HudMath = {
@@ -12,8 +14,8 @@ var HudMath = {
 		# uvUpperLeft_norm, uvLowerRight_norm: normalized UV coordinates of the canvas texture.
 		# parallax: If the whole canvas is set to move with head as if focused on infinity.
 		#
-		# Assumptions is that HUD canvas is vertical aligned and centered in the Y axis.
-		# Also assumed that UV ratio is not stretched. So that every texel is perfect square formed.
+		# Assumptions is that HUD canvas is vertical aligned and centered in the Y axis. (will though to some degree work with slanted HUDs)
+		# Also assumed that UV ratio is not stretched. So that every texel is perfect square formed. (see above)
 		# Another assumption is that aircraft bore line is parallel with 3D X axis.
 		
 		# statics
