@@ -20,12 +20,18 @@ var HudMath = {
 		me.hud3dWidth    = acHudLowerRight[1]-acHudUpperLeft[1];
 		me.hud3dHeight   = acHudUpperLeft[2]-acHudLowerRight[2];
 		me.hud3dTop      = acHudUpperLeft[2];
-		me.hud3dX        = acHudUpperLeft[0];
+		me.hud3dX        = (acHudUpperLeft[0]+acHudLowerRight[0])*0.5;#average due to slanted HUDs
+		me.hud3dXTop     = acHudUpperLeft[0];
+		me.hud3dXBottom  = acHudLowerRight[0];
 		me.canvasWidth   = (uvLowerRight_norm[0]-uvUpperLeft_norm[0])*canvasSize[0]; 
 		me.canvasHeight  = (uvUpperLeft_norm[1]-uvLowerRight_norm[1])*canvasSize[1];
-		me.pixelPerMeter = me.canvasHeight / me.hud3dHeight;
+		me.pixelPerMeterY= me.canvasHeight / me.hud3dHeight;# for x and y seperate because some HUDs are slanted
+		me.pixelPerMeterX= me.canvasWidth / me.hud3dWidth;
 		me.parallax      = parallax;
 		me.originCanvas  = [uvUpperLeft_norm[0]*canvasSize[0],(1-uvUpperLeft_norm[1])*canvasSize[1]];
+		
+		#printf("HUD 3D. width=%.2f height=%.2f x_pos=%.2f",me.hud3dWidth,me.hud3dHeight,me.hud3dX);
+		#printf("HUD canvas. width=%d height=%d pixelX/meter=%.1f",me.canvasWidth,me.canvasHeight,me.pixelPerMeterX);
 		
 		me.makeProperties_();
 		delete(me,"makeProperties_");
@@ -37,10 +43,10 @@ var HudMath = {
 		# 
 		if (initialization) {
 			# calc Y offset from HUD canvas center origin.
-			me.centerOffset = -1 * (me.canvasHeight/2 - ((me.hud3dTop - me.input.view0Z.getValue())*me.pixelPerMeter));
+			me.centerOffset = -1 * (me.canvasHeight/2 - ((me.hud3dTop - me.input.view0Z.getValue())*me.pixelPerMeterY));
 		} elsif (!me.parallax) {
 			# calc Y offset from HUD canvas center origin.
-			me.centerOffset = -1 * (me.canvasHeight/2 - ((me.hud3dTop - me.input.viewZ.getValue())*me.pixelPerMeter));
+			me.centerOffset = -1 * (me.canvasHeight/2 - ((me.hud3dTop - me.input.viewZ.getValue())*me.pixelPerMeterY));
 		}
 	},
 	
@@ -69,9 +75,9 @@ var HudMath = {
 	    me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
 	    
 
-	    me.yaw   = input.hdgReal.getValue() * D2R;
-	    me.roll  = input.roll.getValue()    * D2R;
-	    me.pitch = input.pitch.getValue()   * D2R;
+	    me.yaw   = me.input.hdgReal.getValue() * D2R;
+	    me.roll  = me.input.roll.getValue()    * D2R;
+	    me.pitch = me.input.pitch.getValue()   * D2R;
 
 	    me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
 	    me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
@@ -90,7 +96,7 @@ var HudMath = {
 	    me.dir_y  = math.atan2(me.round0_(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
 	    me.dir_x  = math.atan2(me.round0_(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
 
-	    me.pos = me.getPosFromDegs(me.dir_x,me.dir_y);
+	    me.pos = me.getPosFromDegs(me.dir_x,-me.dir_y);
 	    
 	    me.pos_xx = me.pos[0];# cannot be named pos_x as that is assumed to be FPI position.
 	    me.pos_yy = me.pos[1]+me.centerOffset;
@@ -98,11 +104,17 @@ var HudMath = {
 	    return [me.pos_xx, me.pos_yy];
 	},
 	
-	getPosFromDegs:  func (pitch_deg, yaw_deg) {
+	getPosFromDegs:  func (yaw_deg, pitch_deg) {
 		# return pos from bore
-		var x =  me.pixelPerMeter*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(yaw_deg*D2R)));
-		var y = -me.pixelPerMeter*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(pitch_deg*D2R)));
+		var y = -me.pixelPerMeterY*((me.input.viewX.getValue() - me.hud3dX) * math.tan(pitch_deg*D2R));
+		var x =  me.pixelPerMeterX*((me.input.viewX.getValue() - me.hudX3d(y)) * math.tan(yaw_deg*D2R));
 		return [x,y];
+	},
+	
+	hudX3d: func (y) {
+		# hud 3D X pos for slanted HUDs
+		# only does this for x as Y is less affected by slanting.
+		return me.extrapolate(y-me.canvasHeight*0.5,0,me.canvasHeight,me.hud3dXTop,me.hud3dXBottom);
 	},
 	
 	getFlightPathIndicatorPos: func (clampXmin=-1000,clampYmin=-1000,clampXmax=1000,clampYmax=1000) {
@@ -140,7 +152,7 @@ var HudMath = {
 	    me.dir_y  = math.atan2(me.round0_(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
 	    me.dir_x  = math.atan2(me.round0_(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
 	    
-	    me.pos = me.getPosFromDegs(me.dir_x,me.dir_y);
+	    me.pos = me.getPosFromDegs(me.dir_x,-me.dir_y);
 	    
 	    me.pos_x = me.clamp(me.pos[0],                   clampXmin, clampXmax);
 	    me.pos_y = me.clamp(me.pos[1]+me.centerOffset,   clampYmin, clampYmax);
@@ -154,7 +166,7 @@ var HudMath = {
 		me.dir_y  = me.input.alpha.getValue();
 	    me.dir_x  = me.input.beta.getValue();
 	    
-	    me.pos = me.getPosFromDegs(me.dir_x,me.dir_y);
+	    me.pos = me.getPosFromDegs(me.dir_x,-me.dir_y);
 	    
 	    me.pos_x = me.clamp(me.pos[0],                   clampXmin, clampXmax);
 	    me.pos_y = me.clamp(me.pos[1]+me.centerOffset,   clampYmin, clampYmax);
@@ -197,7 +209,7 @@ var HudMath = {
 		if (averagePoint_deg == 0) {
 			averagePoint_deg = 0.001;
 		}
-		return me.pixelPerMeter*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(averagePoint_deg*D2R))/averagePoint_deg);
+		return 0.5*(me.pixelPerMeterX+me.pixelPerMeterY)*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(averagePoint_deg*D2R))/averagePoint_deg);
 	},
 	
 	round0_: func(x) {
@@ -206,6 +218,10 @@ var HudMath = {
 	
 	clamp: func(v, min, max) {
 		return v < min ? min : v > max ? max : v;
+	},
+	
+	extrapolate: func (x, x1, x2, y1, y2) {
+    	return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 	},
 	
 	makeProperties_: func {
