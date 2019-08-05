@@ -2,7 +2,7 @@
 #
 # Author: Nikolai V. Chr. (FPI location code adapted from Buccaneer aircraft)
 #
-# Version 1.02
+# Version 1.03
 #
 # License: GPL 2.0
 	
@@ -81,7 +81,7 @@ var HudMath = {
 	    me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
 	    
 
-	    me.yaw   = me.input.hdgReal.getValue() * D2R;
+	    me.yaw   = me.input.hdgTrue.getValue() * D2R;
 	    me.roll  = me.input.roll.getValue()    * D2R;
 	    me.pitch = me.input.pitch.getValue()   * D2R;
 
@@ -141,7 +141,7 @@ var HudMath = {
 	    me.vel_gy = me.input.speed_e.getValue();
 	    me.vel_gz = me.input.speed_d.getValue();
 
-	    me.yaw = me.input.hdgReal.getValue() * D2R;
+	    me.yaw = me.input.hdgTrue.getValue() * D2R;
 	    me.roll = me.input.roll.getValue() * D2R;
 	    me.pitch = me.input.pitch.getValue() * D2R;
 
@@ -229,6 +229,24 @@ var HudMath = {
 		return 0.5*(me.pixelPerMeterX+me.pixelPerMeterY)*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(averagePoint_deg*D2R))/averagePoint_deg);
 	},
 	
+	getPixelPerDegreeXAvg: func (averagePoint_deg = 7.5) {
+		# return average value, not exact unless parameter match what you multiply it with.
+		# the parameter is distance from bore. Typically if the result are to be multiplied on multiple values, use halfway between center and edge of HUD.
+		if (averagePoint_deg == 0) {
+			averagePoint_deg = 0.001;
+		}
+		return me.pixelPerMeterX*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(averagePoint_deg*D2R))/averagePoint_deg);
+	},
+	
+	getPixelPerDegreeYAvg: func (averagePoint_deg = 7.5) {
+		# return average value, not exact unless parameter match what you multiply it with.
+		# the parameter is distance from bore. Typically if the result are to be multiplied on multiple values, use halfway between center and edge of HUD.
+		if (averagePoint_deg == 0) {
+			averagePoint_deg = 0.001;
+		}
+		return me.pixelPerMeterY*(((me.input.viewX.getValue() - me.hud3dX) * math.tan(averagePoint_deg*D2R))/averagePoint_deg);
+	},
+	
 	round0_: func(x) {
 		return math.abs(x) > 0.01 ? x : 0;
 	},
@@ -246,7 +264,7 @@ var HudMath = {
 	        alpha:            "orientation/alpha-deg",
 	        beta:             "orientation/side-slip-deg",
 	        hdg:              "orientation/heading-magnetic-deg",
-	        hdgReal:          "orientation/heading-deg",
+	        hdgTrue:          "orientation/heading-deg",
 	        pitch:            "orientation/pitch-deg",
 	        roll:             "orientation/roll-deg",
 	        speed_d:          "velocities/speed-down-fps",
