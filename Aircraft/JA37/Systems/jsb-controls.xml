@@ -397,10 +397,10 @@
 		<fcs_function name="fcs/elevon/droop">
 			<function>
 				<table>
-					<independentVar lookup="row">velocities/vc-kts</independentVar>
+					<independentVar lookup="row">aero/qbar-psf</independentVar>
 					<tableData>
-						62  21
-						77   0
+						13  20
+						20   0
 					</tableData>
 				</table>
 			</function>

@@ -7,7 +7,7 @@
 	
 	<!-- Mode: 0 GSA, 1 STICK, 2 ATT, 3 ALT -->
 	
-	<channel name="Autoflight: Logic">
+	<channel name="Autoflight: Logic"> <!-- STICK is modelled in control-drivers -->
 		
 		<pure_gain name="autoflight/indicated-speed-kmh">
 			<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>

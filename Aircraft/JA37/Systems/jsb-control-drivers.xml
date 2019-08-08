@@ -6,7 +6,6 @@
 	<property value="0">fcs/drivers/roll/stick-geared</property>
 	<property value="0">fcs/drivers/pitch/stick-geared</property>
 	<property value="0">fcs/drivers/series-trim/mach-switch-feedback</property>
-	<property value="0">gain</property> <!-- Just for tuning -->
 	
 	<channel name="Libraries">
 		
@@ -300,7 +299,7 @@
 		
 		<pure_gain name="fcs/drivers/series-trim/command">
 			<input>fcs/drivers/series-trim/accel-error</input>
-			<gain>0.01</gain>
+			<gain>0.02</gain>
 			<clipto>
 				<min>-fcs/drivers/series-trim/authority-max</min>
 				<max>fcs/drivers/series-trim/authority-max</max>
