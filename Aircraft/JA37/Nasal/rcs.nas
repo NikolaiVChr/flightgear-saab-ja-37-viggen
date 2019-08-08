@@ -29,6 +29,7 @@ var rcs_database = {
     "F-16CJ":                   2,      #guess
     "f16":                      2,      #guess
     "MiG-29":                   6,      #guess
+    "SU-27":                    10,      #guess
     "f15-bs":                   0.001,   # low so it dont show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
@@ -64,6 +65,7 @@ var rcs_database = {
     "QF-4E":                    1,      #actual: 6
     "depot":                    170,    #estimated with blender
     "buk-m2":                   7,      #estimated with blender
+    "s-300":                    17,      
     "truck":                    1.5,    #estimated with blender
     "missile_frigate":          450,    #estimated with blender
     "frigate":                  450,    #estimated with blender
