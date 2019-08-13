@@ -162,7 +162,7 @@ void main (void)
 //    float pf1 = 0.0;
     ///some generic light scattering parameters 
     vec3 shadedFogColor = vec3(0.55, 0.67, 0.88);
-    vec3 moonLightColor = vec3 (0.095, 0.095, 0.15) * moonlight;
+    vec3 moonLightColor = vec3 (0.095, 0.095, 0.15) * moonlight*moonlight;//can be 0.1 even when not in sky .. combineme
     moonLightColor = moonlight_perception(moonLightColor);
     float alt = eye_alt; 					
     float effective_scattering = min(scattering, cloud_self_shading);
@@ -230,16 +230,16 @@ void main (void)
     light_diffuse.a = 1.0;
     light_diffuse = light_diffuse * vertex_scattering;
 
-    light_ambient.r = light_func(lightArg, 0.236, 0.253, 1.073, 0.572, 0.33);
-    light_ambient.g = light_ambient.r * 0.4/0.33;
-    light_ambient.b = light_ambient.r * 0.5/0.33;
+    light_ambient.r = 0.0;//light_func(lightArg, 0.236, 0.253, 1.073, 0.572, 0.33);
+    light_ambient.g = 0.0;//light_ambient.r * 0.4/0.33;
+    light_ambient.b = 0.0;//light_ambient.r * 0.5/0.33;
     light_ambient.a = 1.0;
 
     if (earthShade < 0.5)
         {
         intensity = length(light_ambient.rgb); 
         light_ambient.rgb = intensity * normalize(mix(light_ambient.rgb,  shadedFogColor, 1.0 -smoothstep(0.1, 0.8,earthShade) ));
-        light_ambient.rgb = light_ambient.rgb +   moonLightColor *  (1.0 - smoothstep(0.4, 0.5, earthShade));
+        light_ambient.rgb =    moonLightColor *  (1.0 - smoothstep(0.4, 0.5, earthShade));//light_ambient.rgb +             combineme
 
         intensity = length(light_diffuse.rgb); 
         light_diffuse.rgb = intensity * normalize(mix(light_diffuse.rgb,  shadedFogColor, 1.0 -smoothstep(0.1, 0.7,earthShade) ));
@@ -407,8 +407,9 @@ void main (void)
 
     Specular *= refl_d;
 
-    // kind of a hack but its now pitch black at night.
-    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * ((1.0-ambient_factor)+occlusion.a*ambient_factor);//combineMe
+    // kind of a hack but its now pitch black at night without moon.
+    light_ambient.rgb = (1-gl_LightSource[0].ambient.r)*light_ambient.rgb;//no moon contribution at noon.
+    vec4 ambient_color = gl_FrontMaterial.ambient * (gl_LightSource[0].ambient * gl_LightSource[0].ambient+light_ambient*light_ambient) * 2 * ((1.0-ambient_factor)+occlusion.a*ambient_factor);//combineMe //light_ambient is only moonlight
     // gl_LightModel.ambient gl_LightSource[0].ambient light_ambient
     
     vec4 color = gl_Color + Diffuse * gl_FrontMaterial.diffuse + ambient_color;
