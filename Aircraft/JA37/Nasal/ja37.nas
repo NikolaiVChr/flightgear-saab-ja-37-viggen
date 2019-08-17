@@ -2200,6 +2200,11 @@ var refuelTest = func () {
   setprop("consumables/fuel/tank[5]/level-norm", 0.8);
   setprop("consumables/fuel/tank[6]/level-norm", 0.8);
   setprop("consumables/fuel/tank[7]/level-norm", 0.8);
+
+  # Remove drop tank
+  setprop("payload/weight[6]/selected", "none");
+  input.tank8Selected.setBoolValue(FALSE);
+  input.tank8Jettison.setBoolValue(TRUE);
   setprop("consumables/fuel/tank[8]/level-norm", 0.0);
 
   screen.log.write("Fuel configured for flight testing.", 1.0, 0.0, 0.0);
@@ -2218,6 +2223,11 @@ var refuelNorm = func () {
   setprop("consumables/fuel/tank[5]/level-norm", 1.0);
   setprop("consumables/fuel/tank[6]/level-norm", 1.0);
   setprop("consumables/fuel/tank[7]/level-norm", 1.0);
+
+  # Remove drop tank
+  setprop("payload/weight[6]/selected", "none");
+  input.tank8Selected.setBoolValue(FALSE);
+  input.tank8Jettison.setBoolValue(TRUE);
   setprop("consumables/fuel/tank[8]/level-norm", 0.0);
 
   screen.log.write("Fuel configured for standard flight.", 0.0, 1.0, 0.0);
