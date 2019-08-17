@@ -490,7 +490,7 @@
         <weight n="6">
             <name>Center fuselage pylon</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
-            <selected>Drop tank</selected>
+            <selected>none</selected>
             <ammo type="int">0</ammo>
             <opt>
                 <name>none</name>

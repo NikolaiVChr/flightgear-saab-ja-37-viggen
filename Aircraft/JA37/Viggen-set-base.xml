@@ -1410,7 +1410,7 @@
             </tank>
             <tank n="8">
                 <name>Drop tank</name>
-                <jettisoned type="bool">false</jettisoned>
+                <jettisoned type="bool">true</jettisoned>
             </tank>
         </fuel>
     </consumables>
