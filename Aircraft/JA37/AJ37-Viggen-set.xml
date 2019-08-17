@@ -220,6 +220,13 @@
                             <script>armament.reloadAJAir2Air();</script>
                         </binding>
                     </item>
+					<item>
+                        <label>Reload clean</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>armament.reloadGunsOnly();</script>
+                        </binding>
+                    </item>
                     <item>
                         <label>Refuel: Standard</label>
                         <binding>
