@@ -1973,6 +1973,28 @@ reloadAJSAir2Air = func {
     }
 }
 
+reloadGunsOnly = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+  # Clean loadout
+  setprop("payload/weight[0]/selected", "none");
+  setprop("payload/weight[1]/selected", "none");
+  setprop("payload/weight[2]/selected", "none");
+  setprop("payload/weight[3]/selected", "none");
+  setprop("payload/weight[4]/selected", "none");
+  setprop("payload/weight[5]/selected", "none");
+  screen.log.write("Removed all stores", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+} else {
+      screen.log.write(ja37.msgB);
+    }}
+
 reloadGuns = func {
   if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload cannon - 146 of them.
