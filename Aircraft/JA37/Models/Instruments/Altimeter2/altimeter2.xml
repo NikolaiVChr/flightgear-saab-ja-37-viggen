@@ -225,6 +225,13 @@
                 <wrap>false</wrap>
            </binding>
         </shift-action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altimeter2-setting</tooltip-id>
+                <label>Baro setting</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -287,12 +294,18 @@
                 <script>ja37.click()</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altimeter2-std</tooltip-id>
+                <label>Toggle STD pressure</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
         <type>pick</type>
         <object-name>mount</object-name>
-        <object-name>knob</object-name>
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>

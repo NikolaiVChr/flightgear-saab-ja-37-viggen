@@ -26,7 +26,6 @@
 
     <animation>
         <type>pick</type>
-        <object-name>knob</object-name>
         <object-name>Cube</object-name>
         <object-name>glassAlt1</object-name>
         <hovered>
@@ -233,6 +232,13 @@
                 <wrap>false</wrap>
            </binding>
         </shift-action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altimeter-setting</tooltip-id>
+                <label>Baro setting</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -295,5 +301,12 @@
                 <script>ja37.click()</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altimeter-std</tooltip-id>
+                <label>Toggle STD pressure</label>
+            </binding>
+        </hovered>
     </animation>
 </PropertyList>
