@@ -14,18 +14,6 @@
     </effect>
 
     <animation>
-        <type>pick</type>
-        <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>knob-mod-weap</tooltip-id>
-                <label>Weapons mode</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
         <object-name>A2_handle</object-name>  
@@ -46,28 +34,22 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/combat</property>
-                <factor>1</factor>
-                <step>1.00</step>
                 <min>0</min>
                 <max>1</max>             
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/combat</property>
-                <factor>1</factor>
-                <step>-1.00</step>
-                <min>0</min>
-                <max>1</max>              
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-mod-weap</tooltip-id>
+                <label>Weapons mode</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
 
     <animation>

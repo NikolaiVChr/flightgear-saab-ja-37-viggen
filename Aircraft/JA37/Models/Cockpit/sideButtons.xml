@@ -28,28 +28,15 @@
            <y2-m> 0.323789 </y2-m>
            <z2-m> 0.398382 </z2-m>
         </axis>     
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/light/flood-bt</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/light/flood-bt</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>

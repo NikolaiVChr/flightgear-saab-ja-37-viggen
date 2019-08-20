@@ -310,26 +310,15 @@
 			<y>0</y>
 			<z>-1</z>
 		</axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>autopilot/plan-manager/landing-base</property>
-				<step>1</step>
 				<min>1</min>
 				<max>4</max>        
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>autopilot/plan-manager/landing-base</property>
-				<step>-1</step>
-				<min>1</min>
-				<max>4</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>

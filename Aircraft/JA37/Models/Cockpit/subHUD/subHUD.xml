@@ -30,28 +30,16 @@
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/brightness-si</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <factor>0.05</factor>
                 <min>0.55</min>
                 <max>1.00</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/brightness-si</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0.55</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -78,28 +66,16 @@
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/brightness-res</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <factor>0.05</factor>
                 <min>0.55</min>
                 <max>0.85</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/brightness-res</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0.55</min>
-                <max>0.85</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>

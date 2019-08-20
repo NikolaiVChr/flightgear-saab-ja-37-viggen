@@ -47,18 +47,6 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>knobVol</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>rdioVol</tooltip-id>
-                <label>Aural warning tones volume</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>knobVol</object-name>
         <property>ja37/radio/fr29/knob-vol</property>
@@ -74,28 +62,23 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <factor>0.05</factor>
                 <min>0</min>
                 <max>0.25</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0</min>
-                <max>0.25</max>
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioVol</tooltip-id>
+                <label>Aural warning tones volume</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
 
     <animation>
@@ -114,32 +97,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr31/knob-l</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>7</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-l</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>7</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
-    </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>knobLetters</object-name>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -164,28 +130,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr31/knob-t</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-t</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -203,28 +156,16 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr31/knob-92</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-92</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -765,50 +706,20 @@
             <y>1</y>
             <z>0</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr31/s-a</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr31/s-a</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>switchAuto</object-name>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rdioAut</tooltip-id>
                 <label>Steer data control automatic</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>switchR</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>rdioR</tooltip-id>
-                <label>Steer data control</label>
             </binding>
         </hovered>
     </animation>
@@ -829,38 +740,20 @@
             <y>1</y>
             <z>0</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr31/s-r</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr31/s-r</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>switchMik</object-name>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>rdioMik</tooltip-id>
-                <label>Microphone switch for comm. with mechanic or for tape recording</label>
+                <tooltip-id>rdioR</tooltip-id>
+                <label>Steer data control</label>
             </binding>
         </hovered>
     </animation>
@@ -881,29 +774,22 @@
             <y>1</y>
             <z>0</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/fr31/s-m</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/fr31/s-m</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioMik</tooltip-id>
+                <label>Microphone switch for comm. with mechanic or for tape recording</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
-
 
 </PropertyList>

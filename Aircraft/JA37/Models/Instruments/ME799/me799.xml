@@ -48,28 +48,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/me799/knob-1</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>1</min>
                 <max>11</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/me799/knob-1</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>1</min>
-                <max>11</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -97,28 +84,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/me799/knob-2</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>2</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/me799/knob-2</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>2</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
