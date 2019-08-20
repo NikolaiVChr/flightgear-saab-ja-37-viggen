@@ -31,34 +31,6 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>handle1</object-name>
-        <object-name>disc1</object-name>
-        <object-name>screw1</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>qc</tooltip-id>
-                <label>Query code</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>handle2</object-name>
-        <object-name>disc2</object-name>
-        <object-name>screw2</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>qc</tooltip-id>
-                <label>Mode</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>handle1</object-name>
         <object-name>disc1</object-name>
@@ -98,6 +70,13 @@
                 <wrap>false</wrap>
             </binding>
         </decrease>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>qc</tooltip-id>
+                <label>Query code</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -140,6 +119,13 @@
                 <wrap>false</wrap>
             </binding>
         </decrease>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>qc</tooltip-id>
+                <label>Mode</label>
+            </binding>
+        </hovered>
     </animation>
 
 	<animation>

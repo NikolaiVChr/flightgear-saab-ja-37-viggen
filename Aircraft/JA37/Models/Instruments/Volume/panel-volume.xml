@@ -15,18 +15,6 @@
 
     <animation>
         <type>pick</type>
-        <object-name>knob-volume</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>knob-vol</tooltip-id>
-                <label>Missile lock/search volume</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
         <object-name>knob-ir</object-name>
         <action>
             <button>0</button>
@@ -110,6 +98,13 @@
                 <wrap>false</wrap>
             </binding>
         </decrease>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-vol</tooltip-id>
+                <label>Missile lock/search volume</label>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>
