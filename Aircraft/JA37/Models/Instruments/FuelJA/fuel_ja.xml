@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
     <path>fuel_ja.ac</path>
 
@@ -60,11 +60,11 @@
         <type>pick</type>
         <object-name>FuelGlass</object-name>
         <object-name>Gauge</object-name>
-        <condition>
-            <property>ja37/elec/ac-bus-main-bool</property>
-        </condition>
         <hovered>
             <binding>
+                <condition>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel</tooltip-id>
                 <label>Fuel: %3d lbs</label>
