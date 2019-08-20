@@ -3170,37 +3170,6 @@ setlistener("sim/rendering/shaders/skydome", reinit,0,0);
 setlistener("sim/rendering/als-filters/use-filtering", reinit,0,0);
 setlistener("sim/rendering/als-filters/use-IR-vision", reinit,0,0);
 
-var cycle_brightness = func () {
-  if(getprop("ja37/hud/mode") > 0) {
-    #var br = getprop("ja37/hud/brightness");
-    a += 0.05;
-    if(a > 1.04) {
-      #reset
-      a = 0.55;
-    }
-    setprop("ja37/hud/brightness-si", a);
-    #setprop("ja37/hud/brightness", br);
-    reinit(on_backup_power);
-  } else {
-    aircraft.HUD.cycle_brightness();
-  }
-};
-
-var cycle_brightness_res = func () {
-  if(getprop("ja37/hud/mode") > 0) {
-    #var br = getprop("ja37/hud/brightness");
-    a_res += 0.05;
-    if(a_res > 0.85) {
-      #reset
-      a_res = 0.55;
-    }
-    setprop("ja37/hud/brightness-res", a_res);
-    #setprop("ja37/hud/brightness", br);
-    reinit(on_backup_power);
-    ja37.click();
-  }
-};
-
 var cycle_units = func () {
   if(getprop("ja37/hud/mode") > 0) {
     ja37.click();
