@@ -199,10 +199,10 @@
 
     <!-- Altimeter Ingh Setting Knob -->
     <animation>
+        <type>knob</type>
         <condition>
             <not><property>instrumentation/altimeter/setting-std</property></not>
         </condition>
-        <type>knob</type>
         <object-name>knobPick</object-name>
         <drag-scale-px>5</drag-scale-px>
         <action>
@@ -225,6 +225,26 @@
                 <wrap>false</wrap>
            </binding>
         </shift-action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <condition>
+            <not><property>/instrumentation/altimeter/setting-std</property></not>
+        </condition>
+        <object-name>knob</object-name>
+        <property>/instrumentation/altimeter/setting-hpa</property>
+        <factor>4</factor>
+        <center>
+          <x-m>0.0</x-m>
+          <y-m>-0.03165</y-m>
+          <z-m>-0.02881</z-m>
+        </center>
+        <axis>
+          <x>-1</x>
+          <y>0</y>
+          <z>0</z>
+        </axis>
     </animation>
 
     <animation>
