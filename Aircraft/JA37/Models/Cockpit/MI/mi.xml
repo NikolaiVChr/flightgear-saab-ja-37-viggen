@@ -110,16 +110,28 @@
   	-->
 
   	<animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>knob</object-name>
-        <visible>true</visible>
+        <property>ja37/avionics/brightness-mi-knob</property>
+        <factor>-240</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>-0.078031</y-m>
+            <z-m>0.15023</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
         <action>
-            <name>brightness</name>
-            <button>0</button>
-            <repeatable>false</repeatable>
             <binding>
-                <command>nasal</command>
-                <script>MI.brightness();</script>
+                <command>property-adjust</command>
+                <property>ja37/avionics/brightness-mi-knob</property>
+                <factor>0.1</factor>
+                <min>0.3</min>
+                <max>1</max>
+                <wrap>false</wrap>
             </binding>
         </action>
         <hovered>
