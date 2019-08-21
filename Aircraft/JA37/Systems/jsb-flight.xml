@@ -594,6 +594,15 @@
 
 
     <channel execrate="4" name="instruments">
+        <fcs_function name="names/instruments/indicated-altitude-meter">
+            <function>
+                <product>
+                    <p>/instrumentation/altimeter/indicated-altitude-ft</p>
+                    <v>0.3048</v>
+                </product>
+            </function>
+            <output>/instrumentation/altimeter/indicated-altitude-meter</output>
+        </fcs_function>
 
         <switch name="systems/ins/time-steady">
             <default value="sim-time-sec"/>

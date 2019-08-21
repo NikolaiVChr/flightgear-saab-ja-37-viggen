@@ -85,8 +85,8 @@
         <condition>
             <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
-        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-        <factor>0.1098</factor>
+        <property>/instrumentation/altimeter/indicated-altitude-meter</property>
+        <factor>0.36</factor>
         <center>
             <x-m>0.0</x-m>
             <y-m>-0.00316</y-m>
@@ -105,8 +105,8 @@
         <condition>
             <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
-        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-        <factor>0.01098</factor>
+        <property>/instrumentation/altimeter/indicated-altitude-meter</property>
+        <factor>0.036</factor>
         <center>
             <x-m>0.0</x-m>
             <y-m>-0.00316</y-m>
