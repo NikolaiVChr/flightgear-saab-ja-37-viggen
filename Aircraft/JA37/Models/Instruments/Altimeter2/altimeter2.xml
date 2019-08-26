@@ -218,7 +218,8 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>altimeter2-setting</tooltip-id>
-                <label>Baro setting</label>
+                <label>Baro setting: %5.2f inHg</label>
+                <property>instrumentation/altimeter/setting-inhg</property>
             </binding>
         </hovered>
     </animation>
@@ -305,8 +306,14 @@
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>altitude2</tooltip-id>
-                <label>Altitude: %3d feet</label>
+                <label>%s</label> <!-- Only one parameter is supported here -->
                 <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                <mapping>nasal</mapping>
+                <script>
+                    return sprintf("Altitude: %d ft / %d m",
+                                   getprop("/instrumentation/altimeter/indicated-altitude-ft"),
+                                   getprop("/instrumentation/altimeter/indicated-altitude-meter"));
+                </script>
             </binding>
         </hovered>
     </animation>
