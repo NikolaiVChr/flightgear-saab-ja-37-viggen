@@ -163,16 +163,53 @@ TODO: manual fuel controls
 
     <channel execrate="1" name="Hydraulic fuel pumps"><!-- fuel distributor -->
 
+        <!-- The fuel distributor stops if the g-load vector is too far off the down axis.
+             Assuming no acceleration, the limits correspond to 60deg pitch, 30deg dive,
+             40deg roll left, 50deg roll right.
+        -->
+        <fcs_function name="systems/fuel/distributor-angle-limit">
+            <!-- accelerations/n-pilot-... : g-load vector, x backwards, y left, z up -->
+            <function>
+                <or>
+                    <gt>
+                        <p>accelerations/n-pilot-x-norm</p>
+                        <product>
+                            <p>accelerations/n-pilot-z-norm</p>
+                            <v>-1.73205</v> <!-- tan(60) -->
+                        </product>
+                    </gt>
+                    <lt>
+                        <p>accelerations/n-pilot-x-norm</p>
+                        <product>
+                            <p>accelerations/n-pilot-z-norm</p>
+                            <v>0.57735</v> <!-- tan(30) -->
+                        </product>
+                    </lt>
+                    <gt>
+                        <p>accelerations/n-pilot-y-norm</p>
+                        <product>
+                            <p>accelerations/n-pilot-z-norm</p>
+                            <v>-0.83910</v> <!-- tan(40) -->
+                        </product>
+                    </gt>
+                    <lt>
+                        <p>accelerations/n-pilot-y-norm</p>
+                        <product>
+                            <p>accelerations/n-pilot-z-norm</p>
+                            <v>1.19175</v> <!-- tan(50) -->
+                        </product>
+                    </lt>
+                </or>
+            </function>
+        </fcs_function>
+
         <switch name="systems/fuel/tank6-output">
             <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4V to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[6]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
                 structural/wings/serviceable == 0
-                /orientation/pitch-deg gt 60
-                /orientation/pitch-deg lt -30
-                /orientation/roll-deg lt -40
-                /orientation/roll-deg gt 50
+                systems/fuel/distributor-angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -214,10 +251,7 @@ TODO: manual fuel controls
                 propulsion/tank[7]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
                 structural/wings/serviceable == 0
-                /orientation/pitch-deg gt 60
-                /orientation/pitch-deg lt -30
-                /orientation/roll-deg lt -40
-                /orientation/roll-deg gt 50        
+                systems/fuel/distributor-angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -258,10 +292,7 @@ TODO: manual fuel controls
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
-                /orientation/pitch-deg gt 60
-                /orientation/pitch-deg lt -30
-                /orientation/roll-deg lt -40
-                /orientation/roll-deg gt 50
+                systems/fuel/distributor-angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -294,10 +325,7 @@ TODO: manual fuel controls
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
-                /orientation/pitch-deg gt 60
-                /orientation/pitch-deg lt -30
-                /orientation/roll-deg lt -40
-                /orientation/roll-deg gt 50
+                systems/fuel/distributor-angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
