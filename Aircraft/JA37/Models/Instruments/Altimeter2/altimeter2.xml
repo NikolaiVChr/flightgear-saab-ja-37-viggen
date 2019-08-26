@@ -204,27 +204,16 @@
             <not><property>instrumentation/altimeter/setting-std</property></not>
         </condition>
         <object-name>knobPick</object-name>
-        <drag-scale-px>5</drag-scale-px>
         <action>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
-                <factor>0.025</factor>
-                <min>20.0</min>
-                <max>33.0</max>
+                <factor>0.02</factor>
+                <min>14.76</min> <!-- 500 hPa -->
+                <max>33.38</max>  <!-- 1130 hPa -->
                 <wrap>false</wrap>
            </binding>
         </action>
-        <shift-action>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <factor>0.0025</factor>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
-           </binding>
-        </shift-action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>

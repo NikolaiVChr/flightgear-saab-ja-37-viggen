@@ -211,27 +211,16 @@
             <not><property>/instrumentation/altimeter/setting-std</property></not>
         </condition>
         <object-name>knobPick</object-name>
-        <drag-scale-px>5</drag-scale-px>
         <action>
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <factor>1.0</factor>
+                <factor>0.5</factor>
                 <min>500.0</min>
-                <max>1200.0</max>
+                <max>1130.0</max>
                 <wrap>false</wrap>
            </binding>
         </action>
-        <shift-action>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
-                <factor>0.1</factor>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
-           </binding>
-        </shift-action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
