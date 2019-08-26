@@ -7,6 +7,9 @@ var Math = {
     # When doing euler coords. to cartesian: +x = forw, +y = left,  +z = up.
     # FG struct. coords:                     +x = back, +y = right, +z = up.
     #
+    # If euler to cartesian (with inverted heading) then:
+    # cartesian vector will be x: north, y: west, z: skyward
+    #
     # When doing euler angles (from pilots point of view):  yaw     = yaw left,  pitch = rotate up, roll = roll right.
     # FG rotations:                                         heading = yaw right, pitch = rotate up, roll = roll right.
     #
