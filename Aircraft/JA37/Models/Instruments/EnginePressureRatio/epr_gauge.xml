@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
     <path>../gauge.ac</path>
 
@@ -25,11 +25,11 @@
         <type>pick</type>
         <object-name>glass</object-name>
         <object-name>mount</object-name>
-        <condition>
-            <property>ja37/elec/ac-bus-main-bool</property>
-        </condition>
         <hovered>
             <binding>
+                <condition>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>epr</tooltip-id>
                 <label>Engine pressure ratio: %1.2f</label>

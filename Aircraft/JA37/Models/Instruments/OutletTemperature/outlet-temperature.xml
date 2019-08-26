@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
     <path>../gauge.ac</path>
 
@@ -56,11 +56,11 @@
         <type>pick</type>
         <object-name>dial</object-name>
         <object-name>glass</object-name>
-        <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
-        </condition>
         <hovered>
             <binding>
+                <condition>
+                    <property>ja37/elec/dc-bus-main-bool</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>outlettemp</tooltip-id>
                 <label>Outlet temperature</label>

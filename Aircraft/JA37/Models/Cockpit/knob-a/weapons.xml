@@ -14,18 +14,6 @@
     </effect>
 
     <animation>
-        <type>pick</type>
-        <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>knob-sel-weap</tooltip-id>
-                <label>Weapon select</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
         <object-name>A2_handle</object-name>  
@@ -50,28 +38,22 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>controls/armament/station-select-custom</property>
-                <factor>1</factor>
-                <step>1.00</step>
                 <min>-1</min>
                 <max>6</max>             
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>controls/armament/station-select-custom</property>
-                <factor>1</factor>
-                <step>-1.00</step>
-                <min>-1</min>
-                <max>6</max>              
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-sel-weap</tooltip-id>
+                <label>Weapon select</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
 
     <animation>

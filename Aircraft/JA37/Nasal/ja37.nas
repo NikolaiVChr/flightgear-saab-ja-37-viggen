@@ -312,10 +312,6 @@ var Saab37 = {
     #  setprop("fdm/jsbsim/fcs/rudder-serviceable", 0);
     #}
 
-    # meter altitude property
-
-    input.indAltMeter.setDoubleValue(input.indAltFt.getValue()*0.3048);
-
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 

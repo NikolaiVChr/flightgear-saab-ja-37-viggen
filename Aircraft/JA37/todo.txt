@@ -11,7 +11,6 @@ Aero: Remove speedbrake in JA and AJS. Only AJ should have it. Welded shut in th
 Aero: Tune speedbrake better.
 Animation: Main attitude indicator lazy and jumps from 180 to -180.
 Animation: Make jettison drop-tank actually fall down like other stores do.
-Animation: Make more use of knob animation: Radio, Altimeters, MI brightness.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Animation: The bypass handle should not stay up for long.
@@ -58,10 +57,7 @@ Elec: Gun, radar and IR missiles was on seperate buses, fix.
 Elec: Make logic for secondary DC bus G. It depends on BRAGG.
 Engine: Model compressor surge/stall including bang sound.
 Engine: Switch aug. type in engine?
-GUI: Checklists needs to be seperate for JA and AJ(S), since some controls no longer is shared.
-GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 GUI: Convert options dialog to xml.
-GUI: Improve Checklists.
 GUI: Stop perf. monitor from running when dialog is off.
 HUD/TI: FPI fin touches circle when estimated that will arrive at steerpoint in correct time.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)

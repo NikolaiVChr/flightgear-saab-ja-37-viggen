@@ -602,28 +602,15 @@
 			<y>0</y>
 			<z>1</z>
 		</axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/navigation/dp-mode</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>6</max>           
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/navigation/dp-mode</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>6</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 	
 	<!--

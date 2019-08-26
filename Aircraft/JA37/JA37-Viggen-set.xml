@@ -928,6 +928,9 @@
     </payload>
 
     <ja37>
+        <avionics>
+            <brightness-mi-knob type="double">1.0</brightness-mi-knob>
+        </avionics>
         <systems>
             <variant type="int">0</variant>
         </systems>

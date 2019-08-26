@@ -105,12 +105,6 @@ var pressX2 = func {
 	TI.ti.showLNK();
 };
 
-var brightness = func {
-	bright += 1;
-};
-
-var bright = 0;
-
 var cursor = func {
 	cursorOn = !cursorOn;
 	if (!cursorOn) {
@@ -132,6 +126,7 @@ var MI = {
 			APLockAlt:            "autopilot/locks/altitude",
 			APTgtAgl:             "autopilot/settings/target-agl-ft",
 			APTgtAlt:             "autopilot/settings/target-altitude-ft",
+            brightnessSetting:    "ja37/avionics/brightness-mi-knob",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
 			rad_alt:              "position/altitude-agl-ft",
@@ -173,7 +168,6 @@ var MI = {
       	mi.setupCanvasSymbols();
 
       	mi.tgt_dist_last = nil;
-      	mi.brightness = 1;
       	mi.off = FALSE;
       	mi.helpTime = 0;
       	mi.cursorPosX = 0;
@@ -636,14 +630,6 @@ var MI = {
 		#if ( gone == TRUE) {
 		#	return;
 		#}
-		if (bright > 0) {
-			bright -= 1;
-			me.brightness -= 0.25;
-			if (me.brightness < 0.25) {
-				me.brightness = 1;
-			}
-		}
-
 
 		if (cursorOn == FALSE) {
 			radar_logic.setSelection(nil);
@@ -655,7 +641,7 @@ var MI = {
 			#settimer(func me.loop(), 0.05);
 			return;
 		} else {
-			setprop("ja37/avionics/brightness-mi", me.brightness);
+			setprop("ja37/avionics/brightness-mi", me.input.brightnessSetting.getValue());
 			setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 

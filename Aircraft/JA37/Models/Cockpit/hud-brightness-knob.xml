@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -11,30 +11,10 @@
     </effect>
 
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>rod</object-name>
         <object-name>knob</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.cycle_brightness()</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>knob-hud-brightness</tooltip-id>
-                <label>HUD brightness</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>rod</object-name>
-        <object-name>knob</object-name>
-        <property>controls/lighting/hud</property>
+        <property>ja37/hud/brightness-si</property>
         <factor>360</factor>
         <center>
             <x-m> 0.0 </x-m>
@@ -46,6 +26,22 @@
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/hud/brightness-si</property>
+                <factor>0.05</factor>
+                <min>0.55</min>
+                <max>1.00</max>
+                <wrap>false</wrap>
+           </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-hud-brightness</tooltip-id>
+                <label>HUD brightness</label>
+            </binding>
+        </hovered>
     </animation>
-
 </PropertyList>
