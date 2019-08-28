@@ -167,49 +167,53 @@ TODO: manual fuel controls
              Assuming no acceleration, the limits correspond to 60deg pitch, 30deg dive,
              40deg roll left, 50deg roll right.
         -->
-        <fcs_function name="systems/fuel/distributor-angle-limit">
-            <!-- accelerations/n-pilot-... : g-load vector, x backwards, y left, z up -->
+
+        <!-- accelerations/n-pilot-... : g-load vector, x backwards, y left, z up -->
+
+        <!-- g-load vector direction, 0 down, 90 forward -->
+        <fcs_function name="systems/fuel/distributor/g-load-pitch-deg">
             <function>
-                <or>
-                    <gt>
-                        <p>accelerations/n-pilot-x-norm</p>
-                        <product>
-                            <p>accelerations/n-pilot-z-norm</p>
-                            <v>-1.73205</v> <!-- tan(60) -->
-                        </product>
-                    </gt>
-                    <lt>
-                        <p>accelerations/n-pilot-x-norm</p>
-                        <product>
-                            <p>accelerations/n-pilot-z-norm</p>
-                            <v>0.57735</v> <!-- tan(30) -->
-                        </product>
-                    </lt>
-                    <gt>
-                        <p>accelerations/n-pilot-y-norm</p>
-                        <product>
-                            <p>accelerations/n-pilot-z-norm</p>
-                            <v>-0.83910</v> <!-- tan(40) -->
-                        </product>
-                    </gt>
-                    <lt>
-                        <p>accelerations/n-pilot-y-norm</p>
-                        <product>
-                            <p>accelerations/n-pilot-z-norm</p>
-                            <v>1.19175</v> <!-- tan(50) -->
-                        </product>
-                    </lt>
-                </or>
+                <product>
+                    <atan2>
+                        <p>-accelerations/n-pilot-x-norm</p>
+                        <p>-accelerations/n-pilot-z-norm</p>
+                    </atan2>
+                    <v>57.29578</v> <!-- convert to deg -->
+                </product>
             </function>
         </fcs_function>
+        
+        <!-- g-load vector direction, 0 down, 90 right -->
+        <fcs_function name="systems/fuel/distributor/g-load-roll-deg">
+            <function>
+                <product>
+                    <atan2>
+                        <p>-accelerations/n-pilot-y-norm</p>
+                        <p>-accelerations/n-pilot-z-norm</p>
+                    </atan2>
+                    <v>57.29578</v> <!-- convert to deg -->
+                </product>
+            </function>
+        </fcs_function>
+        
+        <switch name="systems/fuel/distributor/angle-limit">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                systems/fuel/distributor/g-load-pitch-deg LT -60
+                systems/fuel/distributor/g-load-pitch-deg GT 30
+                systems/fuel/distributor/g-load-roll-deg LT -40
+                systems/fuel/distributor/g-load-pitch-deg GT 50
+            </test>
+        </switch>
 
+        
         <switch name="systems/fuel/tank6-output">
             <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4V to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[6]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
                 structural/wings/serviceable == 0
-                systems/fuel/distributor-angle-limit == 1
+                systems/fuel/distributor/angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -251,7 +255,7 @@ TODO: manual fuel controls
                 propulsion/tank[7]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
                 structural/wings/serviceable == 0
-                systems/fuel/distributor-angle-limit == 1
+                systems/fuel/distributor/angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -292,7 +296,7 @@ TODO: manual fuel controls
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
-                systems/fuel/distributor-angle-limit == 1
+                systems/fuel/distributor/angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
@@ -325,7 +329,7 @@ TODO: manual fuel controls
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
-                systems/fuel/distributor-angle-limit == 1
+                systems/fuel/distributor/angle-limit == 1
                 systems/fuel/fuel-flow/serviceable == 0
             </test>
             <test logic="AND" value="0">
