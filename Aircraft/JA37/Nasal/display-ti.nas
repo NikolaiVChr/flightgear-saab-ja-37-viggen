@@ -568,12 +568,14 @@ var TI = {
 		me.rootSVY = root.createChild("group")
     	    .set("z-index", 1);
     	me.svy_grp = me.rootSVY.createChild("group");
+    	me.svy_radar_grp = me.svy_grp.createChild("group");
     	me.svy_grp2 = me.svy_grp.createChild("group")
     		.set("z-index", 1);
     	me.echoesAircraftSvy = [];
     	me.echoesAircraftSvyTri = [];
 		me.echoesAircraftSvyVector = [];
-		var grpS = me.svy_grp.createChild("group")
+		# selection
+		var grpS = me.svy_radar_grp.createChild("group")
 			.set("z-index", maxTracks-0);
 		var grpS2 = grpS.createChild("group")
 			.setTranslation(0,0);
@@ -594,8 +596,9 @@ var TI = {
 	    append(me.echoesAircraftSvy, grpS);
 	    append(me.echoesAircraftSvyTri, tri);
 	    append(me.echoesAircraftSvyVector, vectorS);
+		# other radar echoes
 		for (var i = 1; i < maxTracks; i += 1) {
-			var grp = me.svy_grp.createChild("group")
+			var grp = me.svy_radar_grp.createChild("group")
 				.set("z-index", maxTracks-i);
 			var vector = grp.createChild("path")
 			  .moveTo(0,  0)
@@ -4768,6 +4771,7 @@ var TI = {
 
 	    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
 			me.radar_group.show();
+            me.svy_radar_grp.show();
 
 			me.selection = radar_logic.selection;
 
@@ -4817,6 +4821,7 @@ var TI = {
 	      	me.tgt_dist = nil;
 	        me.tgt_alt  = nil;
 	      	me.radar_group.hide();
+            me.svy_radar_grp.hide();
 	    }
 	    radar_logic.jumpExecute();
 	},
