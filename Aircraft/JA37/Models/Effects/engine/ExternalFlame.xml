@@ -20,12 +20,6 @@
 
   <animation>
     <type>noshadow</type>
-    <condition>
-      <equals>
-        <property>/sim/rendering/rembrandt/enabled</property>
-        <value>1</value>
-      </equals>
-    </condition>
     <object-name>ExternalFlamePoly</object-name>
   </animation>
 
