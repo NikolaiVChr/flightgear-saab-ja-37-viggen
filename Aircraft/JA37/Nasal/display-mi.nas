@@ -1002,7 +1002,7 @@ var MI = {
 	        # selection is currently in forward looking radar view
 
 	          me.tgt_dist = me.selection.get_range()*NM2M;
-	          me.tgt_alt  = me.selection.get_altitude()*FT2M;
+	          me.tgt_alt  = me.selection.get_indicated_altitude()*FT2M;
 	          me.tgt_bug  = me.selection.get_deviation(getprop("orientation/heading-deg"), geo.aircraft_position());
 	          if (me.input.callsign.getValue() == TRUE) {
 	            me.tgt_callsign = me.selection.get_Callsign();

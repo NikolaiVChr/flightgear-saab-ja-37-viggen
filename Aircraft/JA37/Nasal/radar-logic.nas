@@ -55,6 +55,11 @@ var setSelection = func (s) {
   steerOrder = FALSE;
 }
 
+# True altitude corresponding to indicated altitude 0
+var get_indicated_altitude_offset = func() {
+    return input.alt_true_ft.getValue() - input.alt_ft.getValue();
+}
+
 var steerOrder = FALSE;
 
 var self = nil;
@@ -88,6 +93,8 @@ var knownShips = {
 };
 
 var input = {
+        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+        alt_true_ft:      "position/altitude-ft",
         radar_serv:       "instrumentation/radar/serviceable",
         hdgReal:          "/orientation/heading-deg",
         pitch:            "/orientation/pitch-deg",
@@ -1156,6 +1163,11 @@ var Contact = {
         return me.alt.getValue();
     },
 
+    get_indicated_altitude: func(){
+        #Return Alt in feet
+        return me.get_altitude() - get_indicated_altitude_offset();
+    },
+
     get_Elevation_from_Coord: func(MyAircraftCoord) {
         #me.get_Coord();
         #var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
@@ -1438,6 +1450,11 @@ var ContactGPS = {
       return me.coord.alt()*M2FT;
   },
 
+  get_indicated_altitude: func(){
+      #Return Alt in feet
+      return me.get_altitude() - get_indicated_altitude_offset();
+  },
+
   get_Elevation_from_Coord: func(MyAircraftCoord) {
       #var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
       #if (math.abs(value) > 1) {
@@ -1710,6 +1727,11 @@ var ContactGhost = {
   get_altitude: func(){
       #Return Alt in feet
       return getprop("position/altitude-ft");
+  },
+
+  get_indicated_altitude: func(){
+      #Return Alt in feet
+      return me.get_altitude() - get_indicated_altitude_offset();
   },
 
   get_Elevation_from_Coord: func(MyAircraftCoord) {

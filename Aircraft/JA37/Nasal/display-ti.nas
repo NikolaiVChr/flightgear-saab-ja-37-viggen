@@ -2601,7 +2601,7 @@ var TI = {
 		if(radar_logic.selection != nil) {
 			me.tgtC = radar_logic.selection.get_Callsign()~" ("~radar_logic.selection.get_model()~")";
 			me.tgtS = sprintf("%d",radar_logic.selection.get_Speed());
-			me.tgtA = sprintf("%d",radar_logic.selection.get_altitude());
+			me.tgtA = sprintf("%d",radar_logic.selection.get_indicated_altitude());
 			me.tgtLO = ja37.convertDegreeToStringLon(radar_logic.selection.get_Longitude());
 			me.tgtLA = ja37.convertDegreeToStringLat(radar_logic.selection.get_Latitude());
 			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Mag. Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: %s\n      Radar tgt. spd: %s kt\n      Radar tgt. alt: %s ft\n      Radar tgt. Lon: %s\n      Radar tgt. Lat: %s",
@@ -4811,7 +4811,7 @@ var TI = {
 	          	me.tgt_alt  = nil;
 			} else {
 				me.tgt_dist = me.selection.get_range()*NM2M;
-	          	me.tgt_alt  = me.selection.get_altitude()*FT2M;
+				me.tgt_alt  = me.selection.get_indicated_altitude()*FT2M;
 			}
 			if (me.isGPS == FALSE) {
 				me.gpsSymbol.hide();
@@ -4914,7 +4914,7 @@ var TI = {
 				me.echoesAircraft[me.currentIndexT].show();
 				me.echoesAircraft[me.currentIndexT].update();
 				if (me.SVYactive == TRUE and me.menuMain != MAIN_MISSION_DATA) {
-					me.altsvy  = contact.get_altitude()*FT2M;
+					me.altsvy  = contact.get_indicated_altitude()*FT2M;
 					me.distsvy = math.cos(me.angle)*contact.get_Coord().distance_to(geo.aircraft_position());
 					me.pos_xxx = me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange;
 					me.pos_yyy = me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt;
