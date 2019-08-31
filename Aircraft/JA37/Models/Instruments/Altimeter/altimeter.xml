@@ -14,6 +14,21 @@
         <object-name>Cube</object-name>
     </effect>
     
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>Hundred_meter_hand</object-name>
+        <object-name>km_hand</object-name>
+        <object-name>Dig1000</object-name>
+        <object-name>Dig100</object-name>
+        <object-name>Dig10</object-name>
+        <object-name>Dig1</object-name>
+        <object-name>Dig0.1</object-name>
+        <object-name>DigSTD</object-name>
+        <object-name>Face</object-name>
+        <object-name>knob</object-name>
+        <object-name>off</object-name>
+    </effect>
+    
     <animation>
         <type>select</type>
         <object-name>off</object-name>

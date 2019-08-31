@@ -12,6 +12,13 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>AI2Cube</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>AI2Cylinder</object-name>
+        <object-name>AI2Pointer</object-name>
+        <object-name>off</object-name>
+    </effect>
 
     <animation>
         <type>pick</type>

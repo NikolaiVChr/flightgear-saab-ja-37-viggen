@@ -301,5 +301,34 @@
             <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>panel</object-name>
+    </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>indicatorLeft1</object-name>
+        <object-name>indicatorLeft2</object-name>
+        <object-name>indicatorLeft3</object-name>
+        <object-name>indicatorLeft4</object-name>
+        <object-name>indicatorLeft5</object-name>
+        <object-name>indicatorLeft6</object-name>
+        <object-name>indicatorLeft7</object-name>
+        <object-name>indicatorLeft8</object-name>
+        <object-name>indicatorLeft9</object-name>
+        <object-name>indicatorLeft10</object-name>
+        <object-name>indicatorRight1</object-name>
+        <object-name>indicatorRight2</object-name>
+        <object-name>indicatorRight3</object-name>
+        <object-name>indicatorRight4</object-name>
+        <object-name>indicatorRight5</object-name>
+        <object-name>indicatorRight6</object-name>
+        <object-name>indicatorRight7</object-name>
+        <object-name>indicatorRight8</object-name>
+        <object-name>indicatorRight9</object-name>
+        <object-name>indicatorRight10</object-name>
+    </effect>
 
 </PropertyList>

@@ -25,6 +25,15 @@
         <object-name>vol</object-name>
         <object-name>Switch</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>botDig1</object-name>
+        <object-name>botDig2</object-name>
+        <object-name>botDig3</object-name>
+        <object-name>botDig4</object-name>
+        <object-name>botDig5</object-name>
+    </effect>
 
     <animation>
         <type>pick</type>

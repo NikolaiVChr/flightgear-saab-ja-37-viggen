@@ -17,6 +17,26 @@
         <object-name>mount</object-name>
     </effect>
     
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>face</object-name>
+        <object-name>drums</object-name>
+        <object-name>needle</object-name>
+        <object-name>needle-w</object-name>
+        <object-name>off</object-name>
+        <object-name>drum-1</object-name>
+        <object-name>drum-2</object-name>
+        <object-name>drum-3</object-name>
+        <object-name>drum-inhg-1</object-name>
+        <object-name>drum-inhg-2</object-name>
+        <object-name>drum-inhg-3</object-name>
+        <object-name>drum-inhg-4</object-name>
+        <object-name>negativ-flag</object-name>
+        <object-name>below-1000-flag</object-name>
+        <object-name>below-10000-flag</object-name>
+        <object-name>standard-flag</object-name>
+    </effect>
+    
     <animation>
         <type>select</type>
         <object-name>off</object-name>

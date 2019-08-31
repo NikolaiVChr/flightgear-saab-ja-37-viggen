@@ -33,7 +33,16 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
 		<object>rensaCover</object>
     </effect>
-
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+	    <object-name>DataCanvas</object-name>
+	    <object-name>dM</object-name>
+	    <object-name>dIn</object-name>
+	    <object-name>dOut</object-name>
+	    <object-name>dPos</object-name>
+	</effect>
+	
     <animation>
         <type>pick</type>
         <object-name>mount</object-name>

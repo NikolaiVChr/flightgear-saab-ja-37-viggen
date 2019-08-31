@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <name>Effects/ja37-gauge-transparent</name>
+  <inherits-from>Effects/model-combined-transparent</inherits-from>
+  <parameters>
+  	<render-bin>
+			  <bin-number>111</bin-number>
+			  <bin-name>DepthSortedBin</bin-name>
+			</render-bin>
+		<transparent type="int">1</transparent>
+		<render-hint>transparent</render-hint>
+ </parameters>
+</PropertyList>

@@ -20,6 +20,15 @@
 		  <object-name>ja37upperVerticalStabilizer</object-name>
       <object-name>gunpod</object-name>
 	</effect>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>hudGlassJA</object-name>
+    <object-name>glassOuter</object-name>
+    <object-name>frontglas</object-name>
+    <object-name>glassInternal</object-name>
+    <object-name>frontglasInternal</object-name>
+  </animation>
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>

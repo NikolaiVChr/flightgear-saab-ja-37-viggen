@@ -32,6 +32,20 @@
         <object-name>button_x4</object-name>
         <object-name>warninglighthousing</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>warning_light</object-name>
+        <object-name>indicator_upper_right</object-name>
+        <object-name>indicator_upper_left</object-name>
+        <object-name>indicator_tnf</object-name>
+        <object-name>indicator_tls</object-name>
+        <object-name>indicator_lower_right</object-name>
+        <object-name>indicator_lower_left</object-name>
+        <object-name>indicator_j</object-name>
+        <object-name>indicator_ik</object-name>
+        <object-name>indicator_id</object-name>
+    </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/displays/lcd</inherits-from>

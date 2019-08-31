@@ -6,10 +6,30 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glass</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>noshadow</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>mount</object-name>
+    </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>needle</object-name>
+        <object-name>needle_target</object-name>
+        <object-name>off</object-name>
+        <object-name>latClose</object-name>
+        <object-name>arrow</object-name>
+        <object-name>needleMount</object-name>
+    </effect>
+        
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge-transparent</inherits-from>
+        <object-name>dial</object-name>        
     </effect>
 
     <animation>
