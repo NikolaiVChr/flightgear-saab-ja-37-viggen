@@ -1871,4 +1871,7 @@
             <dt type="double">0.0</dt>
         </missile>
     </logging>
+
+    <always-one type="int">1</always-one>
+    
 </PropertyList>
