@@ -3652,6 +3652,16 @@
 <animation>
   <type>material</type>
   <object-name>gearFrontLight</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[6]</factor-prop><!--  ja37/effect/taxi-light  -->
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
   <object-name>landingLightLeft</object-name>
   <object-name>landingLightRight</object-name>
   <emission>
@@ -3660,22 +3670,10 @@
    <blue>1.0</blue>
    <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
   </emission>
-  <diffuse>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </diffuse>
-  <ambient>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </ambient>
  </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/landingLight/taxiLightGlare.xml</path>
     <name>frontLandingLightGlare</name>
     <offsets>
       <x-m>-3.47732</x-m>

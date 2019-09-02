@@ -3,7 +3,7 @@
 <PropertyList>
 
  <model>
-    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/taxi-light.xml</path>
     <name>glow</name>
   </model>
 

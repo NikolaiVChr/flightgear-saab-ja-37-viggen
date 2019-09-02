@@ -822,6 +822,22 @@
             <output>/ja37/effect/landing-light</output>
         </switch>
 
+        <switch name="names/electrical/taxi-light">
+            <description>
+                      Taxi light power
+            </description>
+            <default value="0"/>
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-norm">
+                /controls/electric/lights-land-switch != 0
+                gear/gear-pos-norm gt 0
+            </test>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/ja37/effect/taxi-light</output>
+        </switch>
+
         <fcs_function name="names/electrical/instr-light-norm">
             <description>
                       Instrument light power

@@ -71,6 +71,7 @@ input = {
   fuelWarning:      "ja37/sound/fuel-low-on",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
+  gearSteerNorm:    "/gear/gear[0]/steering-norm",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
@@ -99,6 +100,8 @@ input = {
   lampXTank:        "ja37/avionics/xtank",
   landLight:        "ja37/effect/landing-light",
   landLightALS:     "sim/rendering/als-secondary-lights/use-landing-light",
+  landLightALS2:    "sim/rendering/als-secondary-lights/use-alt-landing-light",
+  landLightALSHead: "sim/rendering/als-secondary-lights/landing-light1-offset-deg",
   landLightSupport: "ja37/supported/landing-light",
   landLightSwitch:  "controls/electric/lights-land-switch",
   lockPassive:      "/autopilot/locks/passive-mode",
@@ -160,6 +163,7 @@ input = {
   tank8LvlGal:      "/consumables/fuel/tank[8]/level-gal_us",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   tank8Selected:    "/consumables/fuel/tank[8]/selected",
+  taxiLight:        "ja37/effect/taxi-light",
   tempDegC:         "environment/temperature-degc",
   thrustLb:         "engines/engine/thrust_lb",
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
@@ -478,14 +482,16 @@ var Saab37 = {
     input.cutoffOrig.setBoolValue(input.cutoffJsbsim.getValue());
 
     # switch on and off ALS landing lights
-    if(input.landLight.getValue() > 0) {    
-      if(input.viewInternal.getValue() == TRUE and input.landLightSupport.getValue() == TRUE) {
-          input.landLightALS.setBoolValue(TRUE);
+    if(input.landLightSupport.getValue()) {
+        if(input.viewInternal.getValue()) {
+            input.landLightALS.setBoolValue(input.taxiLight.getValue() > 0);
+            input.landLightALS2.setBoolValue(input.landLight.getValue() > 0);
+            # Rotate taxi light
+            input.landLightALSHead.setValue(input.gearSteerNorm.getValue() * 30);
         } else {
-          input.landLightALS.setBoolValue(FALSE);
+            input.landLightALS.setBoolValue(FALSE);
+            input.landLightALS2.setBoolValue(FALSE);
         }
-    } else {
-      input.landLightALS.setBoolValue(FALSE);
     }
 
     if(input.replay.getValue() == TRUE) {

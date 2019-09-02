@@ -362,7 +362,6 @@
 *************************************************************************-->
         <multiplay>
             <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
-                 free: float 6
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
@@ -405,6 +404,7 @@
                 <!-- Animating light -->
                 <int n="5" alias="/sim/model/lighting/strobe/state"/>                <!-- to animate strobe -->
                 <float n="4" alias="/ja37/effect/landing-light"/>                <!-- to animate landing lights -->
+                <float n="6" alias="/ja37/effect/taxi-light"/>                <!-- to animate taxi lights -->
                 <int n="6" alias="/ja37/effect/landing-light"/>                <!-- for backwards compatibility -->
                 <int n="15" alias="/sim/model/lighting/beacon/state"/>                <!-- to animate beacons, backward compat -->
                 <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/>                <!-- to animate beacons -->
@@ -554,6 +554,7 @@
         </radar>
         <effect>
             <landing-light type="double">0</landing-light>
+            <taxi-light type="double">0</taxi-light>
             <seat type="double">0</seat>
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->
@@ -1161,7 +1162,7 @@
             <lights-ext-flash type="bool">false</lights-ext-flash>
             <lights-ext-beacon type="bool">false</lights-ext-beacon>
             <lights-ext-nav type="bool">false</lights-ext-nav>
-            <lights-land-switch type="bool">false</lights-land-switch>
+            <lights-land-switch type="int">0</lights-land-switch>
             <reserve type="bool">false</reserve>
             <engine n="0">
                 <generator type="bool">false</generator>
