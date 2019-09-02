@@ -69,11 +69,12 @@
 
 	<!-- strobe light -->
 
-	<animation>
+<!-- flash: bit 1 -->
+	<!--<animation>
 	  	<type>material</type>
 	  	<object-name>ja37strobe</object-name>
 	  	<condition>
-		    <or><!-- flash: bit 1 -->
+		    <or>
 				<equals>
 					<property>sim/multiplay/generic/int[9]</property>
 					<value>1</value>
@@ -96,9 +97,9 @@
 	   		<red>1.0</red>
 			<green>1.0</green>
 	   		<blue>1.0</blue>
-	   		<factor-prop>sim/multiplay/generic/int[5]</factor-prop><!-- sim/model/lighting/strobe/state -->
+	   		<factor-prop>sim/multiplay/generic/int[5]</factor-prop>
 	  	</emission>
-	</animation>
+	</animation>--><!-- sim/model/lighting/strobe/state -->
 
 	<model>
 		<name>strobeFlash</name>
@@ -3602,10 +3603,10 @@
     </or>
   </condition>
   <emission>
-   <red>1.0</red>
+   <red>0.5</red>
    <green>0.0</green>
    <blue>0.0</blue>
-   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
+   <!--<factor-prop>sim/multiplay/generic/float[1]</factor-prop>--><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 
@@ -3633,10 +3634,10 @@
     </or>
   </condition>
   <emission>
-   <red>1.0</red>
+   <red>0.5</red>
    <green>0.0</green>
    <blue>0.0</blue>
-   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
+   <!--<factor-prop>sim/multiplay/generic/float[1]</factor-prop>--><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 
@@ -3682,7 +3683,7 @@
     <name>leftLandingLightGlare</name>
     <offsets>
       <x-m>2.19039</x-m>
-      <y-m>-2.21864</y-m>
+      <y-m>-2.11364</y-m>
       <z-m>-1.08005</z-m>
     </offsets>
   </model>
@@ -3691,8 +3692,8 @@
     <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
     <name>rightLandingLightGlare</name>
     <offsets>
-      <x-m>2.20055</x-m>
-      <y-m>2.23137</y-m>
+      <x-m>2.19039</x-m>
+      <y-m>2.11364</y-m>
       <z-m>-1.08005</z-m>
     </offsets>
   </model>

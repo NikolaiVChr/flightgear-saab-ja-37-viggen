@@ -3,33 +3,27 @@
 
 <PropertyList>
 
-  <model>
-    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
-    <name>glow</name>
-  </model>
-  
+  <path>Models/Effects/procedural_light.ac</path>
+
+ <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
+   <object-name>procedural_light</object-name>
+   <parameters>
+        
+    </parameters>
+ </effect>
+ 
   <nopreview/>
+
+  <!-- (red) beacon light -->
   
-  <!-- Top (red) beacon light -->
-
-  <offsets>
-    <x-m> 0.45039</x-m>
-    <y-m> 0</y-m>
-    <z-m> 1.05</z-m>
-  </offsets>
-
   <!-- Special Shaders -->
-  
+
   <animation>
     <type>noshadow</type>
-    <object-name>glow</object-name>
+    <object-name>procedural_light</object-name>
   </animation>
 
-
-  <!--<effect>
-    <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>glow</object-name>
-  </effect>-->
 
   <!-- Animations -->
 <!--
@@ -51,9 +45,9 @@
    <blue>1.0</blue>
    <factor-prop>sim/multiplay/generic/float[1]</factor-prop>
   </emission>
- </animation>
+ </animation>--><!-- sim/model/lighting/beacon/state -->
 
-  <animation>
+  <!--<animation>
     <type>scale</type>
     <object-name>LightBeaconGlow</object-name>
     <property>sim/multiplay/generic/float[1]</property>
@@ -63,8 +57,8 @@
     <x-factor>1.0</x-factor>
     <y-factor>1.0</y-factor>
     <z-factor>1.0</z-factor>
-  </animation>
-
+  </animation>--><!-- sim/model/lighting/beacon/state -->
+<!--
   <animation>
     <type>scale</type>
     <object-name>LightBeaconGlow</object-name>
@@ -78,13 +72,12 @@
     <x-factor>1</x-factor>
     <y-factor>1</y-factor>
     <z-factor>1</z-factor>
-  </animation>--><!-- sim/model/lighting/beacon/state -->
-
-  <animation>
+  </animation>-->
+  
+ <!-- <animation>
     <type>spin</type>
-    <object-name>glow</object-name>
-    <property>always-one</property>
-    <factor>30</factor>
+    <object-name>procedural_light</object-name>
+    <factor>10</factor>
     <center>
         <x-m>0</x-m>
         <y-m>0.0</y-m>
@@ -95,30 +88,6 @@
         <y>0</y>
         <z>1</z>
     </axis>
-  </animation>
+  </animation>-->
 
-  <animation>
-    <type>select</type>
-    <object-name>glow</object-name>
-    <condition>
-      <or><!-- beacon: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
-  </animation>
 </PropertyList>

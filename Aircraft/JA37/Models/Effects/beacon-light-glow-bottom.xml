@@ -2,8 +2,12 @@
 
 
 <PropertyList>
-
-  <path>beacon-glow-red.ac</path>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
+    <name>glow</name>
+  </model>
+  
   <nopreview/>
 
   <!-- Bottom (red) beacon light -->
@@ -18,16 +22,16 @@
 
   <animation>
     <type>noshadow</type>
-    <object-name>LightBeaconGlow</object-name>
+    <object-name>glow</object-name>
   </animation>
 
-  <effect>
+  <!--<effect>
     <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>LightBeaconGlow</object-name>
-  </effect>
+    <object-name>glow</object-name>
+  </effect>-->
 
   <!-- Animations -->
-
+<!--
  <animation>
   <type>dist-scale</type>
   <object-name>LightBeaconGlow</object-name>
@@ -44,14 +48,14 @@
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
+   <factor-prop>sim/multiplay/generic/float[1]</factor-prop>
   </emission>
  </animation>
 
   <animation>
     <type>scale</type>
     <object-name>LightBeaconGlow</object-name>
-    <property>sim/multiplay/generic/float[1]</property><!-- sim/model/lighting/beacon/state -->
+    <property>sim/multiplay/generic/float[1]</property>
     <x-min>0.01</x-min>
     <y-min>0.01</y-min>
     <z-min>0.01</z-min>
@@ -73,11 +77,28 @@
     <x-factor>1</x-factor>
     <y-factor>1</y-factor>
     <z-factor>1</z-factor>
+  </animation>--><!-- sim/model/lighting/beacon/state -->
+
+  <animation>
+    <type>spin</type>
+    <object-name>glow</object-name>
+    <property>always-one</property>
+    <factor>31</factor>
+    <center>
+        <x-m>0</x-m>
+        <y-m>0.0</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
   </animation>
 
   <animation>
     <type>select</type>
-    <object-name>LightBeaconGlow</object-name>
+    <object-name>glow</object-name>
     <condition>
       <or><!-- beacon: bit 2 -->
         <equals>

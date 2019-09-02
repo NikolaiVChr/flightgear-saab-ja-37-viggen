@@ -38,7 +38,7 @@ varying vec3 relPos;
 varying vec3 normal;
 
 float Noise2D(in vec2 coord, in float wavelength);
-float fog_func (in float targ, in float alt);
+vec3 fog_Func(vec3 color, int type);
 
 float shape (in vec3 coord, in float noise, in float fade, in float transmission, in float glare, in float lightArg) 
 {
@@ -52,7 +52,8 @@ float shape (in vec3 coord, in float noise, in float fade, in float transmission
    if (sinterm == 0.0)
    	{ray = 0.0;}
    else
-	{ray = clamp(pow(sinterm,10.0),0.0,1.0);
+	//{ray = clamp(pow(sinterm,10.0),0.0,1.0);
+	{ray = sinterm * sinterm * sinterm * sinterm * sinterm * sinterm * sinterm * sinterm * sinterm * sinterm;
    	ray *= exp(-40.0 * r * r) * smoothstep(0.8, 1.0,fade) * smoothstep(0.7, 1.0, glare);
 	}
 
@@ -125,12 +126,12 @@ vec3 viewDir = normalize(relPos);
 
 float dist = length(relPos);
 float delta_z = hazeLayerAltitude - eye_alt;
-float transmission;
+float transmission = 1.0;
 float vAltitude;
 float delta_zv;
 float H;
 float distance_in_layer;
-float transmission_arg;
+//float transmission_arg;
 
  // angle with horizon
     float ct = dot(vec3(0.0, 0.0, 1.0), relPos)/dist;
@@ -170,7 +171,7 @@ float transmission_arg;
 		}
 	}
 
-
+/**
 
     transmission_arg = (dist-distance_in_layer)/avisibility;
     if (visibility < avisibility)
@@ -182,9 +183,9 @@ float transmission_arg;
 	transmission_arg = transmission_arg + (distance_in_layer/avisibility);
 	}
 
+*/
 
-
-    transmission =  fog_func(transmission_arg, 0.0);
+    //transmission =  fog_func(transmission_arg, 0.0);
     float lightArg = terminator/100000.0;
 
 
@@ -225,7 +226,7 @@ float intensity = shape(vertex, noise, fade, transmission, glare, lightArg);
 vec3 light_color = mix(light_color_base, light_color_center, intensity*intensity);
 
 
-gl_FragColor =   vec4 (light_color.rgb, intensity * transmission );
+gl_FragColor =   vec4 (fog_Func(light_color.rgb,0), intensity * transmission );
 
 
 }
