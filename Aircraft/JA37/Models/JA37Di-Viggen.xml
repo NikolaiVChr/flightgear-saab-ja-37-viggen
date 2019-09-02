@@ -3725,10 +3725,10 @@
     <object-name>lightGlowALSLeft</object-name>
     <object-name>lightGlowALSRight</object-name>
     <condition>
-      <equals>
+      <!--<equals>
           <property>sim/rendering/shaders/skydome</property>
           <value>1</value>
-      </equals>
+      </equals>-->
       <or><!-- nav: bit 3 -->
         <equals>
           <property>sim/multiplay/generic/int[9]</property>
@@ -3750,7 +3750,7 @@
     </condition>
    </animation>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
     <name>lightglowR</name>
     <offsets>
@@ -3768,7 +3768,7 @@
       <y-m>0.0</y-m>
       <z-m>0.0</z-m>
     </offsets>
-  </model>
+  </model>-->
 
  <animation>
   <type>material</type>

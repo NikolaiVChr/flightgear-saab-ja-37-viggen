@@ -7,10 +7,6 @@
     <name>glow</name>
   </model>
 
- <animation>
-  <type>noshadow</type>
-  <object-name>glow</object-name>
- </animation>
 
   <!--<effect>
     <inherits-from>Effects/model-transparent</inherits-from>
