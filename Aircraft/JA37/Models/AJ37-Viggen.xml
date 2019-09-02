@@ -2002,6 +2002,8 @@
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
+    <object-name>landingLightLeftMount</object-name>
+    <object-name>landingLightRightMount</object-name>
     <object-name>bottomAirInlet</object-name>
   </effect>
 
@@ -2835,6 +2837,8 @@
   <object-name>gearFrontDoorsOpenLeft</object-name>
   <object-name>gearFrontDoorsOpenRight</object-name>
   <object-name>frontLandingLightGlare</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3216,8 +3220,6 @@
   <object-name>gearLeftTop</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   <interpolation>
    <entry>
@@ -3338,7 +3340,6 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
-  <object-name>gearLeftLight</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3376,8 +3377,6 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3762,8 +3761,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   <interpolation>
    <entry>
@@ -3884,7 +3881,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3921,9 +3917,7 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
   <object-name>gearRightHinge</object-name>
-  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -4936,8 +4930,8 @@
 <animation>
   <type>material</type>
   <object-name>gearFrontLight</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>gearRightLight</object-name>
+  <object-name>landingLightLeft</object-name>
+  <object-name>landingLightRight</object-name>
   <emission>
    <red>1.0</red>
    <green>1.0</green>
@@ -4972,9 +4966,9 @@
     <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
     <name>leftLandingLightGlare</name>
     <offsets>
-      <x-m>2.19039</x-m>
-      <y-m>-2.11364</y-m>
-      <z-m>-1.08005</z-m>
+      <x-m>-3.91114</x-m>
+      <y-m>-0.137806</y-m>
+      <z-m>-0.769589</z-m>
     </offsets>
   </model>
 
@@ -4982,9 +4976,9 @@
     <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
     <name>rightLandingLightGlare</name>
     <offsets>
-      <x-m>2.19039</x-m>
-      <y-m>2.11364</y-m>
-      <z-m>-1.08005</z-m>
+      <x-m>-3.69526</x-m>
+      <y-m>0.140439</y-m>
+      <z-m>-0.769589</z-m>
     </offsets>
   </model>
 
