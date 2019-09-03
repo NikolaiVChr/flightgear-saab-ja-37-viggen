@@ -648,13 +648,9 @@
         <fcs_function name="systems/indicators/auto-throttle-secondary">
             <function>
                 <or>
-                    <eq>
-                        <property>/systems/generator/serviceable</property>
-                        <value>0</value>
-                    </eq>
                     <and>
                         <eq>
-                            <property>autoflight/athr</property>
+                            <property>autoflight/athr-pos</property>
                             <value>1</value>
                         </eq>
                         <eq>
@@ -668,22 +664,45 @@
         
         <fcs_function name="systems/indicators/auto-throttle-primary">
             <function>
-                <and>
-                    <eq>
-                        <property>autoflight/athr</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
+                <or>
+                    <and>
                         <eq>
-                            <property>/gear/gear[0]/wow</property>
-                            <value>1</value>
+                            <property>/systems/electrical/serviceable</property><!-- this is the failure mode for generator -->
+                            <value>0</value>
                         </eq>
                         <gt>
                             <property>/ja37/avionics/lost-ac-sec</property>
                             <value>2</value>
                         </gt>
-                    </or>
-                </and>
+                    </and>
+                    <and>
+                        <eq>
+                            <property>autoflight/athr-pos</property>
+                            <value>1</value>
+                        </eq>
+                        <or>
+                            <gt>
+                                <property>/ja37/avionics/lost-ac-sec</property>
+                                <value>2</value>
+                            </gt>
+                            <and>
+                                <!-- retarding and less than 495 km/h in mode 1 (mode 1 = speed HOLD) -->
+                                <eq>
+                                    <property>autoflight/athr-mode</property>
+                                    <value>0</value>
+                                </eq>
+                                <lt>
+                                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                                    <value>267</value>
+                                </lt>
+                                <lt>
+                                    <property>accelerations/udot-ft_sec2</property>
+                                    <value>0</value>
+                                </lt>
+                            </and>
+                        </or>
+                    </and>      
+                </or>
             </function>
         </fcs_function>
 
@@ -880,33 +899,52 @@
             This is for the flightstick assist systems, like roll and pitch dampers etc.
 
             Note: I have added failure to the flight surfaces also to this indicator.
-
+            
+            Blinking (SPAK,ALT,HÖJD) suppresed by hydr-1 and primary data.
+            
         -->
-
+        
         <fcs_function name="systems/indicators/flightstick-secondary">
             <function>
-                <and>
-                    <gt>
-                        <property>autoflight/mode</property>
-                        <value>0</value>
-                    </gt>
-                    <or>
-                        <eq>
-                            <property>systems/indicators/hydr-1-primary</property>
-                            <value>1</value>
-                        </eq>
-                        <nq>
-                            <property>/controls/flight/trim-yaw</property>
-                            <value>0</value>
-                        </nq>
-                    </or>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/flightstick-primary">
-            <function>
                 <or>
+                    <!-- authentic warnings -->
+                    <nq>
+                        <property>systems/hydraulics/system1/pressure</property><!-- TODO: should also give failure msg on MI -->
+                        <value>1</value>
+                    </nq>
+                    <and>
+                        <eq>
+                            <property>/systems/electrical/serviceable</property><!-- this is the failure mode for generator -->
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/ja37/elec/dc-bus-main-bool</property><!-- RAT is not generating power also, so we blink -->
+                            <value>0</value>
+                        </eq>
+                    </and>
+                    <and>
+                        <gt>
+                            <property>autoflight/mode</property>
+                            <value>0</value>
+                        </gt>
+                        <or>
+                            <eq>
+                                <property>systems/hydraulics/system1/main/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <gt>
+                                <property>/ja37/avionics/lost-ac-sec</property>
+                                <value>6</value>
+                            </gt>
+                            <gt>
+                                <abs>
+                                    <property>/controls/flight/rudder-trim</property>
+                                </abs>
+                                <value>0.02</value>
+                            </gt>
+                        </or>
+                    </and>
+                    <!-- unauthentic warnings -->
                     <eq>
                         <property>fcs/rudder/serviceable</property>
                         <value>0</value>
@@ -919,6 +957,7 @@
                         <property>fcs/elevator/serviceable</property>
                         <value>0</value>
                     </eq>
+                    <!-- some old stuff, might have to review it
                     <and>
                         <gt>
                             <property>autoflight/mode</property>
@@ -950,11 +989,33 @@
                     <lt>
                         <property>systems/hydraulics/flight-surface-actuation</property>
                         <value>0.5</value>
-                    </lt>
+                    </lt>-->
                 </or>
             </function>
         </fcs_function>
 
+        <fcs_function name="systems/indicators/flightstick-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>systems/indicators/flightstick-secondary</property>
+                        <value>1</value>
+                    </eq>
+                    <not>
+                        <or>
+                            <eq>
+                                <property>systems/indicators/primary-data-primary</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>systems/indicators/hydr-1-primary</property>
+                                <value>1</value>
+                            </eq>
+                        <or>
+                    </not>
+                </and>
+            </function>
+        </fcs_function>
 
         <switch name="systems/indicators/flightstick">
             <default value="systems/indicators/flightstick-secondary"/>
@@ -969,54 +1030,39 @@
         
         <fcs_function name="systems/indicators/auto-attitude-secondary">
             <function>
-                <and>
-                    <or>
-                        <eq>
-                            <property>systems/indicators/hydr-1-primary</property>
-                            <value>1</value>
-                        </eq>
-                        <nq>
-                            <property>/controls/flight/trim-yaw</property>
-                            <value>0</value>
-                        </nq>
-                        <gt>
-                            <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                            <value>0</value>
-                        </gt>
-                    </or>
-                    <gt>
-                        <property>autoflight/mode</property>
-                        <value>1</value>
-                    </gt>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/auto-attitude-primary">
-            <function>
                 <or>
+                    <!-- authentic warnings -->
+                    <and>
+                        <eq>
+                            <property>/systems/electrical/serviceable</property><!-- this is the failure mode for generator -->
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/ja37/elec/dc-bus-main-bool</property><!-- RAT is not generating power also, so we blink -->
+                            <value>0</value>
+                        </eq>
+                    </and>
                     <and>
                         <gt>
                             <property>autoflight/mode</property>
                             <value>1</value>
                         </gt>
                         <or>
+                            <nq>
+                                <property>systems/hydraulics/system1/pressure</property><!-- TODO: should also give failure msg on MI -->
+                                <value>1</value>
+                            </nq>
+                            <eq>
+                                <property>systems/hydraulics/system1/main/serviceable</property>
+                                <value>0</value>
+                            </eq>
                             <gt>
-                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                                <value>5</value>
-                            </gt>                            
-                            <eq>
-                                <property>fcs/pitch-damper/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                            <eq>
-                                <property>fcs/roll-damper/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                            <eq>
-                                <property>fcs/yaw-damper/serviceable</property>
-                                <value>0</value>
-                            </eq>
+                                <abs>
+                                    <property>/controls/flight/rudder-trim</property>
+                                </abs>
+                                <value>0.02</value>
+                            </gt>
+                            <!-- unauthentic warnings: -->
                             <eq>
                                 <property>fcs/rudder/serviceable</property>
                                 <value>0</value>
@@ -1029,18 +1075,42 @@
                                 <property>fcs/elevator/serviceable</property>
                                 <value>0</value>
                             </eq>
-                            <eq>
-                                <property>fcs/roll-limiter/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                            <lt>
-                                <property>systems/hydraulics/flight-surface-actuation</property>
-                                <value>0.5</value>
-                            </lt>
                         </or>
                     </and>
+                </or>
+                <!-- some old stuff, might have to review it
+                        <gt>
+                            <property>/ja37/avionics/ap-outside-bounds-sec</property>
+                            <value>0</value>
+                        </gt>
+                    -->
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/auto-attitude-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>systems/indicators/auto-attitude-secondary</property>
+                        <value>1</value>
+                    </eq>
+                    <not>
+                        <or>
+                            <eq>
+                                <property>systems/indicators/primary-data-primary</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>systems/indicators/hydr-1-primary</property>
+                                <value>1</value>
+                            </eq>
+                        <or>
+                    </not>
+                </and>
+                <!-- keep alerting even if A/P was switched off till warn button is pressed: -->
+                <!-- dont understand why this is here, maybe I read about that somewhere else than end of manual.
                     <and>
-                        <!-- keep alerting even if A/P was switched off till warn button is pressed -->
+                        
                         <eq>
                             <property>systems/indicators/master-warning/auto-att-issue</property>
                             <value>3</value>
@@ -1050,7 +1120,7 @@
                             <value>1</value>
                         </eq>                            
                     </and>
-                </or>
+                </or>-->
             </function>
         </fcs_function>
 
@@ -1065,39 +1135,41 @@
 
         <!-- Swedish: HÖJD  (blinking, sound)
         -->
+        <fcs_function name="systems/indicators/auto-altitude-below-target">
+            <function>
+                <lt>
+                    <difference>
+                        <p>/instrumentation/altimeter/indicated-altitude-ft</p>
+                        <p>autoflight/pitch/alt/target</p>
+                    </difference>
+                    <product>
+                        <v>-1</v>
+                        <sum>
+                            <v>164</v><!-- 50 meters -->
+                            <product>
+                                <v>0.018</v>
+                                <p>autoflight/pitch/alt/target</p>
+                            </product>
+                        </sum>
+                    </product>
+                </lt>
+            </function>
+        </fcs_function>
         
         <fcs_function name="systems/indicators/auto-altitude-secondary">
             <function>
-                <and>
-                    <or>
-                        <eq>
-                            <property>systems/indicators/hydr-1-primary</property>
-                            <value>1</value>
-                        </eq>
-                        <nq>
-                            <property>/controls/flight/trim-yaw</property>
-                            <value>0</value>
-                        </nq>
-                        <gt>
-                            <property>/ja37/avionics/transonic-sec</property>
-                            <value>0</value>
-                        </gt>
-                        <gt>
-                            <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                            <value>0</value>
-                        </gt>
-                    </or>
-                    <gt>
-                        <property>autoflight/mode</property>
-                        <value>2</value>
-                    </gt>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/auto-altitude-primary">
-            <function>
                 <or>
+                    <!-- authentic warnings -->
+                    <and>
+                        <eq>
+                            <property>/systems/electrical/serviceable</property><!-- this is the failure mode for generator -->
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/ja37/elec/dc-bus-main-bool</property><!-- RAT is not generating power also, so we blink -->
+                            <value>0</value>
+                        </eq>
+                    </and>
                     <and>
                         <gt>
                             <property>autoflight/mode</property>
@@ -1105,25 +1177,28 @@
                         </gt>
                         <or>
                             <gt>
-                                <property>/ja37/avionics/transonic-sec</property>
+                                <property>autoflight/alt-transonic-timer</property>
                                 <value>60</value>
                             </gt>
+                            <eq>
+                                <property>systems/indicators/auto-altitude-below-target</property>
+                                <value>1</value>
+                            </eq>
+                            <nq>
+                                <property>systems/hydraulics/system1/pressure</property><!-- TODO: should also give failure msg on MI -->
+                                <value>1</value>
+                            </nq>
+                            <eq>
+                                <property>systems/hydraulics/system1/main/serviceable</property>
+                                <value>0</value>
+                            </eq>
                             <gt>
-                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                                <value>5</value>
-                            </gt>                            
-                            <eq>
-                                <property>fcs/pitch-damper/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                            <eq>
-                                <property>fcs/roll-damper/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                            <eq>
-                                <property>fcs/yaw-damper/serviceable</property>
-                                <value>0</value>
-                            </eq>
+                                <abs>
+                                    <property>/controls/flight/rudder-trim</property>
+                                </abs>
+                                <value>0.02</value>
+                            </gt>
+                            <!-- unauthentic warnings: -->
                             <eq>
                                 <property>fcs/rudder/serviceable</property>
                                 <value>0</value>
@@ -1136,28 +1211,32 @@
                                 <property>fcs/elevator/serviceable</property>
                                 <value>0</value>
                             </eq>
-                            <eq>
-                                <property>fcs/roll-limiter/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                            <lt>
-                                <property>systems/hydraulics/flight-surface-actuation</property>
-                                <value>0.5</value>
-                            </lt>
                         </or>
                     </and>
-                    <and>
-                        <!-- keep alerting even if A/P was switched off till warn button is pressed -->
-                        <eq>
-                            <property>systems/indicators/master-warning/auto-alt-issue</property>
-                            <value>3</value>
-                        </eq>
-                        <eq>
-                            <property>systems/indicators/auto-altitude-primary</property>
-                            <value>1</value>
-                        </eq>                            
-                    </and>
                 </or>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/auto-altitude-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>systems/indicators/auto-attitude-secondary</property>
+                        <value>1</value>
+                    </eq>
+                    <not>
+                        <or>
+                            <eq>
+                                <property>systems/indicators/primary-data-primary</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>systems/indicators/hydr-1-primary</property>
+                                <value>1</value>
+                            </eq>
+                        <or>
+                    </not>
+                </and>
             </function>
         </fcs_function>
 
@@ -2018,15 +2097,59 @@
 
         <fcs_function name="/instrumentation/terrain-warning-hold">
             <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>autoflight/mode</property>
+                            <v>3</v>
+                        </eq>
+                        <lt>
+                            <quotient>
+                                <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property>autoflight/pitch/alt/target</property>
+                            </quotient>
+                            <v>0.8</v>
+                        </lt>
+                    </and>
+                    <p>systems/indicators/flashing-mkv</p>
+                </or>
+            </function>
+        </fcs_function>
+        
+        <!--
+            TODO: SPAK mode + DCloss > 6 secs = flashing alt bars in HUD and MI
+            TODO: HÖJD/ATT mode + DCloss > 6 secs = flashing alt bars in HUD and MI and flashing ground collision red light on MI.
+
+        -->
+        
+        <fcs_function name="systems/indicators/flashing-alt-bars">
+            <function>
+                <!-- authentic warnings -->
                 <and>
-                    <property>/ja37/avionics/auto-altitude-hold-on</property>
-                    <lt>
-                        <quotient>
-                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                            <property>/autopilot/settings/target-altitude-ft</property>
-                        </quotient>
-                        <v>0.8</v>
-                    </lt>
+                    <eq>
+                        <property>autoflight/mode</property>
+                        <value>1</value>
+                    </eq>
+                    <gt>
+                        <property>/ja37/avionics/lost-dc-sec</property>
+                        <value>6</value>
+                    </gt>
+                </and>
+            </function>
+        </fcs_function>
+        
+        <fcs_function name="systems/indicators/flashing-mkv">
+            <function>
+                <!-- authentic warnings -->
+                <and>
+                    <gt>
+                        <property>autoflight/mode</property>
+                        <value>1</value>
+                    </gt>
+                    <gt>
+                        <property>/ja37/avionics/lost-dc-sec</property>
+                        <value>6</value>
+                    </gt>
                 </and>
             </function>
         </fcs_function>
@@ -2035,7 +2158,6 @@
             <default value="0"/>
             <test logic="AND" value="1">
                 /instrumentation/terrain-warning-hold == 1
-                /ja37/avionics/auto-altitude-hold-on == 1
             </test>
         </switch>
 
@@ -2736,21 +2858,24 @@
                 systems/indicators/low-fuel-secondary == 1
             </test>
         </switch>
-
+        
         <switch name="systems/indicators/master-warning/ap-downgrade">
             <default value="0"/>
             <test logic="OR" value="0">
-                /ja37/avionics/autopilot-soft-warn == 0
-            </test>
-            <test logic="OR" value="1">
-                systems/indicators/master-warning/ap-downgrade == 1
-            </test>
-            <test logic="AND" value="1">
-                systems/indicators/master-warning/ap-downgrade gt 1
                 /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
-                /ja37/avionics/autopilot-soft-warn == 1
+                systems/indicators/master-warning/ap-downgrade == 3                
+            </test>
+            <test logic="AND" value="3">
+                autoflight/mode lt autoflight/mode-last
+            </test>
+        </switch>
+        
+        <switch name="autoflight/mode-last">
+            <default value="autoflight/mode"/>
+            <test logic="OR" value="autoflight/mode"><!-- hehe -->
+                1 == 1
             </test>
         </switch>
 
@@ -2903,15 +3028,6 @@
                 systems/indicators/master-warning/warning == 3
             </test>
         </switch>
-
-		<!-- Reset it -->
-		<switch name="autoflight/mw-reset">
-			<default value="/ja37/avionics/autopilot-soft-warn"/>
-			<test value="0">
-				systems/indicators/master-warning/ap-downgrade eq 1
-			</test>
-			<output>/ja37/avionics/autopilot-soft-warn</output>
-		</switch>
 
     </channel>
 

@@ -1498,9 +1498,9 @@ var TI = {
 	  	var ti = { parents: [TI] };
 	  	ti.input = {
 			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
-			APLockAlt:            "autopilot/locks/altitude",
-			APTgtAgl:             "autopilot/settings/target-agl-ft",
-			APTgtAlt:             "autopilot/settings/target-altitude-ft",
+			#APmode:               "fdm/jsbsim/autoflight/mode",
+			#APTgtAgl:             "autopilot/settings/target-agl-ft",
+			#APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			rad_alt:              "position/altitude-agl-ft",
 			radarEnabled:         "ja37/hud/tracks-enabled",
