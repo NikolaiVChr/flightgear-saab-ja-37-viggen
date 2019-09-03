@@ -851,6 +851,7 @@
                 <high-alpha type="bool">0</high-alpha>
                 <max-mode-out type="int">0</max-mode-out>
                 <mode type="int">0</mode>
+                <mode-last type="int">0</mode-last>
                 <pitch n="0">
                     <d-gain type="double">0</d-gain>
                     <i-gain type="double">0</i-gain>

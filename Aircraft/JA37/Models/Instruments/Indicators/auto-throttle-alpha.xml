@@ -8,7 +8,14 @@
         <object-name>display</object-name>
         <condition>
             <or>
-                <property>fdm/jsbsim/autoflight/high-alpha</property>
+                <and>
+                    <!-- as per manual: -->
+                    <property>fdm/jsbsim/autoflight/high-alpha</property>
+                    <property>fdm/jsbsim/gear/gear-pos-norm</property>
+                    <not>
+                        <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    </not>
+                </and>
                 <property>controls/lighting/test-indicator-panels</property>
             </or>
         </condition>

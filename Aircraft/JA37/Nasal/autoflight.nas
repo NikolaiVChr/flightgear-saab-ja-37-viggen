@@ -19,9 +19,9 @@ var System = {
 		}
 	},
 	downgradeCheck: func(m) {
-		if (m < mode.getValue() and !apDowngradeMW.getBoolValue()) {
-			apSoftWarn.setBoolValue(1);
-		}
+		#if (m < mode.getValue() and !apDowngradeMW.getBoolValue()) {
+		#	apSoftWarn.setBoolValue(1);
+		#}
 	},
 	trimStickKill: func() {
 		if (!wow.getBoolValue() and mode.getValue() == 1) {
