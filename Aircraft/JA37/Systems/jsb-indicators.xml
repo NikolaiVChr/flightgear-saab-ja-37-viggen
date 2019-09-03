@@ -647,18 +647,16 @@
 
         <fcs_function name="systems/indicators/auto-throttle-secondary">
             <function>
-                <or>
-                    <and>
-                        <eq>
-                            <property>autoflight/athr-pos</property>
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <property>/gear/gear[0]/wow</property>
-                            <value>1</value>
-                        </eq>
-                    </and>             
-                </or>
+                <and>
+                    <eq>
+                        <property>autoflight/athr-pos</property>
+                        <value>1</value>
+                    </eq>
+                    <eq>
+                        <property>/gear/gear[0]/wow</property>
+                        <value>1</value>
+                    </eq>
+                </and>
             </function>
         </fcs_function>
         
@@ -1011,7 +1009,7 @@
                                 <property>systems/indicators/hydr-1-primary</property>
                                 <value>1</value>
                             </eq>
-                        <or>
+                        </or>
                     </not>
                 </and>
             </function>
@@ -1104,7 +1102,7 @@
                                 <property>systems/indicators/hydr-1-primary</property>
                                 <value>1</value>
                             </eq>
-                        <or>
+                        </or>
                     </not>
                 </and>
                 <!-- keep alerting even if A/P was switched off till warn button is pressed: -->
@@ -1234,7 +1232,7 @@
                                 <property>systems/indicators/hydr-1-primary</property>
                                 <value>1</value>
                             </eq>
-                        <or>
+                        </or>
                     </not>
                 </and>
             </function>
@@ -2872,12 +2870,10 @@
             </test>
         </switch>
         
-        <switch name="autoflight/mode-last">
-            <default value="autoflight/mode"/>
-            <test logic="OR" value="autoflight/mode"><!-- hehe -->
-                1 == 1
-            </test>
-        </switch>
+        <pure_gain name="autoflight/mode-last">
+            <input>autoflight/mode</input>
+            <gain>1.0</gain>
+        </pure_gain>
 
         <switch name="systems/indicators/master-warning/engine-startup">
             <description>

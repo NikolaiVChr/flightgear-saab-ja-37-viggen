@@ -8,20 +8,13 @@ var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STIC
 var athr = props.globals.getNode("/fdm/jsbsim/autoflight/athr"); # 0 OFF, 1 ON
 var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 OFF, 1 ON
 var apSoftWarn = props.globals.getNode("/ja37/avionics/autopilot-soft-warn");
-var apDowngradeMW = props.globals.getNode("/fdm/jsbsim/systems/indicators/master-warning/ap-downgrade");
 var wow = props.globals.getNode("/fdm/jsbsim/position/wow");
 
 var System = {
 	engageMode: func(m) {
 		if (m <= maxMode.getValue()) {
-			me.downgradeCheck(m);
 			mode.setValue(m);
 		}
-	},
-	downgradeCheck: func(m) {
-		#if (m < mode.getValue() and !apDowngradeMW.getBoolValue()) {
-		#	apSoftWarn.setBoolValue(1);
-		#}
 	},
 	trimStickKill: func() {
 		if (!wow.getBoolValue() and mode.getValue() == 1) {
@@ -44,10 +37,8 @@ var System = {
 setlistener("/fdm/jsbsim/autoflight/max-mode-out", func {
 	maxModeTemp = maxMode.getValue();
 	if (maxModeTemp < mode.getValue()) {
-		System.downgradeCheck(maxModeTemp);
 		mode.setValue(maxModeTemp);
 	} else if (maxModeTemp >= 1 and wow.getBoolValue() and mode.getValue() != 1) {
-		System.downgradeCheck(1); # Theoretically, it would always be an upgrade, but lets do this just in case
 		mode.setValue(1); # STICK
 	}
 }, 0, 0);
