@@ -2303,7 +2303,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
           if (me.gearsDown == TRUE) {
             me.alpha = me.input.alphaJSB.getValue();
-            me.highAlpha = getprop("ja37/avionics/high-alpha");
+            me.highAlpha = getprop("fdm/jsbsim/autoflight/high-alpha");
             me.idealAlpha = 15.5;# the ideal aoa for landing.
             if (me.highAlpha == FALSE) {
               me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG;
