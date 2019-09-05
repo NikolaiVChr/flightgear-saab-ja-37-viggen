@@ -342,7 +342,7 @@
     <!-- lighting -->
     <animation>
         <!--<object-name>mount</object-name>-->
-        <object-name>knob</object-name>
+        <!--<object-name>knob</object-name>-->
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>
