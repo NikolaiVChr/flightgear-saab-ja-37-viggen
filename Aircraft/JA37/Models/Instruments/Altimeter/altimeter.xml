@@ -62,7 +62,7 @@
         </hovered>
     </animation>
 
-    <animation>
+    <!--<animation>
         <type>material</type>
         <object-name>Cube</object-name>
         <condition>
@@ -77,7 +77,7 @@
             <blue>0.03</blue>
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
-    </animation>
+    </animation>-->
 
     <animation>
         <type>material</type>
