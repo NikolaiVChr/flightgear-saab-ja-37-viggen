@@ -3,6 +3,15 @@
 <PropertyList>
 
 	<path>ja37.ac</path>
+  
+  <!--<model>
+    <path>Aircraft/JA37/Models/Effects/testCube.xml</path>
+    <offsets>
+      <x-m>  0</x-m>
+      <y-m>  0</y-m>
+      <z-m>  3</z-m>
+    </offsets>
+  </model>-->
 
   <!-- ALS volume shadow -->
   <!--<model>
@@ -599,7 +608,7 @@
     <!--<inherits-from>Effects/model-interior</inherits-from>-->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <!--<parameters>
-    <reflection-correction type="float">-0.50</reflection-correction>
+    <reflection-correction type="float">0.75</reflection-correction>
   </parameters>-->
     <!--<parameters>
       <reflection-type type="int">2</reflection-type>
