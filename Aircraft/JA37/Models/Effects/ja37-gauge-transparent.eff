@@ -8,7 +8,7 @@
 			  <bin-number>111</bin-number>
 			  <bin-name>DepthSortedBin</bin-name>
 			</render-bin>
-		<transparent type="int">1</transparent>
-		<render-hint>transparent</render-hint>
+		<!--<rendering-hint>transparent</rendering-hint>-->
+    <transparent>true</transparent>
  </parameters>
 </PropertyList>
