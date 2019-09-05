@@ -61,12 +61,19 @@
           <texture n="5">
             <type>cubemap</type>
             <images>
-                <positive-x>Aircraft/Generic/Effects/fgfs-sky2/1.png</positive-x>
-                <negative-x>Aircraft/Generic/Effects/fgfs-sky2/4.png</negative-x>
-                <positive-y>Aircraft/Generic/Effects/fgfs-sky2/2.png</positive-y>
-                <negative-y>Aircraft/Generic/Effects/fgfs-sky2/3.png</negative-y>
-                <positive-z>Aircraft/Generic/Effects/fgfs-sky2/6.png</positive-z>
-                <negative-z>Aircraft/Generic/Effects/fgfs-sky2/5.png</negative-z>
+                <!-- this skybox is flawed, top and bottom is slightly off color sadly
+                <positive-x>Aircraft/JA37/Models/Effects/fgfs-sky4/px.png</positive-x>
+                <negative-x>Aircraft/JA37/Models/Effects/fgfs-sky4/nx.png</negative-x>
+                <positive-y>Aircraft/JA37/Models/Effects/fgfs-sky4/py.png</positive-y>
+                <negative-y>Aircraft/JA37/Models/Effects/fgfs-sky4/ny.png</negative-y>
+                <positive-z>Aircraft/JA37/Models/Effects/fgfs-sky4/pz.png</positive-z>
+                <negative-z>Aircraft/JA37/Models/Effects/fgfs-sky4/nz.png</negative-z>-->
+                <positive-x>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_px.png</positive-x>
+                <negative-x>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_nx.png</negative-x>
+                <positive-y>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_py.png</positive-y>
+                <negative-y>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_ny.png</negative-y>
+                <positive-z>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_pz.png</positive-z>
+                <negative-z>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_nz.png</negative-z>
             </images>
             <filter>linear</filter>
           </texture>

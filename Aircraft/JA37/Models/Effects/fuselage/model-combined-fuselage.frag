@@ -62,8 +62,11 @@ uniform vec3	dirt_b_color;
 
 ///reflection orientation
 uniform mat4	osg_ViewMatrixInverse;
+uniform mat4	fg_ViewMatrixInverse;//??
 uniform float	latDeg;
 uniform float	lonDeg;
+
+uniform vec3 fg_CameraPositionCart;
 
 ///fog include//////////////////////
 uniform int fogType;
@@ -132,27 +135,24 @@ void main (void)
  			nmap.xyz = vec3(nmap.a,nmap.g,sqrt(1 - (nmap.a * nmap.a + nmap.g * nmap.g)));
  			nmap.a = 1.0;
  		}
-		N = nmap.xyz * 2.0 - 1.0;
-		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);
+		N = nmap.xyz * 2.0 - 1.0;//normal in tangent space
+		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);//normal in model space
  	} else {
  		N = normalize(VNormal);
  	}
 	///END bump ////////////////////////////////////////////////////////////////////
-	vec3 viewN	 = normalize((gl_ModelViewMatrixTranspose * vec4(N,0.0)).xyz);
-	vec3 viewVec = normalize(eyeVec);
+	vec3 viewN	 = normalize((gl_ModelViewMatrixTranspose * vec4(N, 0.0)).xyz);//normal in view space
+	vec3 viewVec = normalize(eyeVec);//vector to fragment in view space
 	float v      = abs(dot(viewVec, viewN));// Map a rainbowish color
 	vec4 fresnel = texture2D(ReflGradientsTex, vec2(v, 0.75));
 	vec4 rainbow = texture2D(ReflGradientsTex, vec2(v, 0.25));
+	
 
-	mat4 reflMatrix = gl_ModelViewMatrixInverse;
-	vec3 wRefVec	= reflect(viewVec,N);
-
-	////dynamic reflection /////////////////////////////
-	if (refl_dynamic > 0){
-		reflMatrix = osg_ViewMatrixInverse;
-
-		vec3 wVertVec	= normalize(reflMatrix * vec4(viewVec,0.0)).xyz;
-		vec3 wNormal	= normalize(reflMatrix * vec4(N,0.0)).xyz;
+	////  reflection vector /////////////////////////////
+	vec3 wRefVec;//reflect vector in world space
+	if (refl_dynamic > 0){		
+		vec3 wVertVec	= normalize((osg_ViewMatrixInverse * vec4(viewVec,0.0)).xyz);
+		vec3 wNormal	= normalize((osg_ViewMatrixInverse * vec4(N,0.0)).xyz);//why does this work, when viewVec is in view and N is in model space??
 
 		float latRad = radians(90.-latDeg);
 		float lonRad = radians(lonDeg);
@@ -161,11 +161,10 @@ void main (void)
 		mat3 rotCorrZ = rotZ(lonRad);
 		mat3 reflCorr = rotCorrY * rotCorrZ;
 		wRefVec	= reflect(wVertVec,wNormal);
-		wRefVec = normalize(reflCorr * wRefVec);
+		wRefVec = normalize(reflCorr * wRefVec);//+Z does not mean up unless you are at lat,lon = 0,0
 	} else {	///static reflection
-		wRefVec = normalize(reflMatrix * vec4(wRefVec,0.0)).xyz;
+		wRefVec = normalize(gl_ModelViewMatrixInverse * vec4(wRefVec,0.0)).xyz;
 	}
-
 	vec3 reflection = textureCube(Environment, wRefVec).xyz;
 
 	vec3 E = eyeDir;

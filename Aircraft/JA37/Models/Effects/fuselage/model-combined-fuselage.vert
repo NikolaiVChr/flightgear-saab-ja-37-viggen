@@ -21,10 +21,10 @@ uniform int  		nmap_enabled;
 
 void	main(void)
 {
-		rawpos = gl_Vertex.xyz;
-		vec4 ecPosition = gl_ModelViewMatrix * gl_Vertex;
-		eyeVec = ecPosition.xyz;
-		eyeDir = gl_ModelViewMatrixInverse[3].xyz - gl_Vertex.xyz;
+		rawpos = gl_Vertex.xyz;//model space
+		vec4 ecPosition = gl_ModelViewMatrix * gl_Vertex;//view space
+		eyeVec = ecPosition.xyz;//view space
+		eyeDir = gl_ModelViewMatrixInverse[3].xyz - gl_Vertex.xyz;//model space
 
 		VNormal = normalize(gl_NormalMatrix * gl_Normal);
 
