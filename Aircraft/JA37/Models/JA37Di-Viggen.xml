@@ -599,6 +599,9 @@
     <!--<inherits-from>Effects/model-interior</inherits-from>-->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <!--<parameters>
+    <reflection-correction type="float">-0.50</reflection-correction>
+  </parameters>-->
+    <!--<parameters>
       <reflection-type type="int">2</reflection-type>
       <reflection-enabled type="int">0</reflection-enabled>
       <ambient-correction type="float">0.0</ambient-correction>
