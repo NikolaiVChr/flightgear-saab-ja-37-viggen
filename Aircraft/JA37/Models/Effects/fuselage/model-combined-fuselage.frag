@@ -62,11 +62,11 @@ uniform vec3	dirt_b_color;
 
 ///reflection orientation
 uniform mat4	osg_ViewMatrixInverse;
-uniform mat4	fg_ViewMatrixInverse;//??
+//uniform mat4	fg_ViewMatrixInverse;//??
 uniform float	latDeg;
 uniform float	lonDeg;
 
-uniform vec3 fg_CameraPositionCart;
+//uniform vec3 fg_CameraPositionCart;
 
 ///fog include//////////////////////
 uniform int fogType;
@@ -163,6 +163,7 @@ void main (void)
 		wRefVec	= reflect(wVertVec,wNormal);
 		wRefVec = normalize(reflCorr * wRefVec);//+Z does not mean up unless you are at lat,lon = 0,0
 	} else {	///static reflection
+		wRefVec	= reflect(viewVec,N);
 		wRefVec = normalize(gl_ModelViewMatrixInverse * vec4(wRefVec,0.0)).xyz;
 	}
 	vec3 reflection = textureCube(Environment, wRefVec).xyz;
