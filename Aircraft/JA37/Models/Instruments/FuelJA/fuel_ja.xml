@@ -10,8 +10,12 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Gauge</object-name>
-        <object-name>Plane</object-name>
         <object-name>bracket</object-name>
+    </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>Plane</object-name>
     </effect>
 
     <!--<effect>
