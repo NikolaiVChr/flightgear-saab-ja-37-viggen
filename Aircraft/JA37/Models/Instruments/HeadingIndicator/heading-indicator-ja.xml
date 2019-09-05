@@ -27,10 +27,10 @@
         <object-name>needleMount</object-name>
     </effect>
         
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge-transparent</inherits-from>
         <object-name>dial</object-name>        
-    </effect>
+    </effect>-->
 
     <animation>
         <type>rotate</type>
