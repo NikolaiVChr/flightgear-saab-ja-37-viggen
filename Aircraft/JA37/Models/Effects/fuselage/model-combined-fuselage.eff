@@ -348,13 +348,13 @@ Modifications author: Nikolai V. Chr.
 				   </value>
 			   </uniform>
 			   
-			   <uniform>
+			   <!--<uniform>
 				   <name>nmap_tile</name>
 				   <type>float</type>
 				   <value>
 					   <use>normalmap-tiling</use>
 				   </value>
-			   </uniform>
+			   </uniform>-->
 			   
 			   <!-- 			LIGHTMAP -->
 			   <!-- lightmap is used -->
@@ -438,13 +438,13 @@ Modifications author: Nikolai V. Chr.
 				   </value>
 			   </uniform>
 
-		  	<uniform>
+		  	<!--<uniform>
 				<name>darkmap_factor</name>
 				<type>float</type>
 				<value>
 			 	 <use>darkmap-factor</use>
 				</value>
-		  	</uniform>
+		  	</uniform>-->
 			   
 			   <!-- reflection is used -->
 			   <uniform>
@@ -482,13 +482,13 @@ Modifications author: Nikolai V. Chr.
 			   </uniform>
 
 			   <!-- how are colors merged in a reflection-->
-			   <uniform>
+			   <!--<uniform>
 				   <name>refl_type</name>
 				   <type>int</type>
 				   <value>
 					   <use>reflection-type</use>
 				   </value>
-			   </uniform>
+			   </uniform>-->
 
 
 			   <!-- reflection is dynamic -->
@@ -656,13 +656,13 @@ Modifications author: Nikolai V. Chr.
 			   </uniform>
 
 			   <!-- set the amount of ambient light correction 0.0 - 1.0  -->
-			   <uniform>
+			   <!--<uniform>
 				   <name>amb_correction</name>
 				   <type>float</type>
 				   <value>
 					   <use>ambient-correction</use>
 				   </value>
-			   </uniform>
+			   </uniform>-->
 			   
 			   <uniform>
 				   <name>hdg</name>
@@ -1109,13 +1109,13 @@ Modifications author: Nikolai V. Chr.
 		  	</uniform>
 
 		  <!-- 			END fog include -->
-		  <uniform>
+		  <!--<uniform>
 			<name>rembrandt_enabled</name>
 			<type>int</type>
 			<value>
 			  <use>rembrandt</use>
 			</value>
-		  </uniform>
+		  </uniform>-->
 		  </pass>
 	</technique>
 
@@ -1412,13 +1412,13 @@ Modifications author: Nikolai V. Chr.
 			   </value>
 		   </uniform>
 
-		  <uniform>
+		  <!--<uniform>
 			<name>nmap_tile</name>
 			<type>float</type>
 			<value>
 			  <use>normalmap-tiling</use>
 			</value>
-		  </uniform>
+		  </uniform>-->
 
 		  <!-- 			LIGHTMAP -->
 		  <!-- lightmap is used -->
@@ -1629,13 +1629,13 @@ Modifications author: Nikolai V. Chr.
 		  </uniform>
 
 		  <!-- set the amount of ambient light correction 0.0 - 1.0  -->
-		  <uniform>
+		  <!--<uniform>
 			<name>amb_correction</name>
 			<type>float</type>
 			<value>
 			  <use>ambient-correction</use>
 			</value>
-		  </uniform>
+		  </uniform>-->
 
 
 		  <uniform>
@@ -1690,13 +1690,13 @@ Modifications author: Nikolai V. Chr.
 			  <use>terminator</use>
 			</value>
 		  </uniform>-->
-		  <uniform>
+		  <!--<uniform>
 			<name>fogType</name>
 			<type>int</type>
 			<value>
 			  <use>fogtype</use>
 			</value>
-		  </uniform>
+		  </uniform>-->
 		  <uniform>
 				<name>metallic</name>
 				<type>float</type>
@@ -1713,13 +1713,13 @@ Modifications author: Nikolai V. Chr.
 				</value>
 		  	</uniform>
 		  <!-- 			END fog include -->
-		  <uniform>
+		  <!--<uniform>
 			<name>rembrandt_enabled</name>
 			<type>int</type>
 			<value>
 			  <use>rembrandt</use>
 			</value>
-		  </uniform>
+		  </uniform>-->
 		  </pass>
 		</technique>
 

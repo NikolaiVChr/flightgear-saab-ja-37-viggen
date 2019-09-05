@@ -14,7 +14,7 @@ varying	vec3	reflVec;
 varying vec3 	vertVec;
 //varying vec3 	lightDir;
 
-varying	float	alpha;
+//varying	float	alpha;
 
 attribute	vec3	tangent;
 attribute	vec3	binormal;
@@ -24,7 +24,7 @@ uniform	float		roll;
 uniform	float		hdg;
 uniform	int  		refl_dynamic;
 uniform int  		nmap_enabled;
-uniform int  		shader_qual;
+//uniform int  		shader_qual;
 
 //////Fog Include///////////
 // uniform	int 	fogType;
@@ -56,30 +56,35 @@ void	main(void)
 		VNormal = normalize(gl_NormalMatrix * gl_Normal);
 
 		vec3 n = normalize(gl_Normal);
-		vec3 tempTangent = cross(n, vec3(1.0,0.0,0.0));
-		vec3 tempBinormal = cross(n, tempTangent);
+		
 
+		vec3 tempTangent;
+		vec3 tempBinormal;
 		if (nmap_enabled > 0){
 			tempTangent = tangent;
 			tempBinormal  = binormal;
+			VTangent = normalize(gl_NormalMatrix * tangent);
+			VBinormal = normalize(gl_NormalMatrix * binormal);
+		} else {
+			tempTangent = cross(n, vec3(1.0,0.0,0.0));
+			tempBinormal = cross(n, tempTangent);
 		}
 
-		VTangent = normalize(gl_NormalMatrix * tempTangent);
-		VBinormal = normalize(gl_NormalMatrix * tempBinormal);
-		vec3 t = tempTangent;
-		vec3 b = tempBinormal;
+		
+		/*vec3 t = tempTangent;
+		vec3 b = tempBinormal;*/
 
     // Super hack: if diffuse material alpha is less than 1, assume a
 	// transparency animation is at work
-		if (gl_FrontMaterial.diffuse.a < 1.0)
+		/*if (gl_FrontMaterial.diffuse.a < 1.0)
 			alpha = gl_FrontMaterial.diffuse.a;
 		else
-			alpha = gl_Color.a;
+			alpha = gl_Color.a;*/
 
     // Vertex in eye coordinates
 		vertVec = ecPosition.xyz;
-		vViewVec.x = dot(t, vertVec);
-		vViewVec.y = dot(b, vertVec);
+		vViewVec.x = dot(tempTangent, vertVec);
+		vViewVec.y = dot(tempBinormal, vertVec);
 		vViewVec.z = dot(n, vertVec);
 
 	//lightDir = vec3(gl_LightSource[0].position.xyz - vertVec);
@@ -112,7 +117,7 @@ void	main(void)
 		}
 
 
-		gl_FrontColor = gl_FrontMaterial.emission;// + gl_Color * (gl_LightModel.ambient + gl_LightSource[0].ambient);
+		//gl_FrontColor = gl_FrontMaterial.emission;// + gl_Color * (gl_LightModel.ambient + gl_LightSource[0].ambient);
 		
 		gl_Position = ftransform();
 		gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
