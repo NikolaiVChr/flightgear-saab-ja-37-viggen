@@ -1136,7 +1136,16 @@ Modifications author: Nikolai V. Chr.
 		  </pass>
 	</technique>
 
-
+	<!-- normal map should not be enabled in rembrandt, but this method dont work.
+	<technique n="7">
+		<pass n="0">
+			<uniform>
+				<name>nmap_enabled</name>
+				<type>int</type>
+				<value>0</value>
+			</uniform>
+		</pass>
+	</technique>-->
 
 	<!-- Default rendering -->
 	<technique n="9">

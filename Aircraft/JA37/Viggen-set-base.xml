@@ -519,6 +519,7 @@
         </model>
     </sim>
     <ja37>
+        <normalmap type="bool">true</normalmap>
         <accelerations>
             <pilot-G type="double">1.0</pilot-G>
             <pilot-G-lag type="double">1.0</pilot-G-lag>

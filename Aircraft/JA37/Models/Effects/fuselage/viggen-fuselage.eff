@@ -9,9 +9,9 @@
           <ambient-factor type="float">0.40</ambient-factor>
 
           <rain-enabled type="int">2</rain-enabled>
-          <ambient-correction type="float">0.00</ambient-correction>
+          <!--<ambient-correction type="float">0.00</ambient-correction>-->
           
-          <normalmap-enabled type="int">1</normalmap-enabled>
+          <normalmap-enabled><use>ja37/normalmap</use></normalmap-enabled>
           <normalmap-dds>1</normalmap-dds>
           <normalmap-dds-compression-bc3n>1</normalmap-dds-compression-bc3n>
           
@@ -27,13 +27,13 @@
           <lightmap-color type="vec3d" n="3"> 0.0 0.0 0.0 </lightmap-color>
 
           <reflection-enabled type="int">1</reflection-enabled>
-          <!--<reflection-type type="int">2</reflection-type>-->
             <reflect-map-enabled type="int">0</reflect-map-enabled>
-            <reflection-correction type="float">-0.50</reflection-correction>
+            <reflection-correction type="float">-0.40</reflection-correction>
             <reflection-fresnel type="float">0.0</reflection-fresnel>
             <reflection-rainbow type="float">0.0</reflection-rainbow>
             <reflection-noise type="float">0.0</reflection-noise>
             <reflection-dynamic type="int">1</reflection-dynamic>
+            <!--<reflection-type type="int">2</reflection-type>-->
 
             <delta_T>10.0</delta_T>
 

@@ -2724,3 +2724,5 @@ var horiSpeed = func () {
   var n = getprop("velocities/speed-north-fps");
   return math.sqrt(n*n+e*e)*FPS2KT;
 }
+
+setprop("ja37/normalmap", !getprop("sim/rendering/rembrandt/enabled"));
