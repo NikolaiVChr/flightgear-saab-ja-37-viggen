@@ -164,7 +164,7 @@
 	</checkbox>
 	
 	<checkbox>
-		<label>Auto Throttle High Alpha</label>
+		<label>15.5 Deg Alpha</label>
 		<halign>left</halign>
 		<live>true</live>
 		<property>/fdm/jsbsim/autoflight/high-alpha</property>

@@ -208,18 +208,26 @@
 			</clipto>
 		</summer>
 		
+		<fcs_function name="/position/gear-agl-ft">
+			<function>
+				<difference>
+					<property>/position/altitude-agl-ft</property>
+					<value>6.7</value>
+				</difference>
+			</function>
+		</fcs_function>
+		
 		<fcs_function name="fcs/drivers/pitch/flap-compensator">
 			<function>
-				<product>
-					<table> <!-- Normalize properly -->
-						<independentVar lookup="row">fcs/flap-pos-deg</independentVar>
-						<tableData>
-							-4  0.0
-							30  1.0
-						</tableData>
-					</table>
-					<value>0.175</value>
-				</product>
+				<table>
+					<independentVar lookup="row">fcs/flap-pos-deg</independentVar>
+					<independentVar lookup="column">/position/gear-agl-ft</independentVar>
+					<tableData>
+						    0      68
+						-4  0.000  0.000
+						30  0.000  0.175
+					</tableData>
+				</table>
 			</function>
 		</fcs_function>
 	

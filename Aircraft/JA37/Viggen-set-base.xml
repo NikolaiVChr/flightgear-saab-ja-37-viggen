@@ -1401,9 +1401,9 @@
         </fuel>
     </consumables>
 
-
-
-
+    <position n="0">
+        <altitude-agl-ft type="double">0</altitude-agl-ft>
+    </position>
 
     <!--**********************************************************************
 

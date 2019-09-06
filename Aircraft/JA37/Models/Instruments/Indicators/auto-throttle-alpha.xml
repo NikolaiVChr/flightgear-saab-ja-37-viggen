@@ -34,8 +34,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>autothrottle-alpha</tooltip-id>
-                <label>Auto Throttle High Alpha</label>
+                <tooltip-id>15p5-alpha</tooltip-id>
+                <label>15.5 Deg Alpha</label>
             </binding>
         </hovered>
         <action>
