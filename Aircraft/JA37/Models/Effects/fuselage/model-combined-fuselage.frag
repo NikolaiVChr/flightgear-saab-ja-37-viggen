@@ -76,6 +76,7 @@ vec3 fog_Func(vec3 color, int type);
 
 //////rotation matrices/////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
 mat3 rotX(in float angle)
 {
 	mat3 rotmat = mat3(
@@ -136,12 +137,12 @@ void main (void)
  			nmap.a = 1.0;
  		}
 		N = nmap.xyz * 2.0 - 1.0;//normal in tangent space
-		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);//normal in model space
+		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);//normal in view space
  	} else {
  		N = normalize(VNormal);
  	}
 	///END bump ////////////////////////////////////////////////////////////////////
-	vec3 viewN	 = normalize((gl_ModelViewMatrixTranspose * vec4(N, 0.0)).xyz);//normal in view space
+	vec3 viewN	 = normalize((gl_ModelViewMatrixTranspose * vec4(N, 0.0)).xyz);//normal in model space
 	vec3 viewVec = normalize(eyeVec);//vector to fragment in view space
 	float v      = abs(dot(viewVec, viewN));// Map a rainbowish color
 	vec4 fresnel = texture2D(ReflGradientsTex, vec2(v, 0.75));
@@ -152,7 +153,7 @@ void main (void)
 	vec3 wRefVec;//reflect vector in world space
 	if (refl_dynamic > 0){		
 		vec3 wVertVec	= normalize((osg_ViewMatrixInverse * vec4(viewVec,0.0)).xyz);
-		vec3 wNormal	= normalize((osg_ViewMatrixInverse * vec4(N,0.0)).xyz);//why does this work, when viewVec is in view and N is in model space??
+		vec3 wNormal	= normalize((osg_ViewMatrixInverse * vec4(N,0.0)).xyz);
 
 		float latRad = radians(90.-latDeg);
 		float lonRad = radians(lonDeg);
@@ -161,7 +162,7 @@ void main (void)
 		mat3 rotCorrZ = rotZ(lonRad);
 		mat3 reflCorr = rotCorrY * rotCorrZ;
 		wRefVec	= reflect(wVertVec,wNormal);
-		wRefVec = normalize(reflCorr * wRefVec);//+Z does not mean up unless you are at lat,lon = 0,0
+		wRefVec = normalize(reflCorr * wRefVec);//+Z does not mean up unless you are at lat,lon = 90,0
 	} else {	///static reflection
 		wRefVec	= reflect(viewVec,N);
 		wRefVec = normalize(gl_ModelViewMatrixInverse * vec4(wRefVec,0.0)).xyz;

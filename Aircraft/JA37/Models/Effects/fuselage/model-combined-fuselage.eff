@@ -41,6 +41,7 @@ Modifications author: Nikolai V. Chr.
 					   <extension-supported>GL_ARB_shading_language_100</extension-supported>
 					   <extension-supported>GL_ARB_vertex_shader</extension-supported>
 					   <extension-supported>GL_ARB_fragment_shader</extension-supported>
+					   <!--extension-supported>GL_ARB_gpu_shader5</extension-supported-->
 				   </and>
 			   </or>
 		   </and>
@@ -348,6 +349,22 @@ Modifications author: Nikolai V. Chr.
 				   </value>
 			   </uniform>
 			   
+			   <uniform>
+				  <name>lonDeg</name>
+				  <type>float</type>
+				  <value>
+					  <use>pos-lon</use>
+				  </value>
+			  </uniform>
+
+			  <uniform>
+				  <name>latDeg</name>
+				  <type>float</type>
+				  <value>
+					  <use>pos-lat</use>
+				  </value>
+			  </uniform>
+		  
 			   <!--<uniform>
 				   <name>nmap_tile</name>
 				   <type>float</type>

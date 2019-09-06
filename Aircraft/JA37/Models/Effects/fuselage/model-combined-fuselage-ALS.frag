@@ -8,6 +8,7 @@
 // The fuselage effect is a modified version of model-combined-deffered.
 // Modifications author: Nikolai V. Chr. 2017
 #version 120
+//#extension GL_ARB_gpu_shader5 : enable
 
 varying	vec3 	VBinormal;
 varying	vec3 	VNormal;
@@ -93,6 +94,9 @@ uniform float landing_light3_offset;
 
 uniform bool use_IR_vision;
 
+
+//uniform mat4 fg_ViewMatrix;
+
 // constants needed by the light and fog computations ###################################################
 
 const float EarthRadius = 5800000.0;
@@ -106,6 +110,8 @@ uniform vec3 lightmap_a_color;
 uniform vec3 dirt_r_color;
 uniform vec3 dirt_g_color;
 uniform vec3 dirt_b_color;
+
+varying vec3 upInView;
 
 float DotNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
 float Noise2D(in vec2 coord, in float wavelength);
@@ -131,9 +137,6 @@ float light_func (in float x, in float a, in float b, in float c, in float d, in
     if (x < -15.0) {return 0.0;}
     return e / pow((1.0 + a * exp(-b * (x-c)) ),(1.0/d));
 }
-
-
-   
 
 
 void main (void)
@@ -168,7 +171,8 @@ void main (void)
 
     /// BEGIN geometry for light
 
-    vec3 up = (gl_ModelViewMatrix * vec4(0.0,0.0,1.0,0.0)).xyz;
+    //vec3 up = upInViewSpace(latDeg,lonDeg);//(gl_ModelViewMatrix * vec4(0.0,0.0,1.0,0.0)).xyz;
+    vec3 up = normalize(upInView);
     
     float dist = length(vertVec);
     float vertex_alt = max(100.0,dot(up, vertVec) + alt);
@@ -673,4 +677,8 @@ void main (void)
     fragColor.rgb = max(gl_FrontMaterial.emission.rgb * texel.rgb, fragColor.rgb);
     fragColor.a = gl_FrontMaterial.diffuse.a * texel.a;//combineMe 
     gl_FragColor = fragColor;
+    
+    // test stuff
+    //float c = max(0,dot(up, N));
+    //gl_FragColor.rgb=vec3(c,c,c);
 }
