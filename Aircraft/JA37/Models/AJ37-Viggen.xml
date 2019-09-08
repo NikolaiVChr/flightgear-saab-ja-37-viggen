@@ -4904,7 +4904,7 @@
 
 <animation>
   <type>material</type>
-  <object-name>lightBottom</object-name>
+  <object-name>aj37lightBottom</object-name>
   <condition>
     <or><!-- beacon: bit 2 -->
       <equals>

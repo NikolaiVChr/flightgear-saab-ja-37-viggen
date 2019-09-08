@@ -3583,50 +3583,9 @@
     </offsets>
   </model>
 
-  <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
-    <name>lightglowB</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model>
-
  <animation>
   <type>material</type>
   <object-name>lightTop</object-name>
-  <condition>
-    <or><!-- beacon: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>2</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>0.5</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-   <!--<factor-prop>sim/multiplay/generic/float[1]</factor-prop>--><!-- sim/model/lighting/beacon/state -->
-  </emission>
- </animation>
-
-<animation>
-  <type>material</type>
-  <object-name>lightBottom</object-name>
   <condition>
     <or><!-- beacon: bit 2 -->
       <equals>
