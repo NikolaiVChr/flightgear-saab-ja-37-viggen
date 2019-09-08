@@ -5031,284 +5031,158 @@
   </model>
 
   <animation>
+    <!-- When formation lights are on, rear navigation lights function as a spotlight instead. -->
     <type>select</type>
-    <object-name>lightGlowALSLeft</object-name>
-    <object-name>lightGlowALSRight</object-name>
     <object-name>lightGlowALSRearLeft</object-name>
     <object-name>lightGlowALSRearRight</object-name>
     <condition>
-      <!--<equals>
-          <property>sim/rendering/shaders/skydome</property>
-          <value>1</value>
-      </equals>-->
-      <or><!-- nav: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>       
-      </or>
+      <not><property>sim/multiplay/generic/float[21]</property></not> <!-- /ja37/effect/formation-light -->
     </condition>
-   </animation>
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
-    <name>lightglowR</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model> 
-
- <model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
-    <name>lightglowL</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model>-->
-
- <animation>
-  <type>material</type>
-  <object-name>lightLeft</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-  </emission>
- </animation>
-
- <animation>
-  <type>material</type>
-  <object-name>lightRight</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-  </emission>
- </animation>
+  </animation>
 
   <animation>
-  <type>material</type>
-  <object-name>lightRearLeft</object-name>
-  <object-name>lightRearRight</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-  </emission>
- </animation>
+    <type>material</type>
+    <object-name>lightLeft</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
+    </emission>
+  </animation>
 
+  <animation>
+    <type>material</type>
+    <object-name>lightRight</object-name>
+    <emission>
+      <red>0.0</red>
+      <green>1.0</green>
+      <blue>0.0</blue>
+      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
+    </emission>
+  </animation>
 
- <!-- formation lights -->
- <animation>
-  <type>material</type>
-  <object-name>lightFormationFrontRight</object-name>
-  <object-name>lightFormationFrontLeft</object-name>
-  <object-name>lightFormationRearRight</object-name>
-  <object-name>lightFormationRearLeft</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>
-    </or>
-  </condition>
-  <emission>
-   <red>0.9</red>
-   <green>1.0</green>
-   <blue>0.5</blue>
-  </emission>
- </animation>
+  <!-- Rear navigation lights are tied to formation lights when the latter are on. -->
+  <animation>
+    <type>material</type>
+    <object-name>lightRearLeft</object-name>
+    <object-name>lightRearRight</object-name>
+    <condition>
+      <not><property>sim/multiplay/generic/float[21]</property></not> <!-- /ja37/effect/formation-light -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
+    </emission>
+  </animation>
 
- <!-- rear spotlights -->
- <animation>
-  <type>material</type>
-  <object-name>spotlightCenterLeft</object-name>
-  <object-name>spotlightCenterRight</object-name>
-  <object-name>spotlightElevonLeft</object-name>
-  <object-name>spotlightElevonRight</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-  </emission>
- </animation>
+  <animation>
+    <type>material</type>
+    <object-name>lightRearLeft</object-name>
+    <object-name>lightRearRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/float[21]</property> <!-- /ja37/effect/formation-light -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+      <factor-prop>sim/multiplay/generic/float[21]</factor-prop> <!-- /ja37/effect/formation-light -->
+    </emission>
+  </animation>
+
+  <!-- formation lights -->
+  <animation>
+    <type>material</type>
+    <object-name>lightFormationFrontRight</object-name>
+    <object-name>lightFormationFrontLeft</object-name>
+    <object-name>lightFormationRearRight</object-name>
+    <object-name>lightFormationRearLeft</object-name>
+    <emission>
+      <red>0.9</red>
+      <green>1.0</green>
+      <blue>0.5</blue>
+      <factor-prop>sim/multiplay/generic/float[21]</factor-prop> <!-- /ja37/effect/formation-light -->
+    </emission>
+  </animation>
+
+  <!-- rear spotlights -->
+  <animation>
+    <type>material</type>
+    <object-name>spotlightCenterLeft</object-name>
+    <object-name>spotlightCenterRight</object-name>
+    <object-name>spotlightElevonLeft</object-name>
+    <object-name>spotlightElevonRight</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+      <factor-prop>sim/multiplay/generic/float[21]</factor-prop> <!-- /ja37/effect/formation-light -->
+    </emission>
+  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
     <name>spotlightCenterLeftGlow</name>
-        <offsets>
-          <x-m> 6.8272</x-m>
-          <y-m> -0.823135</y-m>
-          <z-m> -0.265531</z-m>
-        </offsets>
+    <offsets>
+      <x-m> 6.8272</x-m>
+      <y-m> -0.823135</y-m>
+      <z-m> -0.265531</z-m>
+    </offsets>
   </model>
- 
+  
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
     <name>spotlightCenterRightGlow</name>
-        <offsets>
-          <x-m> 6.8272</x-m>
-          <y-m> 0.823135</y-m>
-          <z-m> -0.265531</z-m>
-        </offsets>
+    <offsets>
+      <x-m> 6.8272</x-m>
+      <y-m> 0.823135</y-m>
+      <z-m> -0.265531</z-m>
+    </offsets>
   </model>
 
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
     <name>spotlightElevonLeftGlow</name>
-        <offsets>
-          <x-m> 6.41439</x-m>
-          <y-m> -3.9517</y-m>
-          <z-m> -0.387925</z-m>
-        </offsets>
+    <offsets>
+      <x-m> 6.41439</x-m>
+      <y-m> -3.9517</y-m>
+      <z-m> -0.387925</z-m>
+    </offsets>
   </model>
 
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
     <name>spotlightElevonRightGlow</name>
+    <offsets>
+      <x-m> 6.41439</x-m>
+      <y-m> 3.9517</y-m>
+      <z-m> -0.387925</z-m>
+    </offsets>
+  </model>
+
+  <!-- Glow effect for rear navigation lights in formation spotlight mode -->
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightWingTipLeftGlow</name>
         <offsets>
-          <x-m> 6.41439</x-m>
-          <y-m> 3.9517</y-m>
-          <z-m> -0.387925</z-m>
+          <x-m> 5.83413</x-m>
+          <y-m> -5.12862</y-m>
+          <z-m> -0.395052</z-m>
         </offsets>
   </model>
 
-  <animation>
-    <type>select</type>
-    <object-name>spotlightCenterLeftGlow</object-name>
-    <object-name>spotlightCenterRightGlow</object-name>
-    <object-name>spotlightElevonLeftGlow</object-name>
-    <object-name>spotlightElevonRightGlow</object-name>
-    <condition>
-      <or><!-- nav: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>
-      </or>
-    </condition>
-  </animation>
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightWingTipRightGlow</name>
+        <offsets>
+          <x-m> 5.83413</x-m>
+          <y-m> 5.12862</y-m>
+          <z-m> -0.395052</z-m>
+        </offsets>
+  </model>
 
 
 <!-- ===================== start payload =========================== -->

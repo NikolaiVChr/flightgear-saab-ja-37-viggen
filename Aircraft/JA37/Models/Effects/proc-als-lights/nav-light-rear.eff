@@ -5,13 +5,12 @@
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/procedural-light-als-and-fixed-pipeline</inherits-from>
 
     <parameters>
-        <light_color_base_r type="float">1.000</light_color_base_r>
-        <light_color_base_g type="float">1.000</light_color_base_g>
-        <light_color_base_b type="float">1.000</light_color_base_b>
-        <light_color_center_r type="float">1.0</light_color_center_r>
-        <light_color_center_g type="float">1.0</light_color_center_g>
-        <light_color_center_b type="float">1.0</light_color_center_b>
-        <intensity_scale type="float">0.9</intensity_scale>
+        <light_color_base_r type="float">0.900</light_color_base_r>
+        <light_color_base_g type="float">0.900</light_color_base_g>
+        <light_color_base_b type="float">0.900</light_color_base_b>
+        <light_color_center_r type="float">0.9</light_color_center_r>
+        <light_color_center_g type="float">0.9</light_color_center_g>
+        <light_color_center_b type="float">0.9</light_color_center_b>
 
         <pointing_x type="float">-1.0</pointing_x>
         <pointing_y type="float">0.0</pointing_y>

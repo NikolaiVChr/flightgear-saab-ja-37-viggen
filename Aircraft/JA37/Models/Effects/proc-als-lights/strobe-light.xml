@@ -20,4 +20,13 @@
     <object-name>procedural_light</object-name>
   </animation>
 
+  <!-- Should be visible from far away -->
+  <animation>
+    <type>scale</type>
+    <object-name>procedural_light</object-name>
+    <x-offset>2</x-offset>
+    <y-offset>2</y-offset>
+    <z-offset>2</z-offset>
+  </animation>
+
 </PropertyList>

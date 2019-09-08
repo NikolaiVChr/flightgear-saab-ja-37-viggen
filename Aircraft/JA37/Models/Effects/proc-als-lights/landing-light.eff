@@ -11,7 +11,6 @@
         <light_color_center_r type="float">1.0</light_color_center_r>
         <light_color_center_g type="float">1.0</light_color_center_g>
         <light_color_center_b type="float">1.0</light_color_center_b>
-        <intensity_scale><use>ja37/effect/landing-light</use></intensity_scale><!-- sim/multiplay/generic/float[4] -->
 
         <pointing_x type="float">1.0</pointing_x>
         <pointing_y type="float">0.0</pointing_y>
