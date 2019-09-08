@@ -149041,7 +149041,7 @@ OBJECT poly
 name "lightRearLeft"
 data 10
 Sphere.006
-crease 40.0
+crease 50.0
 numvert 25
 5.84894 -0.39027 5.11707
 5.84894 -0.39984 5.11707
@@ -149234,7 +149234,7 @@ OBJECT poly
 name "lightRearRight"
 data 10
 Sphere.004
-crease 40.0
+crease 50.0
 numvert 25
 5.84894 -0.39027 -5.14017
 5.84894 -0.39984 -5.14017
@@ -175128,7 +175128,7 @@ OBJECT poly
 name "spotlightCenterLeft"
 data 10
 Sphere.009
-crease 40.0
+crease 50.0
 numvert 25
 6.84425 -0.25529 0.81621
 6.84425 -0.26103 0.81621
@@ -175321,7 +175321,7 @@ OBJECT poly
 name "spotlightCenterRight"
 data 10
 Sphere.008
-crease 40.0
+crease 50.0
 numvert 25
 6.84425 -0.25529 -0.83006
 6.84425 -0.26103 -0.83006
@@ -175514,7 +175514,7 @@ OBJECT poly
 name "spotlightElevonLeft"
 data 10
 Sphere.007
-crease 40.0
+crease 50.0
 numvert 25
 6.43144 -0.37768 3.94477
 6.43144 -0.38343 3.94477
@@ -175707,7 +175707,7 @@ OBJECT poly
 name "spotlightElevonRight"
 data 10
 Sphere.005
-crease 40.0
+crease 50.0
 numvert 25
 6.43144 -0.37768 -3.95863
 6.43144 -0.38343 -3.95863
