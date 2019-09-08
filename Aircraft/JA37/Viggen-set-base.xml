@@ -407,7 +407,7 @@
                 <float n="6" alias="/ja37/effect/taxi-light"/>                 <!-- to animate taxi lights -->
                 <!--<int n="6" alias="/ja37/effect/landing-light"/>-->         <!-- old backward compatibility -->
                 <!--<int n="15" alias="/sim/model/lighting/beacon/state"/>-->  <!-- old backward compatibility -->
-                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- to animate beacons -->
+                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- to animate beacons, backward compatibility -->
                 <float n="20" alias="/ja37/effect/navigation-light"/>          <!-- to animate navigation lights -->
                 <float n="21" alias="/ja37/effect/formation-light"/>           <!-- to animate formation lights -->
                 <!-- Stores -->
@@ -1875,7 +1875,4 @@
             <dt type="double">0.0</dt>
         </missile>
     </logging>
-
-    <always-one type="int">1</always-one>
-    
 </PropertyList>

@@ -83,8 +83,11 @@
   <animation>
     <type>spin</type>
     <object-name>glow</object-name>
-    <property>always-one</property>
-    <factor>30</factor>
+    <!-- Afaik, flightgear does not allow a value as input here. Instead, we
+         need a property which is (almost) always 1, and exists on every model
+         (to ensure proper rendering over MP). This should work well enough. -->
+    <property>/sim/fdm-initialized</property>
+    <factor>50</factor>
     <center>
         <x-m>0</x-m>
         <y-m>0.0</y-m>
