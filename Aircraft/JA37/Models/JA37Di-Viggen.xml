@@ -3676,7 +3676,7 @@
     <name>lightGlowALSLeft</name>
         <offsets>
           <x-m> 5.65783</x-m>
-          <y-m> -5.09762</y-m>
+          <y-m> -5.13762</y-m>
           <z-m> -0.3954</z-m>
         </offsets>
   </model>
@@ -3686,7 +3686,7 @@
     <name>lightGlowALSRight</name>
         <offsets>
           <x-m> 5.65783</x-m>
-          <y-m> 5.09762</y-m>
+          <y-m> 5.13762</y-m>
           <z-m> -0.3954</z-m>
         </offsets>
   </model>
