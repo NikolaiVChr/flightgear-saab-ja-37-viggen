@@ -366,7 +366,7 @@
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[9]   = flash, beacon and nav lights bits
+                int[9]   = beacon and nav lights bits (nav bit is deprecated)
                 int[17]  = wow bits
                 int[18]  = contrails and damage smoke bits
                 int[19]  = outer pylons sidewinders and canard tip vapour bits
@@ -402,7 +402,7 @@
                 <int n="4" alias="/engines/engine[0]/augmentation"/>                <!-- used in MP sound -->
                 <int n="8" alias="/engines/engine[0]/is-reversed"/>                <!-- to animate afterburnerflame -->
                 <!-- Animating light -->
-                <int n="5" alias="/sim/model/lighting/strobe/state"/>          <!-- backward compatibility -->
+                <!--<int n="5" alias="/sim/model/lighting/strobe/state"/>-->   <!-- backward compatibility -->
                 <float n="4" alias="/ja37/effect/landing-light"/>              <!-- to animate landing lights -->
                 <float n="6" alias="/ja37/effect/taxi-light"/>                 <!-- to animate taxi lights -->
                 <!--<int n="6" alias="/ja37/effect/landing-light"/>-->         <!-- old backward compatibility -->
@@ -555,6 +555,8 @@
         <effect>
             <landing-light type="double">0</landing-light>
             <taxi-light type="double">0</taxi-light>
+            <navigation-light type="double">0</navigation-light>
+            <formation-light type="double">0</formation-light>
             <seat type="double">0</seat>
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->
@@ -1159,7 +1161,6 @@
             </launchbar>
         </gear>
         <electric>
-            <lights-ext-flash type="bool">false</lights-ext-flash>
             <lights-ext-beacon type="bool">false</lights-ext-beacon>
             <lights-ext-nav type="int">0</lights-ext-nav>
             <lights-ext-form type="bool">false</lights-ext-form>

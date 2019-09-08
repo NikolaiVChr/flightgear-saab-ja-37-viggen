@@ -83,10 +83,9 @@
                 <main type="bool">true</main>
                 <battery type="bool">false</battery>
                 <reserve type="bool">false</reserve>
-                <lights-ext-flash type="bool">true</lights-ext-flash>
                 <lights-ext-beacon type="bool">true</lights-ext-beacon>
-                <lights-ext-nav type="bool">true</lights-ext-nav>
-                <lights-land-switch type="bool">true</lights-land-switch>
+                <lights-ext-nav type="int">1</lights-ext-nav>
+                <lights-land-switch type="int">1</lights-land-switch>
                 <main type="bool">true</main>
             </electric>
             <fuel>

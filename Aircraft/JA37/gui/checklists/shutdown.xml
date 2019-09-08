@@ -120,17 +120,11 @@
         </marker>
         <condition>
             <and>
-                <not><property>controls/electric/lights-ext-flash</property></not>
                 <not><property>controls/electric/lights-ext-beacon</property></not>
                 <not><property>controls/electric/lights-ext-nav</property></not>
                 <not><property>controls/electric/lights-ext-form</property></not>
             </and>
         </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/electric/lights-ext-flash</property>
-            <value>0</value>
-        </binding>
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-beacon</property>

@@ -147,7 +147,6 @@ input = {
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   sunAngle:         "sim/time/sun-angle-rad",
   switchBeacon:     "controls/electric/lights-ext-beacon",
-  switchFlash:      "controls/electric/lights-ext-flash",
   switchNav:        "controls/electric/lights-ext-nav",
   tank0LvlGal:      "/consumables/fuel/tank[0]/level-gal_us",
   tank0LvlNorm:     "/consumables/fuel/tank[0]/level-norm",
@@ -353,10 +352,9 @@ var Saab37 = {
     }
 
     # exterior lights
-    me.flash = power.prop.dcBatt2Bool.getValue() and input.switchFlash.getValue() == 1;
     me.beacon = power.prop.dcSecondBool.getValue() and input.switchBeacon.getValue() == 1;
-    me.nav = power.prop.acSecondBool.getValue() and input.switchNav.getValue() == 1;
-    input.MPint9.setIntValue(encode3bits(me.flash, me.beacon, me.nav));
+    me.nav = power.prop.acSecondBool.getValue() and input.switchNav.getValue() == 1; # backward compatibility
+    input.MPint9.setIntValue(encode3bits(0, me.beacon, me.nav));
 
     # contrails, damage smoke
     me.contrails = input.tempDegC.getValue() < -40 and input.alt.getValue() > 19000 and input.n2.getValue() > 50;
@@ -1632,6 +1630,7 @@ var test_support = func {
 
 
 var main_init = func {
+  srand();
   
   power.init();
   
@@ -1722,10 +1721,10 @@ var main_init = func {
     setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
     setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
     setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-flash", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-form", rand()>0.5?TRUE:FALSE);
     setprop("controls/electric/lights-ext-beacon", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-nav", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-land-switch", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-nav", math.floor(rand()*3) - 1);     # between -1 and 1
+    setprop("controls/electric/lights-land-switch", math.floor(rand()*3) - 1); # between -1 and 1
     setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
   }
 
@@ -1951,10 +1950,10 @@ var endSupply = func {
 
 #Simulating autostart function
 var autostart = func {
-  setprop("controls/electric/lights-ext-flash", TRUE);
+  setprop("controls/electric/lights-ext-form", TRUE);
   setprop("controls/electric/lights-ext-beacon", TRUE);
-  setprop("controls/electric/lights-ext-nav", TRUE);
-  setprop("controls/electric/lights-land-switch", TRUE);
+  setprop("controls/electric/lights-ext-nav", 1);
+  setprop("controls/electric/lights-land-switch", 1);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   notice("Starting engine..");
