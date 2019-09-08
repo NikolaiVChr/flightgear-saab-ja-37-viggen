@@ -105,6 +105,17 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/left-panel-minor-forward.xml</path>
+    <name>leftPanelForward</name>
+    <offsets>
+      <roll-deg>-90</roll-deg>
+      <x-m>-3.86856</x-m>
+      <y-m>-0.344862</y-m>
+      <z-m>0.282355</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/sidepanels.xml</path>
     <name>sidepanels</name>
     <offsets>

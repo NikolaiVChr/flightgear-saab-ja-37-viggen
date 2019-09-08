@@ -277,16 +277,6 @@
   </model>
 
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-landing.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <heading-deg>90</heading-deg>
-            <x-m>  0.7125</x-m>
-            <y-m> -0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/light-anti-collision.xml</path>
         <name>switch-coll</name>
         <offsets>
