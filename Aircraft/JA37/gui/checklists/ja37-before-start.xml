@@ -380,13 +380,16 @@
             <name>Landing lights</name>
             <value>OFF</value>
             <marker>
-                <x-m>-3.3843</x-m>
-                <y-m>0.3850</y-m>
-                <z-m>-0.0132</z-m>
+                <x-m>-3.9</x-m>
+                <y-m>-0.34</y-m>
+                <z-m>0.29</z-m>
                 <scale>1.1818</scale>
             </marker>
             <condition>
-                <not><property>controls/electric/lights-land-switch</property></not>
+                <equals>
+                    <property>controls/electric/lights-land-switch</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <binding>
                 <command>property-assign</command>
