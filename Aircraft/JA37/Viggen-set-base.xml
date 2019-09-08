@@ -1161,7 +1161,9 @@
         <electric>
             <lights-ext-flash type="bool">false</lights-ext-flash>
             <lights-ext-beacon type="bool">false</lights-ext-beacon>
-            <lights-ext-nav type="bool">false</lights-ext-nav>
+            <lights-ext-nav type="int">0</lights-ext-nav>
+            <lights-ext-form type="bool">false</lights-ext-form>
+            <lights-ext-form-bright type="int">3</lights-ext-form-bright>
             <lights-land-switch type="int">0</lights-land-switch>
             <reserve type="bool">false</reserve>
             <engine n="0">

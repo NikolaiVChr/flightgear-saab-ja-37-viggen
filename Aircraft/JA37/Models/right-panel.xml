@@ -277,6 +277,16 @@
   </model>
 
     <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-formation.xml</path>
+        <name>switch-form</name>
+        <offsets>
+            <heading-deg>90</heading-deg>
+            <x-m>  0.7125</x-m>
+            <y-m> -0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model> 
+    <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/light-anti-collision.xml</path>
         <name>switch-coll</name>
         <offsets>
@@ -328,6 +338,16 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/FormationLightsPanel/formation-lights.xml</path>
+    <name>formationLightPanel</name>
+    <offsets>
+      <x-m>  0.87</x-m>
+      <y-m> -0.065</y-m>
+      <z-m> -0.00</z-m>
+    </offsets>
+  </model>
+  
   <model>
      <path>Aircraft/JA37/Models/Cockpit/switch-a/tils-group.xml</path>
      <name>tilsG</name>
