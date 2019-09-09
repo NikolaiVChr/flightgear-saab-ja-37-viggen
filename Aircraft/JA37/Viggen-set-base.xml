@@ -351,6 +351,10 @@
                     <recover-slow-sec type="double">15</recover-slow-sec>
                 </parameters>
             </redout>
+            <als-secondary-lights>
+                <!-- Pitch angle for ALS landing lights -->
+                <landing-light3-offset-deg type="double">5</landing-light3-offset-deg>
+            </als-secondary-lights>
         </rendering>
 
 
