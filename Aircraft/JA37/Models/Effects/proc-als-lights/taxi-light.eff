@@ -11,6 +11,7 @@
         <light_color_center_r type="float">1.0</light_color_center_r>
         <light_color_center_g type="float">1.0</light_color_center_g>
         <light_color_center_b type="float">1.0</light_color_center_b>
+        <intensity_scale type="float">0.9</intensity_scale>
 
         <pointing_x type="float">1.0</pointing_x>
         <pointing_y type="float">0.0</pointing_y>

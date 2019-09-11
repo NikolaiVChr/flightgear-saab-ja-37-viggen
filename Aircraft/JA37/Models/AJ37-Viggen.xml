@@ -4979,38 +4979,26 @@
   <animation>
     <type>material</type>
     <object-name>lightLeft</object-name>
+    <condition>
+      <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
+    </condition>
     <emission>
       <red>1.0</red>
       <green>0.0</green>
       <blue>0.0</blue>
-      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
     </emission>
   </animation>
 
   <animation>
     <type>material</type>
     <object-name>lightRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
+    </condition>
     <emission>
       <red>0.0</red>
       <green>1.0</green>
       <blue>0.0</blue>
-      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
-    </emission>
-  </animation>
-
-  <!-- Rear navigation lights are tied to formation lights when the latter are on. -->
-  <animation>
-    <type>material</type>
-    <object-name>lightRearLeft</object-name>
-    <object-name>lightRearRight</object-name>
-    <condition>
-      <not><property>sim/multiplay/generic/float[21]</property></not> <!-- /ja37/effect/formation-light -->
-    </condition>
-    <emission>
-      <red>1.0</red>
-      <green>1.0</green>
-      <blue>1.0</blue>
-      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
     </emission>
   </animation>
 
@@ -5019,13 +5007,17 @@
     <object-name>lightRearLeft</object-name>
     <object-name>lightRearRight</object-name>
     <condition>
-      <property>sim/multiplay/generic/float[21]</property> <!-- /ja37/effect/formation-light -->
+      <!-- rear nav lights double up as formation spotlights -->
+      <or>
+        <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
+        <property>sim/multiplay/generic/float[21]</property> <!-- /ja37/effect/formation-light -->
+      </or>
     </condition>
     <emission>
       <red>1.0</red>
       <green>1.0</green>
       <blue>1.0</blue>
-      <factor-prop>sim/multiplay/generic/float[21]</factor-prop> <!-- /ja37/effect/formation-light -->
+      <factor-prop>sim/multiplay/generic/float[20]</factor-prop> <!-- /ja37/effect/navigation-light -->
     </emission>
   </animation>
 
@@ -5037,9 +5029,9 @@
     <object-name>lightFormationRearRight</object-name>
     <object-name>lightFormationRearLeft</object-name>
     <emission>
-      <red>0.9</red>
+      <red>1.0</red>
       <green>1.0</green>
-      <blue>0.5</blue>
+      <blue>1.0</blue>
       <factor-prop>sim/multiplay/generic/float[21]</factor-prop> <!-- /ja37/effect/formation-light -->
     </emission>
   </animation>
