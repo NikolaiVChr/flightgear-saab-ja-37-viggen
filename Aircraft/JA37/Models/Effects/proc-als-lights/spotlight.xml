@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <PropertyList>
   <path>Models/Effects/procedural_light.ac</path>
 
@@ -23,7 +24,10 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/float[21]</property> <!-- /ja37/effect/formation-light -->
+    <property>sim/multiplay/generic/short[1]</property> <!-- /ja37/effect/formation-light (0-100 scale) -->
+    <x-factor>0.01</x-factor>
+    <y-factor>0.01</y-factor>
+    <z-factor>0.01</z-factor>
   </animation>
 
   <animation>

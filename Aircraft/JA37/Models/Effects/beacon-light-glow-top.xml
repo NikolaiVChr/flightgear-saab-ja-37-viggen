@@ -78,50 +78,5 @@
     <x-factor>1</x-factor>
     <y-factor>1</y-factor>
     <z-factor>1</z-factor>
-  </animation>--><!-- sim/model/lighting/beacon/state -->
-
-  <animation>
-    <type>spin</type>
-    <object-name>glow</object-name>
-    <!-- Afaik, flightgear does not allow a value as input here. Instead, we
-         need a property which is (almost) always 1, and exists on every model
-         (to ensure proper rendering over MP). This should work well enough. -->
-    <property>/sim/fdm-initialized</property>
-    <factor>50</factor>
-    <center>
-        <x-m>0</x-m>
-        <y-m>0.0</y-m>
-        <z-m>0</z-m>
-    </center>
-    <axis>
-        <x>0</x>
-        <y>0</y>
-        <z>1</z>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>glow</object-name>
-    <condition>
-      <or><!-- beacon: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
-  </animation>
+    </animation>--><!-- sim/model/lighting/beacon/state -->
 </PropertyList>

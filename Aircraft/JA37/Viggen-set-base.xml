@@ -370,7 +370,7 @@
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[9]   = beacon and nav lights bits (nav bit is deprecated)
+                int[9]   = beacon and nav lights bits, deprecated
                 int[17]  = wow bits
                 int[18]  = contrails and damage smoke bits
                 int[19]  = outer pylons sidewinders and canard tip vapour bits
@@ -388,6 +388,7 @@
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
 
+                unused: int[5], int[6], int[15]
              -->
             <generic>
                 <!-- effects -->
@@ -406,15 +407,15 @@
                 <int n="4" alias="/engines/engine[0]/augmentation"/>                <!-- used in MP sound -->
                 <int n="8" alias="/engines/engine[0]/is-reversed"/>                <!-- to animate afterburnerflame -->
                 <!-- Animating light -->
-                <!--<int n="5" alias="/sim/model/lighting/strobe/state"/>-->   <!-- backward compatibility -->
-                <float n="4" alias="/ja37/effect/landing-light"/>              <!-- to animate landing lights -->
-                <float n="6" alias="/ja37/effect/taxi-light"/>                 <!-- to animate taxi lights -->
-                <!--<int n="6" alias="/ja37/effect/landing-light"/>-->         <!-- old backward compatibility -->
-                <!--<int n="15" alias="/sim/model/lighting/beacon/state"/>-->  <!-- old backward compatibility -->
-                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- to animate beacons, backward compatibility -->
-                <float n="20" alias="/ja37/effect/navigation-light"/>          <!-- to animate navigation lights -->
-                <float n="21" alias="/ja37/effect/formation-light"/>           <!-- to animate formation lights -->
-                <float n="22" alias="/ja37/effect/rear-navigation-light"/>     <!-- rear navigation lights, also used as formation lights -->
+                <bool n="0" alias="/ja37/effect/landing-light"/>
+                <bool n="1" alias="/ja37/effect/taxi-light"/>
+                <bool n="2" alias="/ja37/effect/beacon-light"/>
+                <short n="0" alias="/ja37/effect/navigation-light"/>
+                <short n="1" alias="/ja37/effect/formation-light"/>
+                <short n="2" alias="/ja37/effect/rear-navigation-light"/>
+                
+                <float n="4" alias="/ja37/effect/landing-light"/>              <!-- backward compatibility -->
+                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- backward compatibility -->
                 <!-- Stores -->
                 <float n="10" alias="/payload/weight[6]/weight-lb"/>                <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->
@@ -558,10 +559,12 @@
             <active type="bool">false</active>
         </radar>
         <effect>
-            <landing-light type="double">0</landing-light>
-            <taxi-light type="double">0</taxi-light>
-            <navigation-light type="double">0</navigation-light>
-            <formation-light type="double">0</formation-light>
+            <landing-light type="bool">0</landing-light>
+            <taxi-light type="bool">0</taxi-light>
+            <beacon-light type="bool">0</beacon-light>
+            <navigation-light type="int">0</navigation-light>
+            <formation-light type="int">0</formation-light>
+            <rear-navigation-light type="int">0</rear-navigation-light>
             <seat type="double">0</seat>
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->

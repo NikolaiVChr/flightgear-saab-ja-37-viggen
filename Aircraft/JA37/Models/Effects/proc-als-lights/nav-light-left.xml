@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <PropertyList>
+  <path>Models/Effects/procedural_light.ac</path>
 
- <path>Models/Effects/procedural_light.ac</path>
-
- <effect>
+  <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-left</inherits-from>
-   <object-name>procedural_light</object-name>
- </effect>
+    <object-name>procedural_light</object-name>
+  </effect>
 
-   <animation>
+  <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
@@ -24,7 +23,10 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
+    <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light (0-100 scale) -->
+    <x-factor>0.01</x-factor>
+    <y-factor>0.01</y-factor>
+    <z-factor>0.01</z-factor>
   </animation>
 
   <animation>

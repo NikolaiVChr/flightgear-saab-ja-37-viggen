@@ -103,7 +103,8 @@ input = {
   landLightALS2:    "sim/rendering/als-secondary-lights/use-alt-landing-light",
   landLightALSHead: "sim/rendering/als-secondary-lights/landing-light1-offset-deg",
   landLightSupport: "ja37/supported/landing-light",
-  landLightSwitch:  "controls/electric/lights-land-switch",
+  lightBeacon:      "/ja37/effect/beacon-light",
+  lightNav:         "/ja37/effect/navigation-light",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
@@ -146,8 +147,6 @@ input = {
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   sunAngle:         "sim/time/sun-angle-rad",
-  switchBeacon:     "controls/electric/lights-ext-beacon",
-  switchNav:        "controls/electric/lights-ext-nav",
   tank0LvlGal:      "/consumables/fuel/tank[0]/level-gal_us",
   tank0LvlNorm:     "/consumables/fuel/tank[0]/level-norm",
   tank1LvlGal:      "/consumables/fuel/tank[1]/level-gal_us",
@@ -352,8 +351,8 @@ var Saab37 = {
     }
 
     # exterior lights
-    me.beacon = power.prop.dcSecondBool.getValue() and input.switchBeacon.getValue() == 1;
-    me.nav = power.prop.acSecondBool.getValue() and input.switchNav.getValue() == 1; # backward compatibility
+    me.beacon = input.lightBeacon.getValue() == 1;
+    me.nav = input.lightNav.getValue() >= 1; # backward compatibility
     input.MPint9.setIntValue(encode3bits(0, me.beacon, me.nav));
 
     # contrails, damage smoke

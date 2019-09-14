@@ -1,28 +1,23 @@
 <?xml version="1.0"?>
 
-
 <PropertyList>
-
   <path>Models/Effects/procedural_light.ac</path>
 
- <effect>
+  <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
-   <object-name>procedural_light</object-name>
-   <parameters>
-        
+    <object-name>procedural_light</object-name>
+    <parameters>
+      
     </parameters>
- </effect>
- 
+  </effect>
+  
   <nopreview/>
 
-  <!-- (red) beacon light -->
-  
   <!-- Special Shaders -->
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>
   </animation>
-
 
   <!-- Animations -->
   <animation>
@@ -34,42 +29,50 @@
     </interpolation>
   </animation>
 
- <!--
-<animation>
-  <type>material</type>
-  <object-name>LightBeaconGlow</object-name>
-  <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[1]</factor-prop>
-  </emission>
- </animation>--><!-- sim/model/lighting/beacon/state -->
-
-  <!--<animation>
-    <type>scale</type>
-    <object-name>LightBeaconGlow</object-name>
-    <property>sim/multiplay/generic/float[1]</property>
-    <x-min>0.01</x-min>
-    <y-min>0.01</y-min>
-    <z-min>0.01</z-min>
-    <x-factor>1.0</x-factor>
-    <y-factor>1.0</y-factor>
-    <z-factor>1.0</z-factor>
-  </animation>--><!-- sim/model/lighting/beacon/state -->
-<!--
   <animation>
-    <type>scale</type>
-    <object-name>LightBeaconGlow</object-name>
-    <property>/sim/time/sun-angle-rad</property>
-    <x-min>0.000</x-min>
-    <y-min>0.000</y-min>
-    <z-min>0.000</z-min>
-    <x-offset>-1</x-offset>
-    <y-offset>-1</y-offset>
-    <z-offset>-1</z-offset>
-    <x-factor>1</x-factor>
-    <y-factor>1</y-factor>
-    <z-factor>1</z-factor>
-  </animation>-->
+    <type>spin</type>
+    <object-name>procedural_light</object-name>
+    <!-- Afaik, flightgear does not allow a value as input here. Instead, we
+         need a property which is (almost) always 1, and exists on every model
+         (to ensure proper rendering over MP). This should work well enough. -->
+    <property>/sim/fdm-initialized</property>
+    <factor>50</factor>
+    <center>
+        <x-m>0</x-m>
+        <y-m>0.0</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>procedural_light</object-name>
+    <condition>
+      <or>
+        <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+        <!-- backward compatibility - beacon: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+  </animation>
 </PropertyList>

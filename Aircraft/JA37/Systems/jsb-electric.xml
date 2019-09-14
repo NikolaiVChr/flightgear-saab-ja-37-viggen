@@ -832,14 +832,10 @@
                 Landing lights power
             </description>
             <default value="0"/>
-            <test logic="AND" value="/ja37/elec/dc-bus-secondary-norm">
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-bool">
                 /controls/electric/lights-land-switch == 1
                 gear/gear-pos-norm gt 0
             </test>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
             <output>/ja37/effect/landing-light</output>
         </switch>
 
@@ -848,76 +844,78 @@
                 Taxi light power
             </description>
             <default value="0"/>
-            <test logic="AND" value="/ja37/elec/dc-bus-secondary-norm">
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-bool">
                 /controls/electric/lights-land-switch != 0
                 gear/gear-pos-norm gt 0
             </test>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
             <output>/ja37/effect/taxi-light</output>
         </switch>
 
+        <!-- navigation lights intensity on a 0-100 scale -->
         <fcs_function name="names/electrical/navigation-light">
             <description>
                 Navigation lights power
             </description>
             <function>
                 <product>
-                    <property>/ja37/elec/ac-bus-secondary-norm</property>
+                    <property>/ja37/elec/ac-bus-secondary-bool</property>
                     <table>
-                        <independentVar lookup="row">/controls/electric/lights-ext-nav</independentVar>
+                        <independentVar>/controls/electric/lights-ext-nav</independentVar>
                         <tableData>
-                            -1  0.7
-                            0   0
-                            1   1
+                            -1 70  <!-- dim -->
+                            0  0   <!-- off -->
+                            1  100 <!-- bright -->
                         </tableData>
                     </table>
                 </product>
             </function>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
             <output>/ja37/effect/navigation-light</output>
         </fcs_function>
 
+        <!-- formation lights intensity on a 0-100 scale -->
         <fcs_function name="names/electrical/formation-light">
             <description>
                 Formation lights power
             </description>
             <function>
                 <product>
-                    <property>/ja37/elec/ac-bus-main-norm</property>
+                    <property>/ja37/elec/ac-bus-secondary-bool</property>
                     <property>/controls/electric/lights-ext-form</property>
                     <table>
-                        <independentVar lookup="row">/controls/electric/lights-ext-form-bright</independentVar>
+                        <independentVar>/controls/electric/lights-ext-form-bright</independentVar>
                         <tableData>
-                            0  0
-                            1  0.5
-                            2  0.75
-                            3  1
+                            0 0
+                            1 50
+                            2 75
+                            3 100
                         </tableData>
                     </table>
                 </product>
             </function>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
             <output>/ja37/effect/formation-light</output>
         </fcs_function>
 
+        <!-- Rear navigation lights are tied to formation lights when the latter are on -->
         <switch name="names/electrical/rear-navigation-light">
             <description>
-                Rear navigation lights power, doubles as formation lights
+                Rear navigation lights power
             </description>
             <default value="/ja37/effect/navigation-light"/>
-            <test logic="OR" value="/ja37/effect/formation-light">
+            <test logic="AND" value="/ja37/effect/formation-light">
                 /controls/electric/lights-ext-form == 1
             </test>
             <output>/ja37/effect/rear-navigation-light</output>
+        </switch>
+
+        <switch name="names/electrical/beacon-light">
+            <description>
+                Beacon light power
+            </description>
+            <default value="0"/>
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-bool">
+                /controls/electric/lights-ext-beacon == 1
+            </test>
+            <output>/ja37/effect/beacon-light</output>
         </switch>
 
         <fcs_function name="names/electrical/instr-light-norm">
