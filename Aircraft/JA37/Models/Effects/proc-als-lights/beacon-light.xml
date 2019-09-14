@@ -18,7 +18,6 @@
   <!-- (red) beacon light -->
   
   <!-- Special Shaders -->
-
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>
@@ -26,16 +25,16 @@
 
 
   <!-- Animations -->
-<!--
- <animation>
-  <type>dist-scale</type>
-  <object-name>LightBeaconGlow</object-name>
-  <interpolation>
-   <entry><ind>0</ind><dep>1.0</dep></entry>
-   <entry><ind>5000</ind><dep>50.0</dep></entry>
-  </interpolation>
- </animation>
+  <animation>
+    <type>dist-scale</type>
+    <object-name>procedural_light</object-name>
+    <interpolation>
+      <entry><ind>0</ind><dep>1.0</dep></entry>
+      <entry><ind>3000</ind><dep>20.0</dep></entry>
+    </interpolation>
+  </animation>
 
+ <!--
 <animation>
   <type>material</type>
   <object-name>LightBeaconGlow</object-name>
@@ -73,21 +72,4 @@
     <y-factor>1</y-factor>
     <z-factor>1</z-factor>
   </animation>-->
-  
- <!-- <animation>
-    <type>spin</type>
-    <object-name>procedural_light</object-name>
-    <factor>10</factor>
-    <center>
-        <x-m>0</x-m>
-        <y-m>0.0</y-m>
-        <z-m>0</z-m>
-    </center>
-    <axis>
-        <x>0</x>
-        <y>0</y>
-        <z>1</z>
-    </axis>
-  </animation>-->
-
 </PropertyList>

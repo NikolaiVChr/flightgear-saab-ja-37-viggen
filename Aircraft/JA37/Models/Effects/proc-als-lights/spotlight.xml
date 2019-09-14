@@ -25,4 +25,13 @@
     <object-name>procedural_light</object-name>
     <property>sim/multiplay/generic/float[21]</property> <!-- /ja37/effect/formation-light -->
   </animation>
+
+  <animation>
+    <type>dist-scale</type>
+    <object-name>procedural_light</object-name>
+    <interpolation>
+      <entry><ind>0</ind><dep>1.0</dep></entry>
+      <entry><ind>1500</ind><dep>5.0</dep></entry>
+    </interpolation>
+  </animation>
 </PropertyList>

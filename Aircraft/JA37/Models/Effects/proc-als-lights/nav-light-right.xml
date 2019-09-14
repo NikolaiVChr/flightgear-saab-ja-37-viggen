@@ -26,4 +26,13 @@
     <object-name>procedural_light</object-name>
     <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
   </animation>
+
+  <animation>
+    <type>dist-scale</type>
+    <object-name>procedural_light</object-name>
+    <interpolation>
+      <entry><ind>0</ind><dep>1.0</dep></entry>
+      <entry><ind>3000</ind><dep>10.0</dep></entry>
+    </interpolation>
+  </animation>
 </PropertyList>
