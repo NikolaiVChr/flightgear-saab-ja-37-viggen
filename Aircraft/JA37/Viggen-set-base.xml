@@ -414,6 +414,7 @@
                 <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- to animate beacons, backward compatibility -->
                 <float n="20" alias="/ja37/effect/navigation-light"/>          <!-- to animate navigation lights -->
                 <float n="21" alias="/ja37/effect/formation-light"/>           <!-- to animate formation lights -->
+                <float n="22" alias="/ja37/effect/rear-navigation-light"/>     <!-- rear navigation lights, also used as formation lights -->
                 <!-- Stores -->
                 <float n="10" alias="/payload/weight[6]/weight-lb"/>                <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->

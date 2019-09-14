@@ -3648,16 +3648,6 @@
   </model>
 
   <animation>
-    <!-- When formation lights are on, rear navigation lights function as a spotlight instead. -->
-    <type>select</type>
-    <object-name>lightGlowALSRearLeft</object-name>
-    <object-name>lightGlowALSRearRight</object-name>
-    <condition>
-      <not><property>sim/multiplay/generic/float[21]</property></not> <!-- /ja37/effect/formation-light -->
-    </condition>
-  </animation>
-
-  <animation>
     <type>material</type>
     <object-name>lightLeft</object-name>
     <condition>
@@ -3688,11 +3678,7 @@
     <object-name>lightRearLeft</object-name>
     <object-name>lightRearRight</object-name>
     <condition>
-      <!-- rear nav lights double up as formation spotlights -->
-      <or>
-        <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
-        <property>sim/multiplay/generic/float[21]</property> <!-- /ja37/effect/formation-light -->
-      </or>
+      <property>sim/multiplay/generic/float[22]</property> <!-- /ja37/effect/rear-navigation-light -->
     </condition>
     <emission>
       <red>1.0</red>
@@ -3771,27 +3757,6 @@
       <y-m> 3.9517</y-m>
       <z-m> -0.387925</z-m>
     </offsets>
-  </model>
-
-  <!-- Glow effect for rear navigation lights in formation spotlight mode -->
-  <model>
-    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
-    <name>spotlightWingTipLeftGlow</name>
-        <offsets>
-          <x-m> 5.83413</x-m>
-          <y-m> -5.12862</y-m>
-          <z-m> -0.395052</z-m>
-        </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
-    <name>spotlightWingTipRightGlow</name>
-        <offsets>
-          <x-m> 5.83413</x-m>
-          <y-m> 5.12862</y-m>
-          <z-m> -0.395052</z-m>
-        </offsets>
   </model>
 
 

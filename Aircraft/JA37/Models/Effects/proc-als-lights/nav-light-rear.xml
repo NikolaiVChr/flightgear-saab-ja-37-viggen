@@ -24,6 +24,6 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/float[20]</property> <!-- /ja37/effect/navigation-light -->
+    <property>sim/multiplay/generic/float[22]</property> <!-- /ja37/effect/rear-navigation-light -->
   </animation>
 </PropertyList>
