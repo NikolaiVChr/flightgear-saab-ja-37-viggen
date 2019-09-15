@@ -2660,6 +2660,10 @@
   <object-name>elevonRightOuter</object-name>
   <object-name>lightRight</object-name>
   <object-name>lightLeft</object-name>
+  <object-name>lightRearRight</object-name>
+  <object-name>lightRearLeft</object-name>
+  <object-name>spotlightElevonLeft</object-name>
+  <object-name>spotlightElevonRight</object-name>
   <object-name>wingRight</object-name>
   <object-name>wingLeft</object-name>
   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
