@@ -65,6 +65,7 @@
                 <reserve type="bool">false</reserve>
                 <lights-ext-beacon type="bool">true</lights-ext-beacon>
                 <lights-ext-nav type="int">1</lights-ext-nav>
+                <lights-ext-form type="int">1</lights-ext-form>
                 <lights-land-switch type="int">1</lights-land-switch>
                 <main type="bool">true</main>
             </electric>
