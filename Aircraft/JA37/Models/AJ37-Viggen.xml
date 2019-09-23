@@ -4788,22 +4788,22 @@
   <!-- beacon lights -->
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
     <name>lightglowT</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 0.45039</x-m>
+      <y-m> 0</y-m>
+      <z-m> 1.05</z-m>
     </offsets>
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
     <name>lightglowB</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> -1.94198</x-m>
+      <y-m> 0</y-m>
+      <z-m> -0.85089</z-m>
     </offsets>
   </model>
 
@@ -4884,7 +4884,7 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/taxiLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/taxi-light.xml</path>
     <name>frontLandingLightGlare</name>
     <offsets>
       <x-m>-3.47732</x-m>
@@ -4894,7 +4894,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
     <name>leftLandingLightGlare</name>
     <offsets>
       <x-m>-3.91114</x-m>
@@ -4904,7 +4904,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
     <name>rightLandingLightGlare</name>
     <offsets>
       <x-m>-3.69526</x-m>

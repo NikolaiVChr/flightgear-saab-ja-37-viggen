@@ -21,9 +21,9 @@
         <is_strobe type="bool">false</is_strobe>
 
         <inner_angle type="float">0.1</inner_angle>
-        <outer_angle type="float">0.3</outer_angle>
-        <zero_angle type="float">0.4</zero_angle>
-        <outer_gain type="float">0.1</outer_gain>
+        <outer_angle type="float">0.4</outer_angle>
+        <zero_angle type="float">0.6</zero_angle>
+        <outer_gain type="float">0.2</outer_gain>
     </parameters>
 
 </PropertyList>

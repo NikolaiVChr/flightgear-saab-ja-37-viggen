@@ -6,19 +6,8 @@
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
     <object-name>procedural_light</object-name>
-    <parameters>
-      
-    </parameters>
   </effect>
   
-  <nopreview/>
-
-  <!-- Special Shaders -->
-  <animation>
-    <type>noshadow</type>
-    <object-name>procedural_light</object-name>
-  </animation>
-
   <!-- Animations -->
   <animation>
     <type>dist-scale</type>
@@ -34,9 +23,14 @@
     <object-name>procedural_light</object-name>
     <!-- Afaik, flightgear does not allow a value as input here. Instead, we
          need a property which is (almost) always 1, and exists on every model
-         (to ensure proper rendering over MP). This should work well enough. -->
+         (to ensure proper rendering over MP). This should work well enough. 
+
+         Once the deprecated sim/multiplay/generic/int[9] will be removed,
+         it should be replaced with sim/multiplay/generic/bool[2] (the beacon
+         light flag). This is kept for backward compatibility in the meantime.
+    -->
     <property>/sim/fdm-initialized</property>
-    <factor>50</factor>
+    <factor>60</factor>
     <center>
         <x-m>0</x-m>
         <y-m>0.0</y-m>

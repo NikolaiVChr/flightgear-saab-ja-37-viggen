@@ -6,18 +6,8 @@
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light</inherits-from>
     <object-name>procedural_light</object-name>
-    <parameters>
-      
-    </parameters>
   </effect>
   
-  <nopreview/>
-
-  <animation>
-    <type>noshadow</type>
-    <object-name>procedural_light</object-name>
-  </animation>
-
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
