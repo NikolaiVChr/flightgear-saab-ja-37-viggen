@@ -519,11 +519,11 @@
             <description>
                       DC voltage output
             </description>
-            <default value="0.0004"/>
-            <test logic="OR" value="0.001666">
+            <default value="0.000004"/>        <!-- ~3 days when fully stopped  -->
+            <test logic="OR" value="0.001666"> <!-- ~10 min when supplying DC systems -->
                 systems/electrical/rectifiers-output lt systems/electrical/battery-to-main
             </test>
-            <test logic="AND" value="0.0006">
+            <test logic="AND" value="0.00004"> <!-- ~7 hours under normal operation  -->
                 systems/electrical/relay-lr-1 == 1
             </test>
         </switch>
