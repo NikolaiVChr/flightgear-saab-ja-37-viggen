@@ -510,10 +510,23 @@
         
         <pure_gain name="/ja37/elec/dc-bus-secondary-volt">
             <description>                      
+                DC secondary voltage output
+                
+                If rectifiers is undercurrent, 2ndy DC buses are disconnected. Although E can be powered by other method.
             </description>
             <input>/ja37/elec/dc-bus-main-volt</input>
             <gain>systems/electrical/relay-rectifiers-undercurrent</gain>
         </pure_gain>
+        
+        <switch name="/ja37/elec/dc-bus-secondary-E-volt">
+            <description>
+                      The E part of the secondary DC bus
+            </description>
+            <default value="/ja37/elec/dc-bus-secondary-volt"/><!-- without cooling -->
+            <test logic="OR" value="/ja37/elec/dc-bus-main-volt"> <!-- with cooling and ext power -->
+                systems/electrical/external/supplying == 1
+            </test>
+        </switch>
         
         <switch name="/ja37/systems/battery-discharge-rate">
             <description>
@@ -694,6 +707,16 @@
             </test>
         </switch>
         
+        <switch name="/ja37/elec/dc-bus-secondary-E-bool">
+            <description>
+                      voltage bool
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                 /ja37/elec/dc-bus-secondary-E-volt gt 20
+            </test>
+        </switch>
+        
         <switch name="/ja37/elec/ac-bus-main-bool">
             <description>
                       voltage bool
@@ -832,7 +855,7 @@
                 Landing lights power
             </description>
             <default value="0"/>
-            <test logic="AND" value="/ja37/elec/dc-bus-secondary-bool">
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-E-bool">
                 /controls/electric/lights-land-switch == 1
                 gear/gear-pos-norm gt 0
             </test>
@@ -844,7 +867,7 @@
                 Taxi light power
             </description>
             <default value="0"/>
-            <test logic="AND" value="/ja37/elec/dc-bus-secondary-bool">
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-E-bool">
                 /controls/electric/lights-land-switch != 0
                 gear/gear-pos-norm gt 0
             </test>
@@ -912,7 +935,7 @@
                 Beacon light power
             </description>
             <default value="0"/>
-            <test logic="AND" value="/ja37/elec/dc-bus-secondary-bool">
+            <test logic="AND" value="/ja37/elec/dc-bus-secondary-E-bool">
                 /controls/electric/lights-ext-beacon == 1
             </test>
             <output>/ja37/effect/beacon-light</output>
