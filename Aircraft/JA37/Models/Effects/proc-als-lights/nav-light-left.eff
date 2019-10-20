@@ -9,9 +9,9 @@
         <light_color_base_g type="float">0.320</light_color_base_g>
         <light_color_base_b type="float">0.320</light_color_base_b>
         <light_color_center_r type="float">1.0</light_color_center_r>
-        <light_color_center_g type="float">1.0</light_color_center_g>
-        <light_color_center_b type="float">1.0</light_color_center_b>
-        <intensity_scale type="float">1.0</intensity_scale>
+        <light_color_center_g type="float">0.32</light_color_center_g>
+        <light_color_center_b type="float">0.32</light_color_center_b>
+        <intensity_scale type="float">0.9</intensity_scale>
 
         <pointing_x type="float">0.5</pointing_x>
         <pointing_y type="float">1.5</pointing_y>

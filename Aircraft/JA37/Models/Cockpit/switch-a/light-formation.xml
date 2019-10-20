@@ -17,8 +17,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>switch-lights-nav</tooltip-id>
-                <label>Exterior navigation lights</label>
+                <tooltip-id>switch-lights-form</tooltip-id>
+                <label>Exterior formation lights</label>
             </binding>
         </hovered>
     </animation>
@@ -29,11 +29,9 @@
         <action>
             <button>0</button>
             <binding>
-                <command>property-adjust</command>
-                <property>controls/electric/lights-ext-nav</property>
-                <step>1</step>
-                <min>-1</min>
-                <max>1</max>
+                <command>property-assign</command>
+                <property>controls/electric/lights-ext-form</property>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -48,11 +46,9 @@
         <action>
             <button>0</button>
             <binding>
-                <command>property-adjust</command>
-                <property>controls/electric/lights-ext-nav</property>
-                <step>-1</step>
-                <min>-1</min>
-                <max>1</max>
+                <command>property-assign</command>
+                <property>controls/electric/lights-ext-form</property>
+                <value>0</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -64,8 +60,9 @@
     <animation>
         <type>rotate</type>
         <object-name>switchLever</object-name>
-        <property>controls/electric/lights-ext-nav</property>
-        <factor>20</factor>
+        <property>controls/electric/lights-ext-form</property>
+        <factor>40</factor>
+        <offset-deg>-20</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>
@@ -83,7 +80,7 @@
         <object-name>switchMount</object-name>
         <property-base>ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
-        <texture>NAVIGATION-LIGHT.png</texture>
+        <texture>FORMATION-LIGHT.png</texture>
     </animation>
 
 </PropertyList>

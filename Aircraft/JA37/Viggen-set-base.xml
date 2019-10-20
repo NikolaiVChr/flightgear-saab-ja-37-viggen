@@ -351,6 +351,10 @@
                     <recover-slow-sec type="double">15</recover-slow-sec>
                 </parameters>
             </redout>
+            <als-secondary-lights>
+                <!-- Pitch angle for ALS landing lights -->
+                <landing-light3-offset-deg type="double">5</landing-light3-offset-deg>
+            </als-secondary-lights>
         </rendering>
 
 
@@ -362,12 +366,11 @@
 *************************************************************************-->
         <multiplay>
             <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
-                 free: float 6
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[9]   = flash, beacon and nav lights bits
+                int[9]   = beacon and nav lights bits, deprecated
                 int[17]  = wow bits
                 int[18]  = contrails and damage smoke bits
                 int[19]  = outer pylons sidewinders and canard tip vapour bits
@@ -385,6 +388,7 @@
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
 
+                unused: int[5], int[6], int[15]
              -->
             <generic>
                 <!-- effects -->
@@ -403,11 +407,15 @@
                 <int n="4" alias="/engines/engine[0]/augmentation"/>                <!-- used in MP sound -->
                 <int n="8" alias="/engines/engine[0]/is-reversed"/>                <!-- to animate afterburnerflame -->
                 <!-- Animating light -->
-                <int n="5" alias="/sim/model/lighting/strobe/state"/>                <!-- to animate strobe -->
-                <float n="4" alias="/ja37/effect/landing-light"/>                <!-- to animate landing lights -->
-                <int n="6" alias="/ja37/effect/landing-light"/>                <!-- for backwards compatibility -->
-                <int n="15" alias="/sim/model/lighting/beacon/state"/>                <!-- to animate beacons, backward compat -->
-                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/>                <!-- to animate beacons -->
+                <bool n="0" alias="/ja37/effect/landing-light"/>
+                <bool n="1" alias="/ja37/effect/taxi-light"/>
+                <bool n="2" alias="/ja37/effect/beacon-light"/>
+                <short n="0" alias="/ja37/effect/navigation-light"/>
+                <short n="1" alias="/ja37/effect/formation-light"/>
+                <short n="2" alias="/ja37/effect/rear-navigation-light"/>
+                
+                <float n="4" alias="/ja37/effect/landing-light"/>              <!-- backward compatibility -->
+                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- backward compatibility -->
                 <!-- Stores -->
                 <float n="10" alias="/payload/weight[6]/weight-lb"/>                <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->
@@ -417,15 +425,13 @@
                 <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
                 <!-- used for drop tank -->
                 <!-- gears -->
-                <float n="8" alias="/gear/gear/compression-ft"/>                <!-- used for gear anim, deprecated -->
-                <!--<float n="9" alias="/gear/gear[1]/compression-ft"/>-->                <!-- used for gear anim, deprecated -->
-                <!--<float n="10" alias="/gear/gear[2]/compression-ft"/>-->                <!-- used for gear anim, deprecated -->
+                <!--<float n="8" alias="/gear/gear/compression-ft"/>-->                <!-- used for gear anim, deprecated -->
                 <float n="0" alias="/gear/gear[0]/steering-norm"/>                <!-- Position and speed -->
                 <float n="7" alias="/velocities/mach"/>                <!-- used for vapor-cone -->
                 <float n="17" alias="/velocities/airspeed-kt"/>                <!-- used in MP sound -->
                 <float n="18" alias="/velocities/speed-down-fps"/>                <!-- used in MP sound -->
                 <!--<string n="9" type="string"/> not used -->
-                <int n="10" type="int">0</int>                                                                      <!-- use this for flare (future) -->
+                <!--<int n="10" type="int">0</int>-->                  <!-- use this for flare (future) -->
                 <int n="11" alias="/payload/weight[0]/ammo"/>  <!-- m71 ammo -->
                 <int n="12" alias="/payload/weight[1]/ammo"/>
                 <int n="13" alias="/payload/weight[2]/ammo"/>
@@ -434,7 +440,7 @@
                 <!--<string n="0" alias="/sim/aircraft-version"/> not used anymore -->
                 <!--<string n="10" type="string">none</string>--><!-- flare -->
                 <!--<string n="13" type="string"></string>--><!-- not used -->
-                <string n="15" type="string"></string><!-- antic -->
+                <!--<string n="15" type="string"></string>--><!-- antic -->
             </generic>
             <visibility-range-nm type="int">100</visibility-range-nm><!-- hint to MP server for how far away MP planes should transmit to this aircraft -->
         </multiplay>
@@ -553,7 +559,12 @@
             <active type="bool">false</active>
         </radar>
         <effect>
-            <landing-light type="double">0</landing-light>
+            <landing-light type="bool">0</landing-light>
+            <taxi-light type="bool">0</taxi-light>
+            <beacon-light type="bool">0</beacon-light>
+            <navigation-light type="int">0</navigation-light>
+            <formation-light type="int">0</formation-light>
+            <rear-navigation-light type="int">0</rear-navigation-light>
             <seat type="double">0</seat>
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->
@@ -1158,10 +1169,11 @@
             </launchbar>
         </gear>
         <electric>
-            <lights-ext-flash type="bool">false</lights-ext-flash>
             <lights-ext-beacon type="bool">false</lights-ext-beacon>
-            <lights-ext-nav type="bool">false</lights-ext-nav>
-            <lights-land-switch type="bool">false</lights-land-switch>
+            <lights-ext-nav type="int">0</lights-ext-nav>
+            <lights-ext-form type="bool">false</lights-ext-form>
+            <lights-ext-form-bright type="int">3</lights-ext-form-bright>
+            <lights-land-switch type="int">0</lights-land-switch>
             <reserve type="bool">false</reserve>
             <engine n="0">
                 <generator type="bool">false</generator>

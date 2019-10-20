@@ -67,13 +67,16 @@
         <name>Landing lights</name>
         <value>OFF</value>
         <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3867</y-m>
-            <z-m>-0.0132</z-m>
+            <x-m>-3.9</x-m>
+            <y-m>-0.34</y-m>
+            <z-m>0.29</z-m>
             <scale>1.1818</scale>
         </marker>
         <condition>
-            <not><property>controls/electric/lights-land-switch</property></not>
+            <equals>
+                <property>controls/electric/lights-land-switch</property>
+                <value>0</value>
+            </equals>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -110,23 +113,18 @@
         <name>Exterior lights</name>
         <value>OFF</value>
         <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3239</y-m>
+            <x-m>-3.3950</x-m>
+            <y-m>0.3450</y-m>
             <z-m>-0.0132</z-m>
-            <scale>3.0000</scale>
+            <scale>4</scale>
         </marker>
         <condition>
             <and>
-                <not><property>controls/electric/lights-ext-flash</property></not>
                 <not><property>controls/electric/lights-ext-beacon</property></not>
                 <not><property>controls/electric/lights-ext-nav</property></not>
+                <not><property>controls/electric/lights-ext-form</property></not>
             </and>
         </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/electric/lights-ext-flash</property>
-            <value>0</value>
-        </binding>
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-beacon</property>
@@ -135,6 +133,11 @@
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-nav</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/lights-ext-form</property>
             <value>0</value>
         </binding>
         <binding>

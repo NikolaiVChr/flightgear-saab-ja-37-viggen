@@ -35,17 +35,17 @@
       <use-reflection-lightmap type="int">0</use-reflection-lightmap>
       <lightmap-multi type="int">0</lightmap-multi>
     </parameters>
-    <object-name>hudGlassAJ</object-name>
+    <object-name>aj37hudGlass</object-name>
   </effect>
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>VIDGlass</object-name>
+    <object-name>aj37VIDGlass</object-name>
   </effect>
 
  <animation> 
   <type>material</type> 
-  <object-name>VIDDisplay</object-name>
+  <object-name>aj37VIDDisplay</object-name>
   <emission>
    <red-prop>ja37/avionics/vid</red-prop>
    <green-prop>ja37/avionics/vid</green-prop>
@@ -66,70 +66,6 @@
 	   </equals>
 	  </condition>
 	 </animation>
-
-	 <!-- strobe light -->
-
-	 <model>
-	  <name>strobeFlash</name>
-	  <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
-	  <condition>
-	    <or><!-- flash: bit 1 -->
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>1</value>
-	      </equals>
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>3</value>
-	      </equals>
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>5</value>
-	      </equals>            
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>7</value>
-	      </equals>       
-	    </or>
-	  </condition>
-	  <offsets>
-	   <x-m>5.92008</x-m>
-	   <y-m>0.0</y-m>
-	   <z-m>3.41119</z-m>
-	  </offsets>
-	 </model>
-
-   <!-- flash: bit 1 -->
-	<!--<animation>
-	  <type>material</type>
-	  <object-name>aj37strobe</object-name>
-	  <condition>
-	    <or>
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>1</value>
-	      </equals>
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>3</value>
-	      </equals>
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>5</value>
-	      </equals>            
-	      <equals>
-	        <property>sim/multiplay/generic/int[9]</property>
-	        <value>7</value>
-	      </equals>       
-	    </or>
-	  </condition>
-	  <emission>
-	   <red>1.0</red>
-	   <green>1.0</green>
-	   <blue>1.0</blue>
-	   <factor-prop>sim/multiplay/generic/int[5]</factor-prop>
-	  </emission>
-	 </animation>--><!-- sim/model/lighting/strobe/state -->
 
   <!-- stores -->
 
@@ -2002,6 +1938,8 @@
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
+    <object-name>landingLightLeftMount</object-name>
+    <object-name>landingLightRightMount</object-name>
     <object-name>bottomAirInlet</object-name>
   </effect>
 
@@ -2487,7 +2425,7 @@
  <animation>
   <type>scale</type>
   <object-name>hud</object-name>
-  <object-name>hudStruts</object-name>
+  <object-name>aj37hudStruts</object-name>
   <property>ja37/supported/canvas</property>
   <interpolation>
    <entry>
@@ -2638,6 +2576,8 @@
 <animation>
   <type>rotate</type>
   <object-name>elevonRightOuter</object-name>
+  <object-name>spotlightElevonRight</object-name>
+  <object-name>spotlightElevonRightGlow</object-name>
   <property>surface-positions/right-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>   
@@ -2653,6 +2593,8 @@
  <animation>
   <type>rotate</type>
   <object-name>elevonLeftOuter</object-name>
+  <object-name>spotlightElevonLeft</object-name>
+  <object-name>spotlightElevonLeftGlow</object-name>
   <property>surface-positions/left-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>
@@ -2718,6 +2660,10 @@
   <object-name>elevonRightOuter</object-name>
   <object-name>lightRight</object-name>
   <object-name>lightLeft</object-name>
+  <object-name>lightRearRight</object-name>
+  <object-name>lightRearLeft</object-name>
+  <object-name>spotlightElevonLeft</object-name>
+  <object-name>spotlightElevonRight</object-name>
   <object-name>wingRight</object-name>
   <object-name>wingLeft</object-name>
   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
@@ -2835,6 +2781,8 @@
   <object-name>gearFrontDoorsOpenLeft</object-name>
   <object-name>gearFrontDoorsOpenRight</object-name>
   <object-name>frontLandingLightGlare</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3216,8 +3164,6 @@
   <object-name>gearLeftTop</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   <interpolation>
    <entry>
@@ -3338,7 +3284,6 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
-  <object-name>gearLeftLight</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3376,8 +3321,6 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3762,8 +3705,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   <interpolation>
    <entry>
@@ -3884,7 +3825,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -3921,9 +3861,7 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
   <object-name>gearRightHinge</object-name>
-  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -4847,119 +4785,106 @@
 
 <!-- ===================== START LIGHTING =========================== -->
 
-<!-- beacon lights -->
+  <!-- beacon lights -->
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
     <name>lightglowT</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 0.45039</x-m>
+      <y-m> 0</y-m>
+      <z-m> 1.05</z-m>
     </offsets>
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
     <name>lightglowB</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> -1.94198</x-m>
+      <y-m> 0</y-m>
+      <z-m> -0.85089</z-m>
     </offsets>
   </model>
 
- <animation>
-  <type>material</type>
-  <object-name>lightTop</object-name>
-  <condition>
-    <or><!-- beacon: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>2</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>0.5</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-   <!--<factor-prop>sim/multiplay/generic/float[1]</factor-prop>--><!-- sim/model/lighting/beacon/state -->
-  </emission>
- </animation>
+  <animation>
+    <type>material</type>
+    <object-name>lightTop</object-name>
+    <object-name>aj37lightBottom</object-name>
+    <condition>
+      <or>
+        <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+        <!-- backward compatibility : beacon: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+    <emission>
+      <red>0.5</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <!--<factor-prop>sim/multiplay/generic/float[1]</factor-prop>--><!-- sim/model/lighting/beacon/state -->
+    </emission>
+  </animation>
 
-<animation>
-  <type>material</type>
-  <object-name>lightBottom</object-name>
-  <condition>
-    <or><!-- beacon: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>2</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>0.5</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-   <!--<factor-prop>sim/multiplay/generic/float[1]</factor-prop>--><!-- sim/model/lighting/beacon/state -->
-  </emission>
- </animation>
+  <!-- landing light -->
+  <animation>
+    <type>material</type>
+    <object-name>gearFrontLight</object-name>
+    <condition>
+      <or>
+        <property>sim/multiplay/generic/bool[1]</property> <!-- ja37/effect/taxi-light  -->
+        <!-- backward compatibility -->
+        <greater-than>
+          <property>sim/multiplay/generic/float[4]</property> <!-- ja37/effect/landing-light  -->
+          <value>0.8</value>
+        </greater-than>
+      </or>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
 
-<!-- landing light -->
-
-<animation>
-  <type>material</type>
-  <object-name>gearFrontLight</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>gearRightLight</object-name>
-  <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </emission>
-  <diffuse>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </diffuse>
-  <ambient>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </ambient>
- </animation>
+  <animation>
+    <type>material</type>
+    <object-name>landingLightLeft</object-name>
+    <object-name>landingLightRight</object-name>
+    <condition>
+      <or>
+        <property>sim/multiplay/generic/bool[0]</property> <!-- ja37/effect/landing-light  -->
+        <!-- backward compatibility -->
+        <greater-than>
+          <property>sim/multiplay/generic/float[4]</property> <!-- ja37/effect/landing-light  -->
+          <value>0.8</value>
+        </greater-than>
+      </or>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/taxi-light.xml</path>
     <name>frontLandingLightGlare</name>
     <offsets>
       <x-m>-3.47732</x-m>
@@ -4969,33 +4894,32 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
     <name>leftLandingLightGlare</name>
     <offsets>
-      <x-m>2.19039</x-m>
-      <y-m>-2.11364</y-m>
-      <z-m>-1.08005</z-m>
+      <x-m>-3.91114</x-m>
+      <y-m>-0.137806</y-m>
+      <z-m>-0.769589</z-m>
     </offsets>
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
     <name>rightLandingLightGlare</name>
     <offsets>
-      <x-m>2.19039</x-m>
-      <y-m>2.11364</y-m>
-      <z-m>-1.08005</z-m>
+      <x-m>-3.69526</x-m>
+      <y-m>0.140439</y-m>
+      <z-m>-0.769589</z-m>
     </offsets>
   </model>
 
-<!-- Navigation lights -->
-
+  <!-- Navigation lights -->
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-left.xml</path>
     <name>lightGlowALSLeft</name>
         <offsets>
           <x-m> 5.65783</x-m>
-          <y-m> -5.09762</y-m>
+          <y-m> -5.13762</y-m>
           <z-m> -0.3954</z-m>
         </offsets>
   </model>
@@ -5005,21 +4929,38 @@
     <name>lightGlowALSRight</name>
         <offsets>
           <x-m> 5.65783</x-m>
-          <y-m> 5.09762</y-m>
+          <y-m> 5.13762</y-m>
           <z-m> -0.3954</z-m>
+        </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-rear.xml</path>
+    <name>lightGlowALSRearLeft</name>
+        <offsets>
+          <x-m> 5.83413</x-m>
+          <y-m> -5.12862</y-m>
+          <z-m> -0.395052</z-m>
+        </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-rear.xml</path>
+    <name>lightGlowALSRearRight</name>
+        <offsets>
+          <x-m> 5.83413</x-m>
+          <y-m> 5.12862</y-m>
+          <z-m> -0.395052</z-m>
         </offsets>
   </model>
 
   <animation>
-    <type>select</type>
-    <object-name>lightGlowALSLeft</object-name>
-    <object-name>lightGlowALSRight</object-name>
+    <type>material</type>
+    <object-name>lightLeft</object-name>
     <condition>
-      <!--<equals>
-          <property>sim/rendering/shaders/skydome</property>
-          <value>1</value>
-      </equals>-->
-      <or><!-- nav: bit 3 -->
+      <or>
+        <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light -->
+        <!-- backward compatibility - nav: bit 3 -->
         <equals>
           <property>sim/multiplay/generic/int[9]</property>
           <value>4</value>
@@ -5035,90 +4976,153 @@
         <equals>
           <property>sim/multiplay/generic/int[9]</property>
           <value>7</value>
-        </equals>       
+        </equals>
       </or>
     </condition>
-   </animation>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+    </emission>
+  </animation>
 
-  <!--<model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
-    <name>lightglowR</name>
+  <animation>
+    <type>material</type>
+    <object-name>lightRight</object-name>
+    <condition>
+      <or>
+        <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light -->
+        <!-- backward compatibility - nav: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>
+      </or>
+    </condition>
+    <emission>
+      <red>0.0</red>
+      <green>1.0</green>
+      <blue>0.0</blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lightRearLeft</object-name>
+    <object-name>lightRearRight</object-name>
+    <condition>
+      <or>
+        <property>sim/multiplay/generic/short[2]</property> <!-- /ja37/effect/rear-navigation-light -->
+        <!-- backward compatibility - nav: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>
+      </or>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
+
+  <!-- formation lights -->
+  <animation>
+    <type>material</type>
+    <object-name>lightFormationFrontRight</object-name>
+    <object-name>lightFormationFrontLeft</object-name>
+    <object-name>lightFormationRearRight</object-name>
+    <object-name>lightFormationRearLeft</object-name>
+    <emission>
+      <red>0.01</red>
+      <green>0.01</green>
+      <blue>0.01</blue>
+      <factor-prop>sim/multiplay/generic/short[1]</factor-prop> <!-- /ja37/effect/formation-light (0-100 scale) -->
+    </emission>
+  </animation>
+
+  <!-- rear spotlights -->
+  <animation>
+    <type>material</type>
+    <object-name>spotlightCenterLeft</object-name>
+    <object-name>spotlightCenterRight</object-name>
+    <object-name>spotlightElevonLeft</object-name>
+    <object-name>spotlightElevonRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/short[1]</property> <!-- /ja37/effect/formation-light -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightCenterLeftGlow</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 6.8272</x-m>
+      <y-m> -0.823135</y-m>
+      <z-m> -0.265531</z-m>
     </offsets>
-  </model> 
-
- <model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
-    <name>lightglowL</name>
+  </model>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightCenterRightGlow</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 6.8272</x-m>
+      <y-m> 0.823135</y-m>
+      <z-m> -0.265531</z-m>
     </offsets>
-  </model>-->
+  </model>
 
- <animation>
-  <type>material</type>
-  <object-name>lightLeft</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-  </emission>
- </animation>
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightElevonLeftGlow</name>
+    <offsets>
+      <x-m> 6.41439</x-m>
+      <y-m> -3.9517</y-m>
+      <z-m> -0.387925</z-m>
+    </offsets>
+  </model>
 
- <animation>
-  <type>material</type>
-  <object-name>lightRight</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-  </emission>
- </animation>
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightElevonRightGlow</name>
+    <offsets>
+      <x-m> 6.41439</x-m>
+      <y-m> 3.9517</y-m>
+      <z-m> -0.387925</z-m>
+    </offsets>
+  </model>
+
 
 <!-- ===================== start payload =========================== -->
 

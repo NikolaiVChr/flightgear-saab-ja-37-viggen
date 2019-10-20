@@ -1,19 +1,19 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
-    <path>switch-a.ac</path>
+    <path>switch-d2.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>switchMount</object-name>
-        <object-name>switchRed</object-name>
-        <object-name>switchLever</object-name>
+        <object-name>D2_mount</object-name>
+        <object-name>D2_red</object-name>
+        <object-name>D2_lever</object-name>
     </effect>
 
     <animation>
         <type>pick</type>
-        <object-name>switchMount</object-name>
+        <object-name>D2_mount</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -25,13 +25,15 @@
 
     <animation>
         <type>pick</type>
-        <object-name>pickTop</object-name>
+        <object-name>D2_pickRight</object-name>
         <action>
             <button>0</button>
             <binding>
-                <command>property-assign</command>
+                <command>property-adjust</command>
                 <property>controls/electric/lights-land-switch</property>
-                <value>1</value>
+                <step>1</step>
+                <min>-1</min>
+                <max>1</max>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -42,13 +44,15 @@
 
     <animation>
         <type>pick</type>
-        <object-name>pickBottom</object-name>
+        <object-name>D2_pickLeft</object-name>
         <action>
             <button>0</button>
             <binding>
-                <command>property-assign</command>
+                <command>property-adjust</command>
                 <property>controls/electric/lights-land-switch</property>
-                <value>0</value>
+                <step>-1</step>
+                <min>-1</min>
+                <max>1</max>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -59,25 +63,25 @@
 
     <animation>
         <type>rotate</type>
-        <object-name>switchLever</object-name>
+        <object-name>D2_lever</object-name>
         <property>controls/electric/lights-land-switch</property>
-        <factor>40</factor>
-        <offset-deg>-20</offset-deg>
+        <factor>20</factor>
+        <offset-deg>0</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>
             <z-m> -0.00608 </z-m>
         </center>
         <axis>
-            <x>-1.0 </x>
-            <y> 0.0 </y>
+            <x> 0.0 </x>
+            <y> 1.0 </y>
             <z> 0.0 </z>
         </axis>
     </animation>
 
     <animation>
         <type>material</type>
-        <object-name>switchMount</object-name>
+        <object-name>D2_mount</object-name>
         <property-base>ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
         <texture>LANDING-LIGHT.png</texture>

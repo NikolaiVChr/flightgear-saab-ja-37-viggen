@@ -2,9 +2,9 @@
 
 <PropertyList>
   <path>Models/Effects/procedural_light.ac</path>
-
+  
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-left</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-rear</inherits-from>
     <object-name>procedural_light</object-name>
   </effect>
 
@@ -24,7 +24,7 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light (0-100 scale) -->
+    <property>sim/multiplay/generic/short[2]</property> <!-- /ja37/effect/rear-navigation-light (0-100 scale) -->
     <!-- This is a stupid hack for backward compatibility.
          Old models will have generic/short[0] = 0 (because unset), but set the 
          appropriate bit in generic/int[9]. Thus, to work with old models, the
@@ -43,7 +43,7 @@
     <object-name>procedural_light</object-name>
     <condition>
       <or>
-        <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light -->
+        <property>sim/multiplay/generic/short[2]</property> <!-- /ja37/effect/rear-navigation-light -->
         <!-- backward compatibility - nav: bit 3 -->
         <equals>
           <property>sim/multiplay/generic/int[9]</property>
