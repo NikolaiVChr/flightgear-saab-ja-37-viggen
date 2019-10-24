@@ -32,6 +32,14 @@ Grey/black camo livery.
 Radar RCS system.
 Plus many other changes.
 
+Colin Geniet
+============
+New exterior lightning
+Nasal bugfixes
+HUD parallax
+Checklists
+Direct corusor control for joystick mapping
+
 Nicola B. Bernardelli - nbb.musica at gmail.com - Forum name: JazzTp
 ====================================
 Cockpit sidepanels, switches, knobs and throttle.
