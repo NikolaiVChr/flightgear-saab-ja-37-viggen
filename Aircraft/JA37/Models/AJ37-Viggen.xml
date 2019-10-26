@@ -438,17 +438,22 @@
     </offsets>
   </model>
 
- <animation>
-  <object-name>cm0</object-name>
-  <type>select</type>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
-    <value>1763.7</value>
-   </equals>
-  </condition>
- </animation>
+  <animation>
+    <object-name>cm0</object-name>
+    <type>select</type>
+    <condition>
+      <or>
+        <!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>sim/multiplay/generic/bool[12]</property>
+        <!-- backward compatibility -->
+        <property>sim/hitches/aerotow/is-slave</property>
+      </or>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>1763.7</value>
+      </equals>
+    </condition>
+  </animation>
 
   <model><!-- Right wing pylon -->
     <path>Aircraft/JA37/Models/Armament/Weapons/RB-15F/rb-15.xml</path>
@@ -460,17 +465,22 @@
     </offsets>
   </model>
 
- <animation>
-  <object-name>cm2</object-name>
-  <type>select</type>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
-    <value>1763.7</value>
-   </equals>
-  </condition>
- </animation>
+  <animation>
+    <object-name>cm2</object-name>
+    <type>select</type>
+    <condition>
+      <or>
+        <!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>sim/multiplay/generic/bool[12]</property>
+        <!-- backward compatibility -->
+        <property>sim/hitches/aerotow/is-slave</property>
+      </or>
+      <equals>
+        <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+        <value>1763.7</value>
+      </equals>
+    </condition>
+  </animation>
 
 <!--        m55              -->
 <!-- Left wing pylon -->
@@ -488,7 +498,12 @@
   <object-name>m550</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>802.5</value> <!--weight-->
@@ -510,7 +525,12 @@
   <object-name>m551</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>802.5</value> <!--weight-->
@@ -534,7 +554,12 @@
   <object-name>m71rail0</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <or>
      <equals>
       <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
@@ -562,7 +587,12 @@
   <object-name>m710</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -588,7 +618,12 @@
   <object-name>m711</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -614,7 +649,12 @@
   <object-name>m712</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -640,7 +680,12 @@
   <object-name>m713</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -666,7 +711,12 @@
   <object-name>m71r0</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -692,7 +742,12 @@
   <object-name>m71r1</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -718,7 +773,12 @@
   <object-name>m71r2</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -744,7 +804,12 @@
   <object-name>m71r3</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -999,7 +1064,12 @@
   <object-name>m71rail2</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <or>
      <equals>
       <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
@@ -1027,7 +1097,12 @@
   <object-name>m718</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -1053,7 +1128,12 @@
   <object-name>m719</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -1079,7 +1159,12 @@
   <object-name>m7110</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -1105,7 +1190,12 @@
   <object-name>m7111</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
@@ -1131,7 +1221,12 @@
   <object-name>m71r8</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -1157,7 +1252,12 @@
   <object-name>m71r9</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -1183,7 +1283,12 @@
   <object-name>m71r10</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -1209,7 +1314,12 @@
   <object-name>m71r11</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1062</value> <!--weight-->
@@ -1465,7 +1575,12 @@
   <object-name>m900</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1322.77</value> <!--weight-->
@@ -1488,7 +1603,12 @@
   <object-name>m901</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1322.77</value> <!--weight-->
@@ -1512,7 +1632,12 @@
   <object-name>rb040</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1378</value> <!--weight-->
@@ -1535,7 +1660,12 @@
   <object-name>rb041</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1378</value> <!--weight-->
@@ -1606,7 +1736,12 @@
   <object-name>rb750</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>   
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>462</value> <!--weight-->
@@ -1650,7 +1785,12 @@
   <object-name>rb752</object-name><!--unique object name, matches name above-->
   <type>select</type>
   <condition>   
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable - delete if not on wing -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>462</value> <!--weight-->
@@ -2171,51 +2311,22 @@
   </axis>
  </animation>
 
-<!--<animation>
-  <type>select</type>
-  <object-name>glassOuter</object-name>
-  <object-name>glassInternal</object-name>
-  <object-name>canopy</object-name>
-  <condition>
-    <property>sim/multiplay/generic/int[1]</property>
-  </condition>
- </animation>-->
-
  <animation>
-  <type>scale</type>
-  <object-name>glassOuter</object-name>
-  <object-name>glassInternal</object-name>
-  <object-name>canopy</object-name>
-  <object-name>canopyinside</object-name>
-  <object-name>mirrorholder</object-name>
-  <object-name>mirrorreflect</object-name>
-  <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.01 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
+   <type>select</type>
+   <object-name>glassOuter</object-name>
+   <object-name>glassInternal</object-name>
+   <object-name>canopy</object-name>
+   <object-name>canopyinside</object-name>
+   <object-name>mirrorholder</object-name>
+   <object-name>mirrorreflect</object-name>
+   <condition>
+     <or>
+       <!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
+       <property>sim/multiplay/generic/bool[13]</property>
+       <!-- backwards compatibility -->
+       <property>sim/multiplay/generic/int[1]</property>
+     </or>
+   </condition>
  </animation>
 
  <animation>
@@ -2641,23 +2752,8 @@
   </axis>
  </animation>
 
-<!--<animation>
-  <type>select</type>
-  <object-name>elevonLeftInner</object-name>
-  <object-name>elevonLeftOuter</object-name>
-  <object-name>elevonRightInner</object-name>
-  <object-name>elevonRightOuter</object-name>
-  <object-name>lightRight</object-name>
-  <object-name>lightLeft</object-name>
-  <object-name>wingRight</object-name>
-  <object-name>wingLeft</object-name>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
- </animation>-->
-
  <animation>
-  <type>scale</type>
+  <type>select</type>
   <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
   <object-name>elevonRightInner</object-name>
@@ -2670,33 +2766,14 @@
   <object-name>spotlightElevonRight</object-name>
   <object-name>wingRight</object-name>
   <object-name>wingLeft</object-name>
-  <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.01 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
+  <condition>
+   <or>
+    <!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <property>sim/multiplay/generic/bool[12]</property>
+    <!-- backward compatibility -->
+    <property>sim/hitches/aerotow/is-slave</property>
+   </or>
+  </condition>
  </animation>
 
 <animation>
@@ -3021,88 +3098,8 @@
 
 <!-- left  -->
 
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsClosed</object-name>
-  <condition>
-    <equals>
-      <property>sim/hitches/aerotow/is-slave</property>
-      <value>1</value>
-    </equals>
-  </condition>
-  <property>gear/gear[1]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
 <animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsClosed</object-name>
-  <condition>
-   <equals>
-      <property>sim/hitches/aerotow/is-slave</property>
-      <value>0</value>
-    </equals>
-  </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
-
-<!--<animation>
   <type>select</type>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
   <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
@@ -3112,130 +3109,16 @@
   <object-name>gearLeftTop</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
-  <object-name>gearLeftDoorsOpen</object-name>
- </animation>-->
-
-<animation>
-  <type>scale</type>
-  <object-name>gearLeftMid</object-name>
-  <object-name>gearLeftOleoStrut</object-name>
-  <object-name>gearLeftScissorTop</object-name>
-  <object-name>gearLeftScissorBottom</object-name>
-  <object-name>gearLeftBottom</object-name>
-  <object-name>gearLeftHinge</object-name>
-  <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftWheel1</object-name>
-  <object-name>gearLeftWheel2</object-name>
-  <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
-<animation>
-  <type>select</type>
-  <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  </condition>
   <object-name>gearLeftOuterDoor</object-name>
- </animation>
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsOpen</object-name>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
-  <property>gear/gear[1]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
- <animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsOpen</object-name>
-  <condition>
-    <not>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
       <property>sim/hitches/aerotow/is-slave</property>
-    </not>
+    </or>
   </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
+</animation>
 
 <animation>
   <type>scale</type>
@@ -3528,215 +3411,27 @@
 
 <!--      right       -->
 
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsClosed</object-name>
-  <condition>
-      <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
-  <property>gear/gear[2]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
- <animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsClosed</object-name>
-  <condition>
-    <not>
-      <property>sim/hitches/aerotow/is-slave</property>
-    </not>
-  </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
-
-<!--<animation>
-  <type>select</type>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
-  <object-name>gearRightMid</object-name>
-  <object-name>gearRightScissorTop</object-name>
-  <object-name>gearRightScissorBottom</object-name>
-  <object-name>gearRightOleoStrut</object-name>
-  <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
-  <object-name>gearRightTop</object-name>
-  <object-name>gearRightWheel1</object-name>
-  <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
- </animation>-->
-
- <animation>
-  <type>scale</type>
-  <object-name>gearRightMid</object-name>
-  <object-name>gearRightScissorTop</object-name>
-  <object-name>gearRightScissorBottom</object-name>
-  <object-name>gearRightOleoStrut</object-name>
-  <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
-  <object-name>gearRightTop</object-name>
-  <object-name>gearRightWheel1</object-name>
-  <object-name>gearRightWheel2</object-name>
-  <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
 <animation>
   <type>select</type>
-  <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  </condition>
+  <object-name>gearRightMid</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearRightWheel1</object-name>
+  <object-name>gearRightWheel2</object-name>
   <object-name>gearRightOuterDoor</object-name>
- </animation>
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsOpen</object-name>
   <condition>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
       <property>sim/hitches/aerotow/is-slave</property>
+    </or>
   </condition>
-  <property>gear/gear[2]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
- <animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsOpen</object-name>
-  <condition>
-    <not>
-      <property>sim/hitches/aerotow/is-slave</property>
-    </not>
-  </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
+</animation>
 
 <animation>
   <type>scale</type>
@@ -4935,7 +4630,12 @@
   <object-name>missile</object-name><!-- Left wing pylon -->
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
     <or>
       <equals>
         <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
@@ -4978,8 +4678,13 @@
   <object-name>missile1</object-name><!-- Right wing pylon -->
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <or>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
+    <or>
       <equals>
         <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
         <value>188</value>
@@ -5021,7 +4726,12 @@
    <object-name>missileLWO</object-name><!-- Left outer wing pylon -->
    <type>select</type>
    <condition>
-     <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+     <or>
+       <!-- fdm/jsbsim/fcs/wings/serviceable -->
+       <property>sim/multiplay/generic/bool[12]</property>
+       <!-- backward compatibility -->
+       <property>sim/hitches/aerotow/is-slave</property>
+     </or>
      <or>
        <property>sim/multiplay/generic/bool[6]</property><!-- /payload/weight[4]/weight-lb -->
        <!-- backwards compatibility - missile mounted: bit 1 -->
@@ -5049,8 +4759,15 @@
    <object-name>missileRWO</object-name><!-- Right outer wing pylon -->
    <type>select</type>
    <condition>
-     <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-     <or><!-- missile mounted: bit 2 -->
+     <or>
+       <!-- fdm/jsbsim/fcs/wings/serviceable -->
+       <property>sim/multiplay/generic/bool[12]</property>
+       <!-- backward compatibility -->
+       <property>sim/hitches/aerotow/is-slave</property>
+     </or>
+     <or>
+       <property>sim/multiplay/generic/bool[7]</property><!-- /payload/weight[5]/weight-lb -->
+       <!-- backwards compatibility - missile mounted: bit 2 -->
        <equals>
          <property>sim/multiplay/generic/int[19]</property>
          <value>2</value>
@@ -5087,7 +4804,12 @@
   <object-name>pod0</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
     <value>794</value>
@@ -5130,7 +4852,12 @@
   <object-name>pod1</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
     <value>794</value>

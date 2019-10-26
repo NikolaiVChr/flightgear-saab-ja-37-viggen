@@ -12,7 +12,12 @@
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
-      <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <or>
+        <!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>sim/multiplay/generic/bool[12]</property>
+        <!-- backward compatibility -->
+        <property>sim/hitches/aerotow/is-slave</property>
+      </or>
     </condition>
   </animation>
 

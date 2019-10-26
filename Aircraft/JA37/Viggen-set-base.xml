@@ -377,7 +377,6 @@
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
-                sim/hitches/aerotow/open           = ecm jammer on (nil/0 = off, 1 = on)
                 rotors/main/blade[0]/position-deg  = wheel spin
                 rotors/main/blade[1]/position-deg  = wheel spin
                 rotors/main/blade[2]/position-deg  = wheel spin
@@ -399,7 +398,9 @@
                 <bool n="4"/>                                                   <!-- contrail - nasal -->
                 <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
                 <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- to show explosion plus its sound -->
-                <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy -->
+                <bool n="12" alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- broken wing -->
+                <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/> <!-- detached canopy -->
+                <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy - deprecated-->
                 <int n="2" type="int">0</int>                                   <!-- radar - nasal -->
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
@@ -449,7 +450,7 @@
         </multiplay>
         <hitches>
             <aerotow>
-                <is-slave alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- to show detachment of wings -->
+                <is-slave alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- to show detachment of wings - deprecated -->
             </aerotow>
         </hitches>
 
