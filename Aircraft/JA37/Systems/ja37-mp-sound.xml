@@ -45,7 +45,7 @@
                     <value>Model View</value>
                 </not-equals>
                 <not>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </not>
                 <property>sim/multiplay/generic/int[3]</property>
                 <!-- engines/engine/running -->
@@ -85,7 +85,7 @@
                     <value>Model View</value>
                 </not-equals>
                 <not>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </not>
                 <property>sim/multiplay/generic/int[3]</property>
                 <!-- engines/engine/running -->
@@ -127,7 +127,7 @@
                 <property>sim/multiplay/generic/int[3]</property>
                 <!-- engines/engine/running -->
                 <not>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </not>
             </condition>
             <reference-dist>100</reference-dist>
@@ -176,24 +176,24 @@
                         <property>/sim/current-view/name</property>
                         <value>Model View</value>
                     </equals>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </or>
                 <or>
                     <!-- wow0: bit 1 -->
                     <equals>
-                        <property>sim/multiplay/generic/int[17]</property>
+                        <property>gear/gear[1]/compression-norm</property>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property>sim/multiplay/generic/int[17]</property>
+                        <property>gear/gear[1]/compression-norm</property>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property>sim/multiplay/generic/int[17]</property>
+                        <property>gear/gear[1]/compression-norm</property>
                         <value>5</value>
                     </equals>
                     <equals>
-                        <property>sim/multiplay/generic/int[17]</property>
+                        <property>gear/gear[1]/compression-norm</property>
                         <value>7</value>
                     </equals>
                 </or>
@@ -239,7 +239,7 @@
                         <property>/sim/current-view/name</property>
                         <value>Model View</value>
                     </equals>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </or>
                 <property>sim/multiplay/generic/int[3]</property>
                 <!-- engines/engine/running -->
@@ -295,7 +295,7 @@
                         <property>/sim/current-view/name</property>
                         <value>Model View</value>
                     </equals>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </or>
                 <!--<greater-than-equals>
       <property>engines/engine/n1</property>
@@ -338,7 +338,7 @@
             <path>Sounds/squeal.wav</path>
             <condition>
                 <or>
-                    <property>sim/multiplay/generic/int[17]</property>
+                    <property>gear/gear[1]/compression-norm</property>
                 </or>
             </condition>
             <reference-dist>150</reference-dist>

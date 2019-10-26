@@ -1625,26 +1625,6 @@
 
 <animation>
   <type>rotate</type>
-  <condition>
-    <or><!-- wow0: bit 1 -->
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>1</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>5</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
   <object-name>gearFrontBottom</object-name>
   <object-name>gearFrontHub</object-name>
   <object-name>gearFrontScissorTop</object-name>
@@ -1735,26 +1715,6 @@
 <animation>
     <type>spin</type>
     <object-name>gearFrontWheel</object-name>
-    <condition>
-      <or><!-- wow0: bit 1 -->
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>1</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>5</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-    </condition>
     <property>rotors/main/blade[0]/position-deg</property><!-- gear/gear[0]/rollspeed-ms -->
     <factor>37.9091</factor>
     <center>
@@ -2244,26 +2204,6 @@
 <animation>
     <type>spin</type>
     <object-name>gearLeftWheel1</object-name>
-    <condition>
-      <or><!-- wow1: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[1]/position-deg</property><!-- gear/gear[1]/rollspeed-ms -->
     <factor>31.1692</factor>
     <center>
@@ -2281,26 +2221,6 @@
 <animation>
     <type>spin</type>
     <object-name>gearLeftWheel2</object-name>
-    <condition>
-      <or><!-- wow1: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[1]/position-deg</property><!-- gear/gear[1]/rollspeed-ms -->
     <factor>31.1692</factor>
     <center>
@@ -2785,26 +2705,6 @@
 <animation>
     <type>spin</type>
     <object-name>gearRightWheel1</object-name>
-    <condition>
-      <or><!-- wow2: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[2]/position-deg</property><!-- gear/gear[2]/rollspeed-ms -->
     <factor>31.1692</factor>
     <center>
@@ -2822,26 +2722,6 @@
 <animation>
     <type>spin</type>
     <object-name>gearRightWheel2</object-name>
-    <condition>
-      <or><!-- wow2: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[2]/position-deg</property><!-- gear/gear[2]/rollspeed-ms -->
     <factor>31.1692</factor>
     <center>
