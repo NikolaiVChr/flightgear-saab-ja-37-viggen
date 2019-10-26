@@ -116,7 +116,6 @@ input = {
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
   MPint19:          "sim/multiplay/generic/int[19]",
-  MPint9:           "sim/multiplay/generic/int[9]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
   nearby:           "damage/sounds/nearby-explode-on",
@@ -349,11 +348,6 @@ var Saab37 = {
     } elsif (!me.main) {
       mainOn = FALSE;
     }
-
-    # exterior lights
-    me.beacon = input.lightBeacon.getValue() == 1;
-    me.nav = input.lightNav.getValue() >= 1; # backward compatibility
-    input.MPint9.setIntValue(encode3bits(0, me.beacon, me.nav));
 
     # contrails, damage smoke
     me.contrails = input.tempDegC.getValue() < -40 and input.alt.getValue() > 19000 and input.n2.getValue() > 50;

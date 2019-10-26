@@ -37,7 +37,6 @@ input = {
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
   MPint19:          "sim/multiplay/generic/int[19]",
-  MPint9:           "sim/multiplay/generic/int[9]",
   replay:           "sim/replay/replay-state",
   serviceElec:      "systems/electrical/serviceable",
   stationSelect:    "controls/armament/station-select-custom",

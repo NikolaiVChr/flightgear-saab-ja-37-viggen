@@ -370,7 +370,6 @@
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[9]   = beacon and nav lights bits, deprecated
                 int[17]  = wow bits
                 int[18]  = contrails and damage smoke bits
                 int[19]  = outer pylons sidewinders and canard tip vapour bits
@@ -388,7 +387,7 @@
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
 
-                unused: int[5], int[6], int[15]
+                unused: int[5], int[6], int[9], int[15], float[1], float[4]
              -->
             <generic>
                 <!-- effects -->
@@ -413,9 +412,6 @@
                 <short n="0" alias="/ja37/effect/navigation-light"/>
                 <short n="1" alias="/ja37/effect/formation-light"/>
                 <short n="2" alias="/ja37/effect/rear-navigation-light"/>
-                
-                <float n="4" alias="/ja37/effect/landing-light"/>              <!-- backward compatibility -->
-                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- backward compatibility -->
                 <!-- Stores -->
                 <float n="10" alias="/payload/weight[6]/weight-lb"/>                <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->

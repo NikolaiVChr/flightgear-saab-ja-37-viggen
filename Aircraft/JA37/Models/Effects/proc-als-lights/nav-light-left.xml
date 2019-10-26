@@ -25,44 +25,9 @@
     <type>scale</type>
     <object-name>procedural_light</object-name>
     <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light (0-100 scale) -->
-    <!-- This is a stupid hack for backward compatibility.
-         Old models will have generic/short[0] = 0 (because unset), but set the 
-         appropriate bit in generic/int[9]. Thus, to work with old models, the
-         light is scaled down following short[0] _unless_ it is 0. When it is 0,
-         int[9] is used to decide
-    -->
-    <interpolation>
-      <entry><ind>0</ind><dep>1.0</dep></entry>
-      <entry><ind>1</ind><dep>0.01</dep></entry>
-      <entry><ind>100</ind><dep>1.0</dep></entry>
-    </interpolation>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>procedural_light</object-name>
-    <condition>
-      <or>
-        <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light -->
-        <!-- backward compatibility - nav: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>
-      </or>
-    </condition>
+    <x-factor>0.01</x-factor>
+    <y-factor>0.01</y-factor>
+    <z-factor>0.01</z-factor>
   </animation>
 
   <animation>

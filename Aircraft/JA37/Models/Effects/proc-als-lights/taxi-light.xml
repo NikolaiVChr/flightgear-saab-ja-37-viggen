@@ -12,14 +12,7 @@
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
-      <or>
-        <property>sim/multiplay/generic/bool[1]</property> <!-- ja37/effect/taxi-light  -->
-        <!-- backward compatibility -->
-        <greater-than>
-          <property>sim/multiplay/generic/float[4]</property> <!-- ja37/effect/landing-light  -->
-          <value>0.8</value>
-        </greater-than>
-      </or>
+      <property>sim/multiplay/generic/bool[1]</property> <!-- ja37/effect/taxi-light  -->
     </condition>
   </animation>
 
