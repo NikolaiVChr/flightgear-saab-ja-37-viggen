@@ -180,23 +180,29 @@
 
 
         <!-- exterior lights -->
-
         <signal>
-            <type>float</type>
-            <property type="string">sim/multiplay/generic/int[9]</property>
-            <!-- bit encoded ext. lights -->
-        </signal>
-        <!--<signal> this is continuosly running so recording it will make double blinks
-          <type>bool</type>
-          <property type="string">sim/model/lighting/strobe/state</property>
-        </signal>-->
-        <signal>
-            <type>float</type>
-            <property type="string">sim/model/lighting/beacon/state-rotary</property>
+            <type>bool</type>
+            <property>sim/multiplay/generic/bool[0]</property> <!-- landing light-->
         </signal>
         <signal>
-            <type>float</type>
-            <property type="string">ja37/effect/landing-light</property>
+            <type>bool</type>
+            <property>sim/multiplay/generic/bool[1]</property> <!-- taxi light-->
+        </signal>
+        <signal>
+            <type>bool</type>
+            <property>sim/multiplay/generic/bool[2]</property> <!-- beacon light-->
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>sim/multiplay/generic/short[0]</property> <!-- navigation light-->
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>sim/multiplay/generic/short[1]</property> <!-- formation light-->
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>sim/multiplay/generic/short[2]</property> <!-- rear navigation light-->
         </signal>
         <!--<signal>
             <type>float</type>
@@ -223,7 +229,7 @@
             <property type="string">controls/lighting/instruments-norm</property>
         </signal>
         <signal>
-            <type>bool</type>
+            <type>int</type>
             <property type="string">controls/electric/lights-land-switch</property>
         </signal>
 
