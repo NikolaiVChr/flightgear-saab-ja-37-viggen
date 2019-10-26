@@ -65,16 +65,18 @@
 
 	<!-- ====== drop tank ====== -->
 
-	<animation>
-	  <object-name>ja37dropTank</object-name>
-	  <type>select</type>
-	  <condition>
-	   <equals>
-	    <property>sim/multiplay/generic/int[16]</property><!-- consumables/fuel/tank[8]/jettisoned -->
-	    <value>0</value>
-	   </equals>
-	  </condition>
-	</animation>
+    <animation>
+      <object-name>ja37dropTank</object-name>
+      <type>select</type>
+      <condition>
+        <or>
+          <!-- consumables/fuel/tank[8]/jettisoned -->
+          <not><property>sim/multiplay/generic/bool[8]</property></not>
+          <!-- backwards compatibility -->
+          <not><property>sim/multiplay/generic/int[16]</property></not>
+        </or>
+      </condition>
+    </animation>
 
 	<!-- stores  -->
 
@@ -3723,56 +3725,60 @@
   </condition>
  </animation>
 
-<animation>
-  <object-name>missileLWO</object-name><!-- Left outer wing pylon -->
-  <type>select</type>
-  <condition>
+ <animation>
+   <object-name>missileLWO</object-name><!-- Left outer wing pylon -->
+   <type>select</type>
+   <condition>
      <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-     <or><!-- missile mounted: bit 1 -->
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>1</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>5</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
+     <or>
+       <property>sim/multiplay/generic/bool[6]</property><!-- /payload/weight[4]/weight-lb -->
+       <!-- backwards compatibility - missile mounted: bit 1 -->
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>1</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>3</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>5</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>7</value>
+       </equals>
+     </or>
+   </condition>
  </animation>
 
  <animation>
-  <object-name>missileRWO</object-name><!-- Right outer wing pylon -->
-  <type>select</type>
-  <condition>
+   <object-name>missileRWO</object-name><!-- Right outer wing pylon -->
+   <type>select</type>
+   <condition>
      <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-     <or><!-- missile mounted: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[19]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[19]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[19]</property>
-          <value>7</value>
-        </equals>       
-    </or>
-  </condition>
+     <or>
+       <property>sim/multiplay/generic/bool[7]</property><!-- /payload/weight[5]/weight-lb -->
+       <!-- backwards compatibility - missile mounted: bit 2 -->
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>2</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>3</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>6</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>7</value>
+       </equals>
+     </or>
+   </condition>
  </animation>
 
  <!-- ====== m70 ====== -->

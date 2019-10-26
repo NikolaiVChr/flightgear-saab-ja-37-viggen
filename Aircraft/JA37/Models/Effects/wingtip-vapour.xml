@@ -5,26 +5,28 @@
  
    <emissive type="bool">false</emissive>
    <lighting type="bool">false</lighting><!-- sadly have to be false, since the polygons are not double sided -->
- 
+   
    <condition>
-     <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>7</value>
-      </equals>       
-    </or>
+     <or>
+       <property>sim/multiplay/generic/bool[5]</property> <!-- fdm/jsbsim/effects/wingtip-vapour -->
+       <!-- backwards compatibility - vapour: bit 3 -->
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>4</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>5</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>6</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>7</value>
+       </equals>
+     </or>
    </condition>
  
    <attach>local</attach>

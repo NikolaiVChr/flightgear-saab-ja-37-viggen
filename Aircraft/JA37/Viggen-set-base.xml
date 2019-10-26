@@ -365,14 +365,14 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
+            <!-- int 2, int 17, int 18, int 19, float 2, float 3 and float 9 are controlled from nasal or JSB
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
                 int[17]  = wow bits - deprecated
                 int[18]  = contrails and damage smoke bits - deprecated
-                int[19]  = outer pylons sidewinders and canard tip vapour bits
+                int[19]  = outer pylons sidewinders and canard tip vapour bits - deprecated
 
 
                 Also used:
@@ -387,18 +387,20 @@
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
 
-                unused: int[5], int[6], int[9], int[15], float[1], float[4], float[6], float[8]
+                unused:
+                int[5], int[6], int[9], int[10] (for flares in the future ?), int[15], 
+                float[1], float[4], float[6], float[8]
              -->
             <generic>
                 <!-- effects -->
-                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke - deprecated -->
                 <short n="3" alias="/ja37/effect/smoke"/>                       <!-- airshow smoke -->
+                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke - deprecated -->
                 <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
                 <bool n="4"/>                                                   <!-- contrail - nasal -->
+                <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
                 <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- to show explosion plus its sound -->
-                <!-- Animation control surfaces -->
                 <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy -->
-                <int n="2" type="int">0</int>
+                <int n="2" type="int">0</int>                                   <!-- radar - nasal -->
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
                 <float n="2"/>                                                  <!-- afterburner flame translucency - nasal -->
@@ -406,9 +408,12 @@
                 <float n="5" alias="/engines/engine/flame"/>                    <!-- to animate engine flame -->
                 <float n="15" alias="/engines/engine/n1"/>                      <!-- used in MP sound -->
                 <float n="16" alias="/engines/engine/thrust_lb-absolute"/>      <!-- used in MP sound -->
-                <int n="3" alias="/engines/engine/running"/>                    <!-- used in MP sound -->
-                <int n="4" alias="/engines/engine[0]/augmentation"/>            <!-- used in MP sound -->
-                <int n="8" alias="/engines/engine[0]/is-reversed"/>             <!-- to animate afterburnerflame -->
+                <bool n="9" alias="/engines/engine/running"/>                   <!-- used in MP sound -->
+                <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used in MP sound -->
+                <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
+                <int n="3" alias="/engines/engine/running"/>                    <!-- used in MP sound - deprecated -->
+                <int n="4" alias="/engines/engine[0]/augmentation"/>            <!-- used in MP sound - deprecated -->
+                <int n="8" alias="/engines/engine[0]/is-reversed"/>             <!-- to animate afterburnerflame - deprecated -->
                 <float n="9"/>                                                  <!-- inverted scene red color -->
                 <!-- Animating light -->
                 <bool n="0" alias="/ja37/effect/landing-light"/>
@@ -423,7 +428,11 @@
                 <float n="12" alias="/payload/weight[1]/weight-lb"/>            <!-- left fuselage -->
                 <float n="13" alias="/payload/weight[2]/weight-lb"/>            <!-- right wing -->
                 <float n="14" alias="/payload/weight[3]/weight-lb"/>            <!-- right fuselage -->
-                <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
+                <!-- booleans for outer pylons because they can only mount a rb24/rb74 -->
+                <bool n="6" alias="/payload/weight[4]/weight-lb"/>              <!-- outer left wing -->
+                <bool n="7" alias="/payload/weight[5]/weight-lb"/>              <!-- outer left wing -->
+                <bool n="8" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank -->
+                <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank - deprecated -->
                 <!-- used for drop tank -->
                 <!-- gears -->
                 <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- Position and speed -->

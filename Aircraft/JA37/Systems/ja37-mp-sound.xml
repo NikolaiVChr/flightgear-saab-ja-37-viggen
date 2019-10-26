@@ -47,8 +47,12 @@
                 <not>
                     <property>gear/gear[1]/compression-norm</property>
                 </not>
-                <property>sim/multiplay/generic/int[3]</property>
-                <!-- engines/engine/running -->
+                <or>
+                  <!-- engines/engine/running -->
+                  <property>sim/multiplay/generic/bool[9]</property>
+                  <!-- backwards compatibility -->
+                  <property>sim/multiplay/generic/int[3]</property>
+                </or>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -87,8 +91,12 @@
                 <not>
                     <property>gear/gear[1]/compression-norm</property>
                 </not>
-                <property>sim/multiplay/generic/int[3]</property>
-                <!-- engines/engine/running -->
+                <or>
+                  <!-- engines/engine/running -->
+                  <property>sim/multiplay/generic/bool[9]</property>
+                  <!-- backwards compatibility -->
+                  <property>sim/multiplay/generic/int[3]</property>
+                </or>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -124,8 +132,12 @@
                     <property>/sim/current-view/name</property>
                     <value>Model View</value>
                 </not-equals>
-                <property>sim/multiplay/generic/int[3]</property>
-                <!-- engines/engine/running -->
+                <or>
+                  <!-- engines/engine/running -->
+                  <property>sim/multiplay/generic/bool[9]</property>
+                  <!-- backwards compatibility -->
+                  <property>sim/multiplay/generic/int[3]</property>
+                </or>
                 <not>
                     <property>gear/gear[1]/compression-norm</property>
                 </not>
@@ -164,8 +176,12 @@
             <path>Sounds/turbojet_fan.wav</path>
             <mode>looped</mode>
             <condition>
-                <property>sim/multiplay/generic/int[3]</property>
-                <!-- engines/engine/running -->
+                <or>
+                  <!-- engines/engine/running -->
+                  <property>sim/multiplay/generic/bool[9]</property>
+                  <!-- backwards compatibility -->
+                  <property>sim/multiplay/generic/int[3]</property>
+                </or>
                 <greater-than>
                     <property>sim/multiplay/generic/float[15]</property>
                     <!-- n1 -->
@@ -241,8 +257,12 @@
                     </equals>
                     <property>gear/gear[1]/compression-norm</property>
                 </or>
-                <property>sim/multiplay/generic/int[3]</property>
-                <!-- engines/engine/running -->
+                <or>
+                  <!-- engines/engine/running -->
+                  <property>sim/multiplay/generic/bool[9]</property>
+                  <!-- backwards compatibility -->
+                  <property>sim/multiplay/generic/int[3]</property>
+                </or>
                 <greater-than-equals>
                     <property>sim/multiplay/generic/float[15]</property>
                     <!-- n1 -->
@@ -288,7 +308,12 @@
             <mode>looped</mode>
             <type>fx</type>
             <condition>
-                <property>sim/multiplay/generic/int[4]</property>
+                <or>
+                    <!-- engines/engine/augmentation -->
+                    <property>sim/multiplay/generic/bool[10]</property>
+                    <!-- backwards compatibility -->
+                    <property>sim/multiplay/generic/int[4]</property>
+                </or>
                 <!-- engines/engine/augmentation -->
                 <or>
                     <equals>
