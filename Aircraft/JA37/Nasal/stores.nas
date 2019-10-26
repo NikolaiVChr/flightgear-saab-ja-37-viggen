@@ -34,8 +34,6 @@ input = {
   mass6:            "fdm/jsbsim/inertia/pointmass-weight-lbs[6]",
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
-  MPint17:          "sim/multiplay/generic/int[17]",
-  MPint18:          "sim/multiplay/generic/int[18]",
   MPint19:          "sim/multiplay/generic/int[19]",
   replay:           "sim/replay/replay-state",
   serviceElec:      "systems/electrical/serviceable",

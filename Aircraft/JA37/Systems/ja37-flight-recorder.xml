@@ -265,9 +265,14 @@
             <property type="string">engines/engine[0]/augmentation</property>
         </signal>
         <signal>
-            <type>int8</type><!-- contrails and damage smoke bits -->
-            <property type="string">sim/multiplay/generic/int[18]</property>
+            <type>bool</type>
+            <property type="string">environment/damage-smoke</property>
         </signal>
+        <signal>
+            <type>bool</type>
+            <property type="string">sim/multiplay/generic/bool[4]</property> <!-- contrails -->
+        </signal>
+
 
 
         <!-- Stores -->

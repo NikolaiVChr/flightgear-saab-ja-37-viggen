@@ -115,7 +115,7 @@ input = {
   MPfloat9:         "sim/multiplay/generic/float[9]",
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
-  MPint19:          "sim/multiplay/generic/int[19]",
+  MPbool4:          "sim/multiplay/generic/bool[4]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
   nearby:           "damage/sounds/nearby-explode-on",
@@ -351,9 +351,9 @@ var Saab37 = {
 
     # contrails, damage smoke
     me.contrails = input.tempDegC.getValue() < -40 and input.alt.getValue() > 19000 and input.n2.getValue() > 50;
-    me.smoke = !input.servFire.getValue()+input.damage.getValue();
-    input.damageSmoke.setValue(me.smoke);
-    me.d_smoke = input.damageSmoke.getValue();
+    me.d_smoke = !input.servFire.getValue()+input.damage.getValue();
+    input.damageSmoke.setValue(me.d_smoke);
+    input.MPbool4.setValue(me.contrails);
     input.MPint18.setIntValue(encode3bits(me.contrails, me.d_smoke, 0));
 
     # smoke

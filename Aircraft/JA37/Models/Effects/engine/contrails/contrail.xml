@@ -9,25 +9,26 @@
       <lighting type="bool">false</lighting>
    
       <condition>
-        <!--<property>environment/contrail</property>-->
-          <or><!-- contrails: bit 1 -->
-            <equals>
-              <property>sim/multiplay/generic/int[18]</property>
-              <value>1</value>
-            </equals>
-            <equals>
-              <property>sim/multiplay/generic/int[18]</property>
-              <value>3</value>
-            </equals>
-            <equals>
-              <property>sim/multiplay/generic/int[18]</property>
-              <value>5</value>
-            </equals>            
-            <equals>
-              <property>sim/multiplay/generic/int[18]</property>
-              <value>7</value>
-            </equals>       
-          </or>
+        <or>
+          <property>sim/multiplay/generic/bool[4]</property> <!-- contrails -->
+          <!-- backwards compatibility - contrails: bit 1 -->
+          <equals>
+            <property>sim/multiplay/generic/int[18]</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>sim/multiplay/generic/int[18]</property>
+            <value>3</value>
+          </equals>
+          <equals>
+            <property>sim/multiplay/generic/int[18]</property>
+            <value>5</value>
+          </equals>
+          <equals>
+            <property>sim/multiplay/generic/int[18]</property>
+            <value>7</value>
+          </equals>
+        </or>
       </condition>
    
       <attach>world</attach>

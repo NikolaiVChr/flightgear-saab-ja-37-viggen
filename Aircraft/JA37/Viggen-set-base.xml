@@ -370,8 +370,8 @@
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[17]  = wow bits --- deprecated
-                int[18]  = contrails and damage smoke bits
+                int[17]  = wow bits - deprecated
+                int[18]  = contrails and damage smoke bits - deprecated
                 int[19]  = outer pylons sidewinders and canard tip vapour bits
 
 
@@ -391,7 +391,10 @@
              -->
             <generic>
                 <!-- effects -->
-                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke -->
+                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke - deprecated -->
+                <short n="3" alias="/ja37/effect/smoke"/>                       <!-- airshow smoke -->
+                <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
+                <bool n="4"/>                                                   <!-- contrail - nasal -->
                 <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- to show explosion plus its sound -->
                 <!-- Animation control surfaces -->
                 <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy -->
