@@ -60,12 +60,14 @@
    <object-name>aj37dropTank</object-name>
    <type>select</type>
    <condition>
-     <or>
-       <!-- consumables/fuel/tank[8]/jettisoned -->
-       <not><property>sim/multiplay/generic/bool[8]</property></not>
-       <!-- backwards compatibility -->
-       <not><property>sim/multiplay/generic/int[16]</property></not>
-     </or>
+     <not>
+       <or>
+         <!-- consumables/fuel/tank[8]/jettisoned -->
+         <property>sim/multiplay/generic/bool[8]</property>
+         <!-- backwards compatibility -->
+         <property>sim/multiplay/generic/int[16]</property>
+       </or>
+     </not>
    </condition>
  </animation>
 
