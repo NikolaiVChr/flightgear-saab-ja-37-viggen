@@ -3526,7 +3526,7 @@ Effect: Normal map is now DDS format.
 Aero: {Richard} Fixed some ambiguous JSB calcs.
 HUD: Fixed that at higher speeds, the digital readout would show in KT for metric mode.
 
-4.990
+4.314 - 2019 ??
 =====
 Effect: Make wingtip and high-G vapor not be bright at evening. (thanks Richard and Legoboy)
 Effect: Mach vapor cone is now shader based.
@@ -3708,3 +3708,104 @@ TI: Fixed that display zoom button zoomed in, now it zoom out.
 Effect: Dust on display effect.
 Sim: Added damage from some cruise missiles.
 Effect: Made more stars visible. (2019.1+ only)
+
+4.315 - 2019 August 19
+=====
+DAP: {Colin} Allow deletion of a single address in TI mode
+DAP: {Colin} Update cycleMax and cycle more consistently
+DAP: {Colin} In MSDA mode, cycleMax and cycle are now updated whenever isStateChanged is true. This fixes an issue where cycleMax was incorrect after turning the knob in OUT mode (cycleMax was never updated in OUT mode).
+DAP: {Colin} Fix display of address 001 in TI mode
+DAP: {Colin} Fix display of latitude in TI mode
+DAP: {Colin} Set isStateChanged flag on MSDA/POS change isStateChanged now returns true after a MSDA/POS change, in addition to knob position and IN/OUT changes. This avoids inconsistent states when turning the knob while in POS mode (e.g. incorrect values for cycleMax).
+DAP: {Colin} Fix input of Date/Time
+Nasal: {Colin} Fix double to degree conversion functions
+DAP: {Colin} Fix display of GPS installation status
+Model: {Colin} Fix incorrect path capitalization
+GUI: {Colin} Checklists expanded
+Sim: {Colin} Fix cutoff logic:
+	The engine can now be started with cutoff already opened.
+	The cutoff light simply lights up when cutoff is closed.
+	The cutoff switch direction was inverted.
+Model: {Colin} Add 'click' sound to parking brake handle
+Model: {Colin} Fix the emergency checklists plaques
+Sim: {Colin} Cutoff light is also triggered by A/B cutoff
+Sim: {Colin} Rename cutoff properties
+GUI: Fixed referal to wrong splash
+GUI: Fix tooltip for sparkplug switch.
+HUD: {Colin} parallax
+HUD: {Colin} Clip display area
+HUD: {Colin} Simulate total field of view limit.
+HUD: {Colin} Increase speed vector clamping range
+Effect: Tyre smoke now also follows compression when its heavy rain.
+HUD: Added library of HUD math to be used in future.
+Effect: Fuselage now gets ambient light from moon at night in ALS again. But no specular.
+HUD: Changed it back to more opaque symbols.
+GUI: {Colin} 'Reload guns only' menu removes other stores
+
+4.316 - 2019 October 24
+=====
+Arms: Missiles now measure the geodesic angle between current attitude and the attitude to target in G-force and FoV calcs.
+Arms: Added 5 deg pitch up prowl flight option.
+Arms: Added CCIP to missile code.
+Arms: Removed special code for 90 deg launch tubes.
+Arms: Added incoming airstream for non-forward launchers.
+Arms: Enabled deleting target from inflight function.
+Arms: Enabled changing class with inflight function.
+Arms: Check for nil altitude in shinobis terrain follow code. And fixed missing check for POINT class.
+Arms: Check for hitting sealevel, when there is no terrain.
+Arms: Enabled hitting the launcher when multihit is enabled.
+Arms: Switched to Shinobis terrain follow code.
+Animation: Fixed roll of ejection seat could sometimes be wrong.
+Cockpit(AJ): {Colin} Use knob animation for HUD brightness
+Cockpit (AJ): {Colin} Use knob animations for radio panel
+Cockpit: {Colin} Use knob animation for MI brightness
+GUI: {Colin} Fix some knob tooltips
+GUI: {Colin} Fix conditions for tooltips
+TI/MI: {Colin} Fix altitude of radar echoes
+TI: {Colin} Remove echoes from sideview when radar is off
+Effect: Removed some shadows from Rembrandt, and in future from Compositor
+Cockpit: {Colin} Improve altimeter tooltips
+Cockpit: {Colin} Simplify altimeter knob animation
+Sim: {Colin} Compute indicated-altitude-meter using jsbsim
+GUI: {Colin} Display squawk 0 as 0000 in tooltips
+Docs: {Colin} Update todo list
+Cockpit: {Colin} Simplify knob animations code
+Cockpit: {Colin} Add tooltips to altimeter setting knobs
+Cockpit: {Colin} Add rotation to pressure setting knobs
+Cockpit: {Colin} Rework altimeter setting knobs
+Effect: Fixed regression in fuselage fragment shader.
+Effect: Added a flawed skybox.
+Effect: Added an effect test sphere.
+Effect: Added some comments to fuselage shader.
+Effect: Made the fuselage reflect an env map a little again.
+Effect: Made cockpit effect derive from fuselage effect and adjusted flood light.
+Model: Fixed some material on seat, stick and throttle.
+Model: Backup altimeter knob no longer gets emissive.
+Model: Altimeter mount no longer gets emissive.
+Model: JA fuel indicator dial now uses gauge effect.
+Effect: Removed effects from heading indicator dial, to allow it for true transparency.
+Model: Fixed ambient lighting in transonic indocator.
+Model: Fixed 'hnad' object was twice named in pilot.
+Effect: Optimized fuselage shader by removing uniforms and other stuff.
+Model: Textured the heading indicator in JA needles.
+Effect: Enabled nav lights for non ALS.
+Effect: Improved how lights handles in fog with no ALS.
+Effect: Converted landing light glare to procedual lights.
+Effect: Converted beacon lights to rotating procedual lights.
+Effect: Converted strobe light to procedual light.
+Effect: Fixed that landing light glares has not been moved when the main gears was moved in 3D model.
+Effect: Shader on the pilot.
+Model: Move stick down to floor.
+Effect: Put shaders on stick and seat.
+Effect: Applied effects on some concpit control that were missing them. When compositor comes they all gonna need it.
+Effect: Removed Rembrandt shadow casting from glass and HUD in JA. Might be used by compositor also.
+Effect: Better up vector in ALS, but needs to be put back into fragment shader.
+Effect: Removed normal-map in Rembrandt as it dont support BC3n compression or inverted uv Y axis in DDS.
+Effect: {Colin} Major exterior ligth rework.
+Elec: Made E bus on secondary DC bus have power from Main DC bus if external power is coupled in. Landing/taxi/beacon lights depend on E bus.
+Sim: Bumped version and added Colin Geniet to authors.
+
+4.317
+=====
+Model: {Colin} fixed some inverted normals.
+Arms: Fixed that weapons could get into perpetual starting mode.

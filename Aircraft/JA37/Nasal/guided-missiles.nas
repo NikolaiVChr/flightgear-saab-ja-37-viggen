@@ -3960,7 +3960,7 @@ var AIM = {
 			me.SwSoundVol.setDoubleValue(0);
 			me.SwSoundOnOff.setBoolValue(FALSE);
 			return;
-		} elsif ( me.status == MISSILE_STANDBY ) {
+		} elsif ( me.status == MISSILE_STANDBY or me.status == MISSILE_STARTING) {
 			# Stand by.
 			me.SwSoundVol.setDoubleValue(0);
 			me.SwSoundOnOff.setBoolValue(FALSE);
@@ -4292,7 +4292,7 @@ var AIM = {
 			me.printSearch("search commanded 2");
 			me.return_to_search();
 			return;
-		} elsif ( me.status == MISSILE_STANDBY ) {
+		} elsif ( me.status == MISSILE_STANDBY or me.status == MISSILE_STARTING) {
 			# Status = stand-by.
 			me.reset_seeker();
 			me.SwSoundOnOff.setBoolValue(FALSE);
