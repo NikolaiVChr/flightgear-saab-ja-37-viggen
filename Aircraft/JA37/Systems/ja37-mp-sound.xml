@@ -402,11 +402,12 @@
             <path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
             <mode>once</mode>
             <condition>
-                <equals>
-                    <property>sim/multiplay/generic/int[7]</property>
+                <or>
                     <!-- damage/sounds/explode-on -->
-                    <value>1</value>
-                </equals>
+                    <property>sim/multiplay/generic/bool[14]</property>
+                    <!-- backward compatibility -->
+                    <property>sim/multiplay/generic/int[7]</property>
+                </or>
             </condition>
             <position>
                 <x>0.01</x>

@@ -397,7 +397,8 @@
                 <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
                 <bool n="4"/>                                                   <!-- contrail - nasal -->
                 <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
-                <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- to show explosion plus its sound -->
+                <bool n="14" alias="/damage/sounds/explode-on"/>                <!-- aircraft explosion -->
+                <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- explosion - deprecated -->
                 <bool n="12" alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- broken wing -->
                 <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/> <!-- detached canopy -->
                 <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy - deprecated-->
