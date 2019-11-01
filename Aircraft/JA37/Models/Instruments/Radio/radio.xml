@@ -30,16 +30,28 @@
     </animation>
 
 	<!-- switches -->
-	
+	<animation>
+        <type>pick</type>
+        <object-name>switchLeftPickLeft</object-name>
+        <object-name>switchLeftPickRight</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switchLeft</tooltip-id>
+                <label>Toggle comm/nav</label>
+            </binding>
+        </hovered>
+    </animation>
+
 	<animation>
 		<type>pick</type>
-		<object-name>switchLeft</object-name>
+		<object-name>switchLeftPickLeft</object-name>
 		<action>
 			<button>0</button>
-			<repeatable>false</repeatable>
 			<binding>
-				<command>property-toggle</command>
+				<command>property-assign</command>
 				<property>instrumentation/radio/switches/com-nav</property>
+                <value>0</value>
 			</binding>
 			<binding>
                 <command>nasal</command>
@@ -47,16 +59,16 @@
             </binding>
 		</action>
 	</animation>
-	
+
 	<animation>
 		<type>pick</type>
-		<object-name>switchRight</object-name>
+		<object-name>switchLeftPickRight</object-name>
 		<action>
 			<button>0</button>
-			<repeatable>false</repeatable>
 			<binding>
-				<command>property-toggle</command>
-				<property>instrumentation/radio/switches/mhz-khz</property>
+				<command>property-assign</command>
+				<property>instrumentation/radio/switches/com-nav</property>
+                <value>1</value>
 			</binding>
 			<binding>
                 <command>nasal</command>
@@ -83,6 +95,53 @@
             <z> 1.0 </z>
         </axis>
     </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchRightPickLeft</object-name>
+        <object-name>switchRightPickRight</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switchRight</tooltip-id>
+                <label>Toggle freq. band</label>
+            </binding>
+        </hovered>
+    </animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>switchRightPickLeft</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/radio/switches/mhz-khz</property>
+                <value>0</value>
+			</binding>
+			<binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>switchRightPickRight</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/radio/switches/mhz-khz</property>
+                <value>1</value>
+			</binding>
+			<binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+		</action>
+	</animation>
 	
     <animation>
         <type>rotate</type>
@@ -470,30 +529,5 @@
 		</axis>
 	</animation>
 	
-	<!-- tooltips -->
-	
-    <animation>
-        <type>pick</type>
-        <object-name>switchLeft</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>switchLeft</tooltip-id>
-                <label>Toggle comm/nav</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>switchRight</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>switchRight</tooltip-id>
-                <label>Toggle freq. band</label>
-            </binding>
-        </hovered>
-    </animation>
 	
 </PropertyList>
