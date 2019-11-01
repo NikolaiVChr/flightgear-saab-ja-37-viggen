@@ -3083,6 +3083,9 @@
     <object-name>gearFrontWheel</object-name>
     <property>rotors/main/blade[0]/position-deg</property><!-- gear/gear[0]/rollspeed-ms -->
     <factor>37.9091</factor>
+    <condition>
+      <property>gear/gear[0]/compression-norm</property>
+    </condition>
     <center>
         <x-m>-3.3694</x-m>
         <y-m>0.0</y-m>
@@ -3379,6 +3382,9 @@
     <object-name>gearLeftWheel1</object-name>
     <property>rotors/main/blade[1]/position-deg</property><!-- gear/gear[1]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[1]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  1.91138 </x-m>
         <y-m> -2.18257 </y-m>
@@ -3396,6 +3402,9 @@
     <object-name>gearLeftWheel2</object-name>
     <property>rotors/main/blade[1]/position-deg</property><!-- gear/gear[1]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[1]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  2.72150 </x-m>
         <y-m> -2.18257 </y-m>
@@ -3693,6 +3702,9 @@
     <object-name>gearRightWheel1</object-name>
     <property>rotors/main/blade[2]/position-deg</property><!-- gear/gear[2]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[2]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  1.91138 </x-m>
         <y-m>  2.18257 </y-m>
@@ -3710,6 +3722,9 @@
     <object-name>gearRightWheel2</object-name>
     <property>rotors/main/blade[2]/position-deg</property><!-- gear/gear[2]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[2]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  2.72150 </x-m>
         <y-m>  2.18257 </y-m>
