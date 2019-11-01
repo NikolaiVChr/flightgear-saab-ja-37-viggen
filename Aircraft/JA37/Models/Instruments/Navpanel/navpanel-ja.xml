@@ -44,12 +44,36 @@
     
     <animation>
         <type>pick</type>
-        <object-name>rhm</object-name>
+        <object-name>rhmTop</object-name>
         <action>
             <button>0</button>
             <binding>
-                <command>property-toggle</command>
+                <command>property-assign</command>
                 <property>controls/altimeter-radar</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rhm</tooltip-id>
+                <label>Radar altimeter</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>rhmBot</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/altimeter-radar</property>
+                <value>0</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -85,12 +109,36 @@
     
     <animation>
         <type>pick</type>
-        <object-name>altw</object-name>
+        <object-name>altwTop</object-name>
         <action>
             <button>0</button>
             <binding>
-                <command>property-toggle</command>
+                <command>property-assign</command>
                 <property>ja37/avionics/collision-warning</property><!-- ground collision warning switch. not implemented yet. maybe only for audio? -->
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altw</tooltip-id>
+                <label>Ground collision warning</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>altwBot</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/avionics/collision-warning</property><!-- ground collision warning switch. not implemented yet. maybe only for audio? -->
+                <value>0</value>
             </binding>
             <binding>
                 <command>nasal</command>
