@@ -2183,7 +2183,7 @@ var repair = func (c = 1) {
     #ct("rp");
   }
 }
-setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~""~"7");
+
 var refuelTest = func () {
   if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   setprop("consumables/fuel/tank[0]/level-norm", 0.8);

@@ -386,11 +386,11 @@
                 rotors/main/blade[3]/flap-deg      = flares
 
                 used up to:
-                int[19], short[7], bool[14], float[17]
+                int[19], short[7], bool[14], float[19]
 
                 unused:
                 int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
-                float[1], float[4], float[6], float[8], float[15]
+                float[1], float[4], float[6], float[8], float[15], float[18]
              -->
             <generic>
                 <!-- effects -->
