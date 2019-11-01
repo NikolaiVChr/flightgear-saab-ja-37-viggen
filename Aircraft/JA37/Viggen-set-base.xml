@@ -386,11 +386,11 @@
                 rotors/main/blade[3]/flap-deg      = flares
 
                 used up to:
-                int[19], short[7], bool[14], float[18]
+                int[19], short[7], bool[14], float[17]
 
                 unused:
                 int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
-                float[1], float[4], float[6], float[8]
+                float[1], float[4], float[6], float[8], float[15]
              -->
             <generic>
                 <!-- effects -->
@@ -411,12 +411,10 @@
                 <float n="3"/>                                                  <!-- afterburner flame - jsbsim -->
                 <float n="5" alias="/engines/engine/flame"/>                    <!-- to animate engine flame -->
                 <float n="7" alias="/velocities/mach"/>                         <!-- used for vapor-cone -->
-                <float n="15" alias="/engines/engine/n1"/>                      <!-- used in MP sound -->
-                <float n="16" alias="/engines/engine/thrust_lb-absolute"/>      <!-- used in MP sound -->
-                <float n="17" alias="/velocities/airspeed-kt"/>                 <!-- used in MP sound -->
-                <float n="18" alias="/velocities/speed-down-fps"/>              <!-- used in MP sound -->
-                <bool n="9" alias="/engines/engine/running"/>                   <!-- used in MP sound -->
-                <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used in MP sound -->
+                <float n="16" alias="/engines/engine/thrust_lb-absolute"/>      <!-- used for engine exhaust -->
+                <float n="17" alias="/velocities/airspeed-kt"/>                 <!-- used for engine exhaust -->
+                <bool n="9" alias="/engines/engine/running"/>                   <!-- used for engine animations -->
+                <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used for engine flame -->
                 <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
                 <int n="3" alias="/engines/engine/running"/>                    <!-- used in MP sound - deprecated -->
                 <int n="4" alias="/engines/engine[0]/augmentation"/>            <!-- used in MP sound - deprecated -->
