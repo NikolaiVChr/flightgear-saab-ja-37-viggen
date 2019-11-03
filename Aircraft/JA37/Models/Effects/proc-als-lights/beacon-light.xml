@@ -19,17 +19,17 @@
   </animation>
 
   <animation>
+    <type>select</type>
+    <object-name>procedural_light</object-name>
+    <condition>
+      <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    </condition>
+  </animation>
+
+  <animation>
     <type>spin</type>
     <object-name>procedural_light</object-name>
-    <!-- Afaik, flightgear does not allow a value as input here. Instead, we
-         need a property which is (almost) always 1, and exists on every model
-         (to ensure proper rendering over MP). This should work well enough. 
-
-         Once the deprecated sim/multiplay/generic/int[9] will be removed,
-         it should be replaced with sim/multiplay/generic/bool[2] (the beacon
-         light flag). This is kept for backward compatibility in the meantime.
-    -->
-    <property>/sim/fdm-initialized</property>
+    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
     <factor>60</factor>
     <center>
         <x-m>0</x-m>
@@ -41,32 +41,5 @@
         <y>0</y>
         <z>1</z>
     </axis>
-  </animation>
-
-  <animation>
-    <type>select</type>
-    <object-name>procedural_light</object-name>
-    <condition>
-      <or>
-        <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
-        <!-- backward compatibility - beacon: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
   </animation>
 </PropertyList>

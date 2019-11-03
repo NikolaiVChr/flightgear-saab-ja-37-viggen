@@ -365,20 +365,17 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
+            <!-- int 2, int 17, int 18, int 19, float 2, float 3 and float 9 are controlled from nasal or JSB
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[9]   = beacon and nav lights bits, deprecated
-                int[17]  = wow bits
-                int[18]  = contrails and damage smoke bits
-                int[19]  = outer pylons sidewinders and canard tip vapour bits
-
+                int[17]  = wow bits - deprecated
+                int[18]  = contrails and damage smoke bits - deprecated
+                int[19]  = outer pylons sidewinders and canard tip vapour bits - deprecated
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
-                sim/hitches/aerotow/open           = ecm jammer on (nil/0 = off, 1 = on)
                 rotors/main/blade[0]/position-deg  = wheel spin
                 rotors/main/blade[1]/position-deg  = wheel spin
                 rotors/main/blade[2]/position-deg  = wheel spin
@@ -388,24 +385,41 @@
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
 
-                unused: int[5], int[6], int[15]
+                used up to:
+                int[19], short[7], bool[14], float[19]
+
+                unused:
+                int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
+                float[1], float[4], float[6], float[8], float[15], float[18]
              -->
             <generic>
                 <!-- effects -->
-                <int n="0" alias="/ja37/effect/smoke"/>                <!-- to show smoke -->
-                <int n="7" alias="/damage/sounds/explode-on"/>                <!-- to show explosion plus its sound -->
-                <!-- Animation control surfaces -->
-                <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>                <!-- to show detachment of canopy -->
-                <int n="2" type="int">0</int>
+                <short n="3" alias="/ja37/effect/smoke"/>                       <!-- airshow smoke -->
+                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke - deprecated -->
+                <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
+                <bool n="4"/>                                                   <!-- contrail - nasal -->
+                <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
+                <bool n="14" alias="/damage/sounds/explode-on"/>                <!-- aircraft explosion -->
+                <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- explosion - deprecated -->
+                <bool n="12" alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- broken wing -->
+                <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/> <!-- detached canopy -->
+                <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy - deprecated-->
+                <int n="2" type="int">0</int>                                   <!-- radar - nasal -->
                 <!-- Animating engine -->
-                <float n="19" alias="/engines/engine/reverser-position"/>                <!-- used for animation -->
-                <!--<float n="3" alias="/fdm/jsbsim/propulsion/engine/aug-flame"/> is now done in jsbsim -->                <!-- to animate afterburnerflame -->
-                <float n="5" alias="/engines/engine/flame"/>                <!-- to animate engine flame -->
-                <float n="15" alias="/engines/engine/n1"/>                <!-- used in MP sound -->
-                <float n="16" alias="/engines/engine/thrust_lb-absolute"/>                <!-- used in MP sound -->
-                <int n="3" alias="/engines/engine/running"/>                <!-- used in MP sound -->
-                <int n="4" alias="/engines/engine[0]/augmentation"/>                <!-- used in MP sound -->
-                <int n="8" alias="/engines/engine[0]/is-reversed"/>                <!-- to animate afterburnerflame -->
+                <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
+                <float n="2"/>                                                  <!-- afterburner flame translucency - nasal -->
+                <float n="3"/>                                                  <!-- afterburner flame - jsbsim -->
+                <float n="5" alias="/engines/engine/flame"/>                    <!-- to animate engine flame -->
+                <float n="7" alias="/velocities/mach"/>                         <!-- used for vapor-cone -->
+                <float n="16" alias="/engines/engine/thrust_lb-absolute"/>      <!-- used for engine exhaust -->
+                <float n="17" alias="/velocities/airspeed-kt"/>                 <!-- used for engine exhaust -->
+                <bool n="9" alias="/engines/engine/running"/>                   <!-- used for engine animations -->
+                <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used for engine flame -->
+                <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
+                <int n="3" alias="/engines/engine/running"/>                    <!-- used in MP sound - deprecated -->
+                <int n="4" alias="/engines/engine[0]/augmentation"/>            <!-- used in MP sound - deprecated -->
+                <int n="8" alias="/engines/engine[0]/is-reversed"/>             <!-- to animate afterburnerflame - deprecated -->
+                <float n="9"/>                                                  <!-- inverted scene red color -->
                 <!-- Animating light -->
                 <bool n="0" alias="/ja37/effect/landing-light"/>
                 <bool n="1" alias="/ja37/effect/taxi-light"/>
@@ -413,40 +427,29 @@
                 <short n="0" alias="/ja37/effect/navigation-light"/>
                 <short n="1" alias="/ja37/effect/formation-light"/>
                 <short n="2" alias="/ja37/effect/rear-navigation-light"/>
-                
-                <float n="4" alias="/ja37/effect/landing-light"/>              <!-- backward compatibility -->
-                <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/> <!-- backward compatibility -->
                 <!-- Stores -->
-                <float n="10" alias="/payload/weight[6]/weight-lb"/>                <!-- center -->
-                <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->
-                <float n="12" alias="/payload/weight[1]/weight-lb"/>                <!-- left fuselage -->
-                <float n="13" alias="/payload/weight[2]/weight-lb"/>                <!-- right wing -->
-                <float n="14" alias="/payload/weight[3]/weight-lb"/>                <!-- right fuselage -->
-                <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
-                <!-- used for drop tank -->
-                <!-- gears -->
-                <!--<float n="8" alias="/gear/gear/compression-ft"/>-->                <!-- used for gear anim, deprecated -->
-                <float n="0" alias="/gear/gear[0]/steering-norm"/>                <!-- Position and speed -->
-                <float n="7" alias="/velocities/mach"/>                <!-- used for vapor-cone -->
-                <float n="17" alias="/velocities/airspeed-kt"/>                <!-- used in MP sound -->
-                <float n="18" alias="/velocities/speed-down-fps"/>                <!-- used in MP sound -->
-                <!--<string n="9" type="string"/> not used -->
-                <!--<int n="10" type="int">0</int>-->                  <!-- use this for flare (future) -->
-                <int n="11" alias="/payload/weight[0]/ammo"/>  <!-- m71 ammo -->
-                <int n="12" alias="/payload/weight[1]/ammo"/>
-                <int n="13" alias="/payload/weight[2]/ammo"/>
-                <int n="14" alias="/payload/weight[3]/ammo"/>
-                <!-- misc -->
-                <!--<string n="0" alias="/sim/aircraft-version"/> not used anymore -->
-                <!--<string n="10" type="string">none</string>--><!-- flare -->
-                <!--<string n="13" type="string"></string>--><!-- not used -->
-                <!--<string n="15" type="string"></string>--><!-- antic -->
+                <float n="10" alias="/payload/weight[6]/weight-lb"/>            <!-- center -->
+                <float n="11" alias="/payload/weight[0]/weight-lb"/>            <!-- left wing -->
+                <float n="12" alias="/payload/weight[1]/weight-lb"/>            <!-- left fuselage -->
+                <float n="13" alias="/payload/weight[2]/weight-lb"/>            <!-- right wing -->
+                <float n="14" alias="/payload/weight[3]/weight-lb"/>            <!-- right fuselage -->
+                <!-- booleans for outer pylons because they can only mount a rb24/rb74 -->
+                <bool n="6" alias="/payload/weight[4]/weight-lb"/>              <!-- outer left wing -->
+                <bool n="7" alias="/payload/weight[5]/weight-lb"/>              <!-- outer left wing -->
+                <bool n="8" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank -->
+                <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank - deprecated -->
+                <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- nose wheel steering -->
+                <!-- m71 ammo -->
+                <short n="4" alias="/payload/weight[0]/ammo"/>
+                <short n="5" alias="/payload/weight[1]/ammo"/>
+                <short n="6" alias="/payload/weight[2]/ammo"/>
+                <short n="7" alias="/payload/weight[3]/ammo"/>
             </generic>
             <visibility-range-nm type="int">100</visibility-range-nm><!-- hint to MP server for how far away MP planes should transmit to this aircraft -->
         </multiplay>
         <hitches>
             <aerotow>
-                <is-slave alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- to show detachment of wings -->
+                <is-slave alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- to show detachment of wings - deprecated -->
             </aerotow>
         </hitches>
 

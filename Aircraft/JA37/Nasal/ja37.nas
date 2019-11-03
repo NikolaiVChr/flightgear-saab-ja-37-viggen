@@ -115,8 +115,7 @@ input = {
   MPfloat9:         "sim/multiplay/generic/float[9]",
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
-  MPint19:          "sim/multiplay/generic/int[19]",
-  MPint9:           "sim/multiplay/generic/int[9]",
+  MPbool4:          "sim/multiplay/generic/bool[4]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
   nearby:           "damage/sounds/nearby-explode-on",
@@ -350,16 +349,11 @@ var Saab37 = {
       mainOn = FALSE;
     }
 
-    # exterior lights
-    me.beacon = input.lightBeacon.getValue() == 1;
-    me.nav = input.lightNav.getValue() >= 1; # backward compatibility
-    input.MPint9.setIntValue(encode3bits(0, me.beacon, me.nav));
-
     # contrails, damage smoke
     me.contrails = input.tempDegC.getValue() < -40 and input.alt.getValue() > 19000 and input.n2.getValue() > 50;
-    me.smoke = !input.servFire.getValue()+input.damage.getValue();
-    input.damageSmoke.setValue(me.smoke);
-    me.d_smoke = input.damageSmoke.getValue();
+    me.d_smoke = !input.servFire.getValue()+input.damage.getValue();
+    input.damageSmoke.setValue(me.d_smoke);
+    input.MPbool4.setValue(me.contrails);
     input.MPint18.setIntValue(encode3bits(me.contrails, me.d_smoke, 0));
 
     # smoke
@@ -2189,7 +2183,7 @@ var repair = func (c = 1) {
     #ct("rp");
   }
 }
-setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~""~"7");
+
 var refuelTest = func () {
   if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   setprop("consumables/fuel/tank[0]/level-norm", 0.8);

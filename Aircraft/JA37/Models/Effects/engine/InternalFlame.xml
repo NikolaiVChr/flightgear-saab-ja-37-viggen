@@ -6,7 +6,7 @@
   <type>select</type>
   <object-name>InternalFlame</object-name>
    <condition>
-   <property>sim/multiplay/generic/int[3]</property>--><!-- engines/engine/running -->
+   <property>sim/multiplay/generic/bool[9]</property>--><!-- engines/engine/running -->
   <!--</condition>
  </animation> -->
  
