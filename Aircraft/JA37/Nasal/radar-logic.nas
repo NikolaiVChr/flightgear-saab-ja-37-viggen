@@ -1896,7 +1896,7 @@ var get_intercept = func(bearing, dist_m, runnerHeading, runnerSpeed, chaserSpee
     #        dist_m > 0 and chaserSpeed > 0
 
     #var bearing = 184;var dist_m=31000;var runnerHeading=186;var runnerSpeed= 200;var chaserSpeed=250;
-    print();
+    #print();
     if (dist_m == 0 or chaserSpeed == 0) {
       return nil;
     }
