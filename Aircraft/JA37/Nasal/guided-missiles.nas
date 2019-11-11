@@ -2641,7 +2641,7 @@ var AIM = {
 		#
 		# Check for being fooled by flare.
 		#
-		if (me.fovLost != TRUE and me.guidance == "heat" and me.flareLock == FALSE and (getprop("sim/time/elapsed-sec")-me.flareTime) > 1) {
+		if (me.Tgt != nil and me.fovLost != TRUE and me.guidance == "heat" and me.flareLock == FALSE and (getprop("sim/time/elapsed-sec")-me.flareTime) > 1) {
 			# the fov check is for loal missiles that should not lock onto flares from aircraft not in view.
 			#
 			# TODO: Use Richards Emissary for this.
