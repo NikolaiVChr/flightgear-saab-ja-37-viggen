@@ -4834,7 +4834,7 @@ var develev_to_devroll = func(dev_rad, elev_rad) {
 
 #was in radar
 var deviation_normdeg = func(our_heading, target_bearing) {
-	var dev_norm = geo.normdeg180(our_heading - target_bearing);
+	var dev_norm = geo.normdeg180(target_bearing-our_heading);
 	return dev_norm;
 }
 
