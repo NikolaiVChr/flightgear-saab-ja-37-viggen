@@ -338,6 +338,7 @@ var AIM = {
         m.deploy_time           = getprop(m.nodeString~"deploy-time");                # Time to deploy wings etc. Time starts when drop ends or rail passed.
         m.no_pitch              = getprop(m.nodeString~"pitch-animation-disabled");   # bool
         m.eject_speed           = getprop(m.nodeString~"ejector-speed-fps");          # Ordnance ejected by pylon with this speed. Default = 0. Optional. Ignored if on rail.
+        m.guideWhileDrop        = getprop(m.nodeString~"guide-before-ignition");      # Can guide before engine ignition if speed is high enough.
         # counter-measures
         m.chaffResistance       = getprop(m.nodeString~"chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950. [optional]
         m.flareResistance       = getprop(m.nodeString~"flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.950. [optional]
@@ -402,6 +403,9 @@ var AIM = {
         
         if (m.rail_forward == TRUE) {
         	m.rail_pitch_deg = 0;
+        }
+        if (m.guideWhileDrop == nil) {
+        	m.guideWhileDrop = 0;
         }
         if (m.ready_time == nil) {
         	m.ready_time = 0;
@@ -1313,7 +1317,7 @@ var AIM = {
 				me.rail_speed_into_wind = getprop("velocities/uBody-fps");# wind from nose
 				#printf("Rail: ac_fps=%d uBody_fps=%d", math.sqrt(me.speed_down_fps*me.speed_down_fps+math.pow(math.sqrt(me.speed_east_fps*me.speed_east_fps+me.speed_north_fps*me.speed_north_fps),2)), me.rail_speed_into_wind);
 			}
-		} elsif (me.intoBore == FALSE and me.eject_speed == 0 and !me.rail) {
+		} elsif (me.intoBore == FALSE and me.eject_speed == 0) {
 			# to prevent the missile from falling up, we need to sometimes pitch it into wind:
 			var h_spd = math.sqrt(me.speed_east_fps*me.speed_east_fps + me.speed_north_fps*me.speed_north_fps);
 			#var t_spd = math.sqrt(me.speed_down_fps*me.speed_down_fps + h_spd*h_spd);
@@ -1331,18 +1335,9 @@ var AIM = {
 				#
 				# what if heavy cross wind and fires level. Then it can fly maybe 10 degs offbore, and will likely lose its lock.
 				#
-				ac_hdg = math.asin(me.speed_east_fps/h_spd)*R2D;
-				if (me.speed_north_fps < 0) {
-					if (ac_hdg >= 0) {
-						ac_hdg = 180-ac_hdg;
-					} else {
-						ac_hdg = -180-ac_hdg;
-					}
-				}
-				ac_hdg = geo.normdeg(ac_hdg);
+				ac_hdg = geo.normdeg(math.atan2(me.speed_east_fps,me.speed_north_fps)*R2D);
 			}
-		}
-		if (me.eject_speed != 0 and !me.rail) {
+		} elsif (me.eject_speed != 0) {
 			# add ejector speed down from belly:
 			me.aircraft_vec = [me.speed_north_fps,-me.speed_east_fps,-me.speed_down_fps];
 			me.eject_vec    = me.myMath.normalize(me.myMath.eulerToCartesian3Z(-OurHdg.getValue(),OurPitch.getValue(),OurRoll.getValue()));
@@ -1653,6 +1648,9 @@ var AIM = {
 		} else {
 			me.printStats("Weapon is dropped from launcher. Dropping for %.1f seconds.",me.drop_time);#todo
 			me.printStats("After drop it takes %.1f seconds to deploy wings.",me.deploy_time);#todo
+			if (me.guideWhileDrop) {
+				me.printStats("In drop it will already start guiding if speed is high enough.");
+			}
 		}
 		if (me.guidance == "heat" or me.guidance == "radar" or me.guidance == "semi-radar") {
 			me.printStats("COUNTER-MEASURES:");
@@ -2869,7 +2867,7 @@ var AIM = {
         		me.printStats(me.type~": Missile lost heat lock, attempting to reaquire..");
         	}
         	me.heatLostLock = TRUE;
-		} elsif (me.life_time < me.drop_time) {
+		} elsif (me.life_time < me.drop_time and !me.guideWhileDrop) {
 			me.guiding = FALSE;
 		} elsif (me.semiLostLock == TRUE) {
 			me.printStats(me.type~": Reaquired reflection.");

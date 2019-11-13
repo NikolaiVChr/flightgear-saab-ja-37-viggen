@@ -674,6 +674,10 @@
                     <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">75</self-destruct-time-sec><!-- authentic -->
                     <loft-altitude type="int">0</loft-altitude>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
+                    <ejector-speed-fps type="double">10</ejector-speed-fps>
+                    <drop-time type="double">0.5</drop-time>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
                     <min-fire-range-nm type="double">0.16</min-fire-range-nm>      <!-- authentic -->
                     <max-report-distance type="double">65</max-report-distance>
                     <navigation type="string">PN</navigation>
@@ -705,11 +709,15 @@
                     <drag-coeff type="double">0.3</drag-coeff>
                     <cross-section-sqft type="double">0.2739</cross-section-sqft><!-- sq ft (0.2953 ft radius) authentic -->
                     <arming-time-sec type="double">1.6</arming-time-sec>                       <!-- guess -->
-                    <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach> <!-- guess -->
+                    <min-speed-for-guiding-mach type="double">0.6</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">110</self-destruct-time-sec>         <!-- guess -->
                     <loft-altitude type="int">0</loft-altitude><!-- it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
+                    <ejector-speed-fps type="double">10</ejector-speed-fps>
+                    <drop-time type="double">0.5</drop-time>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
                     <navigation type="string">PN</navigation>
                     <chaff-resistance type="double">0.95</chaff-resistance>
                     <rail type="bool">false</rail>
