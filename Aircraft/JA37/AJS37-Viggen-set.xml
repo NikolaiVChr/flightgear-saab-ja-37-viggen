@@ -701,7 +701,7 @@
                     <vol-search type="double">0.15</vol-search>
                     <vol-track type="double">1</vol-track>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
-                    <navigation type="string">APN</navigation>
+                    <navigation type="string">PN</navigation>
                     <all-aspect type="bool">true</all-aspect>                     <!-- all or rear-only -->
                     <max-fire-range-nm type="double">9.7</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">55</FCS-field-deg>                              <!-- source -->
