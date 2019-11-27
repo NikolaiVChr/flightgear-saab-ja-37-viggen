@@ -42,4 +42,9 @@
         <z>1</z>
     </axis>
   </animation>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+  </animation>
 </PropertyList>

@@ -43,4 +43,9 @@
       <entry><ind>3000</ind><dep>10.0</dep></entry>
     </interpolation>
   </animation>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+  </animation>
 </PropertyList>
