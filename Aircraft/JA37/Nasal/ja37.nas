@@ -1727,11 +1727,17 @@ var main_init = func {
   changeGuiLoad();
 
   if (getprop("ja37/systems/state") == "cruise") {
-      setprop("position/altitude-ft", 20000);
-      setprop("velocities/mach", 0.65);
-      setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 1);
+      #setprop("position/altitude-ft", 20000);
+      #setprop("velocities/mach", 0.65);
+      setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 0.75);
+      setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
+      setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
+      setprop("controls/gear/gear-down", 0);
       auto.mode3();
       settimer(cruise, 1.5);
+  } else {
+    setprop("fdm/jsbsim/gear/gear-filtered-norm", 1);
+    setprop("fdm/jsbsim/gear/gear-pos-norm", 1);
   }
   recharge_battery();
   setup_custom_stick_bindings();
@@ -1751,7 +1757,10 @@ var setup_custom_stick_bindings = func {
 
 
 var cruise = func {
+  setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 0.75);
   setprop("controls/gear/gear-down", 0);
+  setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
+  setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
 }
 
 # re init
