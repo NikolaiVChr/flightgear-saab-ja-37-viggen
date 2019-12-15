@@ -675,7 +675,7 @@
                     <self-destruct-time-sec type="double">75</self-destruct-time-sec><!-- authentic -->
                     <loft-altitude type="int">0</loft-altitude>
                     <guide-before-ignition type="bool">true</guide-before-ignition>
-                    <ejector-speed-fps type="double">10</ejector-speed-fps>
+                    <ejector-speed-fps type="double">20</ejector-speed-fps>
                     <drop-time type="double">0.5</drop-time>
                     <guide-before-ignition type="bool">true</guide-before-ignition>
                     <min-fire-range-nm type="double">0.16</min-fire-range-nm>      <!-- authentic -->
@@ -715,7 +715,7 @@
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
                     <guide-before-ignition type="bool">true</guide-before-ignition>
-                    <ejector-speed-fps type="double">10</ejector-speed-fps>
+                    <ejector-speed-fps type="double">20</ejector-speed-fps>
                     <drop-time type="double">0.5</drop-time>
                     <guide-before-ignition type="bool">true</guide-before-ignition>
                     <navigation type="string">PN</navigation>
@@ -727,7 +727,7 @@
                     <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 3</fire-msg>
-                    <ready-time type="double">3.5</ready-time>
+                    <ready-time type="double">3.5</ready-time> 
                 </rb-99>
                 <!-- GBU 16 -->
                 <!--<test>             
