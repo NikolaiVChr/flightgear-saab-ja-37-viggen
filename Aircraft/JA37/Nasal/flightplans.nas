@@ -189,7 +189,8 @@ var Polygon = {
 		#class:
 		# Save a plan to disc.
 		#
-		call(func {var success = Polygon.polys[pln].plan.save(file);}, nil, var err = []);
+		var success = 1;
+		call(func { success = Polygon.polys[pln].plan.save(file);}, nil, var err = []);
 		if (size(err) or !success) {
 			print("saving failed.");
 			gui.showDialog("savefail");
@@ -600,6 +601,7 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 			#Polygon.selectSteer[0].speed_cstr_type = "mach";
 			#Polygon.selectSteer[0].speed_cstr      = mach;			
 			call(func {Polygon.selectSteer[0].setSpeed(mach, "mach")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0. Fixed in 2018.1.1
+			#print(Polygon.selectSteer[0].speed_cstr_type);
 			if (err != nil and size(err) > 0) {
 				print("Harmless error M: "~err[0]);
 			}
