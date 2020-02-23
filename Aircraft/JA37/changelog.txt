@@ -3809,3 +3809,57 @@ Sim: Bumped version and added Colin Geniet to authors.
 =====
 Model: {Colin} fixed some inverted normals.
 Arms: Fixed that weapons could get into perpetual starting mode.
+Model: {Colin} Add large hotspots for transponder switches
+Model: {Colin} Add hotspots for JA RHM and GCWS switches
+Model: {Colin} Add dual hotspots to AJ switches
+Model: {Colin} Add dual hotspots for AJ radio panel
+Model: {Colin} Add hotspots for flood light switch
+Sim: {Colin} Add exterior lights to flight recorder
+Sim: {Colin} Remove deprecated exterior light properties
+Sim: {Colin} Deprecate WOW MP property
+Sim: {Colin} Properties gear/gear[i]/compression-norm are already transmitted in the MP protocol, and can be used instead of separate WOW flags.
+Sim: {Colin} Simplify smoke and contrails MP properties
+Sim: {Colin} Use MP bool properties and deprecate the existing nasal bitmaps.
+Sim: {Colin} Add several MP bool properties
+Sim: {Colin} Add MP bool properties for engine state, vapour trails, loadout.
+Sim: {Colin} Deprecate the existing nasal bitmaps and inefficient bool-as-int properties.
+Model: {Colin} Fix drop tank select animation condition
+Sim: {Colin} Use MP bool property for wing/canopy damage
+Sim: {Colin} Use bool MP property for explosion
+Sim: {Colin} Use short MP properties for ammo count
+Sim: {Colin} Add back some animation conditions I forgot
+Sim: {Colin} Remove old hidden MP property
+Effect: Fixed lightmap in fuselage shader.
+Effect: Fixed that fog computation should not be done in gamma color space.
+Arms: Fix for possible bug.
+GUI: Removed print statement.
+Effect: Added comments to frag file.
+Arms: Another fix to prevent nill error.
+Arms: Missile code now supports ejecting bombs with a speed.
+Arms: fix for last commit.
+Arms: Clusterbombs explosion more aligned to ground.
+Arms: Fixed print bug.
+Arms: RB99 and RB71 no longer auto-lofts. Also the guidance law updated plus drag also for RB74.
+Arms: Missiles can now be set to guide while dropping.
+Arms: RB99 and RB71 now guide while drop and is ejected by force.
+Arms: RB99 can now guide at lower speeds.
+Arms: Fixed serious bug in search code.
+Arms: Added support for Attack Steering Cue.
+Arms: Fixed seeker head position was opposite reported to HUD.
+Arms: Fixed bug in DLZ.
+Arms: Fixed if cycling fast through weapons one that was stopped could remain active.
+Effect: Set noshadow flag on lights in preparation for compositor.
+Sim: Better startup conditions for 2019.2.0, not perfect, but better.
+Arms: Fix for missile seeker head.
+Arms: RB99 now gets ejected with 20 fps instead of 10.
+Arms: Fixed major multi-threading error that made missiles think they lost sight of target when they didn't. This resulted in tons of 'hit the ground' instead of splashes.
+Arms: Ejected powered-missiles no align more to aircraft attitude instead of airstream.
+Arms: Missiles will no longer lose attitude due to gravity before they have reached minimum guide speed.
+TI: Fixed console error when saving plan with speed restrictions. It was harmless, but now its gone.
+Arms: {Colin} Register gun/rocket hits without radar lock
+Register gun/rocket hits without radar lock
+Arms: {Thorsten} Added crater effect when bombs hit ground
+Arms: Set flag to enable craters.
+HUD: Replaced CCIP with more adv. algorithm.
+Arms: M71 now can be fired without lock.
+Arms: M71 will now hit anything nearby, not just what was locked when released.
