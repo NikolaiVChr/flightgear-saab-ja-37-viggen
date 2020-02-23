@@ -544,6 +544,7 @@
                 <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
                 <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
                 <hit-interpolation type="bool">true</hit-interpolation>
+                <enable-craters type="bool">true</enable-craters>
                 <pylon-offset type="int">1</pylon-offset>
                 <pylon-stations>controls/armament</pylon-stations>
                 <station-name type="string">station</station-name>
