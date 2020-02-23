@@ -821,11 +821,12 @@ var findmultiplayer = func(targetCoord, dist = 50) {
   var raw_list = Mp.getChildren();
   var SelectedMP = nil;
   foreach(var c ; raw_list)
-  {
-    var type = c.getName();
-    is_valid = c.getNode("valid");
+  {    
+    var is_valid = c.getNode("valid");
     if(is_valid == nil or !is_valid.getBoolValue()) continue;
-
+    
+    var type = c.getName();
+    
     var position = c.getNode("position");
     var name = c.getValue("callsign");
     if(name == nil or name == "") {
