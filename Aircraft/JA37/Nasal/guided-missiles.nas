@@ -937,9 +937,9 @@ var AIM = {
 					#return [me.ccipPos,me.arming_time<me.ccip_t];
 					me.result = me.getTerrain(me.ccip_oldPos, me.ccipPos);
 					if (me.result != nil) {
-						return [me.result, me.arming_time<me.ccip_t];
+						return [me.result, me.arming_time<me.ccip_t, me.ccip_t];
 					}
-					return [me.ccipPos,me.arming_time<me.ccip_t];
+					return [me.ccipPos,me.arming_time<me.ccip_t, me.ccip_t];
 					#var inter = me.extrapolate(me.ccip_grnd,me.ccip_altC,me.ccip_oldPos.alt(),0,1);
 					#return [me.interpolate(me.ccipPos,me.ccip_oldPos,inter),me.arming_time<me.ccip_t];
 				}

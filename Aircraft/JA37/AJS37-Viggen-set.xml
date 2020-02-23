@@ -835,6 +835,7 @@
                     <lateral-dps type="double"> 10 </lateral-dps>
                     <class type="string">GM</class>
                     <fire-msg type="string">Bombs away</fire-msg>
+                    <hit-everything-nearby type="bool">true</hit-everything-nearby>
                 </m71>
                 <m71r>
                     <!-- Swedish bomblet M71 Virgo retarded with parachute -->
@@ -869,6 +870,7 @@
                     <lateral-dps type="double"> -10 </lateral-dps>
                     <class type="string">GM</class>
                     <fire-msg type="string">Bombs away</fire-msg>
+                    <hit-everything-nearby type="bool">true</hit-everything-nearby>
                 </m71r>
                 <rb-04e>
                     <!-- Swedish antiship cruise-missile RB-04E subsonic -->

@@ -72,6 +72,7 @@ var selection = nil;
 var selection_updated = FALSE;
 var tracks_index = 0;
 var tracks = [];
+var complete_list = [];
 var callsign_struct = {};
 var rwr = [];
 
@@ -132,6 +133,7 @@ var RadarLogic = {
       selection_updated = FALSE;
       
       tracks = [];
+      complete_list = [];
 
       #do the MP planes
       me.players = [];
@@ -287,7 +289,9 @@ var RadarLogic = {
           if (track.getName() == "rb-99" or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
             append(tracks, me.trackInfo);
           }
-
+          if (!missile) {
+            append(complete_list, me.trackInfo);
+          }
           if(1==0 and selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
             #this is first tracks in radar field, so will be default selection
             selection = me.trackInfo;

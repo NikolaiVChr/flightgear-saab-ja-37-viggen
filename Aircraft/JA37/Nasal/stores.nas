@@ -717,8 +717,12 @@ var trigger_listener = func {
         #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
         var callsign = armament.AIM.active[armSelect-1].callsign;
         var brevity = armament.AIM.active[armSelect-1].brevity;
-
-        armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
+        
+        if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
+          armament.AIM.active[armSelect-1].release(radar_logic.complete_list);
+        } else {
+          armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
+        }
         
         var phrase = brevity ~ " at: " ~ callsign;
         if (getprop("payload/armament/msg")) {
@@ -743,6 +747,33 @@ var trigger_listener = func {
           }
         } elsif(next == TRUE) {
           var newStation = selectType(fired);
+          if (newStation != -1) {
+            input.stationSelect.setValue(newStation);
+          }
+        }
+      } elsif (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
+        var brevity = armament.AIM.active[armSelect-1].brevity;
+
+        armament.AIM.active[armSelect-1].release(radar_logic.complete_list);#print("release "~(armSelect-1));
+        
+        var phrase = brevity;
+        if (getprop("payload/armament/msg")) {
+          armament.defeatSpamFilter(phrase);
+        } else {
+          setprop("/sim/messages/atc", phrase);
+        }
+        fireLog.push("Self: "~phrase);
+        var next = TRUE;
+        
+        var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
+        ammo = ammo - 1;
+        setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
+        if(ammo > 0) {
+          #next = FALSE;
+        }
+          
+        if(next == TRUE) {
+          var newStation = selectTypeBombs(fired, armSelect);
           if (newStation != -1) {
             input.stationSelect.setValue(newStation);
           }
