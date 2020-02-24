@@ -1146,7 +1146,7 @@ var Contact = {
       me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
       var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, ja37.horiSpeed()*KT2MPS);
       if (ic == nil) {
-        printf("no intercept, return %d", me.getMagBearing());
+        #printf("no intercept, return %d", me.getMagBearing());
         return nil;#me.getMagBearing();
       }
       #printf("intercept! return %d - %d",ic[1], getprop("instrumentation/gps/magnetic-bug-error-deg"));

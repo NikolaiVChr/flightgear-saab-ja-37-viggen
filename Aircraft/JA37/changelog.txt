@@ -3863,3 +3863,4 @@ Arms: Set flag to enable craters.
 HUD: Replaced CCIP with more adv. algorithm.
 Arms: M71 now can be fired without lock.
 Arms: M71 will now hit anything nearby, not just what was locked when released.
+Arms: Fix for hitting nil terrain with bomb.
