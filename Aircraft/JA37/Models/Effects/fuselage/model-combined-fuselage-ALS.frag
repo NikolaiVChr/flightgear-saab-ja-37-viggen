@@ -648,6 +648,9 @@ void main (void)
 	fragColor = clamp(fragColor, 0.0, 1.0);
     hazeColor = clamp(hazeColor, 0.0, 1.0);
 
+    // gamma correction
+    fragColor.rgb = pow(fragColor.rgb, gamma);
+
     ///BEGIN Rayleigh fog ///
 
 	// Rayleigh color shift due to out-scattering
@@ -670,11 +673,7 @@ void main (void)
 
 
     
-
-
     fragColor.rgb = filter_combined(fragColor.rgb);
-    // gamma correction
-    fragColor.rgb = pow(fragColor.rgb, gamma);
     fragColor.rgb = mix(hazeColor +secondary_light * fog_backscatter(mvisibility), fragColor.rgb,transmission);
     fragColor.rgb = max(gl_FrontMaterial.emission.rgb * texel.rgb, fragColor.rgb);
     fragColor.a = gl_FrontMaterial.diffuse.a * texel.a;//combineMe 
