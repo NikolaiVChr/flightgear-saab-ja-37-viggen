@@ -634,74 +634,53 @@ var loop_stores = func {
 
 ###########  listener for handling the trigger #########
 
+# Indices in /payload/weight[i] with potential M70 pod.
+# Add 1 to obtain the corresponding index in /controls/armament/station[i].
+var m70_stations = [0, 1, 2, 3, 6];
+
+# Maps indices in /payload/weight[i] with potential M55 pod,
+# to the corresponding indices in /controls/armament/station[i].
+var m55_stations = {0: 8, 2: 9, 6: 10};
+
 var trigger_listener = func {
   if(!getprop("/ja37/systems/input-controls-flight")) return;
   var trigger = input.trigger.getValue();
   var armSelect = input.stationSelect.getValue();
 
+  var fired = "KCA";
+  if (armSelect > 0) {
+    fired = getprop("payload/weight["~ (armSelect-1) ~"]/selected");
+  }
+
   #if masterarm is on and HUD in tactical mode, propagate trigger to station
   if(armSelect != -1 and input.combat.getValue() == 2 and power.prop.dcMainBool.getValue() and !(armSelect == 0 and !power.prop.acMainBool.getValue())) {
     setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
-    var str = "payload/weight["~(armSelect-1)~"]/selected";
-    if (armSelect != 0 and getprop(str) == "M70 ARAK") {
-      setprop("/controls/armament/station["~1~"]/trigger-m70", trigger);
-      setprop("/controls/armament/station["~2~"]/trigger-m70", trigger);
-      setprop("/controls/armament/station["~3~"]/trigger-m70", trigger);
-      setprop("/controls/armament/station["~4~"]/trigger-m70", trigger);
-      setprop("/controls/armament/station["~7~"]/trigger-m70", trigger);
-    }
-    if (armSelect == 1 and getprop(str) == "M55 AKAN") {
-      setprop("/controls/armament/station[8]/trigger", trigger);
-      var str3 = "payload/weight["~(3-1)~"]/selected";
-      if (getprop(str3) == "M55 AKAN") {
-        setprop("/controls/armament/station[9]/trigger", trigger);
-      }
-      var str7 = "payload/weight["~(7-1)~"]/selected";
-      if (getprop(str7) == "M55 AKAN") {
-        setprop("/controls/armament/station[10]/trigger", trigger);
+
+    # M70 and M55 use specific trigger properties.
+    if (armSelect != 0 and fired== "M70 ARAK") {
+      foreach(var station; m70_stations) {
+        if(getprop("payload/weight["~station~"]/selected") == "M70 ARAK") {
+          setprop("/controls/armament/station["~(station+1)~"]/trigger-m70", trigger);
+        }
       }
     }
-    if (armSelect == 3 and getprop(str) == "M55 AKAN") {
-      setprop("/controls/armament/station[9]/trigger", trigger);
-      var str1 = "payload/weight["~(1-1)~"]/selected";
-      if (getprop(str1) == "M55 AKAN") {
-        setprop("/controls/armament/station[8]/trigger", trigger);
-      }
-      var str7 = "payload/weight["~(7-1)~"]/selected";
-      if (getprop(str7) == "M55 AKAN") {
-        setprop("/controls/armament/station[10]/trigger", trigger);
-      }
-    }
-    if (armSelect == 7 and getprop(str) == "M55 AKAN") {
-      setprop("/controls/armament/station[10]/trigger", trigger);
-      var str1 = "payload/weight["~(1-1)~"]/selected";
-      if (getprop(str1) == "M55 AKAN") {
-        setprop("/controls/armament/station[8]/trigger", trigger);
-      }
-      var str3 = "payload/weight["~(3-1)~"]/selected";
-      if (getprop(str3) == "M55 AKAN") {
-        setprop("/controls/armament/station[9]/trigger", trigger);
+    if (armSelect != 0 and fired == "M55 AKAN") {
+      foreach(var station; keys(m55_stations)) {
+        if(getprop("payload/weight["~station~"]/selected") == "M55 AKAN") {
+          setprop("/controls/armament/station["~(m55_stations[station])~"]/trigger", trigger);
+        }
       }
     }
   } else {
     if (armSelect != -1) {
       setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
     }
-    setprop("/controls/armament/station["~1~"]/trigger-m70", FALSE);
-    setprop("/controls/armament/station["~2~"]/trigger-m70", FALSE);
-    setprop("/controls/armament/station["~3~"]/trigger-m70", FALSE);
-    setprop("/controls/armament/station["~4~"]/trigger-m70", FALSE);
-    setprop("/controls/armament/station["~7~"]/trigger-m70", FALSE);
-    if (armSelect == 1 or armSelect == 7 or armSelect == 3) {
-      setprop("/controls/armament/station[8]/trigger", FALSE);
-      setprop("/controls/armament/station[9]/trigger", FALSE);
-      setprop("/controls/armament/station[10]/trigger", FALSE);
+    foreach(var station; m70_stations) {
+      setprop("/controls/armament/station["~(station+1)~"]/trigger-m70", FALSE);
     }
-  }
-
-  var fired = "KCA";
-  if (armSelect > 0) {
-    fired = getprop("payload/weight["~ (armSelect-1) ~"]/selected");
+    foreach(var station; keys(m55_stations)) {
+      setprop("/controls/armament/station["~(m55_stations[station])~"]/trigger", FALSE);
+    }
   }
 
   if(armSelect > 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
