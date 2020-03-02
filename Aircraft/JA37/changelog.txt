@@ -3868,3 +3868,6 @@ Model: {Colin} Fix pedals movement direction
 Radar: Fix for unneeded console output.
 Effect: Fix for dithering in FG next.
 Arms: {Colin} Fix M70 rockets trigger logic
+
+4.318
+=====
