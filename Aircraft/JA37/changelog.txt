@@ -3785,7 +3785,7 @@ Model: Altimeter mount no longer gets emissive.
 Model: JA fuel indicator dial now uses gauge effect.
 Effect: Removed effects from heading indicator dial, to allow it for true transparency.
 Model: Fixed ambient lighting in transonic indocator.
-Model: Fixed 'hnad' object was twice named in pilot.
+Model: Fixed 'hand' object was twice named in pilot.
 Effect: Optimized fuselage shader by removing uniforms and other stuff.
 Model: Textured the heading indicator in JA needles.
 Effect: Enabled nav lights for non ALS.
@@ -3801,11 +3801,11 @@ Effect: Applied effects on some concpit control that were missing them. When com
 Effect: Removed Rembrandt shadow casting from glass and HUD in JA. Might be used by compositor also.
 Effect: Better up vector in ALS, but needs to be put back into fragment shader.
 Effect: Removed normal-map in Rembrandt as it dont support BC3n compression or inverted uv Y axis in DDS.
-Effect: {Colin} Major exterior ligth rework.
+Effect: {Colin} Major exterior light rework.
 Elec: Made E bus on secondary DC bus have power from Main DC bus if external power is coupled in. Landing/taxi/beacon lights depend on E bus.
 Sim: Bumped version and added Colin Geniet to authors.
 
-4.317
+4.317 - 2020 March 1
 =====
 Model: {Colin} fixed some inverted normals.
 Arms: Fixed that weapons could get into perpetual starting mode.
@@ -3864,3 +3864,7 @@ HUD: Replaced CCIP with more adv. algorithm.
 Arms: M71 now can be fired without lock.
 Arms: M71 will now hit anything nearby, not just what was locked when released.
 Arms: Fix for hitting nil terrain with bomb.
+Model: {Colin} Fix pedals movement direction
+Radar: Fix for unneeded console output.
+Effect: Fix for dithering in FG next.
+Arms: {Colin} Fix M70 rockets trigger logic
