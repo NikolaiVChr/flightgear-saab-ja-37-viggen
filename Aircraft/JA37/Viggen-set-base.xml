@@ -377,7 +377,7 @@
 
                 unused:
                 int[0-1]
-                float[1], float[4], float[6], float[8], float[10-15], float[18]
+                float[1], float[8], float[10-15], float[18]
                 bool[17-19]
              -->
             <generic>
@@ -405,6 +405,8 @@
                 <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
                 <float n="9"/>                                                  <!-- inverted scene red color -->
                 <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- nose wheel steering -->
+                <float n="4" alias="/surface-positions/left-inner-aileron-pos-norm"/>
+                <float n="6" alias="/surface-positions/right-inner-aileron-pos-norm"/>
                 <!-- Animating light -->
                 <bool n="0" alias="/ja37/effect/landing-light"/>
                 <bool n="1" alias="/ja37/effect/taxi-light"/>

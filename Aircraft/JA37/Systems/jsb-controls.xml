@@ -495,28 +495,24 @@
 			<input>fcs/elevon/left-outer-switched</input>
 			<rate_limit>102</rate_limit>
 			<lag>26.7</lag>
-			<output>fcs/left-aileron-pos-norm</output> <!-- Is actually deg, but we do this to send over MP -->
 		</actuator>
 		
 		<actuator name="fcs/elevon/right-outer-deg">
 			<input>fcs/elevon/right-outer-switched</input>
 			<rate_limit>102</rate_limit>
 			<lag>26.7</lag>
-			<output>fcs/right-aileron-pos-norm</output> <!-- Is actually deg, but we do this to send over MP -->
 		</actuator>
 		
 		<actuator name="fcs/elevon/left-inner-deg">
 			<input>fcs/elevon/left-outer-switched</input> <!-- FIXME: AJ use seperate -->
 			<rate_limit>102</rate_limit>
 			<lag>26.7</lag>
-			<output>fcs/elevator-pos-norm</output> <!-- Is actually deg, but we do this to send over MP -->
 		</actuator>
 		
 		<actuator name="fcs/elevon/right-inner-deg">
 			<input>fcs/elevon/right-outer-switched</input> <!-- FIXME: AJ use seperate -->
 			<rate_limit>102</rate_limit>
 			<lag>26.7</lag>
-			<output>fcs/spoiler-pos-norm</output> <!-- Is actually deg, but we do this to send over MP -->
 		</actuator>
 		
 		<fcs_function name="fcs/elevon/average-aero-deg">
@@ -615,8 +611,31 @@
 			<gain>0.0174533</gain> <!-- Deg to Rad -->
 		</pure_gain>
 		
+		<pure_gain name="fcs/elevon/left-outer-norm">
+			<input>fcs/elevon/left-outer-deg</input>
+			<gain>0.025</gain>
+			<output>fcs/left-aileron-pos-norm</output>
+		</pure_gain>
+
+		<pure_gain name="fcs/elevon/right-outer-norm">
+			<input>fcs/elevon/right-outer-deg</input>
+			<gain>0.025</gain>
+			<output>fcs/right-aileron-pos-norm</output>
+		</pure_gain>
+
+		<pure_gain name="fcs/elevon/left-inner-norm">
+			<input>fcs/elevon/left-inner-deg</input>
+			<gain>0.025</gain>
+			<output>/surface-positions/left-inner-aileron-pos-norm</output>
+		</pure_gain>
+
+		<pure_gain name="fcs/elevon/right-inner-norm">
+			<input>fcs/elevon/right-inner-deg</input>
+			<gain>0.025</gain>
+			<output>/surface-positions/right-inner-aileron-pos-norm</output>
+		</pure_gain>
 	</channel>
-	
+
 	<channel name="Rudder"> <!-- Negative is Right, Positive is Left -->
 		
 		<fcs_function name="fcs/rudder/pedal-cmd-geared">
@@ -1004,11 +1023,10 @@
             <output>fcs/flap-pos-deg</output>
         </aerosurface_scale>
 
-        <pure_gain name="names/flaps/pos-deg-MP">
+        <pure_gain name="names/flaps/pos-norm-MP">
             <input>fcs/flap-pos-deg</input>
-            <gain>1</gain>
+            <gain>0.03333</gain>
             <output>fcs/flap-pos-norm</output>
-            <!-- is really deg, used for auto MP transmit and animation -->
         </pure_gain>
 
     </channel>

@@ -590,7 +590,9 @@
         # Aliases for MP properties
         var prop_aliases = {
           "sim/multiplay/generic/float[0]":   "gear/gear[0]/steering-norm",
+          "sim/multiplay/generic/float[4]":   "surface-positions/left-inner-aileron-pos-norm",
           "sim/multiplay/generic/float[5]":   "engines/engine/flame",
+          "sim/multiplay/generic/float[6]":   "surface-positions/right-inner-aileron-pos-norm",
           "sim/multiplay/generic/float[7]":   "velocities/mach",
           "sim/multiplay/generic/float[16]":  "engines/engine/thrust_lb-absolute",
           "sim/multiplay/generic/float[17]":  "velocities/airspeed-kt",
@@ -1218,7 +1220,7 @@
 <animation>
   <type>rotate</type>
   <object-name>rudder</object-name>
-  <property>surface-positions/rudder-pos-norm</property><!-- auto MP transmit -->
+  <property>surface-positions/rudder-pos-norm</property>
   <factor>25</factor>
   <axis>   
    <x2-m> 5.70491</x2-m>
@@ -1229,15 +1231,15 @@
    <z1-m> 1.09636</z1-m>
   </axis>
  </animation>
- 
+
 <animation>
   <type>rotate</type>
   <object-name>elevonRightOuter</object-name>
   <object-name>spotlightElevonRight</object-name>
   <object-name>spotlightElevonRightGlow</object-name>
-  <property>surface-positions/right-aileron-pos-norm</property><!-- auto MP transmit -->
-  <factor>1.0</factor>
-  <axis>   
+  <property>surface-positions/right-aileron-pos-norm</property>
+  <factor>40.0</factor>
+  <axis>
    <x1-m> 5.84096 </x1-m>
    <y1-m> 0.99576 </y1-m>
    <z1-m> -0.31533 </z1-m>
@@ -1252,8 +1254,8 @@
   <object-name>elevonLeftOuter</object-name>
   <object-name>spotlightElevonLeft</object-name>
   <object-name>spotlightElevonLeftGlow</object-name>
-  <property>surface-positions/left-aileron-pos-norm</property><!-- auto MP transmit -->
-  <factor>1.0</factor>
+  <property>surface-positions/left-aileron-pos-norm</property>
+  <factor>40.0</factor>
   <axis>
    <x2-m> 5.84096 </x2-m>
    <y2-m> -0.99576 </y2-m>
@@ -1267,9 +1269,9 @@
  <animation>
   <type>rotate</type>
   <object-name>elevonRightInner</object-name>
-  <property>surface-positions/spoilers-pos-norm</property><!-- auto MP transmit -->
-  <factor>1.0</factor>
-  <axis>   
+  <property>surface-positions/right-inner-aileron-pos-norm</property>
+  <factor>40.0</factor>
+  <axis>
    <x1-m> 5.84096 </x1-m>
    <y1-m> 0.99576 </y1-m>
    <z1-m> -0.31533 </z1-m>
@@ -1282,8 +1284,8 @@
  <animation>
   <type>rotate</type>
   <object-name>elevonLeftInner</object-name>
-  <property>surface-positions/elevator-pos-norm</property><!-- auto MP transmit -->
-  <factor>1.0</factor>
+  <property>surface-positions/left-inner-aileron-pos-norm</property>
+  <factor>40.0</factor>
   <axis>
    <x2-m> 5.84096 </x2-m>
    <y2-m> -0.99576 </y2-m>
@@ -1320,8 +1322,16 @@
  <animation>
    <type>rotate</type>
    <object-name>flapsLeft</object-name>
-   <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
-   <factor>-1.0</factor>
+   <property>surface-positions/flap-pos-norm</property>
+   <!-- This is just <factor>-30</factor> clamped to angles -4 to 30
+        The clamping makes the animation somewhat less broken on older MP aircraft versions
+        (which used flap-pos-norm as degree instead of normalised position).
+        To be removed later.
+   -->
+   <interpolation>
+     <entry><ind>-0.13333</ind><dep>4.0</dep></entry>
+     <entry><ind>1.0</ind><dep>-30.0</dep></entry>
+   </interpolation>
    <axis>
      <x1-m> -0.492662 </x1-m>
      <y1-m> -1.17726 </y1-m>
@@ -1335,8 +1345,16 @@
  <animation>
    <type>rotate</type>
    <object-name>flapsRight</object-name>
-   <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
-   <factor>1.0</factor>
+   <property>surface-positions/flap-pos-norm</property>
+   <!-- This is just <factor>-30</factor> clamped to angles -4 to 30
+        The clamping makes the animation somewhat less broken on older MP aircraft versions
+        (which used flap-pos-norm as degree instead of normalised position).
+        To be removed later.
+   -->
+   <interpolation>
+     <entry><ind>-0.13333</ind><dep>-4.0</dep></entry>
+     <entry><ind>1.0</ind><dep>30.0</dep></entry>
+   </interpolation>
    <axis>
      <x1-m> -0.492662 </x1-m>
      <y1-m> 1.17726 </y1-m>
