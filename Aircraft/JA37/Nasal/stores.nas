@@ -793,8 +793,8 @@ var valid_mp_types = {
   multiplayer: 1, tanker: 1, aircraft: 1, ship: 1, groundvehicle: 1,
 };
 
-# Find a MP aircraft close to a give point (code from the Mirage 2000)
-var findmultiplayer = func(targetCoord, dist = 50) {
+# Find a MP aircraft close to a given point (code from the Mirage 2000)
+var findmultiplayer = func(targetCoord, dist) {
   if(targetCoord == nil) return nil;
 
   var raw_list = Mp.getChildren();
@@ -841,7 +841,7 @@ var impact_listener = func {
       var lon = ballistic.getNode("impact/longitude-deg").getValue();
       var elev = ballistic.getNode("impact/elevation-m").getValue();
       var impactPos = geo.Coord.new().set_latlon(lat, lon, elev);
-      var target = findmultiplayer(impactPos);
+      var target = findmultiplayer(impactPos, 80);
 
       if (target != nil) {
         var typeOrd = ballistic.getNode("name").getValue();
