@@ -816,8 +816,7 @@ var findmultiplayer = func(targetCoord, dist) {
 
     var lat = position.getValue("latitude-deg");
     var lon = position.getValue("longitude-deg");
-    var elev = position.getValue("altitude-m");
-    if(elev == nil) elev = position.getValue("altitude-ft") * FT2M;
+    var elev = position.getValue("altitude-ft") * FT2M;
 
     if(lat == nil or lon == nil or elev == nil) continue;
 
