@@ -242,6 +242,10 @@ var AIM = {
         	m.SwSoundVol.setDoubleValue(0);
         }
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
+        m.gnd_launch   = getprop("payload/armament/gnd-launch");#true to be a SAM or ship
+        if (m.gnd_launch == nil) {
+        	m.gnd_launch = 0;
+        }
         m.useSingleFile   = nil;#getprop("payload/armament/one-xml-per-type");#disabled.
         if (m.useSingleFile == nil) {
         	m.useSingleFile = FALSE;
@@ -303,6 +307,7 @@ var AIM = {
 		m.force_lbf_1           = getprop(m.nodeString~"thrust-lbf-stage-1");         # stage 1 thrust [optional]
 		m.force_lbf_2           = getprop(m.nodeString~"thrust-lbf-stage-2");         # stage 2 thrust [optional]
 		m.stage_1_duration      = getprop(m.nodeString~"stage-1-duration-sec");       # stage 1 duration [optional]
+		m.stage_gap_duration    = getprop(m.nodeString~"stage-gap-duration-sec");     # gap duration between stage 1 and 2 [optional]
 		m.stage_2_duration      = getprop(m.nodeString~"stage-2-duration-sec");       # stage 2 duration [optional]
 		m.weight_fuel_lbm       = getprop(m.nodeString~"weight-fuel-lbm");            # fuel weight [optional]. If this property is not present, it won't lose weight as the fuel is used.
 		m.vector_thrust         = getprop(m.nodeString~"vector-thrust");              # Boolean. [optional]
@@ -536,6 +541,10 @@ var AIM = {
         if(m.advanced == nil) {
 			m.advanced = FALSE;
 		}
+		
+		if(m.stage_gap_duration == nil) {
+			m.stage_gap_duration = 0;
+		}
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
         m.useModelUpperCase     = getprop("payload/armament/modelsUpperCase");
@@ -553,11 +562,13 @@ var AIM = {
 		m.mpLat          = getprop("payload/armament/MP-lat");# properties to be used for showing missile over MP.
 		m.mpLon          = getprop("payload/armament/MP-lon");
 		m.mpAlt          = getprop("payload/armament/MP-alt");
+		m.mpAltft        = getprop("payload/armament/MP-alt-ft");#used for anim of S-300 camera view: Follow
 		m.mpShow = FALSE;
-		if (m.mpLat != nil and m.mpLon != nil and m.mpAlt != nil) {
+		if (m.mpLat != nil and m.mpLon != nil and m.mpAlt != nil and m.mpAltft != nil) {
 			m.mpLat          = props.globals.getNode(m.mpLat, FALSE);
 			m.mpLon          = props.globals.getNode(m.mpLon, FALSE);
 			m.mpAlt          = props.globals.getNode(m.mpAlt, FALSE);
+			m.mpAltft        = props.globals.getNode(m.mpAltft, FALSE);
 			if (m.mpLat != nil and m.mpLon != nil and m.mpAlt != nil) {
 				m.mpShow = TRUE;
 			}
@@ -1216,6 +1227,7 @@ var AIM = {
 		me.force_lbf_1      = 0;
 		me.stage_2_duration = 0;
 		me.force_lbf_2      = 0;
+		me.stage_gap_duration = 0;
 		me.inert            = TRUE;
 		me.engineEnabled    = FALSE;
 		me.guidanceEnabled  = FALSE;
@@ -1618,7 +1630,11 @@ var AIM = {
 			me.printStats("Stage 1: %d lbf for %.1f seconds.", me.force_lbf_1, me.stage_1_duration);
 			if (stages > 1) {
 				me.printStats("Stage 2: %d lbf for %.1f seconds.", me.force_lbf_2, me.stage_2_duration);
+				if (me.stage_gap_duration > 0) {
+					me.printStats("Stage 1 to 2 time gap: %.1f seconds.", me.stage_gap_duration);
+				}
 			}
+			
 			me.printStats("%s",vector);
 			if (!me.weight_fuel_lbm) {
 				me.printStats("Fuel system not simulated.");
@@ -1935,10 +1951,10 @@ var AIM = {
 		if (me.speed_m > me.maxMach1 and me.life_time > me.drop_time and me.life_time <= (me.drop_time + me.stage_1_duration)) {
 			me.maxMach1 = me.speed_m;
 		}
-		if (me.speed_m > me.maxMach2 and me.life_time > (me.drop_time + me.stage_1_duration) and me.life_time <= (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+		if (me.speed_m > me.maxMach2 and me.life_time > (me.drop_time + me.stage_1_duration) and me.life_time <= (me.drop_time + me.stage_1_duration + me.stage_gap_duration+me.stage_2_duration)) {
 			me.maxMach2 = me.speed_m;
 		}
-		if (me.maxMach3 == 0 and me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+		if (me.maxMach3 == 0 and me.life_time > (me.drop_time + me.stage_1_duration + me.stage_gap_duration+me.stage_2_duration)) {
 			me.maxMach3 = me.speed_m;
 		}
 
@@ -2282,11 +2298,11 @@ var AIM = {
 
 
 		# consume fuel
-		if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+		if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_gap_duration+me.stage_2_duration)) {
 			me.weight_current = me.weight_launch_lbm - me.weight_fuel_lbm;
-		} elsif (me.life_time > (me.drop_time + me.stage_1_duration)) {
+		} elsif (me.life_time > (me.drop_time + me.stage_1_duration+me.stage_gap_duration)) {
 			me.weight_current = me.weight_current - me.fuel_per_sec_2 * me.dt;
-		} elsif (me.life_time > me.drop_time) {
+		} elsif (me.life_time > me.drop_time and me.life_time < (me.drop_time + me.stage_1_duration)) {
 			me.weight_current = me.weight_current - me.fuel_per_sec_1 * me.dt;
 		}
 		#printf("weight %0.1f", me.weight_current);
@@ -2295,8 +2311,9 @@ var AIM = {
 		# telemetry
 		if (me.data == TRUE) {
 			me.eta = me.free == TRUE or me.horz_closing_rate_fps == -1?-1:(me["t_go"]!=nil?me.t_go:(me.dist_curr*M2FT)/me.horz_closing_rate_fps);
+			if (me.eta < 0) me.eta = -1;
 			me.hit = 50;# in percent
-			if (me.life_time > me.drop_time+me.stage_1_duration) {
+			if (me.life_time > me.drop_time+me.stage_1_duration + me.gnd_launch?(me.stage_2_duration + me.stage_gap_duration):0) {
 				# little less optimistic after reaching topspeed
 				if (me.selfdestruct_time-me.life_time < me.eta) {
 					# reduce alot if eta later than lifespan
@@ -2309,6 +2326,10 @@ var AIM = {
 					# penalty if eta is high
 					me.hit -= me.clamp(40*me.eta/(me.life_time*0.85), 0, 40);
 				}
+				if (me.eta < 0) {
+					# penalty if eta is incomputable
+					me.hit -= 75;
+				}
 			}
 			if (me.curr_deviation_h != nil and me.dist_curr > 50) {
 				# penalty for target being off-bore
@@ -2318,13 +2339,18 @@ var AIM = {
 				# bonus for traveling faster than target
 				me.hit += me.clamp((me.old_speed_fps / me.t_speed_fps)*15,-25,50);
 			}			
-			if (me.free == TRUE) {
+			if (me.free == TRUE or (me.gnd_launch and (me.chaffLock or me.flareLock))) {
 				# penalty for not longer guiding
 				me.hit -= 75;
 			}
 			me.hit = int(me.clamp(me.hit, 0, 90));
 			me.ai.getNode("ETA").setIntValue(me.eta);
 			me.ai.getNode("hit").setIntValue(me.hit);
+			
+			if (me.gnd_launch) {
+				setprop("sam/impact"~me.ID,me.eta);
+				setprop("sam/hit"~me.ID,me.hit);
+			}
 		}
 
 		me.last_dt = me.dt;
@@ -2469,12 +2495,14 @@ var AIM = {
 		#
 		me.thrust_lbf = 0;# pounds force (lbf)
 		if (me.engineEnabled) {
-			if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+			if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_gap_duration + me.stage_2_duration)) {
 				me.thrust_lbf = 0;
-			} elsif (me.life_time > me.stage_1_duration + me.drop_time) {
+			} elsif (me.life_time > me.stage_1_duration + me.stage_gap_duration + me.drop_time) {
 				me.thrust_lbf = me.force_lbf_2;
-			} elsif (me.life_time > me.drop_time) {
+			} elsif (me.life_time > me.drop_time and me.life_time < me.drop_time+me.stage_1_duration) {
 				me.thrust_lbf = me.force_lbf_1;
+			}else {
+				me.thrust_lbf = 0;
 			}
 		}
 		
@@ -2563,9 +2591,10 @@ var AIM = {
 					me.mpLat.setDoubleValue(me.coord.lat());
 					me.mpLon.setDoubleValue(me.coord.lon());
 					me.mpAlt.setDoubleValue(me.coord.alt());
+					me.mpAltft.setDoubleValue(me.coord.alt()*M2FT);
 				}
 			}
-		} elsif (me.first == TRUE and me.life_time > me.drop_time + me.stage_1_duration + me.stage_2_duration) {
+		} elsif (me.first == TRUE and me.life_time > me.drop_time + me.stage_1_duration + me.stage_gap_duration + me.stage_2_duration) {
 			# this weapon was reporting its position over MP, but now its fuel has used up. So allow for another to do that.
 			me.resetFirst();
 		}
@@ -2578,6 +2607,7 @@ var AIM = {
 			me.mpLat.setDoubleValue(0.0);
 			me.mpLon.setDoubleValue(0.0);
 			me.mpAlt.setDoubleValue(0.0);
+			me.mpAltft.setDoubleValue(0.0);
 		}
 	},
 
@@ -3191,17 +3221,17 @@ var AIM = {
 	            	me.printGuideDetails(" pitch "~me.pitch~" + me.raw_steer_signal_elev "~me.raw_steer_signal_elev);
 	            }
 	        }
-        } elsif (me.rail == TRUE and me.rail_forward == FALSE and me.rotate_token == FALSE) {
+        #} elsif (me.rail == TRUE and me.rail_forward == FALSE and me.rotate_token == FALSE) {
 			# tube launched missile turns towards target
 
-			me.raw_steer_signal_elev = me.curr_deviation_e;
-			me.printGuideDetails("Turning, desire "~me.t_elev_deg~" degs pitch.");
-			me.cruise_or_loft = TRUE;
-			me.limitGs = TRUE;
-			if (math.abs(me.curr_deviation_e) < 20) {
-				me.rotate_token = TRUE;
-				me.printGuide("Is last turn, snap-up/PN takes it from here..")
-			}
+		#	me.raw_steer_signal_elev = me.curr_deviation_e;
+		#	me.printGuideDetails("Turning, desire "~me.t_elev_deg~" degs pitch.");
+		#	me.cruise_or_loft = TRUE;
+		#	me.limitGs = TRUE;
+		#	if (math.abs(me.curr_deviation_e) < 20) {
+		#		me.rotate_token = TRUE;
+		#		me.printGuide("Is last turn, snap-up/PN takes it from here..")
+		#	}
 		} elsif (me.snapUp == TRUE and me.t_elev_deg > me.clamp(-80/me.speed_m,-30,-5) and me.dist_curr * M2NM > me.speed_m * 3
 			 and me.t_elev_deg < me.loft_angle #and me.t_elev_deg > -7.5
 			 and me.dive_token == FALSE) {
@@ -3295,9 +3325,11 @@ var AIM = {
 			if ((me.dist_direct_last - me.dist_curr_direct) < 0) {
 				# might happen if missile is cannot catch up to target. It might still be accelerating or it has lost too much speed.
 				# PN needs closing rate to be positive to give meaningful steering commands. So we fly straight and hope for better closing rate.
-				me.raw_steer_signal_head = 0;
+				me.raw_steer_signal_head = me.curr_deviation_h;
+				me.vert_closing_rate_fps = me.clamp(((me.dist_direct_last - me.dist_curr_direct)*M2FT)/me.dt, -1000000, 1000000);
+				if (me.vert_closing_rate_fps != 0) me.t_go = M2FT*me.dist_curr_direct/me.vert_closing_rate_fps;#time to go
 				if (me.cruise_or_loft == FALSE) {
-					me.raw_steer_signal_elev = 0;
+					me.raw_steer_signal_elev = me.curr_deviation_e;
 					me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
 			        me.gravComp = me.pitch - me.attitudePN;
 			        #printf("Gravity compensation %0.2f degs", me.gravComp);
@@ -4642,7 +4674,7 @@ var AIM = {
 		if (info == nil) {
 			me.explode_water_prop.setValue(FALSE);
 		} elsif (info[1] == nil) {
-			print ("Building hit!");
+			#print ("Building hit!");
 		} elsif (info[1].solid == 0) {
 		 	me.explode_water_prop.setValue(TRUE);
 		} else {
