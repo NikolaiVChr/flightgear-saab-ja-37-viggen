@@ -2081,6 +2081,10 @@
     <object-name>gearRightInnerDoor</object-name>
     <object-name>landingLightLeftMount</object-name>
     <object-name>landingLightRightMount</object-name>
+    <object-name>lightFormationFrontRight</object-name>
+    <object-name>lightFormationFrontLeft</object-name>
+    <object-name>lightFormationRearRight</object-name>
+    <object-name>lightFormationRearLeft</object-name>
     <object-name>bottomAirInlet</object-name>
   </effect>
 
@@ -4573,9 +4577,9 @@
     <object-name>lightFormationRearRight</object-name>
     <object-name>lightFormationRearLeft</object-name>
     <emission>
-      <red>0.01</red>
-      <green>0.01</green>
-      <blue>0.01</blue>
+      <red>0.003</red>
+      <green>0.010</green>
+      <blue>0.005</blue>
       <factor-prop>sim/multiplay/generic/short[1]</factor-prop> <!-- /ja37/effect/formation-light (0-100 scale) -->
     </emission>
   </animation>
