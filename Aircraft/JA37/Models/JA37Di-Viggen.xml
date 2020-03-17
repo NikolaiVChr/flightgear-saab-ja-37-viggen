@@ -330,7 +330,8 @@
 		<object-name>elevonLeftOuter</object-name>
 		<object-name>elevonRightInner</object-name>
 		<object-name>elevonRightOuter</object-name>
-		<object-name>flaps</object-name>
+		<object-name>flapsLeft</object-name>
+		<object-name>flapsRight</object-name>
 		<object-name>fuselage</object-name>
 		<object-name>wingLeft</object-name>
 		<object-name>wingRight</object-name>
@@ -590,7 +591,8 @@
     <object-name>elevonLeftOuter</object-name>
     <object-name>elevonRightInner</object-name>
     <object-name>elevonRightOuter</object-name>
-    <object-name>flaps</object-name>
+    <object-name>flapsLeft</object-name>
+    <object-name>flapsRight</object-name>
     <object-name>fuselage</object-name>
     <object-name>wingLeft</object-name>
     <object-name>wingRight</object-name>
@@ -615,6 +617,10 @@
     <object-name>gearRightInnerDoor</object-name>
     <object-name>landingLightLeftMount</object-name>
     <object-name>landingLightRightMount</object-name>
+    <object-name>lightFormationFrontRight</object-name>
+    <object-name>lightFormationFrontLeft</object-name>
+    <object-name>lightFormationRearRight</object-name>
+    <object-name>lightFormationRearLeft</object-name>
     <object-name>bottomAirInlet</object-name>
   </effect>
 
@@ -630,7 +636,8 @@
     <object-name>elevonLeftOuter</object-name>
     <object-name>elevonRightInner</object-name>
     <object-name>elevonRightOuter</object-name>
-    <object-name>flaps</object-name>
+    <object-name>flapsLeft</object-name>
+    <object-name>flapsRight</object-name>
     <object-name>fuselage</object-name>
     <object-name>wingLeft</object-name>
     <object-name>wingRight</object-name>
@@ -1366,19 +1373,34 @@
    </condition>
  </animation>
 
-<animation>
-  <type>rotate</type>
-  <object-name>flaps</object-name>
-  <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
-  <factor>1.0</factor>
-  <axis>   
-   <x1-m> -0.25811 </x1-m>
-   <y1-m> -2.59427 </y1-m>
-   <z1-m> 0.12740 </z1-m>
-   <x2-m> -0.25811 </x2-m>
-   <y2-m> 2.59427 </y2-m>
-   <z2-m> 0.12740 </z2-m>
-  </axis>
+ <animation>
+   <type>rotate</type>
+   <object-name>flapsLeft</object-name>
+   <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
+   <factor>-1.0</factor>
+   <axis>
+     <x1-m> -0.492662 </x1-m>
+     <y1-m> -1.17726 </y1-m>
+     <z1-m> 0.174372 </z1-m>
+     <x2-m> -0.261458 </x2-m>
+     <y2-m> -2.5736 </y2-m>
+     <z2-m> 0.091827 </z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>flapsRight</object-name>
+   <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
+   <factor>1.0</factor>
+   <axis>
+     <x1-m> -0.492662 </x1-m>
+     <y1-m> 1.17726 </y1-m>
+     <z1-m> 0.174372 </z1-m>
+     <x2-m> -0.261458 </x2-m>
+     <y2-m> 2.5736 </y2-m>
+     <z2-m> 0.091827 </z2-m>
+   </axis>
  </animation>
 
 
@@ -3144,10 +3166,28 @@
     <object-name>lightFormationFrontLeft</object-name>
     <object-name>lightFormationRearRight</object-name>
     <object-name>lightFormationRearLeft</object-name>
+    <!-- Formation lights are yellow when off, green when on.
+         To get the correct effect, the texture is white and materials are adjusted.
+    -->
+    <diffuse>
+      <red>0.6</red>
+      <green>0.6</green>
+      <blue>0.2</blue>
+    </diffuse>
+    <ambient>
+      <red>0.6</red>
+      <green>0.6</green>
+      <blue>0.2</blue>
+    </ambient>
+    <specular>
+      <red>0.3</red>
+      <green>0.3</green>
+      <blue>0.1</blue>
+    </specular>
     <emission>
-      <red>0.01</red>
-      <green>0.01</green>
-      <blue>0.01</blue>
+      <red>0.003</red>
+      <green>0.010</green>
+      <blue>0.005</blue>
       <factor-prop>sim/multiplay/generic/short[1]</factor-prop> <!-- /ja37/effect/formation-light (0-100 scale) -->
     </emission>
   </animation>
