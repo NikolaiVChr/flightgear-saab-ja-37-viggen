@@ -4576,6 +4576,24 @@
     <object-name>lightFormationFrontLeft</object-name>
     <object-name>lightFormationRearRight</object-name>
     <object-name>lightFormationRearLeft</object-name>
+    <!-- Formation lights are yellow when off, green when on.
+         To get the correct effect, the texture is white and materials are adjusted.
+    -->
+    <diffuse>
+      <red>0.6</red>
+      <green>0.6</green>
+      <blue>0.2</blue>
+    </diffuse>
+    <ambient>
+      <red>0.6</red>
+      <green>0.6</green>
+      <blue>0.2</blue>
+    </ambient>
+    <specular>
+      <red>0.3</red>
+      <green>0.3</green>
+      <blue>0.1</blue>
+    </specular>
     <emission>
       <red>0.003</red>
       <green>0.010</green>
