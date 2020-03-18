@@ -1325,35 +1325,35 @@
             </script>
           </binding>
          </key>
+
+         <key n="263">
+             <name>F7</name>
+             <desc>Request Picture</desc>
+             <binding>
+                 <command>property-assign</command>
+                 <property>/instrumentation/gci/picture</property>
+                 <value>1</value>
+             </binding>
+         </key>
+
+         <key n="264">
+             <name>F8</name>
+             <desc>Request Bogey Dope</desc>
+             <binding>
+                 <command>property-assign</command>
+                 <property>/instrumentation/gci/bogeydope</property>
+                 <value>1</value>
+             </binding>
+         </key>
+
+         <key n="265">
+             <name>F9</name>
+             <desc>Request Cutoff</desc>
+             <binding>
+                 <command>property-assign</command>
+                 <property>/instrumentation/gci/cutoff</property>
+                 <value>1</value>
+             </binding>
+         </key>
     </keyboard>
-
-	<key n="263">
-		<name>F7</name>
-		<desc>Request Picture</desc>
-		<binding>
-			<command>property-assign</command>
-			<property>/instrumentation/gci/picture</property>
-			<value>1</value>
-		</binding>
-	</key>
-
-	<key n="264">
-		<name>F8</name>
-		<desc>Request Bogey Dope</desc>
-		<binding>
-			<command>property-assign</command>
-			<property>/instrumentation/gci/bogeydope</property>
-			<value>1</value>
-		</binding>
-	</key>
-
-	<key n="265">
-		<name>F9</name>
-		<desc>Request Cutoff</desc>
-		<binding>
-			<command>property-assign</command>
-			<property>/instrumentation/gci/cutoff</property>
-			<value>1</value>
-		</binding>
-	</key>
 </PropertyList>
