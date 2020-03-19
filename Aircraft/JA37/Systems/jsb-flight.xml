@@ -1375,7 +1375,7 @@
         <switch name="systems/flight/reverse/R2-time">
             <default value="sim-time-sec"/>
             <test logic="OR" value="systems/flight/reverse/R2-time">
-                gear/unit[0]/WOW == 1
+                gear/unit[0]/WOW == 0
             </test>
         </switch>
 
