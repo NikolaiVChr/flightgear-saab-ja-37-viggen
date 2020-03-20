@@ -386,11 +386,12 @@
                 rotors/main/blade[3]/flap-deg      = flares
 
                 used up to:
-                int[19], short[7], bool[14], float[19]
+                int[19], short[7], bool[22], float[19]
 
                 unused:
                 int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
                 float[1], float[4], float[6], float[8], float[15], float[18]
+                bool[15-19]
              -->
             <generic>
                 <!-- effects -->
@@ -444,6 +445,10 @@
                 <short n="5" alias="/payload/weight[1]/ammo"/>
                 <short n="6" alias="/payload/weight[2]/ammo"/>
                 <short n="7" alias="/payload/weight[3]/ammo"/>
+                <!-- GCI -->
+                <bool n="20" type="bool" alias="/instrumentation/gci/picture"/>
+                <bool n="21" type="bool" alias="/instrumentation/gci/bogeydope"/>
+                <bool n="22" type="bool" alias="/instrumentation/gci/cutoff"/>
             </generic>
             <visibility-range-nm type="int">100</visibility-range-nm><!-- hint to MP server for how far away MP planes should transmit to this aircraft -->
         </multiplay>
@@ -1527,6 +1532,11 @@
             <offset-deg type="double">0</offset-deg>
         </heading-indicator>
         <terrain-override type="bool">false</terrain-override>
+        <gci>
+            <picture type="bool">false</picture>
+            <bogeydope type="bool">false</bogeydope>
+            <cutoff type="bool">false</cutoff>
+        </gci>
     </instrumentation>
 
     <!-- Using commandline these can be entered at start. Areas should max have 8 points. The others max 48 steerpoints including dest/dep. Format GPX or FG xml. -->
@@ -1666,6 +1676,9 @@
         <view>
           <file>Aircraft/JA37/Nasal/gamma.nas</file>
         </view>
+        <gci>
+          <file>Aircraft/JA37/Nasal/gci-listener.nas</file>
+        </gci>
         <!--<view>
           <file>Aircraft/JA37/Nasal/F-PLN.nas</file>
         </view>-->
