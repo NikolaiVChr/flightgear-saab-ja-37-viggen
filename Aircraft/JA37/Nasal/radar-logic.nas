@@ -515,6 +515,12 @@ var RadarLogic = {
 #
   isNotBehindTerrain: func(SelectCoord) {
     me.myOwnPos = geo.aircraft_position();
+    me.maxDist = me.myOwnPos.direct_distance_to(SelectCoord);
+    me.itsAlt = math.abs(SelectCoord.alt())<0.001?0:SelectCoord.alt();
+    if (me.maxDist*0.001 > 3.57*(math.sqrt(me.myOwnPos.alt())+math.sqrt(me.itsAlt))) {
+      # behind earth curvature
+      return FALSE;
+    }
     if(me.myOwnPos.alt() > 8900 and SelectCoord.alt() > 8900) {
       # both higher than mt. everest, so not need to check.
       return TRUE;
@@ -531,9 +537,8 @@ var RadarLogic = {
       } else {
        me.terrain = geo.Coord.new();
        me.terrain.set_latlon(me.v.lat, me.v.lon, me.v.elevation);
-       me.maxDist = me.myOwnPos.direct_distance_to(SelectCoord)-1;
        me.terrainDist = me.myOwnPos.direct_distance_to(me.terrain);
-       if (me.terrainDist < me.maxDist) {
+       if (me.terrainDist < me.maxDist-1) {
          #print("terrain found between the planes");
          return FALSE;
        } else {
