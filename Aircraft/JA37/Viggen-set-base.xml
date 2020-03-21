@@ -1686,6 +1686,10 @@
         <!--<proto>
             <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>
         </proto>-->
+        
+        <lm>
+            <file>Aircraft/JA37/Nasal/light-manager.nas</file>
+        </lm>
 
         <!-- Uncomment below to enable FGplot -->
         <!--

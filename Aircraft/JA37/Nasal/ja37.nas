@@ -473,7 +473,7 @@ var Saab37 = {
     input.cutoffOrig.setBoolValue(input.cutoffJsbsim.getValue());
 
     # switch on and off ALS landing lights
-    if(input.landLightSupport.getValue()) {
+    if(input.landLightSupport.getValue() and 0) {
         if(input.viewInternal.getValue()) {
             input.landLightALS.setBoolValue(input.taxiLight.getValue() > 0);
             input.landLightALS2.setBoolValue(input.landLight.getValue() > 0);
