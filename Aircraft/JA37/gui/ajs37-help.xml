@@ -161,6 +161,18 @@
         <name>F6</name>
         <desc>Eject</desc>
     </key>
+    <key>
+        <name>F7</name>
+        <desc>GCI Picture</desc>
+    </key>
+    <key>
+        <name>F8</name>
+        <desc>GCI Dope</desc>
+    </key>
+    <key>
+        <name>F9</name>
+        <desc>GCI Cutoff</desc>
+    </key>
     <!--
      <key>
       <name>Shift-backspace</name>
