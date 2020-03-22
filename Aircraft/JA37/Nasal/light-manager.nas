@@ -8,6 +8,7 @@
 # Then we need to put a foreach loop in the update loop
 
 # NikolaiVChr:
+# made landing and taxi light spot be placed correct from light beam
 # Adapted for Viggen 2020-03
 
 
