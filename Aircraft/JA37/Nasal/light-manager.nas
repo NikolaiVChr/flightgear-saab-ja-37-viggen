@@ -17,6 +17,8 @@ var cur_alt = 0;
 
 var taxiLight = props.globals.getNode("ja37/effect/taxi-light", 1);
 var landingLight = props.globals.getNode("ja37/effect/landing-light", 1);
+var navLight     = props.globals.getNode("sim/multiplay/generic/short[0]",1);
+
 var gearPos = props.globals.getNode("gear/gear[0]/position-norm", 1);
 
 
@@ -33,11 +35,11 @@ var light_manager = {
 
 		# lights ########
       me.data_light = [
-                        #light_xpos,light_ypos,light_zpos, light_dir,light_size,light_stretch,light_r,light_g,light_b,light_is_on,number
-        ALS_light_spot.new(10,0,-1,  0, 0.25,-2.5, 0.7,0.7,0.7,0,0),#landing
-        ALS_light_spot.new(70,0,-1,  0, 0.5,-3, 0.7,0.7,0.7,0,1),#taxi
-#        ALS_light_spot.new(-4,4.5,2,0,3.5,0,1,0,0,1,2),#test
-#        ALS_light_spot.new(-4,-4.5,2,0,3.5,0,0,0.4,0,1,3)
+                        #x,y,z,  light_dir,light_size,light_stretch,light_r,light_g,light_b,light_is_on,number
+        ALS_light_spot.new(-3.78118, 0, -0.76959,  0, 0.125,-2.5, 0.7,0.7,0.7,0,0),#landing
+        ALS_light_spot.new(-3.37668, 0, -1.21053,  0, 0.5,-3, 0.7,0.7,0.7,0,1),#taxi
+        ALS_light_spot.new(5.56226,-4.55875,-0.389571, 0,1,0, 0.5,0,0, 1,2),#left
+        ALS_light_spot.new(5.56226, 4.55875,-0.389571, 0,1,0, 0,0.5,0, 1,3),#right
       ];
 
 		
@@ -68,21 +70,36 @@ var light_manager = {
 		cur_alt = alt_agl.getValue();
     if(cur_alt != nil){
       if (als_on.getValue() == 1) {
-        
+          var red = 1-getprop("rendering/scene/diffuse/red");
           #Condition for lights
           if(gearPos.getValue() > 0.3 and landingLight.getValue() and alt_agl.getValue() < 750.0){
-              me.data_light[0].light_r = 0.8-0.8*alt_agl.getValue()/750;
+              me.data_light[0].light_r = red*(0.8-0.8*alt_agl.getValue()/750);
               me.data_light[0].light_g = me.data_light[0].light_r;
               me.data_light[0].light_b = me.data_light[0].light_r;
               me.data_light[0].light_on();    
-          }else{
+          } else {
               me.data_light[0].light_off();
           }
           
           if(gearPos.getValue() > 0.3 and taxiLight.getValue() and alt_agl.getValue() < 50.0){
+              me.data_light[1].light_r = red*0.7;
+              me.data_light[1].light_g = me.data_light[0].light_r;
+              me.data_light[1].light_b = me.data_light[0].light_r;
               me.data_light[1].light_on();            
           }else{
               me.data_light[1].light_off();
+          }
+          
+          if(navLight.getValue() > 0 and alt_agl.getValue() < 20.0){
+              me.data_light[2].light_r = red*0.5;
+              me.data_light[3].light_g = red*0.5;
+              me.data_light[2].light_size = 2*navLight.getValue()*0.01;
+              me.data_light[3].light_size = 2*navLight.getValue()*0.01;
+              me.data_light[2].light_on();
+              me.data_light[3].light_on();
+          }else{
+              me.data_light[2].light_off();
+              me.data_light[3].light_off();
           }
           
          #Updating each light position 
@@ -93,10 +110,14 @@ var light_manager = {
       } else {
         me.data_light[0].light_off();
         me.data_light[1].light_off();
+        me.data_light[2].light_off();
+        me.data_light[3].light_off();
       }
     } else {
       me.data_light[0].light_off();
       me.data_light[1].light_off();
+      me.data_light[2].light_off();
+      me.data_light[3].light_off();
     }
 		
 		settimer ( func me.update(), 0.00);
@@ -187,7 +208,8 @@ var ALS_light_spot = {
 			var ch = math.cos(heading);
       if (me.number == 0) {
         #landing light
-        
+        landB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
+        landB.setBeamPitch(-5);# degrees that the light points downwards
         var test = landB.testForDistance();
         if (test != nil) {
           apos = test[1];
@@ -207,9 +229,24 @@ var ALS_light_spot = {
           me.nd_ref_light_b.setValue(0);
           me.light_is_on = 0;
         }
+      } elsif (me.number == 2 or me.number == 3) {
+        #red/green nav light
+        me.lightGPS = aircraftToCart({x:-me.light_xpos, y:me.light_ypos, z: -me.light_zpos});
+        apos = geo.Coord.new().set_xyz(me.lightGPS.x,me.lightGPS.y,me.lightGPS.z);
+        
+        var delta_x = (apos.lat() - vpos.lat()) * me.lat_to_m;
+        var delta_y = -(apos.lon() - vpos.lon()) * me.lon_to_m;
+        var delta_z = apos.alt() - vpos.alt();
+
+        me.nd_ref_light_x.setValue(delta_x);
+        me.nd_ref_light_y.setValue(delta_y);
+        me.nd_ref_light_z.setValue(delta_z);
+          
+        me.nd_ref_light_size.setValue(me.light_size);
       } else {
         #taxi light
-        taxiB.setBeam(-0.5,getprop("sim/multiplay/generic/float[0]")*30);#-0.5 degs down
+        taxiB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
+        taxiB.setBeam(-0.5,getprop("sim/multiplay/generic/float[0]")*30);#-0.5 degs down, relative heading
         var test = taxiB.testForDistance();
         if (test != nil) {
           apos = test[1];
@@ -283,20 +320,6 @@ SelfContact = {
       return me.accoord;
   },
   
-  getLandLightCoord: func {
-    # this is much faster than calling geo.aircraft_position().
-      me.light = aircraftToCart({x:3.78118, y:0, z: 0.76959});
-      me.accoord = geo.Coord.new().set_xyz(me.light.x,me.light.y,me.light.z);
-      return me.accoord;
-  },
-  
-  getTaxiLightCoord: func {
-    # this is much faster than calling geo.aircraft_position().
-      me.light = aircraftToCart({x:3.37668, y:0, z: 1.21053});
-      me.accoord = geo.Coord.new().set_xyz(me.light.x,me.light.y,me.light.z);
-      return me.accoord;
-  },
-  
   getAttitude: func {
     return [me.acHeading.getValue(),me.acPitch.getValue(),me.acRoll.getValue()];
   },
@@ -352,16 +375,29 @@ var FixedBeamRadar = {
     me.beam_pitch_deg = pitch_deg;
   },
   
+  setLightPos: func (x,y,z) {
+    me.x = x;
+    me.y = y;
+    me.z = z;
+  },
+  
+  getLightCoord: func {
+    # this is much faster than calling geo.aircraft_position().
+      me.light = aircraftToCart({x:-me.x, y:me.y, z: -me.z});
+      me.accoord = geo.Coord.new().set_xyz(me.light.x,me.light.y,me.light.z);
+      return me.accoord;
+  },
+  
   computeBeamVector: func {
     me.beamVector = [math.cos(me.beam_pitch_deg*D2R), 0, math.sin(me.beam_pitch_deg*D2R)];
     me.beamVectorFix = vector.Math.yawPitchRollVector(-self.getHeading(), self.getPitch(), self.getRoll(), me.beamVector);
-    me.geoVector = vector.Math.vectorToGeoVector(me.beamVectorFix, self.getLandLightCoord());
+    me.geoVector = vector.Math.vectorToGeoVector(me.beamVectorFix, me.getLightCoord());
     return me.geoVector;
   },
   
   testForDistance: func {
     if (me.enabled) {
-      me.selfPos = self.getLandLightCoord();
+      me.selfPos = me.getLightCoord();
       me.pick = get_cart_ground_intersection({"x":me.selfPos.x(), "y":me.selfPos.y(), "z":me.selfPos.z()}, me.computeBeamVector());
           if (me.pick != nil) {
           me.terrain = geo.Coord.new();
@@ -385,6 +421,19 @@ var SteerBeamRadar = {
     return fb;
   },
   
+  setLightPos: func (x,y,z) {
+    me.x = x;
+    me.y = y;
+    me.z = z;
+  },
+  
+  getLightCoord: func {
+    # this is much faster than calling geo.aircraft_position().
+      me.light = aircraftToCart({x:-me.x, y:me.y, z: -me.z});
+      me.accoord = geo.Coord.new().set_xyz(me.light.x,me.light.y,me.light.z);
+      return me.accoord;
+  },
+  
   setBeam: func (pitch_deg, yaw_deg) {
     me.beam_pitch_deg = pitch_deg;
     me.beam_yaw_deg = yaw_deg;
@@ -393,13 +442,13 @@ var SteerBeamRadar = {
   computeBeamVector: func {
     me.beamVector = [math.cos(me.beam_pitch_deg*D2R)*math.cos(me.beam_yaw_deg*D2R), -math.sin(me.beam_yaw_deg*D2R), math.sin(me.beam_pitch_deg*D2R)*math.cos(me.beam_yaw_deg*D2R)];
     me.beamVectorFix = vector.Math.yawPitchRollVector(-self.getHeading(), self.getPitch(), self.getRoll(), me.beamVector);
-    me.geoVector = vector.Math.vectorToGeoVector(me.beamVectorFix, self.getTaxiLightCoord());
+    me.geoVector = vector.Math.vectorToGeoVector(me.beamVectorFix, me.getLightCoord());
     return me.geoVector;
   },
   
   testForDistance: func {
     if (me.enabled) {
-      me.selfPos = self.getTaxiLightCoord();
+      me.selfPos = me.getLightCoord();
       me.pick = get_cart_ground_intersection({"x":me.selfPos.x(), "y":me.selfPos.y(), "z":me.selfPos.z()}, me.computeBeamVector());
           if (me.pick != nil) {
           me.terrain = geo.Coord.new();
@@ -414,8 +463,6 @@ var SteerBeamRadar = {
 
 # example code
 var landB = FixedBeamRadar.new();
-landB.setBeamPitch(-5);# degrees that the light points downwards
-
 var taxiB = SteerBeamRadar.new();
 #taxiB.setBeamPitch(-2);# degrees that the light points downwards
 
