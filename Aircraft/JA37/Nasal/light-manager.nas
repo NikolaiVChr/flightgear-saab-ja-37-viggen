@@ -8,7 +8,7 @@
 # Then we need to put a foreach loop in the update loop
 
 # NikolaiVChr:
-# made landing and taxi light spot be placed correct from light beam
+# made landing and taxi light spot be placed somewhat correct from light beam and be dimmed in sunlight
 # Adapted for Viggen 2020-03
 
 
@@ -19,9 +19,10 @@ var cur_alt = 0;
 var taxiLight = props.globals.getNode("ja37/effect/taxi-light", 1);
 var landingLight = props.globals.getNode("ja37/effect/landing-light", 1);
 var navLight     = props.globals.getNode("sim/multiplay/generic/short[0]",1);
+var noseSteerNorm= props.globals.getNode("sim/multiplay/generic/float[0]",1);
 
 var gearPos = props.globals.getNode("gear/gear[0]/position-norm", 1);
-
+var sceneLight = props.globals.getNode("rendering/scene/diffuse/red", 1);
 
 var light_manager = {
 
@@ -36,11 +37,11 @@ var light_manager = {
 
 		# lights ########
       me.data_light = [
-                        #x,y,z,  light_dir,light_size,light_stretch,light_r,light_g,light_b,light_is_on,number
-        ALS_light_spot.new(-3.78118, 0, -0.76959,  0, 0.125,-2.5, 0.7,0.7,0.7,0,0),#landing
-        ALS_light_spot.new(-3.37668, 0, -1.21053,  0, 0.5,-3, 0.7,0.7,0.7,0,1),#taxi
-        ALS_light_spot.new(5.56226,-4.55875,-0.389571, 0,1,0, 0.5,0,0, 1,2),#left
-        ALS_light_spot.new(5.56226, 4.55875,-0.389571, 0,1,0, 0,0.5,0, 1,3),#right
+                        #x,y,z,  light_dir,light_size,light_stretch,   light_r,light_g,light_b,  light_is_on,number
+        ALS_light_spot.new(-3.78118, 0, -0.76959,      0, 0.125,-2.5, 0.7,0.7,0.7, 0,0),#landing
+        ALS_light_spot.new(-3.37668, 0, -1.21053,      0, 0.5,-3,     0.7,0.7,0.7, 0,1),#taxi
+        ALS_light_spot.new(5.56226,-4.55875,-0.389571, 0,2,0,         0.5,0,0,     0,2),#left
+        ALS_light_spot.new(5.56226, 4.55875,-0.389571, 0,2,0,         0,0.5,0,     0,3),#right
       ];
 
 		
@@ -71,31 +72,21 @@ var light_manager = {
 		cur_alt = alt_agl.getValue();
     if(cur_alt != nil){
       if (als_on.getValue() == 1) {
-          var red = 1-getprop("rendering/scene/diffuse/red");
+          
           #Condition for lights
-          if(gearPos.getValue() > 0.3 and landingLight.getValue() and alt_agl.getValue() < 750.0){
-              me.data_light[0].light_r = red*(0.8-0.8*alt_agl.getValue()/750);
-              me.data_light[0].light_g = me.data_light[0].light_r;
-              me.data_light[0].light_b = me.data_light[0].light_r;
+          if(gearPos.getValue() > 0.3 and landingLight.getValue() and alt_agl.getValue() < 1700.0){
               me.data_light[0].light_on();    
           } else {
               me.data_light[0].light_off();
           }
           
           if(gearPos.getValue() > 0.3 and taxiLight.getValue() and alt_agl.getValue() < 50.0){
-              me.data_light[1].light_r = red*0.7;
-              me.data_light[1].light_g = me.data_light[0].light_r;
-              me.data_light[1].light_b = me.data_light[0].light_r;
               me.data_light[1].light_on();            
           }else{
               me.data_light[1].light_off();
           }
           
           if(navLight.getValue() > 0 and alt_agl.getValue() < 20.0){
-              me.data_light[2].light_r = red*0.5;
-              me.data_light[3].light_g = red*0.5;
-              me.data_light[2].light_size = 2*navLight.getValue()*0.01;
-              me.data_light[3].light_size = 2*navLight.getValue()*0.01;
               me.data_light[2].light_on();
               me.data_light[3].light_on();
           }else{
@@ -178,7 +169,7 @@ var ALS_light_spot = {
               #print("light_stretch:"~light_stretch);
               
               me.lon_to_m  = 0;
-              me.lat_to_m = 110952.0;
+              
               me.nd_ref_light_x.setValue(me.light_xpos);
               me.nd_ref_light_y.setValue(me.light_ypos);
               me.nd_ref_light_z.setValue(me.light_zpos);
@@ -192,107 +183,146 @@ var ALS_light_spot = {
             return me;
     },
     
+    lat2m: func (lat) {
+      # Nikolai V Chr
+      me.lat_to_nm = [59.7052, 59.7453, 59.8554, 60.0062, 60.1577, 60.2690, 60.3098];# 15 deg intervals
+      me.indexLat = math.abs(lat)/15;
+      if (me.indexLat == 0) {
+        me.lat2nm = me.lat_to_nm[0];
+      } elsif (me.indexLat == 6) {
+        me.lat2nm = me.lat_to_nm[6];
+      } else {
+        me.lat2nm = me.extrapolate(me.indexLat-int(me.indexLat), 0, 1, me.lat_to_nm[int(me.indexLat)], me.lat_to_nm[int(me.indexLat)+1]);
+      }
+      return me.lat2nm*NM2M;
+    },
+    
+    extrapolate: func (x, x1, x2, y1, y2) {
+      return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+    },
+    
     position: func(){
       
-      cur_alt = alt_agl.getValue();
-      var apos = geo.aircraft_position();
+      var apos = nil;
 			var vpos = geo.viewer_position();
 
-			me.lon_to_m = math.cos(apos.lat()*D2R) * me.lat_to_m;
-			var heading = getprop("/orientation/heading-deg")*D2R;
+			me.lon_to_m = math.cos(vpos.lat()*D2R) * me.lat2m(0);
+			var heading = self.getHeading()*D2R;
 
-			var lat = apos.lat();
-			var lon = apos.lon();
-			var alt = apos.alt();
-
-			var sh = math.sin(heading);
-			var ch = math.cos(heading);
       if (me.number == 0) {
         #landing light
+        #
+        
+        #set light source position on aircraft
         landB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
-        landB.setBeamPitch(-5);# degrees that the light points downwards
+        
+        # set light beam pitch
+        landB.setBeamPitch(-5);
+        
+        #calc where beam hits ground
         var test = landB.testForDistance();
+        
         if (test != nil) {
+          #grab spot position
           apos = test[1];
+          
+          # light intensity. fade fully out at 500m dist:
+          me.light_r = 0.8-0.8*math.clamp(test[0],0,500)/500;
+          me.light_g = me.light_r;
+          me.light_b = me.light_r;
        
-          var delta_x = (apos.lat() - vpos.lat()) * me.lat_to_m;
+          # calc spot position in relation to view position:
+          var delta_x = (apos.lat() - vpos.lat()) * me.lat2m(vpos.lat());
           var delta_y = -(apos.lon() - vpos.lon()) * me.lon_to_m;
           var delta_z = apos.alt() - vpos.alt();
-          
           me.nd_ref_light_x.setValue(delta_x);
           me.nd_ref_light_y.setValue(delta_y);
           me.nd_ref_light_z.setValue(delta_z);
-          me.nd_ref_light_dir.setValue(heading);  
-          me.nd_ref_light_size.setValue(me.light_size*test[0]);
+          
+          me.nd_ref_light_dir.setValue(heading);# used to determine spot stretch direction
+          me.nd_ref_light_size.setValue(me.light_size*test[0]);#spot radius grows linear with distance
         } else {
-          me.nd_ref_light_r.setValue(0);
-          me.nd_ref_light_g.setValue(0);
-          me.nd_ref_light_b.setValue(0);
           me.light_is_on = 0;
         }
       } elsif (me.number == 2 or me.number == 3) {
         #red/green nav light
-        me.lightGPS = aircraftToCart({x:-me.light_xpos, y:me.light_ypos, z: -me.light_zpos});
+        #
+        
+        #set light source position on aircraft (same as spot location in this case, spots are 3D spheres)
+        me.lightGPS = aircraftToCart({x:-me.light_xpos, y:me.light_ypos, z: -me.light_zpos});# sadly this C++ method has inaccuracies up to about 1 meter.
         apos = geo.Coord.new().set_xyz(me.lightGPS.x,me.lightGPS.y,me.lightGPS.z);
         
-        var delta_x = (apos.lat() - vpos.lat()) * me.lat_to_m;
+        # calc spot position in relation to view position:
+        var delta_x = (apos.lat() - vpos.lat()) * me.lat2m(vpos.lat());
         var delta_y = -(apos.lon() - vpos.lon()) * me.lon_to_m;
         var delta_z = apos.alt() - vpos.alt();
-
         me.nd_ref_light_x.setValue(delta_x);
         me.nd_ref_light_y.setValue(delta_y);
         me.nd_ref_light_z.setValue(delta_z);
-          
-        me.nd_ref_light_size.setValue(me.light_size);
+        
+        
+        me.nd_ref_light_size.setValue(me.light_size*navLight.getValue()*0.01);#spot radius is fixed, depends only on light strength setting.
       } else {
         #taxi light
+        #
+        
+        #set light source position on aircraft
         taxiB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
-        taxiB.setBeam(-0.5,getprop("sim/multiplay/generic/float[0]")*30);#-0.5 degs down, relative heading
+        
+        # set light beam pitch and relative heading
+        taxiB.setBeam(-0.5,noseSteerNorm.getValue()*30);#-0.5 degs down, relative heading
+        
+        #calc where beam hits ground
         var test = taxiB.testForDistance();
+        
         if (test != nil) {
+          #grab spot position
           apos = test[1];
-       
-          var delta_x = (apos.lat() - vpos.lat()) * me.lat_to_m;
+        
+          # calc spot position in relation to view position:
+          var delta_x = (apos.lat() - vpos.lat()) * me.lat2m(vpos.lat());
           var delta_y = -(apos.lon() - vpos.lon()) * me.lon_to_m;
-          var delta_z = apos.alt() - vpos.alt();
-          
+          var delta_z = apos.alt() - vpos.alt();          
           me.nd_ref_light_x.setValue(delta_x);
           me.nd_ref_light_y.setValue(delta_y);
           me.nd_ref_light_z.setValue(delta_z);
-          me.nd_ref_light_dir.setValue(heading+getprop("sim/multiplay/generic/float[0]")*30*D2R);  
+          
+          # set absolute heading of stretch
+          me.nd_ref_light_dir.setValue(heading+noseSteerNorm.getValue()*30*D2R);
+          
+          #spot radius grows linear with distance
           me.nd_ref_light_size.setValue(me.light_size*test[0]);
+        } else {
+          me.light_is_on = 0;
+        }
+        if (me.light_is_on) {
+          # scene red invrted will dim the light so it dont compete with sun
+          var red = 1-sceneLight.getValue();
+          me.nd_ref_light_r.setValue(red*me.light_r);
+          me.nd_ref_light_g.setValue(red*me.light_g);
+          me.nd_ref_light_b.setValue(red*me.light_b);
         } else {
           me.nd_ref_light_r.setValue(0);
           me.nd_ref_light_g.setValue(0);
           me.nd_ref_light_b.setValue(0);
-          me.light_is_on = 0;
         }
       }
     },
     light_on : func {
-        me.nd_ref_light_r.setValue(me.light_r);
-        me.nd_ref_light_g.setValue(me.light_g);
-        me.nd_ref_light_b.setValue(me.light_b);
         me.light_is_on = 1;
       },
   
     light_off : func {
-        me.nd_ref_light_r.setValue(0);
-        me.nd_ref_light_g.setValue(0);
-        me.nd_ref_light_b.setValue(0);
         me.light_is_on = 0;
       },
-    
-    light_setSize : func(size) {
-      me.nd_ref_light_size.setValue(size);
-    },
   
 };
 
 
 SelfContact = {
 # Ownship info
-# 
+#
+# Author: Nikolai V. Chr.
   new: func {
     var c = {parents: [SelfContact]};
 
@@ -316,7 +346,6 @@ SelfContact = {
   },
   
   getCoord: func {
-    # this is much faster than calling geo.aircraft_position().
     me.accoord = geo.Coord.new().set_latlon(me.aclat.getValue(), me.aclon.getValue(), me.acalt.getValue()*FT2M);
       return me.accoord;
   },
@@ -364,6 +393,10 @@ Radar = {
 
 var FixedBeamRadar = {
 # inherits from Radar
+#
+# adapted for use in light beam calculations
+#
+# Author: Nikolai V. Chr.
   new: func () {
     var fb = {parents: [FixedBeamRadar, Radar]};
     
@@ -383,8 +416,7 @@ var FixedBeamRadar = {
   },
   
   getLightCoord: func {
-    # this is much faster than calling geo.aircraft_position().
-      me.light = aircraftToCart({x:-me.x, y:me.y, z: -me.z});
+      me.light = aircraftToCart({x:-me.x, y:me.y, z: -me.z});# sadly this C++ method has inaccuracies up to about 1 meter.
       me.accoord = geo.Coord.new().set_xyz(me.light.x,me.light.y,me.light.z);
       return me.accoord;
   },
@@ -392,7 +424,7 @@ var FixedBeamRadar = {
   computeBeamVector: func {
     me.beamVector = [math.cos(me.beam_pitch_deg*D2R), 0, math.sin(me.beam_pitch_deg*D2R)];
     me.beamVectorFix = vector.Math.yawPitchRollVector(-self.getHeading(), self.getPitch(), self.getRoll(), me.beamVector);
-    me.geoVector = vector.Math.vectorToGeoVector(me.beamVectorFix, me.getLightCoord());
+    me.geoVector = vector.Math.vectorToGeoVector(vector.Math.normalize(me.beamVectorFix), me.getLightCoord());
     return me.geoVector;
   },
   
@@ -404,6 +436,7 @@ var FixedBeamRadar = {
           me.terrain = geo.Coord.new();
         me.terrain.set_latlon(me.pick.lat, me.pick.lon, me.pick.elevation);
         me.terrainDist_m = me.selfPos.direct_distance_to(me.terrain);
+        
         return [me.terrainDist_m, me.terrain];
         }
       }
@@ -413,6 +446,10 @@ var FixedBeamRadar = {
 
 var SteerBeamRadar = {
 # inherits from Radar
+#
+# adapted for use in light beam calculations
+#
+# Author: Nikolai V. Chr.
   new: func () {
     var fb = {parents: [SteerBeamRadar, Radar]};
     
@@ -430,7 +467,7 @@ var SteerBeamRadar = {
   
   getLightCoord: func {
     # this is much faster than calling geo.aircraft_position().
-      me.light = aircraftToCart({x:-me.x, y:me.y, z: -me.z});
+      me.light = aircraftToCart({x:-me.x, y:me.y, z: -me.z});# sadly this C++ method has inaccuracies up to about 1 meter.
       me.accoord = geo.Coord.new().set_xyz(me.light.x,me.light.y,me.light.z);
       return me.accoord;
   },
@@ -462,12 +499,7 @@ var SteerBeamRadar = {
   },
 };
 
-# example code
 var landB = FixedBeamRadar.new();
 var taxiB = SteerBeamRadar.new();
-#taxiB.setBeamPitch(-2);# degrees that the light points downwards
 
 light_manager.init();
-
-
-
