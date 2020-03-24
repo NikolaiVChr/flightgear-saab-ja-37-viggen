@@ -80,7 +80,7 @@ var light_manager = {
               me.data_light[0].light_off();
           }
           
-          if(gearPos.getValue() > 0.3 and taxiLight.getValue() and alt_agl.getValue() < 50.0){
+          if(gearPos.getValue() > 0.3 and taxiLight.getValue() and alt_agl.getValue() < 20.0){
               me.data_light[1].light_on();            
           }else{
               me.data_light[1].light_off();
@@ -217,7 +217,7 @@ var ALS_light_spot = {
         landB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
         
         # set light beam pitch
-        landB.setBeamPitch(-5);
+        landB.setBeamPitch(-15.0);
         
         #calc where beam hits ground
         var test = landB.testForDistance();
@@ -270,7 +270,7 @@ var ALS_light_spot = {
         taxiB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
         
         # set light beam pitch and relative heading
-        taxiB.setBeam(-0.5,noseSteerNorm.getValue()*30);#-0.5 degs down, relative heading
+        taxiB.setBeam(-3,noseSteerNorm.getValue()*30);#-0.5 degs down, relative heading
         
         #calc where beam hits ground
         var test = taxiB.testForDistance();
