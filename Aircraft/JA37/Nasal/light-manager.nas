@@ -217,7 +217,7 @@ var ALS_light_spot = {
         landB.setLightPos(me.light_xpos,me.light_ypos,me.light_zpos);
         
         # set light beam pitch
-        landB.setBeamPitch(-15.0);
+        landB.setBeamPitch(-9.14);#glideslope of -2.86 degs, AoA of 12 degs: -(12-2.86) = -9.14 degs
         
         #calc where beam hits ground
         var test = landB.testForDistance();
