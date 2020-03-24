@@ -295,17 +295,17 @@ var ALS_light_spot = {
         } else {
           me.light_is_on = 0;
         }
-        if (me.light_is_on) {
-          # scene red invrted will dim the light so it dont compete with sun
-          var red = 1-sceneLight.getValue();
-          me.nd_ref_light_r.setValue(red*me.light_r);
-          me.nd_ref_light_g.setValue(red*me.light_g);
-          me.nd_ref_light_b.setValue(red*me.light_b);
-        } else {
-          me.nd_ref_light_r.setValue(0);
-          me.nd_ref_light_g.setValue(0);
-          me.nd_ref_light_b.setValue(0);
-        }
+      }
+      if (me.light_is_on) {
+        # scene red invrted will dim the light so it dont compete with sun
+        var red = 1-sceneLight.getValue();
+        me.nd_ref_light_r.setValue(red*me.light_r);
+        me.nd_ref_light_g.setValue(red*me.light_g);
+        me.nd_ref_light_b.setValue(red*me.light_b);
+      } else {
+        me.nd_ref_light_r.setValue(0);
+        me.nd_ref_light_g.setValue(0);
+        me.nd_ref_light_b.setValue(0);
       }
     },
     light_on : func {
