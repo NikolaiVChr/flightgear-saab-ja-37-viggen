@@ -905,6 +905,9 @@ var Contact = {
         obj.pitch           = obj.oriProp.getNode("pitch-deg");
         obj.roll            = obj.oriProp.getNode("roll-deg");
         obj.speed           = obj.velProp.getNode("true-airspeed-kt");
+        obj.ubody           = obj.velProp.getNode("uBody-fps");
+        obj.vbody           = obj.velProp.getNode("vBody-fps");
+        obj.wbody           = obj.velProp.getNode("wBody-fps");
         obj.vSpeed          = obj.velProp.getNode("vertical-speed-fps");
         obj.callsign        = c.getNode("callsign", 1);
         obj.shorter         = c.getNode("model-shorter");
@@ -1121,6 +1124,39 @@ var Contact = {
             n = 0;
         }
         return n;
+    },
+    
+    get_uBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.ubody.getValue();
+      }
+      if(body == nil) {
+        body = me.get_Speed()*KT2FPS;
+      }
+      return body;
+    },
+    
+    get_vBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.vbody.getValue();
+      }
+      if(body == nil) {
+        body = 0;
+      }
+      return body;
+    },
+    
+    get_wBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.wbody.getValue();
+      }
+      if(body == nil) {
+        body = 0;
+      }
+      return body;
     },
 
     get_bearing: func(){

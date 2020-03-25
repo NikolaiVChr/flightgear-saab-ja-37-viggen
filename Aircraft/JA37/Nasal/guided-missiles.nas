@@ -198,6 +198,9 @@ var contact = nil;
 # get_Pitch()
 # get_Speed()
 # get_heading()
+# get_uBody()
+# get_vBody()
+# get_wBody()
 # getFlareNode()  - Used for flares.
 # getChaffNode()  - Used for chaff.
 # isPainted()     - Tells if this target is still being radar tracked by the launch platform, only used in semi-radar guided missiles.
@@ -3350,50 +3353,22 @@ var AIM = {
 
 			me.printGuideDetails("LOS rate: %06.4f rad/s", me.line_of_sight_rate_rps);
 
-			#if (me.before_last_t_coord != nil) {
-			#	var t_heading = me.before_last_t_coord.course_to(me.t_coord);
-			#	var t_dist   = me.before_last_t_coord.distance_to(me.t_coord);
-			#	var t_dist_dir   = me.before_last_t_coord.direct_distance_to(me.t_coord);
-			#	var t_climb      = me.t_coord.alt() - me.before_last_t_coord.alt();
-			#	var t_horz_speed = (t_dist*M2FT)/(me.dt+me.last_dt);
-			#	var t_speed      = (t_dist_dir*M2FT)/(me.dt+me.last_dt);
-			#} else {
-			#	var t_heading = me.last_t_coord.course_to(me.t_coord);
-			#	var t_dist   = me.last_t_coord.distance_to(me.t_coord);
-			#	var t_dist_dir   = me.last_t_coord.direct_distance_to(me.t_coord);
-			#	var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-			#	var t_horz_speed = (t_dist*M2FT)/me.dt;
-			#	var t_speed      = (t_dist_dir*M2FT)/me.dt;
-			#}
-			
-			#var t_pitch      = math.atan2(t_climb,t_dist)*R2D;
-			
-			# calculate target acc as normal to LOS line:
+			me.t_velocity = me.myMath.getCartesianVelocity(me.Tgt.get_heading(), me.Tgt.get_Pitch(), me.Tgt.get_Roll(), me.Tgt.get_uBody(), me.Tgt.get_vBody(), me.Tgt.get_wBody());
+						
 			if ((me.flareLock == FALSE and me.chaffLock == FALSE) or me.t_heading == nil) {
-				me.t_heading        = me.Tgt.get_heading();
-				me.t_pitch          = me.Tgt.get_Pitch();
-				me.t_speed_fps      = me.Tgt.get_Speed()*KT2FPS;#true airspeed
+				me.euler = me.myMath.cartesianToEuler(me.t_velocity);
+				if (me.euler[0] != nil) {
+					me.t_heading        = me.euler[0];
+				} else {
+					me.t_heading        = me.Tgt.get_heading();
+				}
+				me.t_pitch          = me.euler[1];
+				me.t_speed_fps      = me.myMath.magnitudeVector(me.t_velocity);#groundspeed
 			} elsif (me.flarespeed_fps != nil) {
 				me.t_speed_fps      = me.flarespeed_fps;#true airspeed
 			}
-
-			#if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
-			#	# taking sideslip and AoA into consideration:
-			#	me.t_heading    = me.last_t_coord.course_to(me.t_coord);
-			#	me.t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-			#	me.t_dist       = me.last_t_coord.distance_to(me.t_coord);
-			#	me.t_pitch      = math.atan2(me.t_climb, me.t_dist) * R2D;
-			#} elsif (me.Tgt.get_Speed() > 25) {
-				# target position was not updated since last loop.
-				# to avoid confusing the navigation, we just fly
-				# straight.
-				#print("not updated");
-			#	return;
-			#}
-
-
 			
-			me.t_horz_speed_fps     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed_fps);#flawed due to AoA is not taken into account, but dont have that info.
+			me.t_horz_speed_fps     = math.sqrt(me.t_velocity[0]*me.t_velocity[0]+me.t_velocity[1]*me.t_velocity[1]);
 			me.t_LOS_norm_head_deg  = me.t_course + 90;#when looking at target this direction will be 90 deg right of target
 			me.t_LOS_norm_speed_fps = math.cos((me.t_LOS_norm_head_deg - me.t_heading)*D2R)*me.t_horz_speed_fps;
 
@@ -3407,7 +3382,7 @@ var AIM = {
 
 			# time to go calc
 			me.t_away_norm_speed_fps = math.cos((me.t_course - me.t_heading)*D2R)*me.t_horz_speed_fps;
-			me.t_speed_vert_fps      = math.sin(me.t_pitch*D2R)*me.t_speed_fps;
+			me.t_speed_vert_fps      = me.t_velocity[2];
 			me.m_speed_vert_fps      = math.sin(me.pitch*D2R)*me.old_speed_horz_fps;
 			me.t_pos_z               = (me.t_coord.alt()-me.coord.alt())*M2FT;
 			me.Vt   = [me.t_away_norm_speed_fps,me.t_LOS_norm_speed_fps,me.t_speed_vert_fps];
