@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-
     <path>radar_compass_heading.ac</path>
 
     <effect>
@@ -17,20 +16,6 @@
 		<condition>
             <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
-        <interpolation>
-			<entry>
-                <ind>-360</ind>
-                <dep>-360</dep>
-            </entry>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>360</ind>
-                <dep>360</dep>
-            </entry>
-        </interpolation>
         <center>
             <x-m>0.04</x-m>
             <y-m>0.0</y-m>
@@ -42,5 +27,4 @@
             <z>0</z>
         </axis>
     </animation>
-
 </PropertyList>
