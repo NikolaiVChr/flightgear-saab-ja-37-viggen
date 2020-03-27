@@ -4,16 +4,6 @@
 
 	<path>aj37.ac</path>
 
-	<effect>
-	    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
-      <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
-	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
-	    <object-name>aj37fin</object-name>
-		<object-name>aj37dropTank</object-name>
-		<object-name>aj37upperPitotTube</object-name>
-		<object-name>aj37upperVerticalStabilizer</object-name>
-	</effect>
-
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
     <parameters>
@@ -1842,7 +1832,6 @@
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
-		<!--<object-name>gunpod</object-name>-->
 		<object-name>bottomAirInlet</object-name>
 		<!--<object-name>gearFront</object-name>
 		<object-name>gearFrontHinge</object-name>
@@ -2086,6 +2075,10 @@
     <object-name>lightFormationRearRight</object-name>
     <object-name>lightFormationRearLeft</object-name>
     <object-name>bottomAirInlet</object-name>
+    <object-name>aj37fin</object-name>
+    <object-name>aj37dropTank</object-name>
+    <object-name>aj37upperPitotTube</object-name>
+    <object-name>aj37upperVerticalStabilizer</object-name>
   </effect>
 
   <effect>
