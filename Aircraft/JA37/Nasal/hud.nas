@@ -20,6 +20,7 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 
 var KT2KMH = NM2M*0.001;
 var NM2KM = KT2KMH;
+var NM2FT = NM2M*M2FT;
 
 var alt_scale_mode = -1; # the alt scale is not linear, this indicates which part is showed
 
@@ -89,6 +90,7 @@ var r = 0.0;#HUD colors
 var g = 1.0;
 var b = 0.0;
 var a = 1.0;
+var color = nil;
 var a_res = 0.85;
 var w = (getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth;  #line stroke width (saved between sessions)
 var ar = 1.0;#font aspect ratio, less than 1 make more wide.
@@ -1010,7 +1012,25 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 #artifactsText0 = [];
     me.pos_x = canvasWidth*0.4;
     me.lock_ir_last = FALSE;
+    
+    #EEGS:
+    me.eegsGroup = me.root.createChild("group");
+    me.funnelParts = 17;#number of segments in funnel sides. If increase, remember to increase all relevant vectors also.
+    me.eegsRightX = me.makeVector(me.funnelParts,0);
+    me.eegsRightY = me.makeVector(me.funnelParts,0);
+    me.eegsLeftX  = me.makeVector(me.funnelParts,0);
+    me.eegsLeftY  = me.makeVector(me.funnelParts,0);
+    me.gunPos   = nil;
+    me.eegsMe = {ac: geo.Coord.new(), eegsPos: geo.Coord.new(),shellPosX: me.makeVector(me.funnelParts,0),shellPosY: me.makeVector(me.funnelParts,0),shellPosDist: me.makeVector(me.funnelParts,0)};
+    me.lastTime = systime();
+    me.averageDt = 0.100;
+    me.eegsLoop = maketimer(me.averageDt, me, me.displayEEGS);
+    me.eegsLoop.simulatedTime = 1;
+    me.designatedDistanceFT = nil;
+    me.resetGunPos();
+    color = [r, g, b, a];
   },
+  
   setColorBackground: func () { 
     #me.texture.getNode('background', 1).setValue(_getColor(arg)); 
     me; 
@@ -1174,12 +1194,18 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.root.update();
       air2air = FALSE;
       air2ground = FALSE;
+      if (me.eegsLoop.isRunning) {
+        me.eegsLoop.stop();
+      }
       #settimer(func me.update(), 0.3);
     } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       air2air = FALSE;
       air2ground = FALSE;
+      if (me.eegsLoop.isRunning) {
+        me.eegsLoop.stop();
+      }
       #settimer(func me.update(), 0.25);
     } else {
       # commented as long as diamond node is choosen in HUD
@@ -1224,7 +1250,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
       ####   reticle  ####
       deflect = me.showReticle(mode, me.cannon, me.out_of_ammo);
-
+      
+      #me.reticle_cannon.show();me.reticle_cannon.setTranslation(0, centerOffset); gunsight test code, dont enable.
+      
       # altitude. Digital and scale.
       me.displayAltitude();
 
@@ -1254,6 +1282,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
       # tower symbol
       me.displayTower();
+      
+      # Gun pipper
+      me.displayGunPipper();
 
       
 
@@ -2607,6 +2638,171 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.tower_symbol.hide();
     }
   },
+  
+  resetGunPos: func {
+      me.gunPos   = [];
+      for(i = 0;i < me.funnelParts;i+=1){
+        var tmp = [];
+        for(var myloopy = 0;myloopy <= i+1;myloopy+=1){
+          append(tmp,nil);
+        }
+        append(me.gunPos, tmp);
+      }
+  },
+  
+  makeVector: func (siz,content) {
+      var vec = setsize([],siz);
+      var k = 0;
+      while(k<siz) {
+          vec[k] = content;
+          k += 1;
+      }
+      return vec;
+  },
+  
+  displayGunPipper: func {
+    var eegsShow = 0;
+    if(me.cannon) {
+        eegsShow = 0;
+    }
+    me.eegsGroup.setVisible(eegsShow);
+    if (eegsShow and !me.eegsLoop.isRunning) {
+        me.eegsLoop.start();
+    } elsif (!eegsShow and me.eegsLoop.isRunning) {
+        me.eegsLoop.stop();
+    }
+  },
+  
+  getPosFromCoord: func (ID, coord) {
+    me.hud_pos = radar_logic.ContactGPS.new(ID, coord);
+    if(me.hud_pos != nil) {
+      return me.hud_pos.get_cartesian();
+    }
+    return nil;
+  },  
+  
+  displayEEGS: func() {
+        #note: this stuff is expensive like hell to compute, but..lets do it anyway.
+        
+        var st = systime();
+        me.eegsMe.dt = st-me.lastTime;
+        if (me.eegsMe.dt > me.averageDt*3) {
+            me.lastTime = st;
+            me.resetGunPos();
+            me.eegsGroup.removeAllChildren();
+        } else {
+            me.lastTime = st;
+            
+            me.eegsMe.hdg   = getprop("orientation/heading-deg");
+            me.eegsMe.pitch = getprop("orientation/pitch-deg");
+            me.eegsMe.roll  = getprop("orientation/roll-deg");
+            
+            me.eegsMe.ac = geo.viewer_position();
+            me.eegsMe.allow = 1;
+            me.drawEEGSPipper = 0;
+            for (var l = 0;l < me.funnelParts;l+=1) {
+                # compute display positions of funnel on hud
+                var pos = me.gunPos[l][l+1];
+                if (pos == nil) {
+                    me.eegsMe.allow = 0;
+                } else {
+                    var ac  = me.gunPos[l][l][1];
+                    pos     = me.gunPos[l][l][0];
+                    me.eegsMe.posTemp = me.getPosFromCoord("PosTemp", pos);
+                    me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
+                    me.eegsMe.shellPosX[l] = me.eegsMe.posTemp[0];
+                    me.eegsMe.shellPosY[l] = me.eegsMe.posTemp[1];
+                    
+                    if (me.designatedDistanceFT != nil and !me.drawEEGSPipper) {
+                      if (l != 0 and me.eegsMe.shellPosDist[l] >= me.designatedDistanceFT and me.eegsMe.shellPosDist[l]>me.eegsMe.shellPosDist[l-1]) {
+                        var highdist = me.eegsMe.shellPosDist[l];
+                        var lowdist = me.eegsMe.shellPosDist[l-1];
+                        me.eegsPipperX = extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosX[l-1],me.eegsMe.shellPosX[l]);
+                        me.eegsPipperY = extrapolate(me.designatedDistanceFT,lowdist,highdist,me.eegsMe.shellPosY[l-1],me.eegsMe.shellPosY[l]);
+                        me.drawEEGSPipper = 1;
+                      }
+                    }
+                }
+            }
+            if (me.eegsMe.allow) {
+                # draw the funnel
+                for (var k = 0;k<me.funnelParts;k+=1) {
+                    var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*pixelPerDegreeX;#35ft average fighter wingspan
+                    me.eegsRightX[k] = me.eegsMe.shellPosX[k]-halfspan;
+                    me.eegsRightY[k] = me.eegsMe.shellPosY[k];
+                    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k]+halfspan;
+                    me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
+                }
+                me.eegsGroup.removeAllChildren();
+                for (var i = 1; i < me.funnelParts-1; i+=1) {#changed to i=1 as we dont need funnel to start so close
+                    me.eegsGroup.createChild("path")
+                        .moveTo(me.eegsRightX[i], me.eegsRightY[i])
+                        .lineTo(me.eegsRightX[i+1], me.eegsRightY[i+1])
+                        .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
+                        .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
+                        .setStrokeLineWidth(w)
+                        .setColor(color);
+                }
+                if (me.drawEEGSPipper) {
+                    var radius = 2;
+                    me.eegsGroup.createChild("path")
+                          .moveTo(me.eegsPipperX, me.eegsPipperY-radius)
+                          .arcSmallCW(radius,radius,0,0,radius*2)
+                          .arcSmallCW(radius,radius,0,0,-radius*2)
+                          .setStrokeLineWidth(w)
+                          .setColor(color);
+                }
+                me.eegsGroup.update();
+            }
+            
+            
+            
+            
+            #calc shell positions
+            
+            me.eegsMe.vel = getprop("velocities/uBody-fps")+3383.33;#3383.33 = speed
+            
+            me.eegsMe.geodPos = aircraftToCart({x:1.0589, y:-0.20321, z: 0.9124});#position of gun in aircraft (x and z inverted)
+            me.eegsMe.eegsPos.set_xyz(me.eegsMe.geodPos.x, me.eegsMe.geodPos.y, me.eegsMe.geodPos.z);
+            me.eegsMe.altC = me.eegsMe.eegsPos.alt();
+            
+            me.eegsMe.rs = armament.AIM.rho_sndspeed(me.eegsMe.altC*M2FT);#simplified
+            me.eegsMe.rho = me.eegsMe.rs[0];
+            me.eegsMe.mass =  2.69/ armament.slugs_to_lbm;#2.69=lbs
+            
+            for (var j = 0;j < me.funnelParts;j+=1) {
+                
+                #calc new speed
+                me.eegsMe.Cd = drag(me.eegsMe.vel/ me.eegsMe.rs[1],0.193);#0.193=cd
+                me.eegsMe.q = 0.5 * me.eegsMe.rho * me.eegsMe.vel * me.eegsMe.vel;
+                me.eegsMe.deacc = (me.eegsMe.Cd * me.eegsMe.q * 0.00136354) / me.eegsMe.mass;#0.00136354=eda
+                me.eegsMe.vel -= me.eegsMe.deacc * me.averageDt;
+                me.eegsMe.speed_down_fps       = -math.sin(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
+                me.eegsMe.speed_horizontal_fps = math.cos(me.eegsMe.pitch * D2R) * (me.eegsMe.vel);
+                
+                me.eegsMe.speed_down_fps += 9.81 *M2FT *me.averageDt;
+                
+                
+                 
+                me.eegsMe.altC -= (me.eegsMe.speed_down_fps*me.averageDt)*FT2M;
+                
+                
+                me.eegsMe.dist = (me.eegsMe.speed_horizontal_fps*me.averageDt)*FT2M;
+                
+                me.eegsMe.eegsPos.apply_course_distance(me.eegsMe.hdg, me.eegsMe.dist);
+                me.eegsMe.eegsPos.set_alt(me.eegsMe.altC);
+                
+                var old = me.gunPos[j];
+                me.gunPos[j] = [[geo.Coord.new(me.eegsMe.eegsPos),me.eegsMe.ac]];
+                for (var m = 0;m<j+1;m+=1) {
+                    append(me.gunPos[j], old[m]);
+                } 
+                
+                me.eegsMe.vel = math.sqrt(me.eegsMe.speed_down_fps*me.eegsMe.speed_down_fps+me.eegsMe.speed_horizontal_fps*me.eegsMe.speed_horizontal_fps);
+                me.eegsMe.pitch = math.atan2(-me.eegsMe.speed_down_fps,me.eegsMe.speed_horizontal_fps)*R2D;
+            }                        
+        }
+    },
 
   displayCCIP: func () {
     if(mode == COMBAT) {
@@ -2717,6 +2913,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   displayRadarTracks: func (mode) {
+    me.designatedDistanceFT = nil;
     me.track_index = 1;
     me.selection_updated = FALSE;
     me.armSelect = me.station;
@@ -2750,7 +2947,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       if(me.selection != nil and me.selection.isValid() == TRUE and me.selection_updated == TRUE) {
         # selection is currently in forward looking radar view
         me.blink = FALSE;
-
+        me.designatedDistanceFT = me.selection.get_range()*NM2FT;
         me.pos_x = me.selection.get_cartesian()[0];
         me.pos_y = me.selection.get_cartesian()[1];
 
@@ -3095,6 +3292,7 @@ var reinit = func() {#mostly called to change HUD color
    foreach(var item; artifactsText1) {
     item.setColor(red, green, blue, alpha);
    }
+   color = [red, green, blue, alpha];
    hud_pilot.slip_indicator.setColorFill(red, green, blue, alpha);
    
    if (IR) {
@@ -3163,4 +3361,14 @@ var toggleCallsign = func () {
   } else {
     aircraft.HUD.normal_type();
   }
+};
+
+
+var drag = func (Mach, _cd) {
+    if (Mach < 0.7)
+        return 0.0125 * Mach + _cd;
+    elsif (Mach < 1.2)
+        return 0.3742 * math.pow(Mach, 2) - 0.252 * Mach + 0.0021 + _cd;
+    else
+        return 0.2965 * math.pow(Mach, -1.1506) + _cd;
 };
