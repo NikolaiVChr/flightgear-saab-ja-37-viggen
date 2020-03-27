@@ -1263,7 +1263,7 @@ var Contact = {
 
     get_cartesian: func() {
       me.get_Coord();
-      me.crft = geo.aircraft_position();
+      me.crft = geo.viewer_position();
       me.ptch = vector.Math.getPitch(me.crft,me.coord);
       me.dst  = me.crft.direct_distance_to(me.coord);
       me.brng = me.crft.course_to(me.coord);
@@ -1459,6 +1459,18 @@ var ContactGPS = {
   get_heading : func(){
       return 0;
   },
+  
+  get_uBody: func {
+      return 0;
+    },
+    
+    get_vBody: func {
+      return 0;
+    },
+    
+    get_wBody: func {
+      return 0;
+    },
 
   get_bearing: func(){
       var n = me.get_bearing_from_Coord(geo.aircraft_position());
@@ -1540,7 +1552,7 @@ var ContactGPS = {
   },
 
   get_cartesian: func {
-    me.crft = geo.aircraft_position();
+    me.crft = geo.viewer_position();
     me.ptch = vector.Math.getPitch(me.crft,me.coord);
     me.dst  = me.crft.direct_distance_to(me.coord);
     me.brng = me.crft.course_to(me.coord);
@@ -1642,6 +1654,9 @@ var ContactGhost = {
     var obj             = { parents : [ContactGhost]};# in real OO class this should inherit from Contact, but in nasal it does not need to
     obj.callsign        = "Ghost";
     obj.unique          = rand();
+    obj.ubody           = props.globals.getNode("velocities/uBody-fps");
+    obj.vbody           = props.globals.getNode("velocities/vBody-fps");
+    obj.wbody           = props.globals.getNode("velocities/wBody-fps");
     return obj;
   },
 
@@ -1731,6 +1746,39 @@ var ContactGhost = {
   get_Roll: func(){
       return 0;
   },
+  
+  get_uBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.ubody.getValue();
+      }
+      if(body == nil) {
+        body = me.get_Speed()*KT2FPS;
+      }
+      return body;
+    },
+    
+  get_vBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.vbody.getValue();
+      }
+      if(body == nil) {
+        body = 0;
+      }
+      return body;
+    },
+    
+  get_wBody: func {
+      var body = nil;
+      if (me.ubody != nil) {
+        body = me.wbody.getValue();
+      }
+      if(body == nil) {
+        body = 0;
+      }
+      return body;
+    },
 
   get_heading : func(){
       return getprop("orientation/heading-deg");
@@ -1819,7 +1867,7 @@ var ContactGhost = {
   get_cartesian: func() {
     var gpsAlt = me.get_Coord().alt();
 
-    var self      =  geo.aircraft_position();
+    var self      =  geo.viewer_position();
     var myPitch   =  input.pitch.getValue()*deg2rads;
     var myRoll    =  input.roll.getValue()*deg2rads;
     var myAlt     =  self.alt();
