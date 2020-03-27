@@ -69,7 +69,7 @@
         <impact>false</impact>
         <expiry>false</expiry>
     </submodel>
-
+<!-- if changing weight, speed, eda, offsets or cd, then remember to also change the EEGS inside HUD -->
     <submodel>
         <name>KCA cannon shell</name>
         <model>Models/Geometry/null.ac</model>

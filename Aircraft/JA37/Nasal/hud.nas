@@ -1251,8 +1251,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       ####   reticle  ####
       deflect = me.showReticle(mode, me.cannon, me.out_of_ammo);
       
-      #me.reticle_cannon.show();me.reticle_cannon.setTranslation(0, centerOffset); gunsight test code, dont enable.
-      
       # altitude. Digital and scale.
       me.displayAltitude();
 
@@ -2663,7 +2661,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displayGunPipper: func {
     var eegsShow = 0;
     if(me.cannon) {
-        eegsShow = 0;
+        eegsShow = 1;
     }
     me.eegsGroup.setVisible(eegsShow);
     if (eegsShow and !me.eegsLoop.isRunning) {
@@ -2673,13 +2671,49 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
   },
   
-  getPosFromCoord: func (ID, coord) {
-    me.hud_pos = radar_logic.ContactGPS.new(ID, coord);
-    if(me.hud_pos != nil) {
-      return me.hud_pos.get_cartesian();
-    }
-    return nil;
-  },  
+  getPosFromCoord: func (coord, viewer) {
+    me.ptch = vector.Math.getPitch(viewer,coord);
+    me.dst  = viewer.direct_distance_to(coord);
+    me.brng = viewer.course_to(coord);
+    me.hrz  = math.cos(me.ptch*D2R)*me.dst;
+
+    me.vel_gz = -math.sin(me.ptch*D2R)*me.dst;
+    me.vel_gx = math.cos(me.brng*D2R) *me.hrz;
+    me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
+    
+
+    me.yaw   = me.input.hdgReal.getValue() * D2R;
+    me.roll  = me.input.roll.getValue()    * D2R;
+    me.pitch = me.input.pitch.getValue()   * D2R;
+
+    #printf("heading %.1f bearing %.1f pitch %.1f north %.1f east %.1f down %.1f", input.hdgReal.getValue(), me.brng, me.ptch, me.vel_gx, me.vel_gy, me.vel_gz);
+
+    me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
+    me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
+    me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
+ 
+    me.vel_bx = me.vel_gx * me.cy * me.cp
+               + me.vel_gy * me.sy * me.cp
+               + me.vel_gz * -me.sp;
+    me.vel_by = me.vel_gx * (me.cy * me.sp * me.sr - me.sy * me.cr)
+               + me.vel_gy * (me.sy * me.sp * me.sr + me.cy * me.cr)
+               + me.vel_gz * me.cp * me.sr;
+    me.vel_bz = me.vel_gx * (me.cy * me.sp * me.cr + me.sy * me.sr)
+               + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
+               + me.vel_gz * me.cp * me.cr;
+ 
+    me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
+    me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
+
+    var hud_pos_x = me.getPosFromDeg(me.dir_x);
+    var hud_pos_y = centerOffset + me.getPosFromDeg(me.dir_y);
+
+    return [hud_pos_x, hud_pos_y];
+  },
+  
+  getPosFromDeg: func (deg) {
+    return pixelPerMeter*defaultHeadDistance * math.tan(deg*D2R);
+  },
   
   displayEEGS: func() {
         #note: this stuff is expensive like hell to compute, but..lets do it anyway.
@@ -2708,7 +2742,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                 } else {
                     var ac  = me.gunPos[l][l][1];
                     pos     = me.gunPos[l][l][0];
-                    me.eegsMe.posTemp = me.getPosFromCoord("PosTemp", pos);
+                    me.eegsMe.posTemp = me.getPosFromCoord(pos, ac);
                     me.eegsMe.shellPosDist[l] = ac.direct_distance_to(pos)*M2FT;
                     me.eegsMe.shellPosX[l] = me.eegsMe.posTemp[0];
                     me.eegsMe.shellPosY[l] = me.eegsMe.posTemp[1];
@@ -2726,30 +2760,31 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             }
             if (me.eegsMe.allow) {
                 # draw the funnel
-                for (var k = 0;k<me.funnelParts;k+=1) {
-                    var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*pixelPerDegreeX;#35ft average fighter wingspan
-                    me.eegsRightX[k] = me.eegsMe.shellPosX[k]-halfspan;
-                    me.eegsRightY[k] = me.eegsMe.shellPosY[k];
-                    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k]+halfspan;
-                    me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
-                }
+                #for (var k = 0;k<me.funnelParts;k+=1) {
+                #    var halfspan = math.atan2(35*0.5,me.eegsMe.shellPosDist[k])*R2D*pixelPerDegreeX;#35ft average fighter wingspan
+                #    me.eegsRightX[k] = me.eegsMe.shellPosX[k]-halfspan;
+                #    me.eegsRightY[k] = me.eegsMe.shellPosY[k];
+                #    me.eegsLeftX[k]  = me.eegsMe.shellPosX[k]+halfspan;
+                #    me.eegsLeftY[k]  = me.eegsMe.shellPosY[k];
+                #}
                 me.eegsGroup.removeAllChildren();
-                for (var i = 1; i < me.funnelParts-1; i+=1) {#changed to i=1 as we dont need funnel to start so close
-                    me.eegsGroup.createChild("path")
-                        .moveTo(me.eegsRightX[i], me.eegsRightY[i])
-                        .lineTo(me.eegsRightX[i+1], me.eegsRightY[i+1])
-                        .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
-                        .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
-                        .setStrokeLineWidth(w)
-                        .setColor(color);
-                }
+                #for (var i = 1; i < me.funnelParts-1; i+=1) {#changed to i=1 as we dont need funnel to start so close
+                #    me.eegsGroup.createChild("path")
+                #        .moveTo(me.eegsRightX[i], me.eegsRightY[i])
+                #        .lineTo(me.eegsRightX[i+1], me.eegsRightY[i+1])
+                #        .moveTo(me.eegsLeftX[i], me.eegsLeftY[i])
+                #        .lineTo(me.eegsLeftX[i+1], me.eegsLeftY[i+1])
+                #        .setStrokeLineWidth(w)
+                #        .setColor(color);
+                #}
                 if (me.drawEEGSPipper) {
-                    var radius = 2;
+                    var radius = 20;
                     me.eegsGroup.createChild("path")
                           .moveTo(me.eegsPipperX, me.eegsPipperY-radius)
                           .arcSmallCW(radius,radius,0,0,radius*2)
                           .arcSmallCW(radius,radius,0,0,-radius*2)
                           .setStrokeLineWidth(w)
+                          .setStrokeDashArray([3,10])
                           .setColor(color);
                 }
                 me.eegsGroup.update();

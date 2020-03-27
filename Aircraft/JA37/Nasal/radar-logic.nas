@@ -87,6 +87,7 @@ var ORDNANCE = 3;
 var knownShips = {
     "missile_frigate":       nil,
     "frigate":       nil,
+    "fleet":       nil,
     "USS-LakeChamplain":     nil,
     "USS-NORMANDY":     nil,
     "USS-OliverPerry":     nil,
