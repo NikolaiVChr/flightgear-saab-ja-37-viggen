@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">Eastern 23</name>
+    <texture>Liveries/EAST/eastern2.png</texture>
+    <owner type="string">EAST</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>
