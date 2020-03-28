@@ -1565,7 +1565,7 @@
             </function>
         </fcs_function>
 
-        <switch name="propulsion/engine/cutoff-actual">
+        <switch name="propulsion/engine/cutoff-low-pressure">
             <default value="1"/>
             <test logic="AND" value="0">
                 propulsion/engine/cutoff-commanded == 0
@@ -1573,18 +1573,23 @@
             </test>
         </switch>
 
-        <!-- The fuel valve should be open (cutoff off) before engaging the starter switch.
-             Unfortunately, jsbsim requires cutoff to be on initially for startup.
-             To avoid this, cutoff is always enabled for low engine speed.
-        -->
-        <switch name="propulsion/engine/cutoff-jsbsim">
-            <default value="propulsion/engine/cutoff-actual"/>
-            <test logic="AND" value="1">
-                propulsion/engine/n1 lt 5.2
+        <switch name="propulsion/engine/cutoff-high-pressure">
+            <default value="1"/>
+            <test logic="AND" value="0">
+                fcs/throttle-pos-deg ge 8
+                systems/flight/oil/pressure-drop-norm lt 0.5625
+                propulsion/engine/n2 gt 16 <!-- source: 11-16% -->
             </test>
-            <!--<output>/controls/engines/engine[0]/cutoff</output>-->
         </switch>
-
+        
+        <switch name="propulsion/engine/cutoff-jsbsim">
+            <default value="1"/>
+            <test logic="AND" value="0">
+                propulsion/engine/cutoff-low-pressure == 0
+                propulsion/engine/cutoff-high-pressure == 0
+            </test>
+            <output>propulsion/cutoff_cmd</output>
+        </switch>
     </channel>
 
     <channel execrate="2" name="blinkers">
