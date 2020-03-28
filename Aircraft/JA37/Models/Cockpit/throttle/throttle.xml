@@ -38,11 +38,19 @@
     <animation>
         <type>pick</type>
         <object-name>Handle</object-name>
+		<action>
+		    <button>0</button>
+			<binding>
+			    <command>property-assign</command>
+				<property>fdm/jsbsim/fcs/throttle-cutoff-catch</property>
+				<value>1</value>
+			</binding>
+		</action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>handle-throttle</tooltip-id>
-                <label>Throttle control</label>
+                <label>Throttle, click to lift and allow going back to cutoff position</label>
             </binding>
         </hovered>
     </animation>
@@ -69,9 +77,9 @@
 		<object-name>Rot3-2_screwHead</object-name>
 		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
-        <property>fdm/jsbsim/fcs/throttle-pos-slowed</property>
-        <factor>104.0</factor>
-		<offset-deg>-52</offset-deg>
+        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
+        <factor>1</factor>
+		<offset-deg>-60</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>
@@ -96,12 +104,12 @@
 				<sin>
 					<!-- deg2rad -->
 					<sum>
-							<product>
-								<property>fdm/jsbsim/fcs/throttle-pos-slowed</property>
-								<value>1.815142 </value> <!-- 104.0 -->
-							</product>
-							<value> -0.907571 </value> <!-- -52.0 -->
-						</sum>
+						<product>
+							<property>fdm/jsbsim/fcs/throttle-pos-deg</property>
+							<value>0.01745</value> <!-- 1 -->
+						</product>
+						<value> -1.0472 </value> <!-- -60.0 -->
+					</sum>
 					<!-- /deg2rad -->
 				</sin>
 				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
@@ -128,12 +136,12 @@
 					<cos>
 						<!-- deg2rad -->
 						<sum>
-								<product>
-									<property>fdm/jsbsim/fcs/throttle-pos-slowed</property>
-									<value>1.815142 </value> <!-- 104.0 -->
-								</product>
-								<value> -0.907571 </value> <!-- -52.0 -->
-							</sum>
+							<product>
+							  <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
+							  <value>0.01745</value> <!-- 1 -->
+							</product>
+							<value> -1.0472 </value> <!-- -60.0 -->
+						</sum>
 						<!-- /deg2rad -->
 					</cos>
 					<value>-0.1330279</value>

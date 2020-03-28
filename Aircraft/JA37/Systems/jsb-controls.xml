@@ -1457,51 +1457,103 @@
         <!-- from AJS-37 Description part 4
 
         throttle pos:
-        0-3 deg = stop mode
-        13-16   = ground idle
-        24.5    = flight idle
-        62-65   = max mil
+        7-9     = high pressure cutoff (colin: I don't think there is an indent/detent just here)
+        13-16   = ground idle - a catch prevents going back to cutoff
+        24.5    = flight idle - indent
+        62-65   = max mil - a catch prevents going into A/B, not simulated
+        69-72   = zone 1 indent
+        83-86   = zone 2 indent
+        97-100  = zone 3 indent
         120     = zone 3 end
 
         -->
 
-        <kinematic name="fcs/throttle-pos-slowed">
+        <aerosurface_scale name="fcs/throttle-pos-deg-raw">
             <input>/controls/engines/engine/throttle</input>
+            <zero_centered> false </zero_centered>
+            <domain>
+                <min>0</min>
+                <max>1</max>
+            </domain>
+            <range>
+                <min>0</min>
+                <max>120</max>
+            </range>
+            <clipto>
+                <min>0</min>
+                <max>120</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <!-- Apply cutoff catch to throttle position. -->
+        <switch name="fcs/throttle-pos-deg-limited">
+            <default value="fcs/throttle-pos-deg-raw"/>
+            <test logic="AND" value="15">
+                fcs/throttle-cutoff-catch == -1
+                fcs/throttle-pos-deg-raw lt 15
+            </test>
+        </switch>
+
+        <!-- Feed back to FG control -->
+        <aerosurface_scale name="fcs/throttle-control-pos-norm">
+            <input>fcs/throttle-pos-deg-limited</input>
+            <zero_centered> false </zero_centered>
+            <domain>
+                <min>0</min>
+                <max>120</max>
+            </domain>
+            <range>
+                <min>0</min>
+                <max>1</max>
+            </range>
+            <output>/controls/engines/engine/throttle</output>
+        </aerosurface_scale>
+
+        <!-- 3 positions
+             -1: engaged, prevents going back to cutoff position
+             0: resting, while in the cutoff position
+             1: lifted, allows going to cutoff position
+        -->
+        <switch name="fcs/throttle-cutoff-catch">
+            <default value="fcs/throttle-cutoff-catch"/>
+            <!-- In the cutoff zone, always go back to resting position -->
+            <test value="0">
+                fcs/throttle-pos-deg-limited lt 13
+            </test>
+            <!-- If resting and beyond the idle position, engage -->
+            <test logic="AND" value="-1">
+                fcs/throttle-cutoff-catch == 0
+                fcs/throttle-pos-deg-limited ge 15
+            </test>
+            <!-- If beyond flight idle, do not hold the lifted position.
+                 This is purely for gameplay (IRL the lifted position would not hold anyway).
+            -->
+            <test logic="AND" value="-1">
+                fcs/throttle-pos-deg-limited ge 24
+            </test>
+        </switch>
+
+        <!-- Slow down throttle movement -->
+        <kinematic name="fcs/throttle-pos-deg">
+            <input>fcs/throttle-pos-deg-limited</input>
             <traverse>
                 <setting>
                     <position>0</position>
                     <time>0</time>
                 </setting>
                 <setting>
-                    <position>1</position>
+                    <position>120</position>
                     <time>0.5</time>
                 </setting>
             </traverse>
+            <noscale/>
         </kinematic>
-
-        <aerosurface_scale name="names/throttle/pos-norm-deg">
-            <input>fcs/throttle-pos-slowed</input>
-            <zero_centered> false </zero_centered>
-            <domain>
-                <min>  0.00 </min>
-                <max>  1.00 </max>
-            </domain>
-            <range>
-                <min>    0 </min>
-                <max>  120 </max>
-            </range>
-            <clipto>
-                <min>  0 </min>
-                <max>  120 </max>
-            </clipto>
-            <output>fcs/throttle-pos-deg</output>
-        </aerosurface_scale>
 
         <aerosurface_scale name="names/throttle/pos-norm-scale">
             <input>fcs/throttle-pos-deg</input>
             <zero_centered> false </zero_centered>
             <domain>
-                <min>  0 </min>
+                <min> 15 </min>
                 <max> 62 </max>
             </domain>
             <range>
@@ -1537,17 +1589,14 @@
         <!-- augmentation zone -->
         <switch name="names/throttle/zone">
             <default value="0"/>
-            <test logic="AND" value="0">
-              fcs/throttle-pos-deg lt 70
-            </test>
-            <test logic="AND" value="1">
-              fcs/throttle-pos-deg lt 82.5
+            <test logic="AND" value="3">
+              fcs/throttle-pos-deg gt 98
             </test>
             <test logic="AND" value="2">
-              fcs/throttle-pos-deg lt 95
+              fcs/throttle-pos-deg gt 84
             </test>
-            <test logic="AND" value="3">
-              fcs/throttle-pos-deg ge 95
+            <test logic="AND" value="1">
+              fcs/throttle-pos-deg gt 70
             </test>
             <output>propulsion/engine/zone</output>
         </switch>
