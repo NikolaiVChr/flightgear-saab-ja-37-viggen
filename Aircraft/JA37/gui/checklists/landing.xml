@@ -70,23 +70,17 @@
     </item>
     <item>
         <name>Throttle</name>
-        <value>MIL THRUST (PG Up)</value>
+        <value>INCREASE AS REQUIRED</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
             <z-m>0.0959</z-m>
             <scale>7.0000</scale>
         </marker>
-        <condition>
-            <greater-than>
-                <property>/controls/engines/engine[0]/throttle</property>
-                <value>0.5</value>
-            </greater-than>
-        </condition>
         <binding>
             <command>property-assign</command>
             <property>/controls/engines/engine[0]/throttle</property>
-            <value>0.58</value>
+            <value>0.5</value>
         </binding>
     </item>
     <item>
@@ -105,7 +99,7 @@
     </item>
     <item>
         <name>Reduce throttle to avoid engine fire</name>
-        <value>REDUCE (PG Down)</value>
+        <value>REDUCE</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
@@ -114,8 +108,8 @@
         </marker>
         <condition>
             <less-than>
-                <property>/controls/engines/engine[0]/throttle</property>
-                <value>0.25</value>
+                <property>/fdm/jsbsim/fcs/throttle-pos-deg</property>
+                <value>40</value>
             </less-than>
         </condition>
         <binding>
