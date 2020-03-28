@@ -1886,10 +1886,13 @@ var autostarttimer = func {
 var stopAutostart = func {
   setprop("/controls/electric/main", FALSE);
   setprop("/controls/electric/battery", FALSE);
+  setprop("/controls/engines/engine/throttle", 0);
   settimer(stopFinal, 5, 1);#allow time for ram air and flaps to retract
 }
 
 stopFinal = func {
+  setprop("/controls/engines/engine/throttle", 0);
+  setprop("/controls/engines/engine/throttle-cutoff", TRUE);
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
@@ -1955,6 +1958,8 @@ var autostart = func {
   notice("Starting engine..");
   click();
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
+  setprop("/controls/engines/engine/throttle-cutoff", TRUE);
+  setprop("/controls/engines/engine/throttle", 0);
   #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
@@ -1979,6 +1984,8 @@ var waiting_n1 = func {
       if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == TRUE) {
         click();
         setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", FALSE);
+        setprop("/controls/engines/engine/throttle-cutoff", FALSE);
+        setprop("/controls/engines/engine/throttle", 0);
         if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
           notice("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
