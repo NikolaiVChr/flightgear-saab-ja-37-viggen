@@ -29,9 +29,10 @@
             </script>
         </binding>
     </item>
+    <item><name>Check:</name></item>
     <item>
-        <name>Start sys indicator</name>
-        <value>LIT</value>
+        <name>(a) Start sys indicator</name>
+        <value>LIT WITHIN 5s</value>
         <condition>
             <property>fdm/jsbsim/systems/indicators/start-system</property>
         </condition>
@@ -42,6 +43,52 @@
             <scale>1.0000</scale>
         </marker>
     </item>
+    <item>
+        <name>(b) Exhaust gas temperature</name>
+        <value>MAX 485C (>415C MAX 15s)</value>
+        <condition>
+            <less-than>
+              <property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
+              <value>485</value>
+            </less-than>
+        </condition>
+        <marker>
+            <x-m>-3.8000</x-m>
+            <y-m>0.2800</y-m>
+            <z-m>0.1100</z-m>
+            <scale>1.7000</scale>
+        </marker>
+    </item>
+    <item>
+        <name>If (a) or (b) exceeded, or quick acceleration past ground idle, or if RPM remains &lt;54%</name>
+    </item>
+    <item>
+        <name>Throttle (click to lift, then pull back)</name>
+        <value>CUTOFF</value>
+        <marker>
+            <x-m>-3.6000</x-m>
+            <y-m>-0.4587</y-m>
+            <z-m>0.0959</z-m>
+            <scale>7.0000</scale>
+        </marker>
+        <condition>
+            <less-than>
+                <property>/fdm/jsbsim/fcs/throttle-pos-deg</property>
+                <value>7</value>
+            </less-than>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/fdm/jsbsim/fcs/throttle-cutoff-catch</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0</value>
+        </binding>
+    </item>
+    <item><name>At ground idle, check:</name></item>
     <item>
         <name>Fan RPM</name>
         <value>54-60%</value>
@@ -81,12 +128,28 @@
         </marker>
     </item>
     <item>
+        <name>Nozzle Position</name>
+        <value>FULL OPEN</value>
+        <condition>
+            <greater-than>
+              <property>/fdm/jsbsim/propulsion/engine/nozzle</property>
+              <value>0.95</value>
+            </greater-than>
+        </condition>
+        <marker>
+            <x-m>-3.8000</x-m>
+            <y-m>0.3300</y-m>
+            <z-m>0.1100</z-m>
+            <scale>1.7000</scale>
+        </marker>
+    </item>
+    <item>
         <name>Exhaust gas temperature</name>
-        <value>MAX 400 C</value>
+        <value>MAX 385 C</value>
         <condition>
             <less-than>
               <property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
-              <value>400</value>
+              <value>385</value>
             </less-than>
         </condition>
         <marker>
@@ -97,23 +160,12 @@
         </marker>
     </item>
     <item>
-        <name>Engine</name>
-        <value>Ready</value>
-        <condition>
-            <property>/engines/engine[0]/running</property>
-        </condition>
+        <name>Warning lights</name>
+        <value>CHECK OFF (X-Tank Fuel off at 70%rpm)</value>
     </item>
     <item>
-        <name>Toggle external power (menu)</name>
-        <value>OFF</value>
-        <binding>
-            <command>property-assign</command>
-            <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
-            <value>0</value>
-        </binding>
-        <condition>
-            <not><property>fdm/jsbsim/systems/electrical/external/enable-cmd</property></not>
-        </condition>
+        <name>Instruments Failure Flags</name>
+        <value>CHECK OFF</value>
     </item>
     <item>
         <name>SPAK</name>
@@ -141,5 +193,17 @@
               timer.start();
             </script>
         </binding>
+    </item>
+    <item>
+        <name>Toggle external power (menu)</name>
+        <value>OFF</value>
+        <binding>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+            <value>0</value>
+        </binding>
+        <condition>
+            <not><property>fdm/jsbsim/systems/electrical/external/enable-cmd</property></not>
+        </condition>
     </item>
 </PropertyList>

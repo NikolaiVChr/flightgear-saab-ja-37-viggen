@@ -34,6 +34,30 @@
         </binding>
     </item>
     <item>
+        <name>Brake Pressure</name>
+        <value>200-270 kp/cm2</value>
+        <marker>
+            <x-m>-3.9800</x-m>
+            <y-m>-0.4116</y-m>
+            <z-m>0.1752</z-m>
+            <scale>2.0000</scale>
+        </marker>
+        <!-- NOT WORKING
+        <condition>
+            <and>
+                <greater-than-equals>
+                    <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
+                    <value>200</value>
+                </greater-than-equals>
+                <less-than-equals>
+                    <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
+                    <value>270</value>
+                </less-than-equals>
+            </and>
+        </condition>
+        -->
+    </item>
+    <item>
         <name>Calibrate altimeters</name>
         <value>SET</value>
         <marker>
@@ -71,7 +95,7 @@
     </item>
     <item>
         <name>Warning lights</name>
-        <value>CHECK OFF (X-Tank Fuel disappears at 70%rpm)</value>
+        <value>CHECK OFF (X-Tank Fuel off at 70%rpm)</value>
     </item>
     <item>
         <name>Nose wheel steering</name>

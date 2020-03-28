@@ -4,7 +4,7 @@
     <title>In Air Engine Restart</title>
     <item>
         <name>Throttle</name>
-        <value>IDLE (PG Down)</value>
+        <value>GROUND IDLE (PG Down)</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
@@ -12,15 +12,21 @@
             <scale>7.0000</scale>
         </marker>
         <condition>
-            <less-than>
-                <property>/controls/engines/engine[0]/throttle</property>
-                <value>0.02</value>
-            </less-than>
+            <and>
+                <greater-than-equals>
+                    <property>/fdm/jsbsim/fcs/throttle-pos-deg</property>
+                    <value>15</value>
+                </greater-than-equals>
+                <less-than>
+                    <property>/fdm/jsbsim/fcs/throttle-pos-deg</property>
+                    <value>20</value>
+                </less-than>
+            </and>
         </condition>
         <binding>
             <command>property-assign</command>
             <property>/controls/engines/engine[0]/throttle</property>
-            <value>0</value>
+            <value>0.125</value>
         </binding>
     </item>
     <item>
@@ -29,7 +35,7 @@
     </item>
     <!-- Real checklist: press engine restart button 2s, does not exist on this model -->
     <item>
-        <name>Below 9km(30000ft), fuel regulation</name>
+        <name>Below 11km(36000ft), fuel regulation</name>
         <value>MANUAL</value>
         <marker>
             <x-m>-3.6496</x-m>
@@ -76,29 +82,6 @@
               timer.start();
             </script>
         </binding>
-    </item>
-    <item>
-        <name>Fan RPM</name>
-        <value>&gt;55%</value>
-        <condition>
-            <greater-than>
-                <property>/engines/engine[0]/n2</property>
-                <value>55</value>
-            </greater-than>
-        </condition>
-        <marker>
-            <x-m>-3.9678</x-m>
-            <y-m>-0.1900</y-m>
-            <z-m>0.2471</z-m>
-            <scale>3.0000</scale>
-        </marker>
-    </item>
-    <item>
-        <name>Engine</name>
-        <value>Ready</value>
-        <condition>
-            <property>/engines/engine[0]/running</property>
-        </condition>
     </item>
     <item>
         <name>Fly gently, land as soon as possible</name>
