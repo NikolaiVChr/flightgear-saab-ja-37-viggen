@@ -1522,7 +1522,7 @@
             </test>
             <!-- If resting and beyond the idle position, engage -->
             <test logic="AND" value="-1">
-                fcs/throttle-cutoff-catch == 0
+                /controls/engines/engine/throttle-cutoff-catch == 0
                 fcs/throttle-pos-deg-limited ge 15
             </test>
             <!-- If beyond flight idle, do not hold the lifted position.
