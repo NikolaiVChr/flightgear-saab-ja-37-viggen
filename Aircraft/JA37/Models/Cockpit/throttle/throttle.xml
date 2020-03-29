@@ -42,7 +42,7 @@
 		    <button>0</button>
 			<binding>
 			    <command>property-assign</command>
-				<property>fdm/jsbsim/fcs/throttle-cutoff-catch</property>
+				<property>/controls/engines/engine/throttle-cutoff-catch</property>
 				<value>1</value>
 			</binding>
 		</action>

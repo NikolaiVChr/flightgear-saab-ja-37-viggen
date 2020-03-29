@@ -1515,7 +1515,7 @@
              1: lifted, allows going to cutoff position
         -->
         <switch name="fcs/throttle-cutoff-catch">
-            <default value="fcs/throttle-cutoff-catch"/>
+            <default value="/controls/engines/engine/throttle-cutoff-catch"/>
             <!-- In the cutoff zone, always go back to resting position -->
             <test value="0">
                 fcs/throttle-pos-deg-limited lt 13
@@ -1531,6 +1531,7 @@
             <test logic="AND" value="-1">
                 fcs/throttle-pos-deg-limited ge 24
             </test>
+            <output>/controls/engines/engine/throttle-cutoff-catch</output>
         </switch>
 
         <!-- Slow down throttle movement -->
