@@ -177,9 +177,6 @@ input = {
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
-  cutoffOrig:       "controls/engines/engine[0]/cutoff",
-  cutoffActual:     "fdm/jsbsim/propulsion/engine/cutoff-actual",
-  cutoffJsbsim:     "fdm/jsbsim/propulsion/engine/cutoff-jsbsim",
   inputFlight:      "ja37/systems/input-controls-flight",
   terrainWarn:      "instrumentation/terrain-warning",
   parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
@@ -469,9 +466,6 @@ var Saab37 = {
 
   # fast updating loop
   speed_loop: func {
-
-    input.cutoffOrig.setBoolValue(input.cutoffJsbsim.getValue());
-
     # switch on and off ALS landing lights
     if(input.landLightSupport.getValue() and 0) {
         if(input.viewInternal.getValue()) {
