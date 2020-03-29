@@ -62,6 +62,8 @@
                     <starter-cmd type="bool">true</starter-cmd>
                     <cutoff type="bool">false</cutoff>
                     <reverser-cmd type="bool">false</reverser-cmd>
+                    <throttle type="double">0.2</throttle>
+                    <throttle-cutoff-catch type="int">-1</throttle-cutoff-catch>
                 </engine>
             </engines>
             <electric>

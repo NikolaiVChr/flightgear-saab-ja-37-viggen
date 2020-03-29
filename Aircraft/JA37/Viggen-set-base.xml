@@ -1168,6 +1168,7 @@
                 <starter-cmd-hold type="bool">false</starter-cmd-hold>
                 <starter-cmd type="bool">false</starter-cmd>
                 <cutoff type="bool">true</cutoff>
+                <throttle-cutoff-catch type="int">0</throttle-cutoff-catch>
             </engine>
         </engines>
         <gear>
