@@ -7,6 +7,9 @@
     <name type="string">Tiger Meet 2014</name>
     <texture>Liveries/TIGERMEET/tiger-meet-2014.png</texture>
     <owner type="string">Spectre</owner>
+    <reflect type="float">-0.1</reflect>
+    <fresnel type="float">0.1</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

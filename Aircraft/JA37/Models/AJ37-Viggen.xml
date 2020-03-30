@@ -1957,6 +1957,11 @@
         if (skip == 0) {
             loop();
         }
+        
+        if (getprop("/sim/model/livery/reflect") == nil) {
+          # the master hack
+          setprop("/sim/model/livery/reflect",-0.4);
+        }
 
       ]]>
       </load>
@@ -2039,6 +2044,11 @@
     <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
     <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
+    <parameters>
+      <reflection-correction><use>sim/model/livery/reflect</use></reflection-correction>
+      <reflection-fresnel><use>sim/model/livery/fresnel</use></reflection-fresnel>
+      <reflection-rainbow><use>sim/model/livery/rainbow</use></reflection-rainbow>
+    </parameters>
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
     <object-name>elevonLeftOuter</object-name>

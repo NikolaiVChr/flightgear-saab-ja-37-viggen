@@ -7,6 +7,9 @@
     <name type="string">Swedish Air Force 66</name>
     <texture>Liveries/SAF66/saf66.png</texture>
     <owner type="string">SAF</owner>
+    <reflect type="float">-0.4</reflect>
+    <fresnel type="float">0</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

@@ -7,6 +7,9 @@
     <name type="string">Swedish Air Force 12 Black Knight</name>
     <texture>Liveries/SAF12/saf12.png</texture>
     <owner type="string">SAF</owner>
+    <reflect type="float">-0.1</reflect>
+    <fresnel type="float">0.1</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

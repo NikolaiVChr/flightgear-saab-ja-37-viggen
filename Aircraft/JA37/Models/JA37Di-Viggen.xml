@@ -460,8 +460,12 @@
             loop();
         }
 
-      ]]>
-      </load>
+      
+        if (getprop("/sim/model/livery/reflect") == nil) {
+          # the master hack
+          setprop("/sim/model/livery/reflect",-0.4);
+        }
+      ]]></load>
 
       
       <unload><![CDATA[
@@ -552,9 +556,11 @@
     <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
     <!--<inherits-from>Effects/model-interior</inherits-from>-->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
-    <!--<parameters>
-    <reflection-correction type="float">0.75</reflection-correction>
-  </parameters>-->
+    <parameters>
+      <reflection-correction><use>sim/model/livery/reflect</use></reflection-correction>
+      <reflection-fresnel><use>sim/model/livery/fresnel</use></reflection-fresnel>
+      <reflection-rainbow><use>sim/model/livery/rainbow</use></reflection-rainbow>
+    </parameters>
     <!--<parameters>
       <reflection-type type="int">2</reflection-type>
       <reflection-enabled type="int">0</reflection-enabled>

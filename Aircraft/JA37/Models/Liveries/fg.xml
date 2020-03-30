@@ -7,6 +7,9 @@
     <name type="string">Flightgear</name>
     <texture>Liveries/FG/fg.png</texture>
     <owner type="string">Flightgear</owner>
+    <reflect type="float">-0.4</reflect>
+    <fresnel type="float">0</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

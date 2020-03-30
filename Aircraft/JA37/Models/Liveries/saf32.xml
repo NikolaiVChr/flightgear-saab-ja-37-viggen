@@ -7,6 +7,9 @@
     <name type="string">Swedish Air Force 32 Blue Peter</name>
     <texture>Liveries/SAF32/saf32.png</texture>
     <owner type="string">SAF</owner>
+    <reflect type="float">-0.1</reflect>
+    <fresnel type="float">0.1</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

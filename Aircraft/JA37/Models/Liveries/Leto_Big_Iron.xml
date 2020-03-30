@@ -7,6 +7,9 @@
     <name type="string">Leto: Big Iron</name>
     <texture>Liveries/Gunslinger/Leto_Big_Iron.png</texture>
     <owner type="string">Leto</owner>
+    <reflect type="float">-0.1</reflect>
+    <fresnel type="float">0.1</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

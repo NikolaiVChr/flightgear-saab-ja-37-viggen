@@ -7,6 +7,9 @@
     <name type="string">KSUU Crew 1</name>
     <texture>Liveries/KSUU/ksuu1.png</texture>
     <owner type="string">KSUU</owner>
+    <reflect type="float">-0.4</reflect>
+    <fresnel type="float">0</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

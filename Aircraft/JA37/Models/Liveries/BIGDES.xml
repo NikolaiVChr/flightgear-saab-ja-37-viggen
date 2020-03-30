@@ -7,6 +7,9 @@
     <name type="string">Transformers BIGDES</name>
     <texture>Liveries/Transformers/BIGDES.png</texture>
     <owner type="string">BIGDES</owner>
+    <reflect type="float">-0.1</reflect>
+    <fresnel type="float">0.1</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>

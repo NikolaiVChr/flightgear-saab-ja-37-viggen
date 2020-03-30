@@ -7,6 +7,9 @@
     <name type="string">Eastern 23</name>
     <texture>Liveries/EAST/eastern2.png</texture>
     <owner type="string">EAST</owner>
+    <reflect type="float">-0.4</reflect>
+    <fresnel type="float">0</fresnel>
+    <rainbow type="float">0</rainbow>
    </livery>
   </model>
  </sim>
