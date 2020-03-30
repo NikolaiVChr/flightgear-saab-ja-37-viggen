@@ -68,7 +68,7 @@
     </item>
     <item>
         <name>Warning lights</name>
-        <value>CHECK OFF (X-Tank Fuel disappears at 70%rpm)</value>
+        <value>CHECK OFF (X-Tank Fuel off at 70%rpm)</value>
     </item>
     <item>
         <name>HUD</name>

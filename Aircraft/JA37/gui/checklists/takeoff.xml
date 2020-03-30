@@ -4,17 +4,17 @@
     <title>Takeoff</title>
     <item>
         <name>Throttle</name>
-        <value>OPEN FULL (PG Up)</value>
+        <value>MIL THRUST OR A/B AS REQUIRED</value>
         <condition>
             <greater-than>
-                <property>/controls/engines/engine[0]/throttle</property>
-                <value>0.98</value>
+                <property>/fdm/jsbsim/fcs/throttle-pos-deg</property>
+                <value>60</value>
             </greater-than>
         </condition>
         <binding>
             <command>property-assign</command>
             <property>/controls/engines/engine[0]/throttle</property>
-            <value>1</value>
+            <value>0.5</value>
         </binding>
         <marker>
             <x-m>-3.6000</x-m>
@@ -74,7 +74,7 @@
     </item>
     <item>
         <name>Throttle</name>
-        <value>REDUCE TO MIL THRUST (PG Down)</value>
+        <value>REDUCE TO MIL THRUST</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
@@ -90,7 +90,7 @@
         <binding>
             <command>property-assign</command>
             <property>/controls/engines/engine[0]/throttle</property>
-            <value>0.58</value>
+            <value>0.5</value>
         </binding>
     </item>
 </PropertyList>

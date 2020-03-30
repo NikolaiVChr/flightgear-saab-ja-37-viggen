@@ -351,9 +351,9 @@
             </group>
             <group>
                 <name>Emergency Procedures</name>
+                <checklist include="gui/checklists/fire.xml"/>
                 <checklist include="gui/checklists/ja37-in-air-start.xml"/>
                 <checklist include="gui/checklists/generator-failure.xml"/>
-                <checklist include="gui/checklists/fire.xml"/>
             </group>
         </checklists>
     </sim>

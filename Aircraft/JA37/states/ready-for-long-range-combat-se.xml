@@ -74,6 +74,7 @@
                     <starter-cmd type="bool">true</starter-cmd>
                     <cutoff type="bool">false</cutoff>
                     <reverser-cmd type="bool">false</reverser-cmd>
+                    <throttle-cutoff type="bool">false</throttle-cutoff>
                 </engine>
             </engines>
             <electric>
