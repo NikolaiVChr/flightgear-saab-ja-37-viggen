@@ -29,14 +29,6 @@
         <name>e</name>
         <desc>Fire selected weapon</desc>
     </key>
-    <key>
-        <name>Ctrl-5</name>
-        <desc>Select cannon</desc>
-    </key>
-    <key>
-        <name>Ctrl-1..4 and Ctrl-6..8</name>
-        <desc>Select pylon</desc>
-    </key>
 	<key>
         <name>[ / ]</name>
         <desc>Radar range decrease / increase</desc>
@@ -93,7 +85,7 @@
         <name>y</name>
         <desc>Toggle cursor/flight control</desc>
     </key>
-	  <key>
+	<key>
         <name>Y</name>
         <desc>Landing mode LS</desc>
     </key>
@@ -170,15 +162,15 @@
         <desc>Eject</desc>
     </key>
     <key>
-        <name>F7</name>
+        <name>Ctrl-1</name>
         <desc>GCI Picture</desc>
     </key>
     <key>
-        <name>F8</name>
+        <name>Ctrl-2</name>
         <desc>GCI Dope</desc>
     </key>
     <key>
-        <name>F9</name>
+        <name>Ctrl-3</name>
         <desc>GCI Cutoff</desc>
     </key>
     <!--
