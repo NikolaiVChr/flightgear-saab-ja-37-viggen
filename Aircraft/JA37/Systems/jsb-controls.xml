@@ -1766,7 +1766,7 @@
       <summer name="fcs/cursor/cursor-control-X">
         <description>Combined cursor control</description>
         <input>fcs/cursor/cursor-X-from-flight-controls</input>
-        <input>/ja37/systems/cursor-control-X</input>
+        <input>/controls/displays/cursor-slew-x</input>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
@@ -1775,7 +1775,7 @@
       <summer name="fcs/cursor/cursor-control-Y">
         <description>Combined cursor control</description>
         <input>fcs/cursor/cursor-Y-from-flight-controls</input>
-        <input>/ja37/systems/cursor-control-Y</input>
+        <input>/controls/displays/cursor-slew-y</input>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
@@ -1786,7 +1786,7 @@
         <default value="0"/>
         <test logic="OR" value="1">
           fcs/cursor/cursor-trigger-from-flight-controls == 1
-          /ja37/systems/cursor-select == 1
+          /controls/displays/cursor-click == 1
         </test>
         <output>fcs/cursor/cursor-select</output><!-- to prevent property from becoming double -->
       </switch>

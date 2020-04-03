@@ -427,11 +427,11 @@ var assignAxis = func(cmd) {
       <row>5</row>
       <col>2</col>
       <halign>fill</halign>
-      <legend>JA37 Cursor Vertical</legend>
+      <legend>Cursor Vertical</legend>
       <binding>
         <command>nasal</command>
         <script>
-          assignAxis("JA37 Cursor Vertical");
+          assignAxis("Cursor Vertical");
         </script>
       </binding>
     </button>
@@ -440,11 +440,11 @@ var assignAxis = func(cmd) {
       <row>6</row>
       <col>2</col>
       <halign>fill</halign>
-      <legend>JA37 Cursor Horizontal</legend>
+      <legend>Cursor Horizontal</legend>
       <binding>
         <command>nasal</command>
         <script>
-          assignAxis("JA37 Cursor Horizontal");
+          assignAxis("Cursor Horizontal");
         </script>
       </binding>
     </button>
