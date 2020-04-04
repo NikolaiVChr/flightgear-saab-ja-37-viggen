@@ -2,7 +2,7 @@
 
     <!-- Horizontal Situation Indicator -->
     <name>HSI</name>
-    <path>../gauge.ac</path>
+    <path>../Common/gauge.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>

@@ -14,7 +14,7 @@ name "dial"
 data 9
 dial.mesh
 crease 30.0
-texture "gauge-dial.png"
+texture "../Common/gauge-dial.png"
 texrep 1 1
 numvert 4
 0.00272 0.02751 0.02751
@@ -270,7 +270,7 @@ name "mount"
 data 10
 mount.mesh
 crease 30.0
-texture "gauge-mount.png"
+texture "../Common/gauge-mount.png"
 texrep 1 1
 numvert 54
 0 0.03028 -0.02956
