@@ -735,9 +735,6 @@
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
             <oxygen-manometer type="double">0.0</oxygen-manometer>
             <tertiary-opening type="double">1.0</tertiary-opening>
-            <cursor-control-X type="double">0.0</cursor-control-X>
-            <cursor-control-Y type="double">0.0</cursor-control-Y>
-            <cursor-select type="bool">false</cursor-select>
             <input-controls-flight type="bool">true</input-controls-flight>
             <fuel-warning-extra-percent type="int">-1</fuel-warning-extra-percent>
             <state type="string">parked</state>
@@ -1220,6 +1217,11 @@
         </flight>
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>
+        <displays>
+            <cursor-slew-x type="double">0.0</cursor-slew-x>
+            <cursor-slew-y type="double">0.0</cursor-slew-y>
+            <cursor-click type="bool">false</cursor-click>
+        </displays>
     </controls>
     <gear>
         <serviceable type="bool">true</serviceable>
