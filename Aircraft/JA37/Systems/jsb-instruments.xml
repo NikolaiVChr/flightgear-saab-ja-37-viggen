@@ -126,6 +126,85 @@
     </channel>
 
 
+    <channel execrate="4" name="engine-pressure-ratio">
+        <fcs_function name="propulsion/engine/mil-rate">
+            <function>
+                <!-- looked in JSBSim source code to find this formula for milthrust,
+                     for the AJ I use also JA max mil value as its only a factor -->
+                <product>
+                    <table>
+                        <independentVar lookup="row">propulsion/engine/n2</independentVar>
+                        <tableData>
+                             56.9 0
+                             57   1
+                        </tableData>
+                    </table>
+                    <sum>
+                        <product>
+                            <p>propulsion/engine/IdleThrust</p>
+                            <v>72100</v>
+                        </product>
+                        <product>
+                            <product>
+                                <difference>
+                                    <v>72100</v>
+                                    <product>
+                                        <p>propulsion/engine/IdleThrust</p>
+                                        <v>72100</v>
+                                    </product>
+                                </difference>
+                                <p>propulsion/engine/MilThrust</p>
+                            </product>
+                            <quotient>
+                                <difference>
+                                    <p>propulsion/engine/n2</p>
+                                    <v>57</v>
+                                </difference>
+                                <v>43</v>
+                            </quotient>
+                            <quotient>
+                                <difference>
+                                    <p>propulsion/engine/n2</p>
+                                    <v>57</v>
+                                </difference>
+                                <v>43</v>
+                            </quotient>
+                        </product>
+                    </sum>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/p7-p2">
+            <function>
+                <table>
+                    <independentVar lookup="row">propulsion/engine/mil-rate</independentVar>
+                    <tableData>
+                         1650     1.00 <!-- extrapolated -->
+                         3000     1.02
+                        72100     2.06 <!-- AJS-37 manual part 1, engine section -->
+                       115000    2.705 <!-- extrapolated -->
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <switch name="instruments/epr-direct">
+            <default value="propulsion/engine/p7-p2"/>
+            <test logic="OR" value="0">
+                /ja37/elec/ac-bus-main-bool == 0
+            </test>
+            <output>/engines/engine/epr-direct</output>
+        </switch>
+
+        <lag_filter name="instruments/epr">
+            <input>instruments/epr-direct</input>
+            <c1>5</c1>
+            <output>/engines/engine/epr-gauge</output>
+        </lag_filter>
+    </channel>
+
+    
     <channel execrate="4" name="instruments">
         <fcs_function name="names/instruments/indicated-altitude-meter">
             <function>
@@ -239,81 +318,6 @@
         </switch>
 
         <!-- used for animating epr gauge -->
-        <fcs_function name="propulsion/engine/mil-rate">
-            <function>
-                <!-- looked in JSBSim source code to find this formula for milthrust,
-                     for the AJ I use also JA max mil value as its only a factor -->
-                <product>
-                    <table>
-                        <independentVar lookup="row">propulsion/engine/n2</independentVar>
-                        <tableData>
-                             56.9 0
-                             57   1
-                        </tableData>
-                    </table>
-                    <sum>
-                        <product>
-                            <p>propulsion/engine/IdleThrust</p>
-                            <v>72100</v>
-                        </product>
-                        <product>
-                            <product>
-                                <difference>
-                                    <v>72100</v>
-                                    <product>
-                                        <p>propulsion/engine/IdleThrust</p>
-                                        <v>72100</v>
-                                    </product>
-                                </difference>
-                                <p>propulsion/engine/MilThrust</p>
-                            </product>
-                            <quotient>
-                                <difference>
-                                    <p>propulsion/engine/n2</p>
-                                    <v>57</v>
-                                </difference>
-                                <v>43</v>
-                            </quotient>
-                            <quotient>
-                                <difference>
-                                    <p>propulsion/engine/n2</p>
-                                    <v>57</v>
-                                </difference>
-                                <v>43</v>
-                            </quotient>
-                        </product>
-                    </sum>
-                </product>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="propulsion/engine/p7-p2">
-            <function>
-                <table>
-                    <independentVar lookup="row">propulsion/engine/mil-rate</independentVar>
-                    <tableData>
-                         1650     1.00 <!-- extrapolated -->
-                         3000     1.02
-                        72100     2.06 <!-- AJS-37 manual part 1, engine section -->
-                       115000    2.705 <!-- extrapolated -->
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-
-        <switch name="names/instr/epr-direct">
-            <default value="propulsion/engine/p7-p2"/>
-            <test logic="OR" value="0">
-              /ja37/elec/ac-bus-main-bool == 0
-            </test>
-            <output>/engines/engine/epr-direct</output>
-        </switch>
-
-        <lag_filter name="names/instr/epr">
-            <input> /engines/engine/epr-direct </input>
-            <c1> 5 </c1>
-            <output>/engines/engine/epr-gauge</output>
-        </lag_filter>
 
         <switch name="names/instr/fuel-on">
             <default value="/instrumentation/fuel/needleF_rot"/>

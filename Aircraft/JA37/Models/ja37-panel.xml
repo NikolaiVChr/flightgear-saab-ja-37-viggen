@@ -86,7 +86,7 @@
   </animation>-->
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/EnginePressureRatio/epr_gauge.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/EnginePressureRatio/epr-gauge.xml</path>
     <name>EPR Gauge</name>
     <offsets>
       <x-m>  0.00</x-m>
@@ -94,14 +94,6 @@
       <z-m>  0.040</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>EPR Gauge</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/augStage.xml</path>
