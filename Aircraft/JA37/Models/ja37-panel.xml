@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
 
   <model>
@@ -30,14 +30,6 @@
       <z-m>  0.23</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>G Meter</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Altimeter2/altimeter2.xml</path>

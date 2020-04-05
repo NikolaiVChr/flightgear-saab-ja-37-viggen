@@ -1,20 +1,41 @@
-﻿<?xml version="1.0"?>
-
+<?xml version="1.0"?>
 
 <PropertyList>
+    <path>accelerometer-specific.ac</path>
+    <!-- Additional shared models -->
+    <model><path>../Common/gauge-standard.ac</path></model>
+    <model><path>../Common/needle-standard.ac</path></model>
 
-    <path>acc.ac</path>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+        <object-name>buttonGMax</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+        <object-name>needleGMax</object-name>
+    </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glass</object-name>
     </effect>
 
-    <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>mount</object-name>
-        <object-name>buttonMax</object-name>
-    </effect>
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+        <object-name>needleGMax</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
 
     <animation>
         <type>material</type>
@@ -40,7 +61,7 @@
     
     <animation>
         <type>pick</type>
-        <object-name>buttonMax</object-name>
+        <object-name>buttonGMax</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -72,9 +93,9 @@
     
     <animation>
         <type>translate</type>
-        <object-name>buttonMax</object-name>
+        <object-name>buttonGMax</object-name>
         <property>ja37/avionics/maxG</property>
-        <factor>-0.010</factor>
+        <factor>-0.004</factor>
         <axis>
             <x> 1.0 </x>
             <y> 0.0 </y>
@@ -92,15 +113,11 @@
         <interpolation>
             <entry>
                 <ind>-2</ind>
-                <dep>-45</dep>
-            </entry>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
+                <dep>-60</dep>
             </entry>
             <entry>
                 <ind>9</ind>
-                <dep>202.5</dep>
+                <dep>270</dep>
             </entry>
         </interpolation>
         <center>
@@ -117,7 +134,7 @@
     
     <animation>
         <type>rotate</type>
-        <object-name>needleMax</object-name>
+        <object-name>needleGMax</object-name>
         <condition>
             <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
@@ -125,15 +142,11 @@
         <interpolation>
             <entry>
                 <ind>-2</ind>
-                <dep>-45</dep>
-            </entry>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
+                <dep>-60</dep>
             </entry>
             <entry>
                 <ind>9</ind>
-                <dep>202.5</dep>
+                <dep>270</dep>
             </entry>
         </interpolation>
         <center>
@@ -147,18 +160,4 @@
             <z>0</z>
         </axis>
     </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>needle</object-name>
-        <object-name>needleMax</object-name>
-        <object-name>dial</object-name>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
-    </animation>
-
 </PropertyList>

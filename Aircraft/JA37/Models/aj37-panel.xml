@@ -11,14 +11,6 @@
     </offsets>
   </model>
 
-  <animation>
-    <type>scale</type>
-    <object-name>G Meter</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
     <name>Chronometer</name>
