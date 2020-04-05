@@ -460,8 +460,6 @@ var Saab37 = {
     }
     setprop("/sim/rendering/als-filters/use-filtering", 1);
     #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
-    
-    setprop("ja37/accelerations/pilot-G-max", math.max(getprop("ja37/accelerations/pilot-G-lag"),getprop("ja37/accelerations/pilot-G-max")));
   },
 
   # fast updating loop
@@ -1290,15 +1288,6 @@ var saab37 = Saab37.new();
 
 
 
-
-
-
-
-
-
-var resetMaxG = func {
-  setprop("ja37/accelerations/pilot-G-max", -4);
-}
 
 
 
