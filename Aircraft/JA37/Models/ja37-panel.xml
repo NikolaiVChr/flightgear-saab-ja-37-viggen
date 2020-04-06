@@ -32,24 +32,16 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Altimeter2/altimeter2.xml</path>
-    <name>Altimeter2</name>
+    <path>Aircraft/JA37/Models/Instruments/AltimeterBackup/altimeter-backup.xml</path>
+    <name>AltimeterBackup</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.345</y-m>
-      <z-m>  0.05</z-m>
+      <y-m> -0.28</y-m>
+      <z-m>  0.04</z-m>
     </offsets>
   </model>
 
-  <animation>
-    <type>scale</type>
-    <object-name>Altimeter2</object-name>
-    <x-offset>0.8</x-offset>
-    <y-offset>0.8</y-offset>
-    <z-offset>0.8</z-offset>
-  </animation>
-
-<model>
+  <model>
     <path>Aircraft/JA37/Models/Instruments/FuelJA/fuel_ja.xml</path>
     <name>Fuel Gauge</name>
     <offsets>

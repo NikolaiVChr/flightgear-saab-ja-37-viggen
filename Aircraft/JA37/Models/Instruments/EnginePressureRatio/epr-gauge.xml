@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
+
 <PropertyList>
-    <path>epr-needle.ac</path>
-    <model><path>../Common/gauge-standard.ac</path></model>
+    <path>epr-gauge.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
@@ -29,14 +29,6 @@
             <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>dial</object-name>
-        <property-base>ja37/texture</property-base>
-        <texture-prop>gauge-epr</texture-prop>
-        <texture>epr-gauge.png</texture>
     </animation>
 
     <animation>

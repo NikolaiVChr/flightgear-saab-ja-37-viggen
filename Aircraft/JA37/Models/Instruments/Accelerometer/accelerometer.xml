@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-    <path>accelerometer-specific.ac</path>
-    <!-- Additional shared models -->
-    <model><path>../Common/gauge-standard.ac</path></model>
-    <model><path>../Common/needle-standard.ac</path></model>
+    <path>accelerometer.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
@@ -35,14 +32,6 @@
             <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>dial</object-name>
-        <property-base>ja37/texture</property-base>
-        <texture-prop>gauge-acc</texture-prop>
-        <texture>accelerometer.png</texture>
     </animation>
 
     <animation>
