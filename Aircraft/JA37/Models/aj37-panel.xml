@@ -157,14 +157,6 @@
     </offsets>
   </model>
 
-  <animation>
-    <type>scale</type>
-    <object-name>RPM Indicator</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator2/ai2.xml</path>
     <name>Attitude Indicator 2</name>

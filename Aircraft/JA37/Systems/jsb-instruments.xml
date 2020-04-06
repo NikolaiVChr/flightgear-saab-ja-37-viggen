@@ -126,7 +126,8 @@
     </channel>
 
 
-    <channel execrate="4" name="engine-pressure-ratio">
+    <channel execrate="4" name="engine-instruments">
+        <!-- Engine pressure ratio -->
         <fcs_function name="propulsion/engine/mil-rate">
             <function>
                 <!-- looked in JSBSim source code to find this formula for milthrust,
@@ -201,6 +202,24 @@
             <input>instruments/epr-direct</input>
             <c1>5</c1>
             <output>/engines/engine/epr-gauge</output>
+        </lag_filter>
+
+        <!-- RPM -->
+        <switch name="instruments/tachometer-direct">
+            <default value="propulsion/engine/n2"/>
+            <test logic="OR" value="0">
+              /ja37/elec/dc-bus-main-bool == 0
+            </test>
+        </switch>
+
+        <lag_filter name="instruments/tachometer">
+            <input>instruments/tachometer-direct</input>
+            <c1> 5 </c1>
+            <output>/engines/engine/rpm-gauge</output>
+            <clipto>
+                <min>0</min>
+                <max>110</max>
+            </clipto>
         </lag_filter>
     </channel>
 
@@ -317,8 +336,6 @@
             <output>/ja37/avionics/gps-nav</output>
         </switch>
 
-        <!-- used for animating epr gauge -->
-
         <switch name="names/instr/fuel-on">
             <default value="/instrumentation/fuel/needleF_rot"/>
             <test logic="OR" value="/instrumentation/fuel/needleF_rot_on">
@@ -371,34 +388,6 @@
             <output>propulsion/engine/nozzle</output>
         </lag_filter>
 
-        <!-- used for animating tachometer -->
-        <switch name="names/instr/tachometer-direct">
-            <default value="propulsion/engine/n2"/>
-            <test logic="OR" value="0">
-              /ja37/elec/dc-bus-main-bool == 0
-            </test>
-            <output>propulsion/engine/tachometer-direct</output>
-        </switch>
-
-        <lag_filter name="names/instr/tachometer">
-            <input> propulsion/engine/tachometer-direct </input>
-            <c1> 5 </c1>
-            <output>propulsion/engine/tachometer</output>
-        </lag_filter>
-
-        <fcs_function name="propulsion/engine/n2-mod">
-            <function>
-                <product>
-                    <fraction>
-                        <quotient>
-                            <p>propulsion/engine/tachometer</p>
-                            <v>10</v>
-                        </quotient>
-                    </fraction>
-                    <v>10</v>
-                </product>
-            </function>
-        </fcs_function>
 
         
         <fcs_function name="systems/sound/alpha-limit-low-ja">
