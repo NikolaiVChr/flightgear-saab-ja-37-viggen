@@ -467,12 +467,7 @@
 *************************************************************************-->
         <systems>
             <path>Aircraft/JA37/Systems/systems.xml</path>
-            <!--<electrical>
-       <outputs>
-        <adi type="int">24</adi>
-        <rwr type="double">24</rwr>
-       </outputs>
-      </electrical>-->
+
             <!--*****************************
                      Autopilot
       ********************************-->
@@ -484,6 +479,10 @@
               <path>Aircraft/JA37/Systems/rules-misc.xml</path>
             </property-rule>
         </systems>
+
+        <instrumentation>
+            <path>Aircraft/JA37/Systems/instruments.xml</path>
+        </instrumentation>
 
         <!--**********************************************************************
 
@@ -1307,20 +1306,12 @@
         </plan-manager>
     </autopilot>
     <systems>
-        <path>Aircraft/JA37/Systems/systems.xml</path>
-        <electrical>
-            <outputs>
-                <!--<dc-voltage type="double">0</dc-voltage>
-                <ac-instr-voltage type="double">0</ac-instr-voltage>-->
-                <!--
-      <hud type="double">0</hud>
-      <radar type="double">0</radar>
-      <battery type="double">0</battery>
-      <comm n="0" type="double">0</comm>
-      <comm n="1" type="double">0</comm>-->
-            </outputs>
-            <!--<dc-light type="double">0</dc-light>-->
-        </electrical>
+        <static n="1">
+            <serviceable type="bool">true</serviceable>
+        </static>
+        <pitot n="1">
+            <serviceable type="bool">true</serviceable>
+        </pitot>
         <generator>
             <serviceable type="bool">true</serviceable>
         </generator>
@@ -1527,9 +1518,15 @@
         <dme>
             <switch-position type="int">0</switch-position>
         </dme>
+        <altimeter n="1">
+            <serviceable type="bool">true</serviceable>
+        </altimeter>
         <airspeed-indicator>
             <indicated-speed-kt type="double">0.0</indicated-speed-kt>
             <indicated-mach type="double">0.0</indicated-mach>
+        </airspeed-indicator>
+        <airspeed-indicator n="1">
+            <serviceable type="bool">true</serviceable>
         </airspeed-indicator>
         <heading-indicator>
             <offset-deg type="double">0</offset-deg>

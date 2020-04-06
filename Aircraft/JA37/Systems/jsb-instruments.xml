@@ -2,25 +2,17 @@
 
 <system name="instruments">
     <channel execrate="4" name="accelerometer">
-        <fcs_function name="instruments/g-force">
-            <function>
-                <quotient>
-                    <p>accelerations/a-pilot-z-ft_sec2</p>
-                    <v>-32.174</v>
-                </quotient>
-            </function>
+        <pure_gain name="instruments/g-force">
+            <input>accelerations/a-pilot-z-ft_sec2</input>
+            <gain>-0.031081</gain>
             <output>/ja37/accelerations/pilot-G</output>
-        </fcs_function>
+        </pure_gain>
 
-        <fcs_function name="instruments/g-force-norm">
-            <function>
-                <product>
-                    <p>instruments/g-force</p>
-                    <v>0.01</v>
-                </product>
-            </function>
+        <pure_gain name="instruments/g-force-norm">
+            <input>instruments/g-force</input>
+            <gain>0.01</gain>
             <output>/ja37/accelerations/pilot-G-norm</output>
-        </fcs_function>
+        </pure_gain>
         
         <!-- accelerometer animation -->
         <lag_filter name="instruments/accelerometer">
@@ -223,17 +215,23 @@
         </lag_filter>
     </channel>
 
+
+    <channel execrate="4" name="altimeters">
+        <pure_gain name="names/instruments/indicated-altitude-meter">
+            <input>/instrumentation/altimeter/indicated-altitude-ft</input>
+            <gain>0.3048</gain>
+            <output>/instrumentation/altimeter/indicated-altitude-meter</output>
+        </pure_gain>
+
+        <pure_gain name="names/instruments/indicated-altitude2-meter">
+            <input>/instrumentation/altimeter[1]/indicated-altitude-ft</input>
+            <gain>0.3048</gain>
+            <output>/instrumentation/altimeter[1]/indicated-altitude-meter</output>
+        </pure_gain>
+    </channel>
+
     
     <channel execrate="4" name="instruments">
-        <fcs_function name="names/instruments/indicated-altitude-meter">
-            <function>
-                <product>
-                    <p>/instrumentation/altimeter/indicated-altitude-ft</p>
-                    <v>0.3048</v>
-                </product>
-            </function>
-            <output>/instrumentation/altimeter/indicated-altitude-meter</output>
-        </fcs_function>
 
         <switch name="systems/ins/time-steady">
             <default value="sim-time-sec"/>

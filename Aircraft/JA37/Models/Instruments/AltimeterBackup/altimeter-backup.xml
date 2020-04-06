@@ -51,12 +51,12 @@
                 <command>set-tooltip</command>
                 <tooltip-id>altitude-backup</tooltip-id>
                 <label>%s</label> <!-- Only one parameter is supported here -->
-                <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                <property>/instrumentation/altimeter[1]/indicated-altitude-ft</property>
                 <mapping>nasal</mapping>
                 <script>
                     return sprintf("Altitude: %d ft / %d m",
-                                   getprop("/instrumentation/altimeter/indicated-altitude-ft"),
-                                   getprop("/instrumentation/altimeter/indicated-altitude-meter"));
+                                   getprop("/instrumentation/altimeter[1]/indicated-altitude-ft"),
+                                   getprop("/instrumentation/altimeter[1]/indicated-altitude-meter"));
                 </script>
             </binding>
         </hovered>
@@ -65,7 +65,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needle100</object-name>
-        <property>instrumentation/altimeter/indicated-altitude-meter</property>
+        <property>instrumentation/altimeter[1]/indicated-altitude-meter</property>
         <factor>0.36</factor>
         <offset-deg>180</offset-deg>
         <axis>
@@ -78,7 +78,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needle1000</object-name>
-        <property>instrumentation/altimeter/indicated-altitude-meter</property>
+        <property>instrumentation/altimeter[1]/indicated-altitude-meter</property>
         <factor>0.036</factor>
         <offset-deg>180</offset-deg>
         <axis>
@@ -91,7 +91,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>baro1</object-name>
-        <property>instrumentation/altimeter/setting-hpa</property>
+        <property>instrumentation/altimeter[1]/setting-hpa</property>
         <factor>0.1</factor>
         <axis>
             <x>0</x>
@@ -101,7 +101,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>baro10</object-name>
-        <property>instrumentation/altimeter/setting-hpa</property>
+        <property>instrumentation/altimeter[1]/setting-hpa</property>
         <factor>0.01</factor>
         <step>10</step>
         <scroll>1</scroll>
@@ -113,7 +113,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>baro100</object-name>
-        <property>instrumentation/altimeter/setting-hpa</property>
+        <property>instrumentation/altimeter[1]/setting-hpa</property>
         <factor>0.001</factor>
         <step>100</step>
         <scroll>1</scroll>
@@ -125,7 +125,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>baro1000</object-name>
-        <property>instrumentation/altimeter/setting-hpa</property>
+        <property>instrumentation/altimeter[1]/setting-hpa</property>
         <factor>0.0001</factor>
         <step>1000</step>
         <scroll>1</scroll>
@@ -138,7 +138,7 @@
     <animation>
         <type>knob</type>
         <object-name>knob</object-name>
-        <property>/instrumentation/altimeter/setting-hpa</property>
+        <property>/instrumentation/altimeter[1]/setting-hpa</property>
         <factor>10</factor>
         <axis>
             <x>-1</x>
@@ -153,7 +153,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-hpa</property>
+                <property>/instrumentation/altimeter[1]/setting-hpa</property>
                 <factor>0.25</factor>
                 <min>500.0</min>
                 <max>1130.0</max>
@@ -165,7 +165,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>altimeter-setting</tooltip-id>
                 <label>Baro setting: %6.1f hPa</label>
-                <property>/instrumentation/altimeter/setting-hpa</property>
+                <property>/instrumentation/altimeter[1]/setting-hpa</property>
             </binding>
         </hovered>
     </animation>
