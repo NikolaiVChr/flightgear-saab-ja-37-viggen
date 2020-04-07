@@ -231,6 +231,21 @@
     </channel>
 
 
+    <channel execrate="4" name="airspeed-indicators">
+        <pure_gain name="instruments/airspeed-kmh">
+            <input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+            <gain>1.852</gain>
+            <output>/instrumentation/airspeed-indicator/indicated-speed-kmh</output>
+        </pure_gain>
+
+        <pure_gain name="instruments/airspeed2-kmh">
+            <input>/instrumentation/airspeed-indicator[1]/indicated-speed-kt</input>
+            <gain>1.852</gain>
+            <output>/instrumentation/airspeed-indicator[1]/indicated-speed-kmh</output>
+        </pure_gain>
+    </channel>
+
+
     <channel execrate="4" name="heading-indicators">
         <pure_gain name="instruments/heading-backup-gyro-power">
           <input>/ja37/elec/ac-bus-main-norm</input>

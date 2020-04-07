@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <path>airspeed-backup.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glass</object-name>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>airspeedKTbackup</tooltip-id>
+                <label>Airspeed: %4d kt</label>
+                <property>instrumentation/airspeed-indicator[1]/indicated-speed-kt</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>needle</object-name>
+        <property>instrumentation/airspeed-indicator[1]/indicated-speed-kmh</property>
+        <!-- (pseudo)logarithmic scale -->
+        <interpolation>
+            <entry><ind>170</ind><dep>35</dep></entry>
+            <!-- start of graduated scale -->
+            <entry><ind>200</ind><dep>60</dep></entry>
+            <entry><ind>250</ind><dep>109</dep></entry>
+            <entry><ind>300</ind><dep>151</dep></entry>
+            <entry><ind>350</ind><dep>188</dep></entry>
+            <entry><ind>400</ind><dep>217</dep></entry>
+            <entry><ind>450</ind><dep>243</dep></entry>
+            <entry><ind>500</ind><dep>267</dep></entry>
+            <entry><ind>600</ind><dep>308</dep></entry>
+            <entry><ind>700</ind><dep>342</dep></entry>
+            <entry><ind>800</ind><dep>373</dep></entry>
+            <!-- stop slightly after the end of the scale for a more natural look -->
+            <entry><ind>830</ind><dep>382</dep></entry>
+        </interpolation>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+</PropertyList>

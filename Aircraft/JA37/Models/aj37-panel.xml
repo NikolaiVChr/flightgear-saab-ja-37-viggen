@@ -68,22 +68,14 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/NozzleIndicator/nozzle.xml</path>
-    <name>Nozzle Indicator</name>
+    <path>Aircraft/JA37/Models/Instruments/AirspeedBackup/airspeed-backup.xml</path>
+    <name>AirspeedBackup</name>
     <offsets>
       <x-m>  0.00</x-m>
       <y-m>  0.1887</y-m>
       <z-m>  0.1825</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Nozzle Indicator</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/augStage.xml</path>
