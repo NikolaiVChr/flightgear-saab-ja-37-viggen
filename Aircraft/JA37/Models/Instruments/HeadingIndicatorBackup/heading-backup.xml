@@ -58,13 +58,13 @@
             </binding>
             <binding>
                 <command>property-assign</command>
-                <property>instrumentation/heading[1]/fast-erect-button</property>
+                <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>instrumentation/heading[1]/fast-erect-button</property>
+                    <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -81,7 +81,7 @@
     <animation>
         <type>translate</type>
         <object-name>button</object-name>
-        <property>instrumentation/heading[1]/fast-erect-button</property>
+        <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
         <factor>-0.004</factor>
         <axis>
             <x> 1.0 </x>
@@ -93,10 +93,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
-        <property>orientation/heading-magnetic-deg</property>
-        <condition>
-            <property>ja37/elec/ac-bus-main-bool</property>
-        </condition>
+        <property>instrumentation/heading-indicator[1]/indicated-heading-deg</property>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>

@@ -200,7 +200,7 @@
         <switch name="instruments/tachometer-direct">
             <default value="propulsion/engine/n2"/>
             <test logic="OR" value="0">
-              /ja37/elec/dc-bus-main-bool == 0
+              /ja37/elec/ac-bus-main-bool == 0
             </test>
         </switch>
 
@@ -217,16 +217,25 @@
 
 
     <channel execrate="4" name="altimeters">
-        <pure_gain name="names/instruments/indicated-altitude-meter">
+        <pure_gain name="instruments/indicated-altitude-meter">
             <input>/instrumentation/altimeter/indicated-altitude-ft</input>
             <gain>0.3048</gain>
             <output>/instrumentation/altimeter/indicated-altitude-meter</output>
         </pure_gain>
 
-        <pure_gain name="names/instruments/indicated-altitude2-meter">
+        <pure_gain name="instruments/indicated-altitude2-meter">
             <input>/instrumentation/altimeter[1]/indicated-altitude-ft</input>
             <gain>0.3048</gain>
             <output>/instrumentation/altimeter[1]/indicated-altitude-meter</output>
+        </pure_gain>
+    </channel>
+
+
+    <channel execrate="4" name="heading-indicators">
+        <pure_gain name="instruments/heading-backup-gyro-power">
+          <input>/ja37/elec/ac-bus-main-norm</input>
+          <gain>5</gain>
+          <output>/instrumentation/heading-indicator[1]/power</output>
         </pure_gain>
     </channel>
 
