@@ -184,10 +184,9 @@
 
         <switch name="instruments/epr-direct">
             <default value="propulsion/engine/p7-p2"/>
-            <test logic="OR" value="0">
+            <test logic="OR" value="/engines/engine/epr-gauge">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
-            <output>/engines/engine/epr-direct</output>
         </switch>
 
         <lag_filter name="instruments/epr">
@@ -199,7 +198,7 @@
         <!-- RPM -->
         <switch name="instruments/tachometer-direct">
             <default value="propulsion/engine/n2"/>
-            <test logic="OR" value="0">
+            <test value="/engines/engine/rpm-gauge">
               /ja37/elec/ac-bus-main-bool == 0
             </test>
         </switch>
