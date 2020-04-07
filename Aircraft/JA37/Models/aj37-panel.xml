@@ -15,19 +15,11 @@
     <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
     <name>Chronometer</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.115</y-m>
-      <z-m>  0.28</z-m>
+      <x-m>0.00</x-m>
+      <y-m>0.115</y-m>
+      <z-m>0.28</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Chronometer</object-name>
-    <x-offset>1.1</x-offset>
-    <y-offset>1.1</y-offset>
-    <z-offset>1.1</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/AltimeterBackup/altimeter-backup.xml</path>

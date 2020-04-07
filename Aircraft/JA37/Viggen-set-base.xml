@@ -1534,6 +1534,10 @@
         <heading-indicator>
             <offset-deg type="double">0</offset-deg>
         </heading-indicator>
+        <clock>
+            <chronometer-state type="int">0</chronometer-state>
+            <chronometer-time-sec type="double">0</chronometer-time-sec>
+        </clock>
         <terrain-override type="bool">false</terrain-override>
         <gci>
             <picture type="bool">false</picture>
@@ -1602,7 +1606,6 @@
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
             <file>Aircraft/JA37/Nasal/options.nas</file>
-            <file>Aircraft/JA37/Nasal/chronograph.nas</file>
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
         </ja37>

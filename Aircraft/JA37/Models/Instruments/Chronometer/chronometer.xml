@@ -90,7 +90,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needleChronoM</object-name>
-        <property>instrumentation/clock/elapsed-sec</property>
+        <property>instrumentation/clock/chronometer-needle-pos-sec</property>
         <factor>0.1</factor>
         <center>
             <x-m>0</x-m>
@@ -107,7 +107,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needleChronoS</object-name>
-        <property>instrumentation/clock/elapsed-sec</property>
+        <property>instrumentation/clock/chronometer-needle-pos-sec</property>
         <factor>6</factor>
         <center>
             <x-m>0</x-m>
@@ -125,7 +125,7 @@
         <type>knob</type>
         <object-name>knob</object-name>
         <property>instrumentation/clock/offset-sec</property>
-        <factor>0.04</factor>
+        <factor>0.1</factor>
         <axis>
             <x>-1</x>
             <y>0</y>
@@ -140,7 +140,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/clock/offset-sec</property>
-                <factor>60</factor>
+                <factor>30</factor>
            </binding>
         </action>
         <hovered>
@@ -159,13 +159,28 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>nasal</command>
-                <script>ja37.chrono_click()</script>
+                <command>property-cycle</command>
+                <property>/instrumentation/clock/chronometer-state</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/clock/button</property>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>ja37.click()</script>
             </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/clock/button</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
         </action>
         <hovered>
             <binding>
@@ -174,5 +189,17 @@
                 <label>Chronometer start/stop/reset</label>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>button</object-name>
+        <property>instrumentation/clock/button</property>
+        <factor>-0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
     </animation>
 </PropertyList>

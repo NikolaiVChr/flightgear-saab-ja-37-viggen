@@ -253,7 +253,63 @@
         </pure_gain>
     </channel>
 
-    
+
+    <channel execrate="4" name="chronometer">
+        <!-- Control property /instrumentation/clock/chronometer-state
+             has 3 states:
+             - 0: reset to 0
+             - 1: running
+             - 2: stopped
+        -->
+        <summer name="instruments/clock/chrono-ref-feedback">
+            <input>sim-time-sec</input>
+            <input>-/instrumentation/clock/chronometer-time-sec</input>
+        </summer>
+        
+        <switch name="instruments/clock/chrono-ref-sec">
+            <default value="instruments/clock/chrono-ref-feedback"/>
+            <!-- When the chrono starts running (state=1), sample reference time -->
+            <test logic="AND" value="instruments/clock/chrono-ref-sec">
+                /instrumentation/clock/chronometer-state == 1
+                <!-- hack: prevent running at initialization to force reading chronometer-time-sec -->
+                sim-time-sec gt 0.1
+            </test>
+        </switch>
+
+        <summer name="instruments/clock/chrono-ref-diff">
+            <input>sim-time-sec</input>
+            <input>-instruments/clock/chrono-ref-sec</input>
+        </summer>
+
+        <switch name="instruments/clock/chrono-time-sec">
+            <default value="/instrumentation/clock/chronometer-time-sec"/>
+            <test value="0">
+                /instrumentation/clock/chronometer-state == 0
+            </test>
+            <test value="instruments/clock/chrono-ref-diff">
+                /instrumentation/clock/chronometer-state == 1
+            </test>
+            <output>/instrumentation/clock/chronometer-time-sec</output>
+        </switch>
+
+        <kinematic name="instruments/clock/chrono-needle-pos">
+            <input>instruments/clock/chrono-time-sec</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1000000</position>
+                    <time>10000</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/clock/chronometer-needle-pos-sec</output>
+        </kinematic>
+    </channel>
+
+
     <channel execrate="4" name="instruments">
 
         <switch name="systems/ins/time-steady">

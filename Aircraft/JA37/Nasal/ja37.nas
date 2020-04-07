@@ -1041,7 +1041,6 @@ var Saab37 = {
     me.loop_ap       = maketimer(0.20, me, func auto.apLoop());
     me.loop_hydrLost = maketimer(0.50, me, func auto.hydr1Lost());
 
-    me.loop_chrono   = maketimer(0.26, me, func ja37.chrono_update());
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
     me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
 
@@ -1057,7 +1056,6 @@ var Saab37 = {
     #me.loop_not.start();
     me.loop_ap.start();
     me.loop_hydrLost.start();    
-    me.loop_chrono.start();
     me.loop_land.start();
     me.loop_nav.start();
     me.loop_stores.start();
@@ -1172,7 +1170,6 @@ var Saab37 = {
     me.loop_ap       = maketimer(0.20, me, func {timer.timeLoop("Autopilot", auto.apLoop,me);});
     me.loop_hydrLost = maketimer(0.50, me, func {timer.timeLoop("Autopilot-power", auto.hydr1Lost,me);});
 
-    me.loop_chrono   = maketimer(0.26, me, func {timer.timeLoop("chronometer", ja37.chrono_update,me);});
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
 
@@ -1188,7 +1185,6 @@ var Saab37 = {
     #me.loop_not.start();
     me.loop_ap.start();
     me.loop_hydrLost.start();    
-    me.loop_chrono.start();
     me.loop_land.start();
     me.loop_nav.start();
     me.loop_stores.start();
