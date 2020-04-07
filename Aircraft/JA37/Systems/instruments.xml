@@ -20,7 +20,7 @@
         <number>0</number>
         <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
         <quantum>0</quantum>
-        <tau>0</tau>
+        <tau>0.1</tau>
     </altimeter>
 
     <altimeter>
@@ -28,7 +28,7 @@
         <number>1</number>
         <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
         <quantum>0</quantum>
-        <tau>0</tau>
+        <tau>0.1</tau>
     </altimeter>
 
   <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->

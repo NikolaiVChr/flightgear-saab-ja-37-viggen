@@ -186,22 +186,14 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/HeadingIndicator/heading-indicator.xml</path>
-    <name>ADI</name>
+    <path>Aircraft/JA37/Models/Instruments/HeadingIndicatorBackup/heading-backup.xml</path>
+    <name>BackupHeading</name>
     <offsets>
       <x-m>  0.00</x-m>
       <y-m>  0.1225</y-m>
       <z-m>  0.0425</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>ADI</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/transonic.xml</path>
@@ -210,16 +202,6 @@
       <x-m>  0.01</x-m>
       <y-m>  0.11</y-m>
       <z-m>  0.36</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-masterarm.xml</path>
-    <name>SwitchMasterarm</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.18</y-m>
-      <z-m>  0.31</z-m>
     </offsets>
   </model>
 
@@ -242,24 +224,6 @@
       <z-m>  0.255</z-m>
     </offsets>
   </model>
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-droptank.xml</path>
-    <name>Button-Droptank</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m>  0.22</y-m>
-      <z-m>  0.21</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<animation>
-    <type>scale</type>
-    <object-name>Button-Droptank</object-name>
-    <x-offset>1.5</x-offset>
-    <y-offset>1.5</y-offset>
-    <z-offset>1.5</z-offset>
-  </animation>-->
 
 <!--     center        -->
 
