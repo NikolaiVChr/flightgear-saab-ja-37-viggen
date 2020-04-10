@@ -529,19 +529,6 @@
                 <name>Drop tank</name>
                 <lbs>0</lbs>
             </opt>
-            <opt>
-                <name>M70 ARAK</name>
-                <lbs>0</lbs>
-            </opt>
-            <!--  there is no room for these:
-            <opt>
-                <name>RB 71 Skyflash</name>
-                <lbs>425</lbs>
-            </opt>
-            <opt>
-                <name>RB 99 Amraam</name>
-                <lbs>291</lbs>
-            </opt>-->
         </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
             <name type="string">Pilot</name>
