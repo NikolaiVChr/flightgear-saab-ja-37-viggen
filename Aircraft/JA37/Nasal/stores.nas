@@ -567,29 +567,31 @@ var loop_stores = func {
   }
 
   # conditionals for dropping M70/droptank
-  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[11]") == 794) {#TODO: figure out how I used int[2] here, its now used for radar.
-    #left wing rocket pod mounted
+  if (getprop("fdm/jsbsim/structural/wings/serviceable") == TRUE
+      and getprop("sim/multiplay/generic/float[11]") == 794) {
+    #left wing rocket pod mounted, wings not broken
     setprop("ja37/effect/pod0", FALSE);
     setprop("ai/submodels/submodel[14]/count", 1);
   } else {
     setprop("ja37/effect/pod0", TRUE);
   }
   if (getprop("sim/multiplay/generic/float[12]") == 794) {
-    #left wing rocket pod mounted
+    #left fuselage rocket pod mounted
     setprop("ja37/effect/pod1", FALSE);
     setprop("ai/submodels/submodel[15]/count", 1);
   } else {
     setprop("ja37/effect/pod1", TRUE);
   }
-  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[13]") == 794) {#TODO: figure out how I used int[2] here, its now used for radar.
-    #left wing rocket pod mounted
+  if (getprop("fdm/jsbsim/structural/wings/serviceable") == TRUE
+      and getprop("sim/multiplay/generic/float[13]") == 794) {
+    #right wing rocket pod mounted, wings not broken
     setprop("ja37/effect/pod2", FALSE);
     setprop("ai/submodels/submodel[16]/count", 1);
   } else {
     setprop("ja37/effect/pod2", TRUE);
   }
   if (getprop("sim/multiplay/generic/float[14]") == 794) {
-    #left wing rocket pod mounted
+    #right fuselage rocket pod mounted
     setprop("ja37/effect/pod3", FALSE);
     setprop("ai/submodels/submodel[17]/count", 1);
   } else {
@@ -729,7 +731,7 @@ var trigger_listener = func {
     }
   }
   if (fired == "M70 ARAK") {
-    var submodel = armSelect==7?15:armSelect + 4;
+    var submodel = armSelect + 4;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     if (ammo == 0) {
       var newStation = selectType(fired);
@@ -739,7 +741,7 @@ var trigger_listener = func {
     }
   }
   if (fired == "M55 AKAN") {
-    var submodel = armSelect==1?10:(armSelect==3?12:14);
+    var submodel = armSelect==1?10:12;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     if (ammo == 0) {
       var newStation = selectType(fired);
@@ -1307,7 +1309,7 @@ var hasBombsR = func (station) {
 var hasShells = func (station) {
   var loaded = -1;
   if (getprop("payload/weight["~(station-1)~"]/selected") == "M55 AKAN") {
-    var submodel = station==1?10:(station==3?12:14);
+    var submodel = station==1?10:12;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     loaded = ammo;
   }
@@ -1317,7 +1319,7 @@ var hasShells = func (station) {
 var hasRockets = func (station) {
   var loaded = -1;
   if (getprop("payload/weight["~(station-1)~"]/selected") == "M70 ARAK") {
-    var submodel = station==7?15:station + 4;
+    var submodel = station + 4;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     loaded = ammo;
   }

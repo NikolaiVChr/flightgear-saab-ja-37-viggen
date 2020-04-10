@@ -373,7 +373,7 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>0</count>
-        <y-offset>  -9.2</y-offset><!-- in feet -->
+        <y-offset> -9.02</y-offset><!-- in feet -->
         <z-offset> -4.92</z-offset>
         <x-offset> -7.22</x-offset>
         <yaw-offset>0.0</yaw-offset>
@@ -396,9 +396,9 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>0</count>
-        <y-m> -3.12</y-m>
-        <z-m> -5.82</z-m>
-        <x-m> -3.28</x-m>
+        <y-offset> -3.12</y-offset>
+        <z-offset> -5.82</z-offset>
+        <x-offset> -3.28</x-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
@@ -419,7 +419,7 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>0</count>
-        <y-offset>   9.2</y-offset><!-- in feet -->
+        <y-offset>  9.02</y-offset><!-- in feet -->
         <z-offset> -4.92</z-offset>
         <x-offset> -7.22</x-offset>
         <yaw-offset>0.0</yaw-offset>
@@ -442,9 +442,9 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>0</count>
-        <y-m>  3.12</y-m>
-        <z-m> -5.82</z-m>
-        <x-m> -3.28</x-m>
+        <y-offset>  3.12</y-offset>
+        <z-offset> -5.82</z-offset>
+        <x-offset> -3.28</x-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
