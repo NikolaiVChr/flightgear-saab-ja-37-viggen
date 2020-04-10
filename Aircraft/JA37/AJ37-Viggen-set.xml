@@ -500,35 +500,6 @@
                 <name>Drop tank</name>
                 <lbs>0</lbs>
             </opt>
-            <opt>
-                <name>RB 04E Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>            
-            <opt>
-                <name>RB 05A Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>
-            <!-- not enough room for this
-            <opt>
-                <name>RB 75 Maverick</name>
-                <lbs>462</lbs>
-            </opt>-->
-            <opt>
-                <name>M55 AKAN</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M70 ARAK</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M71 Bomblavett</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M71 Bomblavett (Retarded)</name>
-                <lbs>0</lbs>
-            </opt>
         </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
             <name type="string">Pilot</name>

@@ -390,7 +390,7 @@
 
                 unused:
                 int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
-                float[1], float[4], float[6], float[8], float[15], float[18]
+                float[1], float[4], float[6], float[8], float[10], float[15], float[18]
                 bool[15-19]
              -->
             <generic>
@@ -429,7 +429,6 @@
                 <short n="1" alias="/ja37/effect/formation-light"/>
                 <short n="2" alias="/ja37/effect/rear-navigation-light"/>
                 <!-- Stores -->
-                <float n="10" alias="/payload/weight[6]/weight-lb"/>            <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>            <!-- left wing -->
                 <float n="12" alias="/payload/weight[1]/weight-lb"/>            <!-- left fuselage -->
                 <float n="13" alias="/payload/weight[2]/weight-lb"/>            <!-- right wing -->
@@ -1129,22 +1128,10 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
             </station>
-            <station n="7"><!-- center -->
-                <offsets>
-                    <x-m type="double">  -0.09941</x-m>
-                    <y-m type="double">  0</y-m>
-                    <z-m type="double">  -0.97819</z-m>
-                </offsets>
-                <trigger type="bool">false</trigger>
-                <trigger-m70 type="bool">false</trigger-m70>
-            </station>
             <station n="8"><!-- M55 -->
                 <trigger type="bool">false</trigger>
             </station>
             <station n="9"><!-- M55 -->
-                <trigger type="bool">false</trigger>
-            </station>
-            <station n="10"><!-- M55 -->
                 <trigger type="bool">false</trigger>
             </station>
             <station n="11"><!-- gamma -->
