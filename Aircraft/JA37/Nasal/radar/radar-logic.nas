@@ -109,22 +109,22 @@ var knownShips = {
 };
 
 var input = {
-        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
-        alt_true_ft:      "position/altitude-ft",
-        radar_serv:       "instrumentation/radar/serviceable",
-        radar_range:      "instrumentation/radar/range",
-        hdgReal:          "/orientation/heading-deg",
-        pitch:            "/orientation/pitch-deg",
-        roll:             "/orientation/roll-deg",
-        tracks_enabled:   "ja37/hud/tracks-enabled",
-        callsign:         "/ja37/hud/callsign",
-        ai_models:        "/ai/models",
-        lookThrough:      "ja37/radar/look-through-terrain",
-        dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
+    alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+    alt_true_ft:      "position/altitude-ft",
+    radar_serv:       "instrumentation/radar/serviceable",
+    radar_range:      "instrumentation/radar/range",
+    hdgReal:          "/orientation/heading-deg",
+    pitch:            "/orientation/pitch-deg",
+    roll:             "/orientation/roll-deg",
+    tracks_enabled:   "ja37/hud/tracks-enabled",
+    callsign:         "/ja37/hud/callsign",
+    ai_models:        "/ai/models",
+    lookThrough:      "ja37/radar/look-through-terrain",
+    dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
 };
 
-var RadarLogic = {
 
+var RadarLogic = {
     new: func() {
         var radarLogic     = { parents : [RadarLogic]};
         radarLogic.typeHashes = {};
@@ -138,7 +138,6 @@ var RadarLogic = {
     },
 
     findRadarTracks: func () {
-      me.friends = [getprop("ja37/faf/friend-1"),getprop("ja37/faf/friend-2"),getprop("ja37/faf/friend-3"),getprop("ja37/faf/friend-4"),getprop("ja37/faf/friend-5"),getprop("ja37/faf/friend-6")];
       rwr = [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE];
       self      =  geo.aircraft_position();
       myPitch   =  input.pitch.getValue()*D2R;
