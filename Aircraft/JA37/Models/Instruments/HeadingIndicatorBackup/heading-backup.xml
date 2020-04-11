@@ -6,13 +6,13 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>mount</object-name>
-        <object-name>button</object-name>
+        <object-name>buttonLeft</object-name>
     </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
         <object-name>dial</object-name>
-        <object-name>needle</object-name>
+        <object-name>needleHeading</object-name>
     </effect>
 
     <effect>
@@ -23,7 +23,7 @@
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <object-name>needle</object-name>
+        <object-name>needleHeading</object-name>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
             <green-prop>instrumentation/instrumentation-light/g</green-prop>
@@ -48,7 +48,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>button</object-name>
+        <object-name>buttonLeft</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -80,9 +80,9 @@
     
     <animation>
         <type>translate</type>
-        <object-name>button</object-name>
+        <object-name>buttonLeft</object-name>
         <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
-        <factor>-0.004</factor>
+        <factor>-0.002</factor>
         <axis>
             <x> 1.0 </x>
             <y> 0.0 </y>
@@ -92,7 +92,7 @@
 
     <animation>
         <type>rotate</type>
-        <object-name>needle</object-name>
+        <object-name>needleHeading</object-name>
         <property>instrumentation/heading-indicator[1]/indicated-heading-deg</property>
         <center>
             <x-m>0</x-m>

@@ -6,7 +6,7 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>mount</object-name>
-        <object-name>buttonGMax</object-name>
+        <object-name>buttonLeft</object-name>
     </effect>
 
     <effect>
@@ -50,7 +50,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>buttonGMax</object-name>
+        <object-name>buttonLeft</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -82,9 +82,9 @@
     
     <animation>
         <type>translate</type>
-        <object-name>buttonGMax</object-name>
+        <object-name>buttonLeft</object-name>
         <property>instrumentation/accelerometer/reset-button</property>
-        <factor>-0.004</factor>
+        <factor>-0.002</factor>
         <axis>
             <x>1.0</x>
             <y>0.0</y>

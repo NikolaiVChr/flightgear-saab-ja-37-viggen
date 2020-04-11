@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "Instr_faceMat" rgb 0.800 0.800 0.800  amb 1.000 1.000 1.000  emis 0.200 0.200 0.200  spec 1.000 1.000 1.000  shi 64 trans 0.000
 MATERIAL "Instr_glassMat" rgb 0.600 0.600 0.600  amb 0.000 0.000 0.000  emis 0.000 0.000 0.000  spec 1.000 1.000 1.000  shi 128 trans 0.700
-MATERIAL "Instr_mountMat.001" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.800 0.800 0.800  shi 64 trans 0.000
+MATERIAL "Instr_mountMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.800 0.800 0.800  shi 64 trans 0.000
 MATERIAL "Instr_needleMat" rgb 1.000 1.000 1.000  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 0.800 0.800 0.800  shi 50 trans 0.000
 OBJECT world
 name "Blender_exporter_v2.26__airspeed-backup.ac"
