@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <path>airspeed.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+        <object-name>knob</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>needleAirspeed</object-name>
+        <object-name>dialAirspeed</object-name>
+        <object-name>fail</object-name>
+        <object-name>mach1</object-name>
+        <object-name>mach.1</object-name>
+        <object-name>mach.01</object-name>
+        <object-name>bar</object-name>
+        <object-name>indexAirspeed</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
+    <animation>
+        <object-name>needleAirspeed</object-name>
+        <object-name>dialAirspeed</object-name>
+        <object-name>fail</object-name>
+        <object-name>mach1</object-name>
+        <object-name>mach.1</object-name>
+        <object-name>mach.01</object-name>
+        <object-name>bar</object-name>
+        <object-name>indexAirspeed</object-name>
+        <type>material</type>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glass</object-name>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>airspeedKT</tooltip-id>
+                <label>Airspeed: %4d kt</label>
+                <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                <!-- /instrumentation/airspeed-indicator/indicated-mach -->
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>dialAirspeed</object-name>
+        <texture>airspeed-ajs.png</texture>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>needleAirspeed</object-name>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kmh</property>
+        <!-- The airspeed scale is approximately logarithmic, but only approximately.
+             I think it is not worth trying to come up with clever formula, a table works.
+        -->
+        <interpolation>
+            <!-- Initial, non-graduated segment -->
+            <entry><ind>100</ind><dep>10</dep></entry>
+            <!-- Graduated segment -->
+            <entry><ind>150</ind><dep>34</dep></entry>
+            <entry><ind>200</ind><dep>66</dep></entry>
+            <entry><ind>250</ind><dep>93</dep></entry>
+            <entry><ind>300</ind><dep>119.5</dep></entry>
+            <entry><ind>350</ind><dep>139.5</dep></entry>
+            <entry><ind>400</ind><dep>159</dep></entry>
+            <entry><ind>500</ind><dep>190</dep></entry>
+            <entry><ind>600</ind><dep>219</dep></entry>
+            <entry><ind>700</ind><dep>241</dep></entry>
+            <entry><ind>800</ind><dep>260</dep></entry>
+            <entry><ind>900</ind><dep>280</dep></entry>
+            <entry><ind>1000</ind><dep>297</dep></entry>
+            <entry><ind>1100</ind><dep>313</dep></entry>
+            <entry><ind>1200</ind><dep>328</dep></entry>
+            <entry><ind>1300</ind><dep>344</dep></entry>
+            <entry><ind>1400</ind><dep>359</dep></entry>
+            <!-- A bit of extra, to look more natural (although this is already over VNE) -->
+            <entry><ind>1430</ind><dep>364</dep></entry>
+        </interpolation>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>mach1</object-name>
+        <property>instrumentation/airspeed-indicator/mach-indicator</property>
+        <factor>0.1</factor>
+        <step>1</step>
+        <scroll>0.01</scroll>
+        <axis>
+          <x>0</x>
+          <y>1</y>
+        </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>mach.1</object-name>
+        <property>instrumentation/airspeed-indicator/mach-indicator</property>
+        <factor>1</factor>
+        <step>0.1</step>
+        <scroll>0.01</scroll>
+        <axis>
+          <x>0</x>
+          <y>1</y>
+        </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>mach.01</object-name>
+        <property>instrumentation/airspeed-indicator/mach-indicator</property>
+        <factor>10</factor>
+        <axis>
+          <x>0</x>
+          <y>1</y>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>bar</object-name>
+        <expression>
+          <product>
+              <min>
+                  <property>instrumentation/airspeed-indicator/power-flag</property>
+                  <table>
+                      <property>instrumentation/airspeed-indicator/mach-indicator</property>
+                      <entry><ind>0.39</ind><dep>0</dep></entry>
+                      <entry><ind>0.40</ind><dep>1</dep></entry>
+                  </table>
+              </min>
+              <value>-0.012</value>
+          </product>
+        </expression>
+        <axis>
+		    <x>0</x>
+			<y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>fail</object-name>
+        <property>instrumentation/airspeed-indicator/power-flag</property>
+        <factor>0.012</factor>
+        <axis>
+		    <x>0</x>
+			<y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>knob</object-name>
+        <property>/instrumentation/airspeed-indicator/index-deg</property>
+        <factor>12</factor>
+		<center>
+			<x-m>0 </x-m>
+			<y-m>-0.0305</y-m>
+			<z-m>-0.0305</z-m>
+		</center>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/airspeed-indicator/index-deg</property>
+                <factor>1</factor>
+                <min>10</min>
+                <max>365</max>
+           </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>indexAirspeed</object-name>
+        <property>/instrumentation/airspeed-indicator/index-deg</property>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+    </animation>
+</PropertyList>

@@ -1527,6 +1527,7 @@
         <airspeed-indicator>
             <indicated-speed-kt type="double">0.0</indicated-speed-kt>
             <indicated-mach type="double">0.0</indicated-mach>
+            <index-deg>20</index-deg>
         </airspeed-indicator>
         <airspeed-indicator n="1">
             <serviceable type="bool">true</serviceable>

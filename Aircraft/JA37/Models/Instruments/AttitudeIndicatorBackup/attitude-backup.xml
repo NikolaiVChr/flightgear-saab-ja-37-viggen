@@ -44,6 +44,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>attitude-backup</tooltip-id>
+                <label>Backup attitude indicator</label>
             </binding>
         </hovered>
     </animation>

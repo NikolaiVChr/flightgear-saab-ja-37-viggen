@@ -231,13 +231,51 @@
 
 
     <channel execrate="4" name="airspeed-indicators">
-        <pure_gain name="instruments/airspeed-kmh">
+        <pure_gain name="instruments/airspeed/airspeed-kmh">
             <input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
             <gain>1.852</gain>
             <output>/instrumentation/airspeed-indicator/indicated-speed-kmh</output>
         </pure_gain>
 
-        <pure_gain name="instruments/airspeed2-kmh">
+        <switch name="instruments/airspeed/indicated-mach-raw">
+            <default value="/instrumentation/airspeed-indicator/indicated-mach"/>
+            <test value="/instrumentation/airspeed-indicator/mach-indicator">
+                /ja37/elec/ac-bus-main-bool == 0
+            </test>
+        </switch>
+
+        <kinematic name="instruments/airspeed/mach-indicator">
+            <input>instruments/airspeed/indicated-mach-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>2.5</position>
+                    <time>5</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/airspeed-indicator/mach-indicator</output>
+        </kinematic>
+
+        <kinematic name="instruments/airspeed/power-flag">
+            <input>/ja37/elec/ac-bus-main-bool</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>0.1</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/airspeed-indicator/power-flag</output>
+        </kinematic>
+
+        <pure_gain name="instruments/airspeed-backup/airspeed-kmh">
             <input>/instrumentation/airspeed-indicator[1]/indicated-speed-kt</input>
             <gain>1.852</gain>
             <output>/instrumentation/airspeed-indicator[1]/indicated-speed-kmh</output>
@@ -246,7 +284,7 @@
 
 
     <channel execrate="4" name="heading-indicators">
-        <pure_gain name="instruments/heading-backup-gyro-power">
+        <pure_gain name="instruments/heading-backup/gyro-power">
             <input>/ja37/elec/ac-bus-main-norm</input>
             <gain>5</gain>
             <output>/instrumentation/heading-indicator[1]/power</output>
@@ -255,13 +293,13 @@
 
 
     <channel execrate="4" name="attitude-indicators">
-        <pure_gain name="instruments/attitude-backup-gyro-power">
+        <pure_gain name="instruments/attitude-backup/gyro-power">
             <input>/ja37/elec/ac-bus-main-norm</input>
             <gain>5</gain>
             <output>/instrumentation/attitude-indicator[1]/power</output>
         </pure_gain>
 
-        <kinematic name="instruments/attitude-backup-power-flag">
+        <kinematic name="instruments/attitude-backup/power-flag">
             <input>/ja37/elec/ac-bus-main-bool</input>
             <traverse>
                 <setting>
