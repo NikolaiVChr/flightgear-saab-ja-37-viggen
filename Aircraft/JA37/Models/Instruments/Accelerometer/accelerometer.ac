@@ -8,7 +8,7 @@ OBJECT world
 name "Blender_exporter_v2.26__accelerometer.ac"
 kids 6
 OBJECT poly
-name "buttonLeft"
+name "buttonGMax"
 data 12
 Cylinder.002
 crease 40.0

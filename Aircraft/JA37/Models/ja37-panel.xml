@@ -142,22 +142,14 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator2/ai2.xml</path>
-    <name>Attitude Indicator 2</name>
+    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicatorBackup/attitude-backup.xml</path>
+    <name>Backup Attitude Indicator</name>
     <offsets>
       <x-m>  0.015</x-m>
       <y-m> -0.335</y-m>
       <z-m>  0.2675</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Attitude Indicator 2</object-name>
-    <x-offset>0.5</x-offset>
-    <y-offset>0.7875</y-offset>
-    <z-offset>0.7875</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/HeadingIndicator/heading-indicator-ja.xml</path>

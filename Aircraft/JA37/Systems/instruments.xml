@@ -37,6 +37,12 @@
         <suction>/instrumentation/heading-indicator[1]/power</suction>
     </heading-indicator>
 
+    <attitude-indicator>
+        <name>attitude-indicator</name>
+        <number>1</number>
+        <suction>/instrumentation/attitude-indicator[1]/power</suction>
+    </attitude-indicator>
+
   <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
   <adf>
     <name>adf</name>
