@@ -270,7 +270,7 @@
                 </setting>
                 <setting>
                     <position>1</position>
-                    <time>0.2</time>
+                    <time>0.1</time>
                 </setting>
             </traverse>
             <output>/instrumentation/attitude-indicator[1]/power-flag</output>

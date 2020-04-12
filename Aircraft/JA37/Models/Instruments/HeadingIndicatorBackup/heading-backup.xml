@@ -6,13 +6,17 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>mount</object-name>
-        <object-name>buttonLeft</object-name>
     </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
         <object-name>dial</object-name>
         <object-name>needleHeading</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>buttonHeading</object-name>
     </effect>
 
     <effect>
@@ -48,7 +52,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>buttonLeft</object-name>
+        <object-name>buttonHeading</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -80,7 +84,7 @@
     
     <animation>
         <type>translate</type>
-        <object-name>buttonLeft</object-name>
+        <object-name>buttonHeading</object-name>
         <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
         <factor>-0.002</factor>
         <axis>
@@ -89,6 +93,19 @@
             <z> 0.0 </z>
         </axis>
     </animation>
+
+    <!-- For a future animation of this light.
+         (Pressing the button initiate fast-erect procedure. Light stays on until done.)
+    <animation>
+        <type>material</type>
+        <object-name>button-heading</object-name>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>?</factor-prop>
+        </emission>
+    </animation>-->
 
     <animation>
         <type>rotate</type>
