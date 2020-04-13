@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- JA37D fuel gauge is mounted on a stand -->
+<PropertyList>
+    <path>fuel_ja_mount.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>bracket</object-name>
+    </effect>
+
+    <model>
+        <path>fuel.xml</path>
+        <offsets>
+            <x-m>0.03</x-m>
+            <y-m>0.07</y-m>
+            <z-m>0</z-m>
+            <heading-deg>-10</heading-deg>
+            <pitch-deg>-7</pitch-deg>
+            <roll-deg>-3</roll-deg>
+        </offsets>
+    </model>
+</PropertyList>
