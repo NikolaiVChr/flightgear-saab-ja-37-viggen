@@ -274,32 +274,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-1.xml</path>
-    <name>WarnLeft</name>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-aj.xml</path>
+    <name>MasterWarning</name>
     <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.16</y-m>
-      <z-m>  0.27</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-2.xml</path>
-    <name>WarnRight</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.13</y-m>
-      <z-m>  0.27</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-master-warning.xml</path>
-    <name>WarnButton</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.175</y-m>
-      <z-m>  0.27</z-m>
+      <x-m>0.002</x-m>
+      <y-m>-0.15</y-m>
+      <z-m>0.28</z-m>
     </offsets>
   </model>
 

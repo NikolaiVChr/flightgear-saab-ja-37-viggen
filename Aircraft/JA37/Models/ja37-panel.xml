@@ -94,12 +94,12 @@
   </animation>
   
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/transonic-ja.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/transonic.xml</path>
     <name>Transonic</name>
     <offsets>
-      <x-m>  0.01</x-m>
-      <y-m>  0.23</y-m>
-      <z-m>  0.28</z-m>
+      <x-m>0</x-m>
+      <y-m>0.23</y-m>
+      <z-m>0.28</z-m>
     </offsets>
   </model>
 
@@ -129,7 +129,7 @@
     <path>Aircraft/JA37/Models/Instruments/Indicators/master-ja.xml</path>
     <name>MasterWarning</name>
     <offsets>
-      <x-m>0.01</x-m>
+      <x-m>0.002</x-m>
       <y-m>-0.175</y-m>
       <z-m>0.325</z-m>
     </offsets>

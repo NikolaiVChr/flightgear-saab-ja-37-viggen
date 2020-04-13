@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-    <path>master-ja.ac</path>
+    <path>master-aj.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>button</object-name>
         <object-name>buttonBase</object-name>
         <object-name>lampBase</object-name>
+        <object-name>label</object-name>
     </effect>
 
     <effect>
@@ -44,7 +45,6 @@
             </binding>
         </hovered>
     </animation>
-
     <animation>
        <type>translate</type>
        <object-name>button</object-name>
@@ -52,7 +52,7 @@
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
-           <x>-1</x>
+         <x>-1</x>
        </axis>
        <center>
             <x-m>0</x-m>
