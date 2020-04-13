@@ -1283,7 +1283,8 @@
             <min-speed-kt type="double">190</min-speed-kt>
         </target-tracking>
 		<route-manager>
-			<wp>
+		    <wp>
+                <dist-km type="double">0</dist-km>
 				<bearing-deg-rel type="double">0</bearing-deg-rel>
                 <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
 			</wp>
@@ -1539,6 +1540,10 @@
             <chronometer-state type="int">0</chronometer-state>
             <chronometer-time-sec type="double">0</chronometer-time-sec>
         </clock>
+        <waypoint-indicator>
+            <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
+            <distance-unit-flag type="double">0</distance-unit-flag>
+        </waypoint-indicator>
         <terrain-override type="bool">false</terrain-override>
         <gci>
             <picture type="bool">false</picture>

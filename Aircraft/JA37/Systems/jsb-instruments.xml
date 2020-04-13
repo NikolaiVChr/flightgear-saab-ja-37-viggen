@@ -316,6 +316,79 @@
     </channel>
 
 
+    <channel execrate="4" name="waypoint-indicators">
+        <pure_gain name="instruments/waypoint/distance-km">
+            <input>/autopilot/route-manager/wp/dist-km</input>
+        </pure_gain>
+
+        <!-- Nordic miles = 10km -->
+        <pure_gain name="instruments/waypoint/distance-mil">
+            <input>instruments/waypoint/distance-km</input>
+            <gain>0.1</gain>
+        </pure_gain>
+
+        <switch name="instruments/waypoint/distance-needle-raw">
+            <default value="instruments/waypoint/distance-km"/>
+            <test value="/instrumentation/waypoint-indicator/distance-needle">
+                /ja37/elec/ac-bus-main-bool == 0
+            </test>
+            <test value="-5"><!-- Hides the needle -->
+                /autopilot/route-manager/active == 0
+            </test>
+            <test value="instruments/waypoint/distance-mil">
+                instruments/waypoint/distance-km gt 40
+            </test>
+            <clipto>
+                <min>-5</min>
+                <max>40</max>
+            </clipto>
+        </switch>
+
+        <kinematic name="instruments/waypoint/distance-needle">
+            <input>instruments/waypoint/distance-needle-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>-5</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>40</position>
+                    <time>0.5</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/waypoint-indicator/distance-needle</output>
+        </kinematic>
+
+        <switch name="instruments/waypoint/distance-unit-raw">
+            <default value="0"/><!-- km -->
+            <test value="/instrumentation/waypoint-indicator/distance-unit-flag">
+                /ja37/elec/ac-bus-main-bool == 0
+            </test>
+            <test logic="AND" value="1"><!-- mil -->
+                /autopilot/route-manager/active == 1
+                instruments/waypoint/distance-km gt 40
+            </test>
+        </switch>
+
+        <kinematic name="instruments/waypoint/distance-unit">
+            <input>instruments/waypoint/distance-unit-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>0.2</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/waypoint-indicator/distance-unit-flag</output>
+        </kinematic>
+    </channel>
+
+
     <channel execrate="4" name="chronometer">
         <!-- Control property /instrumentation/clock/chronometer-state
              has 3 states:
