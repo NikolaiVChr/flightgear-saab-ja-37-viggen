@@ -317,9 +317,9 @@
     <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
     <name>Reverse indicator</name>
     <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.305</y-m>
-      <z-m>  0.10</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.305</y-m>
+      <z-m>0.10</z-m>
     </offsets>
   </model>
 

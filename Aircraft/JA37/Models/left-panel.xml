@@ -112,17 +112,6 @@
     </offsets>
   </model>-->
 
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/external.xml</path>
-    <name>externalAvailable</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <x-m>  0.38</x-m>
-      <y-m> -0.010</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>-->
-
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/engine-start.xml</path>
     <name>starter</name>
@@ -171,17 +160,6 @@
     <offsets>
       <heading-deg>-90</heading-deg>
       <x-m>  0.300</x-m>
-      <y-m> -0.02</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>  this light was not in the cockpit
-    <path>Aircraft/JA37/Models/Instruments/Indicators/recharging.xml</path>
-    <name>ChargeBattery</name>
-    <offsets>
-      <pitch-deg>90</pitch-deg>
-      <x-m>  0.330</x-m>
       <y-m> -0.02</y-m>
       <z-m>  0.00</z-m>
     </offsets>

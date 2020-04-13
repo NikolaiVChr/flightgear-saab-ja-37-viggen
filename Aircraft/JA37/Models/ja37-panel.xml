@@ -92,7 +92,7 @@
     <y-offset>1.05</y-offset>
     <z-offset>1.05</z-offset>
   </animation>
-  
+
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/transonic.xml</path>
     <name>Transonic</name>
@@ -225,9 +225,9 @@
     <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
     <name>Reverse indicator</name>
     <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.305</y-m>
-      <z-m>  0.21</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.305</y-m>
+      <z-m>0.21</z-m>
     </offsets>
   </model>
 
