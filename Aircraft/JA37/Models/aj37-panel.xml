@@ -294,22 +294,23 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/indicator-auto-throttle.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/autothrottle.xml</path>
     <name>A/T</name>
     <offsets>
-      <x-m>  0.000</x-m>
-      <y-m> -0.21</y-m>
-      <z-m>  0.245</z-m>
+      <x-m>0.002</x-m>
+      <y-m>-0.21</y-m>
+      <z-m>0.245</z-m>
     </offsets>
   </model>
-  
+
+
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/auto-throttle-alpha.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/high-alpha.xml</path>
     <name>A/T alpha</name>
     <offsets>
-      <x-m>  0.000</x-m>
-      <y-m> -0.185</y-m>
-      <z-m>  0.27</z-m>
+      <x-m>0.002</x-m>
+      <y-m>-0.185</y-m>
+      <z-m>0.27</z-m>
     </offsets>
   </model>
 
