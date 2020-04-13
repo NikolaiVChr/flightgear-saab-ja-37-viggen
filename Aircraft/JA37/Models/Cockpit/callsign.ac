@@ -8,7 +8,7 @@ name "Callsign"
 data 13
 Callsign.mesh
 crease 45.0
-texture "buttons/button-empty.png"
+texture "alu.png"
 texrep 1 1
 numvert 4
 0 0 -0.06
