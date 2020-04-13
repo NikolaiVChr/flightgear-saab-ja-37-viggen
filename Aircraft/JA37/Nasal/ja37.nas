@@ -64,8 +64,6 @@ input = {
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   fuelInternalRatio:"ja37/avionics/fuel-internal-ratio",
-  fuelNeedleB:      "/instrumentation/fuel/needleB_rot",
-  fuelNeedleF:      "/instrumentation/fuel/needleF_rot",
   fuelRatio:        "/instrumentation/fuel/ratio",
   fuelTemp:         "ja37/supported/fuel-temp",
   fuelWarning:      "ja37/sound/fuel-low-on",
@@ -257,13 +255,6 @@ var Saab37 = {
       input.fullInit.setBoolValue(FALSE);
     }
 
-     ## Sets fuel gauge needles rotation ##
-     
-     if(input.tank8LvlNorm.getValue() != nil) {
-       #input.fuelNeedleB.setDoubleValue(input.tank8LvlNorm.getValue()*230);
-       input.fuelNeedleB.setDoubleValue(0);
-     }     
-
     me.current = input.tank0LvlGal.getValue()
                 + input.tank1LvlGal.getValue()
                 + input.tank2LvlGal.getValue()
@@ -275,7 +266,6 @@ var Saab37 = {
                 + input.tank8LvlGal.getValue();
 
 
-    input.fuelNeedleF.setDoubleValue((me.current / total_fuel) *230);
     input.fuelRatio.setDoubleValue(me.current / total_fuel);
 
     # fuel warning annuciator

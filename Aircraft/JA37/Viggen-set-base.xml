@@ -1544,6 +1544,11 @@
             <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
             <distance-unit-flag type="double">0</distance-unit-flag>
         </waypoint-indicator>
+        <fuel>
+            <ratio type="double">0</ratio>
+            <needle type="double">0</needle>
+            <needle-min type="double">0</needle-min>
+        </fuel>
         <terrain-override type="bool">false</terrain-override>
         <gci>
             <picture type="bool">false</picture>

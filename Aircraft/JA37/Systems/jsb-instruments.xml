@@ -445,6 +445,44 @@
     </channel>
 
 
+    <channel>
+        <switch name="instruments/fuel/sensor-raw">
+            <default value="/instrumentation/fuel/ratio"/>
+            <test value="0">
+              /ja37/elec/ac-bus-main-bool == 0
+            </test>
+        </switch>
+
+        <lag_filter name="instruments/fuel/sensor">
+            <input>instruments/fuel/sensor-raw</input>
+            <c1>5</c1>
+        </lag_filter>
+
+        <switch name="instruments/fuel/needle-raw">
+            <default value="instruments/fuel/sensor"/>
+            <test value="/instrumentation/fuel/needle">
+              /ja37/elec/ac-bus-main-bool == 0
+            </test>
+        </switch>
+
+        <kinematic name="instruments/fuel/needle">
+            <input>instruments/fuel/needle-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>140</position>
+                    <time>0.5</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/fuel/needle</output>
+        </kinematic>
+    </channel>
+
+
     <channel execrate="4" name="instruments">
 
         <switch name="systems/ins/time-steady">
@@ -548,22 +586,6 @@
             <output>/ja37/avionics/gps-nav</output>
         </switch>
 
-        <switch name="names/instr/fuel-on">
-            <default value="/instrumentation/fuel/needleF_rot"/>
-            <test logic="OR" value="/instrumentation/fuel/needleF_rot_on">
-              /ja37/elec/ac-bus-main-bool == 0
-            </test>
-            <test logic="OR" value="0">
-              /ja37/elec/dc-bus-main-bool == 0
-            </test>
-            <output>/instrumentation/fuel/needleF_rot_on</output>
-        </switch>
-
-        <lag_filter name="names/instr/fuel">
-            <input> /instrumentation/fuel/needleF_rot_on </input>
-            <c1> 5 </c1>
-            <output>/instrumentation/fuel/needleF_rot_final</output>
-        </lag_filter>
 
         <!-- used for animating nozzle indicator -->
 
