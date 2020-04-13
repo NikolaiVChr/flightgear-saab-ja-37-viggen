@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <PropertyList>
-  <!-- Right side -->
+  <!-- right side -->
   <model>
     <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
     <name>Chronometer</name>
@@ -165,7 +165,6 @@
 
 
   <!-- center -->
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/Radar/range-selector.xml</path>
     <name>RadarRange</name>
@@ -183,7 +182,7 @@
     <name>AoA</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.14</y-m>
+      <y-m>-0.13</y-m>
       <z-m>0.32</z-m>
     </offsets>
   </model>
@@ -258,35 +257,13 @@
     <path>Aircraft/JA37/Models/Instruments/Airspeed/airspeed-ajs.xml</path>
     <name>Airspeed</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.21</y-m>
-      <z-m>  0.18</z-m>
+      <x-m>0.00</x-m>
+      <y-m>-0.24</y-m>
+      <z-m>0.19</z-m>
     </offsets>
   </model>
 
-<!-- Temporary radio stack till I get a real one in -->
-
-<!--  <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-1.xml</path>
-    <name>Radiostack</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.085</z-m>
-    </offsets>
-  </model>
-
-<model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-2.xml</path>
-    <name>Radiostack2</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.035</z-m>
-    </offsets>
-  </model> -->
-
-<model>
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/radio.xml</path>
     <name>Radio Panel</name>
     <offsets>
@@ -385,5 +362,4 @@
         <z-m> 0.216</z-m>
       </offsets>
   </model>
-  
 </PropertyList>
