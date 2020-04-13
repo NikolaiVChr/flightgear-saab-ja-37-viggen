@@ -213,29 +213,11 @@
     <path>Aircraft/JA37/Models/Instruments/AoAIndicator/AoAIndicator.xml</path>
     <name>Angle of Attack Indicator</name>
     <offsets>
-      <x-m> -0.025</x-m>
-      <y-m> -0.13</y-m>
-      <z-m>  0.325</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.13</y-m>
+      <z-m>0.325</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Angle of Attack Indicator</object-name>
-    <x-offset>0.75</x-offset>
-    <y-offset>1.00</y-offset>
-    <z-offset>1.00</z-offset>
-  </animation>
-
-<!--  <model>
-    <path>Aircraft/JA37/Models/Cockpit/hud-brightness-knob.xml</path>
-    <name>hud-brightness-knob</name>
-    <offsets>
-      <x-m>  0.0</x-m>
-      <y-m> -0.105</y-m>
-      <z-m>  0.29</z-m>
-    </offsets>
-  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>

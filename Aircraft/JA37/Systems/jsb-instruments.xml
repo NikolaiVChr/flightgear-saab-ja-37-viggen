@@ -389,6 +389,36 @@
     </channel>
 
 
+    <channel name="aoa-indicator">
+        <!-- animating AoA indicator -->
+        <switch name="instruments/aoa/indicator-raw">
+            <default value="aero/alpha-deg"/>
+            <test logic="OR" value="-4">
+              /ja37/elec/dc-bus-main-bool == 0
+            </test>
+            <test logic="OR" value="/instrumentation/attitude-indicator/indicated-pitch-deg">
+                gear/unit[0]/WOW == 1
+            </test>
+        </switch>
+
+        <kinematic name="instruments/aoa/indicator">
+            <input>instruments/aoa/indicator-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>-4</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>30</position>
+                    <time>0.3</time>
+                </setting>
+            </traverse>
+            <output>/instrumentation/aoa-indicator/indicated-aoa</output>
+        </kinematic>
+    </channel>
+    
+
     <channel execrate="4" name="chronometer">
         <!-- Control property /instrumentation/clock/chronometer-state
              has 3 states:
@@ -911,22 +941,6 @@
             <c1> 10 </c1>
         </lag_filter>
 
-        <!-- animating AoA indicator -->
-        <switch name="systems/flight/aoa-indicator-direct">
-            <default value="aero/alpha-deg"/>
-            <test logic="OR" value="0">
-              /ja37/elec/dc-bus-main-bool == 0
-            </test>
-            <test logic="OR" value="/instrumentation/attitude-indicator/indicated-pitch-deg">
-                gear/unit[0]/WOW == 1
-            </test>
-        </switch>
-
-        <lag_filter name="systems/flight/aoa-indicator-locked">
-            <input> systems/flight/aoa-indicator-direct </input>
-            <c1> 5 </c1>
-            <output> systems/flight/aoa-indicator </output>
-        </lag_filter>
 
         <!-- AJS-37 manual part 2, page 173 -->
         <fcs_function name="systems/flight/rotation-speed">
