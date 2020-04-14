@@ -7,6 +7,7 @@ var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
 var radarRange = getprop("ja37/systems/variant") == 0?120000:120000;#meter
+var groundRadar = (getprop("ja37/systems/variant") != 0);
 
 var containsVector = func (vec, item) {
   foreach(test; vec) {
@@ -105,7 +106,6 @@ var input = {
         callsign:         "/ja37/hud/callsign",
         ai_models:        "/ai/models",
         lookThrough:      "ja37/radar/look-through-terrain",
-        dopplerOn:        "ja37/radar/doppler-enabled",
         dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
 };
 
@@ -291,7 +291,16 @@ var RadarLogic = {
             me.unique = track.addChild("unique");
             me.unique.setDoubleValue(rand());
           }
-          if (track.getName() == "rb-99" or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
+
+          var visible = FALSE;
+          if(track.getName() == "rb-99") {
+              visible = TRUE; # datalink
+          } elsif(rcs.inRadarRange(me.contact, 40, 3.2)) {
+              # Needs a ground radar to see SURFACE and MARINE contacts.
+              visible = (groundRadar or type == AIR or type == ORDNANCE);
+          }
+
+          if (visible) {
             append(tracks, me.trackInfo);
           }
           if (!missile) {
@@ -632,14 +641,6 @@ var RadarLogic = {
   doppler: func(t_coord, t_node) {
     # Test to check if the target can hide below us
     # Or Hide using anti doppler movements
-
-    if (input.dopplerOn.getValue() == FALSE or 
-        (t_node.getNode("velocities/true-airspeed-kt") != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() != nil
-         and t_node.getNode("radar/range-nm") != nil and t_node.getNode("radar/range-nm").getValue() != nil
-         and math.atan2(t_node.getNode("velocities/true-airspeed-kt").getValue(), t_node.getNode("radar/range-nm").getValue()*1000) > 0.025)# if aircraft traverse speed seen from me is high
-        ) {
-      return TRUE;
-    }
 
     me.DopplerSpeedLimit = input.dopplerSpeed.getValue();
     me.InDoppler = 0;
