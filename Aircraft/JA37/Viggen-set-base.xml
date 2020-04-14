@@ -1635,6 +1635,9 @@
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
             <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
+        <loadout>
+            <file>Aircraft/JA37/Nasal/payload/loadout.nas</file>
+        </loadout>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>
         </formation>

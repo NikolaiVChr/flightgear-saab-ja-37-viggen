@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <name>loadout</name>
+  <width>500</width>
+  <layout>vbox</layout>
+
+  <!-- Title bar -->
+  <group>
+    <layout>hbox</layout>
+    <empty><stretch>1</stretch></empty>
+
+    <text>
+      <label>Loadout Selection</label>
+    </text>
+
+    <empty><stretch>1</stretch></empty>
+
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>nasal</command>
+        <script>loadout.Dialog.close()</script>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+
+  <!-- General loadout options -->
+  <text>
+    <label>Payload</label>
+  </text>
+
+  <group>
+    <layout>hbox</layout>
+    
+    <button>
+      <legend>Clean loadout</legend>
+      <pref-width>120</pref-width>
+      <binding>
+        <command>nasal</command>
+        <script>loadout.reload_clean();</script>
+      </binding>
+    </button>
+
+    <button>
+      <legend>Reload gun/flares</legend>
+      <pref-width>120</pref-width>
+      <binding>
+        <command>nasal</command>
+        <script>loadout.reload_gun_flares();</script>
+      </binding>
+    </button>
+  </group>
+
+  <!-- This table is filled based on a list of loadouts, in Nasal/payload/loadout.nas -->
+  <group>
+    <name>procedural_table</name>
+    <layout>table</layout>
+  </group>
+</PropertyList>

@@ -220,38 +220,10 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Reload air to air (1979)</label>
+                        <label>Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadJAAir2Air1979();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1987)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadJAAir2Air1987();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1997)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadJAAir2Air1997();</script>
-                        </binding>
-                    </item>
-					<item>
-                        <label>Reload guns only</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGunsOnly();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to ground</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadJAAir2Ground();</script>
+                            <script>loadout.Dialog.toggle()</script>
                         </binding>
                     </item>
                     <item>
@@ -325,13 +297,6 @@
                           <dialog-name>j37config</dialog-name>
                         </binding>
                     </item>
-                    <!--<item>
-                        <label>Tune Light</label>
-                        <binding>
-                            <command>dialog-show</command>
-                            <dialog-name>tune_light</dialog-name>
-                        </binding>
-                    </item>-->
                 </menu>
             </default>
         </menubar>
