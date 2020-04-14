@@ -196,12 +196,16 @@ var RadarLogic = {
           me.paint(selection.getNode(), FALSE);
         }
         selection = nil;
-        steerOrder = FALSE;
+        disableSteerOrder();
         setprop("ja37/radar/active" , FALSE);
       }
       if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
+        # Lost lock
+        if(selection != nil) {
+          me.paint(selection.getNode(), FALSE);
+        }
+        selection = nil;
         disableSteerOrder();
-        #append(selection, "lock");
       }
   },
 
