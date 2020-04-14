@@ -307,37 +307,15 @@ var RadarLogic = {
           if (!missile) {
             append(complete_list, me.trackInfo);
           }
-          if(1==0 and selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
-            #this is first tracks in radar field, so will be default selection
+
+          if (selection != nil and selection.getUnique() == me.unique.getValue() and visible) {
             selection = me.trackInfo;
-            lookatSelection();
-            selection_updated = TRUE;
-            #if (selection.get_type() == AIR) {
-              me.paint(selection.getNode(), TRUE);
-            #} else {
-            #  me.paint(selection.getNode(), FALSE);
-            #}
-          #} elsif (track.getChild("name") != nil and track.getChild("name").getValue() == "RB-24J") {
-            #for testing that selection view follows missiles
-          #  selection = trackInfo;
-          #  lookatSelection();
-          #  selection_updated = TRUE;
-          } elsif (selection != nil and selection.getUnique() == me.unique.getValue()) {
-            # this track is already selected, updating it
-            #print("updating target");
-            selection = me.trackInfo;
-            #if (selection.get_type() == AIR) {
-              me.paint(selection.getNode(), TRUE);
-            #} else {
-            #  me.paint(selection.getNode(), FALSE);
-            #}
+            me.paint(selection.getNode(), TRUE);
             selection_updated = TRUE;
           } else {
-            #print("end2 "~selection.getUnique()~"=="~unique.getValue());
             me.paint(me.trackInfo.getNode(), FALSE);
           }
         } else {
-          #print("end");
           me.paint(track, FALSE);
         }
   #});      
