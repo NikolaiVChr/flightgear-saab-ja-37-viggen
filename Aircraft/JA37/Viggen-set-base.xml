@@ -1576,8 +1576,11 @@
             <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
         </reversethrust>
         <radar_logic>
-            <file>Aircraft/JA37/Nasal/radar-logic.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar-logic.nas</file>
         </radar_logic>
+        <rcs>
+            <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
+        </rcs>
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>
@@ -1602,10 +1605,10 @@
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>
         <displays>
-            <file>Aircraft/JA37/Nasal/common-displays.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/common.nas</file>
         </displays>
         <canvas_HUD>
-            <file>Aircraft/JA37/Nasal/hud.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/hud.nas</file>
         </canvas_HUD>
         <monitor>
             <file>Aircraft/JA37/Nasal/dialog-perf.nas</file>
@@ -1629,8 +1632,8 @@
             <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
         </crash1>
         <armament>
-            <file>Aircraft/JA37/Nasal/guided-missiles.nas</file>
-            <file>Aircraft/JA37/Nasal/stores.nas</file>
+            <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
+            <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>
@@ -1650,9 +1653,6 @@
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>
-        <rcs>
-            <file>Aircraft/JA37/Nasal/rcs.nas</file>
-        </rcs>
         <dap>
             <file>Aircraft/JA37/Nasal/data-panel.nas</file>
         </dap>

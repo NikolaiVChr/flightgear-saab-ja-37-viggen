@@ -841,7 +841,7 @@
 
     <nasal>
         <rdr>
-            <file>Aircraft/JA37/Nasal/radar.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/radar.nas</file>
         </rdr>
     </nasal>
 

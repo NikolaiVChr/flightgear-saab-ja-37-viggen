@@ -955,10 +955,10 @@
 
     <nasal>
         <MI>
-            <file>Aircraft/JA37/Nasal/display-mi.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/mi.nas</file>
         </MI>
         <TI>
-            <file>Aircraft/JA37/Nasal/display-ti.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/ti.nas</file>
         </TI>
     </nasal>
     
