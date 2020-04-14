@@ -295,9 +295,10 @@ var RadarLogic = {
           var visible = FALSE;
           if(track.getName() == "rb-99") {
               visible = TRUE; # datalink
-          } elsif(rcs.inRadarRange(me.contact, 40, 3.2)) {
-              # Needs a ground radar to see SURFACE and MARINE contacts.
-              visible = (groundRadar or type == AIR or type == ORDNANCE);
+          } else {
+              var type = me.trackInfo.get_type();
+              visible = ((groundRadar or type == AIR or type == ORDNANCE)
+                         and rcs.inRadarRange(me.trackInfo, 40, 3.2));
           }
 
           if (visible) {
