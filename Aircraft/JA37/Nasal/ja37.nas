@@ -103,8 +103,6 @@ input = {
   landLightALS2:    "sim/rendering/als-secondary-lights/use-alt-landing-light",
   landLightALSHead: "sim/rendering/als-secondary-lights/landing-light1-offset-deg",
   landLightSupport: "ja37/supported/landing-light",
-  lightBeacon:      "/ja37/effect/beacon-light",
-  lightNav:         "/ja37/effect/navigation-light",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
@@ -999,24 +997,6 @@ var Saab37 = {
     }
   },
 
-  beaconLoop: func {
-    if(input.replay.getValue() != TRUE) {
-      me.time = input.elapsed.getValue()*1.5;
-      me.timeInt = int(me.time);
-      me.value = nil;
-      if(2 * int(me.timeInt / 2) == me.timeInt) {
-        #ascend
-        me.value = (2 * (me.time - me.timeInt))-1;
-      } else {
-        #descent
-        me.value = (2*(1 - (me.time - me.timeInt)))-1;
-      }
-      if (me.value < 0) me.value = 0;
-      beacon_switch.setDoubleValue(me.value);
-    }
-    #settimer(func me.beaconLoop(), 0.05);
-  },
-
   loopSystem: func {
     #
     # start all the loops in aircraft.
@@ -1024,7 +1004,6 @@ var Saab37 = {
     # Notice some loop timers are slightly changed to spread out calls,
     # so that many loops are not called in same frame.
     #
-    me.loop_beacon   = maketimer(0.07, me, func me.beaconLoop());
     me.loop_slow     = maketimer(1.50, me, func me.slow_loop());
     me.loop_fast     = maketimer(0.06, me, func me.speed_loop());
     me.loop_saab37   = maketimer(0.25, me, func me.update_loop());
@@ -1054,7 +1033,6 @@ var Saab37 = {
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
-    me.loop_beacon.start();
     #me.loop_ct.start();
     #me.loop_not.start();
     me.loop_ap.start();
@@ -1155,7 +1133,6 @@ var Saab37 = {
     # Notice some loop timers are slightly changed to spread out calls,
     # so that many loops are not called in same frame.
     #
-    me.loop_beacon   = maketimer(0.07, me, func {timer.timeLoop("beacon",me.beaconLoop,me);});
     me.loop_slow     = maketimer(1.50, me, func {timer.timeLoop("ja37-slow", me.slow_loop,me);});
     me.loop_fast     = maketimer(0.06, me, func {timer.timeLoop("ja37-fast", me.speed_loop,me);});
     me.loop_saab37   = maketimer(0.25, me, func {timer.timeLoop("ja37-medium", me.update_loop,me);});
@@ -1185,7 +1162,6 @@ var Saab37 = {
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
-    me.loop_beacon.start();
     #me.loop_ct.start();
     #me.loop_not.start();
     me.loop_ap.start();
@@ -1692,10 +1668,6 @@ var main_init = func {
   #code_ct();
   #not();
 
-  # start beacon loop
-  #beaconTimer.start();
-  #saab37.beaconLoop();
-
   # asymmetric vortex detachment
   asymVortex();
 
@@ -1825,22 +1797,6 @@ var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
 var re_init_listener = setlistener("/sim/signals/reinit", func {
   re_init();
  }, 0, 0);
-
-
-############ strobe #####################
-
-var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/anti-collision", 1);
-setprop("controls/lighting/ext-lighting-panel/anti-collision", 1);
-aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.5], strobe_switch);#was 1.9+rand()/5
-
-############ beacons #####################
-
-setprop("controls/switches/beacon", TRUE);
-
-var beacon_switch = props.globals.getNode("sim/model/lighting/beacon/state-rotary", 2);
-
-
-#var beaconTimer = maketimer(0, beaconLoop); only usable in 2.11+
 
 
 ############ blinkers ####################
