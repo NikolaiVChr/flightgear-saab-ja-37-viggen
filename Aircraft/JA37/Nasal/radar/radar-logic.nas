@@ -7,6 +7,7 @@ var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
 var radarRange = getprop("ja37/systems/variant") == 0?120000:120000;#meter
+var groundRadar = (getprop("ja37/systems/variant") != 0);
 
 var containsVector = func (vec, item) {
   foreach(test; vec) {
@@ -105,7 +106,6 @@ var input = {
         callsign:         "/ja37/hud/callsign",
         ai_models:        "/ai/models",
         lookThrough:      "ja37/radar/look-through-terrain",
-        dopplerOn:        "ja37/radar/doppler-enabled",
         dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
 };
 
@@ -196,12 +196,16 @@ var RadarLogic = {
           me.paint(selection.getNode(), FALSE);
         }
         selection = nil;
-        steerOrder = FALSE;
+        disableSteerOrder();
         setprop("ja37/radar/active" , FALSE);
       }
       if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
+        # Lost lock
+        if(selection != nil) {
+          me.paint(selection.getNode(), FALSE);
+        }
+        selection = nil;
         disableSteerOrder();
-        #append(selection, "lock");
       }
   },
 
@@ -287,43 +291,31 @@ var RadarLogic = {
             me.unique = track.addChild("unique");
             me.unique.setDoubleValue(rand());
           }
-          if (track.getName() == "rb-99" or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
+
+          var visible = FALSE;
+          if(track.getName() == "rb-99") {
+              visible = TRUE; # datalink
+          } else {
+              var type = me.trackInfo.get_type();
+              visible = ((groundRadar or type == AIR or type == ORDNANCE)
+                         and rcs.inRadarRange(me.trackInfo, 40, 3.2));
+          }
+
+          if (visible) {
             append(tracks, me.trackInfo);
           }
           if (!missile) {
             append(complete_list, me.trackInfo);
           }
-          if(1==0 and selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
-            #this is first tracks in radar field, so will be default selection
+
+          if (selection != nil and selection.getUnique() == me.unique.getValue() and visible) {
             selection = me.trackInfo;
-            lookatSelection();
-            selection_updated = TRUE;
-            #if (selection.get_type() == AIR) {
-              me.paint(selection.getNode(), TRUE);
-            #} else {
-            #  me.paint(selection.getNode(), FALSE);
-            #}
-          #} elsif (track.getChild("name") != nil and track.getChild("name").getValue() == "RB-24J") {
-            #for testing that selection view follows missiles
-          #  selection = trackInfo;
-          #  lookatSelection();
-          #  selection_updated = TRUE;
-          } elsif (selection != nil and selection.getUnique() == me.unique.getValue()) {
-            # this track is already selected, updating it
-            #print("updating target");
-            selection = me.trackInfo;
-            #if (selection.get_type() == AIR) {
-              me.paint(selection.getNode(), TRUE);
-            #} else {
-            #  me.paint(selection.getNode(), FALSE);
-            #}
+            me.paint(selection.getNode(), TRUE);
             selection_updated = TRUE;
           } else {
-            #print("end2 "~selection.getUnique()~"=="~unique.getValue());
             me.paint(me.trackInfo.getNode(), FALSE);
           }
         } else {
-          #print("end");
           me.paint(track, FALSE);
         }
   #});      
@@ -628,14 +620,6 @@ var RadarLogic = {
   doppler: func(t_coord, t_node) {
     # Test to check if the target can hide below us
     # Or Hide using anti doppler movements
-
-    if (input.dopplerOn.getValue() == FALSE or 
-        (t_node.getNode("velocities/true-airspeed-kt") != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() != nil
-         and t_node.getNode("radar/range-nm") != nil and t_node.getNode("radar/range-nm").getValue() != nil
-         and math.atan2(t_node.getNode("velocities/true-airspeed-kt").getValue(), t_node.getNode("radar/range-nm").getValue()*1000) > 0.025)# if aircraft traverse speed seen from me is high
-        ) {
-      return TRUE;
-    }
 
     me.DopplerSpeedLimit = input.dopplerSpeed.getValue();
     me.InDoppler = 0;
