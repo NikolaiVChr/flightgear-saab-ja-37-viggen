@@ -868,6 +868,20 @@
         </jsbsim>
     </fdm>
 
+    <instrumentation>
+        <fuel>
+            <!-- AJS37 SFI part 1: fuel gauge indicates 107% with full internal
+                 tanks, and 133% with external tank in addition.
+
+                 AJS SFI part 3 gives a more detailed table. The ratios
+                 'indicated fuel%'/'fuel liters'
+                 in that table are not quite consistent.
+                 This value gives ~108% with full internal, 132% with external.
+            -->
+            <indicated-ratio-factor>1.32</indicated-ratio-factor>
+        </fuel>
+    </instrumentation>
+
     <nasal>
         <rdr>
             <file>Aircraft/JA37/Nasal/radar.nas</file>

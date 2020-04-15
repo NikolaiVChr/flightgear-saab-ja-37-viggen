@@ -42,7 +42,7 @@
                 <and>
                     <p>systems/indicators/hydr-1-primary</p>
                     <gt>
-                        <property>/ja37/avionics/fuel-internal-ratio</property>
+                        <property>instruments/fuel/ratio</property>
                         <value>0.40</value>
                     </gt>
                 </and>
@@ -53,7 +53,7 @@
             <function>
                     <and>
                         <gt>
-                            <property>/ja37/avionics/fuel-internal-ratio</property>
+                            <property>instruments/fuel/ratio</property>
                             <value>0.43</value>
                         </gt>
                         <eq>
@@ -76,7 +76,7 @@
                         <value>0</value>
                     </eq>
                     <gt>
-                        <property>/ja37/avionics/fuel-internal-ratio</property>
+                        <property>instruments/fuel/ratio</property>
                         <value>0.43</value>
                     </gt>
                     <gt>
@@ -1649,22 +1649,24 @@
 
         <!-- Swedish: BRÄ MÄNGD (blinking, sound)
         -->
-        
-        <fcs_function name="systems/indicators/low-fuel-primary">
-            <function>
-                <eq>
-                    <property>/ja37/sound/fuel-low-on</property>
-                    <value>1</value>
-                </eq>
-            </function>
-        </fcs_function>
+
+        <switch name="systems/indicators/low-fuel-primary">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                instruments/fuel/ratio lt 0.24
+                gear/gear-pos-norm == 0
+            </test>
+        </switch>
 
         <fcs_function name="systems/indicators/low-fuel-secondary">
             <function>
-                <eq>
-                    <property>/ja37/sound/fuel-low-2-on</property>
-                    <value>1</value>
-                </eq>
+                <lt>
+                    <property>instruments/fuel/ratio</property>
+                    <quotient>
+                        <property>/ja37/systems/fuel-warning-extra-percent</property>
+                        <value>100</value>
+                    </quotient>
+                </lt>
             </function>
         </fcs_function>
 

@@ -665,8 +665,6 @@
             <incoming12 type="bool">false</incoming12>
             <incoming type="bool">false</incoming>
             <helmet type="double">0.9</helmet>
-            <fuel-low-on type="bool">false</fuel-low-on>
-            <fuel-low-2-on type="bool">false</fuel-low-2-on>
             <floor-ft type="double">-10000</floor-ft>
             <loadfactor-percent type="int">100</loadfactor-percent>
         </sound>
@@ -708,7 +706,6 @@
             <lost-dc-sec type="double">-1</lost-dc-sec>
             <transonic-sec type="double">-1</transonic-sec>
             <ap-outside-bounds-sec type="double">-1</ap-outside-bounds-sec>
-            <fuel-internal-ratio type="double">0.0</fuel-internal-ratio>
             <tankpump type="bool">false</tankpump>
             <xtank type="bool">false</xtank>
             <fun type="bool">false</fun>

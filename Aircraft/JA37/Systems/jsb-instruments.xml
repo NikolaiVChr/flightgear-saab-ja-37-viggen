@@ -475,21 +475,22 @@
     </channel>
 
 
-    <channel>
-        <switch name="instruments/fuel/sensor-raw">
-            <default value="/instrumentation/fuel/ratio"/>
+    <channel execrate="4" name="fuel">
+        <pure_gain name="instruments/fuel/true-ratio">
+            <input>/consumables/fuel/total-fuel-norm</input>
+            <gain>/instrumentation/fuel/indicated-ratio-factor</gain>
+        </pure_gain>
+
+        <switch name="instruments/fuel/ratio">
+            <default value="instruments/fuel/true-ratio"/>
             <test value="0">
               /ja37/elec/ac-bus-main-bool == 0
             </test>
+            <output>/instrumentation/fuel/ratio</output>
         </switch>
 
-        <lag_filter name="instruments/fuel/sensor">
-            <input>instruments/fuel/sensor-raw</input>
-            <c1>5</c1>
-        </lag_filter>
-
         <switch name="instruments/fuel/needle-raw">
-            <default value="instruments/fuel/sensor"/>
+            <default value="instruments/fuel/ratio"/>
             <test value="/instrumentation/fuel/needle">
               /ja37/elec/ac-bus-main-bool == 0
             </test>

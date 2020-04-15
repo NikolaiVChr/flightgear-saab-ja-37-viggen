@@ -965,6 +965,13 @@
         </jsbsim>
     </fdm>
 
+    <instrumentation>
+        <fuel>
+            <!-- JA37 SFI part 1: fuel gauge indicates 112% with full internal
+                 tanks, and 136% with external tank in addition. -->
+            <indicated-ratio-factor>1.36</indicated-ratio-factor>
+        </fuel>
+    </instrumentation>
 
     <nasal>
         <MI>

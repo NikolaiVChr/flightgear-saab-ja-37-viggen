@@ -14,7 +14,6 @@ var LOOP_SLOW_RATE     = 1.50;
 var FALSE = 0;
 var TRUE = 1;
 
-var total_fuel = 0;
 var bingoFuel = FALSE;
 
 var mainOn = FALSE;
@@ -63,10 +62,8 @@ input = {
   fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
-  fuelInternalRatio:"ja37/avionics/fuel-internal-ratio",
   fuelRatio:        "/instrumentation/fuel/ratio",
   fuelTemp:         "ja37/supported/fuel-temp",
-  fuelWarning:      "ja37/sound/fuel-low-on",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
   gearSteerNorm:    "/gear/gear[0]/steering-norm",
@@ -255,34 +252,7 @@ var Saab37 = {
       input.fullInit.setBoolValue(FALSE);
     }
 
-    me.current = input.tank0LvlGal.getValue()
-                + input.tank1LvlGal.getValue()
-                + input.tank2LvlGal.getValue()
-                + input.tank3LvlGal.getValue()
-                + input.tank4LvlGal.getValue()
-                + input.tank5LvlGal.getValue()
-                + input.tank6LvlGal.getValue()
-                + input.tank7LvlGal.getValue()
-                + input.tank8LvlGal.getValue();
-
-
-    input.fuelRatio.setDoubleValue(me.current / total_fuel);
-
-    # fuel warning annuciator
-    if((me.current / total_fuel) < 0.24) {# warning at 24% as per sources
-      input.fuelWarning.setBoolValue(TRUE);
-    } else {
-      input.fuelWarning.setBoolValue(FALSE);
-    }
-    if((me.current / total_fuel) < getprop("ja37/systems/fuel-warning-extra-percent")/100) {# warning at custom as per sources
-      setprop("ja37/sound/fuel-low-2-on",TRUE);
-    } else {
-      setprop("ja37/sound/fuel-low-2-on",FALSE);
-    }
-
-    input.fuelInternalRatio.setDoubleValue(me.current / total_fuel);
-    
-    if (me.current > 0 and input.tank8LvlNorm.getValue() > 0) {
+    if (input.fuelRatio.getValue() > 0 and input.tank8LvlNorm.getValue() > 0) {
       bingoFuel = FALSE;
     } else {
       bingoFuel = TRUE;
@@ -1626,15 +1596,6 @@ var main_init = func {
   setprop("/autopilot/locks/altitude", "");
 
   setprop("/consumables/fuel/tank[8]/jettisoned", FALSE);
-
-  total_fuel = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[1]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[2]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[3]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[4]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[5]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[6]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[7]/capacity-gal_us");
 
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
   print("Loading exterior, wait...");
