@@ -43,10 +43,14 @@ var pylons = {
 var loadouts = {
     "clean": ["none", "none", "none", "none", "none", "none"],
     # JA
-    "2x RB 71, 4x RB 24J": ["rb71", "rb24j", "rb71", "rb24j", "rb24j", "rb24j"],
-    "2x RB 71, 4x RB 74": ["rb71", "rb74", "rb71", "rb74", "rb74", "rb74"],
     "4x RB 99, 2x RB 74": ["rb99", "rb99", "rb99", "rb99", "rb74", "rb74"],
+    "2x RB 99, 4x RB 74": ["rb99", "rb74", "rb99", "rb74", "rb74", "rb74"],
+    "2x RB 99, 2x RB 74": ["rb99", "rb74", "rb99", "rb74", "none", "none"],
+    "1x RB 99, 1x RB 74": ["none", "rb74", "none", "rb99", "none", "none"],
     "24x M 70, 2x RB 74": ["m70", "m70", "m70", "m70", "rb74", "rb74"],
+    "A/A anno 1979": ["rb71", "rb24j", "rb71", "rb24j", "rb24j", "rb24j"],
+    "A/A anno 1987": ["rb71", "rb74", "rb71", "rb74", "rb74", "rb74"],
+    "A/G anno 1979": ["m70", "m70", "m70", "m70", "rb24j", "rb24j"],
     # AJS
     "2x RB 04, 1x RB 74": ["rb04", "rb74", "rb04", "none", "none", "none"],
     "2x RB 15, 2x RB 74": ["rb15", "rb74", "rb15", "rb74", "none", "none"],
@@ -69,10 +73,14 @@ var loadouts = {
 
 # List of loadouts to include in the dialogs.
 var JA_loadouts = [
-    "2x RB 71, 4x RB 24J",
-    "2x RB 71, 4x RB 74",
     "4x RB 99, 2x RB 74",
+    "2x RB 99, 4x RB 74",
+    "2x RB 99, 2x RB 74",
+    "1x RB 99, 1x RB 74",
     "24x M 70, 2x RB 74",
+    "A/A anno 1979",
+    "A/A anno 1987",
+    "A/G anno 1979",
 ];
 
 var AJS_loadouts = [
