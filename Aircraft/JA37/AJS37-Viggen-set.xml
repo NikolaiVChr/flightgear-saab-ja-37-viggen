@@ -163,67 +163,11 @@
                             <script>ja37.repair();</script>
                         </binding>
                     </item>
-                    <!--<item>
-                        <label>Reload air to air (1979)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1979();</script>
-                        </binding>
-                    </item>
                     <item>
-                        <label>Reload air to air (1987)</label>
+                        <label>Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAir2Air1987();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1997)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1997();</script>
-                        </binding>
-                    </item>-->
-					<!--<item>
-                        <label>Reload guns only</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGuns();</script>
-                        </binding>
-                    </item>-->
-                    <item>
-                        <label>Reload air to armour</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Tank();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to ship</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Ship();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to personel</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Personel();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Air();</script>
-                        </binding>
-                    </item>
-					<item>
-                        <label>Reload clean</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGunsOnly();</script>
+                            <script>loadout.Dialog.toggle()</script>
                         </binding>
                     </item>
                     <item>

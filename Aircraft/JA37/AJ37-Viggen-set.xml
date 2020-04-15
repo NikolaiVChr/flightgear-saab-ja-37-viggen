@@ -164,34 +164,6 @@
                             <script>ja37.repair();</script>
                         </binding>
                     </item>
-                    <!--<item>
-                        <label>Reload air to air (1979)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1979();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1987)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1987();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1997)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1997();</script>
-                        </binding>
-                    </item>-->
-					<!--<item>
-                        <label>Reload guns only</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGuns();</script>
-                        </binding>
-                    </item>-->
                     <item>
                         <label>Reload air to armour</label>
                         <binding>
