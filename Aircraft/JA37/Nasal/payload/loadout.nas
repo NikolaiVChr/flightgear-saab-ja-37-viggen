@@ -114,7 +114,7 @@ var input = {
     wheelspd: "fdm/jsbsim/gear/unit[0]/wheel-speed-fps",
 };
 
-foreach(name; keys(input)) {
+foreach(var name; keys(input)) {
     input[name] = props.globals.getNode(input[name], 1);
 }
 
@@ -176,7 +176,7 @@ var loaded_gun_flares_message = func {
 
 var loaded_loadout_message = func {
     var loaded = {};
-    foreach(pylon; input.payload.getChildren("weight")) {
+    foreach(var pylon; input.payload.getChildren("weight")) {
         var name = pylon.getValue("selected");
         if(name == nil or name == "none" or name == "Drop tank") continue;
 
@@ -184,7 +184,7 @@ var loaded_loadout_message = func {
         else loaded[name] = 1;
     }
 
-    foreach(name; keys(loaded)) {
+    foreach(var name; keys(loaded)) {
         var msg = sprintf("%sx %s loaded", loaded[name], name);
         screen.log.write(msg, 0.0, 1.0, 0.0);
     }
@@ -244,7 +244,7 @@ var Dialog = {
         me.prop.setValue("dialog-name", "loadout");
 
         me.table = nil;
-        foreach(group; me.prop.getChildren("group")) {
+        foreach(var group; me.prop.getChildren("group")) {
             if(group.getValue("name") == "procedural_table") {
                 me.table = group;
                 break;
@@ -269,7 +269,7 @@ var Dialog = {
 
         var col = 0;
         var line = 0;
-        foreach(name; me.loadouts) {
+        foreach(var name; me.loadouts) {
             me.add_table_entry(col, line, name);
             line += 1;
             if(line >= me.table_lines) {
