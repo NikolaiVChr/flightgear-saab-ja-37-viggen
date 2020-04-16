@@ -22,7 +22,7 @@
         <object-name>lampTop</object-name>
         <emission>
             <red>0.8</red>
-            <green>0</green>
+            <green>0.7</green>
             <blue>0</blue>
             <factor-prop>/instrumentation/transonic-indicator</factor-prop>
         </emission>

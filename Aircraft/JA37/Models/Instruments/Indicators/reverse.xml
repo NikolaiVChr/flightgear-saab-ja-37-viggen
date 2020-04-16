@@ -27,7 +27,7 @@
         <object-name>lampTop</object-name>
         <emission>
             <red>0</red>
-            <green>0.5</green>
+            <green>0.7</green>
             <blue>0</blue>
             <factor-prop>/instrumentation/reverse-indicator</factor-prop>
         </emission>

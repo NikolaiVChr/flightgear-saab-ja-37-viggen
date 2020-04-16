@@ -65,7 +65,7 @@
         <type>material</type>
         <object-name>lamp1</object-name>
         <emission>
-            <red>0.5</red>
+            <red>0.7</red>
             <green>0.0</green>
             <blue>0.0</blue>
             <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamp1</factor-prop>
@@ -76,7 +76,7 @@
         <type>material</type>
         <object-name>lamp2</object-name>
         <emission>
-            <red>0.5</red>
+            <red>0.7</red>
             <green>0.0</green>
             <blue>0.0</blue>
             <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamp2</factor-prop>
