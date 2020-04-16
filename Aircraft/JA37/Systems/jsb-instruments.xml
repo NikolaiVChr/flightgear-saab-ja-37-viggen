@@ -182,47 +182,63 @@
             </function>
         </fcs_function>
 
-        <switch name="instruments/epr-direct">
+        <switch name="instruments/engine/epr-raw">
             <default value="propulsion/engine/p7-p2"/>
             <test logic="OR" value="/engines/engine/epr-gauge">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
         </switch>
 
-        <lag_filter name="instruments/epr">
-            <input>instruments/epr-direct</input>
-            <c1>5</c1>
+        <kinematic name="instruments/engine/epr">
+            <input>instruments/engine/epr-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>1</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>3</position>
+                    <time>0.5</time>
+                </setting>
+            </traverse>
             <output>/engines/engine/epr-gauge</output>
-        </lag_filter>
+        </kinematic>
 
         <!-- RPM -->
-        <switch name="instruments/tachometer-direct">
+        <switch name="instruments/engine/rpm-raw">
             <default value="propulsion/engine/n2"/>
             <test value="/engines/engine/rpm-gauge">
               /ja37/elec/ac-bus-main-bool == 0
             </test>
         </switch>
 
-        <lag_filter name="instruments/tachometer">
-            <input>instruments/tachometer-direct</input>
-            <c1> 5 </c1>
+        <kinematic name="instruments/engine/rpm">
+            <input>instruments/engine/rpm-raw</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>110</position>
+                    <time>0.5</time>
+                </setting>
+            </traverse>
             <output>/engines/engine/rpm-gauge</output>
-            <clipto>
-                <min>0</min>
-                <max>110</max>
-            </clipto>
-        </lag_filter>
+        </kinematic>
     </channel>
 
 
     <channel execrate="4" name="altimeters">
-        <pure_gain name="instruments/indicated-altitude-meter">
+        <pure_gain name="instruments/altimeter/altitude-m">
             <input>/instrumentation/altimeter/indicated-altitude-ft</input>
             <gain>0.3048</gain>
             <output>/instrumentation/altimeter/indicated-altitude-meter</output>
         </pure_gain>
 
-        <pure_gain name="instruments/indicated-altitude2-meter">
+        <pure_gain name="instruments/altimeter-backup/altitude-m">
             <input>/instrumentation/altimeter[1]/indicated-altitude-ft</input>
             <gain>0.3048</gain>
             <output>/instrumentation/altimeter[1]/indicated-altitude-meter</output>
@@ -318,7 +334,8 @@
 
     <channel execrate="4" name="waypoint-indicators">
         <pure_gain name="instruments/waypoint/distance-km">
-            <input>/autopilot/route-manager/wp/dist-km</input>
+          <input>/autopilot/route-manager/wp/dist-km</input>
+          <gain>1</gain>
         </pure_gain>
 
         <!-- Nordic miles = 10km -->
@@ -393,10 +410,10 @@
         <!-- animating AoA indicator -->
         <switch name="instruments/aoa/indicator-raw">
             <default value="aero/alpha-deg"/>
-            <test logic="OR" value="-4">
+            <test value="-4">
               /ja37/elec/dc-bus-main-bool == 0
             </test>
-            <test logic="OR" value="/instrumentation/attitude-indicator/indicated-pitch-deg">
+            <test value="/instrumentation/attitude-indicator/indicated-pitch-deg">
                 gear/unit[0]/WOW == 1
             </test>
         </switch>
