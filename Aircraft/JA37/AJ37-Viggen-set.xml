@@ -248,18 +248,8 @@
                     <item>
                         <label>Options</label>
                         <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.Dialog.show();
-                            </script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>MP Options</label>
-                        <name>j37config</name>
-                        <binding>
-                          <command>dialog-show</command>
-                          <dialog-name>j37config</dialog-name>
+                            <command>dialog-show</command>
+                            <dialog-name>saab37config</dialog-name>
                         </binding>
                     </item>
                 </menu>

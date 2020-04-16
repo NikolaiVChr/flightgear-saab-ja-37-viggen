@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-  
-  <name>j37config</name>
+  <name>saab37config</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
+  <halign>left</halign>
+
+  <nasal>
+    <open>
+      var type_to_anno = {
+          1: "1971",
+          2: "1979",
+          3: "1997",
+      };
+
+      var update_gsuit_anno = func {
+          var type = getprop("/ja37/effect/g-suit");
+          var anno = type_to_anno[type];
+          setprop("/ja37/effect/g-suit-anno", anno);
+      }
+
+      update_gsuit_anno();
+    </open>
+  </nasal>
   
   <group>
     <layout>hbox</layout>
-    
-    <text>
-      <label>MP Configuration</label>
-      <format>%s MP Configuration</format>
-      <property>sim/description</property>
-    </text>
-    
-    <empty>
-      <stretch>1</stretch>
-    </empty>
-    
+    <empty><stretch>1</stretch></empty>
+    <text><label>Configuration</label></text>
+    <empty><stretch>1</stretch></empty>
     <button>
       <pref-width>16</pref-width>
       <pref-height>16</pref-height>
       <legend></legend>
-      
       <default>1</default>
       <keynum>27</keynum>
       <border>2</border>
@@ -38,64 +47,193 @@
 
   <hrule/>
 
-  <canvas>
-    <name>bannerum</name>
-    <valign>fill</valign>
-    <halign>fill</halign>
-    <stretch>false</stretch>
-    <pref-width>512</pref-width>
-    <pref-height>128</pref-height>
-    <nasal>
-      <load>
-        <![CDATA[       
-                 # you can add your canvas-specific code here
-                 var my_canvas = canvas.get( cmdarg() );
-                 #my_canvas.set("size", [512,128]);
-                 #my_canvas.set("view", [512,128]);
-                 #my_canvas.set("update", 1);
-                 var root = my_canvas.createGroup();
-                 root.setScale(1.01,2.5);
-                 my_canvas.setColorBackground(0, 0, 1, 1.0);
-                 root.createChild("image")
-                                    .set("src", "Aircraft/JA37/viggen-logo.png");
-                                    #.set("x", 512)
-                                    #.set("y", 128);
-                                    #.setSize(512,128)
-                                    #.setTranslation(0,0);
-        ]]>
-      </load>
-      <unload>
-        <![CDATA[       
-                 my_canvas.del();
-                 my_canvas = nil;
-                 root = nil;
-        ]]>
-      </unload>
-    </nasal>
-  </canvas>
-
   <group>
-    <layout>hbox</layout>
-    <text><label>MP discharge messages</label></text>
+    <layout>table</layout>
+
+    <!-- HUD line width -->
+    <text>
+      <row>0</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>HUD line width</label>
+    </text>
+
+    <slider>
+      <row>0</row>
+      <col>1</col>
+      <property>/ja37/hud/stroke-linewidth</property>
+      <min>1</min>
+      <max>10</max>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>canvas_HUD.reinit();</script>
+      </binding>
+    </slider>
+
+    <!-- G suit -->
+    <text>
+      <row>1</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>G-suit quality: anno 1997</label>
+      <format>G-suit quality: anno %s</format>
+      <property>/ja37/effect/g-suit-anno</property>
+      <live>true</live>
+    </text>
+
+    <slider>
+      <row>1</row>
+      <col>1</col>
+      <property>/ja37/effect/g-suit</property>
+      <min>1</min>
+      <max>3</max>
+      <step>1</step>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>update_gsuit_anno();</script>
+      </binding>
+    </slider>
+
+    <!-- TI menus -->
+    <text>
+      <row>2</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>TI Display: show non-functional menu items</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </text>
+
     <checkbox>
-      <property>payload/armament/msg</property>
+      <row>2</row>
+      <col>1</col>
+      <property>/ja37/displays/show-full-menus</property>
       <live>true</live>
       <binding>
-          <command>nasal</command>
-          <script>
-            if(getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-              setprop("payload/armament/msg", !getprop("payload/armament/msg"));
-            }
-          </script>
+        <command>dialog-apply</command>
+      </binding>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </checkbox>
+
+    <!-- TI map -->
+    <text>
+      <row>3</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>TI Display: use Internet to fetch map</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </text>
+
+    <checkbox>
+      <row>3</row>
+      <col>1</col>
+      <property>/ja37/displays/live-map</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </checkbox>
+
+    <!-- Outside rust -->
+    <text>
+      <row>4</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>Rust on fuselage (requires ALS)</label>
+    </text>
+
+    <checkbox>
+      <row>4</row>
+      <col>1</col>
+      <property>/ja37/effect/rust-outside</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <text>
+      <row>5</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>Rust in cockpit (requires ALS)</label>
+    </text>
+
+    <checkbox>
+      <row>5</row>
+      <col>1</col>
+      <property>/ja37/effect/rust-inside</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <hrule>
+      <row>6</row>
+      <col>0</col>
+      <colspan>2</colspan>
+    </hrule>
+
+    <text>
+      <row>7</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>Enable multiplayer damage</label>
+    </text>
+
+    <checkbox>
+      <row>7</row>
+      <col>1</col>
+      <enable><property>fdm/jsbsim/gear/unit[0]/WOW</property></enable>
+      <property>/payload/armament/msg</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
       </binding>
     </checkbox>
   </group>
-  <text><label>Enable this to let your missile and</label></text>
-  <text><label>cannon fire messages be visible over MP.</label></text>
-  <text><label>Warning this will also allow others to damage you.</label></text>
-  <text><label>Note this will force blackout to be enabled.</label></text>
-  <text><label>Simulation speed will be set to normal.</label></text>
-  <text><label>It will also remove the payload window in air and MP pilot-list.</label></text>
-  <text><label>Cannot be toggled in-air.</label></text>
 
+    <text>
+      <halign>left</halign>
+      <label>This option allows to deal and receive damage from other compatible aircrafts,</label>
+    </text>
+    <text>
+      <halign>left</halign>
+      <label>if they have also enabled it. It can only be toggled when stopped on the ground.</label>
+    </text>
+    <text>
+      <halign>left</halign>
+      <label>Enabling this enforces some realism options, such as blackout, normal simulation</label>
+    </text>
+    <text>
+      <halign>left</halign>
+      <label>speed, and disabling fuel, payload, and repair menus while in flight.</label>
+    </text>
 </PropertyList>
