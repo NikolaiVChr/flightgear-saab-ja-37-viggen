@@ -301,11 +301,13 @@ var Dialog = {
     },
 
     open: func() {
+        if(me.state) return;
         if(!reload_allowed()) return;
         fgcommand("dialog-show", me.prop);
         me.state = 1;
     },
     close: func() {
+        if(!me.state) return;
         fgcommand("dialog-close", me.prop);
         me.state = 0;
     },
