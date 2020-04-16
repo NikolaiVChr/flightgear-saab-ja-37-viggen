@@ -34,6 +34,8 @@
     -->
     <!-- Internal: 4290.02 Kg, External: 1024.95 Kg (AJ37 manual)
     -->
+
+    <!-- Source of current values: AJS37 SFI part 3 -->
     
   <tank type="FUEL"><!-- fuel type used: F-40 with density of 6.48 -->
     <!-- Fuselage Main Tank 1 -->
@@ -163,7 +165,7 @@
       <z> -1.25748 </z>
     </location>
     <radius unit="M"> 0.25 </radius>
-    <capacity unit="KG"> 1024.95 </capacity><!-- 1320 Liter --><!-- old: 1190 Kg , Swedish airforce website -->
+    <capacity unit="KG"> 970.6 </capacity><!-- 1250 Liter --><!-- old: 1190 Kg , Swedish airforce website -->
     <contents unit="KG"> 0 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>

@@ -163,67 +163,11 @@
                             <script>ja37.repair();</script>
                         </binding>
                     </item>
-                    <!--<item>
-                        <label>Reload air to air (1979)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1979();</script>
-                        </binding>
-                    </item>
                     <item>
-                        <label>Reload air to air (1987)</label>
+                        <label>Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAir2Air1987();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1997)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1997();</script>
-                        </binding>
-                    </item>-->
-					<!--<item>
-                        <label>Reload guns only</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGuns();</script>
-                        </binding>
-                    </item>-->
-                    <item>
-                        <label>Reload air to armour</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Tank();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to ship</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Ship();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to personel</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Personel();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Air();</script>
-                        </binding>
-                    </item>
-					<item>
-                        <label>Reload clean</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGunsOnly();</script>
+                            <script>loadout.Dialog.toggle()</script>
                         </binding>
                     </item>
                     <item>
@@ -275,18 +219,8 @@
                     <item>
                         <label>Options</label>
                         <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.Dialog.show();
-                            </script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>MP Options</label>
-                        <name>j37config</name>
-                        <binding>
-                          <command>dialog-show</command>
-                          <dialog-name>j37config</dialog-name>
+                            <command>dialog-show</command>
+                            <dialog-name>saab37config</dialog-name>
                         </binding>
                     </item>
                 </menu>
@@ -561,43 +495,6 @@
             </opt>
             <opt>
                 <name>Drop tank</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>RB 04E Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>            
-            <opt>
-                <name>RB 05A Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>RB 15F Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>
-            <!-- not enough room for this
-            <opt>
-                <name>RB 75 Maverick</name>
-                <lbs>462</lbs>
-            </opt>-->
-            <opt>
-                <name>M55 AKAN</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M70 ARAK</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M71 Bomblavett</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M71 Bomblavett (Retarded)</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M90 Bombkapsel</name>
                 <lbs>0</lbs>
             </opt>
         </weight>
@@ -1062,7 +959,7 @@
 
     <nasal>
         <rdr>
-            <file>Aircraft/JA37/Nasal/radar.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/radar.nas</file>
         </rdr>
     </nasal>
 

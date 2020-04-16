@@ -69,50 +69,6 @@
       </condition>
     </animation>
 
-	<!-- stores  -->
-
-	<model><!-- center pylon -->
-    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
-    <name>rb71c</name>
-    <offsets>
-      <x-m>  -0.3</x-m>
-      <y-m>  0</y-m>
-      <z-m> -1.075</z-m>
-    </offsets>
-  </model>
-
- <animation>
-  <object-name>rb71c</object-name>
-  <type>select</type>
-  <condition>
-   <equals>
-    <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[6]/weight-lb -->
-    <value>425</value>
-   </equals>
-  </condition>
- </animation>
-
-<model><!-- center pylon -->
-    <path>Aircraft/JA37/Models/Armament/Weapons/RB-99/aim-120.xml</path>
-    <name>rb99c</name>
-    <offsets>
-      <x-m>  -1.1</x-m>
-      <y-m>  0</y-m>
-      <z-m> -1.1</z-m>
-    </offsets>
-  </model>
-
- <animation>
-  <object-name>rb99c</object-name>
-  <type>select</type>
-  <condition>
-   <equals>
-    <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[6]/weight-lb -->
-    <value>291</value>
-   </equals>
-  </condition>
- </animation>
-
   <!-- ====== rb 71 ====== -->
 
   <model><!-- Left wing pylon -->
@@ -3513,27 +3469,6 @@
   <condition>
    <equals>
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
-    <value>794</value>
-   </equals>
-  </condition>
- </animation>
-
-   <model><!-- center pylon -->
-    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
-    <name>podc</name>
-    <offsets>
-      <x-m> -0.4</x-m>
-      <y-m>  0</y-m>
-      <z-m> -1.85</z-m>
-    </offsets>
-  </model>
-
- <animation>
-  <object-name>podc</object-name>
-  <type>select</type>
-  <condition>
-   <equals>
-    <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[6]/weight-lb -->
     <value>794</value>
    </equals>
   </condition>

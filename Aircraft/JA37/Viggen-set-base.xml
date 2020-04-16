@@ -390,7 +390,7 @@
 
                 unused:
                 int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
-                float[1], float[4], float[6], float[8], float[15], float[18]
+                float[1], float[4], float[6], float[8], float[10], float[15], float[18]
                 bool[15-19]
              -->
             <generic>
@@ -429,7 +429,6 @@
                 <short n="1" alias="/ja37/effect/formation-light"/>
                 <short n="2" alias="/ja37/effect/rear-navigation-light"/>
                 <!-- Stores -->
-                <float n="10" alias="/payload/weight[6]/weight-lb"/>            <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>            <!-- left wing -->
                 <float n="12" alias="/payload/weight[1]/weight-lb"/>            <!-- left fuselage -->
                 <float n="13" alias="/payload/weight[2]/weight-lb"/>            <!-- right wing -->
@@ -591,7 +590,6 @@
             <pod1 type="bool">true</pod1>
             <pod2 type="bool">true</pod2>
             <pod3 type="bool">true</pod3>
-            <pod4 type="bool">true</pod4>
             <rust-outside type="int">0</rust-outside>
             <rust-inside type="int">0</rust-inside>
         </effect>
@@ -1125,22 +1123,10 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
             </station>
-            <station n="7"><!-- center -->
-                <offsets>
-                    <x-m type="double">  -0.09941</x-m>
-                    <y-m type="double">  0</y-m>
-                    <z-m type="double">  -0.97819</z-m>
-                </offsets>
-                <trigger type="bool">false</trigger>
-                <trigger-m70 type="bool">false</trigger-m70>
-            </station>
             <station n="8"><!-- M55 -->
                 <trigger type="bool">false</trigger>
             </station>
             <station n="9"><!-- M55 -->
-                <trigger type="bool">false</trigger>
-            </station>
-            <station n="10"><!-- M55 -->
                 <trigger type="bool">false</trigger>
             </station>
             <station n="11"><!-- gamma -->
@@ -1602,8 +1588,11 @@
             <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
         </reversethrust>
         <radar_logic>
-            <file>Aircraft/JA37/Nasal/radar-logic.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar-logic.nas</file>
         </radar_logic>
+        <rcs>
+            <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
+        </rcs>
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>
@@ -1613,7 +1602,6 @@
         <ja37>
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
-            <file>Aircraft/JA37/Nasal/options.nas</file>
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
         </ja37>
@@ -1627,10 +1615,10 @@
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>
         <displays>
-            <file>Aircraft/JA37/Nasal/common-displays.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/common.nas</file>
         </displays>
         <canvas_HUD>
-            <file>Aircraft/JA37/Nasal/hud.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/hud.nas</file>
         </canvas_HUD>
         <monitor>
             <file>Aircraft/JA37/Nasal/dialog-perf.nas</file>
@@ -1654,9 +1642,12 @@
             <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
         </crash1>
         <armament>
-            <file>Aircraft/JA37/Nasal/guided-missiles.nas</file>
-            <file>Aircraft/JA37/Nasal/stores.nas</file>
+            <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
+            <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
+        <loadout>
+            <file>Aircraft/JA37/Nasal/payload/loadout.nas</file>
+        </loadout>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>
         </formation>
@@ -1675,9 +1666,6 @@
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>
-        <rcs>
-            <file>Aircraft/JA37/Nasal/rcs.nas</file>
-        </rcs>
         <dap>
             <file>Aircraft/JA37/Nasal/data-panel.nas</file>
         </dap>
