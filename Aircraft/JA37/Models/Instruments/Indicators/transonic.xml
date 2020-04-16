@@ -51,6 +51,15 @@
     </animation>
 
     <animation>
+      <type>material</type>
+      <object-name>label-ja</object-name>
+      <object-name>label-aj</object-name>
+      <object-name>lampTop</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>labels-se.png</texture>
+    </animation>
+
+    <animation>
         <type>pick</type>
         <object-name>lamp</object-name>
         <object-name>lampTop</object-name>

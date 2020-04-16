@@ -14,6 +14,13 @@
     </effect>
 
     <animation>
+      <type>material</type>
+      <object-name>display</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>labels-se.png</texture>
+    </animation>
+
+    <animation>
         <type>material</type>
         <object-name>display</object-name>
         <emission>

@@ -73,10 +73,11 @@
         <aircraft-data>
             <!-- Properties that get saved to persist locally between FG sessions -->
             <path>ja37/radar/enabled</path>
-            <!--<path>ja37/hud/units-metric</path>-->
+            <path>ja37/hud/units-metric</path>
             <path>ja37/hud/mode</path>
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
+            <path>ja37/effect/swedish-labels</path>
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
@@ -590,8 +591,9 @@
             <pod1 type="bool">true</pod1>
             <pod2 type="bool">true</pod2>
             <pod3 type="bool">true</pod3>
-            <rust-outside type="int">0</rust-outside>
-            <rust-inside type="int">0</rust-inside>
+            <rust-outside type="bool">false</rust-outside>
+            <rust-inside type="bool">false</rust-inside>
+            <swedish-labels type="bool">false</swedish-labels>
         </effect>
         <blink>
             <two-Hz>
