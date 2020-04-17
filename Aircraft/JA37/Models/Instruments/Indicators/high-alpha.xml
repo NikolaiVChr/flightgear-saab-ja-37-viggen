@@ -51,8 +51,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>AFK</tooltip-id>
-                <label>Automatic throttle</label>
+                <tooltip-id>high-alpha</tooltip-id>
+                <label>A/T high AoA landing mode</label>
             </binding>
         </hovered>
         <action>
