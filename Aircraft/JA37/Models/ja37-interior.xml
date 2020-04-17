@@ -20,7 +20,7 @@
     <path>Aircraft/JA37/Models/ja37-panel.xml</path>
     <name>Panel</name>
     <offsets>
-      <pitch-deg>-20</pitch-deg>
+      <pitch-deg>-19.6</pitch-deg>
       <x-m>-3.96279</x-m>
       <y-m>0.0</y-m>
       <z-m>0.20146</z-m>
