@@ -1621,19 +1621,22 @@
             <file>Aircraft/Generic/limits.nas</file>
         </limits>
         <failureSys>
-            <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
-            <file>Aircraft/JA37/Nasal/engine-fire.nas</file>
+            <file>Aircraft/JA37/Nasal/failure/ja37-failures.nas</file>
+            <file>Aircraft/JA37/Nasal/failure/engine-fire.nas</file>
         </failureSys>
         <crash0>
-            <file>Aircraft/JA37/Nasal/crash.nas</file>
+            <file>Aircraft/JA37/Nasal/failure/crash.nas</file>
         </crash0>
         <crash1>
-            <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
+            <file>Aircraft/JA37/Nasal/failure/crash-and-stress.nas</file>
         </crash1>
         <armament>
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
             <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
+        <damage>
+            <file>Aircraft/JA37/Nasal/failure/damage.nas</file>
+        </damage>
         <loadout>
             <file>Aircraft/JA37/Nasal/payload/loadout.nas</file>
         </loadout>
