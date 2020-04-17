@@ -62,13 +62,13 @@
             </binding>
             <binding>
                 <command>property-assign</command>
-                <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
+                <property>instrumentation/heading-indicator[1]/fast-reset-button</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
+                    <property>instrumentation/heading-indicator[1]/fast-reset-button</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -77,7 +77,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>headingBackupErect</tooltip-id>
-                <label>Backup gyro fast-erect</label>
+                <label>Backup gyro fast-reset</label>
             </binding>
         </hovered>
     </animation>
@@ -85,24 +85,24 @@
     <animation>
         <type>translate</type>
         <object-name>buttonHeading</object-name>
-        <property>instrumentation/heading-indicator[1]/fast-erect-button</property>
-        <factor>-0.002</factor>
+        <property>instrumentation/heading-indicator[1]/fast-reset-button</property>
+        <factor>0.002</factor>
         <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
         </axis>
     </animation>
 
     <!-- For a future animation of this light.
-         (Pressing the button initiate fast-erect procedure. Light stays on until done.)
+         (Pressing the button initiate fast-reset procedure. Light stays on until done.)
     <animation>
         <type>material</type>
         <object-name>button-heading</object-name>
         <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
+            <red>0.7</red>
+            <green>0.7</green>
+            <blue>0.7</blue>
             <factor-prop>?</factor-prop>
         </emission>
     </animation>-->

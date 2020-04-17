@@ -1508,6 +1508,7 @@
             <serviceable type="bool">true</serviceable>
         </altimeter>
         <heading-indicator n="1">
+            <fast-reset-button type="int">0</fast-reset-button>
             <serviceable type="bool">true</serviceable>
         </heading-indicator>
         <airspeed-indicator>
