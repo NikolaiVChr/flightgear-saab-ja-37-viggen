@@ -294,12 +294,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/autopilot.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/autopilot-aj.xml</path>
     <name>A/P</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.225</y-m>
-      <z-m>0.28</z-m>
+      <y-m>-0.235</y-m>
+      <z-m>0.262</z-m>
     </offsets>
   </model>
 
@@ -308,19 +308,18 @@
     <name>A/T</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.21</y-m>
-      <z-m>0.245</z-m>
+      <y-m>-0.228</y-m>
+      <z-m>0.243</z-m>
     </offsets>
   </model>
-
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/high-alpha.xml</path>
     <name>A/T alpha</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.185</y-m>
-      <z-m>0.27</z-m>
+      <y-m>-0.207</y-m>
+      <z-m>0.243</z-m>
     </offsets>
   </model>
 
