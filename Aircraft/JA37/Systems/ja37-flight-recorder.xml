@@ -133,6 +133,12 @@
 
         <!-- Sound -->
 
+        <!-- In Generic/flightrecorder/components/engine-jet.xml since 2020/02/18
+             Kept for compatibility with earlier versions. -->
+        <signal>
+            <type>float</type>
+            <property type="string">engines/engine/thrust_lb</property>
+        </signal>
         <signal>
             <type>float</type>
             <property type="string">fdm/jsbsim/fcs/speedbrake-pos-norm</property>
