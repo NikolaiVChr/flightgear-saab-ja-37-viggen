@@ -63,6 +63,16 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/falldlast.xml</path>
+    <name>Release</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.18</y-m>
+      <z-m>0.30</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
     <name>G Meter</name>
     <offsets>
@@ -128,8 +138,8 @@
     <name>Transonic</name>
     <offsets>
       <x-m>0.01</x-m>
-      <y-m>0.25</y-m>
-      <z-m>0.24</z-m>
+      <y-m>0.24</y-m>
+      <z-m>0.26</z-m>
     </offsets>
   </model>
 
