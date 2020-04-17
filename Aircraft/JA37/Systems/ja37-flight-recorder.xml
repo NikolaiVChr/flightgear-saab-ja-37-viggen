@@ -135,10 +135,6 @@
 
         <signal>
             <type>float</type>
-            <property type="string">engines/engine/thrust_lb</property>
-        </signal>
-        <signal>
-            <type>float</type>
             <property type="string">fdm/jsbsim/fcs/speedbrake-pos-norm</property>
         </signal>
         <signal>
