@@ -3,8 +3,6 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var ecmLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
-
 
 var cannon_types = {
     " M70 rocket hit":        0.25, #135mm
@@ -178,7 +176,7 @@ var incoming_listener = func {
                 while(clock > 360) {
                   clock = clock - 360;
                 }
-                ecmLog.push(last~sprintf("%d deg.", clock));
+                armament.ecmLog.push(last~sprintf("%d deg.", clock));
                 #print("incoming from "~clock);
                 if (clock >= 345 or clock < 15) {
                   playIncomingSound("12");

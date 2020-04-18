@@ -12,6 +12,7 @@ var flareCount = -1;
 var flareStart = -1;
 
 var fireLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
+var ecmLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
 
 var jettisonAll = FALSE;
 
