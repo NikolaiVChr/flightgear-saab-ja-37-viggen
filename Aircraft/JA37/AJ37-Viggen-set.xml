@@ -165,38 +165,10 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Reload air to armour</label>
+                        <label>Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAJAir2Tank();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to ship</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJAir2Ship();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to personel</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJAir2Personel();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJAir2Air();</script>
-                        </binding>
-                    </item>
-					<item>
-                        <label>Reload clean</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGunsOnly();</script>
+                            <script>loadout.Dialog.toggle()</script>
                         </binding>
                     </item>
                     <item>

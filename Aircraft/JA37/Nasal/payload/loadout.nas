@@ -69,6 +69,19 @@ var loadouts = {
     "16x M 71R, 2x RB 24J": ["m71r", "m71r", "m71r", "m71r", "rb24j", "rb24j"],
     "12x M 71R, 1x RB 74": ["m71r", "rb74", "m71r", "m71r", "none", "none"],
     "2x M 90, 2x RB 74": ["m90", "rb74", "m90", "rb74", "none", "none"],
+    # AJ
+    "2x RB 04, 1x RB 24J": ["rb04", "rb24j", "rb04", "none", "none", "none"],
+    "2x RB 05, 2x AKAN": ["m55", "rb05", "m55", "rb05", "none", "none"],
+    "1x RB 05, 1x RB 24J, 2x AKAN": ["m55", "rb24j", "m55", "rb05", "none", "none"],
+    "2x RB 75, 2x AKAN": ["m55", "rb75", "m55", "rb75", "none", "none"],
+    "1x RB 75, 1x RB 24J, 2x AKAN": ["m55", "rb24j", "m55", "rb75", "none", "none"],
+    "2x RB 24J, 2x AKAN": ["m55", "rb24j", "m55", "rb24j", "none", "none"],
+    "24x M 70": ["m70", "m70", "m70", "m70", "none", "none"],
+    "18x M 70, 1x RB 24J": ["m70", "rb24j", "m70", "m70", "none", "none"],
+    "16x M 71": ["m71", "m71", "m71", "m71", "none", "none"],
+    "12x M 71, 1x RB 24J": ["m71", "rb24j", "m71", "m71", "none", "none"],
+    "16x M 71R": ["m71r", "m71r", "m71r", "m71r", "none", "none"],
+    "12x M 71R, 1x RB 24J": ["m71r", "rb24j", "m71r", "m71r", "none", "none"],
 };
 
 # List of loadouts to include in the dialogs.
@@ -101,6 +114,21 @@ var AJS_loadouts = [
     "16x M 71R, 2x RB 24J",
     "12x M 71R, 1x RB 74",
     "2x M 90, 2x RB 74",
+];
+
+var AJ_loadouts = [
+    "2x RB 04, 1x RB 24J",
+    "2x RB 05, 2x AKAN",
+    "1x RB 05, 1x RB 24J, 2x AKAN",
+    "2x RB 75, 2x AKAN",
+    "1x RB 75, 1x RB 24J, 2x AKAN",
+    "2x RB 24J, 2x AKAN",
+    "24x M 70",
+    "18x M 70, 1x RB 24J",
+    "16x M 71",
+    "12x M 71, 1x RB 24J",
+    "16x M 71R",
+    "12x M 71R, 1x RB 24J",
 ];
 
 
@@ -225,13 +253,9 @@ var Dialog = {
     init: func {
         me.prop = props.globals.getNode("/sim/gui/dialogs/loadout/dialog", 1);
         me.path = "Aircraft/JA37/gui/dialogs/loadout.xml";
-        if(getprop("/ja37/systems/variant") == 0) {
-            me.loadouts = JA_loadouts;
-        } else {
-            me.loadouts = AJS_loadouts;
-        }
+        var variant = getprop("/ja37/systems/variant");
+        me.loadouts = (variant == 0) ? JA_loadouts : (variant == 2) ? AJS_loadouts : AJ_loadouts;
         me.state = 0;
-
         me.listener = setlistener("/sim/signals/reinit-gui", func me.init_dialog(), 1);
     },
 
