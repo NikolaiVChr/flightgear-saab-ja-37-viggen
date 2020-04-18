@@ -1141,10 +1141,6 @@ var Saab37 = {
     me.loop_common.start();
     me.loop_commonF.start();
     
-    # autopilot
-    me.loop_ap       = maketimer(0.20, me, func {timer.timeLoop("Autopilot", auto.apLoop,me);});
-    me.loop_hydrLost = maketimer(0.50, me, func {timer.timeLoop("Autopilot-power", auto.hydr1Lost,me);});
-
     me.loop_chrono   = maketimer(0.26, me, func {timer.timeLoop("chronometer", ja37.chrono_update,me);});
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
@@ -1693,7 +1689,7 @@ var main_init = func {
       setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
       setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
       setprop("controls/gear/gear-down", 0);
-      auto.mode3();
+      autoflight.System.engageMode(3);
       settimer(cruise, 1.5);
   } else {
     setprop("fdm/jsbsim/gear/gear-filtered-norm", 1);

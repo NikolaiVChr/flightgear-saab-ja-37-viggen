@@ -174,13 +174,13 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <property>/instrumentation/joystick-indicator</property>
+            <property>fdm/jsbsim/autoflight/stick-light</property>
         </condition>
         <binding>
             <command>nasal</command>
             <script>
               setprop("ja37/avionics/button-stck", 1);
-              auto.mode1();
+              autoflight.System.engageMode(1);
               ja37.click();
               var timer = maketimer(0.3, func(){
                   setprop("ja37/avionics/button-stck", 0);

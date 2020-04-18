@@ -1248,13 +1248,6 @@
         </weather-scenarios>
     </environment>
     <autopilot>
-        <target-tracking-ja37>
-            <min-speed-kt type="double">190</min-speed-kt>
-            <enable type="bool">false</enable>
-        </target-tracking-ja37>
-        <target-tracking>
-            <min-speed-kt type="double">190</min-speed-kt>
-        </target-tracking>
 		<route-manager>
 			<wp>
 				<bearing-deg-rel type="double">0</bearing-deg-rel>
@@ -1582,7 +1575,6 @@
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
             <file>Aircraft/JA37/Nasal/chronograph.nas</file>
-            <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
         </ja37>
         <tyre>

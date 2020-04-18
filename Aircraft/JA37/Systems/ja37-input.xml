@@ -259,14 +259,6 @@
                 <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
-        <!--<key n="70">
-            <name>F</name>
-            <desc>Set autopilot to stop follow current target</desc>
-            <binding>
-                <command>nasal</command>
-                <script>auto.unfollow();</script>
-            </binding>
-        </key>-->
         <key n="8">
             <name>Backspace</name>
             <desc>Toggle Reversers</desc>
@@ -1253,10 +1245,7 @@
           <desc>Toggle auto-throttle lock</desc>
           <binding>
            <command>nasal</command>
-           <script>
-                auto.apContSpeed();
-                ja37.click();
-            </script>
+           <script>autoflight.System.athrToggle();</script>
           </binding>
          </key>
     </keyboard>

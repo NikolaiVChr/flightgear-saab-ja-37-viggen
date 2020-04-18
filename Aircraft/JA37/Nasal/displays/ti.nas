@@ -2146,7 +2146,6 @@ var TI = {
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
 				if (me.input.wow1.getValue() == 0) {
-#					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
 					if (radar_logic.steerOrder == TRUE) {
 						me.menuButtonBox[1].show();
 					}
