@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
     <path>../gauge.ac</path>
 
@@ -48,17 +48,17 @@
         <type>pick</type>
         <object-name>glass</object-name>
         <object-name>mount</object-name>
-        <condition>
-			<and>
-				<property>ja37/elec/dc-bus-main-bool</property>
-				<less-than>
-					<property>autopilot/route-manager/wp/dist-km</property>
-					<value>40</value>
-				</less-than>
-			</and>
-        </condition>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <property>ja37/elec/dc-bus-main-bool</property>
+                        <less-than>
+                            <property>autopilot/route-manager/wp/dist-km</property>
+                            <value>40</value>
+                        </less-than>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>distance</tooltip-id>
                 <label>Distance to waypoint/DME: %.1f km</label>

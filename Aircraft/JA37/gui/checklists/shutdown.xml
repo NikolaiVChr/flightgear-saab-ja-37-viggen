@@ -44,36 +44,41 @@
     </item>
     <item>
         <name>Throttle</name>
-        <value>CLOSE (PG Down)</value>
-        <condition>
-            <less-than>
-                <property>/controls/engines/engine[0]/throttle</property>
-                <value>0.02</value>
-            </less-than>
-        </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>/controls/engines/engine[0]/throttle</property>
-            <value>0</value>
-        </binding>
+        <value>CUTOFF (1min &lt; flight idle)</value>
         <marker>
             <x-m>-3.6000</x-m>
             <y-m>-0.4587</y-m>
             <z-m>0.0959</z-m>
             <scale>7.0000</scale>
         </marker>
+        <condition>
+            <property>/controls/engines/engine/throttle-cutoff</property>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>/controls/engines/engine/throttle-cutoff</property>
+            <value>1</value>
+        </binding>
     </item>
     <item>
         <name>Landing lights</name>
         <value>OFF</value>
         <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3867</y-m>
-            <z-m>-0.0132</z-m>
+            <x-m>-3.9</x-m>
+            <y-m>-0.34</y-m>
+            <z-m>0.29</z-m>
             <scale>1.1818</scale>
         </marker>
         <condition>
-            <not><property>controls/electric/lights-land-switch</property></not>
+            <equals>
+                <property>controls/electric/lights-land-switch</property>
+                <value>0</value>
+            </equals>
         </condition>
         <binding>
             <command>property-assign</command>
@@ -110,23 +115,18 @@
         <name>Exterior lights</name>
         <value>OFF</value>
         <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3239</y-m>
+            <x-m>-3.3950</x-m>
+            <y-m>0.3450</y-m>
             <z-m>-0.0132</z-m>
-            <scale>3.0000</scale>
+            <scale>4</scale>
         </marker>
         <condition>
             <and>
-                <not><property>controls/electric/lights-ext-flash</property></not>
                 <not><property>controls/electric/lights-ext-beacon</property></not>
                 <not><property>controls/electric/lights-ext-nav</property></not>
+                <not><property>controls/electric/lights-ext-form</property></not>
             </and>
         </condition>
-        <binding>
-            <command>property-assign</command>
-            <property>controls/electric/lights-ext-flash</property>
-            <value>0</value>
-        </binding>
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-beacon</property>
@@ -135,6 +135,11 @@
         <binding>
             <command>property-assign</command>
             <property>controls/electric/lights-ext-nav</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>controls/electric/lights-ext-form</property>
             <value>0</value>
         </binding>
         <binding>
@@ -182,7 +187,7 @@
         </binding>
     </item>
     <item>
-        <name>Cutoff</name>
+        <name>Low pressure cutoff</name>
         <value>CLOSED</value>
         <marker>
             <x-m>-3.7702</x-m>
@@ -206,7 +211,7 @@
     <item>
         <name>Generator</name>
         <!-- not a typo -->
-        <value>ON (&gt;10s AFTER IDLE AND GEN OFF)</value>
+        <value>ON (&gt;10s AFTER THROTTLE CUTOFF)</value>
         <marker>
             <x-m>-3.7223</x-m>
             <y-m>-0.4240</y-m>
@@ -228,7 +233,7 @@
     </item>
     <item>
         <name>Main electricity</name>
-        <value>OFF (&gt;5s AFTER CUTOFF)</value>
+        <value>OFF (&gt;5s AFTER LP CUTOFF)</value>
         <marker>
             <x-m>-3.7702</x-m>
             <y-m>-0.4463</y-m>

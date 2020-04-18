@@ -14,17 +14,32 @@
     </effect>
 
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>knobHeadSI</object-name>
         <object-name>knobBaseSI</object-name>
-        <!--<action>
-            <repeat>true</repeat>
-            <button>0</button>
+        <property>ja37/hud/brightness-si</property>
+        <factor>-240</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m> -4.0 </x-m>
+            <y-m> -0.03 </y-m>
+            <z-m> 0.45902 </z-m>
+        </center>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+        <action>
             <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.cycle_brightness()</script>
-            </binding>
-        </action>-->
+                <command>property-adjust</command>
+                <property>ja37/hud/brightness-si</property>
+                <factor>0.05</factor>
+                <min>0.55</min>
+                <max>1.00</max>                
+                <wrap>false</wrap>
+           </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -36,14 +51,14 @@
 
     <animation>
         <type>knob</type>
-        <object-name>knobHeadSI</object-name>
-        <object-name>knobBaseSI</object-name>
-        <property>ja37/hud/brightness-si</property>
+        <object-name>knobHeadRES</object-name>
+        <object-name>knobBaseRES</object-name>
+        <property>ja37/hud/brightness-res</property>
         <factor>-240</factor>
         <offset-deg>0</offset-deg>
         <center>
             <x-m> -4.0 </x-m>
-            <y-m> -0.03 </y-m>
+            <y-m>  0.03 </y-m>
             <z-m> 0.45902 </z-m>
         </center>
         <axis>
@@ -51,42 +66,16 @@
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/hud/brightness-si</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <property>ja37/hud/brightness-res</property>
+                <factor>0.05</factor>
                 <min>0.55</min>
-                <max>1.00</max>                
+                <max>0.85</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/brightness-si</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0.55</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>knobHeadRES</object-name>
-        <object-name>knobBaseRES</object-name>
-        <!--<action>
-            <repeat>true</repeat>
-            <button>0</button>
-            <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.cycle_brightness_res()</script>
-            </binding>
-        </action>-->
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -95,83 +84,4 @@
             </binding>
         </hovered>
     </animation>
-
-    <!--<animation>
-        <type>rotate</type>
-        <object-name>knobHeadSI</object-name>
-        <object-name>knobBaseSI</object-name>
-        <property>ja37/hud/brightness-si</property>
-        <factor>180</factor>
-        <center>
-            <x-m> -4.0 </x-m>
-            <y-m> -0.03 </y-m>
-            <z-m> 0.45902 </z-m>
-        </center>
-        <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
-        </axis>
-    </animation>-->
-
-    <animation>
-        <type>knob</type>
-        <object-name>knobHeadRES</object-name>
-        <object-name>knobBaseRES</object-name>
-        <property>ja37/hud/brightness-res</property>
-        <factor>-240</factor>
-        <offset-deg>0</offset-deg>
-        <center>
-            <x-m> -4.0 </x-m>
-            <y-m>  0.03 </y-m>
-            <z-m> 0.45902 </z-m>
-        </center>
-        <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
-        </axis>
-        <increase>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/brightness-res</property>
-                <factor>1</factor>
-                <step>0.05</step>
-                <min>0.55</min>
-                <max>0.85</max>                
-                <wrap>false</wrap>
-           </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/brightness-res</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0.55</min>
-                <max>0.85</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
-    </animation>
-
-    <!--<animation>
-        <type>rotate</type>
-        <object-name>knobHeadRES</object-name>
-        <object-name>knobBaseRES</object-name>
-        <property>ja37/hud/brightness-res</property>
-        <factor>180</factor>
-        <center>
-            <x-m> -4.0 </x-m>
-            <y-m>  0.03 </y-m>
-            <z-m> 0.45902 </z-m>
-        </center>
-        <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
-        </axis>
-        
-    </animation>-->
-
 </PropertyList>

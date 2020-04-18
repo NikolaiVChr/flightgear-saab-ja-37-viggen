@@ -15,7 +15,46 @@
     </effect>
 
     <animation>
-        <type>knob</type>
+        <type>pick</type>
+        <object-name>switchPickTop</object-name>
+        <object-name>switchPickBot</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fl</tooltip-id>
+                <label>Flood light</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchPickBot</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/light/flood-bt</property>
+                <value>0</value>
+           </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchPickTop</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/light/flood-bt</property>
+                <value>1</value>
+           </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
         <object-name>Switch</object-name>
         <property>ja37/light/flood-bt</property>
         <factor>-60</factor>
@@ -28,40 +67,6 @@
            <y2-m> 0.323789 </y2-m>
            <z2-m> 0.398382 </z2-m>
         </axis>     
-        <increase>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/light/flood-bt</property>
-                <factor>1</factor>
-                <step>1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-           </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/light/flood-bt</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>Switch</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>fl</tooltip-id>
-                <label>Flood light</label>
-            </binding>
-        </hovered>
     </animation>
 
     <animation>

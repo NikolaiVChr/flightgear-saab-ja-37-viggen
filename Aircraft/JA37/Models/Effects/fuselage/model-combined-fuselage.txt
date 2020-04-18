@@ -21,3 +21,6 @@ Parameters that differs from mode-combined-deffered:
 
 <metallic type="float">0.75</metallic><!-- 0-1 -->
 <ambient-factor type="float">0.75</ambient-factor><!-- 0-1 -->
+<normalmap-dds-compression-bc3n>1</normalmap-dds-compression-bc3n><!-- 0 or 1, if this is enabled alpha on texture 2 is not used for shininess -->
+
+<ambient-correction type="float">0.00</ambient-correction><!-- not used, as the way reflections are applied this is not an issue anymore -->

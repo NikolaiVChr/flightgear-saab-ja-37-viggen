@@ -16,13 +16,6 @@
     <animation>
         <type>pick</type>
         <object-name>___knob_A_disc</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>knob-air-cond-temp</tooltip-id>
-                <label>Air condition temperature</label>
-            </binding>
-        </hovered>
     </animation>
 
     <animation>
@@ -51,28 +44,22 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>    
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>controls/ventilation/airconditioning-temperature</property>
-                <factor>1</factor>
-                <step>2</step>
+                <factor>2</factor>
                 <min>-4</min>
                 <max>80</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>controls/ventilation/airconditioning-temperature</property>
-                <factor>1</factor>
-                <step>-2</step>
-                <min>-4</min>
-                <max>80</max>                
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-air-cond-temp</tooltip-id>
+                <label>Air condition temperature</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
-
 </PropertyList>

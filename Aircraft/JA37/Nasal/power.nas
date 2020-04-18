@@ -16,6 +16,7 @@ prop = {
     dcBatt3Bool:      "ja37/elec/dc-bus-battery-3-bool",
     dcMainBool:       "ja37/elec/dc-bus-main-bool",
     dcSecondBool:     "ja37/elec/dc-bus-secondary-bool",
+    dcSecondEBool:    "ja37/elec/dc-bus-secondary-E-bool",
     acMainBool:       "ja37/elec/ac-bus-main-bool",
     acSecondBool:     "ja37/elec/ac-bus-secondary-bool",
     

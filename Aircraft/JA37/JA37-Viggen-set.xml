@@ -220,38 +220,10 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Reload air to air (1979)</label>
+                        <label>Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadJAAir2Air1979();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1987)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadJAAir2Air1987();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1997)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadJAAir2Air1997();</script>
-                        </binding>
-                    </item>
-					<item>
-                        <label>Reload guns only</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGuns();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to ground</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadJAAir2Ground();</script>
+                            <script>loadout.Dialog.toggle()</script>
                         </binding>
                     </item>
                     <item>
@@ -311,27 +283,10 @@
                     <item>
                         <label>Options</label>
                         <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.Dialog.show();
-                            </script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>MP Options</label>
-                        <name>j37config</name>
-                        <binding>
-                          <command>dialog-show</command>
-                          <dialog-name>j37config</dialog-name>
-                        </binding>
-                    </item>
-                    <!--<item>
-                        <label>Tune Light</label>
-                        <binding>
                             <command>dialog-show</command>
-                            <dialog-name>tune_light</dialog-name>
+                            <dialog-name>saab37config</dialog-name>
                         </binding>
-                    </item>-->
+                    </item>
                 </menu>
             </default>
         </menubar>
@@ -351,9 +306,9 @@
             </group>
             <group>
                 <name>Emergency Procedures</name>
+                <checklist include="gui/checklists/fire.xml"/>
                 <checklist include="gui/checklists/ja37-in-air-start.xml"/>
                 <checklist include="gui/checklists/generator-failure.xml"/>
-                <checklist include="gui/checklists/fire.xml"/>
             </group>
         </checklists>
     </sim>
@@ -529,19 +484,6 @@
                 <name>Drop tank</name>
                 <lbs>0</lbs>
             </opt>
-            <opt>
-                <name>M70 ARAK</name>
-                <lbs>0</lbs>
-            </opt>
-            <!--  there is no room for these:
-            <opt>
-                <name>RB 71 Skyflash</name>
-                <lbs>425</lbs>
-            </opt>
-            <opt>
-                <name>RB 99 Amraam</name>
-                <lbs>291</lbs>
-            </opt>-->
         </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
             <name type="string">Pilot</name>
@@ -557,6 +499,7 @@
                 <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
                 <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
                 <hit-interpolation type="bool">true</hit-interpolation>
+                <enable-craters type="bool">true</enable-craters>
                 <pylon-offset type="int">1</pylon-offset>
                 <pylon-stations>controls/armament</pylon-stations>
                 <station-name type="string">station</station-name>
@@ -593,7 +536,7 @@
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
-                    <navigation type="string">APN</navigation>
+                    <navigation type="string">PN</navigation>
                     <DLZ type="bool">true</DLZ>
                     <DLZ-optimal-alt-feet type="double">25000</DLZ-optimal-alt-feet>
                     <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
@@ -637,7 +580,7 @@
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
-                    <navigation type="string">APN</navigation>
+                    <navigation type="string">PN</navigation>
                     <DLZ type="bool">true</DLZ>
                     <DLZ-optimal-alt-feet type="double">25000</DLZ-optimal-alt-feet>
                     <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
@@ -668,15 +611,19 @@
                     <weight-launch-lbs type="double">510</weight-launch-lbs>       <!-- authentic for aim-7f, Skyflash is 425-->
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>      <!-- authentic -->
                     <weight-fuel-lbm type="double">135</weight-fuel-lbm>           <!-- authentic -->
-                    <drag-coeff type="double">0.25</drag-coeff>
+                    <drag-coeff type="double">0.375</drag-coeff>
                     <cross-section-sqft type="double">0.3382</cross-section-sqft>                    <!-- authentic -->
                     <arming-time-sec type="double">2.5</arming-time-sec>           <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">75</self-destruct-time-sec><!-- authentic -->
-                    <loft-altitude type="int">30000</loft-altitude>
+                    <loft-altitude type="int">0</loft-altitude>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
+                    <ejector-speed-fps type="double">20</ejector-speed-fps>
+                    <drop-time type="double">0.5</drop-time>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
                     <min-fire-range-nm type="double">0.16</min-fire-range-nm>      <!-- authentic -->
                     <max-report-distance type="double">65</max-report-distance>
-                    <navigation type="string">APN</navigation>
+                    <navigation type="string">PN</navigation>
                     <chaff-resistance type="double">0.95</chaff-resistance>
                     <DLZ type="bool">true</DLZ>
                     <DLZ-optimal-alt-feet type="double">30000</DLZ-optimal-alt-feet>
@@ -702,15 +649,19 @@
                     <weight-launch-lbs type="double">291</weight-launch-lbs>
                     <weight-warhead-lbs type="double">44</weight-warhead-lbs>
                     <weight-fuel-lbm type="double">130</weight-fuel-lbm>
-                    <drag-coeff type="double">0.2</drag-coeff>
+                    <drag-coeff type="double">0.3</drag-coeff>
                     <cross-section-sqft type="double">0.2739</cross-section-sqft><!-- sq ft (0.2953 ft radius) authentic -->
                     <arming-time-sec type="double">1.6</arming-time-sec>                       <!-- guess -->
-                    <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach> <!-- guess -->
+                    <min-speed-for-guiding-mach type="double">0.6</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">110</self-destruct-time-sec>         <!-- guess -->
-                    <loft-altitude type="int">50000</loft-altitude><!-- it will attempt to climb to this altitude -->
+                    <loft-altitude type="int">0</loft-altitude><!-- it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
-                    <navigation type="string">APN</navigation>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
+                    <ejector-speed-fps type="double">20</ejector-speed-fps>
+                    <drop-time type="double">0.5</drop-time>
+                    <guide-before-ignition type="bool">true</guide-before-ignition>
+                    <navigation type="string">PN</navigation>
                     <chaff-resistance type="double">0.95</chaff-resistance>
                     <rail type="bool">false</rail>
                     <telemetry type="bool">true</telemetry>
@@ -719,7 +670,7 @@
                     <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 3</fire-msg>
-                    <ready-time type="double">3.5</ready-time>
+                    <ready-time type="double">3.5</ready-time> 
                 </rb-99>
                 <!-- GBU 16 -->
                 <!--<test>             
@@ -928,6 +879,9 @@
     </payload>
 
     <ja37>
+        <avionics>
+            <brightness-mi-knob type="double">1.0</brightness-mi-knob>
+        </avionics>
         <systems>
             <variant type="int">0</variant>
         </systems>
@@ -935,7 +889,7 @@
             <KV1 type="string">channel-selector-ja.png</KV1>
         </texture>
         <effect>
-            <g-suit userarchive="y" type="int">2</g-suit><!-- 1:71 2:79 3:97 -->       
+            <g-suit type="int">2</g-suit><!-- 1:71 2:79 3:97 -->
         </effect>
     </ja37>
 
@@ -956,10 +910,10 @@
 
     <nasal>
         <MI>
-            <file>Aircraft/JA37/Nasal/display-mi.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/mi.nas</file>
         </MI>
         <TI>
-            <file>Aircraft/JA37/Nasal/display-ti.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/ti.nas</file>
         </TI>
     </nasal>
     

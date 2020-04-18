@@ -4,5 +4,36 @@
 
 <PropertyList>
 	<path>seat.ac</path>
+	
+	<effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>box.004</object-name>
+        <object-name>box.005</object-name>
+        <object-name>CPT-Seat.003</object-name>
+        <object-name>disk</object-name>
+        <object-name>handle</object-name>
+        <object-name>disk.002</object-name>
+        <object-name>L-bottom-eject-handle</object-name>
+        <object-name>box.001</object-name>
+        <object-name>CPT-Seat.001</object-name>
+        <object-name>CPT-Seat.002</object-name>
+        <object-name>box.002</object-name>
+        <object-name>sides</object-name>
+        <object-name>sphere</object-name>
+        <object-name>poly</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <parameters>
+            <!-- cloth -->
+            <metallic type="float">0.0</metallic>
+            <reflection-enabled type="int">0</reflection-enabled>
+            <grain-texture-enabled type="int">0</grain-texture-enabled>
+        </parameters>
+        <object-name>object.002</object-name>
+        <object-name>object.003</object-name>
+        <object-name>CPT-Seat</object-name>
+    </effect>
 
 </PropertyList>

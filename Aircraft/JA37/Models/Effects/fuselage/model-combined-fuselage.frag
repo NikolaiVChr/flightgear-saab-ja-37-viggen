@@ -8,7 +8,6 @@
 // Modifications author: Nikolai V. Chr. 2017
 #version 120
 
-varying	vec4	diffuseColor;
 varying	vec3 	VBinormal;
 varying	vec3 	VNormal;
 varying	vec3 	VTangent;
@@ -35,7 +34,7 @@ uniform int		refl_enabled;
 uniform	int		refl_dynamic;
 uniform int		refl_map;
 
-uniform float	amb_correction;
+//uniform float	amb_correction;
 uniform float	dirt_b_factor;
 uniform float	dirt_g_factor;
 uniform float	dirt_r_factor;
@@ -43,7 +42,7 @@ uniform float	lightmap_a_factor;
 uniform float	lightmap_b_factor;
 uniform float	lightmap_g_factor;
 uniform float	lightmap_r_factor;
-uniform float	nmap_tile;
+//uniform float	nmap_tile;
 uniform float	refl_correction;
 uniform float	refl_fresnel;
 uniform float	refl_noise;
@@ -63,8 +62,11 @@ uniform vec3	dirt_b_color;
 
 ///reflection orientation
 uniform mat4	osg_ViewMatrixInverse;
+//uniform mat4	fg_ViewMatrixInverse;//??
 uniform float	latDeg;
 uniform float	lonDeg;
+
+//uniform vec3 fg_CameraPositionCart;
 
 ///fog include//////////////////////
 uniform int fogType;
@@ -74,6 +76,7 @@ vec3 fog_Func(vec3 color, int type);
 
 //////rotation matrices/////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
 mat3 rotX(in float angle)
 {
 	mat3 rotmat = mat3(
@@ -117,7 +120,7 @@ void main (void)
 	if (nmap_dds > 0)
  		nmap       = texture2D(NormalTex, vec2(gl_TexCoord[0].s,1.0-gl_TexCoord[0].t));
 	else
-		nmap       = texture2D(NormalTex, gl_TexCoord[0].st * nmap_tile);
+		nmap       = texture2D(NormalTex, gl_TexCoord[0].st);
 	vec4 reflmap    = texture2D(ReflMapTex, gl_TexCoord[0].st);
 	vec4 noisevec   = texture3D(ReflNoiseTex, rawpos.xyz);
 	vec4 lightmapTexel = texture2D(LightMapTex, gl_TexCoord[0].st);
@@ -125,7 +128,6 @@ void main (void)
 
 	vec3 mixedcolor;
 	vec3 N = vec3(0.0,0.0,1.0);
-//	float pf = 0.0;
 
 	///BEGIN bump //////////////////////////////////////////////////////////////////
  	if (nmap_enabled > 0 ){
@@ -134,29 +136,24 @@ void main (void)
  			nmap.xyz = vec3(nmap.a,nmap.g,sqrt(1 - (nmap.a * nmap.a + nmap.g * nmap.g)));
  			nmap.a = 1.0;
  		}
-		N = nmap.xyz * 2.0 - 1.0;
-		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);
-		//if (nmap_dds > 0)
-		//	N = -N;
+		N = nmap.xyz * 2.0 - 1.0;//normal in tangent space
+		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);//normal in view space
  	} else {
  		N = normalize(VNormal);
  	}
 	///END bump ////////////////////////////////////////////////////////////////////
-	vec3 viewN	 = normalize((gl_ModelViewMatrixTranspose * vec4(N,0.0)).xyz);
-	vec3 viewVec = normalize(eyeVec);
+	vec3 viewN	 = normalize((gl_ModelViewMatrixTranspose * vec4(N, 0.0)).xyz);//normal in model space
+	vec3 viewVec = normalize(eyeVec);//vector to fragment in view space
 	float v      = abs(dot(viewVec, viewN));// Map a rainbowish color
 	vec4 fresnel = texture2D(ReflGradientsTex, vec2(v, 0.75));
 	vec4 rainbow = texture2D(ReflGradientsTex, vec2(v, 0.25));
+	
 
-	mat4 reflMatrix = gl_ModelViewMatrixInverse;
-	vec3 wRefVec	= reflect(viewVec,N);
-
-	////dynamic reflection /////////////////////////////
-	if (refl_dynamic > 0){
-		reflMatrix = osg_ViewMatrixInverse;
-
-		vec3 wVertVec	= normalize(reflMatrix * vec4(viewVec,0.0)).xyz;
-		vec3 wNormal	= normalize(reflMatrix * vec4(N,0.0)).xyz;
+	////  reflection vector /////////////////////////////
+	vec3 wRefVec;//reflect vector in world space
+	if (refl_dynamic > 0){		
+		vec3 wVertVec	= normalize((osg_ViewMatrixInverse * vec4(viewVec,0.0)).xyz);
+		vec3 wNormal	= normalize((osg_ViewMatrixInverse * vec4(N,0.0)).xyz);
 
 		float latRad = radians(90.-latDeg);
 		float lonRad = radians(lonDeg);
@@ -165,17 +162,15 @@ void main (void)
 		mat3 rotCorrZ = rotZ(lonRad);
 		mat3 reflCorr = rotCorrY * rotCorrZ;
 		wRefVec	= reflect(wVertVec,wNormal);
-		wRefVec = normalize(reflCorr * wRefVec);
+		wRefVec = normalize(reflCorr * wRefVec);//+Z does not mean up unless you are at lat,lon = 90,0
 	} else {	///static reflection
-		wRefVec = normalize(reflMatrix * vec4(wRefVec,0.0)).xyz;
+		wRefVec	= reflect(viewVec,N);
+		wRefVec = normalize(gl_ModelViewMatrixInverse * vec4(wRefVec,0.0)).xyz;
 	}
-
 	vec3 reflection = textureCube(Environment, wRefVec).xyz;
 
 	vec3 E = eyeDir;
 	E = normalize(E);
-
-	// eyeVec = v
 
 	float phong = 0.0;
 	vec3 Lphong = normalize(gl_LightSource[0].position.xyz);// - eyeVec
@@ -188,28 +183,14 @@ void main (void)
    	}
 
 	vec3 L = normalize((gl_ModelViewMatrixInverse * gl_LightSource[0].position).xyz);
-//	vec3 H = normalize(L + E);
 
 	N = viewN;
 
 	float nDotVP = dot(N,L);
-//	float nDotHV = dot(N,H);
 	float eDotLV = max(0.0, dot(-E,L));
 
-	//glare on the backside of tranparent objects
-	//if ((gl_Color.a < .999 || texel.a < 1.0) && nDotVP < 0.0) {
-	//	nDotVP = dot(-N, L);
-	//	nDotHV = dot(-N, H);
-	//}
-
 	nDotVP = max(0.0, nDotVP);
-//	nDotHV = max(0.0, nDotHV);
-
-//	if (nDotVP == 0.0)
-//		pf = 0.0;
-//	else
-//		pf = pow(nDotHV, gl_FrontMaterial.shininess);
-
+	
 	vec4 Diffuse  = gl_LightSource[0].diffuse * nDotVP;
 
 	vec4 metal_specular = ( 1.0 - metallic ) * vec4 (1.0, 1.0, 1.0, 1.0) + metallic * texel;// combineMe
@@ -218,11 +199,10 @@ void main (void)
 
 	// still too much ambient at evening, but at least its pitch black at night:
     vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * ((1.0-ambient_factor)+occlusion.a*ambient_factor);//combineMe
-    // gl_LightModel.ambient gl_LightSource[0].ambient
 
-	vec4 color = gl_Color + Diffuse*diffuseColor + ambient_color;
+	vec4 color = Diffuse*gl_FrontMaterial.diffuse + ambient_color;
 	color = clamp( color, 0.0, 1.0 );
-	color.a = texel.a * diffuseColor.a;
+	
 	////////////////////////////////////////////////////////////////////
 	//BEGIN reflect
 	////////////////////////////////////////////////////////////////////
@@ -256,9 +236,9 @@ void main (void)
  	//END reflect
  	/////////////////////////////////////////////////////////////////////
 
- 	if (color.a<1.0){
+ 	/*if (color.a<1.0){
 		color.a += .1 * eDotLV;
- 	}
+ 	}*/
  	//////////////////////////////////////////////////////////////////////
  	//begin DIRT
  	//////////////////////////////////////////////////////////////////////
@@ -266,16 +246,16 @@ void main (void)
 		vec3 dirtFactorIn = vec3 (dirt_r_factor, dirt_g_factor, dirt_b_factor);
 		vec3 dirtFactor = reflmap.rgb * dirtFactorIn.rgb;
 		mixedcolor.rgb = mix(mixedcolor.rgb, dirt_r_color, smoothstep(0.0, 1.0, dirtFactor.r));
-		if (color.a < 1.0) {
+		/*if (color.a < 1.0) {
 			color.a += dirtFactor.r * eDotLV;
-		}
+		}*/
 		if (dirt_multi > 0) {
 			mixedcolor.rgb = mix(mixedcolor.rgb, dirt_g_color, smoothstep(0.0, 1.0, dirtFactor.g));
 			mixedcolor.rgb = mix(mixedcolor.rgb, dirt_b_color, smoothstep(0.0, 1.0, dirtFactor.b));
-			if (color.a < 1.0) {
+			/*if (color.a < 1.0) {
 				color.a += dirtFactor.g * eDotLV;
 				color.a += dirtFactor.b * eDotLV;
-			}
+			}*/
 		}
 
 	}
@@ -285,16 +265,16 @@ void main (void)
 
 
 	// set ambient adjustment to remove bluiness with user input
-	float ambient_offset = clamp(amb_correction, -1.0, 1.0);
+/*	float ambient_offset = clamp(amb_correction, -1.0, 1.0);
 	vec4 ambient = gl_LightModel.ambient + gl_LightSource[0].ambient;
 
 	vec3 ambient_Correction = vec3(ambient.rg, ambient.b * 0.6);
 
 	ambient_Correction *= ambient_offset;
 	ambient_Correction = clamp(ambient_Correction, -1.0, 1.0);
-
-	color.a = gl_FrontMaterial.diffuse.a;//combineMe
-	vec4 fragColor = vec4(color.rgb * mixedcolor + ambient_Correction.rgb, color.a);
+*/
+	
+	vec4 fragColor = vec4(color.rgb * mixedcolor , color.a);//+ ambient_Correction.rgb
 
 	fragColor += Specular * nmap.a;
 
@@ -305,8 +285,8 @@ void main (void)
 		vec3 lightmapcolor = vec3(0.0);
 		vec4 lightmapFactor = vec4(lightmap_r_factor, lightmap_g_factor,
 								  lightmap_b_factor, lightmap_a_factor);
-		lightmapFactor = lightmapFactor * lightmapTexel;
-		if (lightmap_multi > 0 ){
+		if (lightmap_multi > 0 ) {
+			lightmapFactor = lightmapFactor * lightmapTexel;
 			lightmapcolor = lightmap_r_color * lightmapFactor.r +
 			                lightmap_g_color * lightmapFactor.g +
 			                lightmap_b_color * lightmapFactor.b +
@@ -320,10 +300,17 @@ void main (void)
 	// END lightmap
 	/////////////////////////////////////////////////////////////////////
 
-	fragColor.rgb = fog_Func(fragColor.rgb, fogType);
-
+	
+	fragColor.a = gl_FrontMaterial.diffuse.a * texel.a;//combineMe 
+	
 	// gamma correction
     fragColor.rgb = pow(fragColor.rgb, gamma);
-
+    fragColor.rgb = fog_Func(fragColor.rgb, fogType);//this line must be after gamma correction
+    fragColor.rgb = max(gl_FrontMaterial.emission.rgb*texel.rgb, fragColor.rgb);//this should be sum, not max. And be before gamma line. Will change later when am in mood to tune the uses of this.
+    
 	gl_FragColor = fragColor;
 }
+// TODO: Add compositor shadows
+//       Make it play nicer with the 2 types of transparency:
+//        * Glass and semi-transparent objects: Even with no alpha they should show reflections/specular/dirt and stuff.
+//        * No object: For example gauge dials that have the corners cut by transparent textures etc. They should not show reflections/specular/dirt and stuff.

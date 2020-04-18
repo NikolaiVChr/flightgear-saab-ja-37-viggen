@@ -10,10 +10,12 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-      <equals>
-         <property>sim/multiplay/generic/int[7]</property><!-- damage/sounds/explode-on -->
-         <value>1</value>
-      </equals>
+     <or>
+       <!-- damage/sounds/explode-on -->
+       <property>sim/multiplay/generic/bool[14]</property>
+       <!-- backward compatibility -->
+       <property>sim/multiplay/generic/int[7]</property>
+     </or>
    </condition>
 
    <attach>world</attach>
@@ -99,10 +101,12 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-      <equals>
-         <property>sim/multiplay/generic/int[7]</property><!-- damage/sounds/explode-on -->
-         <value>1</value>
-      </equals>
+     <or>
+       <!-- damage/sounds/explode-on -->
+       <property>sim/multiplay/generic/bool[14]</property>
+       <!-- backward compatibility -->
+       <property>sim/multiplay/generic/int[7]</property>
+     </or>
    </condition>
 
    <attach>world</attach>

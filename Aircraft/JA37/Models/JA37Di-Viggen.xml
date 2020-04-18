@@ -3,23 +3,30 @@
 <PropertyList>
 
 	<path>ja37.ac</path>
+  
+  <!--<model>
+    <path>Aircraft/JA37/Models/Effects/testCube.xml</path>
+    <offsets>
+      <x-m>  0</x-m>
+      <y-m>  0</y-m>
+      <z-m>  3</z-m>
+    </offsets>
+  </model>-->
 
   <!-- ALS volume shadow -->
   <!--<model>
     <path>Aircraft/JA37/Models/Effects/ground-shadow/shadow.xml</path>
     <name>shadow-volume</name>
   </model>-->
-
-	<effect>
-	    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
-	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
-      <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
-	    <object-name>ja37fin</object-name>
-		  <object-name>ja37dropTank</object-name>
-		  <object-name>ja37upperPitotTube</object-name>
-		  <object-name>ja37upperVerticalStabilizer</object-name>
-      <object-name>gunpod</object-name>
-	</effect>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>ja37hudGlass</object-name>
+    <object-name>glassOuter</object-name>
+    <object-name>frontglas</object-name>
+    <object-name>glassInternal</object-name>
+    <object-name>frontglasInternal</object-name>
+  </animation>
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
@@ -42,128 +49,25 @@
       <use-reflection-lightmap type="int">0</use-reflection-lightmap>
       <lightmap-multi type="int">0</lightmap-multi>
     </parameters>
-    <object-name>hudGlassJA</object-name>
+    <object-name>ja37hudGlass</object-name>
   </effect>
 
 	<!-- ====== drop tank ====== -->
 
-	<animation>
-	  <object-name>ja37dropTank</object-name>
-	  <type>select</type>
-	  <condition>
-	   <equals>
-	    <property>sim/multiplay/generic/int[16]</property><!-- consumables/fuel/tank[8]/jettisoned -->
-	    <value>0</value>
-	   </equals>
-	  </condition>
-	</animation>
-
-	<!-- strobe light -->
-
-	<animation>
-	  	<type>material</type>
-	  	<object-name>ja37strobe</object-name>
-	  	<condition>
-		    <or><!-- flash: bit 1 -->
-				<equals>
-					<property>sim/multiplay/generic/int[9]</property>
-					<value>1</value>
-				</equals>
-				<equals>
-					<property>sim/multiplay/generic/int[9]</property>
-					<value>3</value>
-				</equals>
-				<equals>
-					<property>sim/multiplay/generic/int[9]</property>
-					<value>5</value>
-				</equals>            
-				<equals>
-					<property>sim/multiplay/generic/int[9]</property>
-					<value>7</value>
-				</equals>       
-		    </or>
-	  	</condition>
-	  	<emission>
-	   		<red>1.0</red>
-			<green>1.0</green>
-	   		<blue>1.0</blue>
-	   		<factor-prop>sim/multiplay/generic/int[5]</factor-prop><!-- sim/model/lighting/strobe/state -->
-	  	</emission>
-	</animation>
-
-	<model>
-		<name>strobeFlash</name>
-		<path>Aircraft/JA37/Models/Effects/strobe.xml</path>
-		<condition>
-			<or><!-- flash: bit 1 -->
-			  <equals>
-			    <property>sim/multiplay/generic/int[9]</property>
-			    <value>1</value>
-			  </equals>
-			  <equals>
-			    <property>sim/multiplay/generic/int[9]</property>
-			    <value>3</value>
-			  </equals>
-			  <equals>
-			    <property>sim/multiplay/generic/int[9]</property>
-			    <value>5</value>
-			  </equals>
-			  <equals>
-			    <property>sim/multiplay/generic/int[9]</property>
-			    <value>7</value>
-			  </equals>
-			</or>
-		</condition>
-		<offsets>
-			<x-m>6.06013</x-m>
-			<y-m>0.0</y-m>
-			<z-m>3.56179</z-m>
-		</offsets>
-	</model>
-
-	<!-- stores  -->
-
-	<model><!-- center pylon -->
-    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
-    <name>rb71c</name>
-    <offsets>
-      <x-m>  -0.3</x-m>
-      <y-m>  0</y-m>
-      <z-m> -1.075</z-m>
-    </offsets>
-  </model>
-
- <animation>
-  <object-name>rb71c</object-name>
-  <type>select</type>
-  <condition>
-   <equals>
-    <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[6]/weight-lb -->
-    <value>425</value>
-   </equals>
-  </condition>
- </animation>
-
-<model><!-- center pylon -->
-    <path>Aircraft/JA37/Models/Armament/Weapons/RB-99/aim-120.xml</path>
-    <name>rb99c</name>
-    <offsets>
-      <x-m>  -1.1</x-m>
-      <y-m>  0</y-m>
-      <z-m> -1.1</z-m>
-    </offsets>
-  </model>
-
- <animation>
-  <object-name>rb99c</object-name>
-  <type>select</type>
-  <condition>
-   <equals>
-    <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[6]/weight-lb -->
-    <value>291</value>
-   </equals>
-  </condition>
- </animation>
+    <animation>
+      <object-name>ja37dropTank</object-name>
+      <type>select</type>
+      <condition>
+        <not>
+          <or>
+            <!-- consumables/fuel/tank[8]/jettisoned -->
+            <property>sim/multiplay/generic/bool[8]</property>
+            <!-- backwards compatibility -->
+            <property>sim/multiplay/generic/int[16]</property>
+          </or>
+        </not>
+      </condition>
+    </animation>
 
   <!-- ====== rb 71 ====== -->
 
@@ -181,11 +85,16 @@
   <object-name>rb710</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
-    <value>425</value>
-   </equals>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
+    <equals>
+      <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+      <value>425</value>
+    </equals>
   </condition>
  </animation>
 
@@ -224,7 +133,12 @@
   <object-name>rb711</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
     <value>425</value>
@@ -270,7 +184,12 @@
   <object-name>rb990</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
     <value>291</value>
@@ -313,7 +232,12 @@
   <object-name>rb991</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
     <value>291</value>
@@ -351,7 +275,8 @@
 		<object-name>elevonLeftOuter</object-name>
 		<object-name>elevonRightInner</object-name>
 		<object-name>elevonRightOuter</object-name>
-		<object-name>flaps</object-name>
+		<object-name>flapsLeft</object-name>
+		<object-name>flapsRight</object-name>
 		<object-name>fuselage</object-name>
 		<object-name>wingLeft</object-name>
 		<object-name>wingRight</object-name>
@@ -363,7 +288,7 @@
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
-		<object-name>gunpod</object-name>
+		<object-name>ja37gunpod</object-name>
 		<object-name>bottomAirInlet</object-name>
 		<object-name>ja37fin</object-name>
 		<object-name>ja37dropTank</object-name>
@@ -398,11 +323,6 @@
 -->
 
 <!-- include="ja37-bombable.xml">       -->
-
-  <!-- Multiplay sound -->
-  <!--<sound>
-    <path>Aircraft/JA37/Systems/ja37-mp-sound.xml</path>
-  </sound>-->
 
   <nasal>
       <load><![CDATA[
@@ -589,6 +509,9 @@
     <!--<inherits-from>Effects/model-interior</inherits-from>-->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <!--<parameters>
+    <reflection-correction type="float">0.75</reflection-correction>
+  </parameters>-->
+    <!--<parameters>
       <reflection-type type="int">2</reflection-type>
       <reflection-enabled type="int">0</reflection-enabled>
       <ambient-correction type="float">0.0</ambient-correction>
@@ -613,7 +536,8 @@
     <object-name>elevonLeftOuter</object-name>
     <object-name>elevonRightInner</object-name>
     <object-name>elevonRightOuter</object-name>
-    <object-name>flaps</object-name>
+    <object-name>flapsLeft</object-name>
+    <object-name>flapsRight</object-name>
     <object-name>fuselage</object-name>
     <object-name>wingLeft</object-name>
     <object-name>wingRight</object-name>
@@ -636,7 +560,18 @@
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
+    <object-name>landingLightLeftMount</object-name>
+    <object-name>landingLightRightMount</object-name>
+    <object-name>lightFormationFrontRight</object-name>
+    <object-name>lightFormationFrontLeft</object-name>
+    <object-name>lightFormationRearRight</object-name>
+    <object-name>lightFormationRearLeft</object-name>
     <object-name>bottomAirInlet</object-name>
+    <object-name>ja37fin</object-name>
+    <object-name>ja37dropTank</object-name>
+    <object-name>ja37upperPitotTube</object-name>
+    <object-name>ja37upperVerticalStabilizer</object-name>
+    <object-name>ja37gunpod</object-name>
   </effect>
 
 <!--  <animation>
@@ -645,13 +580,14 @@
     <object-name>ja37dropTank</object-name>
     <object-name>ja37upperPitotTube</object-name>
     <object-name>ja37upperVerticalStabilizer</object-name>
-    <object-name>gunpod</object-name>
+    <object-name>ja37gunpod</object-name>
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
     <object-name>elevonLeftOuter</object-name>
     <object-name>elevonRightInner</object-name>
     <object-name>elevonRightOuter</object-name>
-    <object-name>flaps</object-name>
+    <object-name>flapsLeft</object-name>
+    <object-name>flapsRight</object-name>
     <object-name>fuselage</object-name>
     <object-name>wingLeft</object-name>
     <object-name>wingRight</object-name>
@@ -922,51 +858,22 @@
   </axis>
  </animation>
 
-<!--<animation>
-  <type>select</type>
-  <object-name>glassOuter</object-name>
-  <object-name>glassInternal</object-name>
-  <object-name>canopy</object-name>
-  <condition>
-    <property>sim/multiplay/generic/int[1]</property>
-  </condition>
- </animation>-->
-
  <animation>
-  <type>scale</type>
-  <object-name>glassOuter</object-name>
-  <object-name>glassInternal</object-name>
-  <object-name>canopy</object-name>
-  <object-name>canopyinside</object-name>
-  <object-name>mirrorholder</object-name>
-  <object-name>mirrorreflect</object-name>
-  <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.01 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
+   <type>select</type>
+   <object-name>glassOuter</object-name>
+   <object-name>glassInternal</object-name>
+   <object-name>canopy</object-name>
+   <object-name>canopyinside</object-name>
+   <object-name>mirrorholder</object-name>
+   <object-name>mirrorreflect</object-name>
+   <condition>
+     <or>
+       <!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
+       <property>sim/multiplay/generic/bool[13]</property>
+       <!-- backwards compatibility -->
+       <property>sim/multiplay/generic/int[1]</property>
+     </or>
+   </condition>
  </animation>
 
  <animation>
@@ -1180,7 +1087,7 @@
  <animation>
   <type>scale</type>
   <object-name>hud</object-name>
-  <object-name>hudStruts</object-name>
+  <object-name>ja37hudStruts</object-name>
   <property>ja37/supported/canvas</property>
   <interpolation>
    <entry>
@@ -1331,6 +1238,8 @@
 <animation>
   <type>rotate</type>
   <object-name>elevonRightOuter</object-name>
+  <object-name>spotlightElevonRight</object-name>
+  <object-name>spotlightElevonRightGlow</object-name>
   <property>surface-positions/right-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>   
@@ -1346,6 +1255,8 @@
  <animation>
   <type>rotate</type>
   <object-name>elevonLeftOuter</object-name>
+  <object-name>spotlightElevonLeft</object-name>
+  <object-name>spotlightElevonLeftGlow</object-name>
   <property>surface-positions/left-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>
@@ -1388,73 +1299,58 @@
   </axis>
  </animation>
 
-<!--<animation>
-  <type>select</type>
-  <object-name>elevonLeftInner</object-name>
-  <object-name>elevonLeftOuter</object-name>
-  <object-name>elevonRightInner</object-name>
-  <object-name>elevonRightOuter</object-name>
-  <object-name>lightRight</object-name>
-  <object-name>lightLeft</object-name>
-  <object-name>wingRight</object-name>
-  <object-name>wingLeft</object-name>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
- </animation>-->
-
  <animation>
-  <type>scale</type>
-  <object-name>elevonLeftInner</object-name>
-  <object-name>elevonLeftOuter</object-name>
-  <object-name>elevonRightInner</object-name>
-  <object-name>elevonRightOuter</object-name>
-  <object-name>lightRight</object-name>
-  <object-name>lightLeft</object-name>
-  <object-name>wingRight</object-name>
-  <object-name>wingLeft</object-name>
-  <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.01 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
+   <type>select</type>
+   <object-name>elevonLeftInner</object-name>
+   <object-name>elevonLeftOuter</object-name>
+   <object-name>elevonRightInner</object-name>
+   <object-name>elevonRightOuter</object-name>
+   <object-name>lightRight</object-name>
+   <object-name>lightLeft</object-name>
+   <object-name>lightRearRight</object-name>
+   <object-name>lightRearLeft</object-name>
+   <object-name>spotlightElevonLeft</object-name>
+   <object-name>spotlightElevonRight</object-name>
+   <object-name>wingRight</object-name>
+   <object-name>wingLeft</object-name>
+   <condition>
+     <or>
+       <!-- fdm/jsbsim/fcs/wings/serviceable -->
+       <property>sim/multiplay/generic/bool[12]</property>
+       <!-- backward compatibility -->
+       <property>sim/hitches/aerotow/is-slave</property>
+     </or>
+   </condition>
  </animation>
 
-<animation>
-  <type>rotate</type>
-  <object-name>flaps</object-name>
-  <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
-  <factor>1.0</factor>
-  <axis>   
-   <x1-m> -0.25811 </x1-m>
-   <y1-m> -2.59427 </y1-m>
-   <z1-m> 0.12740 </z1-m>
-   <x2-m> -0.25811 </x2-m>
-   <y2-m> 2.59427 </y2-m>
-   <z2-m> 0.12740 </z2-m>
-  </axis>
+ <animation>
+   <type>rotate</type>
+   <object-name>flapsLeft</object-name>
+   <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
+   <factor>-1.0</factor>
+   <axis>
+     <x1-m> -0.492662 </x1-m>
+     <y1-m> -1.17726 </y1-m>
+     <z1-m> 0.174372 </z1-m>
+     <x2-m> -0.261458 </x2-m>
+     <y2-m> -2.5736 </y2-m>
+     <z2-m> 0.091827 </z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>flapsRight</object-name>
+   <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
+   <factor>1.0</factor>
+   <axis>
+     <x1-m> -0.492662 </x1-m>
+     <y1-m> 1.17726 </y1-m>
+     <z1-m> 0.174372 </z1-m>
+     <x2-m> -0.261458 </x2-m>
+     <y2-m> 2.5736 </y2-m>
+     <z2-m> 0.091827 </z2-m>
+   </axis>
  </animation>
 
 
@@ -1528,6 +1424,8 @@
   <object-name>gearFrontDoorsOpenLeft</object-name>
   <object-name>gearFrontDoorsOpenRight</object-name>
   <object-name>frontLandingLightGlare</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -1655,26 +1553,6 @@
 
 <animation>
   <type>rotate</type>
-  <condition>
-    <or><!-- wow0: bit 1 -->
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>1</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>5</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
   <object-name>gearFrontBottom</object-name>
   <object-name>gearFrontHub</object-name>
   <object-name>gearFrontScissorTop</object-name>
@@ -1765,28 +1643,11 @@
 <animation>
     <type>spin</type>
     <object-name>gearFrontWheel</object-name>
-    <condition>
-      <or><!-- wow0: bit 1 -->
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>1</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>5</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[17]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-    </condition>
     <property>rotors/main/blade[0]/position-deg</property><!-- gear/gear[0]/rollspeed-ms -->
     <factor>37.9091</factor>
+    <condition>
+      <property>gear/gear[0]/compression-norm</property>
+    </condition>
     <center>
         <x-m>-3.3694</x-m>
         <y-m>0.0</y-m>
@@ -1802,88 +1663,8 @@
 
 <!-- left  -->
 
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsClosed</object-name>
-  <condition>
-    <equals>
-      <property>sim/hitches/aerotow/is-slave</property>
-      <value>1</value>
-    </equals>
-  </condition>
-  <property>gear/gear[1]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
 <animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsClosed</object-name>
-  <condition>
-   <equals>
-      <property>sim/hitches/aerotow/is-slave</property>
-      <value>0</value>
-    </equals>
-  </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
-
-<!--<animation>
   <type>select</type>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
   <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
@@ -1893,132 +1674,16 @@
   <object-name>gearLeftTop</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
-  <object-name>gearLeftDoorsOpen</object-name>
- </animation>-->
-
-<animation>
-  <type>scale</type>
-  <object-name>gearLeftMid</object-name>
-  <object-name>gearLeftOleoStrut</object-name>
-  <object-name>gearLeftScissorTop</object-name>
-  <object-name>gearLeftScissorBottom</object-name>
-  <object-name>gearLeftBottom</object-name>
-  <object-name>gearLeftHinge</object-name>
-  <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftWheel1</object-name>
-  <object-name>gearLeftWheel2</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
-  <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.05 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
-<animation>
-  <type>select</type>
-  <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  </condition>
   <object-name>gearLeftOuterDoor</object-name>
- </animation>
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsOpen</object-name>
   <condition>
-   <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
-  <property>gear/gear[1]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
- <animation>
-  <type>scale</type>
-  <object-name>gearLeftDoorsOpen</object-name>
-  <condition>
-    <not>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
       <property>sim/hitches/aerotow/is-slave</property>
-    </not>
+    </or>
   </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
+</animation>
 
 <animation>
   <type>scale</type>
@@ -2031,7 +1696,6 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
-  <object-name>gearLeftLight</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -2069,8 +1733,6 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
-  <object-name>gearLeftLight</object-name>
-  <object-name>leftLandingLightGlare</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -2129,7 +1791,7 @@
   <animation>
   <type>rotate</type>
   <object-name>gearLeftInnerDoor</object-name>
-  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
@@ -2279,28 +1941,11 @@
 <animation>
     <type>spin</type>
     <object-name>gearLeftWheel1</object-name>
-    <condition>
-      <or><!-- wow1: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[1]/position-deg</property><!-- gear/gear[1]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[1]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  1.91138 </x-m>
         <y-m> -2.18257 </y-m>
@@ -2316,28 +1961,11 @@
 <animation>
     <type>spin</type>
     <object-name>gearLeftWheel2</object-name>
-    <condition>
-      <or><!-- wow1: bit 2 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[1]/position-deg</property><!-- gear/gear[1]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[1]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  2.72150 </x-m>
         <y-m> -2.18257 </y-m>
@@ -2353,85 +1981,8 @@
 
 <!--      right       -->
 
-
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsClosed</object-name>
-  <condition>
-      <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
-  <property>gear/gear[2]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
  <animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsClosed</object-name>
-  <condition>
-    <not>
-      <property>sim/hitches/aerotow/is-slave</property>
-    </not>
-  </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
-
-<!--<animation>
   <type>select</type>
-  <condition>
-    <property>sim/hitches/aerotow/is-slave</property>
-  </condition>
   <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
@@ -2441,131 +1992,16 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
- </animation>-->
-
- <animation>
-  <type>scale</type>
-  <object-name>gearRightMid</object-name>
-  <object-name>gearRightScissorTop</object-name>
-  <object-name>gearRightScissorBottom</object-name>
-  <object-name>gearRightOleoStrut</object-name>
-  <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
-  <object-name>gearRightTop</object-name>
-  <object-name>gearRightWheel1</object-name>
-  <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
-  <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
-<animation>
-  <type>select</type>
-  <condition>
-   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-  </condition>
   <object-name>gearRightOuterDoor</object-name>
- </animation>
-
- <!--<animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsOpen</object-name>
   <condition>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
       <property>sim/hitches/aerotow/is-slave</property>
+    </or>
   </condition>
-  <property>gear/gear[2]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
  </animation>
-
- <animation>
-  <type>scale</type>
-  <object-name>gearRightDoorsOpen</object-name>
-  <condition>
-    <not>
-      <property>sim/hitches/aerotow/is-slave</property>
-    </not>
-  </condition>
-  <property>sim/hitches/aerotow/is-slave</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.001 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>-->
 
 <animation>
   <type>scale</type>
@@ -2578,7 +2014,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
   <property>gear/gear[2]/position-norm</property>
   <interpolation>
    <entry>
@@ -2586,7 +2021,7 @@
     <dep> 0.10 </dep>
    </entry>
    <entry>
-    <ind> 0.05 </ind>
+    <ind> 0.001 </ind>
     <dep> 1.00 </dep>
    </entry>
   </interpolation>
@@ -2615,9 +2050,7 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightLight</object-name>
   <object-name>gearRightHinge</object-name>
-  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -2825,28 +2258,11 @@
 <animation>
     <type>spin</type>
     <object-name>gearRightWheel1</object-name>
-    <condition>
-      <or><!-- wow2: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[2]/position-deg</property><!-- gear/gear[2]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[2]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  1.91138 </x-m>
         <y-m>  2.18257 </y-m>
@@ -2862,28 +2278,11 @@
 <animation>
     <type>spin</type>
     <object-name>gearRightWheel2</object-name>
-    <condition>
-      <or><!-- wow2: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[17]</property>
-          <value>7</value>
-        </equals>       
-      </or>
-    </condition>
     <property>rotors/main/blade[2]/position-deg</property><!-- gear/gear[2]/rollspeed-ms -->
     <factor>31.1692</factor>
+    <condition>
+      <property>gear/gear[2]/compression-norm</property>
+    </condition>
     <center>
         <x-m>  2.72150 </x-m>
         <y-m>  2.18257 </y-m>
@@ -3547,119 +2946,60 @@
 
 <!-- ===================== START LIGHTING =========================== -->
 
-<!-- beacon lights -->
-
+  <!-- beacon lights -->
   <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light.xml</path>
     <name>lightglowT</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 0.45039</x-m>
+      <y-m> 0</y-m>
+      <z-m> 1.05</z-m>
     </offsets>
   </model>
 
-  <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
-    <name>lightglowB</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model>
+  <animation>
+    <type>material</type>
+    <object-name>lightTop</object-name>
+    <condition>
+      <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    </condition>
+    <emission>
+      <red>0.5</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+    </emission>
+  </animation>
 
- <animation>
-  <type>material</type>
-  <object-name>lightTop</object-name>
-  <condition>
-    <or><!-- beacon: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>2</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
-  </emission>
- </animation>
+  <!-- landing light -->
+  <animation>
+    <type>material</type>
+    <object-name>gearFrontLight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/bool[1]</property> <!-- ja37/effect/taxi-light  -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
 
-<animation>
-  <type>material</type>
-  <object-name>lightBottom</object-name>
-  <condition>
-    <or><!-- beacon: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>2</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
-  </emission>
- </animation>
-
-<!-- landing light -->
-
-<animation>
-  <type>material</type>
-  <object-name>gearFrontLight</object-name>
-  <object-name>gearLeftLight</object-name>
-  <object-name>gearRightLight</object-name>
-  <emission>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </emission>
-  <diffuse>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </diffuse>
-  <ambient>
-   <red>1.0</red>
-   <green>1.0</green>
-   <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
-  </ambient>
- </animation>
+  <animation>
+    <type>material</type>
+    <object-name>landingLightLeft</object-name>
+    <object-name>landingLightRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/bool[0]</property> <!-- ja37/effect/landing-light  -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/taxi-light.xml</path>
     <name>frontLandingLightGlare</name>
     <offsets>
       <x-m>-3.47732</x-m>
@@ -3669,156 +3009,196 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
     <name>leftLandingLightGlare</name>
     <offsets>
-      <x-m>2.19039</x-m>
-      <y-m>-2.21864</y-m>
-      <z-m>-1.08005</z-m>
+      <x-m>-3.91114</x-m>
+      <y-m>-0.137806</y-m>
+      <z-m>-0.769589</z-m>
     </offsets>
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light.xml</path>
     <name>rightLandingLightGlare</name>
     <offsets>
-      <x-m>2.20055</x-m>
-      <y-m>2.23137</y-m>
-      <z-m>-1.08005</z-m>
+      <x-m>-3.69526</x-m>
+      <y-m>0.140439</y-m>
+      <z-m>-0.769589</z-m>
     </offsets>
   </model>
 
-<!-- Navigation lights -->
-
+  <!-- Navigation lights -->
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-left.xml</path>
     <name>lightGlowALSLeft</name>
-        <offsets>
-          <x-m> 5.65783</x-m>
-          <y-m> -5.09762</y-m>
-          <z-m> -0.3954</z-m>
-        </offsets>
+    <offsets>
+      <x-m> 5.65783</x-m>
+      <y-m> -5.13762</y-m>
+      <z-m> -0.3954</z-m>
+    </offsets>
   </model>
 
   <model>
     <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-right.xml</path>
     <name>lightGlowALSRight</name>
-        <offsets>
-          <x-m> 5.65783</x-m>
-          <y-m> 5.09762</y-m>
-          <z-m> -0.3954</z-m>
-        </offsets>
+    <offsets>
+      <x-m> 5.65783</x-m>
+      <y-m> 5.13762</y-m>
+      <z-m> -0.3954</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-rear.xml</path>
+    <name>lightGlowALSRearLeft</name>
+    <offsets>
+      <x-m> 5.83413</x-m>
+      <y-m> -5.12862</y-m>
+      <z-m> -0.395052</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-rear.xml</path>
+    <name>lightGlowALSRearRight</name>
+    <offsets>
+      <x-m> 5.83413</x-m>
+      <y-m> 5.12862</y-m>
+      <z-m> -0.395052</z-m>
+    </offsets>
   </model>
 
   <animation>
-    <type>select</type>
-    <object-name>lightGlowALSLeft</object-name>
-    <object-name>lightGlowALSRight</object-name>
+    <type>material</type>
+    <object-name>lightLeft</object-name>
     <condition>
-      <equals>
-          <property>sim/rendering/shaders/skydome</property>
-          <value>1</value>
-      </equals>
-      <or><!-- nav: bit 3 -->
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>4</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>5</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[9]</property>
-          <value>7</value>
-        </equals>       
-      </or>
+      <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light -->
     </condition>
-   </animation>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lightRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light -->
+    </condition>
+    <emission>
+      <red>0.0</red>
+      <green>1.0</green>
+      <blue>0.0</blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>lightRearLeft</object-name>
+    <object-name>lightRearRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/short[2]</property> <!-- /ja37/effect/rear-navigation-light -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
+
+  <!-- formation lights -->
+  <animation>
+    <type>material</type>
+    <object-name>lightFormationFrontRight</object-name>
+    <object-name>lightFormationFrontLeft</object-name>
+    <object-name>lightFormationRearRight</object-name>
+    <object-name>lightFormationRearLeft</object-name>
+    <!-- Formation lights are yellow when off, green when on.
+         To get the correct effect, the texture is white and materials are adjusted.
+    -->
+    <diffuse>
+      <red>0.6</red>
+      <green>0.6</green>
+      <blue>0.2</blue>
+    </diffuse>
+    <ambient>
+      <red>0.6</red>
+      <green>0.6</green>
+      <blue>0.2</blue>
+    </ambient>
+    <specular>
+      <red>0.3</red>
+      <green>0.3</green>
+      <blue>0.1</blue>
+    </specular>
+    <emission>
+      <red>0.003</red>
+      <green>0.010</green>
+      <blue>0.005</blue>
+      <factor-prop>sim/multiplay/generic/short[1]</factor-prop> <!-- /ja37/effect/formation-light (0-100 scale) -->
+    </emission>
+  </animation>
+
+  <!-- rear spotlights -->
+  <animation>
+    <type>material</type>
+    <object-name>spotlightCenterLeft</object-name>
+    <object-name>spotlightCenterRight</object-name>
+    <object-name>spotlightElevonLeft</object-name>
+    <object-name>spotlightElevonRight</object-name>
+    <condition>
+      <property>sim/multiplay/generic/short[1]</property> <!-- /ja37/effect/formation-light -->
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+    </emission>
+  </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
-    <name>lightglowR</name>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightCenterLeftGlow</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 6.8272</x-m>
+      <y-m> -0.823135</y-m>
+      <z-m> -0.265531</z-m>
     </offsets>
-  </model> 
-
+  </model>
+  
   <model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
-    <name>lightglowL</name>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightCenterRightGlow</name>
     <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
+      <x-m> 6.8272</x-m>
+      <y-m> 0.823135</y-m>
+      <z-m> -0.265531</z-m>
     </offsets>
   </model>
 
- <animation>
-  <type>material</type>
-  <object-name>lightLeft</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red>
-   <green>0.0</green>
-   <blue>0.0</blue>
-  </emission>
- </animation>
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightElevonLeftGlow</name>
+    <offsets>
+      <x-m> 6.41439</x-m>
+      <y-m> -3.9517</y-m>
+      <z-m> -0.387925</z-m>
+    </offsets>
+  </model>
 
- <animation>
-  <type>material</type>
-  <object-name>lightRight</object-name>
-  <condition>
-    <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[9]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-  </emission>
- </animation>
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/spotlight.xml</path>
+    <name>spotlightElevonRightGlow</name>
+    <offsets>
+      <x-m> 6.41439</x-m>
+      <y-m> 3.9517</y-m>
+      <z-m> -0.387925</z-m>
+    </offsets>
+  </model>
+
 
 <!-- ===================== start payload =========================== -->
 
@@ -3838,7 +3218,12 @@
   <object-name>missile</object-name><!-- Left wing pylon -->
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
     <or>
       <equals>
         <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
@@ -3881,8 +3266,13 @@
   <object-name>missile1</object-name><!-- Right wing pylon -->
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <or>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
+    <or>
       <equals>
         <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
         <value>188</value>
@@ -3920,56 +3310,70 @@
   </condition>
  </animation>
 
-<animation>
-  <object-name>missileLWO</object-name><!-- Left outer wing pylon -->
-  <type>select</type>
-  <condition>
-     <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-     <or><!-- missile mounted: bit 1 -->
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>1</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>3</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>5</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>7</value>
-      </equals>       
-    </or>
-  </condition>
+ <animation>
+   <object-name>missileLWO</object-name><!-- Left outer wing pylon -->
+   <type>select</type>
+   <condition>
+     <or>
+       <!-- fdm/jsbsim/fcs/wings/serviceable -->
+       <property>sim/multiplay/generic/bool[12]</property>
+       <!-- backward compatibility -->
+       <property>sim/hitches/aerotow/is-slave</property>
+     </or>
+     <or>
+       <property>sim/multiplay/generic/bool[6]</property><!-- /payload/weight[4]/weight-lb -->
+       <!-- backwards compatibility - missile mounted: bit 1 -->
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>1</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>3</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>5</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>7</value>
+       </equals>
+     </or>
+   </condition>
  </animation>
 
  <animation>
-  <object-name>missileRWO</object-name><!-- Right outer wing pylon -->
-  <type>select</type>
-  <condition>
-     <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-     <or><!-- missile mounted: bit 2 -->
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-          <value>2</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[19]</property>
-          <value>3</value>
-        </equals>
-        <equals>
-          <property>sim/multiplay/generic/int[19]</property>
-          <value>6</value>
-        </equals>            
-        <equals>
-          <property>sim/multiplay/generic/int[19]</property>
-          <value>7</value>
-        </equals>       
-    </or>
-  </condition>
+   <object-name>missileRWO</object-name><!-- Right outer wing pylon -->
+   <type>select</type>
+   <condition>
+     <or>
+       <!-- fdm/jsbsim/fcs/wings/serviceable -->
+       <property>sim/multiplay/generic/bool[12]</property>
+       <!-- backward compatibility -->
+       <property>sim/hitches/aerotow/is-slave</property>
+     </or>
+     <or>
+       <property>sim/multiplay/generic/bool[7]</property><!-- /payload/weight[5]/weight-lb -->
+       <!-- backwards compatibility - missile mounted: bit 2 -->
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>2</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>3</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>6</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>7</value>
+       </equals>
+     </or>
+   </condition>
  </animation>
 
  <!-- ====== m70 ====== -->
@@ -3988,11 +3392,16 @@
   <object-name>pod0</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
-    <value>794</value>
-   </equals>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
+    <equals>
+      <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+      <value>794</value>
+    </equals>
   </condition>
  </animation>
 
@@ -4031,11 +3440,16 @@
   <object-name>pod1</object-name>
   <type>select</type>
   <condition>
-    <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
-    <value>794</value>
-   </equals>
+    <or>
+      <!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/bool[12]</property>
+      <!-- backward compatibility -->
+      <property>sim/hitches/aerotow/is-slave</property>
+    </or>
+    <equals>
+      <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+      <value>794</value>
+    </equals>
   </condition>
  </animation>
 
@@ -4055,27 +3469,6 @@
   <condition>
    <equals>
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
-    <value>794</value>
-   </equals>
-  </condition>
- </animation>
-
-   <model><!-- center pylon -->
-    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
-    <name>podc</name>
-    <offsets>
-      <x-m> -0.4</x-m>
-      <y-m>  0</y-m>
-      <z-m> -1.85</z-m>
-    </offsets>
-  </model>
-
- <animation>
-  <object-name>podc</object-name>
-  <type>select</type>
-  <condition>
-   <equals>
-    <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[6]/weight-lb -->
     <value>794</value>
    </equals>
   </condition>

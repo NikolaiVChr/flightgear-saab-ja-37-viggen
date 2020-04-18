@@ -31,34 +31,6 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>handle1</object-name>
-        <object-name>disc1</object-name>
-        <object-name>screw1</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>qc</tooltip-id>
-                <label>Query code</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>handle2</object-name>
-        <object-name>disc2</object-name>
-        <object-name>screw2</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>qc</tooltip-id>
-                <label>Mode</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
         <type>knob</type>
         <object-name>handle1</object-name>
         <object-name>disc1</object-name>
@@ -76,28 +48,22 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/me799/knob-1</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>1</min>
                 <max>11</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/me799/knob-1</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>1</min>
-                <max>11</max>                
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>qc</tooltip-id>
+                <label>Query code</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
 
     <animation>
@@ -118,28 +84,22 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radio/me799/knob-2</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>2</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>ja37/radio/me799/knob-2</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>2</max>                
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>qc</tooltip-id>
+                <label>Mode</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
 
 	<animation>

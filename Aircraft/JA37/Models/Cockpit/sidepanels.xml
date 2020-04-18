@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -12,6 +12,7 @@
     <object-name>sidePanel_L</object-name>
     <object-name>sidePanel_R</object-name>
     <object-name>sidePanel_L_minor</object-name>
+    <object-name>sidePanel_L_minor_forward</object-name>
     <object-name>sidePanel_R_minor_top</object-name>
     <object-name>sidePanel_R_minor_bottom</object-name>
     <object-name>sidePanel_R_mount_A</object-name>

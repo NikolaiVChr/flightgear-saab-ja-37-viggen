@@ -3,7 +3,7 @@
 <PropertyList>
     <title>After Battery Engine Start</title>
     <item>
-        <name>Those items require AC power and must be checked after engine start without external power.</name>
+        <name>If engine started on battery only (no external power), check:</name>
     </item>
     <item>
         <name>Backup altimeter</name>

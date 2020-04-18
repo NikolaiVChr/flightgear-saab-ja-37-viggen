@@ -465,11 +465,11 @@ var assignButton = func(cmd) {
       <row>9</row>
       <col>3</col>
       <halign>fill</halign>
-      <legend>JA37 Cursor Click</legend>
+      <legend>Cursor Click</legend>
       <binding>
         <command>nasal</command>
         <script>
-          assignButton("JA37 Cursor Click");
+          assignButton("Cursor Click");
         </script>
       </binding>
     </button>

@@ -66,28 +66,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radar/panel/knob-1</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>4</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radar/panel/knob-1</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>4</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -246,28 +233,15 @@
             <y>0</y>
             <z>0</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radar/panel/s-2</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radar/panel/s-2</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -286,28 +260,15 @@
             <y>0</y>
             <z>0</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/radar/panel/s-1</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/radar/panel/s-1</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
 </PropertyList>

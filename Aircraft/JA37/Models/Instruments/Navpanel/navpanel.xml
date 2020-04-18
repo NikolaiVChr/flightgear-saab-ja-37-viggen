@@ -245,26 +245,15 @@
 			<y>0</y>
 			<z>-1</z>
 		</axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>/sim/ja37/navigation/tils-knob</property>
-				<step>1</step>
 				<min>0</min>
 				<max>10</max>        
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>/sim/ja37/navigation/tils-knob</property>
-				<step>-1</step>
-				<min>0</min>
-				<max>10</max>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 	
 </PropertyList>

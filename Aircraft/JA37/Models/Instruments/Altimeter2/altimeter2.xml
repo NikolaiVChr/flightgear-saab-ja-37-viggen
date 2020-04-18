@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 
 
@@ -15,6 +15,26 @@
         <object-name>bkg</object-name>
         <object-name>knob</object-name>
         <object-name>mount</object-name>
+    </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>face</object-name>
+        <object-name>drums</object-name>
+        <object-name>needle</object-name>
+        <object-name>needle-w</object-name>
+        <object-name>off</object-name>
+        <object-name>drum-1</object-name>
+        <object-name>drum-2</object-name>
+        <object-name>drum-3</object-name>
+        <object-name>drum-inhg-1</object-name>
+        <object-name>drum-inhg-2</object-name>
+        <object-name>drum-inhg-3</object-name>
+        <object-name>drum-inhg-4</object-name>
+        <object-name>negativ-flag</object-name>
+        <object-name>below-1000-flag</object-name>
+        <object-name>below-10000-flag</object-name>
+        <object-name>standard-flag</object-name>
     </effect>
     
     <animation>
@@ -189,134 +209,131 @@
         </axis>
     </animation>
 
+    <animation>
+        <type>select</type>
+        <object-name>standard-flag</object-name>
+        <condition>
+            <property>instrumentation/altimeter/setting-std</property>
+        </condition>
+    </animation>
+
     <!-- Altimeter Ingh Setting Knob -->
     <animation>
-        <name>ingh-knob-left-coarse</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
+        <type>knob</type>
+        <condition>
+            <not><property>instrumentation/altimeter/setting-std</property></not>
+        </condition>
+        <object-name>knobPick</object-name>
         <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
-                <step>-0.025</step>
-                <min>20.0</min>
-                <max>33.0</max>
+                <factor>0.02</factor>
+                <min>14.76</min> <!-- 500 hPa -->
+                <max>33.38</max>  <!-- 1130 hPa -->
                 <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
+           </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altimeter2-setting</tooltip-id>
+                <label>Baro setting: %5.2f inHg</label>
+                <property>instrumentation/altimeter/setting-inhg</property>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
-        <name>ingh-knob-STD</name>
+        <type>rotate</type>
+        <condition>
+            <not><property>/instrumentation/altimeter/setting-std</property></not>
+        </condition>
+        <object-name>knob</object-name>
+        <property>/instrumentation/altimeter/setting-hpa</property>
+        <factor>4</factor>
+        <center>
+          <x-m>0.0</x-m>
+          <y-m>-0.03165</y-m>
+          <z-m>-0.02881</z-m>
+        </center>
+        <axis>
+          <x>-1</x>
+          <y>0</y>
+          <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
         <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
-        <object-name>ingh-knob-right</object-name>
+        <object-name>knob</object-name>
         <action>
-            <button>1</button>
+            <name>STD pressure</name>
+            <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <command>property-toggle</command>
+                <property>/instrumentation/altimeter/setting-std</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
                 <command>property-assign</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
                 <value>1013</value>
             </binding>
             <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <name>ingh-knob-right-coarse</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-right</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>0.025</step>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
+                <condition>
+                    <not><property>/instrumentation/altimeter/setting-std</property></not>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>ja37.click()</script>
             </binding>
         </action>
-    </animation>
-
-    <animation>
-        <name>ingh-knob-right-fine</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
-        <object-name>ingh-knob-right</object-name>
-        <action>
-            <button>3</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>-0.005</step>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>altimeter2-std</tooltip-id>
+                <label>Toggle STD pressure</label>
             </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-        <action>
-            <button>4</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.15</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>0.005</step>
-                <min>20.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
+        </hovered>
     </animation>
 
     <animation>
         <type>pick</type>
         <object-name>mount</object-name>
-        <object-name>knobs</object-name>
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>
-        <condition>
-            <property>ja37/elec/ac-bus-main-bool</property>
-        </condition>
         <hovered>
             <binding>
+                <condition>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>altitude2</tooltip-id>
-                <label>Altitude: %3d feet</label>
+                <label>%s</label> <!-- Only one parameter is supported here -->
                 <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                <mapping>nasal</mapping>
+                <script>
+                    return sprintf("Altitude: %d ft / %d m",
+                                   getprop("/instrumentation/altimeter/indicated-altitude-ft"),
+                                   getprop("/instrumentation/altimeter/indicated-altitude-meter"));
+                </script>
             </binding>
         </hovered>
     </animation>
@@ -325,7 +342,7 @@
     <!-- lighting -->
     <animation>
         <!--<object-name>mount</object-name>-->
-        <object-name>knobs</object-name>
+        <!--<object-name>knob</object-name>-->
         <object-name>face</object-name>
         <object-name>drums</object-name>
         <object-name>needle-w</object-name>

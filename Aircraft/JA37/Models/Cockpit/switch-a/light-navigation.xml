@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -29,9 +29,11 @@
         <action>
             <button>0</button>
             <binding>
-                <command>property-assign</command>
+                <command>property-adjust</command>
                 <property>controls/electric/lights-ext-nav</property>
-                <value>1</value>
+                <step>1</step>
+                <min>-1</min>
+                <max>1</max>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -46,9 +48,11 @@
         <action>
             <button>0</button>
             <binding>
-                <command>property-assign</command>
+                <command>property-adjust</command>
                 <property>controls/electric/lights-ext-nav</property>
-                <value>0</value>
+                <step>-1</step>
+                <min>-1</min>
+                <max>1</max>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -61,8 +65,7 @@
         <type>rotate</type>
         <object-name>switchLever</object-name>
         <property>controls/electric/lights-ext-nav</property>
-        <factor>40</factor>
-        <offset-deg>-20</offset-deg>
+        <factor>20</factor>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>

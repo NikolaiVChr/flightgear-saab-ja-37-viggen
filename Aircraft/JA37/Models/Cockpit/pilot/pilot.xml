@@ -4,6 +4,42 @@
 <PropertyList>
 
     <path>pilot.ac</path>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>LL-wrist</object-name>
+        <object-name>hand2</object-name>
+        <object-name>thumb2</object-name>
+        <object-name>LL-arm2</object-name>
+        <object-name>LL-arm1</object-name>
+        <object-name>L-life-jacket</object-name>
+        <object-name>L-collar</object-name>
+        <object-name>L-visor</object-name>
+        <object-name>L-head</object-name>
+        <object-name>LL-leg1</object-name>
+        <object-name>LL-thigh</object-name>
+        <object-name>LL-Boot</object-name>
+        <object-name>LR-tigh</object-name>
+        <object-name>LR-leg1</object-name>
+        <object-name>LR-Boot</object-name>
+        <object-name>LR-arm1</object-name>
+        <object-name>hand</object-name>
+        <object-name>LR-arm2</object-name>
+        <object-name>thumb</object-name>
+        <object-name>LR-wrist</object-name>
+        <object-name>L-chest</object-name>
+        <object-name>L-mask-tube</object-name>
+        <object-name>L-harness</object-name>
+        <object-name>object2</object-name>
+        <object-name>disk</object-name>
+        <object-name>light</object-name>
+        <object-name>object</object-name>
+        <object-name>cylinder2</object-name>
+        <object-name>cylinder</object-name>
+        <object-name>patch</object-name>
+        <object-name>helmet</object-name>
+        <object-name>L-face-mask</object-name>
+    </effect>
 
     <animation>
         <type>select</type>

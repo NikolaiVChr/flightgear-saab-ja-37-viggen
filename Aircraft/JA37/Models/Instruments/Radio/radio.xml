@@ -30,16 +30,28 @@
     </animation>
 
 	<!-- switches -->
-	
+	<animation>
+        <type>pick</type>
+        <object-name>switchLeftPickLeft</object-name>
+        <object-name>switchLeftPickRight</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switchLeft</tooltip-id>
+                <label>Toggle comm/nav</label>
+            </binding>
+        </hovered>
+    </animation>
+
 	<animation>
 		<type>pick</type>
-		<object-name>switchLeft</object-name>
+		<object-name>switchLeftPickLeft</object-name>
 		<action>
 			<button>0</button>
-			<repeatable>false</repeatable>
 			<binding>
-				<command>property-toggle</command>
+				<command>property-assign</command>
 				<property>instrumentation/radio/switches/com-nav</property>
+                <value>0</value>
 			</binding>
 			<binding>
                 <command>nasal</command>
@@ -47,16 +59,16 @@
             </binding>
 		</action>
 	</animation>
-	
+
 	<animation>
 		<type>pick</type>
-		<object-name>switchRight</object-name>
+		<object-name>switchLeftPickRight</object-name>
 		<action>
 			<button>0</button>
-			<repeatable>false</repeatable>
 			<binding>
-				<command>property-toggle</command>
-				<property>instrumentation/radio/switches/mhz-khz</property>
+				<command>property-assign</command>
+				<property>instrumentation/radio/switches/com-nav</property>
+                <value>1</value>
 			</binding>
 			<binding>
                 <command>nasal</command>
@@ -83,6 +95,53 @@
             <z> 1.0 </z>
         </axis>
     </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchRightPickLeft</object-name>
+        <object-name>switchRightPickRight</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switchRight</tooltip-id>
+                <label>Toggle freq. band</label>
+            </binding>
+        </hovered>
+    </animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>switchRightPickLeft</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/radio/switches/mhz-khz</property>
+                <value>0</value>
+			</binding>
+			<binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>switchRightPickRight</object-name>
+		<action>
+			<button>0</button>
+			<binding>
+				<command>property-assign</command>
+				<property>instrumentation/radio/switches/mhz-khz</property>
+                <value>1</value>
+			</binding>
+			<binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+		</action>
+	</animation>
 	
     <animation>
         <type>rotate</type>
@@ -103,16 +162,12 @@
     </animation>
 	
 	<!-- knobs -->
-	
+
 	<!-- left big knob -->
-	<animation>
-		<type>pick</type>
-		<object-name>leftMacroKnob</object-name>
-		<!-- increase frequency -->
-		<action>
-			<button>0</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
+    <animation>
+        <type>knob</type>
+        <object-name>leftMacroKnob</object-name>
+        <action>
 			<!-- binding for if knob is on comms -->
 			<binding>
 				<condition>
@@ -129,12 +184,11 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/comm/frequencies/selected-mhz</property>
-				<step>1</step>
 				<min>118</min>
 				<max>137</max>
 				<wrap>true</wrap>
 			</binding>
-			<!-- binding for if knob is on vor/ils/dme nav -->
+            <!-- binding for if knob is on vor/ils/dme nav -->
 			<binding>
 				<condition>
 					<and>
@@ -150,7 +204,6 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/nav/frequencies/selected-mhz</property>
-				<step>1</step>
 				<min>100</min>
 				<max>118</max>
 				<wrap>true</wrap>
@@ -171,100 +224,25 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/adf/frequencies/selected-khz</property>
-				<step>1</step>
 				<min>100</min>
 				<max>500</max>
 				<wrap>true</wrap>
 			</binding>
-			<binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>leftMacroKnob</tooltip-id>
+                <label>Adjust frequency (gross)</label>
             </binding>
-		</action>
-		<!-- decrease frequency -->
-		<action>
-			<button>1</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
-			<!-- binding for if knob is on comms -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>0</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>0</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/comm/frequencies/selected-mhz</property>
-				<step>-1</step>
-				<min>118</min>
-				<max>137</max>
-				<wrap>true</wrap>
-			</binding>
-			<!-- binding for if knob is on vor/ils/dme nav -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>0</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/nav/frequencies/selected-mhz</property>
-				<step>-1</step>
-				<min>100</min>
-				<max>118</max>
-				<wrap>true</wrap>
-			</binding>
-			<!-- binding for if knob is on adf -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>1</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/adf/frequencies/selected-khz</property>
-				<step>-1</step>
-				<min>100</min>
-				<max>500</max>
-				<wrap>true</wrap>
-			</binding>
-			<binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-		</action>
-	</animation>
+        </hovered>
+    </animation>
 
 	<!-- left little knob -->
 	<animation>
-		<type>pick</type>
+		<type>knob</type>
 		<object-name>leftMicroKnob</object-name>
-		<!-- increase frequency -->
 		<action>
-			<button>0</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
 			<!-- binding for if knob is on comms -->
 			<binding>
 				<condition>
@@ -281,7 +259,7 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/comm/frequencies/selected-mhz</property>
-				<step>.01</step>
+				<factor>.01</factor>
 				<min>118</min>
 				<max>137</max>
 				<wrap>true</wrap>
@@ -302,7 +280,7 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/nav/frequencies/selected-mhz</property>
-				<step>.01</step>
+				<factor>.01</factor>
 				<min>100</min>
 				<max>118</max>
 				<wrap>true</wrap>
@@ -323,142 +301,47 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/adf/frequencies/selected-khz</property>
-				<step>1</step>
 				<min>100</min>
 				<max>500</max>
 				<wrap>true</wrap>
 			</binding>
-			<binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
 		</action>
-		<!-- decrease frequency -->
-		<action>
-			<button>1</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
-			<!-- binding for if knob is on comms -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>0</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>0</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/comm/frequencies/selected-mhz</property>
-				<step>-.01</step>
-				<min>118</min>
-				<max>137</max>
-				<wrap>true</wrap>
-			</binding>
-			<!-- binding for if knob is on vor/ils/dme nav -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>0</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/nav/frequencies/selected-mhz</property>
-				<step>-.01</step>
-				<min>100</min>
-				<max>118</max>
-				<wrap>true</wrap>
-			</binding>
-			<!-- binding for if knob is on adf -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>1</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/adf/frequencies/selected-khz</property>
-				<step>-1</step>
-				<min>100</min>
-				<max>500</max>
-				<wrap>true</wrap>
-			</binding>
-			<binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>leftMicroKnob</tooltip-id>
+                <label>Adjust frequency (fine)</label>
             </binding>
-		</action>
+        </hovered>
 	</animation>
 	
 	<!-- right big knob -->
 	<animation>
-		<type>pick</type>
+		<type>knob</type>
 		<object-name>rightMacroKnob</object-name>
-		<!-- increase radial -->
 		<action>
-			<button>0</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
 			<binding>
 				<command>property-adjust</command>
 				<property>instrumentation/nav/radials/selected-deg</property>
-				<step>1</step>
 				<min>0</min>
 				<max>359</max>
 				<wrap>true</wrap>
 			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>ja37.click()</script>
-			</binding>
 		</action>
-		<!-- decrease radial -->
-		<action>
-			<button>1</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
-			<binding>
-				<command>property-adjust</command>
-				<property>instrumentation/nav/radials/selected-deg</property>
-				<step>-1</step>
-				<min>0</min>
-				<max>359</max>
-				<wrap>true</wrap>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>ja37.click()</script>
-			</binding>
-		</action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rightMacroKnob</tooltip-id>
+                <label>Adjust radial</label>
+            </binding>
+        </hovered>
 	</animation>
 	
 	<!-- right little knob -->
 	<animation>
-		<type>pick</type>
+		<type>knob</type>
 		<object-name>rightMicroKnob</object-name>
-		<!-- increase volume -->
 		<action>
-			<button>0</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
 			<!-- binding for if knob is on comms -->
 			<binding>
 				<condition>
@@ -475,7 +358,7 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/comm/volume</property>
-				<step>.05</step>
+				<factor>.05</factor>
 				<min>0</min>
 				<max>1</max>
 				<wrap>false</wrap>
@@ -496,7 +379,7 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/nav/volume</property>
-				<step>.05</step>
+				<factor>.05</factor>
 				<min>0</min>
 				<max>1</max>
 				<wrap>false</wrap>
@@ -517,89 +400,19 @@
 				</condition>
 				<command>property-adjust</command>
 				<property>instrumentation/adf/volume-norm</property>
-				<step>.05</step>
+				<factor>.05</factor>
 				<min>0</min>
 				<max>1</max>
 				<wrap>false</wrap>
 			</binding>
-			<binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
 		</action>
-		<!-- decrease volume -->
-		<action>
-			<button>1</button>
-			<repeatable>true</repeatable>
-			<interval-sec>0.1</interval-sec>
-			<!-- binding for if knob is on comms -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>0</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>0</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/comm/volume</property>
-				<step>-.05</step>
-				<min>0</min>
-				<max>1</max>
-				<wrap>false</wrap>
-			</binding>
-			<!-- binding for if knob is on vor/ils/dme nav -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>0</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/nav/volume</property>
-				<step>-.05</step>
-				<min>0</min>
-				<max>1</max>
-				<wrap>false</wrap>
-			</binding>
-			<!-- binding for if knob is on adf -->
-			<binding>
-				<condition>
-					<and>
-						<equals>
-							<property>instrumentation/radio/switches/com-nav</property>
-							<value>1</value>
-						</equals>
-						<equals>
-							<property>instrumentation/radio/switches/mhz-khz</property>
-							<value>1</value>
-						</equals>
-					</and>
-				</condition>
-				<command>property-adjust</command>
-				<property>instrumentation/adf/volume-norm</property>
-				<step>-.05</step>
-				<min>0</min>
-				<max>1</max>
-				<wrap>false</wrap>
-			</binding>
-			<binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rightMicroKnob</tooltip-id>
+                <label>Adjust volume</label>
             </binding>
-		</action>
+        </hovered>
 	</animation>
 	
 	<!-- displays -->
@@ -716,78 +529,5 @@
 		</axis>
 	</animation>
 	
-	<!-- tooltips -->
-	
-	<animation>
-        <type>pick</type>
-        <object-name>leftMacroKnob</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>leftMacroKnob</tooltip-id>
-                <label>Adjust frequency (gross)</label>
-            </binding>
-        </hovered>
-    </animation>
-	
-	<animation>
-        <type>pick</type>
-        <object-name>leftMicroKnob</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>leftMicroKnob</tooltip-id>
-                <label>Adjust frequency (fine)</label>
-            </binding>
-        </hovered>
-    </animation>
-	
-	<animation>
-        <type>pick</type>
-        <object-name>rightMacroKnob</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>rightMacroKnob</tooltip-id>
-                <label>Adjust radial</label>
-            </binding>
-        </hovered>
-    </animation>
-
-	<animation>
-        <type>pick</type>
-        <object-name>rightMicroKnob</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>rightMicroKnob</tooltip-id>
-                <label>Adjust volume</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>switchLeft</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>switchLeft</tooltip-id>
-                <label>Toggle comm/nav</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>switchRight</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>switchRight</tooltip-id>
-                <label>Toggle freq. band</label>
-            </binding>
-        </hovered>
-    </animation>
 	
 </PropertyList>

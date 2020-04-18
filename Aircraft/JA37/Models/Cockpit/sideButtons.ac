@@ -1,9 +1,10 @@
 AC3Db
 MATERIAL "mountMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 22 trans 0.000
 MATERIAL "switchMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.810 0.810 0.810  shi 50 trans 0.000
+MATERIAL "invisible" rgb 0.640 0.640 0.640  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 1.000
 OBJECT world
-name "Blender_exporter_v2.21__sideButtons.ac"
-kids 6
+name "Blender_exporter_v2.26__sideButtons.ac"
+kids 8
 OBJECT poly
 name "button"
 data 12
@@ -1997,4 +1998,42 @@ refs 8
 2 0.299592 0.49727
 3 0.355156 0.519525
 4 0.410769 0.49727
+kids 0
+OBJECT poly
+name "switchPickBot"
+data 5
+Plane
+crease 40.0
+numvert 4
+-3.8053 0.38276 -0.32695
+-3.80947 0.3982 -0.32695
+-3.8053 0.38276 -0.31095
+-3.80947 0.3982 -0.31095
+numsurf 1
+SURF 0X0
+mat 2
+refs 4
+0 0 0
+1 0 0
+3 0 0
+2 0 0
+kids 0
+OBJECT poly
+name "switchPickTop"
+data 9
+Plane.001
+crease 40.0
+numvert 4
+-3.80947 0.3982 -0.32695
+-3.81364 0.41365 -0.32695
+-3.80947 0.3982 -0.31095
+-3.81364 0.41365 -0.31095
+numsurf 1
+SURF 0X0
+mat 2
+refs 4
+0 0 0
+1 0 0
+3 0 0
+2 0 0
 kids 0

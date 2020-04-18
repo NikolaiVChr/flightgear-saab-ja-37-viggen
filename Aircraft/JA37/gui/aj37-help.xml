@@ -29,14 +29,6 @@
         <name>e</name>
         <desc>Fire selected weapon</desc>
     </key>
-    <!--<key>
-        <name>Ctrl-5</name>
-        <desc>Select cannon</desc>
-    </key>-->
-    <key>
-        <name>Ctrl-1..4 and Ctrl-6..8</name>
-        <desc>Select pylon</desc>
-    </key>
 	<key>
         <name>[ / ]</name>
         <desc>Radar range decrease / increase</desc>
@@ -89,7 +81,7 @@
         <name>M</name>
         <desc>Toggle nose wheel steering</desc>
     </key>
-	  <key>
+	<key>
         <name>Y</name>
         <desc>Landing HUD mode on/off</desc>
     </key>
@@ -160,6 +152,18 @@
     <key>
         <name>F6</name>
         <desc>Eject</desc>
+    </key>
+    <key>
+        <name>Ctrl-1</name>
+        <desc>GCI Picture</desc>
+    </key>
+    <key>
+        <name>Ctrl-2</name>
+        <desc>GCI Dope</desc>
+    </key>
+    <key>
+        <name>Ctrl-3</name>
+        <desc>GCI Cutoff</desc>
     </key>
     <!--
      <key>
@@ -299,6 +303,7 @@
       ______
       400 meter runway is required to takeoff.
       500 meter runway is required to land.
+      Service ceiling: 18,300 m (60,000 ft)
       From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
       
       Notes:

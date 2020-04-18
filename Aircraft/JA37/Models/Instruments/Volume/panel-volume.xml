@@ -15,18 +15,6 @@
 
     <animation>
         <type>pick</type>
-        <object-name>knob-volume</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>knob-vol</tooltip-id>
-                <label>Missile lock/search volume</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
         <object-name>knob-ir</object-name>
         <action>
             <button>0</button>
@@ -88,28 +76,23 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/sound/helmet</property>
-                <factor>1</factor>
-                <step>0.1</step>
+                <factor>0.1</factor>
                 <min>0</min>
                 <max>1</max>           
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
+        </action>
+        <hovered>
             <binding>
-                <command>property-adjust</command>
-                <property>ja37/sound/helmet</property>
-                <factor>1</factor>
-                <step>-0.1</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-vol</tooltip-id>
+                <label>Missile lock/search volume</label>
             </binding>
-        </decrease>
+        </hovered>
     </animation>
 
 </PropertyList>

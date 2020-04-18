@@ -4,6 +4,11 @@
 
  <path>Aircraft/JA37/Models/Effects/mach-cone.ac</path>
  <nopreview/>
+ 
+ <animation>
+    <type>noshadow</type>
+    <object-name>Bounding_box</object-name>
+  </animation>
 
  <effect>
   <inherits-from>Aircraft/JA37/Models/Effects/mach-cone</inherits-from>

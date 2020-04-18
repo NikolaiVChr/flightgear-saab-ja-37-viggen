@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -35,15 +35,8 @@
 
     <animation>
         <type>pick</type>
-        <object-name>Switch</object-name>
-        <object-name>Base</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/armament/w-mode</property>
-            </binding>
-        </action>
+        <object-name>PickLeft</object-name>
+        <object-name>PickRight</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -54,6 +47,40 @@
         </hovered>
     </animation>
 
+    <animation>
+        <type>pick</type>
+        <object-name>PickLeft</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/armament/w-mode</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>PickRight</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/armament/w-mode</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+    </animation>
+    
     <animation>
         <type>rotate</type>
         <object-name>Switch</object-name>

@@ -5,11 +5,33 @@
     <name type="string" n="0">parked</name>
 
     <overlay>
+    	<sim>
+	      <presets>
+	        <onground type="bool">true</onground>
+	      </presets>
+	    </sim>
         <ja37>
             <hud>
                 <units-metric type="bool">false</units-metric>
             </hud>
         </ja37>
+        <controls>
+            <gear>
+                <gear-down type="bool">true</gear-down>
+            </gear>
+        </controls>
+        <fdm>
+            <jsbsim>
+                <gear>
+	                <gear-filtered-norm type="double">1</gear-filtered-norm>
+	                <gear-pos-norm type="double">1</gear-pos-norm>
+	                <gear-target-norm type="double">1</gear-target-norm>
+	                <gear-lever-norm type="double">1</gear-lever-norm>
+	                <gear-lever-cmd-norm type="double">1</gear-lever-cmd-norm>
+	                <gear-cmd-norm type="double">1</gear-cmd-norm>
+	            </gear>
+            </jsbsim>
+        </fdm>
     </overlay>
 
 </PropertyList>

@@ -959,52 +959,82 @@
 
         <!-- from AJS-37 Description part 4
 
-        throttle pos:
-        0-3 deg = stop mode
-        13-16   = ground idle
-        24.5    = flight idle
-        62-65   = max mil
+        throttle pos (degrees, from 0 to 120):
+        7-9     = high pressure cutoff (colin: I don't think there is an indent/detent just here)
+        13-16   = ground idle - a catch prevents going back to cutoff
+        24.5    = flight idle - indent
+        62-65   = max mil - a catch prevents going into A/B, not simulated
+        69-72   = zone 1 indent
+        83-86   = zone 2 indent
+        97-100  = zone 3 indent
         120     = zone 3 end
 
         -->
 
-        <kinematic name="fcs/throttle-pos-slowed">
+        <!-- Position, from regular throttle controls. Starts at 15 (ground idle) -->
+        <aerosurface_scale name="fcs/throttle-pos-deg-control">
             <input>/controls/engines/engine/throttle</input>
+            <zero_centered> false </zero_centered>
+            <domain>
+                <min>0</min>
+                <max>1</max>
+            </domain>
+            <range>
+                <min>15</min>
+                <max>120</max>
+            </range>
+        </aerosurface_scale>
+
+        <!-- Throttle lever cutoff position control.
+             To limit risks, throttle must be close to ground idle to cutoff.
+        -->
+        <switch name="fcs/throttle-cutoff">
+            <default value="/controls/engines/engine/throttle-cutoff"/>
+            <test value="0">
+                fcs/throttle-pos-deg gt 21
+            </test>
+            <output>/controls/engines/engine/throttle-cutoff</output>
+        </switch>
+
+        <!-- Throttle lever position, taking cutoff control in account -->
+        <switch name="fcs/throttle-pos-deg-cutoff">
+            <default value="fcs/throttle-pos-deg-control"/>
+            <test value="0">
+                fcs/throttle-cutoff == 1
+            </test>
+        </switch>
+
+        <!-- Limit FG control when in cutoff position -->
+        <switch name="fcs/throttle-pos-norm-limited">
+            <default value="/controls/engines/engine/throttle"/>
+            <test value="0">
+                fcs/throttle-cutoff == 1
+            </test>
+            <output>/controls/engines/engine/throttle</output>
+        </switch>
+
+        <!-- Slow down throttle movement -->
+        <kinematic name="fcs/throttle-pos-deg">
+            <input>fcs/throttle-pos-deg-cutoff</input>
             <traverse>
                 <setting>
                     <position>0</position>
                     <time>0</time>
                 </setting>
                 <setting>
-                    <position>1</position>
+                    <position>120</position>
                     <time>0.5</time>
                 </setting>
             </traverse>
+            <noscale/>
         </kinematic>
 
-        <aerosurface_scale name="names/throttle/pos-norm-deg">
-            <input>fcs/throttle-pos-slowed</input>
-            <zero_centered> false </zero_centered>
-            <domain>
-                <min>  0.00 </min>
-                <max>  1.00 </max>
-            </domain>
-            <range>
-                <min>    0 </min>
-                <max>  120 </max>
-            </range>
-            <clipto>
-                <min>  0 </min>
-                <max>  120 </max>
-            </clipto>
-            <output>fcs/throttle-pos-deg</output>
-        </aerosurface_scale>
-
+        <!-- turbofan power control -->
         <aerosurface_scale name="names/throttle/pos-norm-scale">
             <input>fcs/throttle-pos-deg</input>
             <zero_centered> false </zero_centered>
             <domain>
-                <min>  0 </min>
+                <min> 15 </min>
                 <max> 62 </max>
             </domain>
             <range>
@@ -1018,7 +1048,7 @@
             <output>fcs/throttle-pos-norm-scale</output>
         </aerosurface_scale>
 
-        <!-- factor for augmentation power -->
+        <!-- augmentation power control -->
         <aerosurface_scale name="names/throttle/zone-factor">
             <input>fcs/throttle-pos-deg</input>
             <zero_centered> false </zero_centered>
@@ -1040,17 +1070,14 @@
         <!-- augmentation zone -->
         <switch name="names/throttle/zone">
             <default value="0"/>
-            <test logic="AND" value="0">
-              fcs/throttle-pos-deg lt 70
-            </test>
-            <test logic="AND" value="1">
-              fcs/throttle-pos-deg lt 82.5
+            <test logic="AND" value="3">
+              fcs/throttle-pos-deg gt 98
             </test>
             <test logic="AND" value="2">
-              fcs/throttle-pos-deg lt 95
+              fcs/throttle-pos-deg gt 84
             </test>
-            <test logic="AND" value="3">
-              fcs/throttle-pos-deg ge 95
+            <test logic="AND" value="1">
+              fcs/throttle-pos-deg gt 70
             </test>
             <output>propulsion/engine/zone</output>
         </switch>
@@ -1156,7 +1183,7 @@
       <summer name="fcs/cursor/cursor-control-X">
         <description>Combined cursor control</description>
         <input>fcs/cursor/cursor-X-from-flight-controls</input>
-        <input>/ja37/systems/cursor-control-X</input>
+        <input>/controls/displays/cursor-slew-x</input>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
@@ -1165,7 +1192,7 @@
       <summer name="fcs/cursor/cursor-control-Y">
         <description>Combined cursor control</description>
         <input>fcs/cursor/cursor-Y-from-flight-controls</input>
-        <input>/ja37/systems/cursor-control-Y</input>
+        <input>/controls/displays/cursor-slew-y</input>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
@@ -1176,7 +1203,7 @@
         <default value="0"/>
         <test logic="OR" value="1">
           fcs/cursor/cursor-trigger-from-flight-controls == 1
-          /ja37/systems/cursor-select == 1
+          /controls/displays/cursor-click == 1
         </test>
         <output>fcs/cursor/cursor-select</output><!-- to prevent property from becoming double -->
       </switch>

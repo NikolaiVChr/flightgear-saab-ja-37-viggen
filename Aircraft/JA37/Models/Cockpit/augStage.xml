@@ -6,6 +6,13 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Mount</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>Number1</object-name>
+        <object-name>Number2</object-name>
+        <object-name>Number3</object-name>
+    </effect>
 
     <animation>
         <type>pick</type>
@@ -13,11 +20,11 @@
         <object-name>Number1</object-name>
         <object-name>Number2</object-name>
         <object-name>Number3</object-name>
-        <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
-        </condition>
         <hovered>
             <binding>
+                <condition>
+                    <property>ja37/elec/dc-bus-main-bool</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>augStage</tooltip-id>
                 <label>Commanded afterburner zone</label>

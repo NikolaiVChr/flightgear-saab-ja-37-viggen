@@ -29,14 +29,6 @@
         <name>e</name>
         <desc>Fire selected weapon</desc>
     </key>
-    <!--<key>
-        <name>Ctrl-5</name>
-        <desc>Select cannon</desc>
-    </key>-->
-    <key>
-        <name>Ctrl-1..4 and Ctrl-6..8</name>
-        <desc>Select pylon</desc>
-    </key>
 	<key>
         <name>[ / ]</name>
         <desc>Radar range decrease / increase</desc>
@@ -161,6 +153,18 @@
         <name>F6</name>
         <desc>Eject</desc>
     </key>
+    <key>
+        <name>Ctrl-1</name>
+        <desc>GCI Picture</desc>
+    </key>
+    <key>
+        <name>Ctrl-2</name>
+        <desc>GCI Dope</desc>
+    </key>
+    <key>
+        <name>Ctrl-3</name>
+        <desc>GCI Cutoff</desc>
+    </key>
     <!--
      <key>
       <name>Shift-backspace</name>
@@ -212,7 +216,7 @@
       The angle of attack indicator will act as a pitch indicator when on the ground.
       If the next waypoint is an airport it will be shown as a circle on the radar screen. If a runway is specified it will also show the direction as a line out from the circle.
       The selected radar echo will be shown a '+' on the radar screen.
-      Mouse middle clicking on altimeter setting knobs, will reset to standard pressure.      
+      Mouse middle clicking on altimeter setting knobs, will reset to standard pressure.
 
       HUD info
       ________
@@ -300,6 +304,7 @@
       400 meter runway is required to takeoff.
       500 meter runway is required to land.
       Service ceiling: 18,300 m (60,000 ft)
+      From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
       
       Notes:
       _____

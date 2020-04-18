@@ -1,19 +1,51 @@
 <?xml version="1.0"?>
+
 <PropertyList>
+  <path>Models/Effects/procedural_light.ac</path>
+  
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-right</inherits-from>
+    <object-name>procedural_light</object-name>
+  </effect>
 
- <path>procedural_light.ac</path>
-
- <effect>
-   <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-right</inherits-from>
-   <object-name>procedural_light</object-name>
- </effect>
-
- <animation>
+  <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
-      <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <or>
+        <!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>sim/multiplay/generic/bool[12]</property>
+        <!-- backward compatibility -->
+        <property>sim/hitches/aerotow/is-slave</property>
+      </or>
     </condition>
   </animation>
 
+  <!-- A better solution would be to use
+       <intensity_scale><use>property</use></intensity_scale>
+       in the corresponding .eff file, but this does not work with MP properties
+       because they are tied. As a replacement, this does a reasonable job.
+  -->
+  <animation>
+    <type>scale</type>
+    <object-name>procedural_light</object-name>
+    <property>sim/multiplay/generic/short[0]</property> <!-- /ja37/effect/navigation-light (0-100 scale) -->
+    <x-factor>0.01</x-factor>
+    <y-factor>0.01</y-factor>
+    <z-factor>0.01</z-factor>
+  </animation>
+
+  <animation>
+    <type>dist-scale</type>
+    <object-name>procedural_light</object-name>
+    <interpolation>
+      <entry><ind>0</ind><dep>1.0</dep></entry>
+      <entry><ind>3000</ind><dep>10.0</dep></entry>
+    </interpolation>
+  </animation>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+  </animation>
 </PropertyList>
