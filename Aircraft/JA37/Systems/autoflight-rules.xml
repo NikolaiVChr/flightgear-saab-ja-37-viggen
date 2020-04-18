@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!-- Viggen Autoflight System -->
-<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+<!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
 
 <PropertyList>
 	
@@ -211,7 +211,7 @@
 			<Ti>10.0</Ti>
 			<Td>0.00001</Td>
 			<u_min>0.05</u_min>
-			<u_max>0.58333</u_max>
+			<u_max>0.5</u_max>
 		</config>
 	</pid-controller>
 	
@@ -267,7 +267,7 @@
 			<Ti>2.5</Ti>
 			<Td>0.00001</Td>
 			<u_min>0.05</u_min>
-			<u_max>0.58333</u_max>
+			<u_max>0.5</u_max>
 		</config>
 	</pid-controller>
 	

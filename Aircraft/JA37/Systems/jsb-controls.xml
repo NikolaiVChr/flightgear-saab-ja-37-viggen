@@ -55,8 +55,8 @@
 
 -->
 
-	<!-- Begin new FCS by Joshua Davidson (Octal450) -->
-	<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+	<!-- Begin new FCS by Josh Davidson (Octal450) -->
+	<!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
 	
 	<property value="22.0">fcs/elevon/pitch-gearing-feedback</property>
 	<property value="15.0">fcs/elevon/roll-gearing-feedback</property>
@@ -683,7 +683,7 @@
 	
 	</channel>
 	
-	<!-- End new FCS by Joshua Davidson (Octal450) -->
+	<!-- End new FCS by Josh Davidson (Octal450) -->
 
     <channel execrate="1" name="Landing Gear">
 

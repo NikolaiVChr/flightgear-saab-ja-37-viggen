@@ -1,9 +1,9 @@
 # Viggen Autoflight
-# Copyright (c) 2019 Joshua Davidson (Octal450)
+# Copyright (c) 2020 Josh Davidson (Octal450)
 
-var maxMode = props.globals.getNode("/fdm/jsbsim/autoflight/max-mode");
+var maxMode = props.globals.getNode("/fdm/jsbsim/autoflight/max-mode-out"); # Because something is weird going on with tied properties
 var maxModeTemp = 0;
-var athrCanEngage = props.globals.getNode("/fdm/jsbsim/autoflight/athr-can-engage");
+var athrCanEngage = props.globals.getNode("/fdm/jsbsim/autoflight/athr-can-engage-out"); # Because something is weird going on with tied properties
 var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STICK, 2 ATT, 3 ALT
 var athr = props.globals.getNode("/fdm/jsbsim/autoflight/athr"); # 0 OFF, 1 ON
 var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 OFF, 1 ON
