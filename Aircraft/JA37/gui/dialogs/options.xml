@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <PropertyList>
-  <name>saab37config</name>
+  <name>saab37options</name>
   <modal type="bool">false</modal>
   <layout>vbox</layout>
   <halign>left</halign>
@@ -27,7 +27,7 @@
   <group>
     <layout>hbox</layout>
     <empty><stretch>1</stretch></empty>
-    <text><label>Configuration</label></text>
+    <text><label>Options</label></text>
     <empty><stretch>1</stretch></empty>
     <button>
       <pref-width>16</pref-width>

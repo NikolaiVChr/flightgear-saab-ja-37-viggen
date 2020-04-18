@@ -284,7 +284,7 @@
                         <label>Options</label>
                         <binding>
                             <command>dialog-show</command>
-                            <dialog-name>saab37config</dialog-name>
+                            <dialog-name>saab37options</dialog-name>
                         </binding>
                     </item>
                 </menu>
