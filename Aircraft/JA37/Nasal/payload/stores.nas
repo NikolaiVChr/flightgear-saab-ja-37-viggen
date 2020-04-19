@@ -70,8 +70,12 @@ var make_rb05_midFlightFunction = func(pos) {
     };
 
     return func(input) {
+        # Missile can be controlled ~1.7s after launch (manual)
+        var active = (params.active[params.pos]
+                      and input.time_s >= 1.7);
+
         var res = {};
-        if(params.active[params.pos]) {
+        if(active) {
             res.remote_yaw = params.input_yaw.getValue();
             res.remote_pitch = params.input_pitch.getValue();
         } else {
