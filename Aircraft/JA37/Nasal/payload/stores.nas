@@ -653,7 +653,11 @@ var m70_stations = [0, 1, 2, 3];
 var m55_stations = {0: 8, 2: 9};
 
 var trigger_listener = func {
-  if(!getprop("/ja37/systems/input-controls-flight")) return;
+  # Currently only the JA uses the trigger to click.
+  # This allows the trigger to remain functional on the AJS
+  # while controlling Rb05 with flight controls.
+  if(!getprop("/ja37/systems/input-controls-flight")
+     and getprop("/ja37/systems/variant") == 0) return;
   var trigger = input.trigger.getValue();
   var armSelect = input.stationSelect.getValue();
 
