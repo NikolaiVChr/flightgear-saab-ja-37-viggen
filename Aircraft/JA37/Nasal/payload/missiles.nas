@@ -3323,19 +3323,19 @@ var AIM = {
         me.printGuide("Gyro keeping %04.1f deg pitch. Current is %04.1f deg.", me.keepPitch, me.pitch);
 	},
 
-        remoteControl: func () {
-		me.track_signal_e = me.remote_control_pitch * !me.free;
-		me.track_signal_h = me.remote_control_yaw * !me.free;
-		me.printGuide("Remote input: %04.1f deg pitch, %04.1f deg yaw.",
-			      me.remote_control_pitch, me.remote_control_yaw);
+	remoteControl: func () {
+		me.track_signal_e = me.remote_control_pitch * me.dt * !me.free * ;
+		me.track_signal_h = me.remote_control_yaw * me.dt * !me.free;
+		me.printGuide("Remote input: %04.1f deg/s pitch, %04.1f deg/s yaw.",
+		              me.remote_control_pitch, me.remote_control_yaw);
 	},
 
-        remoteControlStabilized: func () {
-		me.keepPitch += me.remote_control_pitch;
+	remoteControlStabilized: func () {
+		me.keepPitch += me.remote_control_pitch * me.dt;
 		me.track_signal_e = (me.keepPitch - me.pitch) * !me.free;
-		me.track_signal_h = me.remote_control_yaw * !me.free;
-		me.printGuide("Remote input: %04.1f deg pitch, %04.1f deg yaw.",
-			      me.remote_control_pitch, me.remote_control_yaw);
+		me.track_signal_h = me.remote_control_yaw * me.dt * !me.free;
+		me.printGuide("Remote input: %04.1f deg/s pitch, %04.1f deg/s yaw.",
+		              me.remote_control_pitch, me.remote_control_yaw);
 	},
 
 	APN: func () {
