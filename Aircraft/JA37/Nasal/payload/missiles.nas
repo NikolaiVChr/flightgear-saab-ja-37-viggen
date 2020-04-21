@@ -3324,7 +3324,7 @@ var AIM = {
 	},
 
 	remoteControl: func () {
-		me.track_signal_e = me.remote_control_pitch * me.dt * !me.free * ;
+		me.track_signal_e = me.remote_control_pitch * me.dt * !me.free;
 		me.track_signal_h = me.remote_control_yaw * me.dt * !me.free;
 		me.printGuide("Remote input: %04.1f deg/s pitch, %04.1f deg/s yaw.",
 		              me.remote_control_pitch, me.remote_control_yaw);
