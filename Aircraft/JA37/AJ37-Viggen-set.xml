@@ -172,27 +172,6 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Refuel: Standard</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>ja37.refuelNorm();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Refuel: Long distance</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>ja37.refuelRange();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Refuel: Test flight</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>ja37.refuelTest();</script>
-                        </binding>
-                    </item>
-                    <item>
                         <label>Performance Monitor</label>
                         <binding>
                             <command>nasal</command>
