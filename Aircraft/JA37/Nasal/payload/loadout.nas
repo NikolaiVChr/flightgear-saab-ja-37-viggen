@@ -281,10 +281,13 @@ var refuel = func(fuel_norm) {
 }
 
 var set_droptank = func(b) {
-    if(!reload_allowed()) return;
+    if(!reload_allowed()) {
+        return !input.fuel.getNode("tank[8]/jettisoned").getBoolValue();
+    }
 
     if(b) load_pylon(pylons.C7, "tank");
     else load_pylon(pylons.C7, "none");
+    return b;
 }
 
 
