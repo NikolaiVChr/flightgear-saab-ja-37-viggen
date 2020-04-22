@@ -211,7 +211,7 @@
     <checkbox>
       <row>7</row>
       <col>1</col>
-      <enable><property>fdm/jsbsim/gear/unit[0]/WOW</property></enable>
+      <enable><property>/ja37/on-ground</property></enable>
       <property>/payload/armament/msg</property>
       <live>true</live>
       <binding>

@@ -479,8 +479,7 @@
                 <path>Aircraft/JA37/Systems/Autopilot.xml</path>
             </autopilot>
             <property-rule n="101">
-              <name>altitude_agl-m</name>
-              <path>Aircraft/JA37/Systems/rules-misc.xml</path>
+                <path>Aircraft/JA37/Systems/rules-misc.xml</path>
             </property-rule>
         </systems>
 

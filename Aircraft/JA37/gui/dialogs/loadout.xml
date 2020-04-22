@@ -106,6 +106,7 @@
       <max>123</max>
       <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
       <live>true</live>
+      <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>dialog-apply</command>
       </binding>
@@ -128,6 +129,7 @@
       <label>External fuel tank</label>
       <property>/sim/gui/dialogs/loadout/dialog/fuel/droptank</property>
       <live>true</live>
+      <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>dialog-apply</command>
       </binding>
@@ -157,6 +159,7 @@
 
     <button>
       <legend>Clean loadout</legend>
+      <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>nasal</command>
         <script>loadout.reload_clean();</script>
@@ -165,6 +168,7 @@
 
     <button>
       <legend>Reload ammo/flares</legend>
+      <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>nasal</command>
         <script>loadout.reload_ammo_flares();</script>

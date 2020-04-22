@@ -134,11 +134,8 @@ var AJ_loadouts = [
 
 ### Input properties
 var input = {
-    payload:  "payload",
-    fuel:     "consumables/fuel",
-    mpmsg:    "payload/armament/msg",
-    wow:      "fdm/jsbsim/gear/unit[0]/WOW",
-    wheelspd: "fdm/jsbsim/gear/unit[0]/wheel-speed-fps",
+    payload:    "payload",
+    fuel:       "consumables/fuel",
 };
 
 foreach(var name; keys(input)) {
@@ -185,19 +182,6 @@ var reload_ammo = func() {
     foreach(var pylon; input.payload.getChildren("weight")) {
         pylon.setDoubleValue("weight-lb", 0);
     }
-}
-
-
-var on_ground = func() {
-    return input.wow.getBoolValue() and (input.wheelspd.getValue() < 1);
-}
-
-var reload_allowed = func() {
-    if(input.mpmsg.getBoolValue() and !on_ground()) {
-        screen.log.write("Please land and stop in order to reload/refuel.");
-        return FALSE;
-    }
-    return TRUE;
 }
 
 
@@ -265,7 +249,7 @@ var balance_tanks = func(tanks, request_m3) {
 # fuel_norm corresponds to the fuel gauge (fuel_norm=1 -> 100%)
 # Returns the actual fuel level after refueling, on the same scale.
 var refuel = func(fuel_norm) {
-    if(!reload_allowed()) {
+    if(!ja37.reload_allowed(must_land_msg)) {
         return input.fuel.getValue("total-fuel-m3") * fuel_M32norm;
     }
 
@@ -289,7 +273,7 @@ var refuel = func(fuel_norm) {
 }
 
 var set_droptank = func(b) {
-    if(!reload_allowed()) {
+    if(!ja37.reload_allowed(must_land_msg)) {
         return !input.fuel.getNode("tank[8]/jettisoned").getBoolValue();
     }
 
@@ -300,6 +284,8 @@ var set_droptank = func(b) {
 
 
 ### Screen messages
+var must_land_msg = "Please land and stop in order to refuel and reload.";
+
 var print_reload_message = func {
     var loaded = {};
     foreach(var pylon; input.payload.getChildren("weight")) {
@@ -331,7 +317,7 @@ var print_reload_message = func {
 ### Final reload functions, for the GUI
 
 var reload_loadout = func(loadout_name) {
-    if(!reload_allowed()) return;
+    if(!ja37.reload_allowed(must_land_msg)) return;
 
     var loadout = loadouts[loadout_name];
 
@@ -341,8 +327,8 @@ var reload_loadout = func(loadout_name) {
     print_reload_message();
 }
 
-var reload_ammo_flares = func() {
-    if(!reload_allowed()) return;
+var reload_ammo_flares = func {
+    if(!ja37.reload_allowed(must_land_msg)) return;
     reload_ammo();
     reload_internal();
     print_reload_message();
@@ -417,6 +403,7 @@ var Dialog = {
         button.setDoubleValue("pref-width", 55);
         button.setDoubleValue("pref-height", 25);
         button.setValue("legend", "reload");
+        button.setValue("enable", "/ja37/reload-allowed");
 
         var binding = button.addChild("binding");
         binding.setValue("command", "nasal");
@@ -433,7 +420,7 @@ var Dialog = {
 
     open: func() {
         if(me.state) return;
-        if(!reload_allowed()) return;
+        if(!ja37.reload_allowed(must_land_msg)) return;
         fgcommand("dialog-show", me.prop);
         me.state = 1;
     },

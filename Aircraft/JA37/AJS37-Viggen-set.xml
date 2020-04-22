@@ -107,36 +107,6 @@
 *************************************************************************-->
         <menubar>
             <default>
-                <!-- careful here, if FG changes menu structure, the ja37 wont be compatible with older fg versions -->
-                    <!-- might already have happened with mp delay dialog -->
-<!--                <menu n="7">
-                    <item n="4">
-                        <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.loadMPList();
-                            </script>
-                        </binding>
-                    </item>
-                </menu>
-                <menu n="5">
-                    <item n="10">
-                        <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.loadSysFail();
-                            </script>
-                        </binding>
-                    </item>
-                    <item n="11">
-                        <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.loadIFail();
-                            </script>
-                        </binding>
-                    </item>
-                </menu>-->
                 <menu n="100">
                     <label>AJS-37</label>
                     <enabled type="bool">true</enabled>
