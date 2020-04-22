@@ -134,11 +134,10 @@ var AJ_loadouts = [
 
 ### Input properties
 var input = {
-    payload: "payload",
-    fuel: "consumables/fuel",
-    fuel_request: "payload/fuel-requested-percent",
-    mpmsg: "payload/armament/msg",
-    wow: "fdm/jsbsim/gear/unit[0]/WOW",
+    payload:  "payload",
+    fuel:     "consumables/fuel",
+    mpmsg:    "payload/armament/msg",
+    wow:      "fdm/jsbsim/gear/unit[0]/WOW",
     wheelspd: "fdm/jsbsim/gear/unit[0]/wheel-speed-fps",
 };
 
@@ -192,6 +191,101 @@ var reload_allowed = func() {
     }
     return TRUE;
 };
+
+
+### Fuel
+
+# Compute fuel tank capacities
+var tank_names = {
+    "1": 0,
+    "2": 1,
+    "3V": 2,
+    "3H": 3,
+    "5V": 4,
+    "5H": 5,
+    "4V": 6,
+    "4H": 7,
+    "external": 8,
+};
+
+var tank_cap = nil;
+var internal_cap = 0;
+var external_cap = 0;
+var total_cap = 0;
+var fuel_norm2M3 = 1;
+var fuel_M32norm = 1;
+
+var compute_tank_cap = func {
+    tank_cap = input.fuel.getChildren("tank");
+    forindex(var i; tank_cap) {
+        tank_cap[i] = tank_cap[i].getValue("capacity-m3");
+    }
+
+    internal_cap = 0;
+    for(var i=0; i<=7; i+=1) {
+        internal_cap += tank_cap[i];
+    }
+    external_cap = tank_cap[8];
+    total_cap = internal_cap + external_cap;
+
+    fuel_norm2M3 = internal_cap;
+    fuel_M32norm = 1/fuel_norm2M3;
+}
+
+# Load up to 'request_m3' fuel in the tanks listed in the array 'tanks'.
+# Return the actual quantity loaded.
+# Fuel is balanced between the tanks.
+# In 'tanks', tank numbers may be replaced by their name in 'tank_names' above.
+var balance_tanks = func(tanks, request_m3) {
+    # Resolve tank names
+    forindex(var i; tanks) {
+        if(contains(tank_names, tanks[i])) tanks[i] = tank_names[tanks[i]];
+    }
+    # Compute total capacity of requested tanks
+    var cap = 0;
+    foreach(var tank; tanks) cap += tank_cap[tank];
+    # Proportion to fill
+    var norm = math.min(request_m3/cap, 1);
+    # Refuel
+    foreach(var tank; tanks) {
+        input.fuel.getChild("tank", tank).setValue("level-norm", norm);
+    }
+    return norm * cap;
+}
+
+
+# fuel_norm corresponds to the fuel gauge (fuel_norm=1 -> 100%)
+# Returns the actual fuel level after refueling, on the same scale.
+var refuel = func(fuel_norm) {
+    if(!reload_allowed()) {
+        return input.fuel.getValue("total-fuel-m3") * fuel_M32norm;
+    }
+
+    var fuel_request_m3 = fuel_norm * fuel_norm2M3;
+    var fuel_loaded_m3 = 0;
+
+    # According to manual: first tanks 1 and 5, then tanks 2,3,4
+    fuel_loaded_m3 += balance_tanks(
+        ["1", "5V", "5H"],
+        fuel_request_m3 - fuel_loaded_m3
+    );
+    fuel_loaded_m3 += balance_tanks(
+        ["2", "3V", "3H", "4V", "4H"],
+        fuel_request_m3 - fuel_loaded_m3
+    );
+    if(!input.fuel.getNode("tank[8]/jettisoned").getBoolValue()) {
+        fuel_loaded_m3 += balance_tanks(["external"], fuel_request_m3 - fuel_loaded_m3);
+    }
+
+    return fuel_loaded_m3 * fuel_M32norm;
+}
+
+var set_droptank = func(b) {
+    if(!reload_allowed()) return;
+
+    if(b) load_pylon(pylons.C7, "tank");
+    else load_pylon(pylons.C7, "none");
+}
 
 
 ### Screen messages
@@ -344,3 +438,4 @@ var Dialog = {
 };
 
 Dialog.init();
+compute_tank_cap();
