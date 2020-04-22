@@ -35,6 +35,8 @@ input = {
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
   MPint19:          "sim/multiplay/generic/int[19]",
+  rb05_pitch:       "payload/armament/rb05-control-pitch",
+  rb05_yaw:         "payload/armament/rb05-control-yaw",
   replay:           "sim/replay/replay-state",
   serviceElec:      "systems/electrical/serviceable",
   stationSelect:    "controls/armament/station-select-custom",
@@ -53,6 +55,42 @@ input = {
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
   dev:              "dev",
 };
+
+
+### Rb05 guidance
+# Rb05 guidance signals are transmitted to missile.nas through a callback,
+# (called midFlightFunction in missile.nas).
+
+var make_rb05_midFlightFunction = func(pos) {
+    var params = {
+        active: active_rb05,
+        pos: pos,
+        input_yaw: input.rb05_yaw,
+        input_pitch: input.rb05_pitch,
+    };
+
+    return func(input) {
+        # Missile can be controlled ~1.7s after launch (manual)
+        var active = (params.active[params.pos]
+                      and input.time_s >= 1.7);
+
+        var res = {};
+        if(active) {
+            res.remote_yaw = params.input_yaw.getValue();
+            res.remote_pitch = params.input_pitch.getValue();
+        } else {
+            res.remote_yaw = 0;
+            res.remote_pitch = 0;
+        }
+        return res;
+    };
+}
+
+# Maps pylons to guidance status (boolean: actively controlled or not)
+var active_rb05 = {};
+# Last fired Rb05, should be the only active one.
+var last_rb05 = nil;
+
 
 ############ main stores loop #####################
 
@@ -127,7 +165,9 @@ var loop_stores = func {
             #print("removing aim-7 logic");
             armament.AIM.active[i].del();
           }
-          if(armament.AIM.new(i, "RB-05A", "Attackrobot") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+          # Mid flight function to transmit guidance inputs to missile.nas
+          var mf = make_rb05_midFlightFunction(i);
+          if(armament.AIM.new(i, "RB-05A", "Attackrobot", mf) == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
             #missile added through menu while another from that pylon is still flying.
             #to handle this we have to ignore that addition.
             setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -613,7 +653,11 @@ var m70_stations = [0, 1, 2, 3];
 var m55_stations = {0: 8, 2: 9};
 
 var trigger_listener = func {
-  if(!getprop("/ja37/systems/input-controls-flight")) return;
+  # Currently only the JA uses the trigger to click.
+  # This allows the trigger to remain functional on the AJS
+  # while controlling Rb05 with flight controls.
+  if(!getprop("/ja37/systems/input-controls-flight")
+     and getprop("/ja37/systems/variant") == 0) return;
   var trigger = input.trigger.getValue();
   var armSelect = input.stationSelect.getValue();
 
@@ -654,57 +698,15 @@ var trigger_listener = func {
   }
 
   if(armSelect > 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
-    if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
-      # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
-      if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == MISSILE_LOCK and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE)) {
-        #missile locked, fire it.
-
-        if (fired != "M71 Bomblavett" and fired != "M71 Bomblavett (Retarded)") {
-          setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
-          setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
-        }
-        #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
-        var callsign = armament.AIM.active[armSelect-1].callsign;
-        var brevity = armament.AIM.active[armSelect-1].brevity;
-        
-        if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
-          armament.AIM.active[armSelect-1].release(radar_logic.complete_list);
-        } else {
-          armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
-        }
-        
-        var phrase = brevity ~ " at: " ~ callsign;
-        if (getprop("payload/armament/msg")) {
-          armament.defeatSpamFilter(phrase);
-        } else {
-          setprop("/sim/messages/atc", phrase);
-        }
-        fireLog.push("Self: "~phrase);
-        var next = TRUE;
-        if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
-          var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
-          ammo = ammo - 1;
-          setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
-          if(ammo > 0) {
-            #next = FALSE;
-          }
-        }
-        if(next == TRUE and (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)")) {
-          var newStation = selectTypeBombs(fired, armSelect);
-          if (newStation != -1) {
-            input.stationSelect.setValue(newStation);
-          }
-        } elsif(next == TRUE) {
-          var newStation = selectType(fired);
-          if (newStation != -1) {
-            input.stationSelect.setValue(newStation);
-          }
-        }
-      } elsif (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
+    if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none"
+       and (input.gearsPos.getValue() == 0 or input.dev.getValue())) {
+      # Trigger is pulled, a pylon is selected, and loaded.
+      # The gear check is prevent missiles from firing when changing airport location.
+      if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
         var brevity = armament.AIM.active[armSelect-1].brevity;
 
         armament.AIM.active[armSelect-1].release(radar_logic.complete_list);#print("release "~(armSelect-1));
-        
+
         var phrase = brevity;
         if (getprop("payload/armament/msg")) {
           armament.defeatSpamFilter(phrase);
@@ -713,19 +715,67 @@ var trigger_listener = func {
         }
         fireLog.push("Self: "~phrase);
         var next = TRUE;
-        
+
         var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
         ammo = ammo - 1;
         setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
         if(ammo > 0) {
           #next = FALSE;
         }
-          
+
         if(next == TRUE) {
           var newStation = selectTypeBombs(fired, armSelect);
           if (newStation != -1) {
             input.stationSelect.setValue(newStation);
           }
+        }
+      } elsif (fired == "RB 05A Attackrobot") {
+        # Release control from previous missile
+        if(last_rb05 != nil) active_rb05[last_rb05] = FALSE;
+        # Take control of the new one
+        last_rb05 = armSelect-1;
+        active_rb05[last_rb05] = TRUE;
+
+        var brevity = armament.AIM.active[armSelect-1].brevity;
+
+        armament.AIM.active[armSelect-1].release(radar_logic.complete_list);
+
+        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+        setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+
+        var phrase = brevity;
+        if (getprop("payload/armament/msg")) {
+          armament.defeatSpamFilter(phrase);
+        } else {
+          setprop("/sim/messages/atc", phrase);
+        }
+
+        fireLog.push("Self: "~phrase);
+        var newStation = selectType(fired);
+        if (newStation != -1) {
+          input.stationSelect.setValue(newStation);
+        }
+      } elsif (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == MISSILE_LOCK) {
+        #missile locked, fire it.
+        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+        setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+
+        #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
+        var callsign = armament.AIM.active[armSelect-1].callsign;
+        var brevity = armament.AIM.active[armSelect-1].brevity;
+
+        armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
+
+        var phrase = brevity ~ " at: " ~ callsign;
+        if (getprop("payload/armament/msg")) {
+          armament.defeatSpamFilter(phrase);
+        } else {
+          setprop("/sim/messages/atc", phrase);
+        }
+        fireLog.push("Self: "~phrase);
+        var newStation = selectType(fired);
+        if (newStation != -1) {
+          input.stationSelect.setValue(newStation);
         }
       }
     }

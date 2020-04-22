@@ -804,20 +804,18 @@
                     <class type="string">M</class>
                     <fire-msg type="string">Bruiser</fire-msg>
                 </rb-04e>
-                <rb-05a>                    
+                <rb-05a>
                     <!-- Swedish attack-missile RB-05A supersonic -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-fire-on-off type="bool">false</sound-fire-on-off>
-                    <sound-volume type="double">0.0</sound-volume>
-                    <vol-search type="double">0.00</vol-search>
-                    <vol-track type="double">0.15</vol-track>
-                    <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">semi-radar</guidance>                        <!-- should really be remote -->
+                    <sound-volume type="double">0</sound-volume>
+                    <vol-search type="double">0</vol-search>
+                    <vol-track type="double">0</vol-track>
+                    <vol-track-weak type="double">0</vol-track-weak>
+                    <guidance type="string">remote</guidance>
                     <navigation type="string">direct</navigation>
-                    <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
-                    <FCS-field-deg type="int">25</FCS-field-deg>            
-                    <seeker-field-deg type="int">180</seeker-field-deg>     
+                    <FCS-field-deg type="int">0</FCS-field-deg>
                     <max-g type="int">25</max-g>                   
                     <max-launch-g type="int">7</max-launch-g>               
                     <thrust-lbf-stage-1 type="double">2000</thrust-lbf-stage-1>
@@ -827,16 +825,30 @@
                     <weight-launch-lbs type="double">672.4</weight-launch-lbs>            <!-- source -->
                     <weight-warhead-lbs type="double">353</weight-warhead-lbs>            <!-- source -->
                     <drag-coeff type="double">0.06</drag-coeff>                   
-                    <cross-section-sqft type="double">3.04</cross-section-sqft>                             <!-- source -->
+                    <cross-section-sqft type="double">3.04</cross-section-sqft>           <!-- source -->
                     <arming-time-sec type="double">4.5</arming-time-sec>                  <!-- manual -->
                     <min-speed-for-guiding-mach type="double">0.5</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">24</self-destruct-time-sec>     <!-- manual -->
                     <loft-altitude type="int">0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
-                    <rail type="bool">false</rail>
+                    <rail type="bool">true</rail>
+                    <rail-length-m type="double">2</rail-length-m>                        <!-- guess -->
+                    <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
-                    <class type="string">AGM</class>
                     <fire-msg type="string">Rifle</fire-msg>
+                    <hit-everything-nearby type="bool">true</hit-everything-nearby>
+                    <!-- Hack: to allow the proximity fuse to work on air targets, the missile
+                         technically uses lock after launch, with a very short range and 360 FOV.
+                         This way it will 'lock' just before hitting the target and allows the
+                         fuse to trigger.
+                    -->
+                    <lock-on-after-launch type="bool">true</lock-on-after-launch>
+                    <auto-switch-target-allowed type="bool">true</auto-switch-target-allowed>
+                    <detect-range-nm type="double">0.035</detect-range-nm>
+                    <trigger-algorithm type="string">passing</trigger-algorithm>
+                    <seeker-field-deg type="int">360</seeker-field-deg>
+                    <all-aspect type="bool">true</all-aspect>
+                    <class type="string">AGM</class>
                 </rb-05a>
                 <rb-75>                    
                     <!-- Swedish version of AGM-65B Maverick RB-75 620kt -->

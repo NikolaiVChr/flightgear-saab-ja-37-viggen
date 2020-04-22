@@ -126,7 +126,10 @@ var MI = {
 			APLockAlt:            "autopilot/locks/altitude",
 			APTgtAgl:             "autopilot/settings/target-agl-ft",
 			APTgtAlt:             "autopilot/settings/target-altitude-ft",
-            brightnessSetting:    "ja37/avionics/brightness-mi-knob",
+			brightnessSetting:    "ja37/avionics/brightness-mi-knob",
+			cursor_slew_x:        "controls/displays/cursor-total-slew-x",
+			cursor_slew_y:        "controls/displays/cursor-total-slew-y",
+			cursor_click:         "controls/displays/cursor-total-click",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
 			rad_alt:              "position/altitude-agl-ft",
@@ -890,12 +893,12 @@ var MI = {
 
 	showCursor: func {
 		if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
-    		me.cursorTrigger = getprop("fdm/jsbsim/fcs/cursor/cursor-select");
+    		me.cursorTrigger = me.input.cursor_click.getValue();
 
     		if (me.selection_updated == FALSE) {
     			# we are free to move cursor
-				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/cursor/cursor-control-Y");
-				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/cursor/cursor-control-X");
+				me.cursorSpeedY = me.input.cursor_slew_y.getValue();
+				me.cursorSpeedX = me.input.cursor_slew_x.getValue();
 				me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
 				me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
 				me.cursorPosX  += me.cursorMoveX;
