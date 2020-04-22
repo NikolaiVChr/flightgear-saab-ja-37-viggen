@@ -818,10 +818,12 @@
                     <FCS-field-deg type="int">0</FCS-field-deg>
                     <max-g type="int">25</max-g>                   
                     <max-launch-g type="int">7</max-launch-g>               
-                    <thrust-lbf-stage-1 type="double">2000</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>
-                    <stage-1-duration-sec type="double">13</stage-1-duration-sec>         <!-- manual -->
-                    <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>
+                    <!-- Source: AJ37 SFI part 2 (has a time/speed/distance travelled graph)
+                         Acceleration is mainly in the first 5s, then constant ~1.5mach until 13s -->
+                    <thrust-lbf-stage-1 type="double">4300</thrust-lbf-stage-1>
+                    <thrust-lbf-stage-2 type="double">1350</thrust-lbf-stage-2>
+                    <stage-1-duration-sec type="double">5</stage-1-duration-sec>
+                    <stage-2-duration-sec type="double">8</stage-2-duration-sec>
                     <weight-launch-lbs type="double">672.4</weight-launch-lbs>            <!-- source -->
                     <weight-warhead-lbs type="double">353</weight-warhead-lbs>            <!-- source -->
                     <drag-coeff type="double">0.06</drag-coeff>                   
