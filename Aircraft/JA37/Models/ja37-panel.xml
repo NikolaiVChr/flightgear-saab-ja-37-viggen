@@ -31,16 +31,6 @@
     </offsets>
   </model>
 
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/augStage.xml</path>
-    <name>Augmentation Indicator</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.1250</y-m>
-      <z-m>  0.2075</z-m>
-    </offsets>
-  </model>
-
   <animation>
     <type>scale</type>
     <object-name>Augmentation Indicator</object-name>
@@ -192,6 +182,16 @@
       <x-m>0</x-m>
       <y-m>-0.13</y-m>
       <z-m>0.25</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/afterburner.xml</path>
+    <name>Afterburner indicator</name>
+    <offsets>
+      <x-m>0.007</x-m>
+      <y-m>-0.135</y-m>
+      <z-m>0.212</z-m>
     </offsets>
   </model>
 
