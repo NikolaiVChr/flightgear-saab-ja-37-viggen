@@ -34,13 +34,10 @@
     <object-name>display1</object-name>
     <type>material</type>
     <condition>
-      <or>
-        <property>controls/lighting/test-indicator-panels</property>
-        <greater-than-equals>
-          <property>fdm/jsbsim/propulsion/engine/zone</property>
-          <value>1</value>
-        </greater-than-equals>
-      </or>
+      <greater-than-equals>
+        <property>fdm/jsbsim/propulsion/engine/zone</property>
+        <value>1</value>
+      </greater-than-equals>
     </condition>
     <emission>
       <red>1</red>
@@ -54,13 +51,10 @@
     <object-name>display2</object-name>
     <type>material</type>
     <condition>
-      <or>
-        <property>controls/lighting/test-indicator-panels</property>
-        <greater-than-equals>
-          <property>fdm/jsbsim/propulsion/engine/zone</property>
-          <value>2</value>
-        </greater-than-equals>
-      </or>
+      <greater-than-equals>
+        <property>fdm/jsbsim/propulsion/engine/zone</property>
+        <value>2</value>
+      </greater-than-equals>
     </condition>
     <emission>
       <red>1</red>
@@ -74,13 +68,10 @@
     <object-name>display3</object-name>
     <type>material</type>
     <condition>
-      <or>
-        <property>controls/lighting/test-indicator-panels</property>
-        <greater-than-equals>
-          <property>fdm/jsbsim/propulsion/engine/zone</property>
-          <value>3</value>
-        </greater-than-equals>
-      </or>
+      <greater-than-equals>
+        <property>fdm/jsbsim/propulsion/engine/zone</property>
+        <value>3</value>
+      </greater-than-equals>
     </condition>
     <emission>
       <red>1</red>
