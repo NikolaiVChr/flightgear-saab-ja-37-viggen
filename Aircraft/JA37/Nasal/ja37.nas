@@ -51,8 +51,6 @@ input = {
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",
   dens:             "fdm/jsbsim/atmosphere/density-altitude",
-  dme:              "instrumentation/dme/KDI572-574/nm",
-  dmeDist:          "instrumentation/dme/indicated-distance-nm",
   downFps:          "/velocities/down-relground-fps",
   elapsed:          "sim/time/elapsed-sec",
   elapsedInit:      "sim/time/elapsed-at-init-sec",
@@ -123,9 +121,9 @@ input = {
   rmActive:         "/autopilot/route-manager/active",
   rmBearing:        "/autopilot/route-manager/wp/bearing-deg",
   rmBearingRel:     "autopilot/route-manager/wp/bearing-deg-rel",
-  rmDist:           "autopilot/route-manager/wp/dist",
-  rmDistKm:         "autopilot/route-manager/wp/dist-km",
   RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
+  landingMode:      "ja37/hud/landing-mode",
+  approachMode:     "ja37/avionics/approach",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   servFire:         "engines/engine[0]/fire/serviceable",
@@ -167,6 +165,8 @@ input = {
   wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
+  waypointType:     "instrumentation/waypoint-indicator/type",
+  waypointNumber:   "instrumentation/waypoint-indicator/number",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
@@ -318,20 +318,33 @@ var Saab37 = {
       input.aeroSmoke.setIntValue(1);
     }
 
-    me.DME = input.dme.getValue() != "---" and input.dme.getValue() != "" and input.dmeDist.getValue() != nil;
-    
-    # distance indicator
-    if (me.DME == TRUE) {
-      me.distance = input.dmeDist.getValue() * 1.852;
-      if (me.distance > 40) {
-        me.distance = 40;
+    # AJS waypoint indicator
+    if(input.rmActive.getBoolValue()) {
+      me.wp = flightplan().currentWP();
+      me.wp_index = me.wp.index;
+      if(me.wp_index == 0) {
+        # takeoff
+        input.waypointType.setIntValue(1);
+        input.waypointNumber.setIntValue(11);
+      } elsif(me.wp.wp_role == "approach") {
+        # landing
+        if(!input.landingMode.getBoolValue()) {
+          input.waypointType.setIntValue(1);
+        } elsif(!input.approachMode.getBoolValue()) {
+          input.waypointType.setIntValue(2);
+        } else {
+          input.waypointType.setIntValue(3);
+        }
+        input.waypointNumber.setIntValue(1);
+      } else {
+        # Can only correctly display waypoint 1-9
+        if(me.wp_index > 9) me.wp_index = 10;
+        input.waypointType.setIntValue(4);
+        input.waypointNumber.setIntValue(me.wp_index);
       }
-      input.rmDistKm.setDoubleValue(me.distance);
-    } elsif (input.rmActive.getValue() == TRUE and input.rmDist.getValue() != nil) {
-      # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
-      input.rmDistKm.setDoubleValue(input.rmDist.getValue() * 1.852 );
     } else {
-      input.rmDistKm.setDoubleValue(0);
+      input.waypointType.setIntValue(0);
+      input.waypointNumber.setIntValue(0);
     }
 
     # radar compass

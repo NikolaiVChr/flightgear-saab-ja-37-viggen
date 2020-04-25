@@ -91,7 +91,7 @@
       <z-m>0.18</z-m>
     </offsets>
   </model>
-  
+
   <model>
     <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
     <name>RPM</name>
@@ -145,12 +145,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/droptank-indicator.xml</path>
-    <name>Droptank Indicator</name>
+    <path>Aircraft/JA37/Models/Instruments/WaypointIndicator/waypoint.xml</path>
+    <name>Waypoint Indicator</name>
     <offsets>
       <x-m>0</x-m>
       <y-m>0.27</y-m>
-      <z-m>0.21</z-m>
+      <z-m>0.22</z-m>
     </offsets>
   </model>
 
@@ -160,7 +160,7 @@
     <offsets>
       <x-m>0</x-m>
       <y-m>0.285</y-m>
-      <z-m>0.14</z-m>
+      <z-m>0.145</z-m>
     </offsets>
   </model>
 
@@ -170,7 +170,7 @@
     <offsets>
       <x-m>0</x-m>
       <y-m>0.285</y-m>
-      <z-m>0.05</z-m>
+      <z-m>0.052</z-m>
     </offsets>
   </model>
 

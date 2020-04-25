@@ -1267,14 +1267,15 @@
         <target-tracking>
             <min-speed-kt type="double">190</min-speed-kt>
         </target-tracking>
-		<route-manager>
-		    <wp>
-                <dist-km type="double">0</dist-km>
-				<bearing-deg-rel type="double">0</bearing-deg-rel>
+        <route-manager>
+            <wp>
+                <!-- Initialization required for JSBSim -->
+                <dist type="double">0</dist>
+                <bearing-deg-rel type="double">0</bearing-deg-rel>
                 <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
-			</wp>
+            </wp>
             <disable-route-manager type="bool">true</disable-route-manager><!-- just disables the default delegate -->
-		</route-manager>
+        </route-manager>
         <internal>
             <target-roll-deg type="double">0</target-roll-deg>
         </internal>
@@ -1527,6 +1528,9 @@
             <chronometer-time-sec type="double">0</chronometer-time-sec>
         </clock>
         <waypoint-indicator>
+            <type type="int">0</type>
+            <number type="int">0</number>
+            <indicator-light type="double" alias="/systems/electrical/dc-light"/>
             <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
             <distance-unit-flag type="double">0</distance-unit-flag>
         </waypoint-indicator>

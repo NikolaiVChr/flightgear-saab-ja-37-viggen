@@ -334,8 +334,9 @@
 
     <channel execrate="4" name="waypoint-indicators">
         <pure_gain name="instruments/waypoint/distance-km">
-          <input>/autopilot/route-manager/wp/dist-km</input>
-          <gain>1</gain>
+          <input>/autopilot/route-manager/wp/dist</input>
+          <gain>1.852</gain>
+          <output>/autopilot/route-manager/wp/dist-km</output>
         </pure_gain>
 
         <!-- Nordic miles = 10km -->
