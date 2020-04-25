@@ -220,7 +220,7 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Loadout</label>
+                        <label>Fuel/Loadout</label>
                         <binding>
                             <command>nasal</command>
                             <script>loadout.Dialog.toggle()</script>
