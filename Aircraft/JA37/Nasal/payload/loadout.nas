@@ -148,17 +148,6 @@ foreach(var name; keys(input)) {
 
 ### Internal reload functions.
 
-# Reload all the internal stuff: gun (for JA) and flares
-var reload_internal = func() {
-    if(getprop("ja37/systems/variant") == 0) {
-        setprop("ai/submodels/submodel[3]/count", 146);
-        setprop("ai/submodels/submodel[4]/count", 146);
-    }
-
-    setprop("ai/submodels/submodel[0]/count", 60);
-    setprop("ai/submodels/submodel[1]/count", 60);
-};
-
 var get_full_name = func(name) {
     if(contains(load_option_names, name)) return load_option_names[name];
     else return name;
@@ -176,13 +165,32 @@ var load_pylon = func(pylon, option) {
 var set_loadout = func(loadout) {
     forindex(i; loadout) {
         var name = load_pylon(i, loadout[i]);
-    };
-};
+    }
+}
+
+# Reload internal stuff
+var reload_internal = func() {
+    if(getprop("ja37/systems/variant") == 0) {
+        setprop("ai/submodels/submodel[3]/count", 146);
+        setprop("ai/submodels/submodel[4]/count", 146);
+    }
+
+    setprop("ai/submodels/submodel[0]/count", 60);
+    setprop("ai/submodels/submodel[1]/count", 60);
+}
+
+# Reload ammo of loaded weapons (gun/rocket pods, bombs)
+var reload_ammo = func() {
+    # Setting weight to 0 will force a reload in 'stores.nas'
+    foreach(var pylon; input.payload.getChildren("weight")) {
+        pylon.setDoubleValue("weight-lb", 0);
+    }
+}
 
 
 var on_ground = func() {
     return input.wow.getBoolValue() and (input.wheelspd.getValue() < 1);
-};
+}
 
 var reload_allowed = func() {
     if(input.mpmsg.getBoolValue() and !on_ground()) {
@@ -190,7 +198,7 @@ var reload_allowed = func() {
         return FALSE;
     }
     return TRUE;
-};
+}
 
 
 ### Fuel
@@ -292,14 +300,7 @@ var set_droptank = func(b) {
 
 
 ### Screen messages
-var loaded_gun_flares_message = func {
-    if(getprop("/ja37/systems/variant") == 0) {
-        screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
-    }
-    screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-}
-
-var loaded_loadout_message = func {
+var print_reload_message = func {
     var loaded = {};
     foreach(var pylon; input.payload.getChildren("weight")) {
         var name = pylon.getValue("selected");
@@ -316,6 +317,14 @@ var loaded_loadout_message = func {
     if(size(loaded) == 0) {
         screen.log.write("All external weapons removed", 0.0, 1.0, 0.0);
     }
+
+    if(getprop("/ja37/systems/variant") == 0) {
+        var cannon_rounds = getprop("ai/submodels/submodel[3]/count");
+        screen.log.write(cannon_rounds ~ " cannon rounds loaded", 0.0, 1.0, 0.0);
+    }
+
+    var flares = getprop("ai/submodels/submodel[0]/count") + getprop("ai/submodels/submodel[1]/count");
+    screen.log.write(flares ~ " flares loaded", 0.0, 1.0, 0.0);
 }
 
 
@@ -326,19 +335,20 @@ var reload_loadout = func(loadout_name) {
 
     var loadout = loadouts[loadout_name];
 
-    reload_internal();
     set_loadout(loadout);
-    loaded_gun_flares_message();
-    loaded_loadout_message();
-}
-
-var reload_gun_flares = func {
-    if(!reload_allowed()) return;
+    reload_ammo();
     reload_internal();
-    loaded_gun_flares_message();
+    print_reload_message();
 }
 
-var reload_clean = func {
+var reload_ammo_flares = func() {
+    if(!reload_allowed()) return;
+    reload_ammo();
+    reload_internal();
+    print_reload_message();
+}
+
+var reload_clean = func() {
     reload_loadout("clean");
 }
 

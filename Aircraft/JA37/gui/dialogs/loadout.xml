@@ -164,10 +164,10 @@
     </button>
 
     <button>
-      <legend>Reload gun/flares</legend>
+      <legend>Reload ammo/flares</legend>
       <binding>
         <command>nasal</command>
-        <script>loadout.reload_gun_flares();</script>
+        <script>loadout.reload_ammo_flares();</script>
       </binding>
     </button>
   </group>
