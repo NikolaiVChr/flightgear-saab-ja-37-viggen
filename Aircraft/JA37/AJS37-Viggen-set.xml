@@ -163,60 +163,11 @@
                             <script>ja37.repair();</script>
                         </binding>
                     </item>
-                    <!--<item>
-                        <label>Reload air to air (1979)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1979();</script>
-                        </binding>
-                    </item>
                     <item>
-                        <label>Reload air to air (1987)</label>
+                        <label>Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAir2Air1987();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air (1997)</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAir2Air1997();</script>
-                        </binding>
-                    </item>-->
-					<!--<item>
-                        <label>Reload guns only</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadGuns();</script>
-                        </binding>
-                    </item>-->
-                    <item>
-                        <label>Reload air to armour</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Tank();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to ship</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Ship();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to personel</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Personel();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Reload air to air</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>armament.reloadAJSAir2Air();</script>
+                            <script>loadout.Dialog.toggle()</script>
                         </binding>
                     </item>
                     <item>
@@ -268,18 +219,8 @@
                     <item>
                         <label>Options</label>
                         <binding>
-                            <command>nasal</command>
-                            <script>
-                                ja37.Dialog.show();
-                            </script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>MP Options</label>
-                        <name>j37config</name>
-                        <binding>
-                          <command>dialog-show</command>
-                          <dialog-name>j37config</dialog-name>
+                            <command>dialog-show</command>
+                            <dialog-name>saab37config</dialog-name>
                         </binding>
                     </item>
                 </menu>
@@ -301,9 +242,9 @@
             </group>
             <group>
                 <name>Emergency Procedures</name>
+                <checklist include="gui/checklists/fire.xml"/>
                 <checklist include="gui/checklists/aj37-in-air-start.xml"/>
                 <checklist include="gui/checklists/generator-failure.xml"/>
-                <checklist include="gui/checklists/fire.xml"/>
             </group>
         </checklists>
     </sim>
@@ -556,43 +497,6 @@
                 <name>Drop tank</name>
                 <lbs>0</lbs>
             </opt>
-            <opt>
-                <name>RB 04E Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>            
-            <opt>
-                <name>RB 05A Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>RB 15F Attackrobot</name>
-                <lbs>0</lbs>
-            </opt>
-            <!-- not enough room for this
-            <opt>
-                <name>RB 75 Maverick</name>
-                <lbs>462</lbs>
-            </opt>-->
-            <opt>
-                <name>M55 AKAN</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M70 ARAK</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M71 Bomblavett</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M71 Bomblavett (Retarded)</name>
-                <lbs>0</lbs>
-            </opt>
-            <opt>
-                <name>M90 Bombkapsel</name>
-                <lbs>0</lbs>
-            </opt>
         </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
             <name type="string">Pilot</name>
@@ -608,6 +512,7 @@
                 <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
                 <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
                 <hit-interpolation type="bool">true</hit-interpolation>
+                <enable-craters type="bool">true</enable-craters>
                 <pylon-offset type="int">1</pylon-offset>
                 <pylon-stations>controls/armament</pylon-stations>
                 <station-name type="string">station</station-name>
@@ -694,7 +599,7 @@
                     <vol-search type="double">0.15</vol-search>
                     <vol-track type="double">1</vol-track>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
-                    <navigation type="string">APN</navigation>
+                    <navigation type="string">PN</navigation>
                     <all-aspect type="bool">true</all-aspect>                     <!-- all or rear-only -->
                     <max-fire-range-nm type="double">9.7</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">55</FCS-field-deg>                              <!-- source -->
@@ -827,6 +732,7 @@
                     <lateral-dps type="double"> 10 </lateral-dps>
                     <class type="string">GM</class>
                     <fire-msg type="string">Bombs away</fire-msg>
+                    <hit-everything-nearby type="bool">true</hit-everything-nearby>
                 </m71>
                 <m71r>
                     <!-- Swedish bomblet M71 Virgo retarded with parachute -->
@@ -861,6 +767,7 @@
                     <lateral-dps type="double"> -10 </lateral-dps>
                     <class type="string">GM</class>
                     <fire-msg type="string">Bombs away</fire-msg>
+                    <hit-everything-nearby type="bool">true</hit-everything-nearby>
                 </m71r>
                 <rb-04e>
                     <!-- Swedish antiship cruise-missile RB-04E subsonic -->
@@ -1018,7 +925,7 @@
             <variant type="int">2</variant>
         </systems>
         <effect>
-            <g-suit userarchive="y" type="int">2</g-suit><!-- 1:71 2:79 3:97 -->       
+            <g-suit type="int">2</g-suit><!-- 1:71 2:79 3:97 -->
         </effect>
     </ja37>
 
@@ -1038,7 +945,7 @@
 
     <nasal>
         <rdr>
-            <file>Aircraft/JA37/Nasal/radar.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/radar.nas</file>
         </rdr>
     </nasal>
 

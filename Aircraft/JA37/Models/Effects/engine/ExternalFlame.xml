@@ -20,12 +20,6 @@
 
   <animation>
     <type>noshadow</type>
-    <condition>
-      <equals>
-        <property>/sim/rendering/rembrandt/enabled</property>
-        <value>1</value>
-      </equals>
-    </condition>
     <object-name>ExternalFlamePoly</object-name>
   </animation>
 
@@ -34,10 +28,20 @@
     <object-name>ExternalFlamePoly</object-name>
     <nopreview/>
     <condition>
-     <property>sim/multiplay/generic/int[4]</property><!-- engines/engine[0]/augmentation -->
+     <or>
+       <!-- engines/engine/augmentation -->
+       <property>sim/multiplay/generic/bool[10]</property>
+       <!-- backwards compatibility -->
+       <property>sim/multiplay/generic/int[4]</property>
+     </or>
      <not>
-      <property>/sim/rendering/shaders/skydome</property><!-- als -->
-      <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/is-reversed -->
+       <property>/sim/rendering/shaders/skydome</property><!-- als -->
+       <or>
+         <!-- engines/engine/is-reversed -->
+         <property>sim/multiplay/generic/bool[11]</property>
+         <!-- backwards compatibility -->
+         <property>sim/multiplay/generic/int[8]</property>
+       </or>
      </not>
     </condition>
   </animation>

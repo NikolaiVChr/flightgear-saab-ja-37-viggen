@@ -6,11 +6,14 @@
     <animation>
         <type>material</type>
         <object-name>display</object-name>
+        <condition>
+            <property>fdm/jsbsim/autoflight/athr</property>
+        </condition>
         <emission>
-            <red-prop>autoflight/athr-pos</red-prop>
-            <green-prop>autoflight/athr-pos</green-prop>
-            <blue-prop>autoflight/athr-pos</blue-prop>
-            <factor-prop>fdm/jsbsim/autoflight/athr</factor-prop>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 

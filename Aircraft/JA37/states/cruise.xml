@@ -5,12 +5,20 @@
     <name type="string" n="0">cruise</name>
 
     <overlay>
-        <!--<position>
-            <altitude-ft type="double">20000</altitude-ft>
-        </position>-->
-        <!--<velocities>
-            <mach type="double">0.75</mach>
-        </velocities>-->
+        <sim>
+          <presets>
+            <speed-set type="string">knots</speed-set>
+            <airspeed-kt type="int">300</airspeed-kt>
+            <pitch-deg type="double">0.0</pitch-deg>
+            <roll-deg type="double">0</roll-deg>
+            <uBody-fps type="double">263</uBody-fps>
+            <vBody-fps type="double">0</vBody-fps>
+            <wBody-fps type="double">0</wBody-fps>
+            <glideslope-deg type="double">0</glideslope-deg>
+            <trim type="bool">true</trim>
+            <onground type="bool">false</onground>
+          </presets>
+        </sim>
         <fdm>
             <jsbsim>
                 <names>
@@ -54,6 +62,7 @@
                     <starter-cmd type="bool">true</starter-cmd>
                     <cutoff type="bool">false</cutoff>
                     <reverser-cmd type="bool">false</reverser-cmd>
+                    <throttle-cutoff type="bool">false</throttle-cutoff>
                 </engine>
             </engines>
             <electric>
@@ -63,10 +72,10 @@
                 <main type="bool">true</main>
                 <battery type="bool">false</battery>
                 <reserve type="bool">false</reserve>
-                <lights-ext-flash type="bool">true</lights-ext-flash>
                 <lights-ext-beacon type="bool">true</lights-ext-beacon>
-                <lights-ext-nav type="bool">true</lights-ext-nav>
-                <lights-land-switch type="bool">true</lights-land-switch>
+                <lights-ext-nav type="int">1</lights-ext-nav>
+                <lights-ext-form type="int">1</lights-ext-form>
+                <lights-land-switch type="int">1</lights-land-switch>
                 <main type="bool">true</main>
             </electric>
             <fuel>

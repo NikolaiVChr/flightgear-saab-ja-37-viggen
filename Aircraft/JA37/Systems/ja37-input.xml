@@ -123,8 +123,20 @@
             <name>H</name>
             <desc>Cycle HUD Brightness</desc>
             <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.cycle_brightness()</script>
+                <command>property-cycle</command>
+                <property>ja37/hud/brightness-si</property>
+                <value type="int">0.0</value>
+                <value type="int">0.1</value>
+                <value type="int">0.2</value>
+                <value type="int">0.3</value>
+                <value type="int">0.4</value>
+                <value type="int">0.5</value>
+                <value type="int">0.6</value>
+                <value type="int">0.7</value>
+                <value type="int">0.8</value>
+                <value type="int">0.9</value>
+                <value type="int">1.0</value>
+                <wrap>true</wrap>
             </binding>
         </key>
         <key n="73">
@@ -190,118 +202,36 @@
                 </binding>
             </mod-up>-->
         </key>
-        <key n="53">
-            <name>CTRL-5</name>
-            <mod-ctrl>
-                <desc>Select cannon</desc>
-                <binding>
-                    <command>nasal</command>
-                    <script>armament.selectCannon();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
         <key n="49">
             <name>CTRL-1</name>
             <mod-ctrl>
-                <desc>Select missile 1</desc>
+                <desc>GCI pict</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
+                    <property>instrumentation/gci/picture</property>
                     <value>1</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
                 </binding>
             </mod-ctrl>
         </key>
         <key n="50">
             <name>CTRL-2</name>
             <mod-ctrl>
-                <desc>Select missile 2</desc>
+                <desc>GCI dope</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
-                    <value>2</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
+                    <property>instrumentation/gci/bogeydope</property>
+                    <value>1</value>
                 </binding>
             </mod-ctrl>
         </key>
         <key n="51">
             <name>CTRL-3</name>
             <mod-ctrl>
-                <desc>Select missile 3</desc>
+                <desc>GCI cutoff</desc>
                 <binding>
                     <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
-                    <value>3</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
-        <key n="52">
-            <name>CTRL-4</name>
-            <mod-ctrl>
-                <desc>Select missile 4</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
-                    <value>4</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
-        <key n="54">
-            <name>CTRL-6</name>
-            <mod-ctrl>
-                <desc>Select missile outer left</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
-                    <value>5</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
-        <key n="55">
-            <name>CTRL-7</name>
-            <mod-ctrl>
-                <desc>Select missile outer right</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
-                    <value>6</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
-        <key n="56">
-            <name>CTRL-8</name>
-            <mod-ctrl>
-                <desc>Select missile center</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/armament/station-select-custom</property>
-                    <value>7</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
+                    <property>instrumentation/gci/cutoff</property>
+                    <value>1</value>
                 </binding>
             </mod-ctrl>
         </key>
@@ -329,14 +259,6 @@
                 <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
-        <!--<key n="70">
-            <name>F</name>
-            <desc>Set autopilot to stop follow current target</desc>
-            <binding>
-                <command>nasal</command>
-                <script>auto.unfollow();</script>
-            </binding>
-        </key>-->
         <key n="8">
             <name>Backspace</name>
             <desc>Toggle Reversers</desc>
@@ -1323,10 +1245,7 @@
           <desc>Toggle auto-throttle lock</desc>
           <binding>
            <command>nasal</command>
-           <script>
-                auto.apContSpeed();
-                ja37.click();
-            </script>
+           <script>autoflight.System.athrToggle();</script>
           </binding>
          </key>
     </keyboard>

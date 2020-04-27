@@ -947,12 +947,10 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
-                        <value>0</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.25</x>
@@ -978,12 +976,10 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
-                        <value>1</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.25</x>
@@ -1064,19 +1060,17 @@
         </gearlever>
 
         <throttle>
-            <name>Bottom detent 1</name>
+            <name>Throttle cutoff on</name>
             <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>
             <mode>once</mode>
             <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>0</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/fcs/throttle-cutoff</property>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.75</x>
@@ -1084,24 +1078,22 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.25</factor>
+                <factor>1</factor>
             </volume>
         </throttle>
 
         <throttle>
-            <name>Bottom detent 2</name>
+            <name>Throttle cutoff off</name>
             <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>
             <mode>once</mode>
             <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <greater-than>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>0</value>
-                    </greater-than>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/fcs/throttle-cutoff</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.75</x>
@@ -1109,11 +1101,11 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.25</factor>
+                <factor>1</factor>
             </volume>
         </throttle>
-
-        <!--<throttle>
+        
+        <throttle>
             <name>Flight idle detent</name>
             <path>Aircraft/JA37/Sounds/throttle-detent.wav</path>
             <mode>once</mode>
@@ -1121,13 +1113,9 @@
             <max-dist>2</max-dist>
             <condition>
                 <and>
-                    <greater-than>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>0</value>
-                    </greater-than>
                     <less-than>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>24.5</value>
+                        <value>24</value>
                     </less-than>
                 </and>
             </condition>
@@ -1137,9 +1125,9 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>1.00</factor>
+                <factor>0.25</factor>
             </volume>
-        </throttle>-->
+        </throttle>
 
         <throttle>
             <name>Mil detent</name>
@@ -1149,10 +1137,10 @@
             <max-dist>2</max-dist>
             <condition>
                 <and>
-                    <!--<greater-than>
+                    <greater-than-equals>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>0</value>
-                    </greater-than>-->
+                        <value>24</value>
+                    </greater-than-equals>
                     <less-than>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
                         <value>70</value>
@@ -1183,7 +1171,7 @@
                     </greater-than-equals>
                     <less-than>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>82.5</value>
+                        <value>84</value>
                     </less-than>
                 </and>
             </condition>
@@ -1207,11 +1195,11 @@
                 <and>
                     <greater-than-equals>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>82.5</value>
+                        <value>84</value>
                     </greater-than-equals>
                     <less-than>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>95</value>
+                        <value>98</value>
                     </less-than>
                 </and>
             </condition>
@@ -1235,7 +1223,7 @@
                 <and>
                     <greater-than-equals>
                         <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>95</value>
+                        <value>98</value>
                     </greater-than-equals>
                 </and>
             </condition>
@@ -2057,13 +2045,6 @@
                             <value>0</value>
                         </greater-than>
                     </and>
-                    <and>
-                        <property>controls/armament/station[10]/trigger</property>
-                        <greater-than>
-                            <property>ai/submodels/submodel[14]/count</property>
-                            <value>0</value>
-                        </greater-than>
-                    </and>
                 </or>
             </condition>
             <mode>looped</mode>
@@ -2300,13 +2281,6 @@
                         <property>controls/armament/station[4]/trigger-m70</property>
                         <greater-than>
                             <property>ai/submodels/submodel[8]/count</property>
-                            <value>0</value>
-                        </greater-than>
-                    </and>
-                    <and>
-                        <property>controls/armament/station[7]/trigger-m70</property>
-                        <greater-than>
-                            <property>ai/submodels/submodel[13]/count</property>
                             <value>0</value>
                         </greater-than>
                     </and>

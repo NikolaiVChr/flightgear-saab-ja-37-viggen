@@ -53,28 +53,16 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>controls/ventilation/windshield-hot-air-knob</property>
-                <factor>1</factor>
-                <step>0.2</step>
-                <min>0</min>
-                <max>1</max>           
-                <wrap>false</wrap>
-           </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/ventilation/windshield-hot-air-knob</property>
-                <factor>1</factor>
-                <step>-0.2</step>
+                <factor>0.2</factor>
                 <min>0</min>
                 <max>1</max>
                 <wrap>false</wrap>
-            </binding>
-        </decrease>
+           </binding>
+        </action>
     </animation>
 
     <animation>

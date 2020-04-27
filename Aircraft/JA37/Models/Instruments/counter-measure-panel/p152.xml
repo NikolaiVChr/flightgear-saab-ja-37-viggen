@@ -43,28 +43,16 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/p152/knob-1</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/p152/knob-1</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -83,28 +71,16 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/p152/knob-2</property>
-                <factor>1</factor>
-                <step>0.05</step>
+                <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/p152/knob-2</property>
-                <factor>1</factor>
-                <step>-0.05</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -123,28 +99,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/p152/knob-3</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>6</max>                
                 <wrap>true</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/p152/knob-3</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>6</max>                
-                <wrap>true</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -163,35 +126,22 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/p152/knob-4</property>
-                <factor>1</factor>
-                <step>1</step>
                 <min>0</min>
                 <max>4</max>                
                 <wrap>true</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/p152/knob-4</property>
-                <factor>1</factor>
-                <step>-1</step>
-                <min>0</min>
-                <max>4</max>                
-                <wrap>true</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
         <type>knob</type>
         <object-name>knob5</object-name>
         <property>ja37/p152/knob-5</property>
-        <factor>1</factor>
+        <factor>60</factor>
         <offset-deg>100</offset-deg>
         <center>
             <x-m>  -0.03366 </x-m>
@@ -203,26 +153,15 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <increase>
+        <action>
             <binding>
-                <command>property-cycle</command>
+                <command>property-adjust</command>
                 <property>ja37/p152/knob-5</property>
-                <value>0</value>
-                <value>60</value>
-                <value>120</value>
+                <min>0</min>
+                <max>2</max>
                 <wrap>false</wrap>
            </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-cycle</command>
-                <property>ja37/p152/knob-5</property>
-                <value>120</value>
-                <value>60</value>
-                <value>0</value>
-                <wrap>false</wrap>
-            </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>

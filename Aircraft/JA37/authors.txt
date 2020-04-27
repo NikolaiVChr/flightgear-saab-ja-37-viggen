@@ -32,6 +32,15 @@ Grey/black camo livery.
 Radar RCS system.
 Plus many other changes.
 
+Colin Geniet
+============
+New exterior lightning
+Nasal bugfixes
+HUD parallax
+Checklists
+Direct corsor control for joystick mapping
+Plus various other fixes and improvements
+
 Nicola B. Bernardelli - nbb.musica at gmail.com - Forum name: JazzTp
 ====================================
 Cockpit sidepanels, switches, knobs and throttle.
@@ -68,10 +77,6 @@ KSUU Crew 1 livery.
 Richard Harrison - Forum name: Richard
 ================
 Misc fixes and improvements.
-
-Colin Geniet
-============
-Added properties for direct cursor control.
 
 
 Thanks

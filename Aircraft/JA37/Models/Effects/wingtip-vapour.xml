@@ -5,26 +5,28 @@
  
    <emissive type="bool">false</emissive>
    <lighting type="bool">false</lighting><!-- sadly have to be false, since the polygons are not double sided -->
- 
+   
    <condition>
-     <or><!-- nav: bit 3 -->
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>4</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>5</value>
-      </equals>
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>6</value>
-      </equals>            
-      <equals>
-        <property>sim/multiplay/generic/int[19]</property>
-        <value>7</value>
-      </equals>       
-    </or>
+     <or>
+       <property>sim/multiplay/generic/bool[5]</property> <!-- fdm/jsbsim/effects/wingtip-vapour -->
+       <!-- backwards compatibility - vapour: bit 3 -->
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>4</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>5</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>6</value>
+       </equals>
+       <equals>
+         <property>sim/multiplay/generic/int[19]</property>
+         <value>7</value>
+       </equals>
+     </or>
    </condition>
  
    <attach>local</attach>
@@ -64,9 +66,9 @@
    <particle>
      <start>
        <color>
-         <red><expression><product><value>0.7</value><property>rendering/scene/diffuse/red</property></product></expression></red>
-         <green><expression><product><value>0.7</value><property>rendering/scene/diffuse/red</property></product></expression></green>
-         <blue><expression><product><value>0.7</value><property>rendering/scene/diffuse/red</property></product></expression></blue>
+         <red><expression><product><value>0.7</value><property>/rendering/scene/diffuse/red</property></product></expression></red>
+         <green><expression><product><value>0.7</value><property>/rendering/scene/diffuse/red</property></product></expression></green>
+         <blue><expression><product><value>0.7</value><property>/rendering/scene/diffuse/red</property></product></expression></blue>
          <alpha><value> 0.3 </value></alpha>
        </color>
        <size>
@@ -76,9 +78,9 @@
  
      <end>
        <color>
-         <red><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></red>
-         <green><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></green>
-         <blue><expression><product><value>1.0</value><property>rendering/scene/diffuse/red</property></product></expression></blue>
+         <red><expression><product><value>1.0</value><property>/rendering/scene/diffuse/red</property></product></expression></red>
+         <green><expression><product><value>1.0</value><property>/rendering/scene/diffuse/red</property></product></expression></green>
+         <blue><expression><product><value>1.0</value><property>/rendering/scene/diffuse/red</property></product></expression></blue>
          <alpha><value> 0.01 </value></alpha>
        </color>
        <size>

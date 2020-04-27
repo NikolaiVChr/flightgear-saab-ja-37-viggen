@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>Models/Effects/procedural_light.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
+    <object-name>procedural_light</object-name>
+  </effect>
+  
+  <!-- Animations -->
+  <animation>
+    <type>dist-scale</type>
+    <object-name>procedural_light</object-name>
+    <interpolation>
+      <entry><ind>0</ind><dep>1.0</dep></entry>
+      <entry><ind>3000</ind><dep>20.0</dep></entry>
+    </interpolation>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>procedural_light</object-name>
+    <condition>
+      <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    </condition>
+  </animation>
+
+  <animation>
+    <type>spin</type>
+    <object-name>procedural_light</object-name>
+    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    <factor>60</factor>
+    <center>
+        <x-m>0</x-m>
+        <y-m>0.0</y-m>
+        <z-m>0</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>0</y>
+        <z>1</z>
+    </axis>
+  </animation>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+  </animation>
+</PropertyList>

@@ -71,6 +71,7 @@ input = {
   fuelWarning:      "ja37/sound/fuel-low-on",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
+  gearSteerNorm:    "/gear/gear[0]/steering-norm",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
@@ -99,8 +100,9 @@ input = {
   lampXTank:        "ja37/avionics/xtank",
   landLight:        "ja37/effect/landing-light",
   landLightALS:     "sim/rendering/als-secondary-lights/use-landing-light",
+  landLightALS2:    "sim/rendering/als-secondary-lights/use-alt-landing-light",
+  landLightALSHead: "sim/rendering/als-secondary-lights/landing-light1-offset-deg",
   landLightSupport: "ja37/supported/landing-light",
-  landLightSwitch:  "controls/electric/lights-land-switch",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
@@ -111,8 +113,7 @@ input = {
   MPfloat9:         "sim/multiplay/generic/float[9]",
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
-  MPint19:          "sim/multiplay/generic/int[19]",
-  MPint9:           "sim/multiplay/generic/int[9]",
+  MPbool4:          "sim/multiplay/generic/bool[4]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
   nearby:           "damage/sounds/nearby-explode-on",
@@ -143,9 +144,6 @@ input = {
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   sunAngle:         "sim/time/sun-angle-rad",
-  switchBeacon:     "controls/electric/lights-ext-beacon",
-  switchFlash:      "controls/electric/lights-ext-flash",
-  switchNav:        "controls/electric/lights-ext-nav",
   tank0LvlGal:      "/consumables/fuel/tank[0]/level-gal_us",
   tank0LvlNorm:     "/consumables/fuel/tank[0]/level-norm",
   tank1LvlGal:      "/consumables/fuel/tank[1]/level-gal_us",
@@ -160,6 +158,7 @@ input = {
   tank8LvlGal:      "/consumables/fuel/tank[8]/level-gal_us",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   tank8Selected:    "/consumables/fuel/tank[8]/selected",
+  taxiLight:        "ja37/effect/taxi-light",
   tempDegC:         "environment/temperature-degc",
   thrustLb:         "engines/engine/thrust_lb",
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
@@ -176,9 +175,6 @@ input = {
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
-  cutoffOrig:       "controls/engines/engine[0]/cutoff",
-  cutoffActual:     "fdm/jsbsim/propulsion/engine/cutoff-actual",
-  cutoffJsbsim:     "fdm/jsbsim/propulsion/engine/cutoff-jsbsim",
   inputFlight:      "ja37/systems/input-controls-flight",
   terrainWarn:      "instrumentation/terrain-warning",
   parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
@@ -311,10 +307,6 @@ var Saab37 = {
     #  setprop("fdm/jsbsim/fcs/rudder-serviceable", 0);
     #}
 
-    # meter altitude property
-
-    input.indAltMeter.setDoubleValue(input.indAltFt.getValue()*0.3048);
-
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
@@ -351,17 +343,11 @@ var Saab37 = {
       mainOn = FALSE;
     }
 
-    # exterior lights
-    me.flash = power.prop.dcBatt2Bool.getValue() and input.switchFlash.getValue() == 1;
-    me.beacon = power.prop.dcSecondBool.getValue() and input.switchBeacon.getValue() == 1;
-    me.nav = power.prop.acSecondBool.getValue() and input.switchNav.getValue() == 1;
-    input.MPint9.setIntValue(encode3bits(me.flash, me.beacon, me.nav));
-
     # contrails, damage smoke
     me.contrails = input.tempDegC.getValue() < -40 and input.alt.getValue() > 19000 and input.n2.getValue() > 50;
-    me.smoke = !input.servFire.getValue()+input.damage.getValue();
-    input.damageSmoke.setValue(me.smoke);
-    me.d_smoke = input.damageSmoke.getValue();
+    me.d_smoke = !input.servFire.getValue()+input.damage.getValue();
+    input.damageSmoke.setValue(me.d_smoke);
+    input.MPbool4.setValue(me.contrails);
     input.MPint18.setIntValue(encode3bits(me.contrails, me.d_smoke, 0));
 
     # smoke
@@ -463,7 +449,8 @@ var Saab37 = {
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "WeightAndFuel"}))},nil,var err2 = []);        
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "system-failures"}))},nil,var err2 = []);
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "instrument-failures"}))},nil,var err2 = []);  
-      }      
+        loadout.Dialog.close();
+      }
       setprop("sim/freeze/fuel",0);
       setprop("/sim/speed-up", 1);
       setprop("/gui/map/draw-traffic", 0);
@@ -477,18 +464,17 @@ var Saab37 = {
 
   # fast updating loop
   speed_loop: func {
-
-    input.cutoffOrig.setBoolValue(input.cutoffJsbsim.getValue());
-
     # switch on and off ALS landing lights
-    if(input.landLight.getValue() > 0) {    
-      if(input.viewInternal.getValue() == TRUE and input.landLightSupport.getValue() == TRUE) {
-          input.landLightALS.setBoolValue(TRUE);
+    if(input.landLightSupport.getValue() and 0) {
+        if(input.viewInternal.getValue()) {
+            input.landLightALS.setBoolValue(input.taxiLight.getValue() > 0);
+            input.landLightALS2.setBoolValue(input.landLight.getValue() > 0);
+            # Rotate taxi light
+            input.landLightALSHead.setValue(input.gearSteerNorm.getValue() * 30);
         } else {
-          input.landLightALS.setBoolValue(FALSE);
+            input.landLightALS.setBoolValue(FALSE);
+            input.landLightALS2.setBoolValue(FALSE);
         }
-    } else {
-      input.landLightALS.setBoolValue(FALSE);
     }
 
     if(input.replay.getValue() == TRUE) {
@@ -1011,24 +997,6 @@ var Saab37 = {
     }
   },
 
-  beaconLoop: func {
-    if(input.replay.getValue() != TRUE) {
-      me.time = input.elapsed.getValue()*1.5;
-      me.timeInt = int(me.time);
-      me.value = nil;
-      if(2 * int(me.timeInt / 2) == me.timeInt) {
-        #ascend
-        me.value = (2 * (me.time - me.timeInt))-1;
-      } else {
-        #descent
-        me.value = (2*(1 - (me.time - me.timeInt)))-1;
-      }
-      if (me.value < 0) me.value = 0;
-      beacon_switch.setDoubleValue(me.value);
-    }
-    #settimer(func me.beaconLoop(), 0.05);
-  },
-
   loopSystem: func {
     #
     # start all the loops in aircraft.
@@ -1036,7 +1004,6 @@ var Saab37 = {
     # Notice some loop timers are slightly changed to spread out calls,
     # so that many loops are not called in same frame.
     #
-    me.loop_beacon   = maketimer(0.07, me, func me.beaconLoop());
     me.loop_slow     = maketimer(1.50, me, func me.slow_loop());
     me.loop_fast     = maketimer(0.06, me, func me.speed_loop());
     me.loop_saab37   = maketimer(0.25, me, func me.update_loop());
@@ -1062,7 +1029,6 @@ var Saab37 = {
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
-    me.loop_beacon.start();
     #me.loop_ct.start();
     #me.loop_not.start(); 
     me.loop_chrono.start();
@@ -1161,7 +1127,6 @@ var Saab37 = {
     # Notice some loop timers are slightly changed to spread out calls,
     # so that many loops are not called in same frame.
     #
-    me.loop_beacon   = maketimer(0.07, me, func {timer.timeLoop("beacon",me.beaconLoop,me);});
     me.loop_slow     = maketimer(1.50, me, func {timer.timeLoop("ja37-slow", me.slow_loop,me);});
     me.loop_fast     = maketimer(0.06, me, func {timer.timeLoop("ja37-fast", me.speed_loop,me);});
     me.loop_saab37   = maketimer(0.25, me, func {timer.timeLoop("ja37-medium", me.update_loop,me);});
@@ -1176,10 +1141,6 @@ var Saab37 = {
     me.loop_common.start();
     me.loop_commonF.start();
     
-    # autopilot
-    me.loop_ap       = maketimer(0.20, me, func {timer.timeLoop("Autopilot", auto.apLoop,me);});
-    me.loop_hydrLost = maketimer(0.50, me, func {timer.timeLoop("Autopilot-power", auto.hydr1Lost,me);});
-
     me.loop_chrono   = maketimer(0.26, me, func {timer.timeLoop("chronometer", ja37.chrono_update,me);});
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
@@ -1191,7 +1152,6 @@ var Saab37 = {
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
-    me.loop_beacon.start();
     #me.loop_ct.start();
     #me.loop_not.start();
     me.loop_ap.start();
@@ -1623,6 +1583,7 @@ var test_support = func {
 
 
 var main_init = func {
+  srand();
   
   power.init();
   
@@ -1697,10 +1658,6 @@ var main_init = func {
   #code_ct();
   #not();
 
-  # start beacon loop
-  #beaconTimer.start();
-  #saab37.beaconLoop();
-
   # asymmetric vortex detachment
   asymVortex();
 
@@ -1713,10 +1670,10 @@ var main_init = func {
     setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
     setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
     setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-flash", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-form", rand()>0.5?TRUE:FALSE);
     setprop("controls/electric/lights-ext-beacon", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-nav", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-land-switch", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-nav", math.floor(rand()*3) - 1);     # between -1 and 1
+    setprop("controls/electric/lights-land-switch", math.floor(rand()*3) - 1); # between -1 and 1
     setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
   }
 
@@ -1726,11 +1683,17 @@ var main_init = func {
   changeGuiLoad();
 
   if (getprop("ja37/systems/state") == "cruise") {
-      setprop("position/altitude-ft", 20000);
-      setprop("velocities/mach", 0.65);
-      setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 1);
-      auto.mode3();
+      #setprop("position/altitude-ft", 20000);
+      #setprop("velocities/mach", 0.65);
+      setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 0.75);
+      setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
+      setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
+      setprop("controls/gear/gear-down", 0);
+      autoflight.System.engageMode(3);
       settimer(cruise, 1.5);
+  } else {
+    setprop("fdm/jsbsim/gear/gear-filtered-norm", 1);
+    setprop("fdm/jsbsim/gear/gear-pos-norm", 1);
   }
   recharge_battery();
   setup_custom_stick_bindings();
@@ -1739,9 +1702,9 @@ var main_init = func {
 
 var setup_custom_stick_bindings = func {
   call(func {
-      append(joystick.buttonBindings, joystick.NasalHoldButton.new  ("JA37 Cursor Click", 'setprop("ja37/systems/cursor-select",1);', 'setprop("ja37/systems/cursor-select",0);'));
-      append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("JA37 Cursor Vertical", "/ja37/systems/cursor-control-Y"));
-      append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("JA37 Cursor Horizontal", "/ja37/systems/cursor-control-X"));
+      append(joystick.buttonBindings, joystick.NasalHoldButton.new  ("Cursor Click", 'setprop("controls/displays/cursor-click",1);', 'setprop("controls/displays/cursor-click",0);'));
+      append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("Cursor Vertical", "/controls/displays/cursor-slew-y"));
+      append(joystick.axisBindings,   joystick.PropertyScaleAxis.new("Cursor Horizontal", "/controls/displays/cursor-slew-x"));
   },nil,var err=[]);
   var dlg = gui.Dialog.new("/sim/gui/dialogs/button-axis-config/dialog", "Aircraft/JA37/gui/dialogs/button-axis-config.xml", "button-axis-config");
   var dlg = gui.Dialog.new("/sim/gui/dialogs/button-config/dialog", "Aircraft/JA37/gui/dialogs/button-config.xml", "button-config");
@@ -1750,7 +1713,10 @@ var setup_custom_stick_bindings = func {
 
 
 var cruise = func {
+  setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 0.75);
   setprop("controls/gear/gear-down", 0);
+  setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
+  setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
 }
 
 # re init
@@ -1823,22 +1789,6 @@ var re_init_listener = setlistener("/sim/signals/reinit", func {
  }, 0, 0);
 
 
-############ strobe #####################
-
-var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/anti-collision", 1);
-setprop("controls/lighting/ext-lighting-panel/anti-collision", 1);
-aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.5], strobe_switch);#was 1.9+rand()/5
-
-############ beacons #####################
-
-setprop("controls/switches/beacon", TRUE);
-
-var beacon_switch = props.globals.getNode("sim/model/lighting/beacon/state-rotary", 2);
-
-
-#var beaconTimer = maketimer(0, beaconLoop); only usable in 2.11+
-
-
 ############ blinkers ####################
 
 #var blinker = nil;
@@ -1882,10 +1832,13 @@ var autostarttimer = func {
 var stopAutostart = func {
   setprop("/controls/electric/main", FALSE);
   setprop("/controls/electric/battery", FALSE);
+  setprop("/controls/engines/engine/throttle", 0);
   settimer(stopFinal, 5, 1);#allow time for ram air and flaps to retract
 }
 
 stopFinal = func {
+  setprop("/controls/engines/engine/throttle", 0);
+  setprop("/controls/engines/engine/throttle-cutoff", TRUE);
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
@@ -1942,15 +1895,17 @@ var endSupply = func {
 
 #Simulating autostart function
 var autostart = func {
-  setprop("controls/electric/lights-ext-flash", TRUE);
+  setprop("controls/electric/lights-ext-form", TRUE);
   setprop("controls/electric/lights-ext-beacon", TRUE);
-  setprop("controls/electric/lights-ext-nav", TRUE);
-  setprop("controls/electric/lights-land-switch", TRUE);
+  setprop("controls/electric/lights-ext-nav", 1);
+  setprop("controls/electric/lights-land-switch", 1);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   notice("Starting engine..");
   click();
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
+  setprop("/controls/engines/engine/throttle-cutoff", TRUE);
+  setprop("/controls/engines/engine/throttle", 0);
   #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
@@ -1975,6 +1930,8 @@ var waiting_n1 = func {
       if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == TRUE) {
         click();
         setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", FALSE);
+        setprop("/controls/engines/engine/throttle-cutoff", FALSE);
+        setprop("/controls/engines/engine/throttle", 0);
         if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
           notice("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
@@ -2182,7 +2139,7 @@ var repair = func (c = 1) {
     #ct("rp");
   }
 }
-setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~""~"7");
+
 var refuelTest = func () {
   if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   setprop("consumables/fuel/tank[0]/level-norm", 0.8);
@@ -2721,3 +2678,5 @@ var horiSpeed = func () {
   var n = getprop("velocities/speed-north-fps");
   return math.sqrt(n*n+e*e)*FPS2KT;
 }
+
+setprop("ja37/normalmap", !getprop("sim/rendering/rembrandt/enabled"));

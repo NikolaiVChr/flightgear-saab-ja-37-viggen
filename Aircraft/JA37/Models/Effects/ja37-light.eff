@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <name>Effects/ja37-light</name>
+  <inherits-from>Effects/model-combined-deferred</inherits-from>
+  <parameters>
+  	<render-bin>
+ 			<bin-number>1</bin-number>
+ 			<bin-name>RenderBin</bin-name>
+ 		</render-bin>
+ </parameters>
+</PropertyList>

@@ -14,9 +14,14 @@
    </offsets>
    
   <effect>
-   <inherits-from>heatDistortion</inherits-from>
+   <inherits-from>Aircraft/JA37/Models/Effects/engine/heatDistortion</inherits-from>
    <object-name>Bounding_box</object-name>
   </effect>
+  
+  <animation>
+    <type>noshadow</type>
+    <object-name>Bounding_box</object-name>
+  </animation>
 
   <animation>
     <type>select</type>
@@ -29,7 +34,12 @@
      </greater-than>
      <property>/sim/rendering/shaders/skydome</property>
      <not>
-      <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/is-reversed -->
+       <or>
+         <!-- engines/engine/is-reversed -->
+         <property>sim/multiplay/generic/bool[11]</property>
+         <!-- backwards compatibility -->
+         <property>sim/multiplay/generic/int[8]</property>
+       </or>
      </not>
     </condition>
   </animation>

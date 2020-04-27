@@ -11,12 +11,17 @@
     <texture>../smoke.png</texture>
 
     <condition>
-      <and>
+      <or>
+        <equals>
+          <property>sim/multiplay/generic/short[3]</property><!-- ja37/effect/smoke -->
+          <value>2</value>
+        </equals>
+        <!-- backwards compatibility -->
         <equals>
           <property>sim/multiplay/generic/int[0]</property><!-- ja37/effect/smoke -->
           <value>2</value>
         </equals>
-      </and>
+      </or>
     </condition>
 
     <emissive>false</emissive>

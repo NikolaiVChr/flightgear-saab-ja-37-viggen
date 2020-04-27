@@ -32,6 +32,21 @@
         <object-name>glassMiddle</object-name>
         <object-name>glassBottom</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>botDig1</object-name>
+        <object-name>botDig2</object-name>
+        <object-name>botDig3</object-name>
+        <object-name>botDig4</object-name>
+        <object-name>botDig5</object-name>
+        <object-name>middleDig1</object-name>
+        <object-name>middleDig2</object-name>
+        <object-name>middleDig3</object-name>
+        <object-name>topDig1</object-name>
+        <object-name>topDig2</object-name>
+        <object-name>topDig3</object-name>
+    </effect>
 
     <animation>
         <type>pick</type>

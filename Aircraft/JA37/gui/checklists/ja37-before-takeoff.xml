@@ -50,13 +50,13 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <property>/instrumentation/joystick-indicator</property>
+            <property>fdm/jsbsim/autoflight/stick-light</property>
         </condition>
         <binding>
             <command>nasal</command>
             <script>
               setprop("ja37/avionics/button-stck", 1);
-              auto.mode1();
+              autoflight.System.engageMode(1);
               ja37.click();
               var timer = maketimer(0.3, func(){
                   setprop("ja37/avionics/button-stck", 0);
@@ -85,7 +85,7 @@
     </item>
     <item>
         <name>Warning lights</name>
-        <value>CHECK OFF (X-Tank Fuel disappears at 70%rpm)</value>
+        <value>CHECK OFF (X-Tank Fuel off at 70%rpm)</value>
     </item>
     <item>
         <name>HUD</name>
@@ -95,13 +95,16 @@
         <name>Landing lights</name>
         <value>ON</value>
         <marker>
-            <x-m>-3.3843</x-m>
-            <y-m>0.3850</y-m>
-            <z-m>-0.0132</z-m>
+            <x-m>-3.9</x-m>
+            <y-m>-0.34</y-m>
+            <z-m>0.29</z-m>
             <scale>1.1818</scale>
         </marker>
         <condition>
-            <property>controls/electric/lights-land-switch</property>
+            <equals>
+                <property>controls/electric/lights-land-switch</property>
+                <value>1</value>
+            </equals>
         </condition>
         <binding>
             <command>property-assign</command>

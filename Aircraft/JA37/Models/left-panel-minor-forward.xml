@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-d/light-landing.xml</path>
+    <name>switch-landing</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>-0.025</x-m>
+      <y-m>-0.012</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>  
+</PropertyList>

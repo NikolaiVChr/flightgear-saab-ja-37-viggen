@@ -174,9 +174,9 @@ In Flightgear joystick settings you can bind cursor control to your stick/hotas.
 
 If you are skilled with editing stick/hotas input files, you can manually bind these properties:
 
-ja37/systems/cursor-control-X
-ja37/systems/cursor-control-Y
-ja37/systems/cursor-select
+controls/displays/cursor-slew-x
+controls/displays/cursor-slew-y
+controls/displays/cursor-click
 
 
 

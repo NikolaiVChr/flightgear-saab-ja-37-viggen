@@ -3,7 +3,7 @@
 <PropertyList>
     <title>Generator/Electrical Failure</title>
     <item>
-        <name>Attempt generator restart ONCE</name>
+        <name>Attempt generator restart ONCE:</name>
         <value></value>
     </item>
     <item>

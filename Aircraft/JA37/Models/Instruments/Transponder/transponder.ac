@@ -1,13 +1,14 @@
 AC3Db
 MATERIAL "buttonMat" rgb 0.017 0.017 0.017  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.800 0.800 0.800  shi 64 trans 0.000
-MATERIAL "panelMat" rgb 0.80 0.80 0.80  amb 0.80 0.80 0.80  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  50 trans 0.00
-MATERIAL "transparent" rgb 0.6000 0.6000 0.6000  amb 0.0000 0.0000 0.0000  emis 0.0000 0.0000 0.0000  spec 1.0000 1.0000 1.0000  shi 128 trans 0.7000
+MATERIAL "panelMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.800 0.800 0.800  shi 64 trans 0.000
+MATERIAL "transparent" rgb 0.547 0.566 0.596  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 1.000 1.000 1.000  shi 64 trans 0.700
 MATERIAL "lampRedMat" rgb 0.640 0.640 0.640  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 0.000
 MATERIAL "lampWhiteMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.800 0.800 0.800  shi 64 trans 0.000
 MATERIAL "switchMat" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.810 0.810 0.810  shi 50 trans 0.000
+MATERIAL "invisible" rgb 0.640 0.640 0.640  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 1.000
 OBJECT world
-name "Blender_exporter_v2.21__transponder.ac"
-kids 17
+name "Blender_exporter_v2.26__transponder.ac"
+kids 21
 OBJECT poly
 name "Border"
 data 6
@@ -6709,6 +6710,44 @@ refs 3
 17 0.355156 0.125863
 kids 0
 OBJECT poly
+name "switchEnableBot"
+data 9
+Plane.016
+crease 40.0
+numvert 4
+-0.0006 0.00705 0.04608
+0.0134 0.00705 0.04608
+-0.0006 0.00705 0.03108
+0.0134 0.00705 0.03108
+numsurf 1
+SURF 0X0
+mat 6
+refs 4
+0 0 0
+1 0 0
+3 0 0
+2 0 0
+kids 0
+OBJECT poly
+name "switchEnableTop"
+data 9
+Plane.015
+crease 40.0
+numvert 4
+-0.0146 0.00705 0.04608
+-0.0006 0.00705 0.04608
+-0.0146 0.00705 0.03108
+-0.0006 0.00705 0.03108
+numsurf 1
+SURF 0X0
+mat 6
+refs 4
+0 0 0
+1 0 0
+3 0 0
+2 0 0
+kids 0
+OBJECT poly
 name "switchMode"
 data 15
 Switch.mesh.001
@@ -6902,6 +6941,44 @@ refs 3
 16 0.355156 0.190076
 24 0.296336 0.149381
 17 0.355156 0.125863
+kids 0
+OBJECT poly
+name "switchModeBot"
+data 9
+Plane.019
+crease 40.0
+numvert 4
+-0.0006 0.00705 -0.05927
+0.0134 0.00705 -0.05927
+-0.0006 0.00705 -0.07426
+0.0134 0.00705 -0.07426
+numsurf 1
+SURF 0X0
+mat 6
+refs 4
+0 0 0
+1 0 0
+3 0 0
+2 0 0
+kids 0
+OBJECT poly
+name "switchModeTop"
+data 9
+Plane.017
+crease 40.0
+numvert 4
+-0.0146 0.00705 -0.05927
+-0.0006 0.00705 -0.05927
+-0.0146 0.00705 -0.07426
+-0.0006 0.00705 -0.07426
+numsurf 1
+SURF 0X0
+mat 6
+refs 4
+0 0 0
+1 0 0
+3 0 0
+2 0 0
 kids 0
 OBJECT poly
 name "test"

@@ -13,6 +13,16 @@
         <object-name>ai-ring</object-name>
         <object-name>CLOCK_mount</object-name>
     </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>sphere</object-name>
+        <object-name>bank-index</object-name>
+        <object-name>off</object-name>
+        <object-name>level</object-name>
+        <object-name>headingIndicator</object-name>
+        <object-name>glideslopeIndicator</object-name>
+    </effect>
 
     <animation>
         <type>pick</type>

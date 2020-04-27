@@ -2306,7 +2306,7 @@ refs 3
 55 0 0.25
 kids 0
 OBJECT poly
-name "cylinder"
+name "cylinder2"
 loc 0.0404077 0.102135 -0.154463
 crease 45.000000
 numvert 60
@@ -4014,7 +4014,7 @@ refs 4
 36 0 0
 kids 0
 OBJECT poly
-name "object"
+name "object2"
 loc -0.0498886 -0.0474585 -0.0780107
 crease 45.000000
 numvert 52
@@ -21254,7 +21254,7 @@ name "LL-glove"
 loc -0.314548 -0.0839902 -0.0600445
 kids 2
 OBJECT poly
-name "thumb"
+name "thumb2"
 loc 0.128753 0.061104 -0.0147943
 crease 81.000000
 numvert 56
@@ -21923,7 +21923,7 @@ refs 3
 29 0 0
 kids 0
 OBJECT poly
-name "hand"
+name "hand2"
 loc 0.108675 0.0531045 0.0215357
 crease 84.000000
 numvert 171

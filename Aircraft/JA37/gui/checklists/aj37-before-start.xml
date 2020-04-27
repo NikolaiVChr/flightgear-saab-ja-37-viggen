@@ -16,7 +16,7 @@
             </condition>
         </item>
         <item>
-            <name>If external power is unavailable, delay items marked *** until engine start</name>
+            <name>If external power is unavailable, delay items marked * until engine start</name>
         </item>
         <item>
             <name>Circuit breakers</name>
@@ -127,7 +127,7 @@
             </binding>
         </item>
         <item>
-            <name>Cutoff</name>
+            <name>Low pressure cutoff</name>
             <value>OPEN</value>
             <marker>
                 <x-m>-3.7702</x-m>
@@ -353,7 +353,7 @@
         </item>
         <item>
             <name>Throttle</name>
-            <value>CLOSE (PG Down)</value>
+            <value>GROUND IDLE</value>
             <marker>
                 <x-m>-3.6000</x-m>
                 <y-m>-0.4587</y-m>
@@ -361,14 +361,22 @@
                 <scale>7.0000</scale>
             </marker>
             <condition>
-                <less-than>
-                    <property>/controls/engines/engine[0]/throttle</property>
-                    <value>0.02</value>
-                </less-than>
+                <and>
+                    <less-than>
+                        <property>/fdm/jsbsim/fcs/throttle-pos-deg</property>
+                        <value>21</value>
+                    </less-than>
+                    <not><property>/controls/engines/engine/throttle-cutoff</property></not>
+                </and>
             </condition>
             <binding>
                 <command>property-assign</command>
-                <property>/controls/engines/engine[0]/throttle</property>
+                <property>/controls/engines/engine/throttle-cutoff</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/engines/engine/throttle</property>
                 <value>0</value>
             </binding>
         </item>
@@ -376,13 +384,16 @@
             <name>Landing lights</name>
             <value>OFF</value>
             <marker>
-                <x-m>-3.3843</x-m>
-                <y-m>0.3850</y-m>
-                <z-m>-0.0132</z-m>
+                <x-m>-3.9</x-m>
+                <y-m>-0.34</y-m>
+                <z-m>0.29</z-m>
                 <scale>1.1818</scale>
             </marker>
             <condition>
-                <not><property>controls/electric/lights-land-switch</property></not>
+                <equals>
+                    <property>controls/electric/lights-land-switch</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -583,7 +594,7 @@
             </binding>
         </item>
         <item>
-            <name>***Backup altimeter</name>
+            <name>*Backup altimeter</name>
             <value>CHECK</value>
             <marker>
                 <x-m>-3.9901</x-m>
@@ -593,7 +604,7 @@
             </marker>
         </item>
         <item>
-            <name>***Attitude indicator</name>
+            <name>*Attitude indicator</name>
             <value>CHECK</value>
             <marker>
                 <x-m>-4.0300</x-m>
@@ -603,7 +614,7 @@
             </marker>
         </item>
         <item>
-            <name>***Backup heading</name>
+            <name>*Backup heading</name>
             <value>CHECK</value>
             <marker>
                 <x-m>-3.9800</x-m>
@@ -631,7 +642,7 @@
     </page>
     <page>
         <item>
-            <name>***Fuel indicator</name>
+            <name>*Fuel indicator</name>
             <value>CHECK</value>
             <marker>
                 <x-m>-3.9504</x-m>
@@ -666,9 +677,9 @@
             <value>AS REQUIRED</value>
             <marker>
                 <x-m>-3.3950</x-m>
-                <y-m>0.3300</y-m>
+                <y-m>0.3450</y-m>
                 <z-m>-0.0132</z-m>
-                <scale>3.2</scale>
+                <scale>4</scale>
             </marker>
         </item>
         <item>
@@ -758,7 +769,7 @@
             </binding>
         </item>
         <item>
-            <name>***Oxygen</name>
+            <name>*Oxygen</name>
             <value>ON, PRESSURE MIN 90</value>
             <marker>
                 <x-m>-3.8794</x-m>

@@ -38,38 +38,16 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <!--<action>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>controls/lighting/flood-knob</property>
-                <factor>90</factor>
-                <min>0</min>
-                <max>90</max>                
-                <wrap>false</wrap>
-            </binding>
-        </action>-->
-        <increase>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/lighting/flood-knob</property>
-                <factor>1</factor>
-                <step>0.05</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-           </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/lighting/flood-knob</property>
-                <factor>1</factor>
-                <step>-0.05</step>
+                <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
             </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
@@ -87,38 +65,16 @@
             <y>0</y>
             <z>-1</z>
         </axis>        
-        <!--<action>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>controls/lighting/instruments-knob</property>
-                <factor>90</factor>
-                <min>0</min>
-                <max>90</max>                
-                <wrap>false</wrap>
-            </binding>
-        </action>-->
-        <increase>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/lighting/instruments-knob</property>
-                <factor>1</factor>
-                <step>0.05</step>
-                <min>0</min>
-                <max>1</max>                
-                <wrap>false</wrap>
-           </binding>
-        </increase>
-        <decrease>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/lighting/instruments-knob</property>
-                <factor>1</factor>
-                <step>-0.05</step>
+                <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
             </binding>
-        </decrease>
+        </action>
     </animation>
 
     <animation>
