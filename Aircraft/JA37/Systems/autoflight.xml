@@ -289,6 +289,12 @@
 				autoflight/temp-mode-active eq 1
 				/ja37/blink/four-Hz/state ne 1
 			</test>
+			<test logic="AND" value="1">
+				/ja37/elec/dc-bus-main-bool eq 1
+				autoflight/mode eq 3
+				autoflight/alt-transonic eq 1
+				/ja37/blink/four-Hz/state ne 1
+			</test>
 		</switch>
 		
 		<switch name="autoflight/alt-light-cmd">
