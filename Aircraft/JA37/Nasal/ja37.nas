@@ -2151,65 +2151,6 @@ var repair = func (c = 1) {
   }
 }
 
-var refuelTest = func () {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  setprop("consumables/fuel/tank[0]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[1]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[2]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[3]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[4]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[5]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[6]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[7]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[8]/level-norm", 0.0);
-
-  screen.log.write("Fuel configured for flight testing.", 1.0, 0.0, 0.0);
-  } else {
-      screen.log.write(ja37.msgB);
-    }
-}
-
-var refuelNorm = func () {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  setprop("consumables/fuel/tank[0]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[1]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[2]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[3]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[4]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[5]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[6]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[7]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[8]/level-norm", 0.0);
-
-  screen.log.write("Fuel configured for standard flight.", 0.0, 1.0, 0.0);
-  } else {
-      screen.log.write(ja37.msgB);
-    }
-}
-
-var refuelRange = func () {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  setprop("consumables/fuel/tank[0]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[1]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[2]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[3]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[4]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[5]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[6]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[7]/level-norm", 1.0);
-
-  # Mount drop tank and fill it up.
-  setprop("payload/weight[6]/selected", "Drop tank");
-  input.tank8Selected.setBoolValue(TRUE);
-  input.tank8Jettison.setBoolValue(FALSE);
-  setprop("consumables/fuel/tank[8]/level-norm", 1.0);
-
-  screen.log.write("Fuel configured for long range flight.", 0.0, 1.0, 0.0);
-  } else {
-      screen.log.write(ja37.msgB);
-    }
-}
-
 var ctOld = func (type) {
   if (type == "c-u") {
     setprop("sim/ct/c-u", 1);
