@@ -90,9 +90,9 @@
       </depth>
       <vertex-program-two-side>false</vertex-program-two-side>
       <program>
-        <vertex-shader>thrustflame-ALS.vert</vertex-shader>
+        <vertex-shader>Shaders/thrustflame-ALS.vert</vertex-shader>
         <fragment-shader>thrustflame-ALS.frag</fragment-shader>
-        <fragment-shader>noise.frag</fragment-shader>
+        <fragment-shader>Shaders/noise.frag</fragment-shader>
       </program>
 
      <uniform>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <name>Aircraft/JA37/Models/Effects/hud</name>
+  <inherits-from>Effects/hud</inherits-from>
+
+  <parameters>
+    <splash-x>0</splash-x>
+    <splash-y>0</splash-y>
+    <splash-z>0</splash-z>
+    <rnorm>0</rnorm>
+    <gsnorm>0</gsnorm>
+    <frost-level>0</frost-level>
+    <surface-mapping-scheme type="int">0</surface-mapping-scheme>
+    <fog-level>0</fog-level>
+    <use-wipers>0</use-wipers>
+    <use-overlay><use>ja37/hud/overlay</use></use-overlay>
+    <overlay-alpha type="float"><use>ja37/hud/overlay-alpha</use></overlay-alpha>
+    <overlay-glare type="float"><use>ja37/hud/overlay-glare</use></overlay-glare>
+    <use-reflection type="int"><use>ja37/hud/reflection</use></use-reflection>
+    <reflection-strength type="float">1.0</reflection-strength>
+    <use-mask type="int">0</use-mask>
+    <sample-res><use>ja37/hud/sample-res</use></sample-res>
+    <sample-far><use>ja37/hud/sample-far</use></sample-far>
+    <hud-brightness><use>ja37/hud/brightness</use></hud-brightness>
+  </parameters>
+</PropertyList>

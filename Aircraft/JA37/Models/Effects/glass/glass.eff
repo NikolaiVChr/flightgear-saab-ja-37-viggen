@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <name>Aircraft/JA37/Models/Effects/glass/glass</name>
+  <inherits-from>Effects/glass</inherits-from>
+
+  <parameters>
+    <texture n="2">
+      <image>Aircraft/JA37/Models/Effects/glass/window_mask.png</image>
+      <type>2d</type>
+      <filter>linear-mipmap-linear</filter>
+      <wrap-s>clamp</wrap-s>
+      <wrap-t>clamp</wrap-t>
+      <internal-format>normalized</internal-format>
+    </texture>
+    <surface-mapping-scheme type="int">1</surface-mapping-scheme>
+    <use-mask type="int"><use>/environment/aircraft-effects/use-mask</use></use-mask>
+  </parameters>
+</PropertyList>
