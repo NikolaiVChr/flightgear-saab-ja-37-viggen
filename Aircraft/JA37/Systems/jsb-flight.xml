@@ -175,28 +175,35 @@
 
         <fcs_function name="systems/flight/turning-radius-nm">
             <function>
-                <abs>
-                    <quotient>
-                        <product>
+                <ifthen>
+                    <eq>
+                        <property>velocities/psidot-rad_sec</property>
+                        <v>0</v>
+                    </eq>
+                    <v>0</v>
+                    <abs>
+                        <quotient>
                             <product>
-                                <property>velocities/vg-fps</property>
-                                <value>0.000164578834</value>
-                                <!-- convert fps to nm/sec -->
-                            </product>
-                            <quotient>
                                 <product>
-                                    <pi/>
-                                    <value>2.0</value>
+                                    <property>velocities/vg-fps</property>
+                                    <value>0.000164578834</value>
+                                    <!-- convert fps to nm/sec -->
                                 </product>
-                                <property>velocities/psidot-rad_sec</property>
-                            </quotient>
-                        </product>
-                        <product>
-                            <pi/>
-                            <value>2</value>
-                        </product>
-                    </quotient>
-                </abs>
+                                <quotient>
+                                    <product>
+                                        <pi/>
+                                        <value>2.0</value>
+                                    </product>
+                                    <property>velocities/psidot-rad_sec</property>
+                                </quotient>
+                            </product>
+                            <product>
+                                <pi/>
+                                <value>2</value>
+                            </product>
+                        </quotient>
+                    </abs>
+                </ifthen>
             </function>
         </fcs_function>
 
