@@ -252,6 +252,16 @@
 			</test>
 		</switch>
 
+		<switch name="autoflight/high-alpha-can-engage">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				gear/gear-pos-norm eq 1
+				<!-- manual says 'airborne', going with this because it matches the A/T disengagement logic -->
+				gear/unit[2]/WOW ne 1
+			</test>
+			<output>autoflight/high-alpha-can-engage-out</output>
+		</switch>
+
 		<fcs_function name="autoflight/target-speed-kmh-tie">
 			<function>
 				<ifthen>

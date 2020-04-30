@@ -4,8 +4,8 @@
 var maxMode = props.globals.getNode("/fdm/jsbsim/autoflight/max-mode-out"); # Because something is weird going on with tied properties
 var maxModeTemp = 0;
 var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STICK, 2 ATT, 3 ALT
-var athr = props.globals.getNode("/fdm/jsbsim/autoflight/athr"); # 0 OFF, 1 ON
 var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 OFF, 1 ON
+var highAlphaAllowed = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha-can-engage-out");
 var apSoftWarn = props.globals.getNode("/ja37/avionics/autopilot-soft-warn");
 var wow = props.globals.getNode("/fdm/jsbsim/position/wow");
 
@@ -21,7 +21,7 @@ var System = {
 		}
 	},
 	highAlphaToggle: func() {
-		if (athr.getBoolValue()) {
+		if (highAlphaAllowed.getBoolValue()) {
 			highAlpha.setBoolValue(!highAlpha.getBoolValue());
 		}
 	},
@@ -33,5 +33,11 @@ setlistener("/fdm/jsbsim/autoflight/max-mode-out", func {
 		mode.setValue(maxModeTemp);
 	} else if (maxModeTemp >= 1 and wow.getBoolValue() and mode.getValue() != 1) {
 		mode.setValue(1); # STICK
+	}
+}, 0, 0);
+
+setlistener(highAlphaAllowed, func (node) {
+	if(!node.getBoolValue()) {
+		highAlpha.setBoolValue(0);
 	}
 }, 0, 0);
