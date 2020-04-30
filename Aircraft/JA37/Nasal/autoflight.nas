@@ -25,6 +25,8 @@ var System = {
 		if (athrCanEngage.getBoolValue()) {
 			highAlpha.setBoolValue(0);
 			athr.setBoolValue(!athr.getBoolValue());
+		} else {
+			ja37.notice("The auto-throttle lever wont budge.");
 		}
 	},
 	highAlphaToggle: func() {
