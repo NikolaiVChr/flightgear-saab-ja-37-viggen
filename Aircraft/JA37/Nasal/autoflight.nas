@@ -3,7 +3,6 @@
 
 var maxMode = props.globals.getNode("/fdm/jsbsim/autoflight/max-mode-out"); # Because something is weird going on with tied properties
 var maxModeTemp = 0;
-var athrCanEngage = props.globals.getNode("/fdm/jsbsim/autoflight/athr-can-engage-out"); # Because something is weird going on with tied properties
 var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STICK, 2 ATT, 3 ALT
 var athr = props.globals.getNode("/fdm/jsbsim/autoflight/athr"); # 0 OFF, 1 ON
 var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 OFF, 1 ON
@@ -21,16 +20,8 @@ var System = {
 			me.engageMode(0); # GSA
 		}
 	},
-	athrToggle: func() {
-		if (athrCanEngage.getBoolValue()) {
-			highAlpha.setBoolValue(0);
-			athr.setBoolValue(!athr.getBoolValue());
-		} else {
-			ja37.notice("The auto-throttle lever wont budge.");
-		}
-	},
 	highAlphaToggle: func() {
-		if (athrCanEngage.getBoolValue() and athr.getBoolValue()) {
+		if (athr.getBoolValue()) {
 			highAlpha.setBoolValue(!highAlpha.getBoolValue());
 		}
 	},
@@ -42,12 +33,5 @@ setlistener("/fdm/jsbsim/autoflight/max-mode-out", func {
 		mode.setValue(maxModeTemp);
 	} else if (maxModeTemp >= 1 and wow.getBoolValue() and mode.getValue() != 1) {
 		mode.setValue(1); # STICK
-	}
-}, 0, 0);
-
-setlistener("/fdm/jsbsim/autoflight/athr-can-engage-out", func {
-	if (!athrCanEngage.getBoolValue() and athr.getBoolValue() != 0) {
-		athr.setBoolValue(0); # OFF
-		highAlpha.setBoolValue(0);
 	}
 }, 0, 0);

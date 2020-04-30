@@ -1244,8 +1244,8 @@
           <name>Ctrl-S</name>
           <desc>Toggle auto-throttle lock</desc>
           <binding>
-           <command>nasal</command>
-           <script>autoflight.System.athrToggle();</script>
+            <command>property-toggle</command>
+            <property>/fdm/jsbsim/autoflight/athr-cmd</property>
           </binding>
          </key>
     </keyboard>

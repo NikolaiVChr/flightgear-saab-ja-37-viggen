@@ -137,7 +137,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>handle-brake</tooltip-id>
+                <tooltip-id>autothrottle</tooltip-id>
                 <label>Auto-throttle (down), throttle-friction (up)</label>
             </binding>
         </hovered>
@@ -146,8 +146,8 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>nasal</command>
-                <script>autoflight.System.athrToggle();</script>
+                <command>property-toggle</command>
+                <property>/fdm/jsbsim/autoflight/athr-cmd</property>
             </binding>
         </action>
     </animation>

@@ -862,7 +862,8 @@
             </accelerations>
             <autoflight n="0">
                 <athr type="bool">0</athr>
-                <athr-can-engage-out type="bool">0</athr-can-engage-out>
+                <athr-pos type="double">0</athr-pos>
+                <athr-cmd type="bool">0</athr-cmd>
                 <high-alpha type="bool">0</high-alpha>
                 <max-mode-out type="int">0</max-mode-out>
                 <mode type="int">0</mode>

@@ -128,10 +128,21 @@
 		<vrule/>
 		<text>
 			<border>1</border>
-			<label>ALT   </label>
+			<label> ALT </label>
 			<visible>
 				<equals>
 					<property>/fdm/jsbsim/autoflight/alt-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+		<vrule/>
+		<text>
+			<border>1</border>
+			<label> A/T   </label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/athr</property>
 					<value>1</value>
 				</equals>
 			</visible>
@@ -153,13 +164,12 @@
 	</group>
 	
 	<checkbox>
-		<label>Auto Throttle Engaged</label>
+		<label>Auto Throttle Command Lever</label>
 		<halign>left</halign>
 		<live>true</live>
-		<property>/fdm/jsbsim/autoflight/athr</property>
+		<property>/fdm/jsbsim/autoflight/athr-cmd</property>
 		<binding>
-			<command>nasal</command>
-			<script>autoflight.System.athrToggle();</script>
+			<command>dialog-apply</command>
 		</binding>
 	</checkbox>
 	

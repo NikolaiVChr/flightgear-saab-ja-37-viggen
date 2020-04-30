@@ -78,5 +78,9 @@
 		<halign>left</halign>
 		<label>High alpha mode changes the alpha target to 15 deg.</label>
 	</text>
+	<text>
+		<halign>left</halign>
+		<label>After autothrottle disengagement, the control lever must be switched OFF and ON again to re-engage.</label>
+	</text>
 
 </PropertyList>

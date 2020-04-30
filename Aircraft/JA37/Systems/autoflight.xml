@@ -209,20 +209,43 @@
 			</test>
 		</switch>
 		
-		<switch name="autoflight/athr-can-engage">
-			<default value="1"/>
-			<test logic="AND" value="0">
+		<switch name="autoflight/athr-disengage-normal">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				gear/unit[2]/WOW eq 1
+			</test>
+		</switch>
+
+		<switch name="autoflight/athr-disengage-failure">
+			<default value="0"/>
+			<test logic="AND" value="1">
 				autoflight/indicated-speed-kmh lt 495
 				autoflight/athr-mode eq 0
 			</test>
-			<test logic="OR" value="0">
+			<test logic="OR" value="1">
 				/ja37/elec/dc-bus-main-bool ne 1
 				autoflight/ac-bus-main-bool-timer eq 0
-				gear/unit[0]/WOW eq 1
-				gear/unit[1]/WOW eq 1
-				gear/unit[2]/WOW eq 1
 			</test>
-			<output>autoflight/athr-can-engage-out</output>
+		</switch>
+
+		<switch name="autoflight/athr-disengaged">
+			<default value="autoflight/athr-disengaged"/>
+			<!-- After disengagement, autothrottle lever must be pulled to OFF to before re-engaging -->
+			<test value="0">
+				autoflight/athr-pos lt 1
+			</test>
+			<test logic="OR" value="1">
+				autoflight/athr-disengage-normal eq 1
+				autoflight/athr-disengage-failure eq 1
+			</test>
+		</switch>
+
+		<switch name="autoflight/athr">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/athr-pos eq 1
+				autoflight/athr-disengaged eq 0
+			</test>
 		</switch>
 		
 		<fcs_function name="autoflight/target-speed-kmh-tie">

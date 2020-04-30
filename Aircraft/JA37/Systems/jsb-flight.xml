@@ -245,7 +245,7 @@
         </switch>
 
         <kinematic name="autoflight/athr-pos">
-            <input>autoflight/athr</input>
+            <input>autoflight/athr-cmd</input>
             <traverse>
                 <setting>
                     <position>0.0</position>

@@ -645,64 +645,27 @@
         <!-- Swedish: AFK (blinking/steady, sound)
         -->
 
-        <fcs_function name="systems/indicators/auto-throttle-secondary">
-            <function>
-                <and>
-                    <eq>
-                        <property>autoflight/athr-pos</property>
-                        <value>1</value>
-                    </eq>
-                    <eq>
-                        <property>/gear/gear[0]/wow</property>
-                        <value>1</value>
-                    </eq>
-                </and>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/indicators/auto-throttle-primary">
-            <function>
-                <or>
-                    <and>
-                        <eq>
-                            <property>/systems/electrical/serviceable</property><!-- this is the failure mode for generator -->
-                            <value>0</value>
-                        </eq>
-                        <gt>
-                            <property>/ja37/avionics/lost-ac-sec</property>
-                            <value>2</value>
-                        </gt>
-                    </and>
-                    <and>
-                        <eq>
-                            <property>autoflight/athr-pos</property>
-                            <value>1</value>
-                        </eq>
-                        <or>
-                            <gt>
-                                <property>/ja37/avionics/lost-ac-sec</property>
-                                <value>2</value>
-                            </gt>
-                            <and>
-                                <!-- retarding and less than 495 km/h in mode 1 (mode 1 = speed HOLD) -->
-                                <eq>
-                                    <property>autoflight/athr-mode</property>
-                                    <value>0</value>
-                                </eq>
-                                <lt>
-                                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-                                    <value>267</value>
-                                </lt>
-                                <lt>
-                                    <property>accelerations/udot-ft_sec2</property>
-                                    <value>0</value>
-                                </lt>
-                            </and>
-                        </or>
-                    </and>      
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/auto-throttle-secondary">
+            <default value="systems/indicators/auto-throttle-secondary"/>
+            <!-- reset when disengaging lever -->
+            <test value="0">
+                autoflight/athr-pos lt 1
+            </test>
+            <test value="1">
+                autoflight/athr-disengage-normal == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/auto-throttle-primary">
+            <default value="systems/indicators/auto-throttle-primary"/>
+            <!-- reset when disengaging lever -->
+            <test value="0">
+                autoflight/athr-pos lt 1
+            </test>
+            <test value="1">
+                autoflight/athr-disengage-failure == 1
+            </test>
+        </switch>
 
         <switch name="systems/indicators/auto-throttle">
             <default value="systems/indicators/auto-throttle-secondary"/>
