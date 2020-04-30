@@ -48,5 +48,6 @@ setlistener("/fdm/jsbsim/autoflight/max-mode-out", func {
 setlistener("/fdm/jsbsim/autoflight/athr-can-engage-out", func {
 	if (!athrCanEngage.getBoolValue() and athr.getBoolValue() != 0) {
 		athr.setBoolValue(0); # OFF
+		highAlpha.setBoolValue(0);
 	}
 }, 0, 0);
