@@ -13,6 +13,11 @@
 			<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
 			<gain>1.852</gain> <!-- Knots to Kilometers Per Hour -->
 		</pure_gain>
+
+		<pid name="autoflight/indicated-speed-dot-kmh_sec">
+			<input>autoflight/indicated-speed-kmh</input>
+			<kd>1</kd>
+		</pid>
 		
 		<actuator name="autoflight/ac-bus-main-bool-timer">
 			<description>If no AC for 5 seconds, A/P and A/T are killed</description>
@@ -209,17 +214,27 @@
 			</test>
 		</switch>
 		
-		<switch name="autoflight/athr-disengage-normal">
-			<default value="0"/>
+		<!-- Expected disengagement, by anything but pulling the A/T lever to OFF -->
+		<switch name="autoflight/athr-disengaged-normal">
+			<default value="autoflight/athr-disengaged-normal"/>
+			<test value="0">
+				autoflight/athr-pos lt 1 <!-- reset by disengaging lever -->
+			</test>
 			<test logic="OR" value="1">
 				gear/unit[2]/WOW eq 1
 			</test>
 		</switch>
 
-		<switch name="autoflight/athr-disengage-failure">
-			<default value="0"/>
+		<switch name="autoflight/athr-disengaged-failure">
+			<default value="autoflight/athr-disengaged-failure"/>
+			<!-- reset by normal disengagement -->
+			<test logic="OR" value="0">
+				autoflight/athr-pos lt 1
+				autoflight/athr-disengaged-normal eq 1
+			</test>
 			<test logic="AND" value="1">
 				autoflight/indicated-speed-kmh lt 495
+				autoflight/indicated-speed-dot-kmh_sec lt 0
 				autoflight/athr-mode eq 0
 			</test>
 			<test logic="OR" value="1">
@@ -228,26 +243,15 @@
 			</test>
 		</switch>
 
-		<switch name="autoflight/athr-disengaged">
-			<default value="autoflight/athr-disengaged"/>
-			<!-- After disengagement, autothrottle lever must be pulled to OFF to before re-engaging -->
-			<test value="0">
-				autoflight/athr-pos lt 1
-			</test>
-			<test logic="OR" value="1">
-				autoflight/athr-disengage-normal eq 1
-				autoflight/athr-disengage-failure eq 1
-			</test>
-		</switch>
-
 		<switch name="autoflight/athr">
 			<default value="0"/>
 			<test logic="AND" value="1">
 				autoflight/athr-pos eq 1
-				autoflight/athr-disengaged eq 0
+				autoflight/athr-disengaged-normal eq 0
+				autoflight/athr-disengaged-failure eq 0
 			</test>
 		</switch>
-		
+
 		<fcs_function name="autoflight/target-speed-kmh-tie">
 			<function>
 				<ifthen>

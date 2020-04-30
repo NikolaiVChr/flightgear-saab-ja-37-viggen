@@ -646,25 +646,11 @@
         -->
 
         <switch name="systems/indicators/auto-throttle-secondary">
-            <default value="systems/indicators/auto-throttle-secondary"/>
-            <!-- reset when disengaging lever -->
-            <test value="0">
-                autoflight/athr-pos lt 1
-            </test>
-            <test value="1">
-                autoflight/athr-disengage-normal == 1
-            </test>
+            <default value="autoflight/athr-disengaged-normal"/>
         </switch>
 
         <switch name="systems/indicators/auto-throttle-primary">
-            <default value="systems/indicators/auto-throttle-primary"/>
-            <!-- reset when disengaging lever -->
-            <test value="0">
-                autoflight/athr-pos lt 1
-            </test>
-            <test value="1">
-                autoflight/athr-disengage-failure == 1
-            </test>
+            <default value="autoflight/athr-disengaged-failure"/>
         </switch>
 
         <switch name="systems/indicators/auto-throttle">
