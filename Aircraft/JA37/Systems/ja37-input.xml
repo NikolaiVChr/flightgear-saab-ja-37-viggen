@@ -1139,38 +1139,6 @@
             </mod-up>
         </key>
 
-        <key n="357">
-            <name>Ctrl Up</name>
-            <repeatable type="bool">true</repeatable>
-            <mod-ctrl>
-                <desc>A/T speed</desc>
-                <binding>
-                    <command>property-adjust</command>
-                    <property>fdm/jsbsim/autoflight/target-speed-kmh</property>
-                    <step>1</step>
-                    <min>550</min>
-                    <max>2450</max>
-                    <wrap>false</wrap>
-                </binding>
-            </mod-ctrl>
-        </key>
-
-        <key n="359">
-            <name>Ctrl Down</name>
-            <repeatable type="bool">true</repeatable>
-            <mod-ctrl>
-                <desc>A/T speed</desc>
-                <binding>
-                    <command>property-adjust</command>
-                    <property>fdm/jsbsim/autoflight/target-speed-kmh</property>
-                    <step>-1</step>
-                    <min>550</min>
-                    <max>2450</max>
-                    <wrap>false</wrap>
-                </binding>
-            </mod-ctrl>
-        </key>
-
         <key n="262">
           <name>F6</name>
           <desc>noop</desc>
