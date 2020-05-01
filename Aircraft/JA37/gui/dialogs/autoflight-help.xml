@@ -64,11 +64,15 @@
 	</text>
 	<text>
 		<halign>left</halign>
-		<label>If the gear is in, current airspeed in KMH is held. It can be adjusted via CTRL+UP or CTRL+DN.</label>
+		<label>Throttle must be reduced below MIL power (~50%) for the A/T to engage.</label>
 	</text>
 	<text>
 		<halign>left</halign>
-		<label>In speed mode, the A/T will turn off and won't engage if the speed is below 495KMH (267KTS.)</label>
+		<label>If the gear is in, current airspeed is held, with a minimum of 550kMH (297KTS). The AJ(S) always holds 550KMH.</label>
+	</text>
+	<text>
+		<halign>left</halign>
+		<label>In speed mode, the A/T will turn off if the speed reduces below 495KMH (267KTS.)</label>
 	</text>
 	<text>
 		<halign>left</halign>
@@ -80,7 +84,7 @@
 	</text>
 	<text>
 		<halign>left</halign>
-		<label>After autothrottle disengagement, the control lever must be switched OFF and ON again to re-engage.</label>
+		<label>After automatic disengagement, the control lever must be switched OFF and ON again to re-engage.</label>
 	</text>
 
 </PropertyList>
