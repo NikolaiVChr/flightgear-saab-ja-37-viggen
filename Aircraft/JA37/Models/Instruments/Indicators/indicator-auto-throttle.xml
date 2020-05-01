@@ -7,7 +7,10 @@
         <type>material</type>
         <object-name>display</object-name>
         <condition>
-            <property>fdm/jsbsim/autoflight/athr</property>
+            <or>
+                <property>fdm/jsbsim/autoflight/athr</property>
+                <property>/controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1.0</red>

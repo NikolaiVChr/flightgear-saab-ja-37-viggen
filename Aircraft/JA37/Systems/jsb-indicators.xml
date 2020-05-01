@@ -1667,47 +1667,6 @@
             </test>
         </switch>
 
-        <fcs_function name="systems/indicators/auto-throttle-light-secondary">
-            <function>
-                <eq>
-                    <property>autoflight/athr</property>
-                    <value>1</value>
-                </eq>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/auto-throttle-light-primary">
-            <function>
-                <and>
-                    <eq>
-                        <property>autoflight/athr</property>
-                        <value>1</value>
-                    </eq>
-                    <gt>
-                        <property>/ja37/avionics/lost-ac-sec</property>
-                        <value>2</value>
-                    </gt>
-                </and>
-            </function>
-        </fcs_function>
-
-        <switch name="/instrumentation/at-indicator">
-            <default value="0"/>
-            <test logic="AND" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-                /ja37/blink/four-Hz/state == 1
-            </test>
-            <test logic="AND" value="/systems/electrical/dc-light">
-                systems/indicators/auto-throttle-light-primary == 1
-                /ja37/blink/four-Hz/state == 1
-            </test>
-            <test logic="AND" value="/systems/electrical/dc-light">
-                systems/indicators/auto-throttle-light-secondary == 1
-                systems/indicators/auto-throttle-light-primary == 0
-                /controls/lighting/test-indicator-panels == 0
-            </test>
-        </switch>
-
         <switch name="/ja37/avionics/reservkurs-indicator">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
