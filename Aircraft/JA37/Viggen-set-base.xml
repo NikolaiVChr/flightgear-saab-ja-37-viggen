@@ -1013,6 +1013,9 @@
                     <master-warning>
                         <fuel-low2-old type="double">0</fuel-low2-old>
                     </master-warning>
+                    <flightstick-level type="int">0</flightstick-level>
+                    <auto-attitude-level type="int">0</auto-attitude-level>
+                    <auto-altitude-level type="int">0</auto-altitude-level>
                 </indicators>
             </systems>
             <aero>

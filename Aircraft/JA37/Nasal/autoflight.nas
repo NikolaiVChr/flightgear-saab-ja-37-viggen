@@ -8,7 +8,7 @@ var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 
 var highAlphaAllowed = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha-can-engage-out");
 var apSoftWarn = props.globals.getNode("/ja37/avionics/autopilot-soft-warn");
 var wow = props.globals.getNode("/fdm/jsbsim/position/wow");
-var downgradeWarning = [
+var downgradeWarning = [ # 0: off, 1: steady, 2: blinking
     props.globals.getNode("/fdm/jsbsim/systems/indicators/flightstick-level"),
     props.globals.getNode("/fdm/jsbsim/systems/indicators/auto-attitude-level"),
     props.globals.getNode("/fdm/jsbsim/systems/indicators/auto-altitude-level"),
@@ -16,6 +16,11 @@ var downgradeWarning = [
 
 var System = {
 	engageMode: func(m) {
+		# Pressing any autopilot button resets a warning which has been acknowledged
+		foreach(var warning; downgradeWarning) {
+			if(warning.getValue() == 1) warning.setValue(0);
+		}
+
 		if (m <= maxMode.getValue()) {
 			mode.setValue(m);
 		}
@@ -48,5 +53,13 @@ setlistener("/fdm/jsbsim/autoflight/max-mode-out", func {
 setlistener(highAlphaAllowed, func (node) {
 	if(!node.getBoolValue()) {
 		highAlpha.setBoolValue(0);
+	}
+}, 0, 0);
+
+setlistener("/ja37/avionics/master-warning-button", func (node) {
+	if(node.getBoolValue()) {
+		foreach(var warning; downgradeWarning) {
+			if(warning.getValue() == 2) warning.setValue(1);
+		}
 	}
 }, 0, 0);

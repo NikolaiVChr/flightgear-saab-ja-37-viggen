@@ -848,29 +848,13 @@
 
             This is for the flightstick assist systems, like roll and pitch dampers etc.
             Blinking (SPAK,ALT,HÖJD) suppresed by hydr-1 and primary data.
-        -->
 
-        <!-- levels:
-            2: new warning, blinking, set from Nasal on mode downgrade
-            1: master warning acknowledged, steady
-            0: off, reset by pressing any autopilot button
+            Properties systems/indicators/{flightstick,auto-attitude,auto-altitude}-level
+            are computed in Nasal/autoflight.nas. They are state machines:
+            2: blinking, triggered by A/P downgrade
+            1: steady, after master warning acknowledgement
+            0: off, after master warning acknowledgement, then pressing any A/P button
         -->
-        <switch name="systems/indicators/flightstick-level-tie">
-            <default value="systems/indicators/flightstick-level"/>
-            <test logic="AND" value="1">
-                systems/indicators/flightstick-level == 2
-                /ja37/avionics/master-warning-button == 1
-            </test>
-            <test logic="AND" value="0">
-                systems/indicators/flightstick-level == 1
-                <test logic="OR">
-                    /ja37/avionics/button-stck == 1
-                    /ja37/avionics/button-att == 1
-                    /ja37/avionics/button-alt == 1
-                </test>
-            </test>
-            <output>systems/indicators/flightstick-level</output>
-        </switch>
 
         <switch name="systems/indicators/flightstick-secondary">
             <default value="0"/>
@@ -901,29 +885,6 @@
 
         <!-- Swedish: ATT  (blinking, sound)
         -->
-
-        <!-- levels:
-            2: new warning, blinking, set from Nasal on mode downgrade
-            1: master warning acknowledged, steady
-            0: off, reset by pressing any autopilot button
-        -->
-        <switch name="systems/indicators/auto-attitude-level-tie">
-            <default value="systems/indicators/auto-attitude-level"/>
-            <test logic="AND" value="1">
-                systems/indicators/auto-attitude-level == 2
-                /ja37/avionics/master-warning-button == 1
-            </test>
-            <test logic="AND" value="0">
-                systems/indicators/auto-attitude-level == 1
-                <test logic="OR">
-                    /ja37/avionics/button-stck == 1
-                    /ja37/avionics/button-att == 1
-                    /ja37/avionics/button-alt == 1
-                </test>
-            </test>
-            <output>systems/indicators/auto-attitude-level</output>
-        </switch>
-
         <switch name="systems/indicators/auto-attitude-secondary">
             <default value="0"/>
             <test logic="OR" value="1">
@@ -952,29 +913,6 @@
 
         <!-- Swedish: HOJD  (blinking, sound)
         -->
-
-        <!-- levels:
-            2: new warning, blinking, set from Nasal on mode downgrade
-            1: master warning acknowledged, steady
-            0: off, reset by pressing any autopilot button
-        -->
-        <switch name="systems/indicators/auto-altitude-level-tie">
-            <default value="systems/indicators/auto-altitude-level"/>
-            <test logic="AND" value="1">
-                systems/indicators/auto-altitude-level == 2
-                /ja37/avionics/master-warning-button == 1
-            </test>
-            <test logic="AND" value="0">
-                systems/indicators/auto-altitude-level == 1
-                <test logic="OR">
-                    /ja37/avionics/button-stck == 1
-                    /ja37/avionics/button-att == 1
-                    /ja37/avionics/button-alt == 1
-                </test>
-            </test>
-            <output>systems/indicators/auto-altitude-level</output>
-        </switch>
-
         <switch name="systems/indicators/auto-altitude-secondary">
             <default value="0"/>
             <test logic="OR" value="1">
