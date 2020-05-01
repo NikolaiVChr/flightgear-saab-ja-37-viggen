@@ -14,18 +14,36 @@
 			<gain>1.852</gain> <!-- Knots to Kilometers Per Hour -->
 		</pure_gain>
 
+		<fcs_function name="autoflight/indicated-speed-kmh-rounded">
+			<function>
+				<integer>
+					<sum>
+						<property>autoflight/indicated-speed-kmh</property>
+						<value>0.5</value>
+					</sum>
+				</integer>
+			</function>
+		</fcs_function>
+
 		<pid name="autoflight/indicated-speed-dot-kmh_sec">
 			<input>autoflight/indicated-speed-kmh</input>
 			<kd>1</kd>
 		</pid>
 		
-		<actuator name="autoflight/ac-bus-main-bool-timer">
-			<description>If no AC for 5 seconds, A/P and A/T are killed</description>
+		<actuator name="autoflight/ac-bus-main-bool-timer-6s">
+			<description>If no AC for 6 seconds, A/P and A/T are killed</description>
 			<input>/ja37/elec/ac-bus-main-bool</input>
 			<rate_limit sense="incr">100</rate_limit> <!-- Instant -->
-			<rate_limit sense="decr">0.2</rate_limit> <!-- 5 seconds -->
+			<rate_limit sense="decr">0.16667</rate_limit> <!-- 6 seconds -->
 		</actuator>
 		
+		<actuator name="autoflight/ac-bus-main-bool-timer-2s">
+			<description>If no AC for 2 seconds, A/T alpha mode killed</description>
+			<input>/ja37/elec/ac-bus-main-bool</input>
+			<rate_limit sense="incr">100</rate_limit> <!-- Instant -->
+			<rate_limit sense="decr">0.5</rate_limit> <!-- 2 seconds -->
+		</actuator>
+
 		<switch name="autoflight/gear2-bool">
 			<default value="0"/>
 			<test value="1"> <!-- Should be gear/unit[2]/pos-norm, but Nikolai doesn't use it -->
@@ -157,14 +175,14 @@
 			</test>
 			<test logic="AND" value="3">
 				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/ac-bus-main-bool-timer gt 0
+				autoflight/ac-bus-main-bool-timer-6s gt 0
 				systems/hydraulics/system1/pressure eq 1
 				systems/hydraulics/system2/pressure eq 1
 				/ja37/fuses/sa ne 0
 			</test>
 			<test logic="AND" value="1">
 				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/ac-bus-main-bool-timer gt 0
+				autoflight/ac-bus-main-bool-timer-6s gt 0
 				systems/hydraulics/system1/pressure eq 1
 				/ja37/fuses/sa ne 0
 			</test>
@@ -232,14 +250,27 @@
 				autoflight/athr-pos lt 1
 				autoflight/athr-disengaged-normal eq 1
 			</test>
+			<!-- JA only: disengage if speed lt 495km/h and reducing in speed hold mode -->
 			<test logic="AND" value="1">
+				/ja37/systems/variant eq 0
 				autoflight/indicated-speed-kmh lt 495
 				autoflight/indicated-speed-dot-kmh_sec lt 0
 				autoflight/athr-mode eq 0
 			</test>
-			<test logic="OR" value="1">
+			<!-- 6s loss of AC power -->
+			<test logic="AND" value="1">
+				autoflight/ac-bus-main-bool-timer-6s eq 0
+			</test>
+			<!-- 2s loss of AC power, in alpha mode, or with AJS -->
+			<test logic="AND" value="1">
+				autoflight/ac-bus-main-bool-timer-2s eq 0
+				<test logic="OR">
+					autoflight/athr-mode ne 0
+					/ja37/systems/variant ne 0
+				</test>
+			</test>
+			<test value="1">
 				/ja37/elec/dc-bus-main-bool ne 1
-				autoflight/ac-bus-main-bool-timer eq 0
 			</test>
 		</switch>
 
@@ -262,34 +293,21 @@
 			<output>autoflight/high-alpha-can-engage-out</output>
 		</switch>
 
-		<fcs_function name="autoflight/target-speed-kmh-tie">
-			<function>
-				<ifthen>
-					<and>
-						<eq>
-							<property>/fdm/jsbsim/autoflight/athr</property>
-							<value>1</value>
-						</eq>
-						<nq>
-							<property>/fdm/jsbsim/autoflight/athr-mode</property>
-							<value>1</value>
-						</nq>
-					</and>
-					<property>autoflight/target-speed-kmh</property>
-					<integer>
-						<sum>
-							<property>autoflight/indicated-speed-kmh</property>
-							<value>0.5</value> <!-- Make the integer rounded correctly -->
-						</sum>
-					</integer>
-				</ifthen>
-			</function>
+		<switch name="autoflight/target-speed-kmh-tie">
+			<default value="autoflight/indicated-speed-kmh-rounded"/>
+			<test value="550">
+				/ja37/systems/variant ne 0
+			</test>
+			<test logic="AND" value="autoflight/target-speed-kmh">
+				autoflight/athr eq 1
+				autoflight/athr-mode eq 0
+			</test>
 			<output>autoflight/target-speed-kmh</output> <!-- So we can override it via keys -->
 			<clipto>
-				<min>550</min> <!-- From Necolatis -->
-				<max>2450</max> <!-- Red line on Airspeed Indicator -->
+				<min>550</min> <!-- Minimum holding speed (manual) -->
+				<max>1450</max> <!-- VNE -->
 			</clipto>
-		</fcs_function>
+		</switch>
 		
 		<switch name="autoflight/stick-light-cmd">
 			<default value="0"/>

@@ -651,6 +651,9 @@
 
         <switch name="systems/indicators/auto-throttle-primary">
             <default value="autoflight/athr-disengaged-failure"/>
+            <test value="1">
+              autoflight/ac-bus-main-bool-timer-2s eq 0
+            </test>
         </switch>
 
         <switch name="systems/indicators/auto-throttle">
