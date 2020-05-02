@@ -1584,6 +1584,9 @@
         <rcs>
             <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
         </rcs>
+        <rwr>
+            <file>Aircraft/JA37/Nasal/radar/rwr.nas</file>
+        </rwr>
         <faf>
             <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
         </faf>

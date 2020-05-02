@@ -9,7 +9,7 @@ var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
 var is_ja = (getprop("ja37/systems/variant") == 0);
 var maxRadarRange = 120000; #meters
 var radarRange = maxRadarRange;
-var rwrRange = 180000;
+var rwrRange = 200000;
 var groundRadar = !is_ja;
 # Aircrafts beyond that range will be entirely ignored
 var ignoreRange = math.max(radarRange, rwrRange);
@@ -42,15 +42,6 @@ var remove_suffix = func(str, suffix) {
 
 
 
-var getClock = func (bearing) {
-    var clock = int(((geo.normdeg(bearing)-15)/30)+1);
-    if (clock == 0) {
-      return 12;
-    } else {
-      return clock;
-    }
-}
-
 var toggleRadarSteerOrder = func {
   if (!steerOrder and selection != nil) {
     steerOrder = TRUE;
@@ -81,6 +72,7 @@ var myAlt = nil;
 var myPitch = nil;
 var myRoll = nil;
 var myHeading = nil;
+var callsign_md5 = nil;
 
 var selection = nil;
 var selection_updated = FALSE;
@@ -88,7 +80,6 @@ var tracks_index = 0;
 var tracks = [];
 var complete_list = [];
 var callsign_struct = {};
-var rwr = [];
 
 var lockLog  = events.LogBuffer.new(echo: 0);#compatible with older FG?
 var lockLast = nil;
@@ -117,7 +108,8 @@ var input = {
     pitch:            "/orientation/pitch-deg",
     roll:             "/orientation/roll-deg",
     tracks_enabled:   "ja37/hud/tracks-enabled",
-    callsign:         "/ja37/hud/callsign",
+    my_callsign:      "/sim/multiplay/callsign",
+    locked_md5:       "/sim/multiplay/generic/string[6]",
     ai_models:        "/ai/models",
     lookThrough:      "ja37/radar/look-through-terrain",
     dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
@@ -138,7 +130,6 @@ var RadarLogic = {
     },
 
     findRadarTracks: func () {
-      rwr = [FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE];
       self      =  geo.aircraft_position();
       myPitch   =  input.pitch.getValue()*D2R;
       myRoll    =  input.roll.getValue()*D2R;
@@ -146,7 +137,10 @@ var RadarLogic = {
       myHeading =  input.hdgReal.getValue();
       radarRange = input.radar_range.getValue();
       selection_updated = FALSE;
-      
+      callsign_md5 = ""~input.my_callsign.getValue(); # ensure that it is a string
+      if(size(callsign_md5) > 7) callsign_md5 = left(callsign_md5, 7);
+      callsign_md5 = left(md5(callsign_md5), 4);
+
       tracks = [];
       complete_list = [];
 
@@ -209,15 +203,15 @@ var RadarLogic = {
         if(selection != nil) {
           me.paint(selection.getNode(), FALSE);
         }
+        input.locked_md5.setValue("");
         selection = nil;
         disableSteerOrder();
         setprop("ja37/radar/active" , FALSE);
       }
       if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
         # Lost lock
-        if(selection != nil) {
-          me.paint(selection.getNode(), FALSE);
-        }
+        me.paint(selection.getNode(), FALSE);
+        input.locked_md5.setValue("");
         selection = nil;
         disableSteerOrder();
       }
@@ -271,9 +265,16 @@ var RadarLogic = {
       }
 
       # RWR
-      if (mp and is_ja and TI.ti.ECMon and distance <= rwrRange and me.isRWRActive(trackPos, track)) {
-        var clock = getClock(self.course_to(trackPos) - myHeading);
-        rwr[clock-1] = TRUE;
+      if (mp and (!is_ja or TI.ti.ECMon) and distance <= rwrRange) {
+        var rel_bearing = self.course_to(trackPos) - myHeading;
+        if (me.isSquawkActive(track)) {
+          rwr.signal(UID, rwr.RWR_SQUAWK, rel_bearing);
+        }
+        if (me.isRadarLocking(track)) {
+          rwr.signal(UID, rwr.RWR_LOCK, rel_bearing);
+        } elsif (me.isRadarScanning(trackPos, track)) {
+          rwr.signal(UID, rwr.RWR_SCAN, rel_bearing);
+        }
       }
 
       # Rest is for radar only
@@ -285,6 +286,10 @@ var RadarLogic = {
       if (selection != nil and selection.getUnique() == UID) {
         selection = trackInfo;
         me.paint(track, TRUE);
+        if(mp) {
+          input.locked_md5.setValue(left(md5(trackInfo.get_Callsign()), 4));
+        }
+
         selection_updated = TRUE;
       }
     }#end of foreach
@@ -402,13 +407,13 @@ var RadarLogic = {
     return math.abs(ya_rad) <= 61.5*D2R and math.abs(xa_rad) <= 61.5*D2R;
   },
 
-  # Tests if the track either has its transponder active, or has its radar active
-  # and pointed roughly towards us.
-  isRWRActive: func (trackPos, node) {
+  isSquawkActive: func (node) {
     var squawk = node.getNode("instrumentation/transponder/transmitted-id");
-    if (squawk != nil and squawk.getValue() != -9999) return TRUE;
+    return (squawk != nil and squawk.getValue() != -9999);
+  },
 
-    # Transponder off, test radar
+  # Tests if the aircrafts has its radar active and pointed roughly towards us.
+  isRadarScanning: func (trackPos, node) {
     var radar = node.getNode("sim/multiplay/generic/int[2]");
     if (radar != nil and radar.getValue()) return FALSE;
 
@@ -416,6 +421,13 @@ var RadarLogic = {
     var heading = node.getNode("orientation/true-heading-deg").getValue();
     var bearing = trackPos.course_to(self);
     return math.abs(geo.normdeg180(heading - bearing)) <= 60;
+  },
+
+  isRadarLocking: func (node) {
+    var locked_md5 = node.getNode("sim/multiplay/generic/string[6]");
+    if(locked_md5 == nil) return FALSE;
+    locked_md5 = locked_md5.getValue();
+    return (locked_md5 != nil and streq(locked_md5, callsign_md5));
   },
 
   # Try to guess the type of contact. This is not very reliable.

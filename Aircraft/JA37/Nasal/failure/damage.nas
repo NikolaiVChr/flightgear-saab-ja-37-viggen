@@ -169,6 +169,10 @@ var incoming_listener = func {
                 #print("bearing to enemy found");
                 var bearing = bearingNode.getValue();
                 var heading = getprop("orientation/heading-deg");
+                # Send a signal to RWR. First argument is an UID, needed to update the signal.
+                # Since we will never update it, just generate a new UID and forget it.
+                rwr.signal(rand(), rwr.RWR_LAUNCH, bearing - heading);
+
                 var clock = bearing - heading;
                 while(clock < 0) {
                   clock = clock + 360;
@@ -209,7 +213,7 @@ var incoming_listener = func {
                 #The incoming CI lamps overlap each other:
                 if (clock >= 345 or clock <= 75) {
                   incomingLamp("1");
-                } 
+                }
                 if (clock >= 45 and clock <= 135) {
                   incomingLamp("3");
                 }

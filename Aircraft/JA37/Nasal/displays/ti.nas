@@ -1294,10 +1294,15 @@ var TI = {
 		me.ecmRadius = 50;
 		me.ecm = [];
 	    append(me.ecm, me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(16, me.ecmRadius)[0], circlePosH(16, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(44, me.ecmRadius)[0]-circlePosH(16, me.ecmRadius)[0], circlePosH(44, me.ecmRadius)[1]-circlePosH(16, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_RED));
+	        .setColor(COLOR_YELLOW));
 	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(46, me.ecmRadius)[0], circlePosH(46, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(74, me.ecmRadius)[0]-circlePosH(46, me.ecmRadius)[0], circlePosH(74, me.ecmRadius)[1]-circlePosH(46, me.ecmRadius)[1])
@@ -1348,11 +1353,6 @@ var TI = {
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(344, me.ecmRadius)[0]-circlePosH(316, me.ecmRadius)[0], circlePosH(344, me.ecmRadius)[1]-circlePosH(316, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
 	        .setColor(COLOR_YELLOW));
-	    append(me.ecm, me.ecm_grp.createChild("path")
-			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
-	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
-	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_GREEN));
 
 		# small airports
 		me.baseSmallText = [];
@@ -3296,14 +3296,11 @@ var TI = {
 
 	ecmOverlay: func {
 		if (me.ECMon == TRUE) {
-			for (me.ijk =0;me.ijk<12;me.ijk+=1) {
-				if (getprop("ja37/sound/incoming"~(me.ijk+1)) == TRUE) {
-					me.ecm[me.ijk].setColor(COLOR_RED);
-				} elsif (radar_logic.rwr[me.ijk] == TRUE) {
-					me.ecm[me.ijk].setColor(COLOR_YELLOW);
-				} else {
-					me.ecm[me.ijk].setColor(COLOR_GREEN_DARK);
-				}
+			for (var i=0; i<12; i+=1) {
+				var signal = rwr.get_highest_signal(i);
+				if(signal >= rwr.RWR_LOCK) me.ecm[i].setColor(COLOR_RED);
+				elsif(signal >= rwr.RWR_SCAN) me.ecm[i].setColor(COLOR_YELLOW);
+				else me.ecm[i].setColor(COLOR_GREEN_DARK);
 			}
 			me.ecm_grp.show();
 		} else {
