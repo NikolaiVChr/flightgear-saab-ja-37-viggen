@@ -104,6 +104,8 @@ var input = {
     alt_true_ft:      "position/altitude-ft",
     radar_serv:       "instrumentation/radar/serviceable",
     radar_range:      "instrumentation/radar/range",
+    radar_active:     "ja37/radar/active",
+    radar_off_mp:     "sim/multiplay/generic/int[2]",
     hdgReal:          "/orientation/heading-deg",
     pitch:            "/orientation/pitch-deg",
     roll:             "/orientation/roll-deg",
@@ -113,6 +115,7 @@ var input = {
     ai_models:        "/ai/models",
     lookThrough:      "ja37/radar/look-through-terrain",
     dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
+    nose_wow:         "fdm/jsbsim/gear/unit[0]/WOW",
 };
 
 
@@ -124,9 +127,8 @@ var RadarLogic = {
     },
 
     loop: func () {
-      setprop("sim/multiplay/generic/int[2]", !getprop("ja37/radar/active"));
       me.findRadarTracks();
-      #settimer(func me.loop(), 0.25);
+      input.radar_off_mp.setBoolValue(!input.radar_active.getBoolValue());
     },
 
     findRadarTracks: func () {
@@ -195,9 +197,10 @@ var RadarLogic = {
       me.carriers = input.ai_models.getChildren("carrier");
       me.processTracks(me.carriers, TRUE, FALSE, FALSE, MARINE);
 
-      if(input.tracks_enabled.getValue() == TRUE and input.radar_serv.getValue() > FALSE
-         and power.prop.dcSecondBool.getValue() and power.prop.acSecondBool.getValue() and power.prop.hyd1Bool.getValue()) {
-        setprop("ja37/radar/active" , TRUE);
+      if (input.tracks_enabled.getBoolValue() and input.radar_serv.getBoolValue()
+          and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
+          and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue() ) {
+        input.radar_active.setBoolValue(TRUE);
       } else {
         # Do not supply target info to the missiles if radar is off.
         if(selection != nil) {
@@ -206,7 +209,7 @@ var RadarLogic = {
         input.locked_md5.setValue("");
         selection = nil;
         disableSteerOrder();
-        setprop("ja37/radar/active" , FALSE);
+        input.radar_active.setBoolValue(FALSE);
       }
       if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
         # Lost lock
