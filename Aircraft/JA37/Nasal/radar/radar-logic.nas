@@ -82,14 +82,24 @@ var MARINE = 1;
 var SURFACE = 2;
 var ORDNANCE = 3;
 
-var knownShips = {
-    "missile_frigate":       nil,
-    "frigate":       nil,
-    "fleet":       nil,
-    "USS-LakeChamplain":     nil,
-    "USS-NORMANDY":     nil,
-    "USS-OliverPerry":     nil,
-    "USS-SanAntonio":     nil,
+var knownTypes = {
+    "missile_frigate":    MARINE,
+    "frigate":            MARINE,
+    "fleet":              MARINE,
+    "USS-LakeChamplain":  MARINE,
+    "USS-NORMANDY":       MARINE,
+    "USS-OliverPerry":    MARINE,
+    "USS-SanAntonio":     MARINE,
+    "buk-m2":             SURFACE,
+    "s-300":              SURFACE,
+    "depot":              SURFACE,
+    "struct":             SURFACE,
+    "rig":                MARINE,
+    "point":              SURFACE,
+    "gci":                SURFACE,
+    "hunter":             SURFACE,
+    "truck":              SURFACE,
+    "tower":              SURFACE,
 };
 
 var input = {
@@ -422,8 +432,8 @@ var RadarLogic = {
 
   # Try to guess the type of contact. This is not very reliable.
   guessType: func (track, trackPos, model) {
-    # To help with classification, some ship models are hard-coded.
-    if(contains(knownShips, model)) return MARINE;
+    # To help with classification, some models are hard-coded
+    if(contains(knownTypes, model)) return knownTypes[model];
 
     # Assume that anything fast is an air target - we don't have many racing cars.
     if(track.getValue("velocities/true-airspeed-kt") > 50) return AIR;
