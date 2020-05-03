@@ -443,7 +443,7 @@ var RadarLogic = {
         # Ground info below the target, allows a reasonably precise classification.
         var AGL = trackPos.alt() - ground[0];
         if(AGL > 10) return AIR;
-        elsif(!ground[1].solid) return MARINE; # On water
+        elsif(ground[1] != nil and !ground[1].solid) return MARINE; # On water
         else return SURFACE;
     } else {
         if(trackPos.alt() < 3) return MARINE;
