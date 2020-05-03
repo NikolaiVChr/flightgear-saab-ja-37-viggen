@@ -14,14 +14,6 @@ var groundRadar = !is_ja;
 # Aircrafts beyond that range will be entirely ignored
 var ignoreRange = math.max(radarRange, rwrRange);
 
-var containsVector = func (vec, item) {
-  foreach(test; vec) {
-    if (test == item) {
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
 
 var containsVectorIndex = func (vec, item) {
   var ii = 0;
@@ -72,6 +64,7 @@ var myAlt = nil;
 var myPitch = nil;
 var myRoll = nil;
 var myHeading = nil;
+var radar_active = FALSE;
 var callsign_md5 = nil;
 
 var selection = nil;
@@ -128,7 +121,6 @@ var RadarLogic = {
 
     loop: func () {
       me.findRadarTracks();
-      input.radar_off_mp.setBoolValue(!input.radar_active.getBoolValue());
     },
 
     findRadarTracks: func () {
@@ -173,6 +165,15 @@ var RadarLogic = {
         steerOrder = FALSE;
       }
 
+      if (input.tracks_enabled.getBoolValue() and input.radar_serv.getBoolValue()
+          and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
+          and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue() ) {
+        radar_active = TRUE;
+      } else {
+        radar_active = FALSE;
+      }
+      input.radar_active.setBoolValue(radar_active);
+      input.radar_off_mp.setBoolValue(!radar_active);
 
       me.processTracks(me.players, FALSE, FALSE, TRUE);    
       me.processTracks(me.tankers, FALSE, FALSE, FALSE, AIR);
@@ -197,20 +198,6 @@ var RadarLogic = {
       me.carriers = input.ai_models.getChildren("carrier");
       me.processTracks(me.carriers, TRUE, FALSE, FALSE, MARINE);
 
-      if (input.tracks_enabled.getBoolValue() and input.radar_serv.getBoolValue()
-          and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
-          and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue() ) {
-        input.radar_active.setBoolValue(TRUE);
-      } else {
-        # Do not supply target info to the missiles if radar is off.
-        if(selection != nil) {
-          me.paint(selection.getNode(), FALSE);
-        }
-        input.locked_md5.setValue("");
-        selection = nil;
-        disableSteerOrder();
-        input.radar_active.setBoolValue(FALSE);
-      }
       if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
         # Lost lock
         me.paint(selection.getNode(), FALSE);
@@ -281,6 +268,7 @@ var RadarLogic = {
       }
 
       # Rest is for radar only
+      if (!radar_active) continue;
       if (!me.isRadarVisible(track, trackInfo, trackPos, distance)) continue;
 
       append(tracks, trackInfo);
@@ -292,7 +280,6 @@ var RadarLogic = {
         if(mp) {
           input.locked_md5.setValue(left(md5(trackInfo.get_Callsign()), 4));
         }
-
         selection_updated = TRUE;
       }
     }#end of foreach
