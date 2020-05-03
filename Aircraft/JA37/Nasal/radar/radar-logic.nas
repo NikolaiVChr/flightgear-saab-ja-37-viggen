@@ -82,6 +82,7 @@ var MARINE = 1;
 var SURFACE = 2;
 var ORDNANCE = 3;
 
+# Hard coded table to help with target classification
 var knownTypes = {
     "missile_frigate":    MARINE,
     "frigate":            MARINE,
@@ -100,6 +101,21 @@ var knownTypes = {
     "hunter":             SURFACE,
     "truck":              SURFACE,
     "tower":              SURFACE,
+};
+
+# The following models are completely ignored
+var ignoreModels = {
+    # Backseat models
+    "f-14b-bs": nil,
+    "f15-bs": nil,
+    "m2000-5B-backseat": nil,
+    # ATC
+    "ATC-pie": nil,
+    "Openradar": nil,
+    # Anyone still uses these?
+    "atc-tower": nil,
+    "atc-tower2": nil,
+    "ATC-ML": nil,
 };
 
 var input = {
@@ -234,10 +250,12 @@ var RadarLogic = {
 
       # Read, or compute and store the simplified model name and UID
       var model = me.getModelShorter(track);
+      if (model != nil and contains(ignoreModels, model)) continue;
+
       var UID = me.getUID(track);
 
       var trackPos = me.getTrackPos(track);
-      if(trackPos == nil) continue;
+      if (trackPos == nil) continue;
 
       # For MP aircrafts, we must guess the type of the contact
       var track_type = type;
@@ -433,7 +451,7 @@ var RadarLogic = {
   # Try to guess the type of contact. This is not very reliable.
   guessType: func (track, trackPos, model) {
     # To help with classification, some models are hard-coded
-    if(contains(knownTypes, model)) return knownTypes[model];
+    if(model != nil and contains(knownTypes, model)) return knownTypes[model];
 
     # Assume that anything fast is an air target - we don't have many racing cars.
     if(track.getValue("velocities/true-airspeed-kt") > 50) return AIR;
