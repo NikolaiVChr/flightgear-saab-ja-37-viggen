@@ -130,10 +130,8 @@ var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     var callsign = contact.get_Callsign();
     var time = timeNode.getValue();
     if (callsign != nil and contains(validTime, callsign) and time < validTime[callsign]) {
-        print("cached result for "~callsign);
         return wasInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
     } else {
-        print("new query for"~callsign);
         return isInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
     }
 }
