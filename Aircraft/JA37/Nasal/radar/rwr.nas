@@ -13,7 +13,8 @@ var sector_width = 360/sectors_n;
 var RWR_SQUAWK = 1; # Fairly confident this is not realistic
 var RWR_SCAN = 2;
 var RWR_LOCK = 3;
-var RWR_LAUNCH = 4;
+var RWR_APPROACH = 4;   # Not used yet
+var RWR_LAUNCH = 5;
 var RWR_SIGNAL_MIN = RWR_SQUAWK;
 var RWR_SIGNAL_MAX = RWR_LAUNCH;
 
