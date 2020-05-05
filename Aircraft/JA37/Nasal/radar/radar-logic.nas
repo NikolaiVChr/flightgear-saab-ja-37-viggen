@@ -402,7 +402,15 @@ var RadarLogic = {
     # Currently, ground radars are magic.
     if(!groundRadar and !me.doppler(trackPos, track)) return FALSE;
     # Finally RCS check
-    return rcs.inRadarRange(trackInfo, 40, 3.2);
+    if(selection != nil and selection.getUnique() == trackInfo.getUnique()) {
+      # This function will always redo the RCS test, for better accuracy
+      # for the target being tracked (see below).
+      return rcs.isInRadarRange(trackInfo, 40, 3.2);
+    } else {
+      # For other tracks, this function caches the results for a few
+      # seconds, for performance.
+      return rcs.inRadarRange(trackInfo, 40, 3.2);
+    }
   },
 
   # Checks that the track is within the radar angle limits
