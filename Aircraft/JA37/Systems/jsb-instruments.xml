@@ -35,21 +35,15 @@
             </test>
         </switch>
 
-        <kinematic name="instruments/max-g">
+        <actuator name="instruments/max-g">
             <input>instruments/max-g-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>-2</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>9</position>
-                    <time>0.5</time>
-                </setting>
-            </traverse>
+            <rate_limit>20</rate_limit>
+            <clipto>
+                <min>-2</min>
+                <max>9</max>
+            </clipto>
             <output>/instrumentation/accelerometer/g-force-max</output>
-        </kinematic>
+        </actuator>
 
         <!-- g-force sounds -->
         <switch name="names/sound/max-pos-g">
@@ -184,26 +178,20 @@
 
         <switch name="instruments/engine/epr-raw">
             <default value="propulsion/engine/p7-p2"/>
-            <test logic="OR" value="/engines/engine/epr-gauge">
+            <test value="/engines/engine/epr-gauge">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
         </switch>
 
-        <kinematic name="instruments/engine/epr">
+        <actuator name="instruments/engine/epr">
             <input>instruments/engine/epr-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>1</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>3</position>
-                    <time>0.5</time>
-                </setting>
-            </traverse>
+            <rate_limit>4</rate_limit>
+            <clipto>
+                <min>1</min>
+                <max>3</max>
+            </clipto>
             <output>/engines/engine/epr-gauge</output>
-        </kinematic>
+        </actuator>
 
         <!-- RPM -->
         <switch name="instruments/engine/rpm-raw">
@@ -213,21 +201,15 @@
             </test>
         </switch>
 
-        <kinematic name="instruments/engine/rpm">
+        <actuator name="instruments/engine/rpm">
             <input>instruments/engine/rpm-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>110</position>
-                    <time>0.5</time>
-                </setting>
-            </traverse>
+            <rate_limit>200</rate_limit>
+            <clipto>
+                <min>0</min>
+                <max>110</max>
+            </clipto>
             <output>/engines/engine/rpm-gauge</output>
-        </kinematic>
+        </actuator>
     </channel>
 
 
@@ -253,43 +235,28 @@
             <output>/instrumentation/airspeed-indicator/indicated-speed-kmh</output>
         </pure_gain>
 
-        <switch name="instruments/airspeed/indicated-mach-raw">
+        <switch name="instruments/airspeed/mach-indicator-raw">
             <default value="/instrumentation/airspeed-indicator/indicated-mach"/>
             <test value="/instrumentation/airspeed-indicator/mach-indicator">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
         </switch>
 
-        <kinematic name="instruments/airspeed/mach-indicator">
-            <input>instruments/airspeed/indicated-mach-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>2.5</position>
-                    <time>5</time>
-                </setting>
-            </traverse>
+        <actuator name="instruments/airspeed/mach-indicator">
+            <input>instruments/airspeed/mach-indicator-raw</input>
+            <rate_limit>0.5</rate_limit>
+            <clipto>
+                <min>0</min>
+                <max>2.5</max>
+            </clipto>
             <output>/instrumentation/airspeed-indicator/mach-indicator</output>
-        </kinematic>
+        </actuator>
 
-        <kinematic name="instruments/airspeed/power-flag">
+        <actuator name="instruments/airspeed/power-flag">
             <input>/ja37/elec/ac-bus-main-bool</input>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>1</position>
-                    <time>0.1</time>
-                </setting>
-            </traverse>
+            <rate_limit>10</rate_limit>
             <output>/instrumentation/airspeed-indicator/power-flag</output>
-        </kinematic>
+        </actuator>
 
         <pure_gain name="instruments/airspeed-backup/airspeed-kmh">
             <input>/instrumentation/airspeed-indicator[1]/indicated-speed-kt</input>
@@ -315,20 +282,11 @@
             <output>/instrumentation/attitude-indicator[1]/power</output>
         </pure_gain>
 
-        <kinematic name="instruments/attitude-backup/power-flag">
+        <actuator name="instruments/attitude-backup/power-flag">
             <input>/ja37/elec/ac-bus-main-bool</input>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>1</position>
-                    <time>0.1</time>
-                </setting>
-            </traverse>
+            <rate_limit>10</rate_limit>
             <output>/instrumentation/attitude-indicator[1]/power-flag</output>
-        </kinematic>
+        </actuator>
     </channel>
 
 
@@ -345,8 +303,16 @@
             <gain>0.1</gain>
         </pure_gain>
 
+        <switch name="instruments/waypoint/distance-unit">
+            <default value="0"/> <!-- km -->
+            <test logic="AND" value="1"> <!-- mil -->
+                /ja37/elec/ac-bus-main-bool == 1
+                /autopilot/route-manager/active == 1
+                instruments/waypoint/distance-km gt 40
+            </test>
+        </switch>
+
         <switch name="instruments/waypoint/distance-needle-raw">
-            <default value="instruments/waypoint/distance-km"/>
             <test value="/instrumentation/waypoint-indicator/distance-needle">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
@@ -354,88 +320,55 @@
                 /autopilot/route-manager/active == 0
             </test>
             <test value="instruments/waypoint/distance-mil">
-                instruments/waypoint/distance-km gt 40
+                instruments/waypoint/distance-unit == 1
             </test>
+            <default value="instruments/waypoint/distance-km"/>
             <clipto>
                 <min>-5</min>
                 <max>40</max>
             </clipto>
         </switch>
 
-        <kinematic name="instruments/waypoint/distance-needle">
+        <actuator name="instruments/waypoint/distance-needle">
             <input>instruments/waypoint/distance-needle-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>-5</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>40</position>
-                    <time>0.5</time>
-                </setting>
-            </traverse>
+            <rate_limit>80</rate_limit>
+            <clipto>
+                <min>-5</min>
+                <max>40</max>
+            </clipto>
             <output>/instrumentation/waypoint-indicator/distance-needle</output>
-        </kinematic>
+        </actuator>
 
-        <switch name="instruments/waypoint/distance-unit-raw">
-            <default value="0"/><!-- km -->
-            <test value="/instrumentation/waypoint-indicator/distance-unit-flag">
-                /ja37/elec/ac-bus-main-bool == 0
-            </test>
-            <test logic="AND" value="1"><!-- mil -->
-                /autopilot/route-manager/active == 1
-                instruments/waypoint/distance-km gt 40
-            </test>
-        </switch>
-
-        <kinematic name="instruments/waypoint/distance-unit">
-            <input>instruments/waypoint/distance-unit-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>1</position>
-                    <time>0.2</time>
-                </setting>
-            </traverse>
+        <actuator name="instruments/waypoint/distance-unit-flag">
+            <input>instruments/waypoint/distance-unit</input>
+            <rate_limit>10</rate_limit>
             <output>/instrumentation/waypoint-indicator/distance-unit-flag</output>
-        </kinematic>
+        </actuator>
     </channel>
 
 
     <channel name="aoa-indicator">
-        <!-- animating AoA indicator -->
         <switch name="instruments/aoa/indicator-raw">
             <default value="aero/alpha-deg"/>
             <test value="-4">
-              /ja37/elec/dc-bus-main-bool == 0
+                /ja37/elec/dc-bus-main-bool == 0
             </test>
             <test value="/instrumentation/attitude-indicator/indicated-pitch-deg">
                 gear/unit[0]/WOW == 1
             </test>
         </switch>
 
-        <kinematic name="instruments/aoa/indicator">
+        <actuator name="instruments/aoa/indicator">
             <input>instruments/aoa/indicator-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>-4</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>30</position>
-                    <time>0.3</time>
-                </setting>
-            </traverse>
+            <rate_limit>100</rate_limit>
+            <clipto>
+                <min>-4</min>
+                <max>30</max>
+            </clipto>
             <output>/instrumentation/aoa-indicator/indicated-aoa</output>
-        </kinematic>
+        </actuator>
     </channel>
-    
+
 
     <channel execrate="4" name="chronometer">
         <!-- Control property /instrumentation/clock/chronometer-state
@@ -448,7 +381,7 @@
             <input>sim-time-sec</input>
             <input>-/instrumentation/clock/chronometer-time-sec</input>
         </summer>
-        
+
         <switch name="instruments/clock/chrono-ref-sec">
             <default value="instruments/clock/chrono-ref-feedback"/>
             <!-- When the chrono starts running (state=1), sample reference time -->
@@ -475,21 +408,11 @@
             <output>/instrumentation/clock/chronometer-time-sec</output>
         </switch>
 
-        <kinematic name="instruments/clock/chrono-needle-pos">
+        <actuator name="instruments/clock/chrono-needle-pos">
             <input>instruments/clock/chrono-time-sec</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>1000000</position>
-                    <time>10000</time>
-                </setting>
-            </traverse>
+            <rate_limit>100</rate_limit>
             <output>/instrumentation/clock/chronometer-needle-pos-sec</output>
-        </kinematic>
+        </actuator>
     </channel>
 
 
@@ -514,21 +437,15 @@
             </test>
         </switch>
 
-        <kinematic name="instruments/fuel/needle">
+        <actuator name="instruments/fuel/needle">
             <input>instruments/fuel/needle-raw</input>
-            <noscale/>
-            <traverse>
-                <setting>
-                    <position>0</position>
-                    <time>0</time>
-                </setting>
-                <setting>
-                    <position>140</position>
-                    <time>0.5</time>
-                </setting>
-            </traverse>
+            <rate_limit>200</rate_limit>
+            <clipto>
+                <min>0</min>
+                <max>140</max>
+            </clipto>
             <output>/instrumentation/fuel/needle</output>
-        </kinematic>
+        </actuator>
     </channel>
 
 
