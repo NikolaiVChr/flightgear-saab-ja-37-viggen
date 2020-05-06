@@ -1294,10 +1294,15 @@ var TI = {
 		me.ecmRadius = 50;
 		me.ecm = [];
 	    append(me.ecm, me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(COLOR_YELLOW));
+	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(16, me.ecmRadius)[0], circlePosH(16, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(44, me.ecmRadius)[0]-circlePosH(16, me.ecmRadius)[0], circlePosH(44, me.ecmRadius)[1]-circlePosH(16, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_RED));
+	        .setColor(COLOR_YELLOW));
 	    append(me.ecm, me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(46, me.ecmRadius)[0], circlePosH(46, me.ecmRadius)[1])
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(74, me.ecmRadius)[0]-circlePosH(46, me.ecmRadius)[0], circlePosH(74, me.ecmRadius)[1]-circlePosH(46, me.ecmRadius)[1])
@@ -1348,11 +1353,6 @@ var TI = {
 	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(344, me.ecmRadius)[0]-circlePosH(316, me.ecmRadius)[0], circlePosH(344, me.ecmRadius)[1]-circlePosH(316, me.ecmRadius)[1])
 	        .setStrokeLineWidth(w*10)
 	        .setColor(COLOR_YELLOW));
-	    append(me.ecm, me.ecm_grp.createChild("path")
-			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
-	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
-	        .setStrokeLineWidth(w*10)
-	        .setColor(COLOR_GREEN));
 
 		# small airports
 		me.baseSmallText = [];
@@ -1673,10 +1673,6 @@ var TI = {
 		ti.showHostileZones = TRUE;
 		ti.showFriendlyZones = TRUE;
 		
-		# radar echoes overlay
-		ti.foes    = [];
-		ti.friends = [];
-		
 		# rwr overlay
 		ti.ECMon   = FALSE;
 		
@@ -1771,7 +1767,6 @@ var TI = {
 		me.showMapScale();
 		me.updateSVY();# must be before displayRadarTracks and showselfvector
 		me.showSelfVector();
-		me.defineEnemies();# must be before displayRadarTracks
 		me.displayRadarTracks();
 		me.showRunway();
 		me.showRadarLimit();
@@ -3301,14 +3296,11 @@ var TI = {
 
 	ecmOverlay: func {
 		if (me.ECMon == TRUE) {
-			for (me.ijk =0;me.ijk<12;me.ijk+=1) {
-				if (getprop("ja37/sound/incoming"~(me.ijk+1)) == TRUE) {
-					me.ecm[me.ijk].setColor(COLOR_RED);
-				} elsif (radar_logic.rwr[me.ijk] == TRUE) {
-					me.ecm[me.ijk].setColor(COLOR_YELLOW);
-				} else {
-					me.ecm[me.ijk].setColor(COLOR_GREEN_DARK);
-				}
+			for (var i=0; i<12; i+=1) {
+				var signal = rwr.get_highest_signal(i);
+				if(signal >= rwr.RWR_LOCK) me.ecm[i].setColor(COLOR_RED);
+				elsif(signal >= rwr.RWR_SCAN) me.ecm[i].setColor(COLOR_YELLOW);
+				else me.ecm[i].setColor(COLOR_GREEN_DARK);
 			}
 			me.ecm_grp.show();
 		} else {
@@ -4752,11 +4744,6 @@ var TI = {
 		}
 	},
 
-	defineEnemies: func {
-		me.foes    = [getprop("ja37/faf/foe-1"),getprop("ja37/faf/foe-2"),getprop("ja37/faf/foe-3"),getprop("ja37/faf/foe-4"),getprop("ja37/faf/foe-5"),getprop("ja37/faf/foe-6")];
-		me.friends = [getprop("ja37/faf/friend-1"),getprop("ja37/faf/friend-2"),getprop("ja37/faf/friend-3"),getprop("ja37/faf/friend-4"),getprop("ja37/faf/friend-5"),getprop("ja37/faf/friend-6")];
-	},
-
 	displayRadarTracks: func () {
 
 		me.threatIndex  = -1;
@@ -4848,11 +4835,11 @@ var TI = {
 		    me.tgtSpeed = contact.get_Speed();
 		    me.myHeading = me.input.headTrue.getValue();
 		    me.boogie = 0;
-		    if (containsVector(me.friends, contact.get_Callsign())) {
+		    if (faf.is_friend(contact.get_Callsign())) {
 	    		me.boogie = 1;
-	    	} elsif (containsVector(me.foes, contact.get_Callsign())) {
+		    } elsif (faf.is_foe(contact.get_Callsign())) {
 	    		me.boogie = -1;
-	    	}
+		    }
 
 		    if (me.currentIndexT == 0 and contact.parents[0] == radar_logic.ContactGPS) {
 		    	me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);

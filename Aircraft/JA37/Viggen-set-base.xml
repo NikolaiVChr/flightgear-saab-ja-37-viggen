@@ -80,18 +80,18 @@
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
-            <path>ja37/faf/friend-1</path>
-            <path>ja37/faf/friend-2</path>
-            <path>ja37/faf/friend-3</path>
-            <path>ja37/faf/friend-4</path>
-            <path>ja37/faf/friend-5</path>
-            <path>ja37/faf/friend-6</path>
-            <path>ja37/faf/foe-1</path>
-            <path>ja37/faf/foe-2</path>
-            <path>ja37/faf/foe-3</path>
-            <path>ja37/faf/foe-4</path>
-            <path>ja37/faf/foe-5</path>
-            <path>ja37/faf/foe-6</path>
+            <path>ja37/faf/friends/friend[0]</path>
+            <path>ja37/faf/friends/friend[1]</path>
+            <path>ja37/faf/friends/friend[2]</path>
+            <path>ja37/faf/friends/friend[3]</path>
+            <path>ja37/faf/friends/friend[4]</path>
+            <path>ja37/faf/friends/friend[5]</path>
+            <path>ja37/faf/foes/foe[0]</path>
+            <path>ja37/faf/foes/foe[1]</path>
+            <path>ja37/faf/foes/foe[2]</path>
+            <path>ja37/faf/foes/foe[3]</path>
+            <path>ja37/faf/foes/foe[4]</path>
+            <path>ja37/faf/foes/foe[5]</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
@@ -758,18 +758,22 @@
             </fr31>
         </radio>
         <faf>
-            <friend-1 type="string"></friend-1>
-            <friend-2 type="string"></friend-2>
-            <friend-3 type="string"></friend-3>
-            <friend-4 type="string"></friend-4>
-            <friend-5 type="string"></friend-5>
-            <friend-6 type="string"></friend-6>
-            <foe-1 type="string"></foe-1>
-            <foe-2 type="string"></foe-2>
-            <foe-3 type="string"></foe-3>
-            <foe-4 type="string"></foe-4>
-            <foe-5 type="string"></foe-5>
-            <foe-6 type="string"></foe-6>
+            <friends>
+                <friend n="0" type="string"></friend>
+                <friend n="1" type="string"></friend>
+                <friend n="2" type="string"></friend>
+                <friend n="3" type="string"></friend>
+                <friend n="4" type="string"></friend>
+                <friend n="5" type="string"></friend>
+            </friends>
+            <foes>
+                <foe n="0" type="string"></foe>
+                <foe n="1" type="string"></foe>
+                <foe n="2" type="string"></foe>
+                <foe n="3" type="string"></foe>
+                <foe n="4" type="string"></foe>
+                <foe n="5" type="string"></foe>
+            </foes>
         </faf>
         <navigation>
             <inout type="bool">true</inout>
@@ -1580,6 +1584,12 @@
         <rcs>
             <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
         </rcs>
+        <rwr>
+            <file>Aircraft/JA37/Nasal/radar/rwr.nas</file>
+        </rwr>
+        <faf>
+            <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
+        </faf>
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>
