@@ -12,7 +12,7 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
         <object-name>dialAlt</object-name>
-        <object-name>needle100</object-name>
+        <object-name>needle</object-name>
         <object-name>needleAlt1000</object-name>
         <object-name>altBaro1</object-name>
         <object-name>altBaro10</object-name>

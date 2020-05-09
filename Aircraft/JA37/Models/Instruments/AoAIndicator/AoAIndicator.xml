@@ -52,8 +52,8 @@
         <object-name>needle</object-name>
         <property>instrumentation/aoa-indicator/indicated-aoa</property>
         <interpolation>
-            <entry><ind>-4</ind><dep>9</dep></entry>
-            <entry><ind>30</ind><dep>315</dep></entry>
+            <entry><ind>-4</ind><dep>18</dep></entry>
+            <entry><ind>30</ind><dep>290</dep></entry>
         </interpolation>
         <axis>
             <x>-1</x>
