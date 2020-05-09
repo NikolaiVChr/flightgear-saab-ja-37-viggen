@@ -439,10 +439,10 @@
 
         <actuator name="instruments/fuel/needle">
             <input>instruments/fuel/needle-raw</input>
-            <rate_limit>200</rate_limit>
+            <rate_limit>2</rate_limit>
             <clipto>
                 <min>0</min>
-                <max>140</max>
+                <max>1.4</max>
             </clipto>
             <output>/instrumentation/fuel/needle</output>
         </actuator>
