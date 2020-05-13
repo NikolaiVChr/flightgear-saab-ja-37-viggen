@@ -531,7 +531,7 @@ var Saab37 = {
     me.theShakeEffect();
     # The HUD should not shake (relative to the background).
     # This requires to update the hud translation just after head movements.
-    canvas_HUD.hud_pilot.followHeadPosition();
+    #canvas_HUD.hud_pilot.followHeadPosition();
 
     logTime();
   

@@ -2,7 +2,7 @@
 
 <PropertyList>
   <name>Aircraft/JA37/Models/Effects/hud</name>
-  <inherits-from>Effects/hud</inherits-from>
+  <inherits-from>Aircraft/JA37/Models/Effects/hud/hud-parallax</inherits-from>
 
   <parameters>
     <splash-x>0</splash-x>
