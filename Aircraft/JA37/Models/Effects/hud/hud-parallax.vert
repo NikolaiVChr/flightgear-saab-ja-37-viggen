@@ -7,7 +7,7 @@ varying vec3 vertPos;
 varying vec3 normal;
 varying vec3 light_diffuse;
 varying vec3 refl_vec;
-varying vec3 relPos;
+varying vec3 optical_relpos;
 varying float splash_angle;
 varying float Mie;
 varying float ambient_fraction;
@@ -19,9 +19,29 @@ uniform float terminator;
 uniform float splash_x;
 uniform float splash_y;
 uniform float splash_z;
+uniform float optical_yaw;
+uniform float optical_pitch;
+uniform float optical_roll;
 
 const float EarthRadius = 5800000.0;
 const float terminator_width = 200000.0;
+
+
+void	rotationMatrixPR(in float sinRx, in float cosRx, in float sinRy, in float cosRy, out mat4 rotmat)
+{
+	rotmat = mat4(	cosRy ,	sinRx * sinRy ,	cosRx * sinRy,	0.0,
+									0.0   ,	cosRx        ,	-sinRx * cosRx,	0.0,
+									-sinRy,	sinRx * cosRy,	cosRx * cosRy ,	0.0,
+									0.0   ,	0.0          ,	0.0           ,	1.0 );
+}
+
+void	rotationMatrixH(in float sinRz, in float cosRz, out mat4 rotmat)
+{
+	rotmat = mat4(	cosRz,	-sinRz,	0.0,	0.0,
+									sinRz,	cosRz,	0.0,	0.0,
+									0.0  ,	0.0  ,	1.0,	0.0,
+									0.0  ,	0.0  ,	0.0,	1.0 );
+}
 
 float light_func (in float x, in float a, in float b, in float c, in float d, in float e)
 {
@@ -42,7 +62,7 @@ vec3 moonLightColor = vec3 (0.095, 0.095, 0.15) * moonlight;
 
 // geometry for lighting
 vec4 ep = gl_ModelViewMatrixInverse * vec4(0.0,0.0,0.0,1.0);
-relPos = gl_Vertex.xyz - ep.xyz;
+vec3 relPos = gl_Vertex.xyz - ep.xyz;
 vec3 lightFull = (gl_ModelViewMatrixInverse * gl_LightSource[0].position).xyz;
 vec3 lightHorizon = normalize(vec3(lightFull.x,lightFull.y, 0.0));
 float dist = length(relPos);
@@ -124,6 +144,19 @@ vertPos = gl_Vertex.xyz;
 splash_angle = dot(gl_Normal, corrected_splash);
 
 ambient_fraction = length(light_ambient.rgb)/(length(light_diffuse.rgb +light_ambient.rgb ) + 0.01);
+
+// Eye to vertex vector in the optical centerline coordinate system
+mat4 RotMatPR;
+mat4 RotMatH;
+float cosRx = cos(radians(-optical_roll));
+float sinRx = sin(radians(-optical_roll));
+float cosRy = cos(radians(optical_pitch));
+float sinRy = sin(radians(optical_pitch));
+float cosRz = cos(radians(-optical_yaw));
+float sinRz = sin(radians(-optical_yaw));
+rotationMatrixPR(sinRx, cosRx, sinRy, cosRy, RotMatPR);
+rotationMatrixH(sinRz, cosRz, RotMatH);
+optical_relpos = (RotMatH * (RotMatPR * (gl_Vertex - ep))).xyz;
 
 
 gl_Position = ftransform();

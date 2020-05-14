@@ -75,6 +75,14 @@
 	<sample-res>0.0006</sample-res>
 	<sample-far>2.5</sample-far>
 	<hud-brightness>1.0</hud-brightness>
+	<!-- Angular width/height of the texture displayed by the hud -->
+	<hud-width-deg>25</hud-width-deg>
+	<hud-height-deg>25</hud-height-deg>
+	<!-- Rotation offset to the optical centerline direction,
+			i.e. the direction mapped to the center of the texture. -->
+	<optical-offset-yaw>0</optical-offset-yaw>
+	<optical-offset-pitch>0</optical-offset-pitch>
+	<optical-offset-roll>0</optical-offset-roll>
 </parameters>
 
 <technique n="4">
@@ -451,6 +459,31 @@
         <name>colorMode</name>
         <type>int</type>
         <value><use>material/color-mode-uniform</use></value>
+      </uniform>
+      <uniform>
+        <name>hud_width</name>
+        <type>float</type>
+        <value><use>hud-width-deg</use></value>
+      </uniform>
+      <uniform>
+        <name>hud_height</name>
+        <type>float</type>
+        <value><use>hud-height-deg</use></value>
+      </uniform>
+      <uniform>
+        <name>optical_yaw</name>
+        <type>float</type>
+        <value><use>optical-offset-yaw</use></value>
+      </uniform>
+      <uniform>
+        <name>optical_pitch</name>
+        <type>float</type>
+        <value><use>optical-offset-pitch</use></value>
+      </uniform>
+      <uniform>
+        <name>optical_roll</name>
+        <type>float</type>
+        <value><use>optical-offset-roll</use></value>
       </uniform>
     </pass>
   </technique>

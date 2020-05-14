@@ -7,7 +7,7 @@ varying vec3 vertPos;
 varying vec3 normal;
 varying vec3 refl_vec;
 varying vec3 light_diffuse;
-varying vec3 relPos;
+varying vec3 optical_relpos;
 varying float splash_angle;
 varying float Mie;
 varying float ambient_fraction;
@@ -42,6 +42,9 @@ uniform float sample_res;
 uniform float sample_far;
 uniform float hud_brightness;
 
+uniform float hud_width;
+uniform float hud_height;
+
 uniform int use_reflection;
 uniform int use_reflection_lightmap;
 uniform int use_mask;
@@ -70,7 +73,11 @@ vec4 texel;
 vec4 frost_texel;
 vec4 func_texel;
 
-vec2 parallax_TexCoord = -relPos.yz / relPos.x * 3 + vec2(0.5, 0.5);
+vec2 relAngle = vec2(
+    atan(optical_relpos.y, -optical_relpos.x),
+    atan(optical_relpos.z, -optical_relpos.x)
+);
+vec2 parallax_TexCoord = (relAngle / vec2(radians(hud_width), radians(hud_height))) + 0.5;
 
 texel = texture2D(texture, parallax_TexCoord.st);
 
