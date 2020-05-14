@@ -75,11 +75,19 @@
 	<sample-res>0.0006</sample-res>
 	<sample-far>2.5</sample-far>
 	<hud-brightness>1.0</hud-brightness>
-	<!-- Angular width/height of the texture displayed by the hud -->
+	<!-- Parallax correction.
+		If enabled, the HUD texture is displayed straight in front of the view point,
+		and with a constant angular width. This simulates collimation.
+		In that case, the HUD object UV mapping is completely ignored. -->
+	<use-parallax type="bool">false</use-parallax>
+	<!-- Angular width/height of the HUD texture (when using parallax). -->
 	<hud-width-deg>25</hud-width-deg>
 	<hud-height-deg>25</hud-height-deg>
-	<!-- Rotation offset to the optical centerline direction,
-			i.e. the direction mapped to the center of the texture. -->
+	<!-- The optical axis is the direction from the viewpoint at which the texture
+		is centered when using parallax correction.
+		By default, it is the '-x' axis in the HUD object model space, which is forward
+		if no rotation offsets are applied to the HUD object.
+		Additional offsets to the optical axis can be given here. -->
 	<optical-offset-yaw>0</optical-offset-yaw>
 	<optical-offset-pitch>0</optical-offset-pitch>
 	<optical-offset-roll>0</optical-offset-roll>
@@ -459,6 +467,11 @@
         <name>colorMode</name>
         <type>int</type>
         <value><use>material/color-mode-uniform</use></value>
+      </uniform>
+      <uniform>
+        <name>use_parallax</name>
+        <type>bool</type>
+        <value><use>use-parallax</use></value>
       </uniform>
       <uniform>
         <name>hud_width</name>

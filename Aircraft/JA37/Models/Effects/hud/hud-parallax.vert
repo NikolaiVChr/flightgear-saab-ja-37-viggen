@@ -19,6 +19,8 @@ uniform float terminator;
 uniform float splash_x;
 uniform float splash_y;
 uniform float splash_z;
+
+uniform bool use_parallax;
 uniform float optical_yaw;
 uniform float optical_pitch;
 uniform float optical_roll;
@@ -145,18 +147,20 @@ splash_angle = dot(gl_Normal, corrected_splash);
 
 ambient_fraction = length(light_ambient.rgb)/(length(light_diffuse.rgb +light_ambient.rgb ) + 0.01);
 
-// Eye to vertex vector in the optical centerline coordinate system
-mat4 RotMatPR;
-mat4 RotMatH;
-float cosRx = cos(radians(-optical_roll));
-float sinRx = sin(radians(-optical_roll));
-float cosRy = cos(radians(optical_pitch));
-float sinRy = sin(radians(optical_pitch));
-float cosRz = cos(radians(-optical_yaw));
-float sinRz = sin(radians(-optical_yaw));
-rotationMatrixPR(sinRx, cosRx, sinRy, cosRy, RotMatPR);
-rotationMatrixH(sinRz, cosRz, RotMatH);
-optical_relpos = (RotMatH * (RotMatPR * (gl_Vertex - ep))).xyz;
+// Eye to vertex vector in the optical centerline coordinate system, for parallax correction.
+if (use_parallax) {
+	mat4 RotMatPR;
+	mat4 RotMatH;
+	float cosRx = cos(radians(-optical_roll));
+	float sinRx = sin(radians(-optical_roll));
+	float cosRy = cos(radians(optical_pitch));
+	float sinRy = sin(radians(optical_pitch));
+	float cosRz = cos(radians(-optical_yaw));
+	float sinRz = sin(radians(-optical_yaw));
+	rotationMatrixPR(sinRx, cosRx, sinRy, cosRy, RotMatPR);
+	rotationMatrixH(sinRz, cosRz, RotMatH);
+	optical_relpos = (RotMatH * (RotMatPR * (gl_Vertex - ep))).xyz;
+}
 
 
 gl_Position = ftransform();

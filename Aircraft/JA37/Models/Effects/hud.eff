@@ -23,6 +23,7 @@
     <sample-res><use>ja37/hud/sample-res</use></sample-res>
     <sample-far><use>ja37/hud/sample-far</use></sample-far>
     <hud-brightness><use>ja37/hud/brightness</use></hud-brightness>
+    <use-parallax>true</use-parallax>
     <hud-width-deg>28</hud-width-deg>
     <hud-height-deg>28</hud-height-deg>
     <optical-offset-pitch>-7.3</optical-offset-pitch>

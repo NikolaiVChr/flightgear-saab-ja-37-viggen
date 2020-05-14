@@ -42,6 +42,8 @@ uniform float sample_res;
 uniform float sample_far;
 uniform float hud_brightness;
 
+uniform bool use_parallax;
+
 uniform float hud_width;
 uniform float hud_height;
 
@@ -73,28 +75,34 @@ vec4 texel;
 vec4 frost_texel;
 vec4 func_texel;
 
-vec2 relAngle = vec2(
-    atan(optical_relpos.y, -optical_relpos.x),
-    atan(optical_relpos.z, -optical_relpos.x)
-);
-vec2 parallax_TexCoord = (relAngle / vec2(radians(hud_width), radians(hud_height))) + 0.5;
+vec2 TexCoord;
 
-texel = texture2D(texture, parallax_TexCoord.st);
+if (use_parallax) {
+	vec2 relAngle = vec2(
+		atan(optical_relpos.y, -optical_relpos.x),
+		atan(optical_relpos.z, -optical_relpos.x)
+	);
+	TexCoord = (relAngle / vec2(radians(hud_width), radians(hud_height))) + 0.5;
+} else {
+	TexCoord = gl_TexCoord[0].st;
+}
 
-texel+= texture2D(texture, vec2 (parallax_TexCoord.s + sample_res, parallax_TexCoord.t));
-texel+= texture2D(texture, vec2 (parallax_TexCoord.s - sample_res, parallax_TexCoord.t));
-texel+= texture2D(texture, vec2 (parallax_TexCoord.s, parallax_TexCoord.t + sample_res));
-texel+= texture2D(texture, vec2 (parallax_TexCoord.s, parallax_TexCoord.t - sample_res));
+texel = texture2D(texture, TexCoord.st);
 
-texel+= 0.75* texture2D(texture, vec2 (parallax_TexCoord.s + sample_far * sample_res, parallax_TexCoord.t+ sample_far * sample_res));
-texel+= 0.75* texture2D(texture, vec2 (parallax_TexCoord.s - sample_far * sample_res, parallax_TexCoord.t+ sample_far * sample_res));
-texel+= 0.75* texture2D(texture, vec2 (parallax_TexCoord.s + sample_far * sample_res, parallax_TexCoord.t- sample_far * sample_res));
-texel+= 0.75* texture2D(texture, vec2 (parallax_TexCoord.s - sample_far * sample_res, parallax_TexCoord.t- sample_far * sample_res));
+texel+= texture2D(texture, vec2 (TexCoord.s + sample_res, TexCoord.t));
+texel+= texture2D(texture, vec2 (TexCoord.s - sample_res, TexCoord.t));
+texel+= texture2D(texture, vec2 (TexCoord.s, TexCoord.t + sample_res));
+texel+= texture2D(texture, vec2 (TexCoord.s, TexCoord.t - sample_res));
 
-texel+= 0.5 * texture2D(texture, vec2 (parallax_TexCoord.s + 2.0 * sample_far * sample_res, parallax_TexCoord.t - sample_res));
-texel+= 0.5 * texture2D(texture, vec2 (parallax_TexCoord.s - 2.0 * sample_far * sample_res, parallax_TexCoord.t + sample_res));
-texel+= 0.5 * texture2D(texture, vec2 (parallax_TexCoord.s - sample_res, parallax_TexCoord.t + 2.0 * sample_far * sample_res));
-texel+= 0.5 * texture2D(texture, vec2 (parallax_TexCoord.s + sample_res, parallax_TexCoord.t - 2.0 * sample_far * sample_res));
+texel+= 0.75* texture2D(texture, vec2 (TexCoord.s + sample_far * sample_res, TexCoord.t+ sample_far * sample_res));
+texel+= 0.75* texture2D(texture, vec2 (TexCoord.s - sample_far * sample_res, TexCoord.t+ sample_far * sample_res));
+texel+= 0.75* texture2D(texture, vec2 (TexCoord.s + sample_far * sample_res, TexCoord.t- sample_far * sample_res));
+texel+= 0.75* texture2D(texture, vec2 (TexCoord.s - sample_far * sample_res, TexCoord.t- sample_far * sample_res));
+
+texel+= 0.5 * texture2D(texture, vec2 (TexCoord.s + 2.0 * sample_far * sample_res, TexCoord.t - sample_res));
+texel+= 0.5 * texture2D(texture, vec2 (TexCoord.s - 2.0 * sample_far * sample_res, TexCoord.t + sample_res));
+texel+= 0.5 * texture2D(texture, vec2 (TexCoord.s - sample_res, TexCoord.t + 2.0 * sample_far * sample_res));
+texel+= 0.5 * texture2D(texture, vec2 (TexCoord.s + sample_res, TexCoord.t - 2.0 * sample_far * sample_res));
 
 texel/=10.0;
 
