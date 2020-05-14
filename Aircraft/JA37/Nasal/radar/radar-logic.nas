@@ -1256,8 +1256,8 @@ var Contact = {
       me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
       me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
 
-      var hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
-      var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
+      var hud_pos_x = canvas_HUD.pixelPerDegree * me.dir_x;
+      var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegree * me.dir_y;
 
       return [hud_pos_x, hud_pos_y];
     },
@@ -1545,8 +1545,8 @@ var ContactGPS = {
     me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
     me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
 
-    var hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
-    var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
+    var hud_pos_x = canvas_HUD.pixelPerDegree * me.dir_x;
+    var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegree * me.dir_y;
 
     return [hud_pos_x, hud_pos_y];
   },
@@ -1866,8 +1866,8 @@ var ContactGhost = {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
-    var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
+    var hud_pos_x = canvas_HUD.pixelPerDegree * xa_rad * rad2deg;
+    var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegree * -ya_rad * rad2deg;
 
     return [hud_pos_x, hud_pos_y];
   },
