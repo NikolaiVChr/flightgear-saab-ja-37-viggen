@@ -260,6 +260,33 @@
                 </binding>
             </mod-up>
         </key>
+        <key n="69">
+            <name>E</name>
+            <desc>IR seeker uncage</desc>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>nasal</command>
+                <script>armament.uncageIRButton(1);</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <condition>
+                        <not-equals>
+                            <property>/ja37/systems/variant</property>
+                            <value>0</value>
+                        </not-equals>
+                    </condition>
+                    <command>nasal</command>
+                    <script>armament.uncageIRButton(0);</script>
+                </binding>
+            </mod-up>
+        </key>
         <key n="102">
             <name>f</name>
             <desc>Toggle radar steer order on current selection</desc>

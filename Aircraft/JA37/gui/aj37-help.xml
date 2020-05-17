@@ -118,6 +118,10 @@
         <desc>Unlock selected radar track</desc>
     </key>
     <key>
+        <name>E</name>
+        <desc>Uncage IR seeker after lock (held: cage/reset seeker)</desc>
+    </key>
+    <key>
         <name>Ctrl n</name>
         <desc>Target next route-manager waypoint</desc>
     </key>

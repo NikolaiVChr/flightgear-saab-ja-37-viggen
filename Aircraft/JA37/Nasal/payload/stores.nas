@@ -392,12 +392,17 @@ var loop_stores = func {
           #pylon has logic but missile not mounted and not flying or not in tactical mode or has no power
           armament.AIM.active[i].stop();
           #print("empty "~i);
-        } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY
-                  and input.combat.getValue() == 2) { # and payloadName.getValue() == "RB 24J"
+        } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY and input.combat.getValue() == 2) {
           #pylon selected, missile mounted, in tactical mode, activate search
           armament.AIM.active[i].start();
           #print("active "~i);
-        } 
+          # For AJ(S), set IR seekers to bore sight mode
+          if (getprop("ja37/systems/variant") != 0 and armament.AIM.active[i].guidance == "heat") {
+            armament.AIM.active[i].setAutoUncage(0);
+            armament.AIM.active[i].setCaged(1);
+            armament.AIM.active[i].setBore(1);
+          }
+        }
       } elsif (jettisonAll == TRUE and (payloadName.getValue() == "M70 ARAK" or payloadName.getValue() == "M55 AKAN" or payloadName.getValue() == "Drop tank")) {
         payloadName.setValue("none");
       }
@@ -1337,6 +1342,43 @@ var buttonIRRB = func {
     }
   }
   setprop("controls/armament/station-select-custom", sel);
+}
+
+
+
+# Caging of the IR seeker for AJ(S)
+var setIRCaged = func (cage) {
+    # Check master arm on, IR seeker selected
+    if (input.combat.getValue() != 2) return;
+    var armSelect = input.stationSelect.getValue();
+    if (armSelect <= 0) return;
+    var arm = armament.AIM.active[armSelect-1];
+    if (arm == nil or arm.guidance != "heat") return;
+
+    if (cage) {
+        arm.setAutoUncage(FALSE);
+        arm.setCaged(TRUE);
+        arm.setBore(TRUE);
+    } elsif (arm.status == armament.MISSILE_LOCK) {
+        # Uncaging is only possible with lock
+        arm.setAutoUncage(TRUE);
+        arm.setCaged(FALSE);
+        arm.setBore(FALSE); # The seeker should not come back to bore until reset.
+    }
+}
+
+# Pressing the button uncages, holding it re-cages
+var uncageIRButtonTimer = maketimer(1, func { setIRCaged(TRUE); });
+uncageIRButtonTimer.singleShot = TRUE;
+uncageIRButtonTimer.simulatedTime = TRUE;
+
+var uncageIRButton = func (pushed) {
+    if (pushed) {
+        setIRCaged(FALSE);
+        uncageIRButtonTimer.start();
+    } else {
+        uncageIRButtonTimer.stop();
+    }
 }
 
 
