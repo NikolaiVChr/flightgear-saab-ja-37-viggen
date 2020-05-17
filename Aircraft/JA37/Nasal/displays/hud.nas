@@ -2936,12 +2936,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.diamond_small.update();
     me.lock_ir.update();
-    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt)) and radar_logic.tracks != nil) {
-      #me.missileCurr.contacts = [radar_logic.selection];
-      #me.missileCurr.contacts.extend(radar_logic.tracks);
-      me.missileCurr.contacts = radar_logic.tracks;
+    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt))) {
+      me.missileCurr.setContacts(radar_logic.complete_list);
     } elsif (me.missileCurr != nil) {
-      me.missileCurr.contacts = [];
+      me.missileCurr.setContacts([]);
     }
   },
 
