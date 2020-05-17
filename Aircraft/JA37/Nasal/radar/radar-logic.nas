@@ -48,9 +48,25 @@ var disableSteerOrder = func {
 }
 
 var setSelection = func (s) {
+  if (s == selection) return;
+
+  unlockSelection();
   selection = s;
-  steerOrder = FALSE;
+  if (s != nil) {
+    radarLogic.paint(selection.getNode(), TRUE);
+    lookatSelection();
+  }
 }
+
+var unlockSelection = func () {
+  if (selection != nil) {
+    radarLogic.paint(selection.getNode(), FALSE);
+    input.locked_md5.setValue("");
+    disableSteerOrder();
+    selection = nil;
+  }
+};
+
 
 # True altitude corresponding to indicated altitude 0
 var get_indicated_altitude_offset = func() {
@@ -186,9 +202,7 @@ var RadarLogic = {
       me.test = input.ai_models.getChildren("test");
       if(selection != nil and selection.isValid() == FALSE) {
         #print("not valid");
-        me.paint(selection.getNode(), FALSE);
-        selection = nil;
-        steerOrder = FALSE;
+        unlockSelection();
       }
 
       if (input.tracks_enabled.getBoolValue() and input.radar_serv.getBoolValue()
@@ -226,10 +240,7 @@ var RadarLogic = {
 
       if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
         # Lost lock
-        me.paint(selection.getNode(), FALSE);
-        input.locked_md5.setValue("");
-        selection = nil;
-        disableSteerOrder();
+        unlockSelection();
       }
   },
 
@@ -724,19 +735,10 @@ var nextTarget = func () {
     } else {
       tracks_index = 0;
     }
-    selection = tracks[tracks_index];
-    steerOrder = FALSE;
-    #if (selection.get_type() == AIR) {
-      radarLogic.paint(selection.getNode(), TRUE);
-    #} else {
-    #  radarLogic.paint(selection.getNode(), FALSE);
-    #}
-    lookatSelection();
+    setSelection(tracks[tracks_index]);
   } else {
     tracks_index = -1;
-    if (selection != nil) {
-      radarLogic.paint(selection.getNode(), FALSE);
-    }
+    unlockSelection();
   }
 }
 };
@@ -758,21 +760,11 @@ var centerTarget = func () {
         }
       }
     }
-    if (centerMost != nil) {
-      if (centerMost != selection) {
-        steerOrder = FALSE;
-      }
-      selection = centerMost;
-      #if (selection.get_type() == AIR) {
-        radarLogic.paint(selection.getNode(), TRUE);
-      #} else {
-      #  radarLogic.paint(selection.getNode(), FALSE);
-      #}
-      lookatSelection();
-      tracks_index = centerIndex;
-    }
+    setSelection(centerMost);
+    tracks_index = centerIndex;
   }
 };
+
 
 var jumper = nil;
 
@@ -784,9 +776,7 @@ var jumpExecute = func {
   if (jumper != nil) {
     var index = containsVectorIndex(tracks, jumper);
     if (index != -1) {
-      selection = jumper;
-      radarLogic.paint(selection.getNode(), TRUE);
-      lookatSelection();
+      setSelection(jumper);
       tracks_index = index;
       steerOrder = TRUE;
       land.RR();
@@ -805,9 +795,7 @@ var jump2Execute = func {
   if (jumper2 != nil) {
     var index = containsVectorIndex(tracks, jumper2);
     if (index != -1) {
-      selection = jumper2;
-      radarLogic.paint(selection.getNode(), TRUE);
-      lookatSelection();
+      setSelection(jumper2);
       tracks_index = index;
     }
     jumper2 = nil;

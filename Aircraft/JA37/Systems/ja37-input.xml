@@ -81,6 +81,15 @@
                 <script>radar_logic.centerTarget()</script>
             </binding>
         </key>
+        <key n="70">
+            <name>F</name>
+            <desc>Unlock selected target</desc>
+            <binding>
+                <command>nasal</command>
+                <script>radar_logic.unlockSelection()</script>
+            </binding>
+        </key>
+
         <key n="105">
             <name>i</name>
             <desc>Toggle type/callsign</desc>
@@ -259,14 +268,6 @@
                 <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
-        <!--<key n="70">
-            <name>F</name>
-            <desc>Set autopilot to stop follow current target</desc>
-            <binding>
-                <command>nasal</command>
-                <script>auto.unfollow();</script>
-            </binding>
-        </key>-->
         <key n="8">
             <name>Backspace</name>
             <desc>Toggle Reversers</desc>
