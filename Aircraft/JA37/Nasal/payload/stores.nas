@@ -1353,7 +1353,10 @@ var setIRCaged = func (cage) {
     var armSelect = input.stationSelect.getValue();
     if (armSelect <= 0) return;
     var arm = armament.AIM.active[armSelect-1];
-    if (arm == nil or arm.guidance != "heat") return;
+    if (arm == nil) return;
+    # Only Rb24j and Rb74 can uncage the seeker
+    if (arm.type != "RB-24J" and arm.type != "RB-74") return;
+
 
     if (cage) {
         arm.setAutoUncage(FALSE);
