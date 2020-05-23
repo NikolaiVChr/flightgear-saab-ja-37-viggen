@@ -8,6 +8,10 @@
 # The file vector.nas needs to be available in namespace 'vector'.
 #
 
+var TRUE = 1;
+var FALSE = 0;
+
+
 var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
   var myCoord = geo.aircraft_position();
   var echoCoord = geo.Coord.new(myCoord);
@@ -121,18 +125,31 @@ var rcs_database = {
 };
 
 var prevVisible = {};
-var validTime = {};
+var lastUpdateTime = {};
 
 var timeNode = props.globals.getNode("sim/time/elapsed-sec");
 
 
-var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
+# For 'inRadarRange', decide if the previous RCS test result can be result, or if a new test should be done.
+# If the previous test is more than 'max_refresh_sec' old (resp. less than 'min_refresh_sec'),
+# then a new test is always (resp. never) done.
+# In between these two values, a test is done with probability 'refresh_prob'.
+var refreshRequired = func (contact, min_refresh_sec, max_refresh_sec, refresh_prob) {
     var callsign = contact.get_Callsign();
-    var time = timeNode.getValue();
-    if (callsign != nil and contains(validTime, callsign) and time < validTime[callsign]) {
-        return wasInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
-    } else {
+    if (callsign == nil or !contains(lastUpdateTime, callsign)) return TRUE;
+
+    var update_age = timeNode.getValue() - lastUpdateTime[callsign];
+    if (update_age < min_refresh_sec) return FALSE;
+    elsif (update_age > max_refresh_sec) return TRUE;
+    else return (rand() < refresh_prob);
+}
+
+var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs,
+                         min_refresh_sec=1, max_refresh_sec=10, refresh_prob=0.05) {
+    if (refreshRequired(contact, min_refresh_sec, max_refresh_sec, refresh_prob)) {
         return isInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
+    } else {
+        return wasInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
     }
 }
 
@@ -158,7 +175,7 @@ var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
         }
         var callsign = contact.get_Callsign();
         prevVisible[callsign] = value;
-        validTime[callsign] = timeNode.getValue() + 3+2*rand();
+        lastUpdateTime[callsign] = timeNode.getValue();
         return value;
     }
     return 0;
