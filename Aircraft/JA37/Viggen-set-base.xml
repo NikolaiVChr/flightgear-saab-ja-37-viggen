@@ -1482,17 +1482,19 @@
             <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
             <range>15000</range>            <!-- 15 Km -->
             <serviceable type="bool">true</serviceable>
-            <twr1 type="bool">false</twr1>
-            <twr2 type="bool">false</twr2>
-            <twr3 type="bool">false</twr3>
-            <twr4 type="bool">false</twr4>
-            <twr5 type="bool">false</twr5>
-            <twr7 type="bool">false</twr7>
-            <twr8 type="bool">false</twr8>
-            <twr9 type="bool">false</twr9>
-            <twr10 type="bool">false</twr10>
-            <twr11 type="bool">false</twr11>
         </radar>
+        <rwr>
+          <ajs-light n="0" type="bool">false</ajs-light>
+          <ajs-light n="1" type="bool">false</ajs-light>
+          <ajs-light n="2" type="bool">false</ajs-light>
+          <ajs-light n="3" type="bool">false</ajs-light>
+          <ajs-light n="4" type="bool">false</ajs-light>
+          <ajs-light n="5" type="bool">false</ajs-light>
+          <ja-light n="0" type="bool">false</ja-light>
+          <ja-light n="1" type="bool">false</ja-light>
+          <ja-light n="2" type="bool">false</ja-light>
+          <ja-light n="3" type="bool">false</ja-light>
+        </rwr>
         <head-up-display>
             <serviceable type="bool">true</serviceable>
         </head-up-display>

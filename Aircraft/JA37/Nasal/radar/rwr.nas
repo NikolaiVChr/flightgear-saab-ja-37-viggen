@@ -2,30 +2,33 @@ var TRUE = 1;
 var FALSE = 0;
 
 
-### RWR logic: gather incoming radar signals
+var input = {
+    time: "sim/time/elapsed-sec",
+};
+foreach (var name; keys(input)) {
+    input[name] = props.globals.getNode(input[name], 1);
+}
+
+input.ja_lights = props.globals.getNode("instrumentation/rwr").getChildren("ja-light");
+input.ajs_lights = props.globals.getNode("instrumentation/rwr").getChildren("ajs-light");
 
 
-# Number of distinct sectors for the RWR
-var sectors_n = 12;
-var sector_width = 360/sectors_n;
+
+### RWR Signals logic
+
 # Types of RWR signals (give different warning sounds/lights)
 # Numbers represent priority
 var RWR_SQUAWK = 1; # Fairly confident this is not realistic
 var RWR_SCAN = 2;
 var RWR_LOCK = 3;
-var RWR_APPROACH = 4;   # Not used yet
-var RWR_LAUNCH = 5;
+var RWR_LAUNCH = 4;
+var RWR_APPROACH = 5;   # Not used yet
 var RWR_SIGNAL_MIN = RWR_SQUAWK;
-var RWR_SIGNAL_MAX = RWR_LAUNCH;
-
-
-var bearing_to_sector = func(bearing) {
-    return int(geo.normdeg(bearing + (sector_width/2)) / sector_width);
-}
+var RWR_SIGNAL_MAX = RWR_APPROACH;
 
 
 var RWRSignal = {
-    signal_persist_time: 3, # Time for which a signal is displayed after disappearing, in sec
+    signal_persist_time: 2, # Time for which a signal is displayed after disappearing, in sec
 
     new: func(UID, type, bearing) {
         var m = { parents: [RWRSignal] };
@@ -34,40 +37,17 @@ var RWRSignal = {
         m.delete_timer.singleShot = TRUE;
         m.delete_timer.simulatedTime = TRUE;
         m.delete_timer.start();
-        m.registered = FALSE;
         m.bearing = bearing;
         m.type = type;
-        m.register();
         return m;
     },
-    # The 'sectors_table' counts the number of signals in each sector.
-    # Each RWRSignal increments/decrements appropriately.
-    # The 'registered' flag indicates whether or not the present object
-    # has been counted in the table.
-    register: func() {
-        if (me.registered) return;
-        me.registered = TRUE;
-        sectors_table[me.type][bearing_to_sector(me.bearing)] += 1;
-    },
-    unregister: func() {
-        if (!me.registered) return;
-        me.registered = FALSE;
-        sectors_table[me.type][bearing_to_sector(me.bearing)] -= 1;
-    },
     refresh: func(type, bearing) {
-        if(bearing != me.bearing or type != me.type) {
-            # Unregister from previous sector
-            me.unregister();
-            me.bearing = bearing;
-            me.type = type;
-            # Register in the new one
-            me.register();
-        }
+        me.bearing = bearing;
+        me.type = type;
         me.delete_timer.restart(me.signal_persist_time);
     },
     del: func() {
         me.delete_timer.stop();
-        me.unregister();
         if(me.UID != nil) delete(signals_list, me.UID);
     },
 };
@@ -95,22 +75,140 @@ var signal = func(UID, type, bearing) {
 }
 
 
-# For each sector and signal type, indicates the number of signals coming from this sector
-var sectors_table = [];
-# Initialization
-setsize(sectors_table, RWR_SIGNAL_MAX+1);
-for(var i=RWR_SIGNAL_MIN; i<=RWR_SIGNAL_MAX; i+=1) {
-    sectors_table[i] = [];
-    setsize(sectors_table[i], sectors_n);
-    for(var j=0; j<sectors_n; j+=1) {
-        sectors_table[i][j] = FALSE;
+
+### RWR displays
+
+# Map a relative bearing to a sector number.
+#
+# The sectors are assumed to be equally distributed. Numbering is clockwise.
+#   n_sectors: Number of sectors.
+#   sector_offset: Bearing corresponding to the center of sector 0. Defaults to 0.
+#   sector_width: Width of each sector in degrees. Defaults to 360/n_sectors.
+var bearing_to_sectors = func(bearing, n_sectors, sector_offset=0, sector_width=nil) {
+    var sector_spread = 360/n_sectors;
+    if (sector_width == nil) sector_width = sector_spread;
+
+    # First and last sectors
+    bearing -= sector_offset;
+    var min_sector = math.ceil((bearing - (sector_width/2)) / sector_spread);
+    var max_sector = math.floor((bearing + (sector_width/2)) / sector_spread);
+    var res = [];
+    while (min_sector <= max_sector) {
+        append(res, math.periodic(0, n_sectors, min_sector));
+        min_sector += 1;
+    }
+    return res;
+}
+
+# Sector parameters
+# JA RWR (on TI display): 12 non-overlapping sectors
+var ja_rwr_n_sectors = 12;
+var ja_rwr_sectors = [];
+setsize(ja_rwr_sectors, ja_rwr_n_sectors);
+
+var bearing_to_ja_rwr_sectors = func(bearing) {
+    return bearing_to_sectors(bearing, ja_rwr_n_sectors);
+}
+
+# JA incoming warning (lights on MI display): 4 sectors with overlap
+var ja_msl_n_sectors = 4;
+var ja_msl_sector_width = 120;
+var ja_msl_sector_offset = 30;
+var ja_msl_sectors = [];
+setsize(ja_msl_sectors, ja_msl_n_sectors);
+
+var bearing_to_ja_msl_sectors = func(bearing) {
+    return bearing_to_sectors(bearing, ja_msl_n_sectors, ja_msl_sector_offset, ja_msl_sector_width);
+}
+
+# AJS RWR: 6 overlapping sectors
+var ajs_rwr_n_sectors = 6;
+var ajs_rwr_sector_width = 90;
+var ajs_rwr_sector_offset = 30;
+var ajs_rwr_sectors = [];
+setsize(ajs_rwr_sectors, ajs_rwr_n_sectors);
+
+var bearing_to_ajs_rwr_sectors = func(bearing) {
+    return bearing_to_sectors(bearing, ajs_rwr_n_sectors, ajs_rwr_sector_offset, ajs_rwr_sector_width);
+}
+
+
+# Decide whether or not a signal should be displayed.
+
+# JA RWR has 3 display levels (green,yellow,red)
+var ja_rwr_signal_level = func(signal) {
+    if (signal.type >= RWR_LOCK) return 2; # High threat
+    elsif (signal.type >= RWR_SCAN) return 1; # Regular threat
+    else return 0; # Not displayed
+}
+
+# JA incoming warning
+var ja_msl_signal_active = func(signal) {
+    return (signal.type >= RWR_LAUNCH);
+}
+
+# AJS RWR is more complicated.
+# Scan signals are seen as periodic 'beeps'.
+# period/length of scan signals (ideally should depend on the radar type)
+var scan_period = 1.8;
+var scan_length = 0.5;
+
+var ajs_rwr_signal_active = func(signal, time) {
+    # Not detected
+    if (signal.type == RWR_SQUAWK or signal.type == RWR_LAUNCH) return FALSE;
+    # Continuous radar signals
+    if (signal.type != RWR_SCAN) return TRUE;
+
+    # Periodic scan signal. Result depends on time.
+    # UID is a random float in [0,1]. It is used to add a random shift to the periodic signal.
+    var period_shift = signal.UID * scan_period;
+    return math.mod(time + period_shift, scan_period) < scan_length;
+}
+
+
+# Update the RWR sector lights
+var update_ja_lights = func() {
+    forindex (var i; ja_rwr_sectors) ja_rwr_sectors[i] = 0;
+    forindex (var i; ja_msl_sectors) ja_msl_sectors[i] = FALSE;
+
+    foreach (var UID; keys(signals_list)) {
+        var signal = signals_list[UID];
+
+        if (ja_msl_signal_active(signal)) {
+            foreach (var i; bearing_to_ja_msl_sectors(signal.bearing)) {
+                ja_msl_sectors[i] = TRUE;
+            }
+        }
+        var level = ja_rwr_signal_level(signal);
+        if (level == 0) continue;
+        foreach (var i; bearing_to_ja_rwr_sectors(signal.bearing)) {
+            ja_rwr_sectors[i] = math.max(ja_rwr_sectors[i], level);
+        }
+    }
+
+    forindex (var i; ja_msl_sectors) input.ja_lights[i].setBoolValue(ja_msl_sectors[i]);
+}
+
+var update_ajs_lights = func() {
+    var time = input.time.getValue();
+
+    forindex (var i; ajs_rwr_sectors) {
+        ajs_rwr_sectors[i] = FALSE;
+    }
+
+    foreach (var UID; keys(signals_list)) {
+        var signal = signals_list[UID];
+        if (!ajs_rwr_signal_active(signal, time)) continue;
+
+        foreach (var i; bearing_to_ajs_rwr_sectors(signal.bearing)) {
+            ajs_rwr_sectors[i] = TRUE;
+        }
+    }
+
+    forindex (var i; ajs_rwr_sectors) {
+        input.ajs_lights[i].setBoolValue(ajs_rwr_sectors[i]);
     }
 }
 
-# Get the highest priority signal type in a given sector.
-var get_highest_signal = func(sector) {
-    for(var type=RWR_SIGNAL_MAX; type>=RWR_SIGNAL_MIN; type-=1) {
-        if(sectors_table[type][sector]) return type;
-    }
-    return 0;
-}
+
+var update_lights = getprop("/ja37/systems/variant") == 0 ? update_ja_lights : update_ajs_lights;

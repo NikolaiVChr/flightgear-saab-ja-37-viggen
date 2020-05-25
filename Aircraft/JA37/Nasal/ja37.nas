@@ -493,6 +493,9 @@ var Saab37 = {
       input.augmentation.setBoolValue(FALSE);
     }
 
+    # RWR
+    rwr.update_lights();
+
     # Animating engine fire
     if (me.n1 > 100) me.n1 = 100;
     me.flame = 100 / (101-me.n1);
