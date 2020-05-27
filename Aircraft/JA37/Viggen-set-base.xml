@@ -647,19 +647,6 @@
             <dist-thunder3 type="double">0.0</dist-thunder3>
             <environment-volume type="double">0.0</environment-volume>
             <rain-volume type="double">0.0</rain-volume>
-            <incoming1 type="bool">false</incoming1>
-            <incoming2 type="bool">false</incoming2>
-            <incoming3 type="bool">false</incoming3>
-            <incoming4 type="bool">false</incoming4>
-            <incoming5 type="bool">false</incoming5>
-            <incoming6 type="bool">false</incoming6>
-            <incoming7 type="bool">false</incoming7>
-            <incoming8 type="bool">false</incoming8>
-            <incoming9 type="bool">false</incoming9>
-            <incoming10 type="bool">false</incoming10>
-            <incoming11 type="bool">false</incoming11>
-            <incoming12 type="bool">false</incoming12>
-            <incoming type="bool">false</incoming>
             <helmet type="double">0.9</helmet>
             <fuel-low-on type="bool">false</fuel-low-on>
             <fuel-low-2-on type="bool">false</fuel-low-2-on>
@@ -1484,16 +1471,29 @@
             <serviceable type="bool">true</serviceable>
         </radar>
         <rwr>
-          <ajs-light n="0" type="bool">false</ajs-light>
-          <ajs-light n="1" type="bool">false</ajs-light>
-          <ajs-light n="2" type="bool">false</ajs-light>
-          <ajs-light n="3" type="bool">false</ajs-light>
-          <ajs-light n="4" type="bool">false</ajs-light>
-          <ajs-light n="5" type="bool">false</ajs-light>
-          <ja-light n="0" type="bool">false</ja-light>
-          <ja-light n="1" type="bool">false</ja-light>
-          <ja-light n="2" type="bool">false</ja-light>
-          <ja-light n="3" type="bool">false</ja-light>
+          <ajs-lights>
+            <sector n="0" type="bool">false</sector>
+            <sector n="1" type="bool">false</sector>
+            <sector n="2" type="bool">false</sector>
+            <sector n="3" type="bool">false</sector>
+            <sector n="4" type="bool">false</sector>
+            <sector n="5" type="bool">false</sector>
+          </ajs-lights>
+          <ja-lights>
+            <sector n="0" type="bool">false</sector>
+            <sector n="1" type="bool">false</sector>
+            <sector n="2" type="bool">false</sector>
+            <sector n="3" type="bool">false</sector>
+          </ja-lights>
+          <sound>
+            <volume type="double">0</volume>
+            <sound n="0" type="bool">false</sound>
+            <freq n="0" type="double">500</freq>
+            <sound n="1" type="bool">false</sound>
+            <freq n="1" type="double">1800</freq>
+            <high-prf type="bool">false</high-prf>
+            <incoming type="bool">false</incoming>
+          </sound>
         </rwr>
         <head-up-display>
             <serviceable type="bool">true</serviceable>

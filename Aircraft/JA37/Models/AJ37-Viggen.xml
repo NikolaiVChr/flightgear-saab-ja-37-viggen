@@ -2027,7 +2027,7 @@
   <type>material</type>
   <object-name>TWR1</object-name>
   <condition>
-    <property>instrumentation/rwr/ajs-light[0]</property>
+    <property>instrumentation/rwr/ajs-lights/sector[0]</property>
   </condition>
   <emission>
     <red>1.0</red>
@@ -2041,7 +2041,7 @@
   <type>material</type>
   <object-name>TWR3</object-name>
   <condition>
-    <property>instrumentation/rwr/ajs-light[1]</property>
+    <property>instrumentation/rwr/ajs-lights/sector[1]</property>
   </condition>
   <emission>
     <red>1.0</red>
@@ -2055,7 +2055,7 @@
   <type>material</type>
   <object-name>TWR5</object-name>
   <condition>
-    <property>instrumentation/rwr/ajs-light[2]</property>
+    <property>instrumentation/rwr/ajs-lights/sector[2]</property>
   </condition>
   <emission>
     <red>1.0</red>
@@ -2069,7 +2069,7 @@
   <type>material</type>
   <object-name>TWR7</object-name>
   <condition>
-    <property>instrumentation/rwr/ajs-light[3]</property>
+    <property>instrumentation/rwr/ajs-lights/sector[3]</property>
   </condition>
   <emission>
     <red>1.0</red>
@@ -2083,7 +2083,7 @@
   <type>material</type>
   <object-name>TWR9</object-name>
   <condition>
-    <property>instrumentation/rwr/ajs-light[4]</property>
+    <property>instrumentation/rwr/ajs-lights/sector[4]</property>
   </condition>
   <emission>
     <red>1.0</red>
@@ -2097,7 +2097,7 @@
   <type>material</type>
   <object-name>TWR11</object-name>
   <condition>
-    <property>instrumentation/rwr/ajs-light[5]</property>
+    <property>instrumentation/rwr/ajs-lights/sector[5]</property>
   </condition>
   <emission>
     <red>1.0</red>

@@ -263,7 +263,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/rwr/ja-light[0]</property>
+	        <property>instrumentation/rwr/ja-lights/sector[0]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
@@ -287,7 +287,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/rwr/ja-light[1]</property>
+	        <property>instrumentation/rwr/ja-lights/sector[1]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
@@ -311,7 +311,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/rwr/ja-light[2]</property>
+	        <property>instrumentation/rwr/ja-lights/sector[2]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
@@ -335,7 +335,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/rwr/ja-light[3]</property>
+	        <property>instrumentation/rwr/ja-lights/sector[3]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>

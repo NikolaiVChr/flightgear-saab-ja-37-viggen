@@ -494,7 +494,7 @@ var Saab37 = {
     }
 
     # RWR
-    rwr.update_lights();
+    rwr.update_rwr();
 
     # Animating engine fire
     if (me.n1 > 100) me.n1 = 100;
