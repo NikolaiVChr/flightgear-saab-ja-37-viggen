@@ -1705,7 +1705,7 @@
         </view>-->
 
         <!--<proto>
-            <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar-prototype.nas</file>
         </proto>-->
         
         <lm>

@@ -90,7 +90,7 @@ AIToNasal = {
 # convert AI property tree to Nasal vector
 # will send notification when some is updated (emesary?)
 # listeners for adding/removing AI nodes.
-# very slow loop (10 secs)
+# very slow loop (5 min)
 # updates AIContacts, does not replace them. (yes will make slower, but solves many issues. Can divide workload over 2 frames.)
 #
 # Attributes:
@@ -122,7 +122,7 @@ AIToNasal = {
 	},
 	
 	readTree: func {
-		print("NR: readtree called");
+		#print("NR: readtree called");
 		#me.lookupCallsignRaw = {};
 		me.lookupCallsignNew = {};
 		me.vector_aicontacts = [];
@@ -957,7 +957,8 @@ TerrainChecker = {
 		me.SelectCoord = contact.getCoord();
 		me.itsAlt = math.abs(me.SelectCoord.alt())<0.001?0:me.SelectCoord.alt();
 	    me.maxDist = me.myOwnPos.direct_distance_to(me.SelectCoord);
-	    if (me.maxDist*0.001 > 3.57*(math.sqrt(me.myOwnPos.alt())+math.sqrt(me.SelectCoord.alt()))) {
+	    
+	    if (me.maxDist*0.001 > 3.57*(math.sqrt(math.max(0,me.myOwnPos.alt()))+math.sqrt(math.max(0,me.SelectCoord.alt())))) {
 	    	# behind earth curvature
 	    	return FALSE;
 	    }
@@ -1108,7 +1109,7 @@ ActiveDiscRadar = {
 
 	loop: func {
 		if (!me.skipLoop and me.enabled) {#skipping loop while we wait for notification from NoseRadar. (I know its synchronious now, but it might change)
-			me.calcPattern();# must tell if pattern was changed
+			#me.calcPattern();# must tell if pattern was changed  commented, as I dont remember what this line was supposed to do.
 			me.moveDisc();
 			me.scanFOV();
 			if (me.lock == HARD) {
@@ -3268,6 +3269,6 @@ RWRView.new();
 buttonWindow();
 
 
-var fix = FixedBeamRadar.new();
-fix.setBeamPitch(-2.5);
-settimer(func {print("beam: "~fix.testForDistance());},15);# will fail if no terrain found :)
+#var fix = FixedBeamRadar.new();
+#fix.setBeamPitch(-2.5);
+#settimer(func {print("beam: "~fix.testForDistance());},15);# will fail if no terrain found :)
