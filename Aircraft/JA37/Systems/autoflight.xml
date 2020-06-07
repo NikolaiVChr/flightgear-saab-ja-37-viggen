@@ -368,14 +368,6 @@
 			</test>
 		</switch>
 		
-		<switch name="autoflight/rudder-trim-reset"> <!-- Adjusting trim kicks to GSA, so in STICK and higher lets reset -->
-			<default value="/controls/flight/rudder-trim"/>
-			<test value="0">
-				autoflight/mode gt 0
-			</test>
-			<output>/controls/flight/rudder-trim</output>
-		</switch>
-	
 	</channel>
 	
 	<channel name="Autoflight: Drivers">

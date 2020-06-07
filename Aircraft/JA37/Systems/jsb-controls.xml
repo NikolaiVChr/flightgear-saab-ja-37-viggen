@@ -38,6 +38,58 @@
         </pure_gain>
     </channel>
 
+    <channel name="Trim">
+        <fcs_function name="names/trim/pitch">
+            <function>
+                <sum>
+                    <property>/controls/flight/elevator-trim</property>
+                    <product>
+                        <property>/controls/flight/trim-pitch</property>
+                        <property>simulation/channel-dt</property>
+                        <value>0.05</value>
+                    </product>
+                </sum>
+            </function>
+            <output>/controls/flight/elevator-trim</output>
+        </fcs_function>
+
+        <fcs_function name="names/trim/roll">
+            <function>
+                <sum>
+                    <property>/controls/flight/aileron-trim</property>
+                    <product>
+                        <property>/controls/flight/trim-roll</property>
+                        <property>simulation/channel-dt</property>
+                        <value>0.05</value>
+                    </product>
+                </sum>
+            </function>
+            <output>/controls/flight/aileron-trim</output>
+        </fcs_function>
+
+        <fcs_function name="names/trim/yaw">
+            <function>
+                <!-- With autoflight engaged (including CSS), rudder trim is handled automatically. -->
+                <ifthen>
+                    <eq>
+                        <property>autoflight/mode</property>
+                        <value>0</value>
+                    </eq>
+                    <sum>
+                        <property>/controls/flight/rudder-trim</property>
+                        <product>
+                            <property>/controls/flight/trim-yaw</property>
+                            <property>simulation/channel-dt</property>
+                            <value>0.05</value>
+                        </product>
+                    </sum>
+                    <value>0</value>
+                </ifthen>
+            </function>
+            <output>/controls/flight/rudder-trim</output>
+        </fcs_function>
+    </channel>
+
     <!--
                    Elevator -25 to +20  (page 131, figure 108b)
                    Elevator -25 to +20  (page 133, figure 110a)

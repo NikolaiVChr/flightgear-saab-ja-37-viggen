@@ -1074,27 +1074,17 @@
                     <value>-1</value>
                 </binding>
                 <binding>
-                    <condition>
-                        <equals>
-                            <property>fdm/jsbsim/autoflight/mode</property>
-                            <value>0</value>
-                        </equals>
-                    </condition>
-                    <command>property-adjust</command>
-                    <property>/controls/flight/rudder-trim</property>
-                    <step>-0.05</step>
-                    <min>-1</min>
-                    <max>1</max>
-                    <wrap>false</wrap>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
                 </binding>
+                <mod-up>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>controls/flight/trim-yaw</property>
+                        <value>0</value>
+                    </binding>
+                </mod-up>
             </mod-ctrl>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/flight/trim-yaw</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
         </key>
 
         <key n="358">
@@ -1108,27 +1098,17 @@
                     <value>1</value>
                 </binding>
                 <binding>
-                    <condition>
-                        <equals>
-                            <property>fdm/jsbsim/autoflight/mode</property>
-                            <value>0</value>
-                        </equals>
-                    </condition>
-                    <command>property-adjust</command>
-                    <property>/controls/flight/rudder-trim</property>
-                    <step>0.05</step>
-                    <min>-1</min>
-                    <max>1</max>
-                    <wrap>false</wrap>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
                 </binding>
+                <mod-up>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>controls/flight/trim-yaw</property>
+                        <value>0</value>
+                    </binding>
+                </mod-up>
             </mod-ctrl>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/flight/trim-yaw</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
         </key>
 
         <key n="262">
