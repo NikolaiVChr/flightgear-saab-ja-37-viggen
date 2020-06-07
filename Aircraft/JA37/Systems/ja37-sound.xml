@@ -947,12 +947,10 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
-                        <value>0</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.25</x>
@@ -978,12 +976,10 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
-                        <value>1</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.25</x>

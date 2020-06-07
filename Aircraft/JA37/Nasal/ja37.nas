@@ -87,7 +87,7 @@ input = {
   indAlt:           "/instrumentation/altitude-indicator",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
-  indAT:            "ja37/avionics/auto-throttle-on",
+  indAT:            "fdm/jsbsim/autoflight/athr",
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
   indRev:           "/instrumentation/reverse-indicator",
@@ -192,7 +192,6 @@ input = {
   tonePreL2: "ja37/sound/tones/load-pre-2",
   tonePreL1: "ja37/sound/tones/load-pre-1",
 };
-
 
 var Saab37 = {
   new: func {
@@ -313,7 +312,7 @@ var Saab37 = {
 
     # low speed warning (as per manual page 279 in JA37C part 1)
     me.lowSpeed = FALSE;
-    if (auto.modeT < 2 and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
+    if (!input.indAT.getBoolValue() and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
       if (input.indAltMeter.getValue() < 1200) {
         if (
           (input.gearsPos.getValue() == 1 and (getprop("controls/altimeter-radar")==TRUE?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
@@ -1018,10 +1017,6 @@ var Saab37 = {
     me.loop_common.start();
     me.loop_commonF.start();
     
-    # autopilot
-    me.loop_ap       = maketimer(0.20, me, func auto.apLoop());
-    me.loop_hydrLost = maketimer(0.50, me, func auto.hydr1Lost());
-
     me.loop_chrono   = maketimer(0.26, me, func ja37.chrono_update());
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
     me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
@@ -1034,9 +1029,7 @@ var Saab37 = {
     me.loop_fast.start();
     me.loop_slow.start();
     #me.loop_ct.start();
-    #me.loop_not.start();
-    me.loop_ap.start();
-    me.loop_hydrLost.start();    
+    #me.loop_not.start(); 
     me.loop_chrono.start();
     me.loop_land.start();
     me.loop_nav.start();
@@ -1147,10 +1140,6 @@ var Saab37 = {
     me.loop_common.start();
     me.loop_commonF.start();
     
-    # autopilot
-    me.loop_ap       = maketimer(0.20, me, func {timer.timeLoop("Autopilot", auto.apLoop,me);});
-    me.loop_hydrLost = maketimer(0.50, me, func {timer.timeLoop("Autopilot-power", auto.hydr1Lost,me);});
-
     me.loop_chrono   = maketimer(0.26, me, func {timer.timeLoop("chronometer", ja37.chrono_update,me);});
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
@@ -1693,11 +1682,10 @@ var main_init = func {
   if (getprop("ja37/systems/state") == "cruise") {
       #setprop("position/altitude-ft", 20000);
       #setprop("velocities/mach", 0.65);
-      setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 0.75);
       setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
       setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
       setprop("controls/gear/gear-down", 0);
-      auto.mode3();
+      autoflight.System.engageMode(3);
       settimer(cruise, 1.5);
   } else {
     setprop("fdm/jsbsim/gear/gear-filtered-norm", 1);
@@ -1721,7 +1709,6 @@ var setup_custom_stick_bindings = func {
 
 
 var cruise = func {
-  setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 0.75);
   setprop("controls/gear/gear-down", 0);
   setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
   setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
@@ -1740,7 +1727,7 @@ var re_init = func {
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
-  auto.stopAP();
+  autoflight.engageMode(0);
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
   setprop("ja37/done",0);

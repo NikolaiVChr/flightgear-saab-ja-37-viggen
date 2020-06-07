@@ -28,7 +28,7 @@
         <object-name>pickTop</object-name>
         <action>
             <button>0</button>
-            <repeatable>true</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
                 <property>controls/flight/trim-yaw</property>
@@ -41,14 +41,6 @@
                     <value>0</value>
                 </binding>
             </mod-up>
-            <!--<binding>
-                <command>property-adjust</command>
-                <property>/controls/flight/rudder-trim</property>
-                <step>-0.05</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>-->
             <binding>
                 <command>nasal</command>
                 <script>ja37.click();</script>
@@ -61,7 +53,7 @@
         <object-name>pickBottom</object-name>
         <action>
             <button>0</button>
-            <repeatable>true</repeatable>
+            <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
                 <property>controls/flight/trim-yaw</property>
@@ -74,14 +66,6 @@
                     <value>0</value>
                 </binding>
             </mod-up>
-            <!--<binding>
-                <command>property-adjust</command>
-                <property>/controls/flight/rudder-trim</property>
-                <step>0.05</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>-->
             <binding>
                 <command>nasal</command>
                 <script>ja37.click();</script>

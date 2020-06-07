@@ -72,7 +72,7 @@
     <animation>
         <type>rotate</type>
         <object-name>handleBrake</object-name>
-        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
+        <property>fdm/jsbsim/autoflight/athr-pos</property>
         <factor>-10</factor>
         <offset-deg>10</offset-deg>
         <center>
@@ -137,7 +137,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>handle-brake</tooltip-id>
+                <tooltip-id>autothrottle</tooltip-id>
                 <label>Auto-throttle (down), throttle-friction (up)</label>
             </binding>
         </hovered>
@@ -147,7 +147,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>fdm/jsbsim/autopilot/throttle-lever-cmd</property>
+                <property>/fdm/jsbsim/autoflight/athr-cmd</property>
             </binding>
         </action>
     </animation>

@@ -1501,9 +1501,9 @@ var TI = {
 	  	var ti = { parents: [TI] };
 	  	ti.input = {
 			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
-			APLockAlt:            "autopilot/locks/altitude",
-			APTgtAgl:             "autopilot/settings/target-agl-ft",
-			APTgtAlt:             "autopilot/settings/target-altitude-ft",
+			#APmode:               "fdm/jsbsim/autoflight/mode",
+			#APTgtAgl:             "autopilot/settings/target-agl-ft",
+			#APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			rad_alt:              "position/altitude-agl-ft",
 			radarEnabled:         "ja37/hud/tracks-enabled",
@@ -2141,7 +2141,6 @@ var TI = {
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
 				if (me.input.wow1.getValue() == 0) {
-#					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
 					if (radar_logic.steerOrder == TRUE) {
 						me.menuButtonBox[1].show();
 					}

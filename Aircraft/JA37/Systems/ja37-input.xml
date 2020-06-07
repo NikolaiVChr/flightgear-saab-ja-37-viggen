@@ -336,46 +336,6 @@
                 </binding>
             </mod-shift>
         </key>
-        <key n="127">
-            <name>Delete</name>
-            <desc>Yaw damper on/off</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.toggleYawDamper();</script>
-            </binding>
-        </key>
-        <key n="127">
-            <name>Shift delete</name>
-            <desc>Pitch damper on/off</desc>
-            <mod-shift>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.togglePitchDamper();</script>
-                </binding>
-            </mod-shift>
-        </key>
-        <key n="127">
-            <name>Ctrl delete</name>
-            <desc>Roll damper on/off</desc>
-            <mod-ctrl>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.toggleRollDamper();</script>
-                </binding>
-            </mod-ctrl>
-        </key>
-        <key n="119">
-            <name>w</name>
-            <desc>Pitch Gearing on/off</desc>
-            <binding>
-                <command>property-toggle</command>
-                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </key>
         <key n="111">
             <name>o</name>
             <desc>Toggle canopy</desc>
@@ -1145,13 +1105,21 @@
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
-                    <command>property-cycle</command>
+                    <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
-                    <value type="int">1</value>
-                    <value type="int">0</value>
-                    <value type="int">-1</value>
-                    <wrap>false</wrap>
+                    <value>-1</value>
                 </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
+                </binding>
+                <mod-up>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>controls/flight/trim-yaw</property>
+                        <value>0</value>
+                    </binding>
+                </mod-up>
             </mod-ctrl>
         </key>
 
@@ -1161,45 +1129,21 @@
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
-                    <command>property-cycle</command>
+                    <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
-                    <value type="int">-1</value>
-                    <value type="int">0</value>
-                    <value type="int">1</value>
-                    <wrap>false</wrap>
+                    <value>1</value>
                 </binding>
-            </mod-ctrl>
-        </key>
-
-        <key n="357">
-            <name>Ctrl Up</name>
-            <repeatable type="bool">true</repeatable>
-            <mod-ctrl>
-                <desc>A/T speed</desc>
                 <binding>
-                    <command>property-adjust</command>
-                    <property>autopilot/settings/target-speed-kt</property>
-                    <step>5</step>
-                    <min type="int">0</min>
-                    <max type="int">2000</max>
-                    <wrap>false</wrap>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
                 </binding>
-            </mod-ctrl>
-        </key>
-
-        <key n="359">
-            <name>Ctrl Down</name>
-            <repeatable type="bool">true</repeatable>
-            <mod-ctrl>
-                <desc>A/T speed</desc>
-                <binding>
-                    <command>property-adjust</command>
-                    <property>autopilot/settings/target-speed-kt</property>
-                    <step>-5</step>
-                    <min type="int">0</min>
-                    <max type="int">2000</max>
-                    <wrap>false</wrap>
-                </binding>
+                <mod-up>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>controls/flight/trim-yaw</property>
+                        <value>0</value>
+                    </binding>
+                </mod-up>
             </mod-ctrl>
         </key>
 
@@ -1272,16 +1216,114 @@
                 </binding>
              </key>
 
-         <key n="19">
+        <key n="19">
           <name>Ctrl-S</name>
           <desc>Toggle auto-throttle lock</desc>
           <binding>
-           <command>nasal</command>
-           <script>
-                auto.apContSpeed();
-                ja37.click();
+            <command>property-toggle</command>
+            <property>/fdm/jsbsim/autoflight/athr-cmd</property>
+          </binding>
+        </key>
+        <key n="7">
+          <name>Ctrl-G</name>
+          <desc>Autothrottle quick-disengage</desc>
+          <binding>
+            <command>property-assign</command>
+            <property>/fdm/jsbsim/autoflight/athr-quick-disengage</property>
+            <value>1</value>
+          </binding>
+          <mod-up>
+            <binding>
+              <command>property-assign</command>
+              <property>/fdm/jsbsim/autoflight/athr-quick-disengage</property>
+              <value>0</value>
+            </binding>
+          </mod-up>
+          <binding>
+            <command>nasal</command>
+            <script>ja37.click();</script>
+          </binding>
+        </key>
+
+        <key n="20">
+          <name>Ctrl-T</name>
+          <desc>Engage CSS mode</desc>
+          <binding>
+            <command>nasal</command>
+            <script>
+              autoflight.System.engageMode(1);
+              ja37.click();
             </script>
           </binding>
-         </key>
+          <binding>
+            <command>property-assign</command>
+            <property>ja37/avionics/button-stck</property>
+            <value>1</value>
+          </binding>
+          <mod-up>
+            <binding>
+              <command>property-assign</command>
+              <property>ja37/avionics/button-stck</property>
+              <value>0</value>
+            </binding>
+          </mod-up>
+        </key>
+        <key n="23">
+          <name>Ctrl-W</name>
+          <desc>Engage autopilot attitude hold</desc>
+          <binding>
+            <command>nasal</command>
+            <script>
+              autoflight.System.engageMode(2);
+              ja37.click();
+            </script>
+          </binding>
+          <binding>
+            <command>property-assign</command>
+            <property>ja37/avionics/button-att</property>
+            <value>1</value>
+          </binding>
+          <mod-up>
+            <binding>
+              <command>property-assign</command>
+              <property>ja37/avionics/button-att</property>
+              <value>0</value>
+            </binding>
+          </mod-up>
+        </key>
+        <key n="1">
+          <name>Ctrl-A</name>
+          <desc>Engage autopilot altitude hold</desc>
+          <binding>
+            <command>nasal</command>
+            <script>
+              autoflight.System.engageMode(3);
+              ja37.click();
+            </script>
+          </binding>
+          <binding>
+            <command>property-assign</command>
+            <property>ja37/avionics/button-alt</property>
+            <value>1</value>
+          </binding>
+          <mod-up>
+            <binding>
+              <command>property-assign</command>
+              <property>ja37/avionics/button-alt</property>
+              <value>0</value>
+            </binding>
+          </mod-up>
+        </key>
+        <key n="4">
+          <name>Ctrl-D</name>
+          <desc>Autopilot quick-disengage</desc>
+          <binding>
+            <command>nasal</command>
+            <script>
+              autoflight.System.apQuickDisengage();
+              ja37.click();
+            </script>
+          </binding>
+        </key>
     </keyboard>
 </PropertyList>

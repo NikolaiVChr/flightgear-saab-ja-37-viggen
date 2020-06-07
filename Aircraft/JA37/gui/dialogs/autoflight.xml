@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Viggen Autoflight System -->
+<!-- Copyright (c) 2019 Joshua Davidson (Octal450) -->
+
+<PropertyList>
+	
+	<name>autopilot</name>
+	<layout>vbox</layout>
+	
+	<group>
+		<layout>hbox</layout>
+		
+		<text>
+			<halign>left</halign>
+			<label>Viggen Autoflight System</label>
+		</text>
+		<empty><stretch>1</stretch></empty>
+		
+		<group>
+			<layout>table</layout>
+			
+			<button>
+				<row>0</row>
+				<col>0</col>
+				<halign>right</halign>
+				<pref-width>20</pref-width>
+				<pref-height>20</pref-height>
+				<legend>?</legend>
+				<binding>
+					<command>dialog-show</command>
+					<dialog-name>autopilot-help</dialog-name>
+				</binding>
+			</button>
+			<button>
+				<row>0</row>
+				<col>1</col>
+				<halign>right</halign>
+				<pref-width>20</pref-width>
+				<pref-height>20</pref-height>
+				<legend>X</legend>
+				<key>Esc</key>
+				<binding>
+					<command>dialog-close</command>
+				</binding>
+			</button>
+		</group>
+	</group>
+	
+	<hrule/>
+	
+	<group>
+		<layout>hbox</layout>
+		
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<pref-width>75</pref-width>
+			<pref-height>35</pref-height>
+			<legend>STICK</legend>
+			<binding>
+				<command>nasal</command>
+				<script>autoflight.System.engageMode(1);</script>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<pref-width>75</pref-width>
+			<pref-height>35</pref-height>
+			<legend>ATT</legend>
+			<binding>
+				<command>nasal</command>
+				<script>autoflight.System.engageMode(2);</script>
+			</binding>
+		</button>
+		<button>
+			<row>0</row>
+			<col>0</col>
+			<pref-width>75</pref-width>
+			<pref-height>35</pref-height>
+			<legend>ALT</legend>
+			<binding>
+				<command>nasal</command>
+				<script>autoflight.System.engageMode(3);</script>
+			</binding>
+		</button>
+	</group>
+	
+	<group>
+		<layout>hbox</layout>
+
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+		<text>
+			<label>Lights</label>
+		</text>
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+	</group>
+	
+	<group>
+		<layout>hbox</layout>
+		
+		<text>
+			<border>1</border>
+			<label>  STICK</label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/stick-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+		<vrule/>
+		<text>
+			<border>1</border>
+			<label> ATT </label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/att-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+		<vrule/>
+		<text>
+			<border>1</border>
+			<label> ALT </label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/alt-light-cmd</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+		<vrule/>
+		<text>
+			<border>1</border>
+			<label> A/T   </label>
+			<visible>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/athr</property>
+					<value>1</value>
+				</equals>
+			</visible>
+		</text>
+	</group>
+	
+	<group>
+		<layout>hbox</layout>
+
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+		<text>
+			<label>Auto Throttle</label>
+		</text>
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+	</group>
+	
+	<checkbox>
+		<label>Auto Throttle Command Lever</label>
+		<halign>left</halign>
+		<live>true</live>
+		<property>/fdm/jsbsim/autoflight/athr-cmd</property>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+	</checkbox>
+	
+	<checkbox>
+		<label>15.5 Deg Alpha</label>
+		<halign>left</halign>
+		<live>true</live>
+		<property>/fdm/jsbsim/autoflight/high-alpha</property>
+		<binding>
+			<command>nasal</command>
+			<script>autoflight.System.highAlphaToggle();</script>
+		</binding>
+	</checkbox>
+	
+	<group>
+		<layout>hbox</layout>
+
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+		<text>
+			<label>System</label>
+		</text>
+		<hrule>
+			<stretch>true</stretch>
+		</hrule>
+	</group>
+	
+	<checkbox>
+		<label>SA Circuit Breaker</label>
+		<halign>left</halign>
+		<live>true</live>
+		<property>/ja37/fuses/sa</property>
+		<binding>
+			<command>dialog-apply</command>
+		</binding>
+	</checkbox>
+
+</PropertyList>

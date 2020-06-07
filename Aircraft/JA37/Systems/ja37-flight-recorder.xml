@@ -7,6 +7,7 @@
         <signals include="/Aircraft/Generic/flightrecorder/components/environment.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/position.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/controls.xml"/>
+        <signals include="/Aircraft/Generic/flightrecorder/components/surfaces.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/engine-jet.xml">
             <count type="int">1</count>
         </signals>
@@ -31,28 +32,6 @@
 
 
 
-        <!-- control surfaces -->
-
-        <signal>
-            <type>float</type>
-            <property type="string">surface-positions/flap-pos-norm</property>
-            <interpolation>angular-deg</interpolation>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">surface-positions/rudder-pos-norm</property>
-            <interpolation>linear</interpolation>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">surface-positions/left-aileron-pos-norm</property>
-            <interpolation>angular-deg</interpolation>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">surface-positions/right-aileron-pos-norm</property>
-            <interpolation>angular-deg</interpolation>
-        </signal>
         <!-- Misc -->
         <signal>
             <type>bool</type>
@@ -363,10 +342,6 @@
         <signal>
           <type>bool</type>
           <property type="string">fdm/jsbsim/gear/unit[2]/WOW</property>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">surface-positions/nose-wheel-pos-norm</property>
         </signal>
     </config>
     <!-- 

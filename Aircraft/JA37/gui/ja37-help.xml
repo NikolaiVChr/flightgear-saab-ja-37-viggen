@@ -146,8 +146,28 @@
         <desc>Yaw trim or A/P heading/roll adjust</desc>
     </key>
     <key>
-        <name>Ctrl-Up/Down</name>
-        <desc>A/T speed adjust</desc>
+        <name>Ctrl-T</name>
+        <desc>Select CSS (stability assist) autopilot mode</desc>
+    </key>
+    <key>
+        <name>Ctrl-W</name>
+        <desc>Select attitude hold</desc>
+    </key>
+    <key>
+        <name>Ctrl-A</name>
+        <desc>Select altitude hold</desc>
+    </key>
+    <key>
+        <name>Ctrl-D</name>
+        <desc>Autopilot quick disengage</desc>
+    </key>
+    <key>
+        <name>Ctrl-S</name>
+        <desc>Toggle autothrottle lever</desc>
+    </key>
+    <key>
+        <name>Ctrl-G</name>
+        <desc>Autothrottle quick disengage</desc>
     </key>
     <key>
         <name>Shift-PageUp</name>

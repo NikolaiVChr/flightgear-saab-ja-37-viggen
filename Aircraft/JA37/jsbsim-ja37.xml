@@ -279,6 +279,9 @@
   </mass_balance>
   
   <propulsion file="Systems/jsb-propulsion-ja37"/>
+  <system file="jsb-input"/> <!-- BEFORE autoflight -->
+  <system file="autoflight"/> <!-- BEFORE control drivers -->
+  <system file="jsb-control-drivers"/> <!-- BEFORE flight controls -->
   <flight_control file="Systems/jsb-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
   <system file="jsb-hydraulic"/>
