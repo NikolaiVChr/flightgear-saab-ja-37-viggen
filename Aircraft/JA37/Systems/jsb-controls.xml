@@ -46,7 +46,7 @@
                     <product>
                         <property>/controls/flight/trim-pitch</property>
                         <property>simulation/channel-dt</property>
-                        <value>0.05</value>
+                        <value>0.1</value>
                     </product>
                 </sum>
             </function>
@@ -60,7 +60,7 @@
                     <product>
                         <property>/controls/flight/trim-roll</property>
                         <property>simulation/channel-dt</property>
-                        <value>0.05</value>
+                        <value>0.1</value>
                     </product>
                 </sum>
             </function>
@@ -80,7 +80,7 @@
                         <product>
                             <property>/controls/flight/trim-yaw</property>
                             <property>simulation/channel-dt</property>
-                            <value>0.05</value>
+                            <value>0.1</value>
                         </product>
                     </sum>
                     <value>0</value>
