@@ -891,7 +891,7 @@
                     <master-pid type="double">0</master-pid>
                     <p-gain type="double">0</p-gain>
                 </roll>
-				<target-speed-kmh type="int">550</target-speed-kmh>
+                <target-speed-kmh type="int">550</target-speed-kmh>
             </autoflight>
             <structural>
                 <wings>
@@ -1042,10 +1042,6 @@
             <inertia>
                 <asymmetric-wing-load type="int">0</asymmetric-wing-load>
             </inertia>
-            <autopilot>
-                <one type="double">0.0166667</one>
-                <throttle-lever-cmd type="bool">false</throttle-lever-cmd>
-            </autopilot>
             <propulsion>
                 <starter_cmd_copy type="bool">false</starter_cmd_copy>
                 <engine>
