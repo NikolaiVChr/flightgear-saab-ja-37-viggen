@@ -2,6 +2,7 @@
 
 <!-- Viggen Autoflight System -->
 <!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
+<!-- Don't move this stuff to JSBsim. Its here for a reason! -->
 
 <PropertyList>
 	
@@ -55,15 +56,18 @@
 				</equals>
 			</condition>
 		</enable>
-		<input>
-			<property>/instrumentation/gps/indicated-vertical-speed</property>
-		</input>
+		<input>/instrumentation/gps/indicated-vertical-speed</input>
 		<reference>
-			<property>/fdm/jsbsim/autoflight/pitch/vs/target</property>
+			<condition>
+				<not-equals>
+					<property>fdm/jsbsim/autoflight/pitch/alt-hold-capture</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+			<property>/fdm/jsbsim/autoflight/pitch/alt-hold-pre-target</property>
 		</reference>
-		<output>
-			<property>/fdm/jsbsim/autoflight/pitch/vs/pid</property>
-		</output>
+		<reference>/fdm/jsbsim/autoflight/pitch/vs/target</reference>
+		<output>/fdm/jsbsim/autoflight/pitch/vs/pid</output>
 		<config>
 			<Kp>
 				<expression>
@@ -75,7 +79,7 @@
 					</table>
 				</expression>
 			</Kp>
-			<Ti>2.0</Ti>
+			<Ti>1.5</Ti>
 			<Td>0.0001</Td>
 			<u_min>
 				<condition>

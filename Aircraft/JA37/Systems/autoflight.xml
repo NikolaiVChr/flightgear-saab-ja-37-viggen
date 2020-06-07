@@ -495,10 +495,31 @@
 		</pid>
 		
 		<!-- ALT HOLD -->
+		<switch name="autoflight/pitch/alt-hold-pre-target">
+			<default value="autoflight/pitch/alt-hold-capture"/>
+			<test value="-1200">
+				/instrumentation/gps/indicated-vertical-speed le -50
+			</test>
+			<test value="1200">
+				/instrumentation/gps/indicated-vertical-speed ge 50
+			</test>
+		</switch>
+		
 		<switch name="autoflight/pitch/alt-hold-active">
 			<default value="0"/>
 			<test value="1">
 				autoflight/internal-mode eq 3
+			</test>
+		</switch>
+		
+		<switch name="autoflight/pitch/alt-hold-capture">
+			<default value="autoflight/pitch/alt-hold-capture"/>
+			<test value="0">
+				autoflight/pitch/alt-hold-active eq 0
+			</test>
+			<test logic="AND" value="1">
+				/instrumentation/gps/indicated-vertical-speed le 2200
+				/instrumentation/gps/indicated-vertical-speed ge -2200
 			</test>
 		</switch>
 		
@@ -530,19 +551,25 @@
 						<sum>
 							<quotient>
 								<ifthen>
-									<eq>
-										<property>autoflight/pitch/alt-hold-active</property>
-										<value>1</value>
-									</eq>
+									<and>
+										<eq>
+											<property>autoflight/pitch/alt-hold-active</property>
+											<value>1</value>
+										</eq>
+										<eq>
+											<property>autoflight/pitch/alt-hold-capture</property>
+											<value>1</value>
+										</eq>
+									</and>
 									<property>autoflight/pitch/alt/target</property>
 									<property>autoflight/pitch/alt/predicted</property>
 								</ifthen>
-								<value>100</value>
+								<value>10</value>
 							</quotient>
 							<value>0.5</value> <!-- Make the integer rounded correctly -->
 						</sum>
 					</integer>
-					<value>100</value>
+					<value>10</value>
 				</product>
 			</function>
 			<clipto>
@@ -560,8 +587,8 @@
 			<input>autoflight/pitch/alt/error</input>
 			<gain>-7</gain>
 			<clipto>
-				<min>-3000</min>
-				<max>3000</max>
+				<min>-1000</min>
+				<max>1000</max>
 			</clipto>
 		</pure_gain>
 	
