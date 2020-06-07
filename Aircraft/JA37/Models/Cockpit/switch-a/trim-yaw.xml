@@ -57,10 +57,6 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>autoflight.System.trimStickKill();</script>
-            </binding>
-            <binding>
-                <command>nasal</command>
                 <script>ja37.click();</script>
             </binding>
         </action>
@@ -97,10 +93,6 @@
                 <min>-1</min>
                 <max>1</max>
                 <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>autoflight.System.trimStickKill();</script>
             </binding>
             <binding>
                 <command>nasal</command>

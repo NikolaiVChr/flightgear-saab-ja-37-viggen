@@ -164,28 +164,28 @@
 		</actuator>
 		
 		<switch name="autoflight/max-mode">
-			<default value="0"/>
-			<test value="1">
+			<test logic="OR" value="0">
+				/ja37/fuses/sa eq 0
+				systems/hydraulics/system1/pressure eq 0
+				autoflight/ac-bus-main-bool-timer-6s eq 0
+				/ja37/elec/dc-bus-main-bool eq 0
+				<test logic="AND">
+					autoflight/mode eq 1
+					position/wow eq 0
+					/controls/flight/trim-yaw ne 0
+				</test>
+			</test>
+			<test logic="OR" value="1">
 				autoflight/temp-mode-timer eq 1
-				autoflight/mode gt 1
 			</test>
-			<test value="2">
+			<test logic="OR" value="2">
 				autoflight/alt-transonic-timer eq 1
-				autoflight/mode eq 3
+				<test logic="AND">
+					autoflight/pitch/alt-hold-capture eq 1
+					autoflight/pitch/alt/error-disengage eq 1
+				</test>
 			</test>
-			<test logic="AND" value="3">
-				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/ac-bus-main-bool-timer-6s gt 0
-				systems/hydraulics/system1/pressure eq 1
-				systems/hydraulics/system2/pressure eq 1
-				/ja37/fuses/sa ne 0
-			</test>
-			<test logic="AND" value="1">
-				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/ac-bus-main-bool-timer-6s gt 0
-				systems/hydraulics/system1/pressure eq 1
-				/ja37/fuses/sa ne 0
-			</test>
+			<default value="3"/>
 			<output>autoflight/max-mode-out</output>
 		</switch>
 		
@@ -240,6 +240,7 @@
 			</test>
 			<test logic="OR" value="1">
 				gear/unit[2]/WOW eq 1
+				autoflight/athr-quick-disengage eq 1
 			</test>
 		</switch>
 
@@ -250,27 +251,26 @@
 				autoflight/athr-pos lt 1
 				autoflight/athr-disengaged-normal eq 1
 			</test>
-			<!-- JA only: disengage if speed lt 495km/h and reducing in speed hold mode -->
-			<test logic="AND" value="1">
-				/ja37/systems/variant eq 0
-				autoflight/indicated-speed-kmh lt 495
-				autoflight/indicated-speed-dot-kmh_sec lt 0
-				autoflight/athr-mode eq 0
-			</test>
-			<!-- 6s loss of AC power -->
-			<test logic="AND" value="1">
-				autoflight/ac-bus-main-bool-timer-6s eq 0
-			</test>
-			<!-- 2s loss of AC power, in alpha mode, or with AJS -->
-			<test logic="AND" value="1">
-				autoflight/ac-bus-main-bool-timer-2s eq 0
-				<test logic="OR">
-					autoflight/athr-mode ne 0
-					/ja37/systems/variant ne 0
+			<test logic="OR" value="1">
+				<!-- JA only: disengage if speed lt 495km/h and reducing in speed hold mode -->
+				<test logic="AND">
+					/ja37/systems/variant eq 0
+					autoflight/indicated-speed-kmh lt 495
+					autoflight/indicated-speed-dot-kmh_sec lt 0
+					autoflight/athr-mode eq 0
 				</test>
-			</test>
-			<test value="1">
-				/ja37/elec/dc-bus-main-bool ne 1
+				<!-- 2s loss of AC power, in alpha mode, or with AJS -->
+				<test logic="AND">
+					autoflight/ac-bus-main-bool-timer-2s eq 0
+					<test logic="OR">
+						autoflight/athr-mode ne 0
+						/ja37/systems/variant ne 0
+					</test>
+				</test>
+				<!-- Other disengagement conditions -->
+				autoflight/ac-bus-main-bool-timer-6s eq 0
+				/ja37/elec/dc-bus-main-bool eq 0
+				/ja37/fuses/sa eq 0
 			</test>
 		</switch>
 
@@ -591,7 +591,22 @@
 				<max>1000</max>
 			</clipto>
 		</pure_gain>
-	
+
+		<fcs_function name="autoflight/pitch/alt/error-disengage">
+			<function>
+				<lt>
+					<property>autoflight/pitch/alt/error</property>
+					<sum>
+						<value>-164</value><!-- -50 m -->
+						<product>
+							<value>-0.018</value>
+							<property>autoflight/pitch/alt/target</property>
+						</product>
+					</sum>
+				</lt>
+			</function>
+		</fcs_function>
+
 	</channel>
 	
 	<channel name="Autoflight: Roll Channel">

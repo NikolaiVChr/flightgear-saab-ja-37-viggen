@@ -25,15 +25,15 @@ var System = {
 			mode.setValue(m);
 		}
 	},
-	trimStickKill: func() {
-		if (!wow.getBoolValue() and mode.getValue() == 1) {
-			me.engageMode(0); # GSA
-		}
-	},
 	highAlphaToggle: func() {
 		if (highAlphaAllowed.getBoolValue()) {
 			highAlpha.setBoolValue(!highAlpha.getBoolValue());
 		}
+	},
+	# Quick disengage button on stick. The button is not implemented yet,
+	# but this can be used for future or custom bindings.
+	apQuickDisengage: func() {
+		mode.setValue(0);
 	},
 };
 

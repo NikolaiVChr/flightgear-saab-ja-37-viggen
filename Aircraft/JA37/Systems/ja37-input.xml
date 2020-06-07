@@ -1087,10 +1087,6 @@
                     <max>1</max>
                     <wrap>false</wrap>
                 </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>autoflight.System.trimStickKill();</script>
-                </binding>
             </mod-ctrl>
             <mod-up>
                 <binding>
@@ -1124,10 +1120,6 @@
                     <min>-1</min>
                     <max>1</max>
                     <wrap>false</wrap>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>autoflight.System.trimStickKill();</script>
                 </binding>
             </mod-ctrl>
             <mod-up>
