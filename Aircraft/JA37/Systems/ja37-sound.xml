@@ -947,12 +947,10 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
-                        <value>0</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.25</x>
@@ -978,12 +976,10 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
-                        <value>1</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property>fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.25</x>
@@ -2062,8 +2058,8 @@
             </volume>
         </cannon>
 
-        <missile1>
-            <name>missile0</name>
+        <missile>
+            <name>missile-rb71</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2080,9 +2076,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile1>
-        <missile1>
-            <name>missile1</name>
+        </missile>
+        <missile>
+            <name>missile-rb24j</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2099,9 +2095,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile1>
-        <missile2>
-            <name>missile2</name>
+        </missile>
+        <missile>
+            <name>missile-rb74</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2118,9 +2114,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile2>
-        <missile3>
-            <name>missile3</name>
+        </missile>
+        <missile>
+            <name>missile-rb99</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2137,9 +2133,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile3>
-        <missile4>
-            <name>missile4</name>
+        </missile>
+        <missile>
+            <name>missile-rb05</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2156,9 +2152,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile4>
-        <missile5>
-            <name>missile5</name>
+        </missile>
+        <missile>
+            <name>missile-rb75</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2175,9 +2171,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile5>
-        <missile6>
-            <name>missile6</name>
+        </missile>
+        <missile>
+            <name>missile-rb04</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2194,9 +2190,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile6>
-        <missile6>
-            <name>missile7</name>
+        </missile>
+        <missile>
+            <name>missile-m90</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2213,9 +2209,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile6>
-        <missile6>
-            <name>missile7</name>
+        </missile>
+        <missile>
+            <name>missile-rb24</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2232,9 +2228,9 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile6>
-        <missile6>
-            <name>missile7</name>
+        </missile>
+        <missile>
+            <name>missile-rb15</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
@@ -2251,7 +2247,7 @@
                 <factor>0.75</factor>
                 <max>1</max>
             </volume>
-        </missile6>
+        </missile>
 
         <m70>
             <name>m70</name>

@@ -1,0 +1,448 @@
+<!-- Viggen FCS Drivers -->
+<!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
+
+<system name="Viggen FCS Drivers">
+	
+	<property value="0">fcs/drivers/roll/stick-geared</property>
+	<property value="0">fcs/drivers/pitch/stick-geared</property>
+	<property value="0">fcs/drivers/series-trim/mach-switch-feedback</property>
+	
+	<channel name="Libraries">
+		
+		<switch name="position/wow">
+			<default value="0"/>
+			<test logic="OR" value="1">
+				gear/unit[0]/WOW eq 1
+				gear/unit[1]/WOW eq 1
+				gear/unit[2]/WOW eq 1
+			</test>
+		</switch>
+	
+	</channel>
+	
+	<channel name="Roll Axis">
+		
+		<switch name="fcs/drivers/roll/rate-limiter-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				aero/alpha-deg ge -10
+				aero/alpha-deg le 10
+				position/wow eq 0
+				fcs/roll-limiter/enable ne 0
+				autoflight/internal-mode eq 1
+				/ja37/elec/ac-bus-main-bool eq 1
+			</test>
+		</switch>
+		
+		<pure_gain name="velocities/p-deg_sec">
+			<input>velocities/p-rad_sec</input>
+			<gain>57.2958</gain>
+		</pure_gain>
+		
+		<fcs_function name="fcs/drivers/roll/rate-limiter"> <!-- I don't know if this exists in real life, but old FCS had it -->
+			<function>
+				<product>
+					<table> <!-- Kicks in at 225 degrees per second -->
+						<independentVar lookup="row">velocities/p-deg_sec</independentVar>
+						<tableData>
+							-300  1
+							-225  0
+							 225  0
+							 300 -1
+						</tableData>
+					</table>
+					<table> <!-- System Gain -->
+						<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+						<independentVar lookup="column">fcs/drivers/roll/rate-limiter-enable</independentVar>
+						<tableData>
+							     0    1
+							200  0.0  5.0
+							700  0.0  2.0
+						</tableData>
+					</table>
+				</product>
+			</function>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+		</fcs_function>
+		
+		<switch name="fcs/drivers/roll/damper-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				aero/alpha-deg ge -30
+				aero/alpha-deg le  30
+				position/wow eq 0
+				autoflight/internal-mode eq 1
+				/ja37/elec/ac-bus-main-bool eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/drivers/roll/rate-damper-gain">
+			<function>
+				<product>
+					<table>
+						<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+						<independentVar lookup="column">fcs/drivers/roll/damper-enable</independentVar>
+						<tableData>
+							     0    1
+							200  0.0 -0.51
+							700  0.0 -0.04
+						</tableData>
+					</table>
+					<table> <!-- Fade out damper to prevent it from causing bad roll rate -->
+						<independentVar lookup="row">fcs/drivers/roll/stick-geared</independentVar>
+						<tableData>
+							-1.0  0.01
+							 0.0  1.00
+							 1.0  0.01
+						</tableData>
+					</table>
+				</product>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/roll/rate-damper">
+			<input>velocities/p-rad_sec</input> <!-- No washout, that makes bad behavior -->
+			<gain>fcs/drivers/roll/rate-damper-gain</gain>
+			<clipto> <!-- 4 deg / 15 deg -->
+				<min>-0.26667</min>
+				<max>0.26667</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/drivers/roll-output">
+			<input>fcs/drivers/roll/rate-limiter</input>
+			<input>fcs/drivers/roll/rate-damper</input>
+			<clipto>
+				<min>-1.0</min>
+				<max>1.0</max>
+			</clipto>
+		</summer>
+	
+	</channel>
+	
+	<channel name="Pitch Axis">
+		
+		<switch name="fcs/drivers/pitch/damper-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/internal-mode eq 1
+				/ja37/elec/ac-bus-main-bool eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/drivers/pitch/rate-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+					<independentVar lookup="column">fcs/drivers/pitch/damper-enable</independentVar>
+					<tableData>
+						     0    1
+						200  0.0  1.0
+						700  0.0  0.5
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<washout_filter name="fcs/drivers/pitch/q-washout">
+			<input>velocities/q-rad_sec</input>
+			<c1>1.0</c1>
+		</washout_filter>
+		
+		<pure_gain name="fcs/drivers/pitch/rate-damper">
+			<input>fcs/drivers/pitch/q-washout</input>
+			<gain>fcs/drivers/pitch/rate-damper-gain</gain>
+			<clipto> <!-- 4 deg / 22 deg -->
+				<min>-0.18182</min>
+				<max>0.18182</max>
+			</clipto>
+		</pure_gain>
+		
+		<pure_gain name="fcs/drivers/pitch/rate-damper-deg"> <!-- Debugging -->
+			<input>fcs/drivers/pitch/rate-damper</input>
+			<gain>22.0</gain>
+		</pure_gain>
+		
+		<fcs_function name="fcs/drivers/pitch/accel-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+					<independentVar lookup="column">fcs/drivers/pitch/damper-enable</independentVar>
+					<tableData>
+						     0     1
+						200  0.00  0.05
+						700  0.00  0.01
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<washout_filter name="fcs/drivers/pitch/Nz-washout">
+			<input>accelerations/Nz</input>
+			<c1>3.5</c1>
+		</washout_filter>
+		
+		<pure_gain name="fcs/drivers/pitch/accel-damper">
+			<input>fcs/drivers/pitch/Nz-washout</input>
+			<gain>fcs/drivers/pitch/accel-damper-gain</gain>
+			<clipto> <!-- 4 deg / 22 deg -->
+				<min>-0.18182</min>
+				<max>0.18182</max>
+			</clipto>
+		</pure_gain>
+		
+		<pure_gain name="fcs/drivers/pitch/accel-damper-deg"> <!-- Debugging -->
+			<input>fcs/drivers/pitch/accel-damper</input>
+			<gain>22.0</gain>
+		</pure_gain>
+		
+		<summer name="fcs/drivers/pitch-output">
+			<input>fcs/drivers/pitch/rate-damper</input>
+			<input>fcs/drivers/pitch/accel-damper</input>
+			<clipto> <!-- 4 deg / 22 deg -->
+				<min>-0.18182</min>
+				<max>0.18182</max>
+			</clipto>
+		</summer>
+		
+		<fcs_function name="/position/gear-agl-ft">
+			<function>
+				<difference>
+					<property>/position/altitude-agl-ft</property>
+					<value>6.7</value>
+				</difference>
+			</function>
+		</fcs_function>
+		
+		<fcs_function name="fcs/drivers/pitch/flap-compensator">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/flap-pos-deg</independentVar>
+					<independentVar lookup="column">/position/gear-agl-ft</independentVar>
+					<tableData>
+						    0      68
+						-4  0.000  0.000
+						30  0.000  0.175
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+	
+	</channel>
+	
+	<channel name="Series Trim">
+		
+		<switch name="fcs/drivers/series-trim/mach-switch">
+			<default value="fcs/drivers/series-trim/mach-switch-feedback"/>
+			<test logic="OR" value="0">
+				velocities/mach le 0.929
+			</test>
+			<test logic="OR" value="1">
+				velocities/mach ge 0.931
+			</test>
+			<output>fcs/drivers/series-trim/mach-switch-feedback</output>
+		</switch>
+		
+		<switch name="fcs/drivers/series-trim/active">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				fcs/drivers/series-trim/mach-switch eq 1
+				autoflight/internal-mode eq 1
+				position/wow eq 0
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/drivers/series-trim/accel-cmd">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/drivers/pitch/stick-geared</independentVar>
+					<tableData>
+						-1.000000  8.0
+						 0.000000  1.0
+						 0.727272 -3.0
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<lag_filter name="fcs/drivers/series-trim/Nz-lag">
+			<input>accelerations/Nz</input>
+			<c1>12.0</c1>
+		</lag_filter>
+		
+		<lag_filter name="fcs/drivers/series-trim/accel-cmd-lag">
+			<input>fcs/drivers/series-trim/accel-cmd</input>
+			<c1>9.0</c1>
+		</lag_filter>
+		
+		<summer name="fcs/drivers/series-trim/accel-error">
+			<input>fcs/drivers/series-trim/Nz-lag</input>
+			<input>-fcs/drivers/series-trim/accel-cmd-lag</input>
+		</summer>
+		
+		<fcs_function name="fcs/drivers/series-trim/authority-max">
+			<function>
+				<quotient>
+					<ifthen>
+						<eq>
+							<property>/ja37/systems/variant</property>
+							<value>0</value>
+						</eq>
+						<table>
+							<independentVar lookup="row">velocities/mach</independentVar>
+							<tableData>
+								0.930  0.0
+								1.035  3.5
+							</tableData>
+						</table>
+						<value>3.5</value>
+					</ifthen>
+					<value>22.0</value> <!-- Normalize -->
+				</quotient>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/series-trim/command">
+			<input>fcs/drivers/series-trim/accel-error</input>
+			<gain>0.02</gain>
+			<clipto>
+				<min>-fcs/drivers/series-trim/authority-max</min>
+				<max>fcs/drivers/series-trim/authority-max</max>
+			</clipto>
+		</pure_gain>
+		
+		<switch name="fcs/drivers/series-trim/command-switch">
+			<default value="0"/>
+			<test value="fcs/drivers/series-trim/command">
+				fcs/drivers/series-trim/active eq 1
+			</test>
+		</switch>
+		
+		<switch name="fcs/drivers/series-trim/actuator-rate">
+			<default value="0.010606061"/> <!-- (3.5 deg / 15 seconds) / 22 normalize -->
+			<test value="0"> <!-- No movement -->
+				/ja37/elec/ac-bus-main-bool ne 1
+			</test>
+			<test value="10.0"> <!-- Don't restrict -->
+				fcs/drivers/series-trim/active eq 1
+			</test>
+		</switch>
+		
+		<actuator name="fcs/drivers/series-trim-output">
+			<input>fcs/drivers/series-trim/command-switch</input>
+			<rate_limit>fcs/drivers/series-trim/actuator-rate</rate_limit>
+			<output>fcs/drivers/series-trim/feedback</output>
+		</actuator>
+		
+		<pure_gain name="fcs/drivers/series-trim/output-deg"> <!-- Debugging -->
+			<input>fcs/drivers/series-trim-output</input>
+			<gain>22.0</gain>
+		</pure_gain>
+	
+	</channel>
+	
+	<channel name="Yaw Axis"> <!-- Negative is Right, Positive is Left -->
+		
+		<switch name="fcs/drivers/yaw/damper-enable">
+			<default value="0"/>
+			<test logic="AND" value="1">
+				autoflight/internal-mode gt 0
+				/ja37/elec/ac-bus-main-bool eq 1
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/drivers/yaw/rate-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+					<independentVar lookup="column">fcs/drivers/yaw/damper-enable</independentVar>
+					<tableData>
+						     0    1
+						200  0.0  0.8
+						700  0.0  0.4
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<washout_filter name="fcs/drivers/yaw/p-washout">
+			<input>velocities/p-rad_sec</input>
+			<c1>0.5</c1>
+		</washout_filter>
+		
+		<washout_filter name="fcs/drivers/yaw/r-washout">
+			<input>velocities/r-rad_sec</input>
+			<c1>0.5</c1>
+		</washout_filter>
+		
+		<fcs_function name="fcs/drivers/yaw/rate-mixer">
+			<description>Mix Roll into Yaw Signal</description>
+			<function>
+				<sum>
+					<property>fcs/drivers/yaw/r-washout</property>
+					<product>
+						<property>fcs/drivers/yaw/p-washout</property>
+						<table>
+							<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+							<tableData>
+								200 -0.075
+								700 -0.005
+							</tableData>
+						</table>
+					</product>
+				</sum>
+			</function>
+		</fcs_function>
+		
+		<pure_gain name="fcs/drivers/yaw/rate-damper">
+			<input>fcs/drivers/yaw/rate-mixer</input>
+			<gain>fcs/drivers/yaw/rate-damper-gain</gain>
+			<clipto> <!-- 4 deg / 25 deg -->
+				<min>-0.16</min>
+				<max>0.16</max>
+			</clipto>
+		</pure_gain>
+		
+		<fcs_function name="fcs/drivers/yaw/accel-damper-gain">
+			<function>
+				<table>
+					<independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+					<independentVar lookup="column">fcs/drivers/yaw/damper-enable</independentVar>
+					<tableData>
+						     0     1
+						200  0.00  0.05
+						700  0.00  0.01
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<washout_filter name="fcs/drivers/yaw/Ny-washout">
+			<input>accelerations/Ny</input>
+			<c1>3.5</c1>
+		</washout_filter>
+		
+		<pure_gain name="fcs/drivers/yaw/accel-damper">
+			<input>fcs/drivers/yaw/Ny-washout</input>
+			<gain>fcs/drivers/yaw/accel-damper-gain</gain>
+			<clipto> <!-- 4 deg / 25 deg -->
+				<min>-0.16</min>
+				<max>0.16</max>
+			</clipto>
+		</pure_gain>
+		
+		<summer name="fcs/drivers/yaw-output">
+			<input>fcs/drivers/yaw/rate-damper</input>
+			<input>fcs/drivers/yaw/accel-damper</input>
+			<clipto> <!-- 4 deg / 25 deg -->
+				<min>-0.16</min>
+				<max>0.16</max>
+			</clipto>
+		</summer>
+	
+	</channel>
+
+</system>

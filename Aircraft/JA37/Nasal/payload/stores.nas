@@ -35,6 +35,8 @@ input = {
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
   MPint19:          "sim/multiplay/generic/int[19]",
+  rb05_pitch:       "payload/armament/rb05-control-pitch",
+  rb05_yaw:         "payload/armament/rb05-control-yaw",
   replay:           "sim/replay/replay-state",
   serviceElec:      "systems/electrical/serviceable",
   stationSelect:    "controls/armament/station-select-custom",
@@ -53,6 +55,42 @@ input = {
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
   dev:              "dev",
 };
+
+
+### Rb05 guidance
+# Rb05 guidance signals are transmitted to missile.nas through a callback,
+# (called midFlightFunction in missile.nas).
+
+var make_rb05_midFlightFunction = func(pos) {
+    var params = {
+        active: active_rb05,
+        pos: pos,
+        input_yaw: input.rb05_yaw,
+        input_pitch: input.rb05_pitch,
+    };
+
+    return func(input) {
+        # Missile can be controlled ~1.7s after launch (manual)
+        var active = (params.active[params.pos]
+                      and input.time_s >= 1.7);
+
+        var res = {};
+        if(active) {
+            res.remote_yaw = params.input_yaw.getValue();
+            res.remote_pitch = params.input_pitch.getValue();
+        } else {
+            res.remote_yaw = 0;
+            res.remote_pitch = 0;
+        }
+        return res;
+    };
+}
+
+# Maps pylons to guidance status (boolean: actively controlled or not)
+var active_rb05 = {};
+# Last fired Rb05, should be the only active one.
+var last_rb05 = nil;
+
 
 ############ main stores loop #####################
 
@@ -127,7 +165,9 @@ var loop_stores = func {
             #print("removing aim-7 logic");
             armament.AIM.active[i].del();
           }
-          if(armament.AIM.new(i, "RB-05A", "Attackrobot") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+          # Mid flight function to transmit guidance inputs to missile.nas
+          var mf = make_rb05_midFlightFunction(i);
+          if(armament.AIM.new(i, "RB-05A", "Attackrobot", mf) == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
             #missile added through menu while another from that pylon is still flying.
             #to handle this we have to ignore that addition.
             setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -352,12 +392,17 @@ var loop_stores = func {
           #pylon has logic but missile not mounted and not flying or not in tactical mode or has no power
           armament.AIM.active[i].stop();
           #print("empty "~i);
-        } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY
-                  and input.combat.getValue() == 2) { # and payloadName.getValue() == "RB 24J"
+        } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY and input.combat.getValue() == 2) {
           #pylon selected, missile mounted, in tactical mode, activate search
           armament.AIM.active[i].start();
           #print("active "~i);
-        } 
+          # For AJ(S), set IR seekers to bore sight mode
+          if (getprop("ja37/systems/variant") != 0 and armament.AIM.active[i].guidance == "heat") {
+            armament.AIM.active[i].setAutoUncage(0);
+            armament.AIM.active[i].setCaged(1);
+            armament.AIM.active[i].setBore(1);
+          }
+        }
       } elsif (jettisonAll == TRUE and (payloadName.getValue() == "M70 ARAK" or payloadName.getValue() == "M55 AKAN" or payloadName.getValue() == "Drop tank")) {
         payloadName.setValue("none");
       }
@@ -613,7 +658,11 @@ var m70_stations = [0, 1, 2, 3];
 var m55_stations = {0: 8, 2: 9};
 
 var trigger_listener = func {
-  if(!getprop("/ja37/systems/input-controls-flight")) return;
+  # Currently only the JA uses the trigger to click.
+  # This allows the trigger to remain functional on the AJS
+  # while controlling Rb05 with flight controls.
+  if(!getprop("/ja37/systems/input-controls-flight")
+     and getprop("/ja37/systems/variant") == 0) return;
   var trigger = input.trigger.getValue();
   var armSelect = input.stationSelect.getValue();
 
@@ -654,57 +703,15 @@ var trigger_listener = func {
   }
 
   if(armSelect > 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
-    if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
-      # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
-      if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == MISSILE_LOCK and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE)) {
-        #missile locked, fire it.
-
-        if (fired != "M71 Bomblavett" and fired != "M71 Bomblavett (Retarded)") {
-          setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
-          setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
-        }
-        #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
-        var callsign = armament.AIM.active[armSelect-1].callsign;
-        var brevity = armament.AIM.active[armSelect-1].brevity;
-        
-        if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
-          armament.AIM.active[armSelect-1].release(radar_logic.complete_list);
-        } else {
-          armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
-        }
-        
-        var phrase = brevity ~ " at: " ~ callsign;
-        if (getprop("payload/armament/msg")) {
-          armament.defeatSpamFilter(phrase);
-        } else {
-          setprop("/sim/messages/atc", phrase);
-        }
-        fireLog.push("Self: "~phrase);
-        var next = TRUE;
-        if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
-          var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
-          ammo = ammo - 1;
-          setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
-          if(ammo > 0) {
-            #next = FALSE;
-          }
-        }
-        if(next == TRUE and (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)")) {
-          var newStation = selectTypeBombs(fired, armSelect);
-          if (newStation != -1) {
-            input.stationSelect.setValue(newStation);
-          }
-        } elsif(next == TRUE) {
-          var newStation = selectType(fired);
-          if (newStation != -1) {
-            input.stationSelect.setValue(newStation);
-          }
-        }
-      } elsif (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
+    if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none"
+       and (input.gearsPos.getValue() == 0 or input.dev.getValue())) {
+      # Trigger is pulled, a pylon is selected, and loaded.
+      # The gear check is prevent missiles from firing when changing airport location.
+      if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
         var brevity = armament.AIM.active[armSelect-1].brevity;
 
         armament.AIM.active[armSelect-1].release(radar_logic.complete_list);#print("release "~(armSelect-1));
-        
+
         var phrase = brevity;
         if (getprop("payload/armament/msg")) {
           armament.defeatSpamFilter(phrase);
@@ -713,19 +720,67 @@ var trigger_listener = func {
         }
         fireLog.push("Self: "~phrase);
         var next = TRUE;
-        
+
         var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
         ammo = ammo - 1;
         setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
         if(ammo > 0) {
           #next = FALSE;
         }
-          
+
         if(next == TRUE) {
           var newStation = selectTypeBombs(fired, armSelect);
           if (newStation != -1) {
             input.stationSelect.setValue(newStation);
           }
+        }
+      } elsif (fired == "RB 05A Attackrobot") {
+        # Release control from previous missile
+        if(last_rb05 != nil) active_rb05[last_rb05] = FALSE;
+        # Take control of the new one
+        last_rb05 = armSelect-1;
+        active_rb05[last_rb05] = TRUE;
+
+        var brevity = armament.AIM.active[armSelect-1].brevity;
+
+        armament.AIM.active[armSelect-1].release(radar_logic.complete_list);
+
+        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+        setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+
+        var phrase = brevity;
+        if (getprop("payload/armament/msg")) {
+          armament.defeatSpamFilter(phrase);
+        } else {
+          setprop("/sim/messages/atc", phrase);
+        }
+
+        fireLog.push("Self: "~phrase);
+        var newStation = selectType(fired);
+        if (newStation != -1) {
+          input.stationSelect.setValue(newStation);
+        }
+      } elsif (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == MISSILE_LOCK) {
+        #missile locked, fire it.
+        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+        setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+
+        #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
+        var callsign = armament.AIM.active[armSelect-1].callsign;
+        var brevity = armament.AIM.active[armSelect-1].brevity;
+
+        armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
+
+        var phrase = brevity ~ " at: " ~ callsign;
+        if (getprop("payload/armament/msg")) {
+          armament.defeatSpamFilter(phrase);
+        } else {
+          setprop("/sim/messages/atc", phrase);
+        }
+        fireLog.push("Self: "~phrase);
+        var newStation = selectType(fired);
+        if (newStation != -1) {
+          input.stationSelect.setValue(newStation);
         }
       }
     }
@@ -848,394 +903,6 @@ var hitmessage = func(typeOrd) {
   hits_count = 0;
 }
 
-
-############ response to MP messages #####################
-
-var cannon_types = {
-    " M70 rocket hit":        0.25, #135mm
-    " M55 cannon shell hit":  0.10, # 30mm
-    " KCA cannon shell hit":  0.10, # 30mm
-    " Gun Splash On ":        0.10, # 30mm
-    " M61A1 shell hit":       0.05, # 20mm
-    " GAU-8/A hit":           0.10, # 30mm
-    " BK27 cannon hit":       0.07, # 27mm
-    " GSh-30 hit":            0.10, # 30mm
-    " GSh-23 hit":            0.065,# 23mm
-    " 7.62 hit":              0.005,# 7.62mm
-    " 50 BMG hit":            0.015,# 12.7mm
-    " S-5 rocket hit":        0.20, #55mm
-};
-    
-    
-    
-var warhead_lbs = {
-    "AGM-65":              126.00,
-    "AGM-84":              488.00,
-    "AGM-88":              146.00,
-    "AGM65":               200.00,
-    "AGM-154A":            493.00,
-    "AGM-158":            1000.00,
-    "aim-120":              44.00,
-    "AIM-120":              44.00,
-    "AIM-54":              135.00,
-    "aim-7":                88.00,
-    "AIM-7":                88.00,
-    "aim-9":                20.80,
-    "AIM-9":                20.80,
-    "AIM120":               44.00,
-    "AIM132":               22.05,
-    "AIM9":                 20.80,
-    "ALARM":               450.00,
-    "AM39-Exocet":         364.00, 
-    "AS-37-Martel":        330.00, 
-    "AS30L":               529.00,
-    "CBU-87":              128.00,
-    "Exocet":              364.00,
-    "FAB-100":              92.59,
-    "FAB-250":             202.85,
-    "FAB-500":             564.38,
-    "GBU-12":              190.00,
-    "GBU-24":              945.00,
-    "GBU-31":              945.00,
-    "GBU12":               190.00,
-    "GBU16":               450.00,
-    "HVAR":                  7.50,#P51
-    "KAB-500":             564.38,
-    "Kh-25MP":             197.53,
-    "Kh-66":               244.71,
-    "KN-06":               315.00,
-    "LAU-68":               10.00,
-    "M317":                145.00,
-    "M71":                 200.00,
-    "M71R":                200.00,
-    "M90":                 500.00,
-    "Magic-2":              27.00, 
-    "Matra MICA":           30.00,
-    "Matra R550 Magic 2":   27.00,
-    "MATRA-R530":           55.00,
-    "MatraMica":            30.00,
-    "MatraMicaIR":          30.00,
-    "MatraR550Magic2":      27.00,
-    "Meteor":               55.00,
-    "MICA-EM":              30.00, 
-    "MICA-IR":              30.00, 
-    "MK-82":               192.00,
-    "MK-83":               445.00,
-    "MK-84":               945.00,
-    "OFAB-100":             92.59,
-    "R-13M":                16.31,
-    "R-27R1":               85.98,
-    "R-27T1":               85.98,
-    "R-3R":                 16.31,
-    "R-3S":                 16.31,
-    "R-55":                 20.06,
-    "R-60":                  6.60,
-    "R-60M":                 7.70,
-    "R-73E":                16.31,
-    "R-77":                 49.60,
-    "R74":                  16.00,
-    "RB-04E":              661.00,
-    "RB-05A":              353.00,
-    "RB-15F":              440.92,
-    "RB-24":                20.80,
-    "RB-24J":               20.80,
-    "RB-71":                88.00,
-    "RB-74":                20.80,
-    "RB-75":               126.00,
-    "RB-99":                44.00,
-    "RN-14T":              800.00, #fictional, thermobaeric replacement for the RN-24 nuclear bomb
-    "RN-18T":             1200.00, #fictional, thermobaeric replacement for the RN-28 nuclear bomb
-    "RS-2US":               28.66,
-    "S-21":                245.00,
-    "S-24":                271.00,
-    "S530D":                66.00, 
-    "SCALP":               992.00,
-    "Sea Eagle":           505.00,
-    "SeaEagle":            505.00,
-    "STORMSHADOW":         850.00,
-    "ZB-250":              236.99,
-    "ZB-500":              473.99,
-};
-
-var fireMsgs = {
-  
-    # F14
-    " FOX3 at":       nil, # radar
-    " FOX2 at":       nil, # heat
-    " FOX1 at":       nil, # semi-radar
-
-    # Viggen
-    " Fox 1 at":      nil, # semi-radar
-    " Fox 2 at":      nil, # heat
-    " Fox 3 at":      nil, # radar
-    " Greyhound at":  nil, # cruise missile
-    " Bombs away at": nil, # bombs
-    " Bruiser at":    nil, # anti-ship
-    " Rifle at":      nil, # TV guided
-    " Sniper at":     nil, # anti radiation
-
-    # SAM and missile frigate
-    " Bird away at":  nil, # G/A
-
-    # F15
-    " aim7 at":       nil,
-    " aim9 at":       nil,
-    " aim120 at":     nil,
-};
-
-var incoming_listener = func {
-  var history = getprop("/sim/multiplay/chat-history");
-  var hist_vector = split("\n", history);
-  if (size(hist_vector) > 0) {
-    var last = hist_vector[size(hist_vector)-1];
-    var last_vector = split(":", last);
-    var author = last_vector[0];
-    var callsign = getprop("sim/multiplay/callsign");
-    callsign = size(callsign) < 8 ? callsign : left(callsign,7);
-    if (size(last_vector) > 1 and author != callsign) {
-      # not myself
-      #print("not me");
-      var m2000 = FALSE;
-      if (find(" at " ~ callsign ~ ". Release ", last_vector[1]) != -1) {
-        # a m2000 is firing at us
-        m2000 = TRUE;
-      }
-      if (contains(fireMsgs, last_vector[1]) or m2000 == TRUE) {
-        # air2air being fired
-        if (size(last_vector) > 2 or m2000 == TRUE) {
-          #print("Missile launch detected at"~last_vector[2]~" from "~author);
-          if (m2000 == TRUE or last_vector[2] == " "~callsign) {
-            # its being fired at me
-
-            #print("Incoming!");
-            var enemy = radar_logic.getCallsign(author);
-            if (enemy != nil) {
-              #print("enemy identified");
-              var bearingNode = enemy.getNode("radar/bearing-deg");
-              if (bearingNode != nil) {
-                #print("bearing to enemy found");
-                var bearing = bearingNode.getValue();
-                var heading = getprop("orientation/heading-deg");
-                var clock = bearing - heading;
-                while(clock < 0) {
-                  clock = clock + 360;
-                }
-                while(clock > 360) {
-                  clock = clock - 360;
-                }
-                ecmLog.push(last~sprintf("%d deg.", clock));
-                #print("incoming from "~clock);
-                if (clock >= 345 or clock < 15) {
-                  playIncomingSound("12");
-                } elsif (clock >= 15 and clock < 45) {
-                  playIncomingSound("1");
-                } elsif (clock >= 45 and clock < 75) {
-                  playIncomingSound("2");
-                } elsif (clock >= 75 and clock < 105) {
-                  playIncomingSound("3");
-                } elsif (clock >= 105 and clock < 135) {
-                  playIncomingSound("4");
-                } elsif (clock >= 135 and clock < 165) {
-                  playIncomingSound("5");
-                } elsif (clock >= 165 and clock < 195) {
-                  playIncomingSound("6");
-                } elsif (clock >= 195 and clock < 225) {
-                  playIncomingSound("7");
-                } elsif (clock >= 225 and clock < 255) {
-                  playIncomingSound("8");
-                } elsif (clock >= 255 and clock < 285) {
-                  playIncomingSound("9");
-                } elsif (clock >= 285 and clock < 315) {
-                  playIncomingSound("10");
-                } elsif (clock >= 315 and clock < 345) {
-                  playIncomingSound("11");
-                } else {
-                  playIncomingSound("");
-                }
-
-                #The incoming CI lamps overlap each other:
-                if (clock >= 345 or clock <= 75) {
-                  incomingLamp("1");
-                } 
-                if (clock >= 45 and clock <= 135) {
-                  incomingLamp("3");
-                }
-                if (clock >= 105 and clock <= 195) {
-                  incomingLamp("5");
-                }
-                if (clock >= 165 and clock <= 255) {
-                  incomingLamp("7");
-                }
-                if (clock >= 225 and clock <= 315) {
-                  incomingLamp("9");
-                }
-                if (clock >= 285 or clock <= 15) {
-                  incomingLamp("11");
-                }
-
-                #The incoming MI lamps overlap each other:
-                if (clock >= 345 or clock <= 105) {
-                  incomingLamp("2");
-                } 
-                if (clock >= 75 and clock <= 195) {
-                  incomingLamp("4");
-                }
-                if (clock >= 165 and clock <= 285) {
-                  incomingLamp("8");
-                }
-                if (clock >= 255 or clock <= 15) {
-                  incomingLamp("10");
-                }
-                return;
-              }
-            }
-          }
-        }
-      } elsif (getprop("ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/msg")) {
-        # latest or second latest version of failure manager and taking damage enabled
-        #print("damage enabled");
-        var last1 = split(" ", last_vector[1]);
-        if(size(last1) > 2 and last1[size(last1)-1] == "exploded" ) {
-          #print("missile hitting someone");
-          if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
-            #print("that someone is me!");
-            var type = last1[1];
-            if (type == "Matra" or type == "Sea") {
-              # Matra/seaeagle missiles have spaces in their names, so we fix that here.
-              for (var i = 2; i < size(last1)-1; i += 1) {
-                type = type~" "~last1[i];
-              }
-            }
-            var number = split(" ", last_vector[2]);
-            var distance = num(number[1]);
-            #print(type~"|");
-            if(distance != nil) {
-              var dist = distance;
-
-              if (type == "M90") {
-                var prob = rand()*0.5;
-                var failed = fail_systems(prob);
-                var percent = 100 * prob;
-                printf("Took %.1f%% damage from %s clusterbombs at %0.1f meters. %s systems was hit", percent,type,dist,failed);
-                nearby_explosion();
-                return;
-              }
-
-              distance = ja37.clamp(distance-1.5, 0, 1000000);
-              var maxDist = 0;
-
-              if (contains(warhead_lbs, type)) {
-                maxDist = maxDamageDistFromWarhead(warhead_lbs[type]);
-              } else {
-                return;
-              }
-
-              var diff = maxDist-distance;
-
-              if (diff < 0) {
-                diff = 0;
-              }
-
-              diff = diff * diff;
-              
-              var probability = diff / (maxDist*maxDist);
-
-              var failed = fail_systems(probability);
-              var percent = 100 * probability;
-              printf("Took %.1f%% damage from %s missile at %0.1f meters. %s systems was hit", percent,type,dist,failed);
-              nearby_explosion();
-            }
-          } 
-        } elsif (cannon_types[last_vector[1]] != nil) {
-          if (size(last_vector) > 2 and last_vector[2] == " "~callsign) {
-            if (size(last_vector) < 4) {
-              # msg is either missing number of hits, or has no trailing dots from spam filter.
-              print('"'~last~'"   is not a legal hit message, tell the shooter to upgrade his OPRF plane :)');
-              return;
-            }
-            var last3 = split(" ", last_vector[3]);
-            if(size(last3) > 2 and size(last3[2]) > 2 and last3[2] == "hits" ) {
-              var probability = cannon_types[last_vector[1]];
-              var hit_count = num(last3[1]);
-              if (hit_count != nil) {
-                var damaged_sys = 0;
-                for (var i = 1; i <= hit_count; i = i + 1) {
-                  var failed = fail_systems(probability);
-                  damaged_sys = damaged_sys + failed;
-                }
-
-                printf("Took %.1f%% x %2d damage from cannon! %s systems was hit.", probability*100, hit_count, damaged_sys);
-                nearby_explosion();
-              }
-            } else {
-              var probability = cannon_types[last_vector[1]];
-              #print("probability: " ~ probability);
-              
-              var failed = fail_systems(probability * 3);# Old messages is assumed to be 3 hits
-              printf("Took %.1f%% x 3 damage from cannon! %s systems was hit.", probability*100, failed);
-              nearby_explosion();
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-var maxDamageDistFromWarhead = func (lbs) {
-  # very simple
-  var dist = 3*math.sqrt(lbs);
-
-  return dist;
-}
-
-var fail_systems = func (probability) {
-    var failure_modes = FailureMgr._failmgr.failure_modes;
-    var mode_list = keys(failure_modes);
-    var failed = 0;
-    foreach(var failure_mode_id; mode_list) {
-        if (rand() < probability) {
-            FailureMgr.set_failure_level(failure_mode_id, 1);
-            failed += 1;
-        }
-    }
-    if(probability > 0.19) {
-      setprop("environment/damage", 1);
-    }
-    return failed;
-};
-
-var playIncomingSound = func (clock) {
-  setprop("ja37/sound/incoming"~clock, 1);
-  settimer(func {stopIncomingSound(clock);},3);
-}
-
-var stopIncomingSound = func (clock) {
-  setprop("ja37/sound/incoming"~clock, 0);
-}
-
-var incomingLamp = func (clock) {
-  setprop("instrumentation/radar/twr"~clock, 1);
-  settimer(func {stopIncomingLamp(clock);},4.5);
-}
-
-var stopIncomingLamp = func (clock) {
-  setprop("instrumentation/radar/twr"~clock, 0);
-}
-
-var nearby_explosion = func {
-  setprop("damage/sounds/nearby-explode-on", 0);
-  settimer(nearby_explosion_a, 0);
-}
-
-var nearby_explosion_a = func {
-  setprop("damage/sounds/nearby-explode-on", 1);
-  settimer(nearby_explosion_b, 0.5);
-}
-
-var nearby_explosion_b = func {
-  setprop("damage/sounds/nearby-explode-on", 0);
-}
 
 ############ weapon selection #####################
 
@@ -1677,365 +1344,46 @@ var buttonIRRB = func {
   setprop("controls/armament/station-select-custom", sel);
 }
 
-############ reload #####################
 
-reloadJAAir2Air1979 = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 6 of them.
 
-  # Sidewinder
-  setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[3]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
-  screen.log.write("4 RB-24J missiles attached", 0.0, 1.0, 0.0);
+# Caging of the IR seeker for AJ(S)
+var setIRCaged = func (cage) {
+    # Check master arm on, IR seeker selected
+    if (input.combat.getValue() != 2) return;
+    var armSelect = input.stationSelect.getValue();
+    if (armSelect <= 0) return;
+    var arm = armament.AIM.active[armSelect-1];
+    if (arm == nil) return;
+    # Only Rb24j and Rb74 can uncage the seeker
+    if (arm.type != "RB-24J" and arm.type != "RB-74") return;
 
-  # Skyflash
-  setprop("payload/weight[0]/selected", "RB 71 Skyflash");
-  setprop("payload/weight[2]/selected", "RB 71 Skyflash");
-  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-  
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadJAAir2Air1987 = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 6 of them.
-
-  # Sidewinder
-  setprop("payload/weight[1]/selected", "RB 74 Sidewinder");
-  setprop("payload/weight[3]/selected", "RB 74 Sidewinder");
-  setprop("payload/weight[4]/selected", "RB 74 Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 74 Sidewinder");
-  screen.log.write("4 RB-74 missiles attached", 0.0, 1.0, 0.0);
-
-  # Skyflash
-  setprop("payload/weight[0]/selected", "RB 71 Skyflash");
-  setprop("payload/weight[2]/selected", "RB 71 Skyflash");
-  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-  
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadJAAir2Air1997 = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 6 of them.
-
-  # Amraam
-  setprop("payload/weight[1]/selected", "RB 99 Amraam");
-  setprop("payload/weight[3]/selected", "RB 99 Amraam");
-  setprop("payload/weight[0]/selected", "RB 99 Amraam");
-  setprop("payload/weight[2]/selected", "RB 99 Amraam");
-  screen.log.write("4 RB-99 missiles attached", 0.0, 1.0, 0.0);
-
-  # Sidewinder
-  setprop("payload/weight[4]/selected", "RB 74 Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 74 Sidewinder");
-  screen.log.write("2 RB-74 missiles attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-  
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadJAAir2Ground = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M70 ARAK");
-  setprop("payload/weight[1]/selected", "M70 ARAK");
-  setprop("payload/weight[2]/selected", "M70 ARAK");
-  setprop("payload/weight[3]/selected", "M70 ARAK");
-  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
-  setprop("ai/submodels/submodel[5]/count", 6);
-  setprop("ai/submodels/submodel[6]/count", 6);
-  setprop("ai/submodels/submodel[7]/count", 6);
-  setprop("ai/submodels/submodel[8]/count", 6);
-  screen.log.write("4 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-  
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJAir2Tank = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M70 ARAK");
-  setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[2]/selected", "M70 ARAK");
-  setprop("payload/weight[3]/selected", "RB 75 Maverick");
-  setprop("payload/weight[4]/selected", "none");
-  setprop("payload/weight[5]/selected", "none");
-  setprop("ai/submodels/submodel[6]/count", 6);
-  setprop("ai/submodels/submodel[8]/count", 6);
-  screen.log.write("2 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 RB-75 Maverick attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJAir2Ship = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "RB 04E Attackrobot");
-  setprop("payload/weight[1]/selected", "RB 05A Attackrobot");
-  setprop("payload/weight[2]/selected", "RB 04E Attackrobot");
-  setprop("payload/weight[3]/selected", "RB 75 Maverick");
-  setprop("payload/weight[4]/selected", "none");
-  setprop("payload/weight[5]/selected", "none");
-  screen.log.write("1 RB-05A missile attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-04E cruise-antiship-missile attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 RB-75 Maverick attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJAir2Personel = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[10]/count", 150);
-  setprop("payload/weight[1]/selected", "M71 Bomblavett");
-  setprop("payload/weight[1]/ammo", 4);
-  setprop("payload/weight[2]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[12]/count", 150);
-  setprop("payload/weight[3]/selected", "M71 Bomblavett");
-  setprop("payload/weight[3]/ammo", 4);
-  setprop("payload/weight[4]/selected", "none");
-  setprop("payload/weight[5]/selected", "none");
-  screen.log.write("2 M55 cannonpod attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 M71 bomblet rail attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJAir2Air = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[10]/count", 150);
-  setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[2]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[12]/count", 150);
-  setprop("payload/weight[3]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[4]/selected", "none");
-  setprop("payload/weight[5]/selected", "none");
-  screen.log.write("2 M55 cannonpod attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJSAir2Tank = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "RB 75 Maverick");
-  setprop("payload/weight[1]/selected", "M70 ARAK");
-  setprop("payload/weight[2]/selected", "RB 75 Maverick");
-  setprop("payload/weight[3]/selected", "M70 ARAK");
-  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
-  setprop("ai/submodels/submodel[6]/count", 6);
-  setprop("ai/submodels/submodel[8]/count", 6);
-  screen.log.write("2 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-75 Maverick attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJSAir2Ship = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "RB 15F Attackrobot");
-  setprop("payload/weight[1]/selected", "RB 05A Attackrobot");
-  setprop("payload/weight[2]/selected", "RB 15F Attackrobot");
-  setprop("payload/weight[3]/selected", "RB 75 Maverick");
-  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
-  screen.log.write("1 RB-05A missile attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 RB-75 Maverick attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-15F cruise-missiles attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJSAir2Personel = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[10]/count", 150);
-  setprop("payload/weight[1]/selected", "M71 Bomblavett");
-  setprop("payload/weight[1]/ammo", 4);
-  setprop("payload/weight[2]/selected", "M90 Bombkapsel");
-  setprop("payload/weight[3]/selected", "M71 Bomblavett");
-  setprop("payload/weight[3]/ammo", 4);
-  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
-  screen.log.write("1 M55 cannonpod attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 M71 bomblet rail attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 M90 cluster bomb attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadAJSAir2Air = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[10]/count", 150);
-  setprop("payload/weight[1]/selected", "RB 74 Sidewinder");
-  setprop("payload/weight[2]/selected", "M55 AKAN");
-  setprop("ai/submodels/submodel[12]/count", 150);
-  setprop("payload/weight[3]/selected", "RB 74 Sidewinder");
-  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
-  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
-  screen.log.write("2 M55 cannonpod attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-74 Sidewinder attached", 0.0, 1.0, 0.0);
-
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-  } else {
-      screen.log.write(ja37.msgB);
+    if (cage) {
+        arm.setAutoUncage(FALSE);
+        arm.setCaged(TRUE);
+        arm.setBore(TRUE);
+    } elsif (arm.status == armament.MISSILE_LOCK) {
+        # Uncaging is only possible with lock
+        arm.setAutoUncage(TRUE);
+        arm.setCaged(FALSE);
+        arm.setBore(FALSE); # The seeker should not come back to bore until reset.
     }
 }
 
-reloadGunsOnly = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Clean loadout
-  setprop("payload/weight[0]/selected", "none");
-  setprop("payload/weight[1]/selected", "none");
-  setprop("payload/weight[2]/selected", "none");
-  setprop("payload/weight[3]/selected", "none");
-  setprop("payload/weight[4]/selected", "none");
-  setprop("payload/weight[5]/selected", "none");
-  screen.log.write("Removed all stores", 0.0, 1.0, 0.0);
+# Pressing the button uncages, holding it re-cages
+var uncageIRButtonTimer = maketimer(1, func { setIRCaged(TRUE); });
+uncageIRButtonTimer.singleShot = TRUE;
+uncageIRButtonTimer.simulatedTime = TRUE;
 
-  # Reload flares - 40 of them.
-  setprop("ai/submodels/submodel[0]/count", 60);
-  setprop("ai/submodels/submodel[1]/count", 60);
-  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-
-  # Reload cannon - 146 of them.
-  reloadGuns();
-} else {
-      screen.log.write(ja37.msgB);
-    }}
-
-reloadGuns = func {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  # Reload cannon - 146 of them.
-  #setprop("ai/submodels/submodel[2]/count", 29);
-  if(getprop("ja37/systems/variant") == 0) {
-    setprop("ai/submodels/submodel[3]/count", 146);
-    setprop("ai/submodels/submodel[4]/count", 146);
-    screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
-  }
-
-  #ja37.ct("rl");
-  } else {
-      screen.log.write(ja37.msgB);
+var uncageIRButton = func (pushed) {
+    if (pushed) {
+        setIRCaged(FALSE);
+        uncageIRButtonTimer.start();
+    } else {
+        uncageIRButtonTimer.stop();
     }
 }
+
 
 ############ droptank #####################
 
@@ -2094,9 +1442,6 @@ var main_weapons = func {
 
   # setup impact listener
   setlistener("/ai/models/model-impact", impact_listener, 0, 0);
-
-  # setup incoming listener
-  setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);
 
   # start the main loop
   #settimer(func { loop_stores() }, 0.1);

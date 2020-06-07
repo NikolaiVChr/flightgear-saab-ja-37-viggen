@@ -1057,13 +1057,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
         alt_ft_real:      "position/altitude-ft",
         altCalibrated:    "ja37/avionics/altimeters-calibrated",
-        APHeadingBug:     "autopilot/settings/heading-bug-deg",
-        APLockAlt:        "autopilot/locks/altitude",
-        APLockHeading:    "autopilot/locks/heading",
-        APnav0HeadingErr: "autopilot/internal/nav1-heading-error-deg",
-        APTgtAgl:         "autopilot/settings/target-agl-ft",
-        APTgtAlt:         "autopilot/settings/target-altitude-ft",
-        APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
+        #APHeadingBug:     "autopilot/settings/heading-bug-deg",
+        APmode:           "fdm/jsbsim/autoflight/mode",
+        #APLockHeading:    "autopilot/locks/heading",
+        #APnav0HeadingErr: "autopilot/internal/nav1-heading-error-deg",
+        #APTgtAgl:         "autopilot/settings/target-agl-ft",
+        APTgtAlt:         "fdm/jsbsim/autoflight/pitch/alt/target",
+        #APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
         beta:             "orientation/side-slip-deg",
         callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
@@ -1641,7 +1641,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.alt_pointer.show();
         me.rad_alt_pointer.hide();
       }
-      me.alt_scale_grp.update();
       if(me.verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", me.rad_offset));
     } elsif (alt_scale_mode == 1) {
       me.alt_scale_factor = me.metric == TRUE ? 100 : 400;
@@ -1686,7 +1685,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.alt_pointer.show();
         me.rad_alt_pointer.hide();
       }
-      me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
     } elsif (alt_scale_mode == 2) {
       me.alt_scale_factor = me.metric == TRUE ? 200 : 1000;
@@ -1749,10 +1747,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       }
       #me.alt_scale_clip_grp.setTranslation(scalePlace, 0);# move alt. scale lateral with FPI.
       #me.alt_scale_clip_grp.set("clip", me.clipAltScale);
-      me.alt_scale_grp.show();
-      me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", me.rad_offset));
     }
+    me.alt_scale_grp.update();
+    me.alt_scale_grp.show();
   },
 
   displayDigitalAltitude: func (alt, radAlt) {
@@ -1814,7 +1812,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.showLines = TRUE;
       if(mode == TAKEOFF) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
+      } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
         me.showBoxes = TRUE;
         if (me.input.alt_ft.getValue() * FT2M > 1000) {
@@ -1822,8 +1820,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         }
       } elsif(mode == LANDING and land.mode < 3 and land.mode > 0) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
-        me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
+      #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
+      #  me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
       } elsif(me.input.RMActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
         me.idx = me.input.RMCurrWaypoint.getValue();
         me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.idx~"]/altitude-ft");
@@ -1841,7 +1839,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         } else {
           me.desired_lines3.hide();
         }
-        if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
+        if (me.showBoxes == TRUE and (!getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue())) {
           me.desired_boxes.show();
         } else {
           me.desired_boxes.hide();
@@ -2332,7 +2330,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
           if (me.gearsDown == TRUE) {
             me.alpha = me.input.alphaJSB.getValue();
-            me.highAlpha = getprop("ja37/avionics/high-alpha");
+            me.highAlpha = getprop("fdm/jsbsim/autoflight/high-alpha");
             me.idealAlpha = 15.5;# the ideal aoa for landing.
             if (me.highAlpha == FALSE) {
               me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG;
@@ -2938,12 +2936,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.diamond_small.update();
     me.lock_ir.update();
-    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt)) and radar_logic.tracks != nil) {
-      #me.missileCurr.contacts = [radar_logic.selection];
-      #me.missileCurr.contacts.extend(radar_logic.tracks);
-      me.missileCurr.contacts = radar_logic.tracks;
+    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt))) {
+      me.missileCurr.setContacts(radar_logic.complete_list);
     } elsif (me.missileCurr != nil) {
-      me.missileCurr.contacts = [];
+      me.missileCurr.setContacts([]);
     }
   },
 

@@ -44,7 +44,7 @@
       <object-name>Handle</object-name>
       <object-name>Wheel_KnurledFaces</object-name>
   		<object-name>Wheel_SmoothFaces</object-name>
-      <property>fdm/jsbsim/fcs/cursor/cursor-control-X</property>
+      <property>/controls/displays/cursor-total-slew-x</property>
       <factor>25</factor>
       <center>
       	<x-m>0</x-m>
@@ -62,7 +62,7 @@
       <object-name>Handle</object-name>
       <object-name>Wheel_KnurledFaces</object-name>
       <object-name>Wheel_SmoothFaces</object-name>
-      <property>fdm/jsbsim/fcs/cursor/cursor-control-Y</property>
+      <property>/controls/displays/cursor-total-slew-y</property>
       <factor>25</factor>
       <center>
       	<x-m>0</x-m>

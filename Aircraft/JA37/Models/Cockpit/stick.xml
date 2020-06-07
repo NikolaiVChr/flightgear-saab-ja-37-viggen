@@ -23,7 +23,20 @@
         <object-name>stick-roll</object-name>
         <object-name>stick-mast</object-name>
         <property>fdm/jsbsim/fcs/elevator/input</property>
-        <factor>20</factor>
+        <interpolation> <!-- Corrected for linear -->
+            <entry>
+                <ind>1</ind>
+                <dep>20</dep>
+            </entry>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>-0.727272</ind>
+                <dep>-14.54544</dep>
+            </entry>
+        </interpolation>
         <center>
             <z-m>0.0153</z-m>
         </center>

@@ -1,0 +1,320 @@
+<?xml version="1.0"?>
+
+<!-- Viggen Autoflight System -->
+<!-- Copyright (c) 2020 Josh Davidson (Octal450) -->
+<!-- Don't move this stuff to JSBsim. Its here for a reason! -->
+
+<PropertyList>
+	
+	<!-- Roll Axis -->
+	
+	<filter>
+		<name>HEADING ERROR DEG</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<property>/fdm/jsbsim/autoflight/roll/hdg-hold-target</property>
+			<offset>
+				<property>/orientation/heading-magnetic-deg</property>
+				<scale>-1.0</scale>
+			</offset>
+		</input>
+		<output>/fdm/jsbsim/autoflight/roll/hdg/heading-error-deg</output>
+		<period>
+			<min>-180</min>
+			<max>180</max>
+		</period>
+	</filter>
+	
+	<!-- Pitch Axis -->
+	
+	<filter>
+		<name>PITCH DEG SYNC</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<enable>
+			<condition>
+				<not-equals>
+					<property>/fdm/jsbsim/autoflight/pitch/alt-hold-active</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+		</enable>
+		<input>/orientation/pitch-deg</input>
+		<output>/fdm/jsbsim/autoflight/pitch/vs/pid</output>
+		<min>-15</min>
+		<max>30</max>
+	</filter>
+	
+	<pid-controller>
+		<name>FPM HOLD</name>
+		<enable>
+			<condition>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/pitch/alt-hold-active</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/instrumentation/gps/indicated-vertical-speed</input>
+		<reference>
+			<condition>
+				<not-equals>
+					<property>fdm/jsbsim/autoflight/pitch/alt-hold-capture</property>
+					<value>1</value>
+				</not-equals>
+			</condition>
+			<property>/fdm/jsbsim/autoflight/pitch/alt-hold-pre-target</property>
+		</reference>
+		<reference>/fdm/jsbsim/autoflight/pitch/vs/target</reference>
+		<output>/fdm/jsbsim/autoflight/pitch/vs/pid</output>
+		<config>
+			<Kp>
+				<expression>
+					<table>
+						<property>/fdm/jsbsim/velocities/vc-kts</property>
+						<entry><ind>130</ind><dep>0.0029</dep></entry>
+						<entry><ind>600</ind><dep>0.0009</dep></entry>
+						<entry><ind>950</ind><dep>0.0003</dep></entry>
+					</table>
+				</expression>
+			</Kp>
+			<Ti>1.5</Ti>
+			<Td>0.0001</Td>
+			<u_min>
+				<condition>
+					<and>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>0</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>0</value>
+						</equals>
+					</and>
+				</condition>
+				<expression>
+					<max>
+						<dif>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</dif>
+						<value>-15</value>
+					</max>
+				</expression>
+			</u_min>
+			<u_min>
+				<condition>
+					<or>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</condition>
+				<value>0</value>
+			</u_min>
+			<u_max>
+				<condition>
+					<and>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>0</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>0</value>
+						</equals>
+					</and>
+				</condition>
+				<expression>
+					<min>
+						<sum>
+							<property>/orientation/pitch-deg</property>
+							<value>5</value>
+						</sum>
+						<value>30</value>
+					</min>
+				</expression>
+			</u_max>
+			<u_max>
+				<condition>
+					<or>
+						<equals>
+							<property>gear/gear[1]/wow</property>
+							<value>1</value>
+						</equals>
+						<equals>
+							<property>gear/gear[2]/wow</property>
+							<value>1</value>
+						</equals>
+					</or>
+				</condition>
+				<value>10</value>
+			</u_max>
+		</config>
+	</pid-controller>
+	
+	<!-- Various -->
+	
+	<filter>
+		<name>Stick Light Exponential</name>
+		<type>exponential</type>
+		<input>/fdm/jsbsim/autoflight/stick-light-cmd</input>
+		<output>/fdm/jsbsim/autoflight/stick-light</output>
+		<filter-time>0.06</filter-time>
+	</filter>
+	
+	<filter>
+		<name>ATT Light Exponential</name>
+		<type>exponential</type>
+		<input>/fdm/jsbsim/autoflight/att-light-cmd</input>
+		<output>/fdm/jsbsim/autoflight/att-light</output>
+		<filter-time>0.06</filter-time>
+	</filter>
+	
+	<filter>
+		<name>ALT Light Exponential</name>
+		<type>exponential</type>
+		<input>/fdm/jsbsim/autoflight/alt-light-cmd</input>
+		<output>/fdm/jsbsim/autoflight/alt-light</output>
+		<filter-time>0.06</filter-time>
+	</filter>
+	
+	<!-- Autothrottle -->
+	
+	<pid-controller>
+		<name>KMH Hold</name>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/fdm/jsbsim/autoflight/athr</property>
+						<value>1</value>
+					</equals>
+					<not-equals>
+						<property>/fdm/jsbsim/autoflight/athr-mode</property>
+						<value>1</value>
+					</not-equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+		<reference>
+			<property>/fdm/jsbsim/autoflight/target-speed-kmh</property>
+			<scale>0.539957</scale> <!-- Kilometers Per Hour to Knots -->
+		</reference>
+		<output>/controls/engines/engine[0]/throttle-pid</output>
+		<config>
+			<Kp>0.05</Kp>
+			<Ti>10.0</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.09</u_min>
+			<u_max>0.5</u_max>
+		</config>
+	</pid-controller>
+	
+	<predict-simple>
+		<name>Alpha Predict</name>
+		<input>/fdm/jsbsim/aero/alpha-deg</input> <!-- Really should be indicated -->
+		<output>/fdm/jsbsim/aero/alpha-deg-ahead</output>
+		<seconds>1.0</seconds>
+		<filter-gain>0.0</filter-gain>
+	</predict-simple>
+	
+	<pid-controller>
+		<name>Alpha Hold</name>
+		<enable>
+			<condition>
+				<and>
+					<equals>
+						<property>/fdm/jsbsim/autoflight/athr</property>
+						<value>1</value>
+					</equals>
+					<equals>
+						<property>/fdm/jsbsim/autoflight/athr-mode</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>/fdm/jsbsim/aero/alpha-deg-ahead</input>
+		<reference>
+			<condition>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/high-alpha</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<value>15.5</value>
+		</reference>
+		<reference>
+			<expression>
+				<table> <!-- According to Necolatis, 9deg at 15000kg, 15.5deg at 16500kg, I interpolated linearly -->
+					<product>
+						<property>/fdm/jsbsim/inertia/weight-lbs</property>
+						<value>0.453592</value> <!-- LB2KG -->
+					</product>
+					<entry><ind>15000.00</ind><dep> 9</dep></entry>
+					<entry><ind>15692.31</ind><dep>12</dep></entry>
+				</table>
+			</expression>
+		</reference>
+		<output>/controls/engines/engine[0]/throttle-pid</output>
+		<config>
+			<Kp>-0.15</Kp>
+			<Ti>2.5</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.09</u_min>
+			<u_max>0.5</u_max>
+		</config>
+	</pid-controller>
+	
+	<filter>
+		<name>Throttle Filter</name>
+		<enable>
+			<condition>
+				<equals>
+					<property>/fdm/jsbsim/autoflight/athr</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<type>noise-spike</type>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<input>/controls/engines/engine[0]/throttle-pid</input>
+		<output>/controls/engines/engine[0]/throttle</output>
+		<max-rate-of-change>0.3</max-rate-of-change>
+	</filter>
+	
+	<!-- Just for testing/tuning -->
+	
+	<!--pid-controller>
+		<name>Auto throttle</name>
+		<enable>
+			<condition>
+				<equals>
+					<property>/athr</property>
+					<value>test</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>/instrumentation/airspeed-indicator/indicated-speed-kt</input>
+		<reference>/speed</reference>
+		<output>/controls/engines/engine[0]/throttle</output>
+		<config>
+			<Kp>0.05</Kp>
+			<Ti>10.0</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.0</u_min>
+			<u_max>1.0</u_max>
+		</config>
+	</pid-controller-->
+
+</PropertyList>

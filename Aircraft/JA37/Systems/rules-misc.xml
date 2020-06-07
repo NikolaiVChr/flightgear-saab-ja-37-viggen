@@ -21,4 +21,27 @@
     <reference>1</reference>
     <output>/position/altitude-agl-m</output>
   </filter>
+
+  <logic>
+    <input>
+      <and>
+        <property>/fdm/jsbsim/gear/unit[0]/WOW</property>
+        <less-than>
+          <property>/fdm/jsbsim/gear/unit[0]/wheel-speed-fps</property>
+          <value>10</value>
+        </less-than>
+      </and>
+    </input>
+    <output>/ja37/on-ground</output>
+  </logic>
+
+  <logic>
+    <input>
+      <or>
+        <not><property>/payload/armament/msg</property></not>
+        <property>/ja37/on-ground</property>
+      </or>
+    </input>
+    <output>/ja37/reload-allowed</output>
+  </logic>
 </PropertyList>

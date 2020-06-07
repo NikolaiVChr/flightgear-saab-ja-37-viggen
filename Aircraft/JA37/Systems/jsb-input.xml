@@ -1,0 +1,72 @@
+<!-- Moved here because used in Autoflight and JSB Controls -->
+
+<system name="JSB Control Inputs">
+	
+	<channel name="Input">
+		
+		<switch name="fcs/elevator/input">
+			<description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
+			<default value="fcs/elevator-cmd-norm"/>
+			<test value="fcs/elevator/input">
+				/ja37/systems/input-controls-flight == 0
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/elevator/stick-newtons">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/elevator/input</independentVar>
+					<tableData>
+						-1.000000 -150
+						 0.000000    0
+						 0.727272  100
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<switch name="fcs/aileron/input">
+			<description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
+			<default value="fcs/aileron-cmd-norm"/>
+			<test value="fcs/aileron/input">
+				/ja37/systems/input-controls-flight == 0
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/aileron/stick-newtons">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/aileron/input</independentVar>
+					<tableData>
+						-1 -65
+						 0   0
+						 1  65
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+		
+		<switch name="fcs/rudder/input">
+			<description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
+			<default value="fcs/rudder-cmd-norm"/>
+			<test value="fcs/rudder/input">
+				/ja37/systems/input-controls-flight == 0
+			</test>
+		</switch>
+		
+		<fcs_function name="fcs/rudder/pedal-newtons">
+			<function>
+				<table>
+					<independentVar lookup="row">fcs/rudder/input</independentVar>
+					<tableData>
+						-1 -155
+						 0    0
+						 1  155
+					</tableData>
+				</table>
+			</function>
+		</fcs_function>
+	
+	</channel>
+
+</system>

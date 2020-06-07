@@ -123,10 +123,12 @@ var MI = {
 	  	var mi = { parents: [MI] };
 	  	mi.input = {
 			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
-			APLockAlt:            "autopilot/locks/altitude",
-			APTgtAgl:             "autopilot/settings/target-agl-ft",
-			APTgtAlt:             "autopilot/settings/target-altitude-ft",
-            brightnessSetting:    "ja37/avionics/brightness-mi-knob",
+			APmode:               "fdm/jsbsim/autoflight/mode",
+			APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
+			brightnessSetting:    "ja37/avionics/brightness-mi-knob",
+			cursor_slew_x:        "controls/displays/cursor-total-slew-x",
+			cursor_slew_y:        "controls/displays/cursor-total-slew-y",
+			cursor_click:         "controls/displays/cursor-total-click",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
 			rad_alt:              "position/altitude-agl-ft",
@@ -890,12 +892,12 @@ var MI = {
 
 	showCursor: func {
 		if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
-    		me.cursorTrigger = getprop("fdm/jsbsim/fcs/cursor/cursor-select");
+    		me.cursorTrigger = me.input.cursor_click.getValue();
 
     		if (me.selection_updated == FALSE) {
     			# we are free to move cursor
-				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/cursor/cursor-control-Y");
-				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/cursor/cursor-control-X");
+				me.cursorSpeedY = me.input.cursor_slew_y.getValue();
+				me.cursorSpeedX = me.input.cursor_slew_x.getValue();
 				me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
 				me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
 				me.cursorPosX  += me.cursorMoveX;
@@ -1309,15 +1311,15 @@ var MI = {
 	      if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
 	      	me.desired_alt_ft = (500*M2FT);
 	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-	      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
+	      } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
 	      	me.desired_alt_ft = me.input.APTgtAlt.getValue();
 	        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
 	      } elsif(canvas_HUD.mode == canvas_HUD.LANDING and land.mode < 3 and land.mode > 0) {
 	      	me.desired_alt_ft = (500*M2FT);
 	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-	      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
-	      	me.desired_alt_ft = me.input.APTgtAgl.getValue();
-	        me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
+	      #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
+	      #	me.desired_alt_ft = me.input.APTgtAgl.getValue();
+	      #  me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
 	      } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
 	        me.i = me.input.RMCurrWaypoint.getValue();
 	        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.i~"]/altitude-ft");
@@ -1335,7 +1337,7 @@ var MI = {
 
 	        me.desired_lines3.setScale(1, me.scale);
 
-	        if (me.showLines == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
+	        if (me.showLines == TRUE and (!getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue())) {
 	          me.desired_lines3.show();
 	        } else {
 	          me.desired_lines3.hide();

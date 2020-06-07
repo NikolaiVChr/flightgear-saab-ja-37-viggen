@@ -18,7 +18,14 @@
         <object-name>display</object-name>
         <condition>
             <or>
-                <property>ja37/avionics/high-alpha</property>
+                <and>
+                    <!-- as per manual: -->
+                    <property>fdm/jsbsim/autoflight/high-alpha</property>
+                    <property>fdm/jsbsim/gear/gear-pos-norm</property>
+                    <not>
+                        <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    </not>
+                </and>
                 <property>controls/lighting/test-indicator-panels</property>
             </or>
         </condition>
@@ -60,8 +67,8 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>ja37/avionics/high-alpha</property>
+                <command>nasal</command>
+                <script>autoflight.System.highAlphaToggle();</script>
             </binding>
             <binding>
                 <command>property-assign</command>

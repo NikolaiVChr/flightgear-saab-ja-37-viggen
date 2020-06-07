@@ -33,7 +33,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>autopilot attitude</tooltip-id>
-                <label>Attitude hold</label>
+                <label>Autopilot: ATT Mode</label>
             </binding>
         </hovered>
         <action>
@@ -42,7 +42,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    auto.mode2();
+                    autoflight.System.engageMode(2);
                     ja37.click();
                 </script>
             </binding>
@@ -68,7 +68,7 @@
             <red>0.0</red>
             <green>0.7</green>
             <blue>0.0</blue>
-            <factor-prop>/instrumentation/attitude-indicator</factor-prop>
+            <factor-prop>fdm/jsbsim/autoflight/att-light</factor-prop>
         </emission>
     </animation>
 
@@ -97,7 +97,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>autopilot altitude</tooltip-id>
-                <label>Altitude hold</label>
+                <label>Autopilot: ALT Mod</label>
                 <property>/instrumentation/altitude-indicator</property>
             </binding>
         </hovered>
@@ -107,7 +107,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    auto.mode3();
+                    autoflight.System.engageMode(3);
                     ja37.click();
                 </script>
             </binding>
@@ -133,7 +133,7 @@
             <red>0.0</red>
             <green>0.7</green>
             <blue>0.0</blue>
-            <factor-prop>/instrumentation/altitude-indicator</factor-prop>
+            <factor-prop>fdm/jsbsim/autoflight/alt-light</factor-prop>
         </emission>
     </animation>
 
@@ -162,7 +162,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>autopilot stab</tooltip-id>
-                <label>Dampers active</label>
+                <label>Autopilot: STICK Mode</label>
             </binding>
         </hovered>
         <action>
@@ -171,7 +171,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    auto.mode1();
+                    autoflight.System.engageMode(1);
                     ja37.click();
                 </script>
             </binding>
@@ -214,7 +214,7 @@
             <red>0.0</red>
             <green>0.7</green>
             <blue>0.0</blue>
-            <factor-prop>/instrumentation/joystick-indicator</factor-prop>
+            <factor-prop>fdm/jsbsim/autoflight/stick-light</factor-prop>
         </emission>
     </animation>
 </PropertyList>

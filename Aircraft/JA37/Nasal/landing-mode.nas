@@ -79,7 +79,6 @@ var printDA = func (str) {
 }
 
 var B = func {
-    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     if (route.Polygon.flyMiss.isPrimary() == FALSE) {
         route.Polygon.flyMiss.setAsPrimary();
@@ -134,7 +133,6 @@ var B = func {
 };
 
 var LA = func {
-    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     if (route.Polygon.flyRTB.isPrimary() == FALSE) {
         route.Polygon.flyRTB.setAsPrimary();
@@ -190,7 +188,6 @@ var LA = func {
 };
 
 var L = func {
-    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     setprop("ja37/avionics/approach", FALSE);#long
 
@@ -223,7 +220,6 @@ var L = func {
 };
 
 var LB = func {
-    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", TRUE);
     setprop("ja37/avionics/approach", FALSE);#long
     mode_B_active = FALSE;
@@ -245,7 +241,6 @@ var LB = func {
 };
 
 var LF = func {
-    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", TRUE);
     setprop("ja37/avionics/approach", TRUE);#short
     mode_B_active = FALSE;
@@ -269,7 +264,6 @@ var LF = func {
 var OPT = func {
     if (getprop("gear/gear/position-norm") > 0 or getprop("ja37/hud/landing-mode") == TRUE) {
         printDA("OPT: activated");
-        auto.unfollowSilent();
         mode = 4;
         mode_LA_active = FALSE;
         mode_B_active = FALSE;
@@ -382,7 +376,6 @@ var Landing = {
         me.alt_rad_enabled = getprop("controls/altimeter-radar");
         if (getprop("ja37/hud/landing-mode")==TRUE and mode_OPT_active==FALSE and ((me.alt < 35) or (me.alt_rad_enabled and me.alt>60 and me.alt_rad<15))) {
             printDA("OPT: auto activated");
-            auto.unfollowSilent();
             mode = 4;
             mode_LA_active = FALSE;
             mode_B_active = FALSE;
@@ -423,7 +416,7 @@ var Landing = {
         		me.runwayCoord.apply_course_distance(geo.normdeg(me.rectAngle), 4100);
         		me.distCenter = geo.aircraft_position().distance_to(me.runwayCoord);
         		approach_circle = me.runwayCoord;
-                if (getprop("/autopilot/target-tracking-ja37/enable") == FALSE and getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE and mode_LA_active == FALSE) {
+                if (getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE and mode_LA_active == FALSE) {
                     # seems route manager was activated through FG menu.
                     if (route.Polygon.primary == route.Polygon.flyMiss) {
                         mode_B_active = TRUE;
