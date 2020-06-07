@@ -5,7 +5,7 @@
 	<path>aj37.ac</path>
 
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
     <parameters>
       <splash-x>0</splash-x>
       <splash-y>0</splash-y>
@@ -1753,7 +1753,7 @@
   </effect>
 
   <!--<effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
     <parameters>
       <splash-x>0</splash-x>
       <splash-y>0</splash-y>
@@ -1777,7 +1777,7 @@
   </effect>-->
 
   <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/hud/hud</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/hud</inherits-from>
     <object-name>hud</object-name>
   </effect>
 
@@ -1821,7 +1821,7 @@
   </effect>
 
   <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
     <object-name>glassOuter</object-name>
     <object-name>frontglas</object-name>
   </effect>

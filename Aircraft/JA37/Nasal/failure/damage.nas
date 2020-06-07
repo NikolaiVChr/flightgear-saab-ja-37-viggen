@@ -3,8 +3,6 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var ecmLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
-
 
 var cannon_types = {
     " M70 rocket hit":        0.25, #135mm
@@ -171,6 +169,10 @@ var incoming_listener = func {
                 #print("bearing to enemy found");
                 var bearing = bearingNode.getValue();
                 var heading = getprop("orientation/heading-deg");
+                # Send a signal to RWR. First argument is an UID, needed to update the signal.
+                # Since we will never update it, just generate a new UID and forget it.
+                rwr.signal(rand(), rwr.RWR_LAUNCH, bearing - heading);
+
                 var clock = bearing - heading;
                 while(clock < 0) {
                   clock = clock + 360;
@@ -178,7 +180,7 @@ var incoming_listener = func {
                 while(clock > 360) {
                   clock = clock - 360;
                 }
-                ecmLog.push(last~sprintf("%d deg.", clock));
+                armament.ecmLog.push(last~sprintf("%d deg.", clock));
                 #print("incoming from "~clock);
                 if (clock >= 345 or clock < 15) {
                   playIncomingSound("12");
@@ -211,7 +213,7 @@ var incoming_listener = func {
                 #The incoming CI lamps overlap each other:
                 if (clock >= 345 or clock <= 75) {
                   incomingLamp("1");
-                } 
+                }
                 if (clock >= 45 and clock <= 135) {
                   incomingLamp("3");
                 }

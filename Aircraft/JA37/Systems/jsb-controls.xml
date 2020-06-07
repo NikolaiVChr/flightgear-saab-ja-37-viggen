@@ -1210,21 +1210,21 @@
     </channel>
 
     <channel execrate="4" name="Cursor">
-      <switch name="fcs/cursor/cursor-X-from-flight-controls">
+      <switch name="names/cursor/cursor-x-from-flight-controls">
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
         <test value="fcs/aileron-cmd-norm">
             /ja37/systems/input-controls-flight == 0
         </test>
       </switch>
-      <switch name="fcs/cursor/cursor-Y-from-flight-controls">
+      <switch name="names/cursor/cursor-y-from-flight-controls">
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
         <test value="fcs/elevator-cmd-norm">
             /ja37/systems/input-controls-flight == 0
         </test>
       </switch>
-      <switch name="fcs/cursor/cursor-trigger-from-flight-controls">
+      <switch name="names/cursor/cursor-trigger-from-flight-controls">
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
         <test value="/controls/armament/trigger">
@@ -1232,32 +1232,50 @@
         </test>
       </switch>
 
-      <summer name="fcs/cursor/cursor-control-X">
+      <summer name="names/cursor/cursor-slew-x">
         <description>Combined cursor control</description>
-        <input>fcs/cursor/cursor-X-from-flight-controls</input>
+        <input>names/cursor/cursor-x-from-flight-controls</input>
         <input>/controls/displays/cursor-slew-x</input>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
         </clipto>
+        <output>/controls/displays/cursor-total-slew-x</output>
       </summer>
-      <summer name="fcs/cursor/cursor-control-Y">
+
+      <summer name="names/cursor/cursor-slew-y">
         <description>Combined cursor control</description>
-        <input>fcs/cursor/cursor-Y-from-flight-controls</input>
+        <input>names/cursor/cursor-y-from-flight-controls</input>
         <input>/controls/displays/cursor-slew-y</input>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
         </clipto>
+        <output>/controls/displays/cursor-total-slew-y</output>
       </summer>
-      <switch name="names/fcs/cursor/cursor-select">
+
+      <switch name="names/cursor/cursor-click">
         <description>Combined cursor control</description>
         <default value="0"/>
         <test logic="OR" value="1">
-          fcs/cursor/cursor-trigger-from-flight-controls == 1
+          names/cursor/cursor-trigger-from-flight-controls == 1
           /controls/displays/cursor-click == 1
         </test>
-        <output>fcs/cursor/cursor-select</output><!-- to prevent property from becoming double -->
+        <output>/controls/displays/cursor-total-click</output>
       </switch>
+
+      <!-- RB05 remote control. Currently hardwired to the cursor control.
+           Will need to be improved when adding a cursor to the AJS -->
+      <pure_gain name="names/cursor/rb05-control-yaw">
+        <input>names/cursor/cursor-slew-x</input>
+        <gain>10</gain>
+        <output>/payload/armament/rb05-control-yaw</output>
+      </pure_gain>
+
+      <pure_gain name="names/cursor/rb05-control-pitch">
+        <input>names/cursor/cursor-slew-y</input>
+        <gain>-10</gain>
+        <output>/payload/armament/rb05-control-pitch</output>
+      </pure_gain>
     </channel>
 </flight_control>

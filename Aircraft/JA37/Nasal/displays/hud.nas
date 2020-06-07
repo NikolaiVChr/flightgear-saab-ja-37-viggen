@@ -1641,7 +1641,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.alt_pointer.show();
         me.rad_alt_pointer.hide();
       }
-      me.alt_scale_grp.update();
       if(me.verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", me.rad_offset));
     } elsif (alt_scale_mode == 1) {
       me.alt_scale_factor = me.metric == TRUE ? 100 : 400;
@@ -1686,7 +1685,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.alt_pointer.show();
         me.rad_alt_pointer.hide();
       }
-      me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
     } elsif (alt_scale_mode == 2) {
       me.alt_scale_factor = me.metric == TRUE ? 200 : 1000;
@@ -1749,10 +1747,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       }
       #me.alt_scale_clip_grp.setTranslation(scalePlace, 0);# move alt. scale lateral with FPI.
       #me.alt_scale_clip_grp.set("clip", me.clipAltScale);
-      me.alt_scale_grp.show();
-      me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", me.rad_offset));
     }
+    me.alt_scale_grp.update();
+    me.alt_scale_grp.show();
   },
 
   displayDigitalAltitude: func (alt, radAlt) {
@@ -2938,12 +2936,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.diamond_small.update();
     me.lock_ir.update();
-    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt)) and radar_logic.tracks != nil) {
-      #me.missileCurr.contacts = [radar_logic.selection];
-      #me.missileCurr.contacts.extend(radar_logic.tracks);
-      me.missileCurr.contacts = radar_logic.tracks;
+    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt))) {
+      me.missileCurr.setContacts(radar_logic.complete_list);
     } elsif (me.missileCurr != nil) {
-      me.missileCurr.contacts = [];
+      me.missileCurr.setContacts([]);
     }
   },
 

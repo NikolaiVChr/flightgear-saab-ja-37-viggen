@@ -47,6 +47,7 @@ input = {
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
   canopyHinge:      "/fdm/jsbsim/fcs/canopy/hinges/serviceable",
+  reload_allowed:   "/ja37/reload-allowed",
   combat:           "/ja37/hud/current-mode",
   cutoff:           "fdm/jsbsim/propulsion/engine/cutoff-commanded",
   damage:           "environment/damage",
@@ -192,8 +193,6 @@ input = {
   tonePreL1: "ja37/sound/tones/load-pre-1",
 };
 
-var msgA = "If you need to repair now, then use Menu-Location-SelectAirport instead.";
-var msgB = "Please land before changing payload or refuel.";
 var Saab37 = {
   new: func {
     var saab37 = {parents: [Saab37]};
@@ -445,7 +444,7 @@ var Saab37 = {
       
       #call(func{fgcommand('dialog-close', multiplayer.dialog.dialog.prop())},nil,var err= []);# props.Node.new({"dialog-name": "location-in-air"}));
       call(func{multiplayer.dialog.del();},nil,var err= []);
-      if (!getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+      if (!reload_allowed()) {
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "WeightAndFuel"}))},nil,var err2 = []);        
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "system-failures"}))},nil,var err2 = []);
         call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "instrument-failures"}))},nil,var err2 = []);  
@@ -1680,8 +1679,6 @@ var main_init = func {
   # start the main loop
   saab37.loopSystem();
 
-  changeGuiLoad();
-
   if (getprop("ja37/systems/state") == "cruise") {
       #setprop("position/altitude-ft", 20000);
       #setprop("velocities/mach", 0.65);
@@ -2119,10 +2116,29 @@ var _popupTip = func(label, y, delay) {
     #canvas.tooltip.showMessage(delay);
 }
 
-var repair = func (c = 1) {
-  if (c==1 and getprop("payload/armament/msg")==1 and !getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-    screen.log.write(msgA);
-  } else {
+var on_damage_enabled = func() {
+    var internal = view.current.getNode("internal");
+    if (internal == nil or !internal.getBoolValue()) {
+        view.setView(0);
+        screen.log.write("External views are disabled with damage on");
+    }
+}
+
+var damage_listener = setlistener("/payload/armament/msg", func (node) {
+    if (node.getBoolValue()) on_damage_enabled();
+}, 1, 0);
+
+var reload_allowed = func(msg = nil) {
+    var b = input.reload_allowed.getBoolValue();
+    if(!b and msg != nil) screen.log.write(msg);
+    return b;
+}
+
+var repair_msg = "If you need to repair now, then use Menu-Location-SelectAirport instead.";
+
+var repair = func {
+    if(!reload_allowed(repair_msg)) return;
+
     var ver = getprop("ja37/supported/crash-system");
     if (ver == 0) {
       crash0.repair();
@@ -2134,275 +2150,8 @@ var repair = func (c = 1) {
     setprop("ja37/done",0);
     setprop("sim/view[0]/enabled",1);
     setprop("/sim/current-view/view-number", 0);
-  }
-  if (c == TRUE) {
-    #ct("rp");
-  }
 }
 
-var refuelTest = func () {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  setprop("consumables/fuel/tank[0]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[1]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[2]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[3]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[4]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[5]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[6]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[7]/level-norm", 0.8);
-  setprop("consumables/fuel/tank[8]/level-norm", 0.0);
-
-  screen.log.write("Fuel configured for flight testing.", 1.0, 0.0, 0.0);
-  } else {
-      screen.log.write(ja37.msgB);
-    }
-}
-
-var refuelNorm = func () {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  setprop("consumables/fuel/tank[0]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[1]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[2]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[3]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[4]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[5]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[6]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[7]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[8]/level-norm", 0.0);
-
-  screen.log.write("Fuel configured for standard flight.", 0.0, 1.0, 0.0);
-  } else {
-      screen.log.write(ja37.msgB);
-    }
-}
-
-var refuelRange = func () {
-  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
-  setprop("consumables/fuel/tank[0]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[1]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[2]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[3]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[4]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[5]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[6]/level-norm", 1.0);
-  setprop("consumables/fuel/tank[7]/level-norm", 1.0);
-
-  # Mount drop tank and fill it up.
-  setprop("payload/weight[6]/selected", "Drop tank");
-  input.tank8Selected.setBoolValue(TRUE);
-  input.tank8Jettison.setBoolValue(FALSE);
-  setprop("consumables/fuel/tank[8]/level-norm", 1.0);
-
-  screen.log.write("Fuel configured for long range flight.", 0.0, 1.0, 0.0);
-  } else {
-      screen.log.write(ja37.msgB);
-    }
-}
-
-var ctOld = func (type) {
-  if (type == "c-u") {
-    setprop("sim/ct/c-u", 1);
-  }
-  if (type == "rl" and input.wow0.getValue() != 1) {
-    setprop("sim/ct/rl", 1);
-  }
-  if (type == "rp" and input.wow0.getValue() != 1) {
-    setprop("sim/ct/rp", 1);
-  }
-  if (type == "a") {
-    setprop("sim/ct/a", 1);
-  }
-  if (type == "lst") {
-    setprop("sim/ct/list", 1);
-  }
-  if (type == "ifa" and input.wow0.getValue() != 1) {
-    setprop("sim/ct/ifa", 1);
-  }
-  if (type == "sf" and input.wow0.getValue() != 1) {
-    setprop("sim/ct/sf", 1);
-  }
-}
-
-var lf = 0;
-var ll = 0;
-
-var code_ctOld = func () {
-  var cu = getprop("sim/ct/c-u");
-  if (cu == nil or cu != 1) {
-    cu = 0;
-  }
-  var a = getprop("sim/ct/a");
-  if (a == nil or a != 1) {
-    a = 0;
-  }
-  var ff = getprop("sim/freeze/fuel");
-  if (ff == nil) {
-    ff = 0;
-  } elsif (ff == 1) {
-    setprop("sim/ct/ff", 1);
-  }
-  ff = getprop("sim/ct/ff");
-  if (ff == nil or ff != 1) {
-    ff = 0;
-  }
-  var cl = getprop("payload/weight[0]/weight-lb")+getprop("payload/weight[1]/weight-lb")+getprop("payload/weight[2]/weight-lb")+getprop("payload/weight[3]/weight-lb")+getprop("payload/weight[4]/weight-lb")+getprop("payload/weight[5]/weight-lb");
-  if (cl > (ll*1.05) and input.wow0.getValue() != 1) {
-    setprop("sim/ct/rl", 1);
-  }
-  ll = cl;
-  var rl = getprop("sim/ct/rl");
-  if (rl == nil or rl != 1) {
-    rl = 0;
-  }
-  var rp = getprop("sim/ct/rp");
-  if (rp == nil or rp != 1) {
-    rp = 0;
-  }
-  var cf = input.fuelRatio.getValue();
-  if (cf != nil and cf > (lf*1.1) and input.wow0.getValue() != 1) {
-    setprop("sim/ct/rf", 1);
-  }
-  var rf = getprop("sim/ct/rf");
-  if (rf == nil or rf != 1) {
-    rf = 0;
-  }
-  lf = cf == nil?0:cf;
-  var dm = !getprop("payload/armament/damage");
-  if (dm == nil or dm != 1) {
-    dm = 0;
-  }
-  var tm = getprop("ja37/radar/look-through-terrain");
-  if (getprop("ja37/supported/picking") == 1 or tm == nil or tm != 1) {
-    tm = 0;
-  }
-  var rd = !getprop("ja37/radar/doppler-enabled");
-  if (rd == nil or rd != 1) {
-    rd = 0;
-  }  
-  var ml = getprop("sim/ct/list");
-  if (ml == nil or ml != 1) {
-    ml = 0;
-  }
-  var sf = getprop("sim/ct/sf");
-  if (sf == nil or sf != 1) {
-    sf = 0;
-  }
-  var ifa = getprop("sim/ct/ifa");
-  if (ifa == nil or ifa != 1) {
-    ifa = 0;
-  }
-  var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd~ml~sf~ifa;
-  setprop("sim/multiplay/generic/string[15]", final);
-}
-
-var notOld = func {
-  if (getprop("payload/armament/msg") == TRUE and input.wow0.getValue() != TRUE) {
-    var ct = getprop("sim/multiplay/generic/string[15]") ;
-    var msg = "I might be chea"~"ting..";
-    if (ct != nil) {
-      msg = "I might be chea"~"ting.."~ct;
-      var spl = split("ct", ct);
-      if (size(spl) > 1) {
-        var bits = spl[1];
-        msg = "I ";
-        if (bits == "000000000000") {
-          #settimer(not, 60);
-          return;
-        }
-        if (substr(bits,0,1) == "1") {
-          msg = msg~"Used CT"~"RL-U..";
-        }
-        if (substr(bits,1,1) == "1") {
-          msg = msg~"Use fuelf"~"reeze..";
-        }
-        if (substr(bits,2,1) == "1") {
-          msg = msg~"Relo"~"aded in air..";
-        }
-        if (substr(bits,3,1) == "1") {
-          msg = msg~"Refue"~"led in air..";
-        }
-        if (substr(bits,4,1) == "1") {
-          msg = msg~"Repa"~"ired not on ground..";
-        }
-        if (substr(bits,5,1) == "1") {
-          msg = msg~"Used time"~"warp..";
-        }
-        if (substr(bits,6,1) == "1") {
-          msg = msg~"Have dam"~"age off..";
-        }
-        if (substr(bits,7,1) == "1") {
-          msg = msg~"Have Ter"~"rain mask. off..";
-        }
-        if (substr(bits,8,1) == "1") {
-          msg = msg~"Have Dop"~"pler off..";
-        }
-        if (substr(bits,9,1) == "1") {
-          msg = msg~"Had mp-l"~"ist on..";
-        }
-        if (substr(bits,10,1) == "1") {
-          msg = msg~"Had s-fai"~"lures open..";
-        }
-        if (substr(bits,11,1) == "1") {
-          msg = msg~"Had i-fa"~"ilures open..";
-        }
-      }
-    }
-    setprop("/sim/multiplay/chat", msg);
-  }
-}
-
-var changeGuiLoad = func()
-{
-    var searchname1 = "mp-list";
-    var searchname2 = "instrument-failures";
-    var searchname3 = "system-failures";
-    var state = 0;
-    
-    foreach(var menu ; props.globals.getNode("/sim/menubar/default").getChildren("menu")) {
-        foreach(var item ; menu.getChildren("item")) {
-            foreach(var name ; item.getChildren("name")) {
-                if(name.getValue() == searchname1) {
-                    #var e = item.getNode("enabled").getValue();
-                    #var path = item.getPath();
-                    #item.remove();
-                    #item = props.globals.getNode(path,1);
-                    #item.getNode("enabled",1).setBoolValue(FALSE);
-                    #item.getNode("binding").remove();
-                    #item.getNode("name",1).setValue(searchname1);
-                    item.getNode("binding/command").setValue("nasal");
-                    item.getNode("binding/script").setValue("ja37.loadMPList()");
-                    #item.getNode("enabled",1).setBoolValue(TRUE);
-                }
-                if(name.getValue() == searchname2) {
-                    item.getNode("binding/command").setValue("nasal");
-                    item.getNode("binding/dialog-name").remove();
-                    item.getNode("binding/script",1).setValue("ja37.loadIFail()");
-                }
-                if(name.getValue() == searchname3) {
-                    item.getNode("binding/command").setValue("nasal");
-                    item.getNode("binding/dialog-name").remove();
-                    item.getNode("binding/script",1).setValue("ja37.loadSysFail()");
-                }
-            }
-        }
-    }
-    fgcommand("reinit", props.Node.new({"subsystem":"gui"}));
-}
-
-var loadMPList = func () {
-  #ct("lst");
-  multiplayer.dialog.show();
-}
-
-var loadSysFail = func () {
-  #ct("sf");
-  fgcommand("dialog-show", props.Node.new({"dialog-name":"system-failures"}));
-}
-
-var loadIFail = func () {
-  #ct("ifa");
-  fgcommand("dialog-show", props.Node.new({"dialog-name":"instrument-failures"}));
-}
 
 var resetView = func () {
   var hd = getprop("sim/current-view/heading-offset-deg");
@@ -2563,6 +2312,30 @@ var stringToLat = func (str) {
   }
 }
 #myPosToString();
+
+view.stepView = func(step, force = 0) {
+    step = step > 0 ? 1 : -1;
+    var n = view.index;
+    for (var i = 0; i < size(view.views); i += 1) {
+        n += step;
+        if (n < 0)
+            n = size(view.views) - 1;
+        elsif (n >= size(view.views))
+            n = 0;
+        var e = view.views[n].getNode("enabled");
+        var internal = view.views[n].getNode("internal");
+
+        if ((force or e == nil or e.getBoolValue())
+            and view.views[n].getNode("name") != nil
+            and ((internal != nil and internal.getBoolValue()) or !getprop("/payload/armament/msg")))
+            break;
+    }
+    view.setView(n);
+
+    # And pop up a nice reminder
+    var popup=getprop("/sim/view-name-popup");
+    if(popup == 1 or popup==nil) gui.popupTip(view.views[n].getNode("name").getValue());
+}
 
 var action_view_handler = {
   init : func {

@@ -2,16 +2,75 @@
 
 <PropertyList>
   <name>loadout</name>
-  <width>500</width>
   <layout>vbox</layout>
 
+  <nasal>
+    <open>
+      # Note: The properties here are only updated while the dialog is active.
+      # Keep theme in the dialog property subtree, to discourage from using them
+      # at some other place, since it will break.
+      var base_node = props.globals.getNode("sim/gui/dialogs/loadout/dialog", 1);
+
+      ### Fuel
+      var fuel_request = base_node.getNode("fuel/request-percent", 1);
+
+      # To avoid continuously calling loadout.refuel() (which is a bit costly)
+      # when touching the refuel slider, the request is only sent after
+      # the slider is left in position for a small delay.
+      var fuel_request_delay = 0.2;
+
+      var fuel_request_timer = maketimer(fuel_request_delay, func {
+          var level = fuel_request.getValue() / 100;
+          level = loadout.refuel(level);
+          fuel_request.setDoubleValue(level * 100);
+          fuel_slider_timer.start();
+      });
+      fuel_request_timer.singleShot = 1;
+
+      # Fuel request slider follows actual fuel level
+      var update_fuel_slider = func {
+          if(fuel_request_timer.isRunning) return;
+          fuel_request.setDoubleValue(getprop("/instrumentation/fuel/ratio") * 100);
+      }
+      update_fuel_slider();
+
+      var fuel_slider_timer = maketimer(1, update_fuel_slider);
+      fuel_slider_timer.simulatedTime = 1;
+      fuel_slider_timer.start();
+
+      var on_fuel_request = func {
+          fuel_slider_timer.stop(); # Temporarily disable slider updates
+          fuel_request_timer.restart(fuel_request_delay);
+      }
+
+      ### Drop tank
+      var droptank = base_node.getNode("fuel/droptank", 1);
+
+      var update_droptank = func(node) {
+          var b = !node.getBoolValue();
+          droptank.setValue(b);
+      }
+
+      var droptank_listener = setlistener("/consumables/fuel/tank[8]/jettisoned", update_droptank, 1, 0);
+
+      var on_droptank_request = func {
+          var b = droptank.getBoolValue();
+          b = loadout.set_droptank(b);
+          droptank.setBoolValue(b);
+      }
+    </open>
+    <close>
+      fuel_slider_timer.stop();
+      removelistener(droptank_listener);
+    </close>
+  </nasal>
   <!-- Title bar -->
   <group>
     <layout>hbox</layout>
     <empty><stretch>1</stretch></empty>
 
     <text>
-      <label>Loadout Selection</label>
+      <label>Fuel and Loadout Selection</label>
     </text>
 
     <empty><stretch>1</stretch></empty>
@@ -35,6 +94,61 @@
 
   <hrule/>
 
+  <!-- Fuel -->
+  <group>
+    <layout>hbox</layout>
+
+    <text><label>Fuel:</label></text>
+
+    <slider>
+      <pref-width>120</pref-width>
+      <min>0</min>
+      <max>123</max>
+      <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
+      <live>true</live>
+      <enable>/ja37/reload-allowed</enable>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>on_fuel_request();</script>
+      </binding>
+    </slider>
+
+    <text>
+      <label>100%</label>
+      <format>%3.f%%</format>
+      <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
+      <live>true</live>
+    </text>
+
+    <empty><stretch>true</stretch></empty>
+
+    <checkbox>
+      <label>External fuel tank</label>
+      <property>/sim/gui/dialogs/loadout/dialog/fuel/droptank</property>
+      <live>true</live>
+      <enable>/ja37/reload-allowed</enable>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>on_droptank_request();</script>
+      </binding>
+    </checkbox>
+
+    <empty><stretch>true</stretch></empty>
+  </group>
+
+  <text>
+    <halign>left</halign>
+    <label>Fuel % corresponds to the fuel gauge. 100% is full internal tanks.</label>
+  </text>
+
+  <hrule/>
+
   <!-- General loadout options -->
   <text>
     <label>Payload</label>
@@ -42,10 +156,10 @@
 
   <group>
     <layout>hbox</layout>
-    
+
     <button>
       <legend>Clean loadout</legend>
-      <pref-width>120</pref-width>
+      <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>nasal</command>
         <script>loadout.reload_clean();</script>
@@ -53,11 +167,11 @@
     </button>
 
     <button>
-      <legend>Reload gun/flares</legend>
-      <pref-width>120</pref-width>
+      <legend>Reload ammo/flares</legend>
+      <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>nasal</command>
-        <script>loadout.reload_gun_flares();</script>
+        <script>loadout.reload_ammo_flares();</script>
       </binding>
     </button>
   </group>

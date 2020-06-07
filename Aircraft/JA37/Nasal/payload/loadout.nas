@@ -69,6 +69,19 @@ var loadouts = {
     "16x M 71R, 2x RB 24J": ["m71r", "m71r", "m71r", "m71r", "rb24j", "rb24j"],
     "12x M 71R, 1x RB 74": ["m71r", "rb74", "m71r", "m71r", "none", "none"],
     "2x M 90, 2x RB 74": ["m90", "rb74", "m90", "rb74", "none", "none"],
+    # AJ
+    "2x RB 04, 1x RB 24J": ["rb04", "rb24j", "rb04", "none", "none", "none"],
+    "2x RB 05, 2x AKAN": ["m55", "rb05", "m55", "rb05", "none", "none"],
+    "1x RB 05, 1x RB 24J, 2x AKAN": ["m55", "rb24j", "m55", "rb05", "none", "none"],
+    "2x RB 75, 2x AKAN": ["m55", "rb75", "m55", "rb75", "none", "none"],
+    "1x RB 75, 1x RB 24J, 2x AKAN": ["m55", "rb24j", "m55", "rb75", "none", "none"],
+    "2x RB 24J, 2x AKAN": ["m55", "rb24j", "m55", "rb24j", "none", "none"],
+    "24x M 70": ["m70", "m70", "m70", "m70", "none", "none"],
+    "18x M 70, 1x RB 24J": ["m70", "rb24j", "m70", "m70", "none", "none"],
+    "16x M 71": ["m71", "m71", "m71", "m71", "none", "none"],
+    "12x M 71, 1x RB 24J": ["m71", "rb24j", "m71", "m71", "none", "none"],
+    "16x M 71R": ["m71r", "m71r", "m71r", "m71r", "none", "none"],
+    "12x M 71R, 1x RB 24J": ["m71r", "rb24j", "m71r", "m71r", "none", "none"],
 };
 
 # List of loadouts to include in the dialogs.
@@ -103,15 +116,26 @@ var AJS_loadouts = [
     "2x M 90, 2x RB 74",
 ];
 
+var AJ_loadouts = [
+    "2x RB 04, 1x RB 24J",
+    "2x RB 05, 2x AKAN",
+    "1x RB 05, 1x RB 24J, 2x AKAN",
+    "2x RB 75, 2x AKAN",
+    "1x RB 75, 1x RB 24J, 2x AKAN",
+    "2x RB 24J, 2x AKAN",
+    "24x M 70",
+    "18x M 70, 1x RB 24J",
+    "16x M 71",
+    "12x M 71, 1x RB 24J",
+    "16x M 71R",
+    "12x M 71R, 1x RB 24J",
+];
+
 
 ### Input properties
 var input = {
-    payload: "payload",
-    fuel: "consumables/fuel",
-    fuel_request: "payload/fuel-requested-percent",
-    mpmsg: "payload/armament/msg",
-    wow: "fdm/jsbsim/gear/unit[0]/WOW",
-    wheelspd: "fdm/jsbsim/gear/unit[0]/wheel-speed-fps",
+    payload:    "payload",
+    fuel:       "consumables/fuel",
 };
 
 foreach(var name; keys(input)) {
@@ -120,17 +144,6 @@ foreach(var name; keys(input)) {
 
 
 ### Internal reload functions.
-
-# Reload all the internal stuff: gun (for JA) and flares
-var reload_internal = func() {
-    if(getprop("ja37/systems/variant") == 0) {
-        setprop("ai/submodels/submodel[3]/count", 146);
-        setprop("ai/submodels/submodel[4]/count", 146);
-    }
-
-    setprop("ai/submodels/submodel[0]/count", 60);
-    setprop("ai/submodels/submodel[1]/count", 60);
-};
 
 var get_full_name = func(name) {
     if(contains(load_option_names, name)) return load_option_names[name];
@@ -149,32 +162,131 @@ var load_pylon = func(pylon, option) {
 var set_loadout = func(loadout) {
     forindex(i; loadout) {
         var name = load_pylon(i, loadout[i]);
-    };
-};
-
-
-var on_ground = func() {
-    return input.wow.getBoolValue() and (input.wheelspd.getValue() < 1);
-};
-
-var reload_allowed = func() {
-    if(input.mpmsg.getBoolValue() and !on_ground()) {
-        screen.log.write("Please land and stop in order to reload/refuel.");
-        return FALSE;
     }
-    return TRUE;
+}
+
+# Reload internal stuff
+var reload_internal = func() {
+    if(getprop("ja37/systems/variant") == 0) {
+        setprop("ai/submodels/submodel[3]/count", 146);
+        setprop("ai/submodels/submodel[4]/count", 146);
+    }
+
+    setprop("ai/submodels/submodel[0]/count", 60);
+    setprop("ai/submodels/submodel[1]/count", 60);
+}
+
+# Reload ammo of loaded weapons (gun/rocket pods, bombs)
+var reload_ammo = func() {
+    # Setting weight to 0 will force a reload in 'stores.nas'
+    foreach(var pylon; input.payload.getChildren("weight")) {
+        pylon.setDoubleValue("weight-lb", 0);
+    }
+}
+
+
+### Fuel
+
+# Compute fuel tank capacities
+var tank_names = {
+    "1": 0,
+    "2": 1,
+    "3V": 2,
+    "3H": 3,
+    "5V": 4,
+    "5H": 5,
+    "4V": 6,
+    "4H": 7,
+    "external": 8,
 };
+
+var tank_cap = nil;
+var internal_cap = 0;
+var external_cap = 0;
+var total_cap = 0;
+var fuel_norm2M3 = 1;
+var fuel_M32norm = 1;
+
+var compute_tank_cap = func {
+    tank_cap = input.fuel.getChildren("tank");
+    forindex(var i; tank_cap) {
+        tank_cap[i] = tank_cap[i].getValue("capacity-m3");
+    }
+
+    internal_cap = 0;
+    for(var i=0; i<=7; i+=1) {
+        internal_cap += tank_cap[i];
+    }
+    external_cap = tank_cap[8];
+    total_cap = internal_cap + external_cap;
+
+    fuel_norm2M3 = internal_cap;
+    fuel_M32norm = 1/fuel_norm2M3;
+}
+
+# Load up to 'request_m3' fuel in the tanks listed in the array 'tanks'.
+# Return the actual quantity loaded.
+# Fuel is balanced between the tanks.
+# In 'tanks', tank numbers may be replaced by their name in 'tank_names' above.
+var balance_tanks = func(tanks, request_m3) {
+    # Resolve tank names
+    forindex(var i; tanks) {
+        if(contains(tank_names, tanks[i])) tanks[i] = tank_names[tanks[i]];
+    }
+    # Compute total capacity of requested tanks
+    var cap = 0;
+    foreach(var tank; tanks) cap += tank_cap[tank];
+    # Proportion to fill
+    var norm = math.min(request_m3/cap, 1);
+    # Refuel
+    foreach(var tank; tanks) {
+        input.fuel.getChild("tank", tank).setValue("level-norm", norm);
+    }
+    return norm * cap;
+}
+
+
+# fuel_norm corresponds to the fuel gauge (fuel_norm=1 -> 100%)
+# Returns the actual fuel level after refueling, on the same scale.
+var refuel = func(fuel_norm) {
+    if(!ja37.reload_allowed(must_land_msg)) {
+        return input.fuel.getValue("total-fuel-m3") * fuel_M32norm;
+    }
+
+    var fuel_request_m3 = fuel_norm * fuel_norm2M3;
+    var fuel_loaded_m3 = 0;
+
+    # According to manual: first tanks 1 and 5, then tanks 2,3,4
+    fuel_loaded_m3 += balance_tanks(
+        ["1", "5V", "5H"],
+        fuel_request_m3 - fuel_loaded_m3
+    );
+    fuel_loaded_m3 += balance_tanks(
+        ["2", "3V", "3H", "4V", "4H"],
+        fuel_request_m3 - fuel_loaded_m3
+    );
+    if(!input.fuel.getNode("tank[8]/jettisoned").getBoolValue()) {
+        fuel_loaded_m3 += balance_tanks(["external"], fuel_request_m3 - fuel_loaded_m3);
+    }
+
+    return fuel_loaded_m3 * fuel_M32norm;
+}
+
+var set_droptank = func(b) {
+    if(!ja37.reload_allowed(must_land_msg)) {
+        return !input.fuel.getNode("tank[8]/jettisoned").getBoolValue();
+    }
+
+    if(b) load_pylon(pylons.C7, "tank");
+    else load_pylon(pylons.C7, "none");
+    return b;
+}
 
 
 ### Screen messages
-var loaded_gun_flares_message = func {
-    if(getprop("/ja37/systems/variant") == 0) {
-        screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
-    }
-    screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
-}
+var must_land_msg = "Please land and stop in order to refuel and reload.";
 
-var loaded_loadout_message = func {
+var print_reload_message = func {
     var loaded = {};
     foreach(var pylon; input.payload.getChildren("weight")) {
         var name = pylon.getValue("selected");
@@ -191,29 +303,38 @@ var loaded_loadout_message = func {
     if(size(loaded) == 0) {
         screen.log.write("All external weapons removed", 0.0, 1.0, 0.0);
     }
+
+    if(getprop("/ja37/systems/variant") == 0) {
+        var cannon_rounds = getprop("ai/submodels/submodel[3]/count");
+        screen.log.write(cannon_rounds ~ " cannon rounds loaded", 0.0, 1.0, 0.0);
+    }
+
+    var flares = getprop("ai/submodels/submodel[0]/count") + getprop("ai/submodels/submodel[1]/count");
+    screen.log.write(flares ~ " flares loaded", 0.0, 1.0, 0.0);
 }
 
 
 ### Final reload functions, for the GUI
 
 var reload_loadout = func(loadout_name) {
-    if(!reload_allowed()) return;
+    if(!ja37.reload_allowed(must_land_msg)) return;
 
     var loadout = loadouts[loadout_name];
 
-    reload_internal();
     set_loadout(loadout);
-    loaded_gun_flares_message();
-    loaded_loadout_message();
-}
-
-var reload_gun_flares = func {
-    if(!reload_allowed()) return;
+    reload_ammo();
     reload_internal();
-    loaded_gun_flares_message();
+    print_reload_message();
 }
 
-var reload_clean = func {
+var reload_ammo_flares = func {
+    if(!ja37.reload_allowed(must_land_msg)) return;
+    reload_ammo();
+    reload_internal();
+    print_reload_message();
+}
+
+var reload_clean = func() {
     reload_loadout("clean");
 }
 
@@ -225,13 +346,9 @@ var Dialog = {
     init: func {
         me.prop = props.globals.getNode("/sim/gui/dialogs/loadout/dialog", 1);
         me.path = "Aircraft/JA37/gui/dialogs/loadout.xml";
-        if(getprop("/ja37/systems/variant") == 0) {
-            me.loadouts = JA_loadouts;
-        } else {
-            me.loadouts = AJS_loadouts;
-        }
+        var variant = getprop("/ja37/systems/variant");
+        me.loadouts = (variant == 0) ? JA_loadouts : (variant == 2) ? AJS_loadouts : AJ_loadouts;
         me.state = 0;
-
         me.listener = setlistener("/sim/signals/reinit-gui", func me.init_dialog(), 1);
     },
 
@@ -286,6 +403,7 @@ var Dialog = {
         button.setDoubleValue("pref-width", 55);
         button.setDoubleValue("pref-height", 25);
         button.setValue("legend", "reload");
+        button.setValue("enable", "/ja37/reload-allowed");
 
         var binding = button.addChild("binding");
         binding.setValue("command", "nasal");
@@ -302,7 +420,7 @@ var Dialog = {
 
     open: func() {
         if(me.state) return;
-        if(!reload_allowed()) return;
+        if(!ja37.reload_allowed(must_land_msg)) return;
         fgcommand("dialog-show", me.prop);
         me.state = 1;
     },
@@ -320,3 +438,4 @@ var Dialog = {
 };
 
 Dialog.init();
+compute_tank_cap();

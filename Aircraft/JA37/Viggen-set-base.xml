@@ -78,18 +78,18 @@
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
-            <path>ja37/faf/friend-1</path>
-            <path>ja37/faf/friend-2</path>
-            <path>ja37/faf/friend-3</path>
-            <path>ja37/faf/friend-4</path>
-            <path>ja37/faf/friend-5</path>
-            <path>ja37/faf/friend-6</path>
-            <path>ja37/faf/foe-1</path>
-            <path>ja37/faf/foe-2</path>
-            <path>ja37/faf/foe-3</path>
-            <path>ja37/faf/foe-4</path>
-            <path>ja37/faf/foe-5</path>
-            <path>ja37/faf/foe-6</path>
+            <path>ja37/faf/friends/friend[0]</path>
+            <path>ja37/faf/friends/friend[1]</path>
+            <path>ja37/faf/friends/friend[2]</path>
+            <path>ja37/faf/friends/friend[3]</path>
+            <path>ja37/faf/friends/friend[4]</path>
+            <path>ja37/faf/friends/friend[5]</path>
+            <path>ja37/faf/foes/foe[0]</path>
+            <path>ja37/faf/foes/foe[1]</path>
+            <path>ja37/faf/foes/foe[2]</path>
+            <path>ja37/faf/foes/foe[3]</path>
+            <path>ja37/faf/foes/foe[4]</path>
+            <path>ja37/faf/foes/foe[5]</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
@@ -477,8 +477,7 @@
                 <path>Aircraft/JA37/Systems/autoflight-rules.xml</path>
             </autopilot>
             <property-rule n="101">
-              <name>altitude_agl-m</name>
-              <path>Aircraft/JA37/Systems/rules-misc.xml</path>
+                <path>Aircraft/JA37/Systems/rules-misc.xml</path>
             </property-rule>
         </systems>
 
@@ -749,18 +748,22 @@
             </fr31>
         </radio>
         <faf>
-            <friend-1 type="string"></friend-1>
-            <friend-2 type="string"></friend-2>
-            <friend-3 type="string"></friend-3>
-            <friend-4 type="string"></friend-4>
-            <friend-5 type="string"></friend-5>
-            <friend-6 type="string"></friend-6>
-            <foe-1 type="string"></foe-1>
-            <foe-2 type="string"></foe-2>
-            <foe-3 type="string"></foe-3>
-            <foe-4 type="string"></foe-4>
-            <foe-5 type="string"></foe-5>
-            <foe-6 type="string"></foe-6>
+            <friends>
+                <friend n="0" type="string"></friend>
+                <friend n="1" type="string"></friend>
+                <friend n="2" type="string"></friend>
+                <friend n="3" type="string"></friend>
+                <friend n="4" type="string"></friend>
+                <friend n="5" type="string"></friend>
+            </friends>
+            <foes>
+                <foe n="0" type="string"></foe>
+                <foe n="1" type="string"></foe>
+                <foe n="2" type="string"></foe>
+                <foe n="3" type="string"></foe>
+                <foe n="4" type="string"></foe>
+                <foe n="5" type="string"></foe>
+            </foes>
         </faf>
         <navigation>
             <inout type="bool">true</inout>
@@ -930,11 +933,6 @@
                     <serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
                 </flaps>
                 <mouse-optimized type="bool">false</mouse-optimized>
-                <cursor>
-                  <cursor-control-X type="double">0.0</cursor-control-X>
-                  <cursor-control-Y type="double">0.0</cursor-control-Y>
-                  <cursor-select type="bool">false</cursor-select>
-                </cursor>
             </fcs>
             <gear>
                 <serviceable alias="/gear/serviceable"/>
@@ -1195,9 +1193,14 @@
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>
         <displays>
+            <!-- Inputs (to be used e.g. in joystick configuration) -->
             <cursor-slew-x type="double">0.0</cursor-slew-x>
             <cursor-slew-y type="double">0.0</cursor-slew-y>
             <cursor-click type="bool">false</cursor-click>
+            <!-- JSBSim computed final input. To be used in the systems reading the cursor. -->
+            <cursor-total-slew-x type="double">0.0</cursor-total-slew-x>
+            <cursor-total-slew-y type="double">0.0</cursor-total-slew-y>
+            <cursor-total-click type="bool">false</cursor-total-click>
         </displays>
     </controls>
     <gear>
@@ -1515,6 +1518,24 @@
         </gci>
     </instrumentation>
 
+    <payload>
+        <armament include="Systems/armament.xml">
+            <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
+            <modelsUseCase type="bool">true</modelsUseCase>
+            <modelsUpperCase type="bool">true</modelsUpperCase>
+            <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
+            <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
+            <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
+            <hit-interpolation type="bool">true</hit-interpolation>
+            <enable-craters type="bool">true</enable-craters>
+            <pylon-offset type="int">1</pylon-offset>
+            <pylon-stations>controls/armament</pylon-stations>
+            <station-name type="string">station</station-name>
+            <msg type="bool">false</msg>
+            <damage type="bool">false</damage>
+        </armament>
+    </payload>
+
     <!-- Using commandline these can be entered at start. Areas should max have 8 points. The others max 48 steerpoints including dest/dep. Format GPX or FG xml. -->
     <!--<xmlPlans>
         <mission1 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss1.xml</mission1>
@@ -1570,6 +1591,12 @@
         <rcs>
             <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
         </rcs>
+        <rwr>
+            <file>Aircraft/JA37/Nasal/radar/rwr.nas</file>
+        </rwr>
+        <faf>
+            <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
+        </faf>
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>
@@ -1666,7 +1693,7 @@
         </view>-->
 
         <!--<proto>
-            <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar-prototype.nas</file>
         </proto>-->
         
         <lm>

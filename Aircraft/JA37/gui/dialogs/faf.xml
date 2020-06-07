@@ -43,7 +43,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Friend 1</label>
-	  	<property>ja37/faf/friend-1</property>
+	  	<property>ja37/faf/friends/friend[0]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -59,7 +59,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Friend 2</label>
-	  	<property>ja37/faf/friend-2</property>
+	  	<property>ja37/faf/friends/friend[1]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -75,7 +75,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Friend 3</label>
-	  	<property>ja37/faf/friend-3</property>
+	  	<property>ja37/faf/friends/friend[2]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -91,7 +91,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Friend 4</label>
-	  	<property>ja37/faf/friend-4</property>
+	  	<property>ja37/faf/friends/friend[3]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -107,7 +107,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Friend 5</label>
-	  	<property>ja37/faf/friend-5</property>
+	  	<property>ja37/faf/friends/friend[4]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -123,7 +123,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Friend 6</label>
-	  	<property>ja37/faf/friend-6</property>
+	  	<property>ja37/faf/friends/friend[5]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -139,7 +139,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Foe 1</label>
-	  	<property>ja37/faf/foe-1</property>
+	  	<property>ja37/faf/foes/foe[0]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -155,7 +155,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Foe 2</label>
-	  	<property>ja37/faf/foe-2</property>
+	  	<property>ja37/faf/foes/foe[1]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -171,7 +171,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Foe 3</label>
-	  	<property>ja37/faf/foe-3</property>
+	  	<property>ja37/faf/foes/foe[2]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -187,7 +187,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Foe 4</label>
-	  	<property>ja37/faf/foe-4</property>
+	  	<property>ja37/faf/foes/foe[3]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -203,7 +203,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Foe 5</label>
-	  	<property>ja37/faf/foe-5</property>
+	  	<property>ja37/faf/foes/foe[4]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -219,7 +219,7 @@
 	  	<width>250</width>
 	  	<height>25</height>
 	  	<label>Foe 6</label>
-	  	<property>ja37/faf/foe-6</property>
+	  	<property>ja37/faf/foes/foe[5]</property>
 	  	<live>true</live>
 	  	<halign>left</halign>
         <binding>
@@ -237,31 +237,17 @@
 		<legend>Switch</legend>
 		<binding>
 			<command>nasal</command>
-			<script>
-				var h1 = getprop("ja37/faf/foe-1");
-				var h2 = getprop("ja37/faf/foe-2");
-				var h3 = getprop("ja37/faf/foe-3");
-				var h4 = getprop("ja37/faf/foe-4");
-				var h5 = getprop("ja37/faf/foe-5");
-				var h6 = getprop("ja37/faf/foe-6");
-				var f1 = getprop("ja37/faf/friend-1");
-				var f2 = getprop("ja37/faf/friend-2");
-				var f3 = getprop("ja37/faf/friend-3");
-				var f4 = getprop("ja37/faf/friend-4");
-				var f5 = getprop("ja37/faf/friend-5");
-				var f6 = getprop("ja37/faf/friend-6");
-				setprop("ja37/faf/foe-1", f1);
-				setprop("ja37/faf/foe-2", f2);
-				setprop("ja37/faf/foe-3", f3);
-				setprop("ja37/faf/foe-4", f4);
-				setprop("ja37/faf/foe-5", f5);
-				setprop("ja37/faf/foe-6", f6);
-				setprop("ja37/faf/friend-1", h1);
-				setprop("ja37/faf/friend-2", h2);
-				setprop("ja37/faf/friend-3", h3);
-				setprop("ja37/faf/friend-4", h4);
-				setprop("ja37/faf/friend-5", h5);
-				setprop("ja37/faf/friend-6", h6);
+			<script><![CDATA[
+			    var friends = props.globals.getNode("ja37/faf/friends");
+				var foes = props.globals.getNode("ja37/faf/foes");
+			    for(var i=0; i<6; i+=1) {
+				    var friend = friends.getChild("friend", i);
+				    var foe = foes.getChild("foe", i);
+					var tmp = friend.getValue();
+					friend.setValue(foe.getValue());
+					foe.setValue(tmp);
+				}
+			  ]]>
 			</script>
 		</binding>
 	</button>

@@ -97,10 +97,6 @@
         <name>f</name>
         <desc>Toggle radar steer order on current selection</desc>
     </key>
-    <!--<key>
-        <name>F</name>
-        <desc>Set autopilot to stop follow</desc>
-    </key>-->
     <key>
         <name>S</name>
         <desc>Cycle smoke. Off, Yellow or Blue</desc>
@@ -116,6 +112,14 @@
     <key>
         <name>N</name>
         <desc>Select radar track center most in HUD</desc>
+    </key>
+    <key>
+        <name>F</name>
+        <desc>Unlock selected radar track</desc>
+    </key>
+    <key>
+        <name>E</name>
+        <desc>Uncage IR seeker after lock (held: cage/reset seeker)</desc>
     </key>
     <key>
         <name>Ctrl n</name>
