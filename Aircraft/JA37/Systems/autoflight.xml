@@ -314,7 +314,10 @@
 			<default value="0"/>
 			<test logic="AND" value="1">
 				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/mode ge 1
+				<test logic="OR">
+					autoflight/mode ge 1
+					/controls/lighting/test-indicator-panels eq 1
+				</test>
 			</test>
 		</switch>
 		
@@ -338,8 +341,11 @@
 			<default value="0"/>
 			<test logic="AND" value="1">
 				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/mode ge 2
 				autoflight/att-blink ne 1
+				<test logic="OR">
+					autoflight/mode ge 2
+					/controls/lighting/test-indicator-panels eq 1
+				</test>
 			</test>
 		</switch>
 		
@@ -363,8 +369,11 @@
 			<default value="0"/>
 			<test logic="AND" value="1">
 				/ja37/elec/dc-bus-main-bool eq 1
-				autoflight/mode eq 3
 				autoflight/alt-blink ne 1
+				<test logic="OR">
+					autoflight/mode ge 3
+					/controls/lighting/test-indicator-panels eq 1
+				</test>
 			</test>
 		</switch>
 		
