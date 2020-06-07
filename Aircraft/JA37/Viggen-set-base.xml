@@ -864,8 +864,6 @@
                 <athr type="bool">0</athr>
                 <athr-pos type="double">0</athr-pos>
                 <athr-cmd type="bool">0</athr-cmd>
-                <!-- Disengage buttons on throttle. The button is not implemented yet,
-                     but this property can be used for future or custom bindings. -->
                 <athr-quick-disengage type="bool">0</athr-quick-disengage>
                 <high-alpha type="bool">0</high-alpha>
                 <max-mode-out type="int">0</max-mode-out>
