@@ -174,7 +174,7 @@
             <scale>1.0000</scale>
         </marker>
         <condition>
-            <property>fdm/jsbsim/autoflight/stick-light</property>
+            <property>fdm/jsbsim/autoflight/stick-light-cmd</property>
         </condition>
         <binding>
             <command>nasal</command>

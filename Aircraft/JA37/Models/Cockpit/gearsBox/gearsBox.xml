@@ -147,7 +147,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/fdm/jsbsim/autoflight/athr-cmd</property>
+                <property>fdm/jsbsim/autoflight/athr-cmd</property>
             </binding>
         </action>
     </animation>
