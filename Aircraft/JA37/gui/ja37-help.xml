@@ -178,19 +178,19 @@
         <desc>Adjust seat down</desc>
     </key>
     <key>
-        <name>F6</name>
+        <name>Ctrl-E x3</name>
         <desc>Eject</desc>
     </key>
     <key>
-        <name>Ctrl-1</name>
+        <name>F5</name>
         <desc>GCI Picture</desc>
     </key>
     <key>
-        <name>Ctrl-2</name>
+        <name>F6</name>
         <desc>GCI Dope</desc>
     </key>
     <key>
-        <name>Ctrl-3</name>
+        <name>F7</name>
         <desc>GCI Cutoff</desc>
     </key>
     <!--

@@ -1604,6 +1604,7 @@
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
             <file>Aircraft/JA37/Nasal/chronograph.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
+            <file>Aircraft/JA37/Nasal/ejection.nas</file>
         </ja37>
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
