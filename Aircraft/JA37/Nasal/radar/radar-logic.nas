@@ -294,7 +294,7 @@ var RadarLogic = {
       }
 
       # RWR
-      if (mp and (!is_ja or TI.ti.ECMon) and distance <= rwrRange) {
+      if (mp and distance <= rwrRange) {
         var rel_bearing = self.course_to(trackPos) - myHeading;
         if (me.isRadarLocking(track)) {
           rwr.signal(UID, rwr.RWR_LOCK, rel_bearing, 2, model);
