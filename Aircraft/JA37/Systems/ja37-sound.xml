@@ -1565,7 +1565,7 @@
             <type>avionics</type>
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>instrumentation/rwr/sound/sound[0]</property>
+                <property>instrumentation/rwr/sound/beep[0]</property>
                 <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <volume>
@@ -1587,7 +1587,7 @@
             <type>avionics</type>
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>instrumentation/rwr/sound/sound[1]</property>
+                <property>instrumentation/rwr/sound/beep[1]</property>
                 <property>ja37/elec/ac-bus-secondary-bool</property>
             </condition>
             <volume>
@@ -1598,6 +1598,182 @@
             </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[1]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-2</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[2]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[2]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-3</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[3]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[3]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-4</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[4]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[4]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-5</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[5]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[5]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-6</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[6]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[6]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-7</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[7]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[7]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-8</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[8]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[8]</property>
+                <factor>0.0004</factor>
+                <offset>0</offset>
+            </pitch>
+        </rwr>
+        <rwr>
+            <name>rwr-sound-9</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/tones/rwr-2500hz.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>instrumentation/rwr/sound/beep[9]</property>
+                <property>ja37/elec/ac-bus-secondary-bool</property>
+            </condition>
+            <volume>
+                <property>instrumentation/rwr/sound/volume</property>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
+            </volume>
+            <pitch>
+                <property>instrumentation/rwr/sound/freq[9]</property>
                 <factor>0.0004</factor>
                 <offset>0</offset>
             </pitch>

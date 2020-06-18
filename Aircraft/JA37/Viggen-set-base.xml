@@ -1487,12 +1487,28 @@
           </ja-lights>
           <sound>
             <volume type="double">0</volume>
-            <sound n="0" type="bool">false</sound>
-            <freq n="0" type="double">500</freq>
-            <sound n="1" type="bool">false</sound>
-            <freq n="1" type="double">1800</freq>
             <high-prf type="bool">false</high-prf>
             <incoming type="bool">false</incoming>
+            <beep n="0" type="bool">false</beep>
+            <beep n="1" type="bool">false</beep>
+            <beep n="2" type="bool">false</beep>
+            <beep n="3" type="bool">false</beep>
+            <beep n="4" type="bool">false</beep>
+            <beep n="5" type="bool">false</beep>
+            <beep n="6" type="bool">false</beep>
+            <beep n="7" type="bool">false</beep>
+            <beep n="8" type="bool">false</beep>
+            <beep n="9" type="bool">false</beep>
+            <freq n="0" type="double">1000</freq>
+            <freq n="1" type="double">1000</freq>
+            <freq n="2" type="double">1000</freq>
+            <freq n="3" type="double">1000</freq>
+            <freq n="4" type="double">1000</freq>
+            <freq n="5" type="double">1000</freq>
+            <freq n="6" type="double">1000</freq>
+            <freq n="7" type="double">1000</freq>
+            <freq n="8" type="double">1000</freq>
+            <freq n="9" type="double">1000</freq>
           </sound>
         </rwr>
         <head-up-display>

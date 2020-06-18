@@ -4,10 +4,8 @@ var FALSE = 0;
 
 var input = {
     time: "sim/time/elapsed-sec",
-    snd_low_prf: "instrumentation/rwr/sound/sound[0]",
-    snd_med_prf: "instrumentation/rwr/sound/sound[1]",
-    snd_high_prf: "instrumentation/rwr/sound/high-prf",
-    snd_incoming: "instrumentation/rwr/sound/incoming",
+    sound_high_prf: "instrumentation/rwr/sound/high-prf",
+    sound_incoming: "instrumentation/rwr/sound/incoming",
 };
 foreach (var name; keys(input)) {
     input[name] = props.globals.getNode(input[name], 1);
@@ -15,8 +13,100 @@ foreach (var name; keys(input)) {
 
 input.ja_lights = props.globals.getNode("instrumentation/rwr/ja-lights").getChildren("sector");
 input.ajs_lights = props.globals.getNode("instrumentation/rwr/ajs-lights").getChildren("sector");
+input.beeps = props.globals.getNode("instrumentation/rwr/sound").getChildren("beep");
+input.beeps_freq = props.globals.getNode("instrumentation/rwr/sound").getChildren("freq");
 
 var is_ja = (getprop("/ja37/systems/variant") == 0);
+
+
+
+### Sounds
+# Special sounds
+var sound_high_prf = FALSE;
+var sound_incoming = FALSE;
+
+# Generic beep sounds, with adjustable frequency
+var n_beeps = size(input.beeps);
+var used_beeps = [];
+setsize(used_beeps, n_beeps);
+forindex(var i; used_beeps) used_beeps[i] = FALSE;
+
+# Find an unused beep in the array.
+var last_used = -1;
+var find_free_beep = func() {
+    for (var i=0; i<n_beeps; i+=1) {
+        last_used += 1;
+        if (last_used >= n_beeps) last_used = 0;
+        if (!used_beeps[last_used]) return last_used;
+    }
+    return -1;
+}
+
+# Start a new beeping sound with the given frequency.
+# Returns an index which identifies this sound, to be passed to 'stop_beep'.
+# Returns a negative index if no free beeping sounds are available.
+var start_beep = func(freq) {
+    var i = find_free_beep();
+    if (i < 0) return i;
+
+    used_beeps[i] = TRUE;
+    input.beeps[i].setBoolValue(TRUE);
+    input.beeps_freq[i].setValue(freq);
+    return i;
+}
+
+var stop_beep = func(i) {
+    if (i < 0) return;
+    input.beeps[i].setBoolValue(FALSE);
+    used_beeps[i] = FALSE;
+}
+
+
+
+### Radars characteristics database.
+# Most of this is completely made up
+var radar_types = {
+    "AJS37-Viggen":     { scan_freq: 475, scan_period: 2.24, scan_length: 0.4, lock_freq: 1900 }, # Manual (part 3)
+    "AJ37-Viggen":      "AJS37-Viggen",
+    "JA37Di-Viggen":    { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "f-14b":            { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "F-15C":            { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "F-15D":            "F-15C",
+    "F-16":             { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "YF-16":            "F-16",
+    "m2000-5":          { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "m2000-5B":         "m2000-5",
+    "SU-27":            { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "MiG-29":           { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "MiG-21bis":        { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "MiG-21MF-75":      { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "buk-m2":           { scan_freq: 450, scan_period: 3, scan_length: 0.5, lock_freq: 2000 },
+    "s-300":            { scan_freq: 400, scan_period: 3, scan_length: 0.5, lock_freq: 1700 },
+    "frigate":          { scan_freq: 350, scan_period: 3.5, scan_length: 0.6, lock_freq: 1500 },
+    "missile_frigate":  "frigate",
+    "USS-NORMANDY":     "frigate",
+    "USS-LakeChamplain":"frigate",
+    "USS-OliverPerry":  "frigate",
+    "USS-SanAntonio":   "frigate",
+    "default":          { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+};
+
+# Resolve aliases
+foreach(var key; keys(radar_types)) {
+    var val = radar_types[key];
+    while (typeof(val) == "scalar" and contains(radar_types, val)) {
+        val = radar_types[val];
+    }
+    radar_types[key] = val;
+}
+
+
+var radar_info = func(model) {
+    var res = radar_types[model];
+    if (res == nil) res = radar_types["default"];
+    return res;
+}
+
 
 
 ### RWR Signals logic
@@ -33,7 +123,7 @@ var RWR_SIGNAL_MAX = RWR_MISSILE;
 
 
 var RWRSignal = {
-    new: func(UID, type, bearing, lifetime) {
+    new: func(UID, type, bearing, lifetime, aircraft) {
         var m = { parents: [RWRSignal] };
         m.UID = UID;
         m.lifetime = lifetime;
@@ -43,19 +133,32 @@ var RWRSignal = {
         m.delete_timer.start();
         m.bearing = bearing;
         m.type = type;
+        m.aircraft = aircraft;
+        m.radar_info = radar_info(aircraft);
+        m.sound = nil;
         return m;
     },
-    refresh: func(type, bearing, lifetime) {
+    refresh: func(bearing, lifetime) {
         me.bearing = bearing;
-        me.type = type;
         me.lifetime = lifetime;
         me.delete_timer.restart(me.lifetime);
     },
     del: func() {
+        if (me.sound != nil and me.sound >= 0) {
+            stop_beep(me.sound);
+        }
         me.delete_timer.stop();
         if(me.UID != nil) delete(signals_list, me.UID);
     },
+    # The AJS RWR displays the 'raw radar signal'.
+    # A scan signal is periodic, hence should be seen as a periodic 'beep'.
+    scan_active: func(time) {
+        # UID is a random float in [0,1]. It is used to add a random shift to the periodic signal.
+        var period_shift = me.UID * me.radar_info.scan_period;
+        return math.mod(time + period_shift, me.radar_info.scan_period) < me.radar_info.scan_length;
+    },
 };
+
 
 # List of RWR signals indexed by their UID.
 # Does not contain signals without UID
@@ -67,16 +170,22 @@ var signals_list = {};
 # 'type' is the type of radar signal
 # If a previous signal was given with the same UID, then this signal is
 # updated instead of creating a new one.
-var signal = func(UID, type, bearing, lifetime=2) {
+var signal = func(UID, type, bearing, lifetime=2, aircraft="default") {
     if(contains(signals_list, UID)) {
         var s = signals_list[UID];
-        s.refresh(type, bearing, lifetime);
-        return s;
-    } else {
-        var s = RWRSignal.new(UID, type, bearing, lifetime);
-        signals_list[UID] = s;
-        return s;
+        if (s.type == type and s.aircraft == aircraft) {
+            # Same signal characteristics, just refresh
+            s.refresh(bearing, lifetime);
+            return s;
+        } else {
+            # Delete old signal before creating a new one
+            s.del();
+        }
     }
+
+    var s = RWRSignal.new(UID, type, bearing, lifetime, aircraft);
+    signals_list[UID] = s;
+    return s;
 }
 
 
@@ -138,29 +247,6 @@ var bearing_to_ajs_rwr_sectors = func(bearing) {
 }
 
 
-# The AJS RWR displays the 'raw radar signal'.
-# A scan signal is periodic, hence should be seen as a periodic 'beep'.
-# The beeps have a fixed period and random offset.
-
-# period/length of scan signals (ideally should depend on the radar type)
-var scan_period = 2.0;
-var scan_length = 0.5;
-
-var scan_signal_active = func(signal, time) {
-    # UID is a random float in [0,1]. It is used to add a random shift to the periodic signal.
-    var period_shift = signal.UID * scan_period;
-    return math.mod(time + period_shift, scan_period) < scan_length;
-}
-
-# Sounds:
-# The frequency of RWR sounds should correspond to the PRF of the radar signal.
-# The current (very simplistic) has 3 frequencies for scan, lock, missile lock,
-# plus a sound for missile launch warning (technically not part of RWR).
-var sound_low_prf = FALSE;
-var sound_med_prf = FALSE;
-var sound_high_prf = FALSE;
-var sound_incoming = FALSE;
-
 
 ### Update loop for lights/sounds
 var update_rwr = func() {
@@ -194,7 +280,7 @@ var update_rwr = func() {
         }
 
         # AJS RWR
-        if ((signal.type == RWR_SCAN and scan_signal_active(signal, time))
+        if ((signal.type == RWR_SCAN and signal.scan_active(time))
             or (signal.type >= RWR_LOCK and signal.type != RWR_LAUNCH)) {
             foreach (var i; bearing_to_ajs_rwr_sectors(signal.bearing)) {
                 ajs_rwr_sectors[i] = TRUE;
@@ -204,14 +290,25 @@ var update_rwr = func() {
         # Sounds
         if (signal.type == RWR_LAUNCH) sound_incoming = is_ja; # missile launch, JA only
         elsif (signal.type == RWR_MISSILE) sound_high_prf = TRUE;
-        elsif (signal.type == RWR_LOCK) sound_med_prf = TRUE;
-        elsif (signal.type == RWR_SCAN and scan_signal_active(signal, time)) sound_low_prf = TRUE;
+        elsif (signal.type == RWR_LOCK or (signal.type == RWR_SCAN and signal.scan_active(time))) {
+            # Beep sound.
+            if (signal.sound == nil or signal.sound < 0) {
+                # start beeping
+                var freq = (signal.type == RWR_LOCK) ? signal.radar_info.lock_freq : signal.radar_info.scan_freq;
+                var i = start_beep(freq);
+                if (i >= 0) signal.sound = i;
+            }
+        } else {
+            # No sound, disable beep if required.
+            if (signal.sound != nil and signal.sound >= 0) {
+                stop_beep(signal.sound);
+                signal.sound = nil;
+            }
+        }
     }
 
     forindex (var i; ja_msl_sectors) input.ja_lights[i].setBoolValue(ja_msl_sectors[i]);
     forindex (var i; ajs_rwr_sectors) input.ajs_lights[i].setBoolValue(ajs_rwr_sectors[i]);
-    input.snd_low_prf.setBoolValue(sound_low_prf);
-    input.snd_med_prf.setBoolValue(sound_med_prf);
-    input.snd_high_prf.setBoolValue(sound_high_prf);
-    input.snd_incoming.setBoolValue(sound_incoming);
+    input.sound_high_prf.setBoolValue(sound_high_prf);
+    input.sound_incoming.setBoolValue(sound_incoming);
 }
