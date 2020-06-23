@@ -64,31 +64,36 @@ var stop_beep = func(i) {
 
 
 ### Radars characteristics database.
-# Most of this is completely made up
+# Most of the values are for much earlier radars with similar use.
+# main source for values: https://www.radartutorial.eu
 var radar_types = {
-    "AJS37-Viggen":     { scan_freq: 475, scan_period: 2.24, scan_length: 0.4, lock_freq: 1900 }, # Manual (part 3)
+    # AJS37 SFI part 3 (475Hz and 1900Hz are actual frequency, but do not correspond to scan/lock)
+    "AJS37-Viggen":     { scan_freq: 475, scan_period: 2.24, scan_length: 0.4, lock_freq: 1900 },
     "AJ37-Viggen":      "AJS37-Viggen",
-    "JA37Di-Viggen":    { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
-    "f-14b":            { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
-    "F-15C":            { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "JA37Di-Viggen":    "default",
+    "f-14b":            "default",
+    "F-15C":            "default",
     "F-15D":            "F-15C",
-    "F-16":             { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "F-16":             "default",
     "YF-16":            "F-16",
-    "m2000-5":          { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "m2000-5":          "default",
     "m2000-5B":         "m2000-5",
-    "SU-27":            { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
-    "MiG-29":           { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
-    "MiG-21bis":        { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
-    "MiG-21MF-75":      { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
-    "buk-m2":           { scan_freq: 450, scan_period: 3, scan_length: 0.5, lock_freq: 2000 },
-    "s-300":            { scan_freq: 400, scan_period: 3, scan_length: 0.5, lock_freq: 1700 },
-    "frigate":          { scan_freq: 350, scan_period: 3.5, scan_length: 0.6, lock_freq: 1500 },
+    "SU-27":            "default",
+    "MiG-29":           "default",
+    "MiG-21bis":        "default",
+    "MiG-21MF-75":      "MiG-21bis",
+    # Scan: P-40, lock: SNR-125
+    "buk-m2":           { scan_freq: 400, scan_period: 4, scan_length: 0.5, lock_freq: 1750 },
+    # Scan: P-37, lock: SNR-75
+    "s-300":            { scan_freq: 375, scan_period: 10, scan_length: 0.8, lock_freq: 1650 },
+    # Scan: AN/SPS-49, lock: AN/SPG-60
+    "frigate":          { scan_freq: 800, scan_period: 5, scan_length: 0.6, lock_freq: 1800 },
     "missile_frigate":  "frigate",
     "USS-NORMANDY":     "frigate",
     "USS-LakeChamplain":"frigate",
     "USS-OliverPerry":  "frigate",
     "USS-SanAntonio":   "frigate",
-    "default":          { scan_freq: 550, scan_period: 2, scan_length: 0.5, lock_freq: 1800 },
+    "default":          { scan_freq: 600, scan_period: 2, scan_length: 0.4, lock_freq: 1900 },
 };
 
 # Resolve aliases
