@@ -3296,9 +3296,8 @@ var TI = {
 	ecmOverlay: func {
 		if (me.ECMon == TRUE) {
 			for (var i=0; i<12; i+=1) {
-				var signal = rwr.get_highest_signal(i);
-				if(signal >= rwr.RWR_LOCK) me.ecm[i].setColor(COLOR_RED);
-				elsif(signal >= rwr.RWR_SCAN) me.ecm[i].setColor(COLOR_YELLOW);
+				if(rwr.ja_rwr_sectors[i] == 2) me.ecm[i].setColor(COLOR_RED);
+				elsif(rwr.ja_rwr_sectors[i] == 1) me.ecm[i].setColor(COLOR_YELLOW);
 				else me.ecm[i].setColor(COLOR_GREEN_DARK);
 			}
 			me.ecm_grp.show();
