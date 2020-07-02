@@ -1094,18 +1094,13 @@
         </key>
 
         <key n="356">
-            <name>Ctrl Left</name>
-            <repeatable type="bool">false</repeatable>
+            <name>Left</name>
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
                     <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
                     <value>-1</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
                 </binding>
                 <mod-up>
                     <binding>
@@ -1118,18 +1113,13 @@
         </key>
 
         <key n="358">
-            <name>Ctrl Right</name>
-            <repeatable type="bool">false</repeatable>
+            <name>Right</name>
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
                     <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
                     <value>1</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
                 </binding>
                 <mod-up>
                     <binding>
