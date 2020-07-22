@@ -1741,7 +1741,6 @@
     <object-name>hudRestPlaque</object-name>
     <object-name>plaqueLeft</object-name>
     <object-name>plaqueRight</object-name>
-    <object-name>radarHeading</object-name>
     <!--<object-name>radarScreen</object-name>-->
     <object-name>seat</object-name>
   </effect>
@@ -1751,6 +1750,22 @@
     <object-name>glassRadar</object-name>
     <object-name>hudBottomPlateGlass</object-name>
   </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+    <object-name>radarHeading</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>radarHeading</object-name>
+    <emission>
+      <red-prop>instrumentation/instrumentation-light/r</red-prop>
+      <green-prop>instrumentation/instrumentation-light/g</green-prop>
+      <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+      <factor-prop>controls/lighting/instruments-norm</factor-prop>
+    </emission>
+  </animation>
 
   <!--<effect>
     <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
