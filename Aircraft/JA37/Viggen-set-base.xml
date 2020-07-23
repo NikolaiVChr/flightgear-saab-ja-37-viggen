@@ -8,7 +8,7 @@
 
 <PropertyList>
     <sim>
-        <aircraft-version>4.317</aircraft-version>
+        <aircraft-version>4.318</aircraft-version>
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Josh Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Colin Geniet (Misc), Nikolai V. Chr.</author>
         <minimum-fg-version>2018.3.1</minimum-fg-version>
 

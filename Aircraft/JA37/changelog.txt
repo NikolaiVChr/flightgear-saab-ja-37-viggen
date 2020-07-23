@@ -3869,5 +3869,77 @@ Radar: Fix for unneeded console output.
 Effect: Fix for dithering in FG next.
 Arms: {Colin} Fix M70 rockets trigger logic
 
-4.318
+4.318 - 2020 July 23
 =====
+Major change: Complete FCS and autopilot rework by Octal450.
+The new flight controls are very accurately modelled based on the flight manuals, making it far more realistic than the previous FBW-like controls.
+Notable features:
+- Individual simulation of each control surfaces, with pitch/roll mixing
+- Gearings automatically change the surface vs stick deflection ratios depending on speed
+- Autopilot STICK mode provides damping (always on under normal conditions)
+- Pitch and Altitude hold autopilot modes, with several sub-modes engaged automatically under specific conditions
+- Speed hold (for cruise) and AoA (for landing) autothrottle modes
+- Detailed autopilot and autothrottle engagement/disengagement/warning logic
+
+Other changes:
+Sim: {Colin} Remove 'userarchive' attributes (aircraft-data used instead)
+Arms: {Colin} Fix gun/rocket hit detection
+Arms: Port in missile changes done in S-300.
+Model: {Colin} Fix rotation axes for flaps
+Model: {Colin} Improve formation lights material
+Model: {Colin} Fix vapour animations over MP
+Sim: {Colin} Add GCI script
+Sim: Added a method to convert a vector to geo centered vector.
+Radar: Now checks if contact is behind horizon.
+Effect: Use spotlights for land/taxi light.
+Radar: Fixed potential failure in radar.
+Sim: Fix that some matrices were multiplied in wrong order.
+Arms: Experimental update to account for AoA and sideslip of missile target in proportional navigation.
+HUD: Better positioning of nearby objects.
+Radar: Fix for not putting new methods into all Contact classes.
+HUD: Adding gunsight.
+Model: {Colin} Remove internal gunpod model on AJ(S)
+Model: {Colin} Fix AJ(S) waypoint indicator lockup
+Model: {Spectre} Added mig aggressor livery.
+Sim: {Colin} Revise throttle control logic, add throttle cutoff position
+GUI: {Colin} Update and improve checklists
+Keybindings: {Colin} Remove pylon selection keys
+Keybindings: {Colin} Change ejection key to Ctrl-E x3
+Keybindings: {Colin} Change GCI keys to F5-F7
+GUI: Made cursor properties more generic to be used in other aircraft as well.
+Arms: {Colin} Remove all weapons from center pylon
+Model: {Colin} Fix bugs in M70 jettison animation
+Sim: {Colin} Deselect radar target when losing lock
+Sim: {Colin} Enable doppler simulation for JA radar
+Model: {Colin} Fix M90 strip color
+Sim: {Colin} Fix AJS external tank capacity
+GUI: {Colin} New loadout/fuel selection dialog
+GUI: {Colin} New configuration menu
+TI: {Colin} Fix EOMR (AAA) being marked as non-functional in the swedish TI
+Aero: Slight tuning of Cm zero.
+Arms: {Colin} Implement remote control guidance for Rb05
+Arms: {Colin} Add spotting flare model to Rb05
+Arms: {Colin} Adjust Rb05 performances
+GUI/Arms: {Colin} Disable refuel/reload during ground roll with damage on
+Effects: {Colin} Cleanup redundant shaders (identical to FG default ones)
+Sim: {Pinto} Fix bug in turn radius calc.
+Sim: Turn radius account for zero turnrate.
+HUD: {Colin} Fix low altitude scale being hidden after turning master arm off
+Radar: {Colin} Fix for 'radar_logic.complete_list' missing some radar contacts
+Radar: {Colin} Improve target air/ground classification logic
+RWR: {Colin} Add radar lock warnings
+Radar: {Colin} Disable radar when nose landing gear is compressed
+Radar: {Colin} Fix bug in RCS code, causing targets to shortly appear at max range
+Radar: {Colin} Increase RCS test frequency for selected track
+Arms: Fix for rare case when tracking seeker movement, and skip a guiding pass, then it should not compare since la
+st pass.
+Keybindings: {Colin} Add Shift-F to deselect radar target
+Sim: {Colin} Disable external views when damage is on
+Arms: {Colin} Always use bore-sight mode for IR seeker on AJS
+Sound: {Colin} Fix some missing missile launch sounds
+Radar: Some work on the radar prototype.
+Radar: Fixed check for behind earth curvature sqrt could not handle a negative number with very low magnitude.
+RWR: {Colin} Rework AJS RWR lights
+RWR: {Colin} Add sounds (off by default, controlled by the volume knob on the RWR panel)
+Radar: {J Maverick 16} Update RCS database
+Input: {Colin} Fix left/right arrow keys being non-repeatable
