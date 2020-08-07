@@ -46,6 +46,7 @@
                     <product>
                         <property>/controls/flight/trim-pitch</property>
                         <property>simulation/channel-dt</property>
+                        <property>/ja37/elec/dc-bus-main-bool</property>
                         <value>0.1</value>
                     </product>
                 </sum>
@@ -60,6 +61,7 @@
                     <product>
                         <property>/controls/flight/trim-roll</property>
                         <property>simulation/channel-dt</property>
+                        <property>/ja37/elec/dc-bus-main-bool</property>
                         <value>0.1</value>
                     </product>
                 </sum>
@@ -80,6 +82,7 @@
                         <product>
                             <property>/controls/flight/trim-yaw</property>
                             <property>simulation/channel-dt</property>
+                            <property>/ja37/elec/dc-bus-main-bool</property>
                             <value>0.1</value>
                         </product>
                     </sum>
