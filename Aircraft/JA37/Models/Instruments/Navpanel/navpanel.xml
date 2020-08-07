@@ -44,6 +44,19 @@
 	
 	<animation>
 		<type>pick</type>
+		<object-name>breakpoint1</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.nav_button(1);</script>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
 		<object-name>breakpoint2</object-name>
 		<action>
 			<button>0</button>
@@ -152,16 +165,6 @@
 		<action>
 			<button>0</button>
 			<repeatable>false</repeatable>
-			<binding>
-				<command>nasal</command>
-				<script>dap.okPress();</script>
-			</binding>
-			<mod-up>
-				<binding>
-					<command>nasal</command>
-					<script>dap.okRelease();</script>
-				</binding>
-			</mod-up>
 		</action>
 	</animation>
 
@@ -173,14 +176,8 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>dap.xPress();</script>
+				<script>navigation.ls_button();</script>
 			</binding>
-			<mod-up>
-				<binding>
-					<command>nasal</command>
-					<script>dap.xRelease();</script>
-				</binding>
-			</mod-up>
 		</action>
 	</animation>
 	
@@ -192,35 +189,11 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>dap.lPress();</script>
+				<script>navigation.l_button();</script>
 			</binding>
-			<mod-up>
-				<binding>
-					<command>nasal</command>
-					<script>dap.lRelease();</script>
-				</binding>
-			</mod-up>
 		</action>
 	</animation>
 	
-	<animation>
-		<type>pick</type>
-		<object-name>breakpoint1</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>nasal</command>
-				<script>dap.gPress();</script>
-			</binding>
-			<mod-up>
-				<binding>
-					<command>nasal</command>
-					<script>dap.gRelease();</script>
-				</binding>
-			</mod-up>
-		</action>
-	</animation>
 	
 	<!--
 	**********************************
