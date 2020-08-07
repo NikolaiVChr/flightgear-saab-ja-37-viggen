@@ -983,30 +983,40 @@
 
     <channel execrate="1" name="Speedbrake">
 
-        <switch name="fcs/speedbrake-cmd-norm-output">
-            <default value="fcs/speedbrake-cmd-norm"/>
-            <test logic="OR" value="0">
-                  velocities/mach gt 0.92
+      <switch name="fcs/speedbrake/command">
+            <default value="/controls/flight/speedbrake-switch"/>
+            <test value="0"> <!-- weld shut on the JA -->
+                /ja37/systems/variant eq 0
             </test>
-            <test logic="OR" value="fcs/speedbrake-pos-norm">
-                  systems/hydraulics/system1/pressure == 0
+            <test value="-1"> <!-- retract when transonic -->
+                velocities/mach gt 0.92
+            </test>
+            <test value="-1"> <!-- does not stay extended with gear down -->
+                gear/gear-pos-norm gt 0
+                /controls/flight/speedbrake-switch ne 1
             </test>
         </switch>
 
-        <kinematic name="names/speedbrake/pos-norm">
-            <input>fcs/speedbrake-cmd-norm-output</input>
-            <traverse>
-                <setting>
-                    <position>  0.0 </position>
-                    <time>      0.0 </time>
-                </setting>
-                <setting>
-                    <position>  1.0 </position>
-                    <time>      2.5 </time>
-                </setting>
-            </traverse>
-            <output>fcs/speedbrake-pos-norm</output>
-        </kinematic>
+        <fcs_function name="names/speedbrake/pos-norm">
+            <function>
+                <sum>
+                    <property>fcs/speedbrake/pos-norm</property>
+                    <product>
+                        <property>fcs/speedbrake/command</property>
+                        <property>simulation/channel-dt</property>
+                        <property>systems/hydraulics/system1/pressure</property>
+                        <property>/sim/failure-manager/controls/flight/speedbrake/serviceable</property>
+                        <value>0.5</value>
+                    </product>
+                </sum>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>1</max>
+            </clipto>
+            <output>fcs/speedbrake/pos-norm</output>
+            <output>fcs/speedbrake-pos-norm</output><!-- standard jsbsim property -->
+        </fcs_function>
 
     </channel>
 

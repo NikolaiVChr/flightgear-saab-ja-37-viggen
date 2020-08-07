@@ -188,17 +188,6 @@
   </model>-->
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/speedbrakes.xml</path>
-    <name>speedbrakes</name>
-    <offsets>
-      <heading-deg>90</heading-deg>
-      <x-m>  0.500</x-m>
-      <y-m> -0.020</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/nosewheel-steer.xml</path>
     <name>nose steer</name>
     <offsets>

@@ -148,6 +148,38 @@
                 <wrap>true</wrap>
             </binding>
         </key>
+        <key n="106">
+            <name>j</name>
+            <desc>Retract airbrakes</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/flight/speedbrake-switch</property>
+                <value>-1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/speedbrake-switch</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
+        <key n="107">
+            <name>k</name>
+            <desc>Extend airbrakes</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/flight/speedbrake-switch</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/speedbrake-switch</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
         <key n="73">
             <name>I</name>
             <desc>Switch HUD units.</desc>

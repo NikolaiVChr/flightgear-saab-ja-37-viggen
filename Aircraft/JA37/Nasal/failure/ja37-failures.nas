@@ -324,6 +324,11 @@ var install_new_failures = func {
 #    FailureMgr.remove_failure_mode(prop);
  #   FailureMgr.add_failure_mode(prop, "Flaps", actuator_flaps);
 
+    if (getprop("/ja37/systems/variant") != 0) {
+        var actuator_speedbrake = set_unserviceable("/sim/failure-manager/controls/flight/speedbrake");
+        FailureMgr.add_failure_mode("controls/flight/speedbrakes", "Speedbrakes", actuator_speedbrake);
+    }
+
     ##
     # Returns an actuator object that will set the serviceable property at
     # the given node to zero when the level of failure is > 0.

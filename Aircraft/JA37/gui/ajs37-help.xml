@@ -13,6 +13,10 @@
         <name>Backspace</name>
         <desc>Toggle thrust reverser</desc>
     </key>
+    <key>
+        <name>k/j</name>
+        <desc>Extend/retract airbrakes</desc>
+    </key>
 	<key>
         <name>u</name>
         <desc>Afterburner on/off</desc>

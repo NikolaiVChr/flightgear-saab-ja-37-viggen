@@ -913,6 +913,10 @@
                     <tmp-norm type="double">0.11765</tmp-norm>
                     <serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
                 </flaps>
+                <speedbrake>
+                    <pos-norm type="double">0.0</pos-norm>
+                    <serviceable alias="/sim/failure-manager/controls/flight/speedbrake/serviceable"/>
+                </speedbrake>
                 <mouse-optimized type="bool">false</mouse-optimized>
             </fcs>
             <gear>
@@ -1166,6 +1170,8 @@
             <rudder-trim type="double">0.0</rudder-trim>
             <elevator-ap type="double">0.0</elevator-ap>
             <aileron-ap type="double">0.0</aileron-ap>
+            <!-- 3-positions: extend (1), neutral (0), retract (-1) -->
+            <speedbrake-switch type="int">0</speedbrake-switch>
         </flight>
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>
