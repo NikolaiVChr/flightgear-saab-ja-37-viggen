@@ -174,26 +174,12 @@
         </key>
         <key n="80">
             <name>P</name>
-            <desc>Toggle custom/FG HUD</desc>
+            <desc>disable default panel shortcut</desc>
             <binding>
-                <command>property-toggle</command>
-                <property>/ja37/hud/mode</property>
+                <command>property-assign</command>
+                <property>/sim/panel/visibility</property>
+                <value>0</value>
             </binding>
-        </key>
-        <key n="115">
-            <name>s</name>
-            <desc>Start engine</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.autostarttimer();</script>
-            </binding>
-            <mod-up>
-                <!--just to overwrite default s key up -->
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.noop()</script>
-                </binding>
-            </mod-up>
         </key>
         <key n="113">
             <name>q</name>

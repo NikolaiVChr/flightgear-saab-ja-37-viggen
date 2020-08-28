@@ -10,10 +10,6 @@
 *************************************************************************-->
     <title>Saab AJ-37 Viggen</title>
     <key>
-        <name>s</name>
-        <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
-    </key>
-    <key>
         <name>Backspace</name>
         <desc>Toggle thrust reverser</desc>
     </key>
@@ -72,10 +68,6 @@
     <key>
         <name>c</name>
         <desc>Cycle weapons</desc>
-    </key>
-    <key>
-        <name>P</name>
-        <desc>Toggle custom/FG HUD</desc>
     </key>
     <key>
         <name>M</name>
