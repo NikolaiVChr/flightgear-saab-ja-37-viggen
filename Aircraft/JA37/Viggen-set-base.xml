@@ -1239,13 +1239,14 @@
         </weather-scenarios>
     </environment>
     <autopilot>
-		<route-manager>
-			<wp>
-				<bearing-deg-rel type="double">0</bearing-deg-rel>
+        <route-manager>
+            <wp>
+                <bearing-deg-rel type="double">0</bearing-deg-rel>
                 <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
-			</wp>
-            <disable-route-manager type="bool">true</disable-route-manager><!-- just disables the default delegate -->
-		</route-manager>
+            </wp>
+            <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
+            <disable-fms type="bool">true</disable-fms>
+        </route-manager>
         <internal>
             <target-roll-deg type="double">0</target-roll-deg>
         </internal>
