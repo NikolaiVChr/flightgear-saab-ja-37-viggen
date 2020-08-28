@@ -6,7 +6,7 @@
 
 
 # Backward compatibility, for FG versions using printlog instead of logprint
-if (!defined("logprint") or !defined("LOG_INFO") or 1) {
+if (!defined("logprint") or !defined("LOG_INFO")) {
     var logprint = printlog;
     var LOG_INFO = 'info';
 }
