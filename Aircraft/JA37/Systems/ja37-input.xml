@@ -180,6 +180,20 @@
                 </binding>
             </mod-up>
         </key>
+        <key n="2">
+            <name>Ctrl-B</name>
+            <desc>Toggle airbrakes (simplified controls)</desc>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.toggleSpeedbrakesSimplified(1)</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.toggleSpeedbrakesSimplified(0)</script>
+                </binding>
+            </mod-up>
+        </key>
         <key n="73">
             <name>I</name>
             <desc>Switch HUD units.</desc>

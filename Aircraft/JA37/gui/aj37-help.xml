@@ -15,7 +15,11 @@
     </key>
     <key>
         <name>k/j</name>
-        <desc>Extend/retract airbrakes</desc>
+        <desc>Extend/retract airbrakes (with gear down: keep 'k' pressed to extend)</desc>
+    </key>
+    <key>
+        <name>Ctrl-B</name>
+        <desc>Toggle airbrakes (with gear down: keep pressed to extend)</desc>
     </key>
 	<key>
         <name>u</name>

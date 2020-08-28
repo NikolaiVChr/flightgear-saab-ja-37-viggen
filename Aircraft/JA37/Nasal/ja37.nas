@@ -2030,6 +2030,26 @@ var toggleRollDamper = func {
   }
 }
 
+# Simplified, single button controls for speedbrakes
+var speedbrakes_simple_command = -1; # last command. -1: retract, 1: extend
+var speedbrakes_release_timer = maketimer(2, func {setprop("/controls/flight/speedbrake-switch", 0);});
+speedbrakes_release_timer.singleShot = 1;
+speedbrakes_release_timer.simulatedTime = 1;
+
+var toggleSpeedbrakesSimplified = func (pos) {
+  if (getprop("fdm/jsbsim/gear/gear-pos-norm") > 0) {
+    # landing gear out, hold the switch to keep speedbrakes extended
+    setprop("/controls/flight/speedbrake-switch", pos);
+    speedbrakes_simple_command = -1;
+  } else {
+    # landing gear in, press to toggle speedbrakes
+    if (!pos) return;
+    speedbrakes_simple_command = -speedbrakes_simple_command;
+    setprop("/controls/flight/speedbrake-switch", speedbrakes_simple_command);
+    speedbrakes_release_timer.restart(2);
+  }
+}
+
 var toggleNosewheelSteer = func {
   ja37.click();
   var enabled = getprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable");
