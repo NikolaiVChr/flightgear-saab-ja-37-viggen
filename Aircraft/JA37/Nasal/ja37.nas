@@ -2050,17 +2050,6 @@ var toggleSpeedbrakesSimplified = func (pos) {
   }
 }
 
-var toggleNosewheelSteer = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable");
-  setprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Nose Wheel Steering: ON", 1.5);
-  } else {
-    notice("Nose Wheel Steering: OFF", 1.5);
-  }
-}
-
 var toggleTracks = func {
   ja37.click();
   var enabled = getprop("ja37/hud/tracks-enabled");

@@ -929,7 +929,6 @@
                 <unit n="0">
                     <nose-wheel-steering>
                         <serviceable type="bool">true</serviceable>
-                        <enable type="bool">true</enable>
                     </nose-wheel-steering>
                 </unit>
             </gear>

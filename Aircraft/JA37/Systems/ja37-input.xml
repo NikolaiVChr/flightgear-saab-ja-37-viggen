@@ -382,14 +382,6 @@
                 <script>armament.drop();</script>
             </binding>
         </key>
-        <key n="77">
-            <name>M</name>
-            <desc>Toggle nose wheel steering</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.toggleNosewheelSteer();</script>
-            </binding>
-        </key>
         <!--<key n="109">
             <name>m</name>
             <desc>Final approach</desc>
