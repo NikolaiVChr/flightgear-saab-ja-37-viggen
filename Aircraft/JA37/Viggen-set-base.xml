@@ -123,12 +123,6 @@
         </panel_2>
 
 
-        <hud>
-            <!-- Backup HUD, when custom HUD is disabled -->
-            <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
-        </hud>
-
-
 
         <!--**********************************************************************
 

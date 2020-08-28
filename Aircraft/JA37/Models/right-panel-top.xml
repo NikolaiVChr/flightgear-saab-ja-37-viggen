@@ -84,16 +84,6 @@
     </model>-->
 
     <!--<model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/hud.xml</path>
-        <name>switch-hud</name>
-        <offsets>
-            <x-m> -0.855</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>-->
-
-    <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/hud-sideslip.xml</path>
         <name>switch-sideslip</name>
         <offsets>
