@@ -24,10 +24,7 @@
     <animation>
         <type>rotate</type>
         <object-name>waypointHeadingIndicator</object-name>
-        <property>autopilot/route-manager/wp/bearing-deg-rel-rate</property>
-        <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
-        </condition>
+        <property>/instrumentation/waypoint-indicator/bearing-index</property>
         <center>
             <x-m>0.04</x-m>
             <y-m>0.0</y-m>

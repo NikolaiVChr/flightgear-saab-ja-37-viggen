@@ -120,8 +120,6 @@ input = {
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
   rmActive:         "/autopilot/route-manager/active",
-  rmBearing:        "/autopilot/route-manager/wp/bearing-deg",
-  rmBearingRel:     "autopilot/route-manager/wp/bearing-deg-rel",
   RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
   landingMode:      "ja37/hud/landing-mode",
   approachMode:     "ja37/avionics/approach",
@@ -133,7 +131,6 @@ input = {
   speedTrueKt:      "fdm/jsbsim/velocities/vtrue-kts",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
   speedWarn:        "ja37/sound/speed-on",
-  srvHead:          "instrumentation/heading-indicator/serviceable",
   starter:          "controls/engines/engine[0]/starter-cmd",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
@@ -343,12 +340,6 @@ var Saab37 = {
     } else {
       input.waypointType.setIntValue(0);
       input.waypointNumber.setIntValue(0);
-    }
-
-    # radar compass
-    if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE and input.rmBearing.getValue() != nil) {
-      # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
-      input.rmBearingRel.setDoubleValue(input.rmBearing.getValue() - input.headingMagn.getValue());
     }
 
     #if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {

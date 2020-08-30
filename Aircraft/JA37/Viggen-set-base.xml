@@ -475,6 +475,9 @@
             <property-rule n="101">
                 <path>Aircraft/JA37/Systems/rules-misc.xml</path>
             </property-rule>
+            <property-rule n="102">
+                <path>Aircraft/JA37/Systems/instruments-rules.xml</path>
+            </property-rule>
         </systems>
 
         <instrumentation>
@@ -690,7 +693,6 @@
             <canopyAndSeat type="bool">false</canopyAndSeat>
             <oxygen type="bool">false</oxygen>
             <approach type="bool">false</approach><!-- true = short -->
-            <heading-magnetic-limited-deg type="double">0</heading-magnetic-limited-deg>
             <auto-altitude-on type="bool">false</auto-altitude-on>
             <auto-attitude-on type="bool">false</auto-attitude-on>
             <auto-altitude-hold-on type="bool">false</auto-altitude-hold-on>
@@ -1254,8 +1256,7 @@
             <wp>
                 <!-- Initialization required for JSBSim -->
                 <dist type="double">0</dist>
-                <bearing-deg-rel type="double">0</bearing-deg-rel>
-                <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
+                <bearing-deg type="double">0</bearing-deg>
             </wp>
             <disable-route-manager type="bool">true</disable-route-manager><!-- just disables the default delegate -->
         </route-manager>
@@ -1494,6 +1495,9 @@
         <altimeter n="1">
             <serviceable type="bool">true</serviceable>
         </altimeter>
+        <heading-indicator n="0">
+            <indicator-pos-deg type="double">0</indicator-pos-deg>
+        </heading-indicator>
         <heading-indicator n="1">
             <fast-reset-button type="int">0</fast-reset-button>
             <serviceable type="bool">true</serviceable>
@@ -1506,9 +1510,6 @@
         <airspeed-indicator n="1">
             <serviceable type="bool">true</serviceable>
         </airspeed-indicator>
-        <heading-indicator>
-            <offset-deg type="double">0</offset-deg>
-        </heading-indicator>
         <clock>
             <chronometer-state type="int">0</chronometer-state>
             <chronometer-time-sec type="double">0</chronometer-time-sec>
@@ -1519,6 +1520,7 @@
             <indicator-light type="double" alias="/systems/electrical/dc-light"/>
             <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
             <distance-unit-flag type="double">0</distance-unit-flag>
+            <bearing-index type="double">0</bearing-index>
         </waypoint-indicator>
         <fuel>
             <ratio type="double">0</ratio>

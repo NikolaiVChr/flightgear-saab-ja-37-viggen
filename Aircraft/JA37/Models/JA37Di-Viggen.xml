@@ -879,22 +879,9 @@
  <animation>
   <type>rotate</type>
   <object-name>radarHeading</object-name>
-  <condition>   
-    <property>ja37/elec/dc-bus-main-bool</property>
-  </condition>
-  <property>ja37/avionics/heading-magnetic-limited-deg</property>
+  <property>/instrumentation/heading-indicator/indicator-pos-deg</property>
   <factor>-1.0</factor>
-  <!--<center>
-   <x-m>-3.98169</x-m>
-   <y-m>0.00000</y-m>
-   <z-m>0.34642</z-m>
-  </center>
   <axis>
-   <x>-1.0</x>
-   <y>0.0</y>
-   <z>-0.342020143325669</z>
-  </axis>-->
-  <axis>   
    <x1-m> -3.9817 </x1-m>
    <y1-m>  0 </y1-m>
    <z1-m>  0.3464 </z1-m>
@@ -902,7 +889,7 @@
    <y2-m>  0 </y2-m>
    <z2-m>  0.3445 </z2-m>
   </axis>
- </animation> 
+ </animation>
 
  <!--<animation>
   <type>material</type> 
