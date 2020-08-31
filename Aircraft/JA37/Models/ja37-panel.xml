@@ -212,7 +212,9 @@
       <x-m>0</x-m>
       <y-m>-0.27</y-m>
       <z-m>0.21</z-m>
-      <pitch-deg>13</pitch-deg>
+      <!-- TODO: the actual instrument is pitched down compared to the panel.
+        The panel model needs to be adapted for this not to look silly. -->
+      <!--<pitch-deg>13</pitch-deg>-->
     </offsets>
   </model>
 
