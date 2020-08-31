@@ -81,7 +81,6 @@ var myPitch = nil;
 var myRoll = nil;
 var myHeading = nil;
 var radar_active = FALSE;
-var callsign_md5 = nil;
 
 var selection = nil;
 var selection_updated = FALSE;
@@ -145,7 +144,6 @@ var input = {
     pitch:            "/orientation/pitch-deg",
     roll:             "/orientation/roll-deg",
     tracks_enabled:   "ja37/hud/tracks-enabled",
-    my_callsign:      "/sim/multiplay/callsign",
     locked_md5:       "/sim/multiplay/generic/string[6]",
     ai_models:        "/ai/models",
     lookThrough:      "ja37/radar/look-through-terrain",
@@ -173,9 +171,6 @@ var RadarLogic = {
       myHeading =  input.hdgReal.getValue();
       radarRange = input.radar_range.getValue();
       selection_updated = FALSE;
-      callsign_md5 = ""~input.my_callsign.getValue(); # ensure that it is a string
-      if(size(callsign_md5) > 7) callsign_md5 = left(callsign_md5, 7);
-      callsign_md5 = left(md5(callsign_md5), 4);
 
       tracks = [];
       complete_list = [];
@@ -294,16 +289,8 @@ var RadarLogic = {
       }
 
       # RWR
-      if (mp and (!is_ja or TI.ti.ECMon) and distance <= rwrRange) {
-        var rel_bearing = self.course_to(trackPos) - myHeading;
-        if (me.isSquawkActive(track)) {
-          rwr.signal(UID, rwr.RWR_SQUAWK, rel_bearing);
-        }
-        if (me.isRadarLocking(track)) {
-          rwr.signal(UID, rwr.RWR_LOCK, rel_bearing);
-        } elsif (me.isRadarScanning(trackPos, track)) {
-          rwr.signal(UID, rwr.RWR_SCAN, rel_bearing);
-        }
+      if (mp and distance <= rwrRange) {
+        rwr.handle_aircraft(UID, track, model, trackPos, self);
       }
 
       # Rest is for radar only
@@ -442,29 +429,6 @@ var RadarLogic = {
 
     # Is within the radar cone AJ37 manual: 61.5 deg sideways.
     return math.abs(ya_rad) <= 61.5*D2R and math.abs(xa_rad) <= 61.5*D2R;
-  },
-
-  isSquawkActive: func (node) {
-    var squawk = node.getNode("instrumentation/transponder/transmitted-id");
-    return (squawk != nil and squawk.getValue() != -9999);
-  },
-
-  # Tests if the aircrafts has its radar active and pointed roughly towards us.
-  isRadarScanning: func (trackPos, node) {
-    var radar = node.getNode("sim/multiplay/generic/int[2]");
-    if (radar != nil and radar.getValue()) return FALSE;
-
-    # Radar is active, test if it is pointed at us
-    var heading = node.getNode("orientation/true-heading-deg").getValue();
-    var bearing = trackPos.course_to(self);
-    return math.abs(geo.normdeg180(heading - bearing)) <= 60;
-  },
-
-  isRadarLocking: func (node) {
-    var locked_md5 = node.getNode("sim/multiplay/generic/string[6]");
-    if(locked_md5 == nil) return FALSE;
-    locked_md5 = locked_md5.getValue();
-    return (locked_md5 != nil and streq(locked_md5, callsign_md5));
   },
 
   # Try to guess the type of contact. This is not very reliable.

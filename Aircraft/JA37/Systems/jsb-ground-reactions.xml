@@ -6,14 +6,14 @@
         <z> -2.1 </z>
       </location>
       <!-- sources say brakes could hold afterburner, the front is so high due to if rear is high, heavy crosswind landings will fail. -->
-      <static_friction>  0.900 </static_friction>
-      <dynamic_friction> 0.25 </dynamic_friction>
+      <static_friction>  0.9 </static_friction>
+      <dynamic_friction> 0.6 </dynamic_friction>
       <rolling_friction> 0.01 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 40000 </spring_coeff><!-- hardness of spring. Low value means gear collapses more per energy applied. High value might give jsbsim trouble. -->
       <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff><!-- higher value slows down how fast the gear absorbs energy -->
       <damping_coeff_rebound unit="LBS/FT/SEC"> 20000 </damping_coeff_rebound><!-- high value means the gear is slower to release the energy it stored when collapsed -->
       <max_steer unit="DEG"> 30 </max_steer>
-      <brake_group> LEFT </brake_group><!-- FG do not use CENTER, TAIL or NOSE braking group, so must use LEFT or RIGHT -->
+      <brake_group> NONE </brake_group>
       <retractable>1</retractable>
     </contact>
     <contact type="BOGEY" name="LEFT_MLG">
@@ -22,9 +22,9 @@
         <y> -2.15204 </y>
         <z> -2.08561 </z>
       </location>
-      <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
-      <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
-      <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
+      <static_friction>  0.9 </static_friction>
+      <dynamic_friction> 0.6 </dynamic_friction>
+      <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 30000 </damping_coeff_rebound>
@@ -38,9 +38,9 @@
         <y> 2.15204 </y>
         <z> -2.08561 </z>
       </location>
-      <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
-      <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
-      <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
+      <static_friction>  0.9 </static_friction>
+      <dynamic_friction> 0.6 </dynamic_friction>
+      <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 30000 </damping_coeff_rebound>

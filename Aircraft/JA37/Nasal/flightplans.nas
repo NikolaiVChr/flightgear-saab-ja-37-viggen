@@ -871,7 +871,8 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 	
 	_wpChanged: func {
 		#class:
-		# Current steerpoint changed. Check if it was to last in RTB plan, if so activate L.
+		# Called form auto.Delegate just after the current waypoint is changed.
+		# Check if it was to last in RTB plan, if so activate L.
 		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and !land.mode_L_active) {
 			var ind = Polygon.primary.getIndex();
 			var max = Polygon.primary.plan.getPlanSize()-1;
@@ -887,7 +888,6 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 		#class:
 		# Setup listener for if route-manager loads a plan from disc.
 		#
-		setlistener("autopilot/route-manager/current-wp", func {Polygon._wpChanged()});
 		setlistener("autopilot/route-manager/signals/flightplan-changed", func {Polygon._planExchange()});
 		#setlistener("autopilot/plan-manager/departure/airport", func {Polygon._takeoffTest()});
 		setlistener("autopilot/plan-manager/destination/airport-1", func {Polygon._landTest(1)});
@@ -952,9 +952,9 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 
 	_finishedPrimary: func (pln) {
 		#class:
-		# Called from RouteManagerDelegate when a plan has been flown to finish.
+		# Called from auto.Delegate when passing the last waypoint on a flight plan.
 		# If the plan was a mission route then the current RTB route will be started.
-		# If the plan was a RTB, it will be restarted with last steerpoint as current.
+		# If the plan was a RTB, it is left as is, with the last waypoint (landing base) active.
 		#
 		var plns="";
 		if (pln.id != nil) {
@@ -966,15 +966,10 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 				Polygon.flyRTB.setAsPrimary();
 				Polygon.startPrimary();
 				printDA("..starting "~Polygon.flyRTB.getName());
-			} elsif (Polygon.primary.type == TYPE_RTB and Polygon.primary.getSize() > 0) {
-				Polygon.startPrimary();
-				Polygon.selectDestinationOnPrimary();
-				printDA("..restarted last on "~Polygon.primary.getName());
 			}
 		} else {
 			printDA("..it was deactivated. Nothing to worry about.");
 		}
-		# TODO Handle if finish is called just from activating another.
 	},
 
 	selectDestinationOnPrimary: func {

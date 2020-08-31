@@ -44,7 +44,7 @@
             </description>
             <quotient>
                 <product>
-                    <table name="aero-shift-mac">
+                    <table name="aero/table/aero-shift-mac">
                         <independentVar>velocities/mach</independentVar>
                         <tableData><!-- [measured using graph analyser] -->
                             0.38208 0.29141
@@ -102,7 +102,7 @@
 
             http://www.dtic.mil/dtic/tr/fulltext/u2/b184826.pdf
         </description>
-              <table name="CN_mach-factor">
+              <table name="aero/table/CN_mach-factor">
                   <independentVar lookup="row">velocities/mach</independentVar>
                   <tableData>
                       0.0 1.00
@@ -141,7 +141,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>structural/wings/normal-factor</property>
                 <!--<property>aero/function/CNmachFactor</property>-->
-                <table name="CN">
+                <table name="aero/table/CN">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar><!-- sadly 3D tables needs to have minimum 2 columns -->
                     <independentVar lookup="table">fcs/elevon/average-aero-deg</independentVar>
@@ -259,7 +259,7 @@
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <table name="dCN_gnd-effect">
+                <table name="aero/table/dCN_gnd-effect">
                     <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
                     <tableData><!-- alpha = 90 is an estimate -->
@@ -337,7 +337,7 @@
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <table name="dCN_gnd-elevator">
+                <table name="aero/table/dCN_gnd-elevator">
                     <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                     <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <tableData>
@@ -359,7 +359,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>fcs/flaps/pos-normalized</property>
-                <table name="CN_flaps">
+                <table name="aero/table/CN_flaps">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                       -0.00083    0.07540
@@ -405,7 +405,7 @@
     <!-- from DATCOM+ -->
     <function name="aero/function/ground-effect-factor-axial">
         <description>Change in axial due to ground effect</description>
-            <table name="CA_gnd-factor">
+            <table name="aero/table/CA_gnd-factor">
                 <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                 <tableData>
                     0.0  0.480
@@ -427,7 +427,7 @@
 
     <function name="aero/function/stores-wave-drag-factor">
         <description>Change in stores drag due to mach</description>
-            <table name="CD_stores-factor">
+            <table name="aero/table/CD_stores-factor">
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <tableData>
                     0    1.000
@@ -457,7 +457,7 @@
         </description>
         <!--<sum>-->
             <product>
-                <table name="dCD_mach-effect">
+                <table name="aero/table/dCD_mach-effect">
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <!--<independentVar lookup="column">atmosphere/density-altitude</independentVar>-->
                     <tableData>
@@ -484,7 +484,7 @@
             <property>metrics/Sw-sqft</property>
             <difference>
                 <product>
-                    <table name="CD_flaps">
+                    <table name="aero/table/CD_flaps">
                         <independentVar lookup="row"> aero/alpha-deg </independentVar>
                         <independentVar lookup="column"> fcs/flap-pos-deg </independentVar>
                         <tableData><!-- drag -->
@@ -516,7 +516,7 @@
                     </cos>
                 </product>
                 <product>
-                    <table name="CL_flaps">
+                    <table name="aero/table/CL_flaps">
                         <independentVar lookup="row"> fcs/flap-pos-deg </independentVar>
                         <tableData><!-- lift -->
                              -4.0000    -.0058
@@ -642,7 +642,7 @@
                 <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
                 <property>aero/drag/canopy-off</property>
-                <table name="CA_canopy-off">
+                <table name="aero/table/CA_canopy-off">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/canopy/hinges/serviceable</independentVar>
                     <tableData>
@@ -681,7 +681,7 @@
                 <value>0.125</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
                 <difference>
                     <product>
-                        <table name="CD_elevon-left">
+                        <table name="aero/table/CD_elevon-left">
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <independentVar lookup="column"> fcs/elevon/left-avg-aero-deg </independentVar><!-- note misleading name, its in deg -->
                             <tableData><!-- drag -->
@@ -713,7 +713,7 @@
                         </cos>
                     </product>
                     <product>
-                        <table name="CL_elevon-left">
+                        <table name="aero/table/CL_elevon-left">
                             <independentVar lookup="row"> fcs/elevon/left-avg-aero-deg </independentVar>
                             <tableData><!-- lift -->
                                 -40.0000    -.3086
@@ -747,7 +747,7 @@
                 <value>0.125</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
                 <difference>
                     <product>
-                        <table name="CD_elevon-right">
+                        <table name="aero/table/CD_elevon-right">
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <independentVar lookup="column"> fcs/elevon/right-avg-aero-deg </independentVar><!-- note misleading name, its in deg -->
                             <tableData><!-- drag -->
@@ -779,7 +779,7 @@
                         </cos>
                     </product>
                     <product>
-                        <table name="CL_elevon-right">
+                        <table name="aero/table/CL_elevon-right">
                             <independentVar lookup="row"> fcs/elevon/right-avg-aero-deg </independentVar>
                             <tableData><!-- lift -->
                                 -40.0000    -.3086
@@ -811,7 +811,7 @@
                 <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
                 <property>aero/drag/rudder</property>
-                <table name="CA_rudder">
+                <table name="aero/table/CA_rudder">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/rudder/final-norm</independentVar>
                     <tableData>
@@ -851,7 +851,7 @@
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table name="CA_missile">
+                <table name="aero/table/CA_missile">
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[1]</independentVar>
                     <tableData>
                         <!--     1 means same as RB-24 -->
@@ -1119,7 +1119,7 @@
                 <difference>
                     <product>
                         <property>aero/function/stores-wave-drag-factor</property>
-                        <table name="CD_xtank">
+                        <table name="aero/table/CD_xtank">
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <tableData>
                                  -2.0000         .0011
@@ -1150,7 +1150,7 @@
                         </cos>
                     </product>
                     <product>
-                        <table name="CL_xtank">
+                        <table name="aero/table/CL_xtank">
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <tableData>
                                  -2.0000        -.0003
@@ -1197,7 +1197,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>aero/factor-axial</property>
-                <table name="CA">
+                <table name="aero/table/CA">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData>
                          -2.0      .013  
@@ -1269,7 +1269,7 @@
                 <property>aero/beta-rad</property>
                 <value>-1.0</value>
                 <!-- Alant: -1 -->
-                <table name="CY_beta">
+                <table name="aero/table/CY_beta">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">gear/gear-pos-norm</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -1371,7 +1371,7 @@
                 <property>aero/beta-rad</property>
                 <value>-1.0</value>
                 <!-- Alant: -1 -->
-                <table name="CY_xtank">
+                <table name="aero/table/CY_xtank">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [same order of difference as gears, as per the document page 106] -->
                        -30.8520      0.000      
@@ -1405,7 +1405,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>aero/beta-rad</property>
-                <table name="dCY_beta_mach">
+                <table name="aero/table/dCY_beta_mach">
                     <independentVar>velocities/mach</independentVar>
                     <tableData>
                       0.4000  0.0000
@@ -1427,7 +1427,7 @@
                 <property>aero/function/vortex</property>
                 <value>-1.0</value>
                 <!-- Alant: -1 -->
-                <table name="CY_0">
+                <table name="aero/table/CY_0">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                 41.0979     0.0000000
@@ -1503,7 +1503,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/beta-rad</property>
-                <table name="Cl_beta">
+                <table name="aero/table/Cl_beta">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">gear/gear-pos-norm</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -1567,7 +1567,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/beta-rad</property>
-                <table name="Cl_xtank">
+                <table name="aero/table/Cl_xtank">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                            0.0030       -0.0103
@@ -1616,7 +1616,7 @@
                 <property>aero/bi2vel</property>
                 <property>velocities/p-aero-rad_sec</property>
                 <property>structural/wings/normal-factor</property>
-                <table name="Cl_p">
+                <table name="aero/table/Cl_p">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/beta-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -1657,7 +1657,7 @@
                  64.9651       -0.215889  -0.216288  -0.215889
             </tableData>
                 </table>
-                <table  name="Cl_p-mach-factor">
+                <table name="aero/table/Cl_p-mach-factor">
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <tableData>
                  0.8  1.0
@@ -1681,7 +1681,7 @@
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
                 <property>velocities/r-aero-rad_sec</property>
-                <table name="Cl_r">
+                <table name="aero/table/Cl_r">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                -52.8308     -0.4005
@@ -1738,7 +1738,7 @@
                 <property>aero/bi2vel</property>
                 <property>aero/betadot-rad_sec</property>
                 <sum>
-                    <table name="Cl_betadot-offset-">
+                    <table name="aero/table/Cl_betadot-offset-">
                         <independentVar lookup="row">aero/alpha-deg</independentVar>
                         <tableData><!-- [measured using graph analyser] -->
                               0.00000        0.008805
@@ -1782,7 +1782,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <table name="Cl_asym">
+                <table name="aero/table/Cl_asym">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">inertia/asymmetric-wing-load</independentVar>
                     <tableData>
@@ -1805,7 +1805,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>fcs/elevon/diff-half-aero-rad</property>
-                <table name="Cl_elevon">
+                <table name="aero/table/Cl_elevon">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <independentVar lookup="table">aero/beta-deg</independentVar>
@@ -1924,7 +1924,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
-                <table name="Cm_CA">
+                <table name="aero/table/Cm_CA">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
                     <independentVar lookup="table">aero/function/CA-intake-flow-number</independentVar>
@@ -1991,14 +1991,14 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
                 <sum>
-                    <table name="Cm_zero-gear">
+                    <table name="aero/table/Cm_zero-gear">
                         <independentVar lookup="row">gear/gear-pos-norm</independentVar>
                         <tableData>
                            0.0  0.000
                            1.0  0.042
                         </tableData>
                     </table>
-                    <table name="Cm_zero-mach">
+                    <table name="aero/table/Cm_zero-mach">
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <tableData>
                             <!-- prototype fpl 37:
@@ -2018,7 +2018,7 @@
                            1.8  -0.009
                         </tableData>
                     </table>
-                    <table name="Cm_zero-fudge">
+                    <table name="aero/table/Cm_zero-fudge">
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <independentVar lookup="column">gear/gear-pos-norm</independentVar>
                         <tableData>
@@ -2041,7 +2041,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
-                <table name="Cm_gnd">
+                <table name="aero/table/Cm_gnd">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/h_b-mac-ft</independentVar>
                     <tableData><!-- At h_b-mac-ft 1.8 the effect can be felt according to Saab. Thats 105 feet. Therefore choose 2.2 for no effect. -->
@@ -2072,7 +2072,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
-                <table name="Cm">
+                <table name="aero/table/Cm">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">gear/gear-pos-norm</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -2155,7 +2155,7 @@
                         2.0   0.6
                     </tableData>
                 </table>-->
-                <table name="Cm_elevator">
+                <table name="aero/table/Cm_elevator">
                     <!-- this is for low speed only, hence the table above -->
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
@@ -2198,7 +2198,7 @@
                 <property>metrics/cbarw-ft</property>
                 <property>aero/ci2vel</property>
                 <property>velocities/q-aero-rad_sec</property>
-                <table name="Cm_q">
+                <table name="aero/table/Cm_q">
                     <independentVar>aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                         -61.9610       -0.936245
@@ -2281,7 +2281,7 @@
                 <property>metrics/cbarw-ft</property>
                 <property>aero/ci2vel</property>
                 <property>aero/alphadot-rad_sec</property>
-                <table name="Cm_alphadot">
+                <table name="aero/table/Cm_alphadot">
                     <independentVar>aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                           -40.3523       -0.001000
@@ -2325,7 +2325,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/beta-rad</property>
-                <table name="Cn_beta">
+                <table name="aero/table/Cn_beta">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -2377,7 +2377,7 @@
                     </tableData>
                 </table>
                 <!-- from graph 88c page 109. This table applies non linerity to Cnb -->
-                <table name="Cn_beta_nonlin-factor">
+                <table name="aero/table/Cn_beta_nonlin-factor">
                     <independentVar lookup="row">aero/beta-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
                     <tableData>
@@ -2431,7 +2431,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/function/vortex</property>
-                <table name="Cn_zero">
+                <table name="aero/table/Cn_zero">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                         39.2856     0.0000000
@@ -2471,7 +2471,7 @@
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
                 <property>velocities/p-aero-rad_sec</property>
-                <table name="Cn_p">
+                <table name="aero/table/Cn_p">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/beta-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -2527,7 +2527,7 @@
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
                 <property>velocities/r-aero-rad_sec</property>
-                <table name="Cn_r">
+                <table name="aero/table/Cn_r">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                          -62.0848      -0.1188
@@ -2594,7 +2594,7 @@
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
                 <property>aero/betadot-rad_sec</property>
-                <table name="Cn_betadot">
+                <table name="aero/table/Cn_betadot">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
                         -50.9854      0.0000
@@ -2634,7 +2634,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
-                <table name="Cn_xtank">
+                <table name="aero/table/Cn_xtank">
                     <independentVar lookup="row">aero/beta-deg</independentVar>
                     <tableData>
                        -20.0             0.01
@@ -2713,7 +2713,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>fcs/elevon/diff-half-aero-rad</property>
-                <table name="Cn_aileron">
+                <table name="aero/table/Cn_aileron">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/elevon/average-aero-deg</independentVar>
                     <tableData>
@@ -2743,7 +2743,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>fcs/rudder/final-rad</property>
-                <table name="Cn_rudder">
+                <table name="aero/table/Cn_rudder">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/beta-deg</independentVar>
                     <tableData>

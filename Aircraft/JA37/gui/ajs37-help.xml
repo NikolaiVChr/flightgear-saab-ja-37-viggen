@@ -10,12 +10,16 @@
 *************************************************************************-->
     <title>Saab AJS-37 Viggen</title>
     <key>
-        <name>s</name>
-        <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
-    </key>
-    <key>
         <name>Backspace</name>
         <desc>Toggle thrust reverser</desc>
+    </key>
+    <key>
+        <name>k/j</name>
+        <desc>Extend/retract airbrakes (with gear down: keep 'k' pressed to extend)</desc>
+    </key>
+    <key>
+        <name>Ctrl-B</name>
+        <desc>Toggle airbrakes (with gear down: keep pressed to extend)</desc>
     </key>
 	<key>
         <name>u</name>
@@ -72,10 +76,6 @@
     <key>
         <name>c</name>
         <desc>Cycle weapons</desc>
-    </key>
-    <key>
-        <name>P</name>
-        <desc>Toggle custom/FG HUD</desc>
     </key>
     <key>
         <name>M</name>
@@ -174,19 +174,19 @@
         <desc>Adjust seat down</desc>
     </key>
     <key>
-        <name>F6</name>
+        <name>Ctrl-E x3</name>
         <desc>Eject</desc>
     </key>
     <key>
-        <name>Ctrl-1</name>
+        <name>F5</name>
         <desc>GCI Picture</desc>
     </key>
     <key>
-        <name>Ctrl-2</name>
+        <name>F6</name>
         <desc>GCI Dope</desc>
     </key>
     <key>
-        <name>Ctrl-3</name>
+        <name>F7</name>
         <desc>GCI Cutoff</desc>
     </key>
     <!--

@@ -148,6 +148,52 @@
                 <wrap>true</wrap>
             </binding>
         </key>
+        <key n="106">
+            <name>j</name>
+            <desc>Retract airbrakes</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/flight/speedbrake-switch</property>
+                <value>-1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/speedbrake-switch</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
+        <key n="107">
+            <name>k</name>
+            <desc>Extend airbrakes</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/flight/speedbrake-switch</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/flight/speedbrake-switch</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
+        <key n="2">
+            <name>Ctrl-B</name>
+            <desc>Toggle airbrakes (simplified controls)</desc>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.toggleSpeedbrakesSimplified(1)</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.toggleSpeedbrakesSimplified(0)</script>
+                </binding>
+            </mod-up>
+        </key>
         <key n="73">
             <name>I</name>
             <desc>Switch HUD units.</desc>
@@ -174,26 +220,12 @@
         </key>
         <key n="80">
             <name>P</name>
-            <desc>Toggle custom/FG HUD</desc>
+            <desc>disable default panel shortcut</desc>
             <binding>
-                <command>property-toggle</command>
-                <property>/ja37/hud/mode</property>
+                <command>property-assign</command>
+                <property>/sim/panel/visibility</property>
+                <value>0</value>
             </binding>
-        </key>
-        <key n="115">
-            <name>s</name>
-            <desc>Start engine</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.autostarttimer();</script>
-            </binding>
-            <mod-up>
-                <!--just to overwrite default s key up -->
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.noop()</script>
-                </binding>
-            </mod-up>
         </key>
         <key n="113">
             <name>q</name>
@@ -211,38 +243,32 @@
                 </binding>
             </mod-up>-->
         </key>
-        <key n="49">
-            <name>CTRL-1</name>
-            <mod-ctrl>
-                <desc>GCI pict</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>instrumentation/gci/picture</property>
-                    <value>1</value>
-                </binding>
-            </mod-ctrl>
+        <key n="261">
+            <name>F5</name>
+            <desc>GCI pict</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/gci/picture</property>
+                <value>1</value>
+            </binding>
         </key>
-        <key n="50">
-            <name>CTRL-2</name>
-            <mod-ctrl>
-                <desc>GCI dope</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>instrumentation/gci/bogeydope</property>
-                    <value>1</value>
-                </binding>
-            </mod-ctrl>
+        <key n="262">
+            <name>F6</name>
+            <desc>GCI dope</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/gci/bogeydope</property>
+                <value>1</value>
+            </binding>
         </key>
-        <key n="51">
-            <name>CTRL-3</name>
-            <mod-ctrl>
-                <desc>GCI cutoff</desc>
-                <binding>
-                    <command>property-assign</command>
-                    <property>instrumentation/gci/cutoff</property>
-                    <value>1</value>
-                </binding>
-            </mod-ctrl>
+        <key n="263">
+            <name>F7</name>
+            <desc>GCI cutoff</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/gci/cutoff</property>
+                <value>1</value>
+            </binding>
         </key>
         <key n="101">
             <name>e</name>
@@ -354,14 +380,6 @@
             <binding>
                 <command>nasal</command>
                 <script>armament.drop();</script>
-            </binding>
-        </key>
-        <key n="77">
-            <name>M</name>
-            <desc>Toggle nose wheel steering</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.toggleNosewheelSteer();</script>
             </binding>
         </key>
         <!--<key n="109">
@@ -1100,18 +1118,13 @@
         </key>
 
         <key n="356">
-            <name>Ctrl Left</name>
-            <repeatable type="bool">false</repeatable>
+            <name>Left</name>
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
                     <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
                     <value>-1</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
                 </binding>
                 <mod-up>
                     <binding>
@@ -1124,18 +1137,13 @@
         </key>
 
         <key n="358">
-            <name>Ctrl Right</name>
-            <repeatable type="bool">false</repeatable>
+            <name>Right</name>
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
                     <command>property-assign</command>
                     <property>controls/flight/trim-yaw</property>
                     <value>1</value>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.click();</script>
                 </binding>
                 <mod-up>
                     <binding>
@@ -1147,24 +1155,13 @@
             </mod-ctrl>
         </key>
 
-        <key n="262">
-          <name>F6</name>
-          <desc>noop</desc>
+        <key n="5">
+          <name>Ctrl-E</name>
+          <desc>eject</desc>
           <repeatable type="bool">false</repeatable>
           <binding>
-           <command>nasal</command>
-           <script>
-            if (getprop("ja37/done")==1) {
-                return;
-            }
-            setprop("ja37/done",1);
-            var es = armament.AIM.new(10, "es","gamma");
-            setprop("fdm/jsbsim/fcs/canopy/hinges/serviceable",0);
-            es.releaseAtNothing();
-            view.view_firing_missile(es);
-            #setprop("sim/view[0]/enabled",0);
-            settimer(func {crash1.exp();},3.5);
-           </script>
+            <command>nasal</command>
+            <script>ja37.eject_key();</script>
           </binding>
          </key>
 

@@ -74,3 +74,21 @@ var heading_indicator = func {
 }
 
 #heading_indicator();
+
+
+# Waypoint selection buttons for AJ(S)
+var nav_button = func(n) {
+	var fp = flightplan();
+	# Last waypoint is selected with landing base button
+	if (n < fp.getPlanSize() - 1) fp.current = n;
+}
+
+var ls_button = func () {
+	var fp = flightplan();
+	if (fp.getPlanSize() > 0) fp.current = 0;
+}
+
+var l_button = func() {
+	var fp = flightplan();
+	fp.current = fp.getPlanSize() - 1;
+}

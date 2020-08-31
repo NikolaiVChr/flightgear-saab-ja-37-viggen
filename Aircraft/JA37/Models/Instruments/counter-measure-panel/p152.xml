@@ -58,9 +58,9 @@
     <animation>
         <type>knob</type>
         <object-name>knob2</object-name>
-        <property>ja37/p152/knob-2</property>
-        <factor>-180</factor>
-        <offset-deg>0</offset-deg>
+        <property>instrumentation/rwr/sound/volume</property>
+        <factor>100</factor>
+        <offset-deg>-140</offset-deg>
         <center>
             <x-m>  0.0207 </x-m>
             <y-m>  0.04019 </y-m>
@@ -70,17 +70,24 @@
             <x>0</x>
             <y>0</y>
             <z>-1</z>
-        </axis>        
+        </axis>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/p152/knob-2</property>
-                <factor>0.05</factor>
+                <property>instrumentation/rwr/sound/volume</property>
+                <factor>0.1</factor>
                 <min>0</min>
-                <max>1</max>                
+                <max>1</max>
                 <wrap>false</wrap>
            </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>p152-volume</tooltip-id>
+                <label>RWR Volume</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>

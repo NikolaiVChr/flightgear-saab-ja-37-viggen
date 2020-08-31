@@ -284,11 +284,14 @@
                 <scale>3</scale>
             </marker>
             <condition>
-                <not><property>/ja37/avionics/auto-throttle-on</property></not>
+                <equals>
+                    <property>/fdm/jsbsim/autoflight/athr-pos</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <binding>
                 <command>property-assign</command>
-                <property>/ja37/avionics/auto-throttle-on</property>
+                <property>/fdm/jsbsim/autoflight/athr-cmd</property>
                 <value>0</value>
             </binding>
         </item>

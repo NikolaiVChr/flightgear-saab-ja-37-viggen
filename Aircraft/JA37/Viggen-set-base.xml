@@ -8,7 +8,7 @@
 
 <PropertyList>
     <sim>
-        <aircraft-version>4.317</aircraft-version>
+        <aircraft-version>4.318</aircraft-version>
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Josh Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Colin Geniet (Misc), Nikolai V. Chr.</author>
         <minimum-fg-version>2018.3.1</minimum-fg-version>
 
@@ -122,12 +122,6 @@
         <panel_2>
             <visibility>false</visibility>
         </panel_2>
-
-
-        <hud>
-            <!-- Backup HUD, when custom HUD is disabled -->
-            <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
-        </hud>
 
 
 
@@ -651,19 +645,6 @@
             <dist-thunder3 type="double">0.0</dist-thunder3>
             <environment-volume type="double">0.0</environment-volume>
             <rain-volume type="double">0.0</rain-volume>
-            <incoming1 type="bool">false</incoming1>
-            <incoming2 type="bool">false</incoming2>
-            <incoming3 type="bool">false</incoming3>
-            <incoming4 type="bool">false</incoming4>
-            <incoming5 type="bool">false</incoming5>
-            <incoming6 type="bool">false</incoming6>
-            <incoming7 type="bool">false</incoming7>
-            <incoming8 type="bool">false</incoming8>
-            <incoming9 type="bool">false</incoming9>
-            <incoming10 type="bool">false</incoming10>
-            <incoming11 type="bool">false</incoming11>
-            <incoming12 type="bool">false</incoming12>
-            <incoming type="bool">false</incoming>
             <helmet type="double">0.9</helmet>
             <floor-ft type="double">-10000</floor-ft>
             <loadfactor-percent type="int">100</loadfactor-percent>
@@ -932,6 +913,10 @@
                     <tmp-norm type="double">0.11765</tmp-norm>
                     <serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
                 </flaps>
+                <speedbrake>
+                    <pos-norm type="double">0.0</pos-norm>
+                    <serviceable alias="/sim/failure-manager/controls/flight/speedbrake/serviceable"/>
+                </speedbrake>
                 <mouse-optimized type="bool">false</mouse-optimized>
             </fcs>
             <gear>
@@ -944,7 +929,6 @@
                 <unit n="0">
                     <nose-wheel-steering>
                         <serviceable type="bool">true</serviceable>
-                        <enable type="bool">true</enable>
                     </nose-wheel-steering>
                 </unit>
             </gear>
@@ -1185,6 +1169,8 @@
             <rudder-trim type="double">0.0</rudder-trim>
             <elevator-ap type="double">0.0</elevator-ap>
             <aileron-ap type="double">0.0</aileron-ap>
+            <!-- 3-positions: extend (1), neutral (0), retract (-1) -->
+            <speedbrake-switch type="int">0</speedbrake-switch>
         </flight>
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>
@@ -1258,7 +1244,8 @@
                 <dist type="double">0</dist>
                 <bearing-deg type="double">0</bearing-deg>
             </wp>
-            <disable-route-manager type="bool">true</disable-route-manager><!-- just disables the default delegate -->
+            <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
+            <disable-fms type="bool">true</disable-fms>
         </route-manager>
         <internal>
             <target-roll-deg type="double">0</target-roll-deg>
@@ -1467,17 +1454,48 @@
             <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
             <range>15000</range>            <!-- 15 Km -->
             <serviceable type="bool">true</serviceable>
-            <twr1 type="bool">false</twr1>
-            <twr2 type="bool">false</twr2>
-            <twr3 type="bool">false</twr3>
-            <twr4 type="bool">false</twr4>
-            <twr5 type="bool">false</twr5>
-            <twr7 type="bool">false</twr7>
-            <twr8 type="bool">false</twr8>
-            <twr9 type="bool">false</twr9>
-            <twr10 type="bool">false</twr10>
-            <twr11 type="bool">false</twr11>
         </radar>
+        <rwr>
+          <ajs-lights>
+            <sector n="0" type="bool">false</sector>
+            <sector n="1" type="bool">false</sector>
+            <sector n="2" type="bool">false</sector>
+            <sector n="3" type="bool">false</sector>
+            <sector n="4" type="bool">false</sector>
+            <sector n="5" type="bool">false</sector>
+          </ajs-lights>
+          <ja-lights>
+            <sector n="0" type="bool">false</sector>
+            <sector n="1" type="bool">false</sector>
+            <sector n="2" type="bool">false</sector>
+            <sector n="3" type="bool">false</sector>
+          </ja-lights>
+          <sound>
+            <volume type="double">0</volume>
+            <high-prf type="bool">false</high-prf>
+            <incoming type="bool">false</incoming>
+            <beep n="0" type="bool">false</beep>
+            <beep n="1" type="bool">false</beep>
+            <beep n="2" type="bool">false</beep>
+            <beep n="3" type="bool">false</beep>
+            <beep n="4" type="bool">false</beep>
+            <beep n="5" type="bool">false</beep>
+            <beep n="6" type="bool">false</beep>
+            <beep n="7" type="bool">false</beep>
+            <beep n="8" type="bool">false</beep>
+            <beep n="9" type="bool">false</beep>
+            <freq n="0" type="double">1000</freq>
+            <freq n="1" type="double">1000</freq>
+            <freq n="2" type="double">1000</freq>
+            <freq n="3" type="double">1000</freq>
+            <freq n="4" type="double">1000</freq>
+            <freq n="5" type="double">1000</freq>
+            <freq n="6" type="double">1000</freq>
+            <freq n="7" type="double">1000</freq>
+            <freq n="8" type="double">1000</freq>
+            <freq n="9" type="double">1000</freq>
+          </sound>
+        </rwr>
         <head-up-display>
             <serviceable type="bool">true</serviceable>
         </head-up-display>
@@ -1616,6 +1634,7 @@
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
+            <file>Aircraft/JA37/Nasal/ejection.nas</file>
         </ja37>
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>

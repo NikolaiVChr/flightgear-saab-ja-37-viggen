@@ -263,7 +263,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/radar/twr2</property>
+	        <property>instrumentation/rwr/ja-lights/sector[0]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
@@ -287,7 +287,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/radar/twr4</property>
+	        <property>instrumentation/rwr/ja-lights/sector[1]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
@@ -311,7 +311,7 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/radar/twr8</property>
+	        <property>instrumentation/rwr/ja-lights/sector[2]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
@@ -335,15 +335,15 @@
 	    </equals>
 	    <or>
 	      <equals>
-	        <property>instrumentation/radar/twr10</property>
+	        <property>instrumentation/rwr/ja-lights/sector[3]</property>
 	        <value>1</value>
 	      </equals>
 	      <property>/controls/lighting/test-indicator-panels</property>
 	    </or>
 	  </condition>
 	  <emission>
-	   <red>1.0</red> 
-	   <green>0.0</green> 
+	   <red>1.0</red>
+	   <green>0.0</green>
 	   <blue>0.0</blue>
 	   <factor-prop>systems/electrical/dc-light</factor-prop>
 	  </emission>

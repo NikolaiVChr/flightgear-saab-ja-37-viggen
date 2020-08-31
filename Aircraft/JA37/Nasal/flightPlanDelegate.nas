@@ -1,115 +1,120 @@
-# route_manager.nas -  FlightPlan delegate(s) corresponding to the built-
-# in route-manager dialog and GPS. Intended to provide a sensible Viggen behaviour.
+# Viggen custom route manager delegate.
+#
+# This delegate handles waypoint sequencing.
+# It is a simplified version of the default sequencing behaviour (route_manager.DefaultGPSDelegate),
+# with a few Viggen specific behaviours.
 
-var RouteManagerDelegate = {
+
+# Backward compatibility, for FG versions using printlog instead of logprint
+if (!defined("logprint") or !defined("LOG_INFO")) {
+    var logprint = printlog;
+    var LOG_INFO = 'info';
+}
+
+
+
+var GPSPath = "/instrumentation/gps";
+var GPSNode = props.globals.getNode(GPSPath, 1);
+
+var Delegate = {
     new: func(fp) {
-        var m = { parents: [RouteManagerDelegate] };
-        m.flightplan = fp;
+        var m = {
+            parents: [Delegate],
+            flightplan: fp,
+            _modeProp: GPSNode.getNode("mode", 1)
+        };
+
+        logprint(LOG_INFO, 'creating Saab 37 flight plan delegate');
+
+        # tell the GPS C++ code we will do sequencing ourselves, so it can disable
+        # its legacy logic for this
+        setprop(GPSPath ~ '/config/delegate-sequencing', 1);
+
+        # make FlightPlan behaviour match GPS config state
+        fp.followLegTrackToFix = getprop(GPSPath ~ '/config/follow-leg-track-to-fix') or 0;
+
+        # similarly, make FlightPlan follow the performance category settings
+        fp.aircraftCategory = getprop('/autopilot/settings/icao-aircraft-category') or 'D';
+
         return m;
     },
 
-    departureChanged: func
-    {
-        printlog('info', 'saw departure changed');
-        me.flightplan.clearWPType('sid');
-        if (me.flightplan.departure == nil)
-            return;
-
-        if (me.flightplan.departure_runway == nil) {
-        # no runway, only an airport, use that
-            var wp = createWPFrom(me.flightplan.departure);
-            wp.wp_role = 'sid';
-            me.flightplan.insertWP(wp, 0);
-            return;
-        }
-    # first, insert the runway itself
-        var wp = createWPFrom(me.flightplan.departure_runway);
-        wp.wp_role = 'sid';
-        me.flightplan.insertWP(wp, 0);
-        if (me.flightplan.sid == nil)
-            return;
-
-    # and we have a SID
-        var sid = me.flightplan.sid;
-        printlog('info', 'routing via SID ' ~ sid.id);
-        me.flightplan.insertWaypoints(sid.route(me.flightplan.departure_runway), 1);
+    _captureCurrentCourse: func {
+        GPSNode.setValue("selected-course-deg", GPSNode.getValue("desired-course-deg"));
     },
 
-    arrivalChanged: func
-    {
-        printlog('info', 'saw arrival changed');
-        me.flightplan.clearWPType('star');
-        me.flightplan.clearWPType('approach');
-        if (me.flightplan.destination == nil)
+    _selectMode: func (mode) {
+        GPSNode.setValue("command", mode);
+    },
+
+    waypointsChanged: func {
+    },
+
+    activated: func {
+        if (!me.flightplan.active)
             return;
 
-        if (me.flightplan.destination_runway == nil) {
-        # no runway, only an airport, use that
-            var wp = createWPFrom(me.flightplan.destination);
-            wp.wp_role = 'approach';
-            me.flightplan.appendWP(wp);
+        logprint(LOG_INFO,'flightplan activated, navigation set to LEG mode');
+        me._selectMode("leg");
+
+        if (getprop(GPSPath ~ '/wp/wp[1]/from-flag')) {
+            logprint(LOG_INFO, '\tat GPS activation, already passed active WP, sequencing');
+            me.sequence();
+        }
+    },
+
+    _deactivate: func {
+        if (me._modeProp.getValue() == 'leg') {
+            logprint(LOG_INFO, 'navigation set to OBS mode');
+            me._captureCurrentCourse();
+            me._selectMode("obs");
+        }
+    },
+
+    deactivated: func {
+        logprint(LOG_INFO, 'flightplan deactivated');
+        me._deactivate();
+    },
+
+    endOfFlightPlan: func {
+        logprint(LOG_INFO, 'end of flightplan');
+        me._deactivate();
+    },
+
+    cleared: func {
+        if (!me.flightplan.active)
             return;
-        }
 
-        var initialApproachFix = nil;
-        if (me.flightplan.star != nil) {
-            printlog('info', 'routing via STAR ' ~ me.flightplan.star.id);
-            var wps = me.flightplan.star.route(me.flightplan.destination_runway);
-            me.flightplan.insertWaypoints(wps, -1);
+        logprint(LOG_INFO, 'flightplan cleared');
+        me._deactivate();
+    },
 
-            initialApproachFix = wps[-1]; # final waypoint of STAR
-        }
+    sequence: func {
+        if (!me.flightplan.active)
+            return;
 
-        if (me.flightplan.approach != nil) {
-            var wps = me.flightplan.approach.route(initialApproachFix);
-
-             if ((initialApproachFix != nil) and (wps == nil)) {
-             # current GUI allows selected approach then STAR; but STAR
-             # might not be possible for the approach (no transition).
-             # since fixing the GUI flow is hard, let's route assuming no
-             # IAF. This will likely cause an ugly direct leg, but that's
-             # what the user asked for.
-
-                 printlog('info', "couldn't route approach based on specified IAF "
-                  ~ initialApproachFix.wp_name);
-                 wps = me.flightplan.approach.route(nil);
-             }
-
-            if (wps == nil) {
-                printlog('warn', 'routing via approach ' ~ me.flightplan.approach.id
-                    ~ ' failed entirely.');
+        if (me._modeProp.getValue() == 'leg') {
+            var nextIndex = me.flightplan.current + 1;
+            if (nextIndex >= me.flightplan.getPlanSize()) {
+                # End of flightplan. Custom Viggen behaviour here, instead of finishing flightplan.
+                me._deactivate();
+                route.Polygon._finishedPrimary(me.flightplan);
             } else {
-                printlog('info', 'routing via approach ' ~ me.flightplan.approach.id);
-                me.flightplan.insertWaypoints(wps, -1);
+                logprint(LOG_INFO, "navigation sequencing to next WP");
+                me.flightplan.current = nextIndex;
             }
-        } else {
-            printlog('info', 'routing direct to runway ' ~ me.flightplan.destination_runway.id);
-            # no approach, just use the runway waypoint
-            var wp = createWPFrom(me.flightplan.destination_runway);
-            wp.wp_role = 'approach';
-            me.flightplan.appendWP(wp);
         }
     },
 
-    cleared: func
-    {
-        printlog('info', "saw active flightplan cleared, deactivating");
-        # see http://https://code.google.com/p/flightgear-bugs/issues/detail?id=885
-        fgcommand("activate-flightplan", props.Node.new({"activate": 0}));
-    },
+    currentWaypointChanged: func {
+        if (!me.flightplan.active)
+            return;
 
-    endOfFlightPlan: func
-    {
-        printlog('info', "end of flight-plan, deactivating");
-        fgcommand("activate-flightplan", props.Node.new({"activate": 0}));
-        settimer(func me._endOfFlightPlan(me.flightplan),1);
-    },
-
-    _endOfFlightPlan: func (plan) {
-        printlog('info', "end of flight-plan, reactivating last waypoint");
-        #plan.cleanPlan();
-        route.Polygon._finishedPrimary(plan);
-    },
+        # Polygon._wpChanged() can enable landing mode, which can re-trigger waypoint change signals.
+        # The 0 timer is a stupid way to avoid this from causing recursive / re-entering
+        # calls to functions which are not designed for it.
+        settimer(func {route.Polygon._wpChanged()}, 0);
+    }
 };
 
-registerFlightPlanDelegate(RouteManagerDelegate.new);
+registerFlightPlanDelegate(Delegate.new);

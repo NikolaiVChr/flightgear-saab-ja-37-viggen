@@ -46,6 +46,7 @@
                     <product>
                         <property>/controls/flight/trim-pitch</property>
                         <property>simulation/channel-dt</property>
+                        <property>/ja37/elec/dc-bus-main-bool</property>
                         <value>0.1</value>
                     </product>
                 </sum>
@@ -60,6 +61,7 @@
                     <product>
                         <property>/controls/flight/trim-roll</property>
                         <property>simulation/channel-dt</property>
+                        <property>/ja37/elec/dc-bus-main-bool</property>
                         <value>0.1</value>
                     </product>
                 </sum>
@@ -80,6 +82,7 @@
                         <product>
                             <property>/controls/flight/trim-yaw</property>
                             <property>simulation/channel-dt</property>
+                            <property>/ja37/elec/dc-bus-main-bool</property>
                             <value>0.1</value>
                         </product>
                     </sum>
@@ -869,49 +872,80 @@
             <output>gear/gear-pos-norm</output>
         </kinematic>
 
-        <kinematic name="names/nose-wheel-steering/kinematic-norm">
-            <input>gear/unit[0]/nose-wheel-steering/tmp-norm</input>
-            <traverse>
-                <setting>
-                    <position>-1.0</position>
-                    <time>0.0</time>
-                </setting>
-                <setting>
-                    <position>1.0</position>
-                    <time>0.5</time>
-                </setting>
-            </traverse>
-            <output>gear/unit[0]/nose-wheel-steering/kinematic-norm</output>
-        </kinematic>
+        <!-- Page 180 of JA-37C manual: maximum 30 degs deflection -->
 
-        <switch name="names/nose-wheel-steering/tmp-norm">
+        <switch name="names/nose-wheel-steering/cmd-norm">
             <default value="fcs/steer-cmd-norm"/>
-            <test logic="OR" value="gear/unit[0]/nose-wheel-steering/kinematic-norm">
+            <test logic="OR" value="gear/unit[0]/nose-wheel-steering/pos-norm">
                 systems/hydraulics/flight-surface-actuation == 0
                 gear/unit[0]/nose-wheel-steering/serviceable == 0
             </test>
-            <test logic="OR" value="0">
-                gear/unit[0]/nose-wheel-steering/enable == 0
+            <!-- JA37 manual: when the nose gear unloads, the steering is disabled and the nosewheel is centered -->
+            <test value="0">
+                gear/unit[0]/WOW == 0
             </test>
-            <output>gear/unit[0]/nose-wheel-steering/tmp-norm</output>
+            <output>gear/unit[0]/nose-wheel-steering/cmd-norm</output>
         </switch>
 
-        <!-- Page 180 of JA-37C manual: maximum 30 degs deflection -->
-        <scheduled_gain name="names/nose-wheel-steering/steer-pos-deg">
-            <input>gear/unit[0]/nose-wheel-steering/kinematic-norm</input>
+        <kinematic name="names/nose-wheel-steering/pos-norm">
+            <input>gear/unit[0]/nose-wheel-steering/cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position>-1</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>0.5</time>
+                </setting>
+            </traverse>
+            <output>gear/unit[0]/nose-wheel-steering/pos-norm</output>
+        </kinematic>
+
+        <!-- JA37 manual: up to 4deg of lead/lag under load -->
+        <scheduled_gain name="names/nose-wheel-steering/lag-factor">
+            <input>gear/unit[0]/compression-ft</input>
+            <gain>6</gain>
             <table>
-                <independentVar>velocities/vg-fps</independentVar>
-                <tableData><!-- note that this is positive also when moving in reverse -->
-                       10.0       30.00
-                       20.0       25.00
-                       50.0        5.00
-                      100.0        1.50
-                      150.0        0.75
-                      200.0        0.50 <!-- by this speed the front wheel hardly touches the runway -->
+                <independentVar>gear/unit[0]/wheel-speed-fps</independentVar>
+                <tableData>
+                    10.0    0
+                    30.0    0.1
+                    70.0    0.3
+                    120.0   0.6
                 </tableData>
             </table>
-            <output>fcs/steer-pos-deg</output>
+            <clipto>
+                <min>-0.8</min>
+                <max>0.8</max>
+            </clipto>
+            <output>gear/unit[0]/nose-wheel-steering/lag-factor</output>
         </scheduled_gain>
+
+        <pure_gain name="names/nose-wheel-steering/lag-deg">
+            <input>gear/unit[0]/slip-angle-deg</input>
+            <gain>gear/unit[0]/nose-wheel-steering/lag-factor</gain>
+            <output>gear/unit[0]/nose-wheel-steering/lag-deg</output>
+        </pure_gain>
+
+        <pure_gain name="names/nose-wheel-steering/lag-norm">
+            <input>gear/unit[0]/nose-wheel-steering/lag-deg</input>
+            <gain>0.03333</gain>
+            <output>gear/unit[0]/nose-wheel-steering/lag-norm</output>
+        </pure_gain>
+
+        <summer name="names/nose-wheel-steering/pos-lag-norm">
+            <input>gear/unit[0]/nose-wheel-steering/pos-norm</input>
+            <input>gear/unit[0]/nose-wheel-steering/lag-norm</input>
+            <output>gear/unit[0]/nose-wheel-steering/pos-lag-norm</output>
+        </summer>
+
+        <pure_gain name="names/nose-wheel-steering/pos-deg">
+            <input>gear/unit[0]/nose-wheel-steering/pos-lag-norm</input>
+            <gain>30</gain>
+            <output>fcs/steer-pos-deg</output>
+        </pure_gain>
+
     </channel>
 
 
@@ -980,30 +1014,40 @@
 
     <channel execrate="1" name="Speedbrake">
 
-        <switch name="fcs/speedbrake-cmd-norm-output">
-            <default value="fcs/speedbrake-cmd-norm"/>
-            <test logic="OR" value="0">
-                  velocities/mach gt 0.92
+      <switch name="fcs/speedbrake/command">
+            <default value="/controls/flight/speedbrake-switch"/>
+            <test value="0"> <!-- weld shut on the JA -->
+                /ja37/systems/variant eq 0
             </test>
-            <test logic="OR" value="fcs/speedbrake-pos-norm">
-                  systems/hydraulics/system1/pressure == 0
+            <test value="-1"> <!-- retract when transonic -->
+                velocities/mach gt 0.92
+            </test>
+            <test value="-1"> <!-- does not stay extended with gear down -->
+                gear/gear-pos-norm gt 0
+                /controls/flight/speedbrake-switch ne 1
             </test>
         </switch>
 
-        <kinematic name="names/speedbrake/pos-norm">
-            <input>fcs/speedbrake-cmd-norm-output</input>
-            <traverse>
-                <setting>
-                    <position>  0.0 </position>
-                    <time>      0.0 </time>
-                </setting>
-                <setting>
-                    <position>  1.0 </position>
-                    <time>      2.5 </time>
-                </setting>
-            </traverse>
-            <output>fcs/speedbrake-pos-norm</output>
-        </kinematic>
+        <fcs_function name="names/speedbrake/pos-norm">
+            <function>
+                <sum>
+                    <property>fcs/speedbrake/pos-norm</property>
+                    <product>
+                        <property>fcs/speedbrake/command</property>
+                        <property>simulation/channel-dt</property>
+                        <property>systems/hydraulics/system1/pressure</property>
+                        <property>/sim/failure-manager/controls/flight/speedbrake/serviceable</property>
+                        <value>0.5</value>
+                    </product>
+                </sum>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>1</max>
+            </clipto>
+            <output>fcs/speedbrake/pos-norm</output>
+            <output>fcs/speedbrake-pos-norm</output><!-- standard jsbsim property -->
+        </fcs_function>
 
     </channel>
 

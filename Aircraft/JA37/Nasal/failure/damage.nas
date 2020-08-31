@@ -181,68 +181,6 @@ var incoming_listener = func {
                   clock = clock - 360;
                 }
                 armament.ecmLog.push(last~sprintf("%d deg.", clock));
-                #print("incoming from "~clock);
-                if (clock >= 345 or clock < 15) {
-                  playIncomingSound("12");
-                } elsif (clock >= 15 and clock < 45) {
-                  playIncomingSound("1");
-                } elsif (clock >= 45 and clock < 75) {
-                  playIncomingSound("2");
-                } elsif (clock >= 75 and clock < 105) {
-                  playIncomingSound("3");
-                } elsif (clock >= 105 and clock < 135) {
-                  playIncomingSound("4");
-                } elsif (clock >= 135 and clock < 165) {
-                  playIncomingSound("5");
-                } elsif (clock >= 165 and clock < 195) {
-                  playIncomingSound("6");
-                } elsif (clock >= 195 and clock < 225) {
-                  playIncomingSound("7");
-                } elsif (clock >= 225 and clock < 255) {
-                  playIncomingSound("8");
-                } elsif (clock >= 255 and clock < 285) {
-                  playIncomingSound("9");
-                } elsif (clock >= 285 and clock < 315) {
-                  playIncomingSound("10");
-                } elsif (clock >= 315 and clock < 345) {
-                  playIncomingSound("11");
-                } else {
-                  playIncomingSound("");
-                }
-
-                #The incoming CI lamps overlap each other:
-                if (clock >= 345 or clock <= 75) {
-                  incomingLamp("1");
-                }
-                if (clock >= 45 and clock <= 135) {
-                  incomingLamp("3");
-                }
-                if (clock >= 105 and clock <= 195) {
-                  incomingLamp("5");
-                }
-                if (clock >= 165 and clock <= 255) {
-                  incomingLamp("7");
-                }
-                if (clock >= 225 and clock <= 315) {
-                  incomingLamp("9");
-                }
-                if (clock >= 285 or clock <= 15) {
-                  incomingLamp("11");
-                }
-
-                #The incoming MI lamps overlap each other:
-                if (clock >= 345 or clock <= 105) {
-                  incomingLamp("2");
-                } 
-                if (clock >= 75 and clock <= 195) {
-                  incomingLamp("4");
-                }
-                if (clock >= 165 and clock <= 285) {
-                  incomingLamp("8");
-                }
-                if (clock >= 255 or clock <= 15) {
-                  incomingLamp("10");
-                }
                 return;
               }
             }
@@ -361,24 +299,6 @@ var fail_systems = func (probability) {
     }
     return failed;
 };
-
-var playIncomingSound = func (clock) {
-  setprop("ja37/sound/incoming"~clock, 1);
-  settimer(func {stopIncomingSound(clock);},3);
-}
-
-var stopIncomingSound = func (clock) {
-  setprop("ja37/sound/incoming"~clock, 0);
-}
-
-var incomingLamp = func (clock) {
-  setprop("instrumentation/radar/twr"~clock, 1);
-  settimer(func {stopIncomingLamp(clock);},4.5);
-}
-
-var stopIncomingLamp = func (clock) {
-  setprop("instrumentation/radar/twr"~clock, 0);
-}
 
 var nearby_explosion = func {
   setprop("damage/sounds/nearby-explode-on", 0);
