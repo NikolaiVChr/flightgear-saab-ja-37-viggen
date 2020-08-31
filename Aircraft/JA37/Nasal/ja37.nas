@@ -2129,7 +2129,9 @@ var _popupTip = func(label, y, delay) {
 var on_damage_enabled = func() {
     var internal = view.current.getNode("internal");
     if (internal == nil or !internal.getBoolValue()) {
-        view.setView(0);
+        #view.setView(0); added only in FG 2019
+        setprop("/sim/current-view/view-number", 0);
+        setprop("/sim/current-view/view-number-raw", view.views[0].getIndex());
         screen.log.write("External views are disabled with damage on");
     }
 }
@@ -2340,7 +2342,9 @@ view.stepView = func(step, force = 0) {
             and ((internal != nil and internal.getBoolValue()) or !getprop("/payload/armament/msg")))
             break;
     }
-    view.setView(n);
+    #view.setView(n); added only in FG 2019
+    setprop("/sim/current-view/view-number", n);
+    setprop("/sim/current-view/view-number-raw", view.views[n].getIndex());
 
     # And pop up a nice reminder
     var popup=getprop("/sim/view-name-popup");
