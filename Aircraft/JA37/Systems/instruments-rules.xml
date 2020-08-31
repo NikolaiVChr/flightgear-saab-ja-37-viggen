@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+  <!-- as per manual: radar compass max rotate with 30 deg/s
+                      radar compass bug max rotate with 25 deg/s -->
+
+  <filter>
+    <name>Heading indicator offset</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+      <expression>
+        <difference>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <property>/instrumentation/heading-indicator/indicator-pos-deg</property>
+        </difference>
+      </expression>
+    </input>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <output>/instrumentation/heading-indicator/indicator-offset-deg</output>
+  </filter>
+
+  <filter>
+    <name>Heading indicator</name>
+    <type>noise-spike</type>
+    <max-rate-of-change>30</max-rate-of-change>
+    <input>
+      <expression>
+        <sum>
+          <property>/instrumentation/heading-indicator/indicator-pos-deg</property>
+          <property>/instrumentation/heading-indicator/indicator-offset-deg</property>
+        </sum>
+      </expression>
+    </input>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <output>/instrumentation/heading-indicator/indicator-pos-deg</output>
+  </filter>
+
+  <filter>
+    <name>Waypoint bearing indicator offset</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+      <expression>
+        <difference>
+          <property>/instrumentation/waypoint-indicator/bearing-index-goal</property>
+          <property>/instrumentation/waypoint-indicator/bearing-index</property>
+        </difference>
+      </expression>
+    </input>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <output>/instrumentation/waypoint-indicator/bearing-index-offset</output>
+  </filter>
+
+  <filter>
+    <name>Waypoint bearing indicator</name>
+    <type>noise-spike</type>
+    <max-rate-of-change>25</max-rate-of-change>
+    <input>
+      <expression>
+        <sum>
+          <property>/instrumentation/waypoint-indicator/bearing-index</property>
+          <property>/instrumentation/waypoint-indicator/bearing-index-offset</property>
+        </sum>
+      </expression>
+    </input>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <output>/instrumentation/waypoint-indicator/bearing-index</output>
+  </filter>
+</PropertyList>
