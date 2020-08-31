@@ -1435,18 +1435,10 @@
             <power-btn type="bool">true</power-btn>
             <power-good type="bool">false</power-good>
         </comm>
-        <comm n="1">
-            <power-btn type="bool">false</power-btn>
-            <power-good type="bool">false</power-good>
-			<volume type="double">0</volume>
-        </comm>
         <nav n="0">
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
-		<nav n="1">
-			<volume type="double">0</volume>
-		</nav>
 		<adf n="1">
 			<volume type="double">0</volume>
 			<volume-norm type="double">0</volume-norm>

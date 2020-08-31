@@ -44,6 +44,7 @@
     </attitude-indicator>
 
   <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
+
   <adf>
     <name>adf</name>
     <number>0</number>
@@ -65,40 +66,20 @@
     <number>0</number>
   </dme>
 
-  <marker-beacon>
-    <name>marker-beacon</name>
-    <number>0</number>
-  </marker-beacon>
-
   <heading-indicator>
     <name>heading-indicator</name>
     <number>0</number>
     <suction>/systems/vacuum/suction-inhg</suction>
   </heading-indicator>
-  
-  <magnetic-compass>
-    <name>magnetic-compass</name>
-    <number>0</number>
-  </magnetic-compass>
 
   <comm-radio>
     <name>comm</name>
     <number>0</number>
   </comm-radio>
 
-  <comm-radio>
-    <name>comm</name>
-    <number>1</number>
-  </comm-radio>
-
   <nav-radio>
     <name>nav</name>
     <number>0</number>
-  </nav-radio>
-
-  <nav-radio>
-    <name>nav</name>
-    <number>1</number>
   </nav-radio>
 
   <slip-skid-ball>
@@ -124,19 +105,4 @@
     <name>gps</name>
     <number>0</number>
   </gps>
-
-  <radar>
-    <name>wxradar</name>
-    <number>0</number>
-  </radar>
-
-  <tacan>
-    <name>tacan</name>
-    <number>0</number>
-  </tacan>
-
-  <mk-viii>
-   <name>mk-viii</name>
-   <number>0</number>
-  </mk-viii>
 </PropertyList>

@@ -826,14 +826,6 @@
             <gain>1</gain>
         </pure_gain>
 
-        <pure_gain name="/systems/electrical/outputs/tacan">
-            <description>
-                      Tacan power
-            </description>
-            <input>/ja37/elec/ac-bus-main-volt</input>
-            <gain>1</gain>
-        </pure_gain>
-
         <pure_gain name="/systems/electrical/outputs/adf">
             <description>
                       ADF power
