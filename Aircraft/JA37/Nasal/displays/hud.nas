@@ -79,10 +79,6 @@ var reticle_factor = 1.15;# size of flight path indicator, aiming reticle, and o
 var sidewind_factor = 1.0;# size of sidewind indicator
 var airspeedPlace = 5*pixelPerDegreeY;
 var airspeedPlaceFinal = -5*pixelPerDegreeY;
-var sideslipPlaceX = (325/1024)*canvasWidth;
-var sideslipPlaceY = (425/1024)*canvasWidth;
-var sideslipPlaceXFinal = 0;
-var sideslipPlaceYFinal = 0;
 var missile_aim_position = centerOffset+0.03*pixelPerMeter;
 var QFE_position = centerOffset+(5.5*pixelPerDegreeY);
 var dig_alt_position = centerOffset+(9.0*pixelPerDegreeY);
@@ -558,33 +554,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       
       .setColor(r,g,b, a);
 
-    #turn coordinator
-    me.turn_group = me.root.createChild("group").setTranslation(sideslipPlaceX, sideslipPlaceY);
-    me.turn_group2 = me.turn_group.createChild("group");
-    me.t_rot   = me.turn_group2.createTransform();
-    me.turn_indicator = me.turn_group2.createChild("path")
-         .moveTo(-(20/1024)*canvasWidth, 0)
-         .horiz(-(150/1024)*canvasWidth)
-         .moveTo((20/1024)*canvasWidth, 0)
-         .horiz((150/1024)*canvasWidth)
-         .moveTo(-(20/1024)*canvasWidth, 0)
-         .vert((20/1024)*canvasWidth)
-         .moveTo((20/1024)*canvasWidth, 0)
-         .vert((20/1024)*canvasWidth)     
-         .setStrokeLineWidth(w)
-         .setColor(r,g,b, a);
-    me.turn_group3 = me.turn_group2.createChild("group");
-    me.slip_indicator = me.turn_group3.createChild("path")
-         .moveTo(-(8/1024)*canvasWidth, -(26/1024)*canvasWidth)
-         .horiz((16/1024)*canvasWidth)
-         .vert((16/1024)*canvasWidth)
-         .horiz(-(16/1024)*canvasWidth)
-         .vert(-(16/1024)*canvasWidth)
-         .setColorFill(r,g,b, a)
-         .setStrokeLineWidth(w)
-         .setColor(r,g,b, a);
-
-
     # Horizon
     #clip = (0/1024)*canvasWidth~"px, "~(712/1024)*canvasWidth~"px, "~(1024/1024)*canvasWidth~"px, "~(0/1024)*canvasWidth~"px";
     #me.horizon_group.set("clip", "rect("~clip~")");#top,right,bottom,left (absolute in canvas)
@@ -997,8 +966,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     
 
     artifacts0 = [me.head_scale, me.hdgLineL, me.heading_bug, me.vel_vec, me.reticle_missile, me.reticle_c_missile,
-             me.hdgLineR, me.head_scale_indicator, me.turn_indicator, me.arrow, me.head_scale_horz_ticks,
-             me.alt_scale_high, me.alt_scale_med, me.alt_scale_low, me.slip_indicator,
+             me.hdgLineR, me.head_scale_indicator, me.arrow, me.head_scale_horz_ticks,
+             me.alt_scale_high, me.alt_scale_med, me.alt_scale_low,
              me.alt_scale_line, me.aim_reticle_fin, me.reticle_cannon, me.desired_lines2,
              me.alt_pointer, me.rad_alt_pointer, me.desired_lines3, me.horizon_line_gap, me.lock_rdr, me.lock_ir,# me.target_air, me.target_sea, me.target_ground, me.diamond
              me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_line_nav, me.horizon_dots, me.diamond_small,
@@ -1101,9 +1070,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
         roll:             "orientation/roll-deg",
         srvHead:          "instrumentation/heading-indicator/serviceable",
-        srvTurn:          "instrumentation/turn-indicator/serviceable",
         service:          "instrumentation/head-up-display/serviceable",
-        sideslipOn:       "ja37/hud/bank-indicator",
         speed_d:          "velocities/speed-down-fps",
         speed_e:          "velocities/speed-east-fps",
         speed_n:          "velocities/speed-north-fps",
@@ -1271,9 +1238,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
       ### artificial horizon and pitch lines ###
       me.displayPitchLines(mode);
-
-      ### turn coordinator ###
-      me.displayTurnCoordinator();
 
       ####  Radar HUD tracks  ###
       me.displayRadarTracks(mode);
@@ -2018,23 +1982,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.horizon_line_gap.hide();
       me.horizon_line_nav.show();
       me.horizon_line.hide();
-    }
-  },
-
-  displayTurnCoordinator: func () {
-    if (1==0 and me.input.sideslipOn.getValue() == TRUE and me.final == FALSE) {
-      if(me.input.srvTurn.getValue() == 1) {
-        #me.t_rot.setRotation(getprop("/orientation/roll-deg") * D2R * 0.5);
-        me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -(150/1024)*canvasWidth, (150/1024)*canvasWidth), 0);
-        #if(me.final == TRUE) {
-        #  me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
-        #} else {
-          me.turn_group.setTranslation(sideslipPlaceX, sideslipPlaceY);
-        #}
-      }
-      me.turn_group.show();
-    } else {
-      me.turn_group.hide();
     }
   },
 
@@ -3324,8 +3271,7 @@ var reinit = func() {#mostly called to change HUD color
     item.setColor(red, green, blue, alpha);
    }
    color = [red, green, blue, alpha];
-   hud_pilot.slip_indicator.setColorFill(red, green, blue, alpha);
-   
+
    if (IR) {
      HUDnasal.main.canvas.setColorBackground(red, green, blue, 0);
    } elsif (backup == FALSE) {

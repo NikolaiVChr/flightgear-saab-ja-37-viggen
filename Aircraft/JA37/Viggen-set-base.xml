@@ -612,7 +612,6 @@
             <mode type="bool">true</mode>
             <current-mode type="int">0</current-mode>
             <combat type="bool">false</combat>
-            <bank-indicator type="bool">false</bank-indicator>
             <callsign type="bool">true</callsign>
             <stroke-linewidth type="double">5.0</stroke-linewidth>
             <TILS type="bool">true</TILS>

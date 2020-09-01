@@ -1552,7 +1552,6 @@ var main_init = func {
 #  aircraft.data.add("ja37/radar/enabled",
 #                    "ja37/hud/units-metric",
 #                    "ja37/hud/mode",
-#                    "ja37/hud/bank-indicator",
 #                    "ja37/autoReverseThrust",
 #                    "ja37/hud/stroke-linewidth",
 #                    "ai/submodels/submodel[2]/random",

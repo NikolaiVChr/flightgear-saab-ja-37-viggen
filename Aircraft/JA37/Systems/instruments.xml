@@ -90,11 +90,6 @@
   <transponder>
   </transponder>
 
-  <turn-indicator>
-    <name>turn-indicator</name>
-    <number>0</number>
-  </turn-indicator>
-
   <vertical-speed-indicator>
     <name>vertical-speed-indicator</name>
     <number>0</number>
