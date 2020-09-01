@@ -5,14 +5,19 @@
     
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>bolt</object-name>
+        <object-name>lampBase</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>lamp</object-name>
     </effect>
 
     <animation>
         <type>material</type>
         <object-name>lamp</object-name>
         <emission>
-            <red>1.0</red>
+            <red>0.7</red>
             <green>0.0</green>
             <blue>0.0</blue>
             <factor-prop>fdm/jsbsim/propulsion/engine/cutoff-indicator</factor-prop>
@@ -22,7 +27,7 @@
     <animation>
         <type>pick</type>
         <object-name>lamp</object-name>
-        <object-name>bolt</object-name>
+        <object-name>lampBase</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -31,6 +36,4 @@
             </binding>
         </hovered>
     </animation>
-
-
 </PropertyList>

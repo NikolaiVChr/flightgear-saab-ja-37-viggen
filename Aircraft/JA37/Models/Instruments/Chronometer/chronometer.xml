@@ -1,23 +1,61 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
-
     <path>chronometer.ac</path>
 
     <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-        <object-name>ChronoGlass</object-name>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+        <object-name>buttonChrono</object-name>
+        <object-name>knobLeft</object-name>
     </effect>
 
     <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>CLOCK_mount</object-name>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>dial</object-name>
+        <object-name>needleChronoS</object-name>
+        <object-name>needleChronoM</object-name>
+        <object-name>needleClockM</object-name>
+        <object-name>needleClockH</object-name>
     </effect>
 
-    <!-- START CLOCK -->
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <object-name>needleChronoS</object-name>
+        <object-name>needleChronoM</object-name>
+        <object-name>needleClockM</object-name>
+        <object-name>needleClockH</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>mount</object-name>
+        <object-name>glass</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>chronometer</tooltip-id>
+                <label>Time (UTC default): %s</label>
+                <property>instrumentation/clock/indicated-string</property>
+            </binding>
+        </hovered>
+    </animation>
+
     <animation>
         <type>rotate</type>
-        <object-name>HourHand</object-name>
+        <object-name>needleClockH</object-name>
         <property>instrumentation/clock/indicated-sec</property>
         <factor>0.00833333333333333</factor>
         <center>
@@ -34,7 +72,7 @@
 
     <animation>
         <type>rotate</type>
-        <object-name>MinuteHand</object-name>
+        <object-name>needleClockM</object-name>
         <property>instrumentation/clock/indicated-sec</property>
         <factor>0.1</factor>
         <center>
@@ -51,25 +89,8 @@
 
     <animation>
         <type>rotate</type>
-        <object-name>SecondHand</object-name>
-        <property>instrumentation/clock/elapsed-sec</property>
-        <factor>6</factor>
-        <center>
-            <x-m>0</x-m>
-            <y-m>0</y-m>
-            <z-m>0</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>rotate</type>
-        <object-name>ElapsedMinutesHand_0</object-name>
-        <object-name>ElapsedMinutesHand_1</object-name>
-        <property>instrumentation/clock/elapsed-sec</property>
+        <object-name>needleChronoM</object-name>
+        <property>instrumentation/clock/chronometer-needle-pos-sec</property>
         <factor>0.1</factor>
         <center>
             <x-m>0</x-m>
@@ -83,148 +104,102 @@
         </axis>
     </animation>
 
-    <!-- Clock Setting Knob -->
     <animation>
-        <name>time-offset-left-fine</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>time-offset-left</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/clock/offset-sec</property>
-                <step>-60</step>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>time-offset-left-hours</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>time-offset-left</object-name>
-        <action>
-            <button>1</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/clock/offset-sec</property>
-                <step>-3600</step>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>time-offset-right-fine</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>time-offset-right</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/clock/offset-sec</property>
-                <step>60</step>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-    <animation>
-        <name>time-offset-right-hours</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>time-offset-right</object-name>
-        <action>
-            <button>1</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/clock/offset-sec</property>
-                <step>3600</step>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
+        <type>rotate</type>
+        <object-name>needleChronoS</object-name>
+        <property>instrumentation/clock/chronometer-needle-pos-sec</property>
+        <factor>6</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
     </animation>
 
-    <!-- Chronometer Start Stop Button -->
     <animation>
-        <name>start-stop-reset</name>
+        <type>knob</type>
+        <object-name>knobLeft</object-name>
+        <property>instrumentation/clock/offset-sec</property>
+        <factor>0.1</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0</x-m>
+            <y-m>-0.0245</y-m>
+            <z-m>-0.0245</z-m>
+        </center>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/clock/offset-sec</property>
+                <factor>30</factor>
+           </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>clock-setting</tooltip-id>
+                <label>Adjust time</label>
+            </binding>
+        </hovered>
+    </animation>
+    
+    <animation>
         <type>pick</type>
-        <visible>true</visible>
-        <object-name>chronometer-button</object-name>
+        <object-name>buttonChrono</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>nasal</command>
-                <script>ja37.chrono_click()</script>
+                <command>property-cycle</command>
+                <property>/instrumentation/clock/chronometer-state</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/clock/button</property>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>ja37.click()</script>
             </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/clock/button</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
         </action>
-    </animation>
-
-
-    <!-- END CLOCK -->
-
-    <animation>
-        <type>pick</type>
-        <object-name>CLOCK_mount</object-name>
-        <object-name>ChronoGlass</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>chronometer</tooltip-id>
-                <label>Time (UTC default): %s</label>
-                <property>instrumentation/clock/indicated-string</property>
+                <tooltip-id>chronometer-button</tooltip-id>
+                <label>Chronometer start/stop/reset</label>
             </binding>
         </hovered>
     </animation>
 
-    <!-- lighting -->
     <animation>
-        <object-name>CLOCK_face</object-name>
-        <object-name>Mesh.002</object-name>
-        <object-name>Mesh.003</object-name>
-        <object-name>Mesh.004</object-name>
-        <object-name>Mesh.005</object-name>
-        <object-name>Mesh.006</object-name>
-        <object-name>Mesh.007</object-name>
-        <object-name>Mesh.011</object-name>
-        <object-name>Mesh.012</object-name>
-        <object-name>ElapsedMinutesHand_0</object-name>
-        <object-name>ElapsedMinutesHand_1</object-name>
-        <object-name>HourHand</object-name>
-        <object-name>MinuteHand</object-name>
-        <object-name>SecondHand</object-name>
-        <type>material</type>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
+        <type>translate</type>
+        <object-name>buttonChrono</object-name>
+        <property>instrumentation/clock/button</property>
+        <factor>-0.002</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
     </animation>
-
 </PropertyList>

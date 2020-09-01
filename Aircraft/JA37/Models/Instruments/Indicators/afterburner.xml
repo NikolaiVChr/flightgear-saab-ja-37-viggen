@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>afterburner.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>mount</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+    <object-name>display1</object-name>
+    <object-name>display2</object-name>
+    <object-name>display3</object-name>
+  </effect>
+
+  <animation>
+    <type>pick</type>
+    <object-name>mount</object-name>
+    <object-name>display1</object-name>
+    <object-name>display2</object-name>
+    <object-name>display3</object-name>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>augStage</tooltip-id>
+        <label>Commanded afterburner zone</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <object-name>display1</object-name>
+    <type>material</type>
+    <condition>
+      <greater-than-equals>
+        <property>fdm/jsbsim/propulsion/engine/zone</property>
+        <value>1</value>
+      </greater-than-equals>
+    </condition>
+    <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>1</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <object-name>display2</object-name>
+    <type>material</type>
+    <condition>
+      <greater-than-equals>
+        <property>fdm/jsbsim/propulsion/engine/zone</property>
+        <value>2</value>
+      </greater-than-equals>
+    </condition>
+    <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>1</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <object-name>display3</object-name>
+    <type>material</type>
+    <condition>
+      <greater-than-equals>
+        <property>fdm/jsbsim/propulsion/engine/zone</property>
+        <value>3</value>
+      </greater-than-equals>
+    </condition>
+    <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>1</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+</PropertyList>

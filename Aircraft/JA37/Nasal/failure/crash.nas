@@ -446,7 +446,6 @@ setServiceable = func {
 	setprop("instrumentation/vertspeedometer/serviceable", 1);
 	setprop("instrumentation/gear-pressure-indicator/serviceable", 1);
 	setprop("instrumentation/flaps-pressure-indicator/serviceable", 1);
-	setprop("instrumentation/marker-beacon/serviceable", 1);
 	setprop("/instrumentation/head-up-display/serviceable", 1);
 	setprop("/instrumentation/instrumentation-light/serviceable", 1);
 	setprop("/instrumentation/radar/serviceable", 1);
@@ -567,7 +566,6 @@ aircraft_lock_all = func {
 	setprop("instrumentation/vertspeedometer/serviceable", 0);
 	setprop("instrumentation/gear-pressure-indicator/serviceable", 0);
 	setprop("instrumentation/flaps-pressure-indicator/serviceable", 0);
-	setprop("instrumentation/marker-beacon/serviceable", 0);
 
 	#JSB instruments and controls
 	setprop("fdm/jsbsim/systems/airspeedometer/serviceable", 0);

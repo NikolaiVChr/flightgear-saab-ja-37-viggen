@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <airspeed-indicator>
+        <name>airspeed-indicator</name>
+        <number>0</number>
+        <total-pressure>/systems/pitot[0]/total-pressure-inhg</total-pressure>
+        <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
+    </airspeed-indicator>
+
+    <airspeed-indicator>
+        <name>airspeed-indicator</name>
+        <number>1</number>
+        <total-pressure>/systems/pitot[1]/total-pressure-inhg</total-pressure>
+        <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
+    </airspeed-indicator>
+
+    <altimeter>
+        <name>altimeter</name>
+        <number>0</number>
+        <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
+        <quantum>0</quantum>
+        <tau>0.1</tau>
+    </altimeter>
+
+    <altimeter>
+        <name>altimeter</name>
+        <number>1</number>
+        <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
+        <quantum>0</quantum>
+        <tau>0.1</tau>
+    </altimeter>
+
+    <heading-indicator>
+        <name>heading-indicator</name>
+        <number>1</number>
+        <suction>/instrumentation/heading-indicator[1]/power</suction>
+    </heading-indicator>
+
+    <attitude-indicator>
+        <name>attitude-indicator</name>
+        <number>1</number>
+        <suction>/instrumentation/attitude-indicator[1]/power</suction>
+    </attitude-indicator>
+
+  <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
+
+  <adf>
+    <name>adf</name>
+    <number>0</number>
+  </adf>
+
+  <attitude-indicator>
+    <name>attitude-indicator</name>
+    <number>0</number>
+    <suction>/systems/vacuum/suction-inhg</suction>
+  </attitude-indicator>
+
+  <clock>
+    <name>clock</name>
+    <number>0</number>
+  </clock>
+
+  <dme>
+    <name>dme</name>
+    <number>0</number>
+  </dme>
+
+  <heading-indicator>
+    <name>heading-indicator</name>
+    <number>0</number>
+    <suction>/systems/vacuum/suction-inhg</suction>
+  </heading-indicator>
+
+  <comm-radio>
+    <name>comm</name>
+    <number>0</number>
+  </comm-radio>
+
+  <nav-radio>
+    <name>nav</name>
+    <number>0</number>
+  </nav-radio>
+
+  <slip-skid-ball>
+    <name>slip-skid-ball</name>
+    <number>0</number>
+  </slip-skid-ball>
+
+  <transponder>
+  </transponder>
+
+  <turn-indicator>
+    <name>turn-indicator</name>
+    <number>0</number>
+  </turn-indicator>
+
+  <vertical-speed-indicator>
+    <name>vertical-speed-indicator</name>
+    <number>0</number>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+  </vertical-speed-indicator>
+
+  <gps>
+    <name>gps</name>
+    <number>0</number>
+  </gps>
+</PropertyList>

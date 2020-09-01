@@ -11,24 +11,30 @@
     </effect>
 
     <animation>
+      <type>material</type>
+      <object-name>label</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>labels-se.png</texture>
+    </animation>
+
+    <animation>
         <type>pick</type>
         <object-name>bt</object-name>
         <action>
             <button>0</button>
             <binding>
-                <command>property-assign</command>
-                <property>ja37/avionics/init-done</property>
-                <value>0</value>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/avionics/button-snabbresn</property>
+                <property>instrumentation/heading-indicator[1]/fast-reset-button</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/avionics/button-snabbresn</property>
+                    <property>instrumentation/heading-indicator[1]/fast-reset-button</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -37,24 +43,22 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>snabbresn</tooltip-id>
-                <label>Quick INS Reinit</label>
+                <label>Backup gyro fast-reset</label>
             </binding>
         </hovered>
     </animation>
+
     <animation>
-       <type>translate</type>
-       <object-name>bt</object-name>
-       <property>ja37/avionics/button-snabbresn</property>
-       <factor>0.005</factor>
-       <offset-m>0</offset-m>
-       <axis>
-         <x>-1</x>
-       </axis>
-       <center>
-            <x-m>0</x-m>
-            <y-m>0</y-m>
-            <z-m>0</z-m>
-        </center>
+        <type>translate</type>
+        <object-name>bt</object-name>
+        <property>instrumentation/heading-indicator[1]/fast-reset-button</property>
+        <factor>0.005</factor>
+        <offset-m>0</offset-m>
+        <axis>
+            <x>-1</x>
+        </axis>
     </animation>
 
+    <!-- TODO: this is a light button. Pressing initiates fast-reset procedure.
+         Light stays on until done. -->
 </PropertyList>

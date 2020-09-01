@@ -1,156 +1,12 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
-
     <path>callsign.ac</path>
-
-    <offsets>
-        <x-m>  0.0</x-m>
-        <y-m>  0.0</y-m>
-        <z-m>  0.0</z-m>
-    </offsets>
     
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Callsign</object-name>
     </effect>
-
-<!--    <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
-        <parameters>
-          <splash-x>0</splash-x>
-          <splash-y>0</splash-y>
-          <splash-z>0</splash-z>
-          <rnorm>0</rnorm>
-          <gsnorm>0</gsnorm>
-          <frost-level>0</frost-level>
-          <surface-mapping-scheme type="int">1</surface-mapping-scheme>
-          <fog-level>0</fog-level>
-          <use-wipers>0</use-wipers>
-          <use-overlay>0</use-overlay>
-          <overlay-alpha>0</overlay-alpha>
-          <overlay-glare type="float">0</overlay-glare>
-          <use-reflection type="int">0</use-reflection>
-          <reflection-strength type="float">0.0</reflection-strength>
-          <use-mask type="int">0</use-mask>
-          <use-reflection-lightmap type="int">0</use-reflection-lightmap>
-          <lightmap-multi type="int">0</lightmap-multi>
-        </parameters>
-        <object-name>Callsign</object-name>
-    </effect>-->
-
-<!--    <animation>
-        <type>material</type>
-        <object-name>Callsign</object-name>
-        <condition>
-            <not>
-                <and>
-                    <equals>
-                        <property>sim/rendering/shaders/skydome</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>sim/rendering/als-filters/use-filtering</property>
-                        <value>1</value>
-                    </equals>
-                    <or>
-                        <equals>
-                            <property>sim/rendering/als-filters/use-IR-vision</property>
-                            <value>1</value>
-                        </equals>
-                        <equals>
-                            <property>sim/rendering/als-filters/use-night-vision</property>
-                            <value>1</value>
-                        </equals>
-                    </or>
-                </and>
-            </not>
-        </condition>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Callsign</object-name>
-        <condition>
-                <equals>
-                    <property>sim/rendering/shaders/skydome</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>sim/rendering/als-filters/use-filtering</property>
-                    <value>1</value>
-                </equals>
-                <or>
-                    <equals>
-                        <property>sim/rendering/als-filters/use-IR-vision</property>
-                        <value>1</value>
-                    </equals>
-                </or>
-        </condition>
-        <ambient>
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </ambient>
-        <diffuse>
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </diffuse>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/r</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/r</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Callsign</object-name>
-        <condition>
-                <equals>
-                    <property>sim/rendering/shaders/skydome</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>sim/rendering/als-filters/use-filtering</property>
-                    <value>1</value>
-                </equals>
-                <or>
-                    <equals>
-                        <property>sim/rendering/als-filters/use-night-vision</property>
-                        <value>1</value>
-                    </equals>
-                </or>
-        </condition>
-        <diffuse>
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </diffuse>
-        <ambient>
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </ambient>
-        <emission>
-            <red>0</red>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue>0</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
-    </animation>-->
 
     <animation>
         <type>scale</type>
@@ -159,5 +15,4 @@
         <y-offset>0.75</y-offset>
         <z-offset>0.75</z-offset>
     </animation>
-
 </PropertyList>

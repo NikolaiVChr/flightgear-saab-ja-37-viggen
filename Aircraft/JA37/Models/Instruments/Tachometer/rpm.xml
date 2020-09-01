@@ -1,33 +1,35 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
-    <path>../gauge.ac</path>
-
-    <model>
-        <path>rpm-minor.xml</path>
-        <name>minor needle</name>
-        <offsets>
-          <x-m>  0.003</x-m>
-          <y-m>  0</y-m>
-          <z-m> -0.0125</z-m>
-      </offsets>
-    </model>
-
-    <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-        <object-name>glass</object-name>
-    </effect>
+    <path>rpm.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>mount</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>dial</object-name>
+        <object-name>needleRPM</object-name>
+        <object-name>needleRPM2</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <property-base>ja37/texture</property-base>
-        <texture-prop>gauge-rpm</texture-prop>
-        <texture>rpmface.png</texture>
+        <object-name>needleRPM</object-name>
+        <object-name>needleRPM2</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
     </animation>
 
     <animation>
@@ -45,31 +47,11 @@
     </animation>
 
     <animation>
-        <type>material</type>
-        <object-name>needle</object-name>
-        <object-name>dial</object-name>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
-    </animation>
-
-    <animation>
         <type>rotate</type>
-        <object-name>needle</object-name>
-        <property>fdm/jsbsim/propulsion/engine/tachometer</property>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>-130</dep>
-            </entry>
-            <entry>
-                <ind>100</ind>
-                <dep>107.5</dep>
-            </entry>
-        </interpolation>
+        <object-name>needleRPM</object-name>
+        <property>engines/engine/rpm-gauge</property>
+        <factor>2.4</factor>
+        <offset-deg>-132</offset-deg>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>
@@ -82,4 +64,20 @@
         </axis>
     </animation>
 
+    <animation>
+        <type>rotate</type>
+        <object-name>needleRPM2</object-name>
+        <property>engines/engine/rpm-gauge</property>
+        <factor>36</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.01445</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 </PropertyList>

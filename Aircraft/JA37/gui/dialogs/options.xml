@@ -100,9 +100,45 @@
       </binding>
     </slider>
 
-    <!-- TI menus -->
+    <!-- Swedish cockpit -->
     <text>
       <row>2</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>Cockpit labels in Swedish (default: English)</label>
+    </text>
+
+    <checkbox>
+      <row>2</row>
+      <col>1</col>
+      <property>/ja37/effect/swedish-labels</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <!-- Swedish HUD/TI -->
+    <text>
+      <row>3</row>
+      <col>0</col>
+      <halign>left</halign>
+      <label>HUD/TI in metric units and Swedish (default: imperial and English)</label>
+    </text>
+
+    <checkbox>
+      <row>3</row>
+      <col>1</col>
+      <property>/ja37/hud/units-metric</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <!-- TI menus -->
+    <text>
+      <row>4</row>
       <col>0</col>
       <halign>left</halign>
       <label>TI Display: show non-functional menu items</label>
@@ -115,7 +151,7 @@
     </text>
 
     <checkbox>
-      <row>2</row>
+      <row>4</row>
       <col>1</col>
       <property>/ja37/displays/show-full-menus</property>
       <live>true</live>
@@ -132,7 +168,7 @@
 
     <!-- TI map -->
     <text>
-      <row>3</row>
+      <row>5</row>
       <col>0</col>
       <halign>left</halign>
       <label>TI Display: use Internet to fetch map</label>
@@ -145,7 +181,7 @@
     </text>
 
     <checkbox>
-      <row>3</row>
+      <row>5</row>
       <col>1</col>
       <property>/ja37/displays/live-map</property>
       <live>true</live>
@@ -162,14 +198,14 @@
 
     <!-- Outside rust -->
     <text>
-      <row>4</row>
+      <row>6</row>
       <col>0</col>
       <halign>left</halign>
       <label>Rust on fuselage (requires ALS)</label>
     </text>
 
     <checkbox>
-      <row>4</row>
+      <row>6</row>
       <col>1</col>
       <property>/ja37/effect/rust-outside</property>
       <live>true</live>
@@ -179,14 +215,14 @@
     </checkbox>
 
     <text>
-      <row>5</row>
+      <row>7</row>
       <col>0</col>
       <halign>left</halign>
       <label>Rust in cockpit (requires ALS)</label>
     </text>
 
     <checkbox>
-      <row>5</row>
+      <row>7</row>
       <col>1</col>
       <property>/ja37/effect/rust-inside</property>
       <live>true</live>
@@ -196,20 +232,20 @@
     </checkbox>
 
     <hrule>
-      <row>6</row>
+      <row>8</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <text>
-      <row>7</row>
+      <row>9</row>
       <col>0</col>
       <halign>left</halign>
       <label>Enable multiplayer damage</label>
     </text>
 
     <checkbox>
-      <row>7</row>
+      <row>9</row>
       <col>1</col>
       <enable><property>/ja37/on-ground</property></enable>
       <property>/payload/armament/msg</property>

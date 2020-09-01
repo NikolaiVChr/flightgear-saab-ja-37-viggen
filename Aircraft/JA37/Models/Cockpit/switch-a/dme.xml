@@ -18,7 +18,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-dme</tooltip-id>
-                <label>DME</label>
+                <label>No function (legacy from older variants)</label>
             </binding>
         </hovered>
     </animation>

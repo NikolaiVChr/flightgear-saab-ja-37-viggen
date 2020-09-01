@@ -220,7 +220,7 @@ var compute_tank_cap = func {
     external_cap = tank_cap[8];
     total_cap = internal_cap + external_cap;
 
-    fuel_norm2M3 = internal_cap;
+    fuel_norm2M3 = total_cap/getprop("/instrumentation/fuel/indicated-ratio-factor");
     fuel_M32norm = 1/fuel_norm2M3;
 }
 

@@ -105,7 +105,7 @@
         </signal>
         <signal>
             <type>float</type>
-            <property type="string">ja37/avionics/heading-magnetic-limited-deg</property>
+            <property type="string">instrumentation/heading-indicator/indicator-pos-deg</property>
         </signal>
 
 

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <path>high-alpha.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>display</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>display</object-name>
+        <condition>
+            <or>
+                <and>
+                    <!-- as per manual: -->
+                    <property>fdm/jsbsim/autoflight/high-alpha</property>
+                    <property>fdm/jsbsim/gear/gear-pos-norm</property>
+                    <not>
+                        <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    </not>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>mount</object-name>
+        <object-name>display</object-name>
+        <property>ja37/avionics/button-high-alpha</property>
+        <factor>0.003</factor>
+        <offset-m>0</offset-m>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>display</object-name>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>high-alpha</tooltip-id>
+                <label>A/T high AoA landing mode</label>
+            </binding>
+        </hovered>
+        <action>
+            <name>A/T alpha</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>autoflight.System.highAlphaToggle();</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/avionics/button-high-alpha</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/avionics/button-high-alpha</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+</PropertyList>

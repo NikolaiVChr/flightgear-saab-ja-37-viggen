@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <path>falldlast.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>lampBase</object-name>
+        <object-name>label</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>lamp</object-name>
+        <object-name>lampTop</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>lamp</object-name>
+        <object-name>lampTop</object-name>
+        <emission>
+            <red>0.8</red>
+            <green>0.3</green>
+            <blue>0</blue>
+            <factor-prop>/instrumentation/release-indicator</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+      <type>material</type>
+      <object-name>label</object-name>
+      <object-name>lampTop</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>labels-se.png</texture>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>lamp</object-name>
+        <object-name>lampTop</object-name>
+        <object-name>lampBase</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>falldlast</tooltip-id>
+                <label>Load release</label>
+                <property>/instrumentation/release-indicator</property>
+            </binding>
+        </hovered>
+    </animation>
+</PropertyList>

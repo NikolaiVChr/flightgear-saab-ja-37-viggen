@@ -9,6 +9,18 @@
         <object-name>label</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>lamp</object-name>
+    </effect>
+
+    <animation>
+      <type>material</type>
+      <object-name>label</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>labels-se.png</texture>
+    </animation>
+
     <animation>
         <type>pick</type>
         <object-name>lamp</object-name>
@@ -62,11 +74,10 @@
         <type>material</type>
         <object-name>lamp</object-name>
         <emission>
-            <red>1</red>
-            <green>0.42</green>
-            <blue>0.08</blue>
+            <red>0.8</red>
+            <green>0.34</green>
+            <blue>0.06</blue>
             <factor-prop>ja37/avionics/reservkurs-indicator</factor-prop>
         </emission>
     </animation>
-
 </PropertyList>

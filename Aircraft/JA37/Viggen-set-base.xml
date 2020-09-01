@@ -71,10 +71,11 @@
         <aircraft-data>
             <!-- Properties that get saved to persist locally between FG sessions -->
             <path>ja37/radar/enabled</path>
-            <!--<path>ja37/hud/units-metric</path>-->
+            <path>ja37/hud/units-metric</path>
             <path>ja37/hud/mode</path>
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
+            <path>ja37/effect/swedish-labels</path>
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
@@ -458,12 +459,7 @@
 *************************************************************************-->
         <systems>
             <path>Aircraft/JA37/Systems/systems.xml</path>
-            <!--<electrical>
-       <outputs>
-        <adi type="int">24</adi>
-        <rwr type="double">24</rwr>
-       </outputs>
-      </electrical>-->
+
             <!--*****************************
                      Autopilot
       ********************************-->
@@ -473,7 +469,14 @@
             <property-rule n="101">
                 <path>Aircraft/JA37/Systems/rules-misc.xml</path>
             </property-rule>
+            <property-rule n="102">
+                <path>Aircraft/JA37/Systems/instruments-rules.xml</path>
+            </property-rule>
         </systems>
+
+        <instrumentation>
+            <path>Aircraft/JA37/Systems/instruments.xml</path>
+        </instrumentation>
 
         <!--**********************************************************************
 
@@ -582,8 +585,9 @@
             <pod1 type="bool">true</pod1>
             <pod2 type="bool">true</pod2>
             <pod3 type="bool">true</pod3>
-            <rust-outside type="int">0</rust-outside>
-            <rust-inside type="int">0</rust-inside>
+            <rust-outside type="bool">false</rust-outside>
+            <rust-inside type="bool">false</rust-inside>
+            <swedish-labels type="bool">false</swedish-labels>
         </effect>
         <blink>
             <two-Hz>
@@ -642,8 +646,6 @@
             <environment-volume type="double">0.0</environment-volume>
             <rain-volume type="double">0.0</rain-volume>
             <helmet type="double">0.9</helmet>
-            <fuel-low-on type="bool">false</fuel-low-on>
-            <fuel-low-2-on type="bool">false</fuel-low-2-on>
             <floor-ft type="double">-10000</floor-ft>
             <loadfactor-percent type="int">100</loadfactor-percent>
         </sound>
@@ -672,7 +674,6 @@
             <canopyAndSeat type="bool">false</canopyAndSeat>
             <oxygen type="bool">false</oxygen>
             <approach type="bool">false</approach><!-- true = short -->
-            <heading-magnetic-limited-deg type="double">0</heading-magnetic-limited-deg>
             <auto-altitude-on type="bool">false</auto-altitude-on>
             <auto-attitude-on type="bool">false</auto-attitude-on>
             <auto-altitude-hold-on type="bool">false</auto-altitude-hold-on>
@@ -681,7 +682,6 @@
             <lost-dc-sec type="double">-1</lost-dc-sec>
             <transonic-sec type="double">-1</transonic-sec>
             <ap-outside-bounds-sec type="double">-1</ap-outside-bounds-sec>
-            <fuel-internal-ratio type="double">0.0</fuel-internal-ratio>
             <tankpump type="bool">false</tankpump>
             <xtank type="bool">false</xtank>
             <fun type="bool">false</fun>
@@ -1240,8 +1240,9 @@
     <autopilot>
         <route-manager>
             <wp>
-                <bearing-deg-rel type="double">0</bearing-deg-rel>
-                <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
+                <!-- Initialization required for JSBSim -->
+                <dist type="double">0</dist>
+                <bearing-deg type="double">0</bearing-deg>
             </wp>
             <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
             <disable-fms type="bool">true</disable-fms>
@@ -1263,20 +1264,12 @@
         </plan-manager>
     </autopilot>
     <systems>
-        <path>Aircraft/JA37/Systems/systems.xml</path>
-        <electrical>
-            <outputs>
-                <!--<dc-voltage type="double">0</dc-voltage>
-                <ac-instr-voltage type="double">0</ac-instr-voltage>-->
-                <!--
-      <hud type="double">0</hud>
-      <radar type="double">0</radar>
-      <battery type="double">0</battery>
-      <comm n="0" type="double">0</comm>
-      <comm n="1" type="double">0</comm>-->
-            </outputs>
-            <!--<dc-light type="double">0</dc-light>-->
-        </electrical>
+        <static n="1">
+            <serviceable type="bool">true</serviceable>
+        </static>
+        <pitot n="1">
+            <serviceable type="bool">true</serviceable>
+        </pitot>
         <generator>
             <serviceable type="bool">true</serviceable>
         </generator>
@@ -1429,18 +1422,10 @@
             <power-btn type="bool">true</power-btn>
             <power-good type="bool">false</power-good>
         </comm>
-        <comm n="1">
-            <power-btn type="bool">false</power-btn>
-            <power-good type="bool">false</power-good>
-			<volume type="double">0</volume>
-        </comm>
         <nav n="0">
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
-		<nav n="1">
-			<volume type="double">0</volume>
-		</nav>
 		<adf n="1">
 			<volume type="double">0</volume>
 			<volume-norm type="double">0</volume-norm>
@@ -1517,13 +1502,41 @@
         <dme>
             <switch-position type="int">0</switch-position>
         </dme>
+        <altimeter n="1">
+            <serviceable type="bool">true</serviceable>
+        </altimeter>
+        <heading-indicator n="0">
+            <indicator-pos-deg type="double">0</indicator-pos-deg>
+        </heading-indicator>
+        <heading-indicator n="1">
+            <fast-reset-button type="int">0</fast-reset-button>
+            <serviceable type="bool">true</serviceable>
+        </heading-indicator>
         <airspeed-indicator>
             <indicated-speed-kt type="double">0.0</indicated-speed-kt>
             <indicated-mach type="double">0.0</indicated-mach>
+            <index-deg>20</index-deg>
         </airspeed-indicator>
-        <heading-indicator>
-            <offset-deg type="double">0</offset-deg>
-        </heading-indicator>
+        <airspeed-indicator n="1">
+            <serviceable type="bool">true</serviceable>
+        </airspeed-indicator>
+        <clock>
+            <chronometer-state type="int">0</chronometer-state>
+            <chronometer-time-sec type="double">0</chronometer-time-sec>
+        </clock>
+        <waypoint-indicator>
+            <type type="int">0</type>
+            <number type="int">0</number>
+            <indicator-light type="double" alias="/systems/electrical/dc-light"/>
+            <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
+            <distance-unit-flag type="double">0</distance-unit-flag>
+            <bearing-index type="double">0</bearing-index>
+        </waypoint-indicator>
+        <fuel>
+            <ratio type="double">0</ratio>
+            <needle type="double">0</needle>
+            <needle-min type="double">0</needle-min>
+        </fuel>
         <terrain-override type="bool">false</terrain-override>
         <gci>
             <picture type="bool">false</picture>
@@ -1620,7 +1633,6 @@
         <ja37>
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
-            <file>Aircraft/JA37/Nasal/chronograph.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
             <file>Aircraft/JA37/Nasal/ejection.nas</file>
         </ja37>

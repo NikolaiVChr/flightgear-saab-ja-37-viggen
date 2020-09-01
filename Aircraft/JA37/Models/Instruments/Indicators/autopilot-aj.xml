@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <path>autopilot-aj.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+        <object-name>buttonSPAK</object-name>
+        <object-name>buttonATT</object-name>
+        <object-name>buttonHOJD</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>lightSPAK</object-name>
+        <object-name>lightATT</object-name>
+        <object-name>lightHOJD</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>mount</object-name>
+        <condition><property>/ja37/effect/swedish-labels</property></condition>
+        <texture>autopilot-se.png</texture>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>lightATT</object-name>
+       <object-name>buttonATT</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>autopilot attitude</tooltip-id>
+                <label>Attitude hold</label>
+            </binding>
+        </hovered>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    autoflight.System.engageMode(2);
+                    ja37.click();
+                </script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/avionics/button-att</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/avionics/button-att</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>lightATT</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>0.7</green>
+            <blue>0.0</blue>
+            <factor-prop>fdm/jsbsim/autoflight/att-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+       <type>translate</type>
+       <object-name>lightATT</object-name>
+       <object-name>buttonATT</object-name>
+       <property>ja37/avionics/button-att</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <x>-1</x>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>lightHOJD</object-name>
+       <object-name>buttonHOJD</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>autopilot altitude</tooltip-id>
+                <label>Altitude hold</label>
+                <property>/instrumentation/altitude-indicator</property>
+            </binding>
+        </hovered>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    autoflight.System.engageMode(3);
+                    ja37.click();
+                </script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/avionics/button-alt</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/avionics/button-alt</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>lightHOJD</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>0.7</green>
+            <blue>0.0</blue>
+            <factor-prop>fdm/jsbsim/autoflight/alt-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+       <type>translate</type>
+       <object-name>lightHOJD</object-name>
+       <object-name>buttonHOJD</object-name>
+       <property>ja37/avionics/button-alt</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <x>-1</x>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>lightSPAK</object-name>
+        <object-name>buttonSPAK</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>autopilot stab</tooltip-id>
+                <label>Dampers active</label>
+            </binding>
+        </hovered>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    autoflight.System.engageMode(1);
+                    ja37.click();
+                </script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/avionics/button-stck</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/avionics/button-stck</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+
+    <animation>
+       <type>translate</type>
+       <object-name>lightSPAK</object-name>
+       <object-name>buttonSPAK</object-name>
+       <property>ja37/avionics/button-stck</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <x>-1</x>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>lightSPAK</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>0.7</green>
+            <blue>0.0</blue>
+            <factor-prop>fdm/jsbsim/autoflight/stick-light</factor-prop>
+        </emission>
+    </animation>
+</PropertyList>

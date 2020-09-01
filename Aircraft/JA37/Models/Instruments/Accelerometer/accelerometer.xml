@@ -1,27 +1,37 @@
-﻿<?xml version="1.0"?>
-
+<?xml version="1.0"?>
 
 <PropertyList>
+    <path>accelerometer.ac</path>
 
-    <path>acc.ac</path>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+        <object-name>buttonGMax</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+        <object-name>needleGMax</object-name>
+    </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glass</object-name>
     </effect>
 
-    <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>mount</object-name>
-        <object-name>buttonMax</object-name>
-    </effect>
-
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <property-base>ja37/texture</property-base>
-        <texture-prop>gauge-acc</texture-prop>
-        <texture>accelerometer.png</texture>
+        <object-name>needle</object-name>
+        <object-name>needleGMax</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
     </animation>
 
     <animation>
@@ -37,26 +47,26 @@
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
         <type>pick</type>
-        <object-name>buttonMax</object-name>
+        <object-name>buttonGMax</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>ja37.resetMaxG();ja37.click();</script>
+                <script>ja37.click();</script>
             </binding>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/avionics/maxG</property>
+                <property>instrumentation/accelerometer/reset-button</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/avionics/maxG</property>
+                    <property>instrumentation/accelerometer/reset-button</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -72,37 +82,21 @@
     
     <animation>
         <type>translate</type>
-        <object-name>buttonMax</object-name>
-        <property>ja37/avionics/maxG</property>
-        <factor>-0.010</factor>
+        <object-name>buttonGMax</object-name>
+        <property>instrumentation/accelerometer/reset-button</property>
+        <factor>-0.002</factor>
         <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
         </axis>
     </animation>
 
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
-        <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
-        </condition>
-        <property>ja37/accelerations/pilot-G-lag</property>
-        <interpolation>
-            <entry>
-                <ind>-2</ind>
-                <dep>-45</dep>
-            </entry>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>9</ind>
-                <dep>202.5</dep>
-            </entry>
-        </interpolation>
+        <property>/instrumentation/accelerometer/g-force-indicated</property>
+        <factor>30</factor>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>
@@ -117,25 +111,9 @@
     
     <animation>
         <type>rotate</type>
-        <object-name>needleMax</object-name>
-        <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
-        </condition>
-        <property>ja37/accelerations/pilot-G-max</property>
-        <interpolation>
-            <entry>
-                <ind>-2</ind>
-                <dep>-45</dep>
-            </entry>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>9</ind>
-                <dep>202.5</dep>
-            </entry>
-        </interpolation>
+        <object-name>needleGMax</object-name>
+        <property>/instrumentation/accelerometer/g-force-max</property>
+        <factor>30</factor>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>
@@ -147,18 +125,4 @@
             <z>0</z>
         </axis>
     </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>needle</object-name>
-        <object-name>needleMax</object-name>
-        <object-name>dial</object-name>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
-    </animation>
-
 </PropertyList>

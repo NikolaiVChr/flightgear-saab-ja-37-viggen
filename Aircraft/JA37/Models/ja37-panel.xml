@@ -1,6 +1,6 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
-
+  <!-- right side -->
   <model>
     <name>MI</name>
     <path>Aircraft/JA37/Models/Cockpit/MI/mi.xml</path>
@@ -22,102 +22,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
-    <name>G Meter</name>
-    <offsets>
-      <x-m>  0.0025</x-m>
-      <y-m> -0.1800</y-m>
-      <z-m>  0.23</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>G Meter</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Altimeter2/altimeter2.xml</path>
-    <name>Altimeter2</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.345</y-m>
-      <z-m>  0.05</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Altimeter2</object-name>
-    <x-offset>0.8</x-offset>
-    <y-offset>0.8</y-offset>
-    <z-offset>0.8</z-offset>
-  </animation>
-
-<model>
-    <path>Aircraft/JA37/Models/Instruments/FuelJA/fuel_ja.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Fuel/fuel_ja.xml</path>
     <name>Fuel Gauge</name>
     <offsets>
-      <x-m>  0.035</x-m>
-      <y-m>  0.38</y-m>
-      <z-m>  0.04</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Fuel Gauge</object-name>
-    <x-offset>0.5</x-offset>
-    <y-offset>0.9</y-offset>
-    <z-offset>0.9</z-offset>
-  </animation>
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Fuel/fuel_gauge.xml</path>
-    <name>Fuel Gauge</name>
-    <offsets>
-      <x-m>  0.000</x-m>
-      <y-m>  0.37</y-m>
-      <z-m>  0.04</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Fuel Gauge</object-name>
-    <x-offset>0.5</x-offset>
-    <y-offset>0.9</y-offset>
-    <z-offset>0.9</z-offset>
-  </animation>-->
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/EnginePressureRatio/epr_gauge.xml</path>
-    <name>EPR Gauge</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.1275</y-m>
-      <z-m>  0.040</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>EPR Gauge</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/augStage.xml</path>
-    <name>Augmentation Indicator</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.1250</y-m>
-      <z-m>  0.2075</z-m>
+      <x-m>0</x-m>
+      <y-m>0.29</y-m>
+      <z-m>0.035</z-m>
     </offsets>
   </model>
 
@@ -156,42 +66,6 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
-    <name>RPM Indicator</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.195</y-m>
-      <z-m>  0.040</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>RPM Indicator</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator2/ai2.xml</path>
-    <name>Attitude Indicator 2</name>
-    <offsets>
-      <x-m>  0.015</x-m>
-      <y-m> -0.335</y-m>
-      <z-m>  0.2675</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Attitude Indicator 2</object-name>
-    <x-offset>0.5</x-offset>
-    <y-offset>0.7875</y-offset>
-    <z-offset>0.7875</z-offset>
-  </animation>
-
-  <model>
     <path>Aircraft/JA37/Models/Instruments/HeadingIndicator/heading-indicator-ja.xml</path>
     <name>ADIj</name>
     <offsets>
@@ -208,14 +82,14 @@
     <y-offset>1.05</y-offset>
     <z-offset>1.05</z-offset>
   </animation>
-  
+
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/transonic-ja.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/transonic.xml</path>
     <name>Transonic</name>
     <offsets>
-      <x-m>  0.01</x-m>
-      <y-m>  0.23</y-m>
-      <z-m>  0.28</z-m>
+      <x-m>0</x-m>
+      <y-m>0.23</y-m>
+      <z-m>0.28</z-m>
     </offsets>
   </model>
 
@@ -223,9 +97,9 @@
     <path>Aircraft/JA37/Models/Instruments/Indicators/snabbresn.xml</path>
     <name>quickINSReset</name>
     <offsets>
-      <x-m>  0.0025</x-m>
-      <y-m>  0.20</y-m>
-      <z-m>  0.305</z-m>
+      <x-m>0</x-m>
+      <y-m>0.20</y-m>
+      <z-m>0.305</z-m>
     </offsets>
   </model>
 
@@ -233,145 +107,116 @@
     <path>Aircraft/JA37/Models/Instruments/Indicators/reservkurs.xml</path>
     <name>rkurs</name>
     <offsets>
-      <x-m>  0.0025</x-m>
-      <y-m>  0.17</y-m>
-      <z-m>  0.33</z-m>
+      <x-m>0</x-m>
+      <y-m>0.17</y-m>
+      <z-m>0.33</z-m>
     </offsets>
   </model>
 
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-masterarm.xml</path>
-    <name>SwitchMasterarm</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.18</y-m>
-      <z-m>  0.31</z-m>
-    </offsets>
-  </model>
 
+  <!-- left side -->
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-units.xml</path>
-    <name>SwitchHudUnits</name>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-ja.xml</path>
+    <name>MasterWarning</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.18</y-m>
-      <z-m>  0.29</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.162</y-m>
+      <z-m>0.335</z-m>
     </offsets>
   </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-callsign.xml</path>
-    <name>SwitchHudCallsign</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.215</y-m>
-      <z-m>  0.29</z-m>
-    </offsets>
-  </model>-->
-
-
-<!--     center        -->
-
-
-<!--     left side    -->
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/AoAIndicator/AoAIndicator.xml</path>
-    <name>Angle of Attack Indicator</name>
+    <name>AoA</name>
     <offsets>
-      <x-m> -0.025</x-m>
-      <y-m> -0.13</y-m>
-      <z-m>  0.325</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.12</y-m>
+      <z-m>0.33</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Angle of Attack Indicator</object-name>
-    <x-offset>0.75</x-offset>
-    <y-offset>1.00</y-offset>
-    <z-offset>1.00</z-offset>
-  </animation>
-
-<!--  <model>
-    <path>Aircraft/JA37/Models/Cockpit/hud-brightness-knob.xml</path>
-    <name>hud-brightness-knob</name>
-    <offsets>
-      <x-m>  0.0</x-m>
-      <y-m> -0.105</y-m>
-      <z-m>  0.29</z-m>
-    </offsets>
-  </model>-->
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>
-    <name>Attitude Indicator</name>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/high-alpha.xml</path>
+    <name>A/T alpha</name>
     <offsets>
-      <x-m>  0.0075</x-m>
-      <y-m> -0.16</y-m>
-      <z-m>  0.145</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.162</y-m>
+      <z-m>0.303</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Attitude Indicator</object-name>
-    <x-offset>0.50</x-offset>
-    <y-offset>1.00</y-offset>
-    <z-offset>1.00</z-offset>
-  </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
-    <name>handleLeft</name>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/autothrottle.xml</path>
+    <name>A/T</name>
     <offsets>
-      <x-m>  0.000 </x-m>
-      <y-m> -0.215 </y-m>
-      <z-m>  0.150 </z-m>
+      <x-m>0</x-m>
+      <y-m>-0.141</y-m>
+      <z-m>0.30</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>handleLeft</object-name>
-    <offset-deg>90</offset-deg>
-    <center>
-     <x-m>  0.000 </x-m>
-      <y-m> -0.215 </y-m>
-      <z-m>  0.150 </z-m>
-    </center>
-    <axis>
-     <x>1</x>
-     <y>0</y>
-     <z>0</z>
-    </axis>
-  </animation>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/autopilot-ja.xml</path>
+    <name>A/P</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.203</y-m>
+      <z-m>0.275</z-m>
+    </offsets>
+  </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/callsign.xml</path>
-    <name>callsign</name>
+    <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
+    <name>G Meter</name>
     <offsets>
-      <x-m> 0.002</x-m>
-      <y-m>-0.31</y-m>
-      <z-m> 0.14</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.203</y-m>
+      <z-m>0.24</z-m>
     </offsets>
   </model>
 
-  <animation>
-    <type>rotate</type>
-    <object-name>callsign</object-name>
-    <offset-deg>90</offset-deg>
-    <center>
-     <x-m> 0.002</x-m>
-      <y-m>-0.31</y-m>
-      <z-m> 0.14</z-m>
-    </center>
-    <axis>
-     <x>1</x>
-     <y>0</y>
-     <z>0</z>
-    </axis>
-  </animation>
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Airspeed/airspeed-ja.xml</path>
+    <name>Airspeed</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.13</y-m>
+      <z-m>0.25</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/afterburner.xml</path>
+    <name>Afterburner indicator</name>
+    <offsets>
+      <x-m>0.007</x-m>
+      <y-m>-0.135</y-m>
+      <z-m>0.212</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
+    <name>Reverse indicator</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.305</y-m>
+      <z-m>0.21</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicatorBackup/attitude-backup.xml</path>
+    <name>AttitudeBackup</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.27</y-m>
+      <z-m>0.21</z-m>
+      <!-- TODO: the actual instrument is pitched down compared to the panel.
+        The panel model needs to be adapted for this not to look silly. -->
+      <!--<pitch-deg>13</pitch-deg>-->
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Altimeter/altimeter.xml</path>
@@ -380,6 +225,17 @@
       <x-m>  0.00</x-m>
       <y-m> -0.265</y-m>
       <z-m>  0.125</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
+    <name>handleLeft</name>
+    <offsets>
+      <x-m>0.000</x-m>
+      <y-m>-0.215</y-m>
+      <z-m>0.150</z-m>
+      <roll-deg>90</roll-deg>
     </offsets>
   </model>
 
@@ -397,127 +253,63 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Airspeed/airspeed.xml</path>
-    <name>Airspeed</name>
+    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>
+    <name>Attitude Indicator</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.1175</y-m>
-      <z-m>  0.23</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Airspeed</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
-  </animation>
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-1.xml</path>
-    <name>WarnLeft</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.185</y-m>
-      <z-m>  0.3075</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-2.xml</path>
-    <name>WarnRight</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.165</y-m>
-      <z-m>  0.3075</z-m>
-    </offsets>
-  </model>-->
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-ja.xml</path>
-    <name>WarnButton</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.175</y-m>
-      <z-m>  0.325</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/autopilot-ja.xml</path>
-    <name>A/P</name>
-    <offsets>
-      <x-m>  0.0025</x-m>
-      <y-m> -0.22</y-m>
-      <z-m>  0.2825</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/indicator-auto-throttle.xml</path>
-    <name>A/T</name>
-    <offsets>
-      <x-m>  0.000</x-m>
-      <y-m> -0.17</y-m>
-      <z-m>  0.2875</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>A/T</object-name>
-    <x-offset>0.80</x-offset>
-    <y-offset>0.80</y-offset>
-    <z-offset>0.80</z-offset>
-    <center>
-     <x-m>  0.000</x-m>
-      <y-m> -0.18</y-m>
-      <z-m>  0.2875</z-m>
-    </center>
-  </animation>
-  
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/auto-throttle-alpha.xml</path>
-    <name>A/T alpha</name>
-    <offsets>
-      <x-m>  0.000</x-m>
-      <y-m> -0.145</y-m>
-      <z-m>  0.2875</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>A/T alpha</object-name>
-    <x-offset>0.80</x-offset>
-    <y-offset>0.80</y-offset>
-    <z-offset>0.80</z-offset>
-    <center>
-     <x-m>  0.000</x-m>
-      <y-m> -0.155</y-m>
-      <z-m>  0.2875</z-m>
-    </center>
-  </animation>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
-    <name>Reverse indicator</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.305</y-m>
-      <z-m>  0.21</z-m>
+      <x-m>0</x-m>
+      <y-m>-0.165</y-m>
+      <z-m>0.145</z-m>
     </offsets>
   </model>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/reverseHandle.xml</path>
-    <name>SwitchReverser</name>
+    <name>ReverserHandle</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.33</y-m>
-      <z-m>  0.04</z-m>
+      <x-m>0.00</x-m>
+      <y-m>-0.32</y-m>
+      <z-m>0.06</z-m>
+    </offsets>
+  </model>  
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/AltimeterBackup/altimeter-backup.xml</path>
+    <name>AltimeterBackup</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.27</y-m>
+      <z-m>0.04</z-m>
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
+    <name>RPM</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.2</y-m>
+      <z-m>0.04</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/EnginePressureRatio/epr-gauge.xml</path>
+    <name>EPR</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.13</y-m>
+      <z-m>0.04</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/callsign.xml</path>
+    <name>callsign</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>-0.31</y-m>
+      <z-m> 0.14</z-m>
+      <roll-deg>90</roll-deg>
+    </offsets>
+  </model>
 </PropertyList>

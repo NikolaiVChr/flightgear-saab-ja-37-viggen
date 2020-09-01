@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-
     <pitot>
         <name>pitot</name>
         <number>0</number>
@@ -12,16 +11,29 @@
         <name>static</name>
         <number>0</number>
         <tau>0.1</tau>
-        <type>2</type>
-        <!-- single static sensor at center of aircraft with measurement failures -->
+        <type>2</type><!-- static port on pitot -->
         <error-factor>0.05</error-factor>
     </static>
 
+    <!-- tail fin backup probe -->
+    <pitot>
+        <name>pitot</name>
+        <number>1</number>
+        <stall-deg>60</stall-deg>
+    </pitot>
+
+    <static>
+        <name>static</name>
+        <number>1</number>
+        <tau>0.1</tau>
+        <type>2</type><!-- static port on pitot -->
+        <error-factor>0.05</error-factor>
+    </static>
+    
     <vacuum>
         <name>vacuum</name>
         <number>0</number>
         <rpm>ja37/elec/ac-bus-main-volt</rpm>
         <scale>50.0</scale>
     </vacuum>
-
 </PropertyList>

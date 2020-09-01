@@ -1,41 +1,43 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
-    <path>green-indicator.ac</path>
+    <path>reverse.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>lampBase</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>lamp</object-name>
+        <object-name>lampTop</object-name>
+    </effect>
+
+    <animation>
+      <type>material</type>
+      <object-name>lampTop</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>labels-se.png</texture>
+    </animation>
 
     <animation>
         <type>material</type>
-        <object-name>Circle</object-name>
+        <object-name>lamp</object-name>
+        <object-name>lampTop</object-name>
         <emission>
-            <red>0.0</red>
-            <green>1.0</green>
-            <blue>0.0</blue>
+            <red>0</red>
+            <green>0.7</green>
+            <blue>0</blue>
             <factor-prop>/instrumentation/reverse-indicator</factor-prop>
         </emission>
     </animation>
 
     <animation>
-        <type>scale</type>
-        <object-name>Circle</object-name>
-        <x-offset>0.50</x-offset>
-        <y-offset>0.50</y-offset>
-        <z-offset>0.50</z-offset>
-    </animation>
-
-    <animation>
-        <type>textranslate</type>
-        <object-name>Circle</object-name>
-        <property>/instrumentation/reverse-indicator</property>
-        <factor>0.5</factor>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-        </axis>
-    </animation>
-
-    <animation>
         <type>pick</type>
-        <object-name>Circle</object-name>
+        <object-name>lamp</object-name>
+        <object-name>lampTop</object-name>
+        <object-name>lampBase</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -45,6 +47,4 @@
             </binding>
         </hovered>
     </animation>
-
-
 </PropertyList>

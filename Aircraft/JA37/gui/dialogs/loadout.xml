@@ -13,6 +13,7 @@
 
       ### Fuel
       var fuel_request = base_node.getNode("fuel/request-percent", 1);
+      var fuel_current = props.globals.getNode("fdm/jsbsim/instruments/fuel/true-ratio", 1);
 
       # To avoid continuously calling loadout.refuel() (which is a bit costly)
       # when touching the refuel slider, the request is only sent after
@@ -30,7 +31,7 @@
       # Fuel request slider follows actual fuel level
       var update_fuel_slider = func {
           if(fuel_request_timer.isRunning) return;
-          fuel_request.setDoubleValue(getprop("/instrumentation/fuel/ratio") * 100);
+          fuel_request.setDoubleValue(fuel_current.getValue() * 100);
       }
       update_fuel_slider();
 
@@ -57,6 +58,7 @@
           var b = droptank.getBoolValue();
           b = loadout.set_droptank(b);
           droptank.setBoolValue(b);
+          settimer(update_fuel_slider, 0);
       }
     </open>
     <close>
@@ -103,7 +105,7 @@
     <slider>
       <pref-width>120</pref-width>
       <min>0</min>
-      <max>123</max>
+      <max>136</max>
       <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
       <live>true</live>
       <enable>/ja37/reload-allowed</enable>
@@ -144,7 +146,7 @@
 
   <text>
     <halign>left</halign>
-    <label>Fuel % corresponds to the fuel gauge. 100% is full internal tanks.</label>
+    <label>Fuel % corresponds to the fuel gauge. 100% is slightly less than full internal tanks.</label>
   </text>
 
   <hrule/>

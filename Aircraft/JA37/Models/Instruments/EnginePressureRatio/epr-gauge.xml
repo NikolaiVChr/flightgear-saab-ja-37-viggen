@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <path>epr-gauge.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>dial</object-name>
+        <object-name>needleEPR</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <object-name>needleEPR</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glass</object-name>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>ja37/elec/ac-bus-main-bool</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>epr</tooltip-id>
+                <label>Engine pressure ratio: %1.2f</label>
+                <property>fdm/jsbsim/propulsion/engine/p7-p2</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>needleEPR</object-name>
+        <property>engines/engine/epr-gauge</property>
+        <interpolation>
+            <entry>
+                <ind>1</ind>
+                <dep>-160</dep>
+            </entry>
+            <entry>
+                <ind>2.7</ind>
+                <dep>163</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+</PropertyList>

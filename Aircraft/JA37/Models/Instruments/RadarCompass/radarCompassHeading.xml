@@ -4,18 +4,27 @@
     <path>radar_compass_heading.ac</path>
 
     <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
         <object-name>radarCompassHeadingIndicator</object-name>
         <object-name>waypointHeadingIndicator</object-name>
     </effect>
 
     <animation>
+        <type>material</type>
+        <object-name>radarCompassHeadingIndicator</object-name>
+        <object-name>waypointHeadingIndicator</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
         <type>rotate</type>
         <object-name>waypointHeadingIndicator</object-name>
-        <property>autopilot/route-manager/wp/bearing-deg-rel-rate</property>
-		<condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
-        </condition>
+        <property>/instrumentation/waypoint-indicator/bearing-index</property>
         <center>
             <x-m>0.04</x-m>
             <y-m>0.0</y-m>

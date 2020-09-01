@@ -7,7 +7,7 @@ var callInit = func {
         "mipmapping": 1
   });
       
-  canvasCallsign.addPlacement({"node": "Callsign", "texture": "button-empty.png"});
+  canvasCallsign.addPlacement({"node": "Callsign", "texture": "alu.png"});
   canvasCallsign.setColorBackground(0.10, 0.10, 0.10, 1.00);
 
   callsignGroup = canvasCallsign.createGroup();

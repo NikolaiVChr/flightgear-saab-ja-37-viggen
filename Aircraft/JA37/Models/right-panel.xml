@@ -183,27 +183,7 @@
   </model>
 
 
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/button-g/autopilot-follow.xml</path>
-    <name>follow</name>
-    <offsets>
-      <x-m>  0.476</x-m>
-      <y-m>  -0.020</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/button-g/flares.xml</path>
-    <name>flares</name>
-    <offsets>
-      <x-m>  0.476</x-m>
-      <y-m>  -0.085</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>-->
-<!--
+  <!--
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-d/smoke.xml</path>
     <name>follow</name>

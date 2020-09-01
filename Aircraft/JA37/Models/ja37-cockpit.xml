@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
 
   <model>
@@ -32,36 +32,12 @@
   </model> -->
 
   <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/recharging.xml</path>
-    <name>ChargeBattery</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>3.5</roll-deg>
-      <x-m> -3.47</x-m>
-      <y-m> -0.27</y-m>
-      <z-m>  0.1550</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/cutoff-indicator.xml</path>
     <name>cutoffReady</name>
     <offsets>
       <pitch-deg>-90.0</pitch-deg>
       <roll-deg>3.5</roll-deg>
       <x-m> -3.49</x-m>
-      <y-m> -0.27</y-m>
-      <z-m>  0.1550</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/external.xml</path>
-    <name>externalAvailable</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>3.5</roll-deg>
-      <x-m> -3.43</x-m>
       <y-m> -0.27</y-m>
       <z-m>  0.1550</z-m>
     </offsets>
@@ -273,114 +249,6 @@
       <x-m> -3.53</x-m>
       <y-m>  0.30</y-m>
       <z-m>  0.1700</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-next-selection.xml</path>
-    <name>ButtonNext</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.53</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-cannon.xml</path>
-    <name>ButtonCannon</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.51</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-pylon1.xml</path>
-    <name>ButtonPylon1</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.49</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-pylon2.xml</path>
-    <name>ButtonPylon2</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.47</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-pylon3.xml</path>
-    <name>ButtonPylon3</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.45</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-Pylon4.xml</path>
-    <name>ButtonPylon4</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.43</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-flare.xml</path>
-    <name>ButtonFlare</name>
-    <offsets>
-      <pitch-deg>-90.0</pitch-deg>
-      <roll-deg>7.00</roll-deg>
-      <x-m> -3.41</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.178</z-m>
-    </offsets>
-  </model>     -->     
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-follow.xml</path>
-    <name>ButtonFollow</name>
-    <offsets>
-      <pitch-deg>-90</pitch-deg>
-      <roll-deg>-1.70</roll-deg>
-      <x-m> -3.61</x-m>
-      <y-m>  0.24</y-m>
-      <z-m>  0.180</z-m>
-    </offsets>
-  </model>  
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-unfollow.xml</path>
-    <name>ButtonUnfollow</name>
-    <offsets>
-      <pitch-deg>-90</pitch-deg>
-      <roll-deg>-2.00</roll-deg>
-      <x-m> -3.61</x-m>
-      <y-m>  0.22</y-m>
-      <z-m>  0.182</z-m>
     </offsets>
   </model>-->
 </PropertyList>

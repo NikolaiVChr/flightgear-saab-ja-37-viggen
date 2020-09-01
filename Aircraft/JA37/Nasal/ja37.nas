@@ -14,7 +14,6 @@ var LOOP_SLOW_RATE     = 1.50;
 var FALSE = 0;
 var TRUE = 1;
 
-var total_fuel = 0;
 var bingoFuel = FALSE;
 
 var mainOn = FALSE;
@@ -53,8 +52,6 @@ input = {
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",
   dens:             "fdm/jsbsim/atmosphere/density-altitude",
-  dme:              "instrumentation/dme/KDI572-574/nm",
-  dmeDist:          "instrumentation/dme/indicated-distance-nm",
   downFps:          "/velocities/down-relground-fps",
   elapsed:          "sim/time/elapsed-sec",
   elapsedInit:      "sim/time/elapsed-at-init-sec",
@@ -64,12 +61,8 @@ input = {
   fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
-  fuelInternalRatio:"ja37/avionics/fuel-internal-ratio",
-  fuelNeedleB:      "/instrumentation/fuel/needleB_rot",
-  fuelNeedleF:      "/instrumentation/fuel/needleF_rot",
   fuelRatio:        "/instrumentation/fuel/ratio",
   fuelTemp:         "ja37/supported/fuel-temp",
-  fuelWarning:      "ja37/sound/fuel-low-on",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
   gearSteerNorm:    "/gear/gear[0]/steering-norm",
@@ -127,11 +120,9 @@ input = {
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
   rmActive:         "/autopilot/route-manager/active",
-  rmBearing:        "/autopilot/route-manager/wp/bearing-deg",
-  rmBearingRel:     "autopilot/route-manager/wp/bearing-deg-rel",
-  rmDist:           "autopilot/route-manager/wp/dist",
-  rmDistKm:         "autopilot/route-manager/wp/dist-km",
   RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
+  landingMode:      "ja37/hud/landing-mode",
+  approachMode:     "ja37/avionics/approach",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   servFire:         "engines/engine[0]/fire/serviceable",
@@ -140,7 +131,6 @@ input = {
   speedTrueKt:      "fdm/jsbsim/velocities/vtrue-kts",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
   speedWarn:        "ja37/sound/speed-on",
-  srvHead:          "instrumentation/heading-indicator/serviceable",
   starter:          "controls/engines/engine[0]/starter-cmd",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
@@ -173,6 +163,8 @@ input = {
   wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
+  waypointType:     "instrumentation/waypoint-indicator/type",
+  waypointNumber:   "instrumentation/waypoint-indicator/number",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
@@ -253,42 +245,7 @@ var Saab37 = {
       input.fullInit.setBoolValue(FALSE);
     }
 
-     ## Sets fuel gauge needles rotation ##
-     
-     if(input.tank8LvlNorm.getValue() != nil) {
-       #input.fuelNeedleB.setDoubleValue(input.tank8LvlNorm.getValue()*230);
-       input.fuelNeedleB.setDoubleValue(0);
-     }     
-
-    me.current = input.tank0LvlGal.getValue()
-                + input.tank1LvlGal.getValue()
-                + input.tank2LvlGal.getValue()
-                + input.tank3LvlGal.getValue()
-                + input.tank4LvlGal.getValue()
-                + input.tank5LvlGal.getValue()
-                + input.tank6LvlGal.getValue()
-                + input.tank7LvlGal.getValue()
-                + input.tank8LvlGal.getValue();
-
-
-    input.fuelNeedleF.setDoubleValue((me.current / total_fuel) *230);
-    input.fuelRatio.setDoubleValue(me.current / total_fuel);
-
-    # fuel warning annuciator
-    if((me.current / total_fuel) < 0.24) {# warning at 24% as per sources
-      input.fuelWarning.setBoolValue(TRUE);
-    } else {
-      input.fuelWarning.setBoolValue(FALSE);
-    }
-    if((me.current / total_fuel) < getprop("ja37/systems/fuel-warning-extra-percent")/100) {# warning at custom as per sources
-      setprop("ja37/sound/fuel-low-2-on",TRUE);
-    } else {
-      setprop("ja37/sound/fuel-low-2-on",FALSE);
-    }
-
-    input.fuelInternalRatio.setDoubleValue(me.current / total_fuel);
-    
-    if (me.current > 0 and input.tank8LvlNorm.getValue() > 0) {
+    if (input.fuelRatio.getValue() > 0 and input.tank8LvlNorm.getValue() > 0) {
       bingoFuel = FALSE;
     } else {
       bingoFuel = TRUE;
@@ -356,26 +313,33 @@ var Saab37 = {
       input.aeroSmoke.setIntValue(1);
     }
 
-    me.DME = input.dme.getValue() != "---" and input.dme.getValue() != "" and input.dmeDist.getValue() != nil;
-    
-    # distance indicator
-    if (me.DME == TRUE) {
-      me.distance = input.dmeDist.getValue() * 1.852;
-      if (me.distance > 40) {
-        me.distance = 40;
+    # AJS waypoint indicator
+    if(input.rmActive.getBoolValue()) {
+      me.wp = flightplan().currentWP();
+      me.wp_index = me.wp.index;
+      if(me.wp_index == 0) {
+        # takeoff
+        input.waypointType.setIntValue(1);
+        input.waypointNumber.setIntValue(11);
+      } elsif(me.wp.wp_role == "approach") {
+        # landing
+        if(!input.landingMode.getBoolValue()) {
+          input.waypointType.setIntValue(1);
+        } elsif(!input.approachMode.getBoolValue()) {
+          input.waypointType.setIntValue(2);
+        } else {
+          input.waypointType.setIntValue(3);
+        }
+        input.waypointNumber.setIntValue(1);
+      } else {
+        # Can only correctly display waypoint 1-9
+        if(me.wp_index > 9) me.wp_index = 10;
+        input.waypointType.setIntValue(4);
+        input.waypointNumber.setIntValue(me.wp_index);
       }
-      input.rmDistKm.setDoubleValue(me.distance);
-    } elsif (input.rmActive.getValue() == TRUE and input.rmDist.getValue() != nil) {
-      # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
-      input.rmDistKm.setDoubleValue(input.rmDist.getValue() * 1.852 );
     } else {
-      input.rmDistKm.setDoubleValue(0);
-    }
-
-    # radar compass
-    if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE and input.rmBearing.getValue() != nil) {
-      # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
-      input.rmBearingRel.setDoubleValue(input.rmBearing.getValue() - input.headingMagn.getValue());
+      input.waypointType.setIntValue(0);
+      input.waypointNumber.setIntValue(0);
     }
 
     #if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {
@@ -457,8 +421,6 @@ var Saab37 = {
     }
     setprop("/sim/rendering/als-filters/use-filtering", 1);
     #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
-    
-    setprop("ja37/accelerations/pilot-G-max", math.max(getprop("ja37/accelerations/pilot-G-lag"),getprop("ja37/accelerations/pilot-G-max")));
   },
 
   # fast updating loop
@@ -1019,8 +981,7 @@ var Saab37 = {
     me.loop_commonF  = maketimer(0.05, displays.common, func displays.common.loopFast());
     me.loop_common.start();
     me.loop_commonF.start();
-    
-    me.loop_chrono   = maketimer(0.26, me, func ja37.chrono_update());
+
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
     me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
 
@@ -1032,8 +993,7 @@ var Saab37 = {
     me.loop_fast.start();
     me.loop_slow.start();
     #me.loop_ct.start();
-    #me.loop_not.start(); 
-    me.loop_chrono.start();
+    #me.loop_not.start();
     me.loop_land.start();
     me.loop_nav.start();
     me.loop_stores.start();
@@ -1143,7 +1103,6 @@ var Saab37 = {
     me.loop_common.start();
     me.loop_commonF.start();
     
-    me.loop_chrono   = maketimer(0.26, me, func {timer.timeLoop("chronometer", ja37.chrono_update,me);});
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
 
@@ -1158,7 +1117,6 @@ var Saab37 = {
     #me.loop_not.start();
     me.loop_ap.start();
     me.loop_hydrLost.start();    
-    me.loop_chrono.start();
     me.loop_land.start();
     me.loop_nav.start();
     me.loop_stores.start();
@@ -1258,15 +1216,6 @@ var saab37 = Saab37.new();
 
 
 
-
-
-
-
-
-
-var resetMaxG = func {
-  setprop("ja37/accelerations/pilot-G-max", -4);
-}
 
 
 
@@ -1619,15 +1568,6 @@ var main_init = func {
   setprop("/autopilot/locks/altitude", "");
 
   setprop("/consumables/fuel/tank[8]/jettisoned", FALSE);
-
-  total_fuel = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[1]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[2]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[3]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[4]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[5]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[6]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[7]/capacity-gal_us");
 
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
   print("Loading exterior, wait...");

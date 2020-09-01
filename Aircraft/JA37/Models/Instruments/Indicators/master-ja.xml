@@ -6,15 +6,20 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>button</object-name>
-        <object-name>bolt1</object-name>
-        <object-name>bolt2</object-name>
-        <object-name>bolt3</object-name>
+        <object-name>buttonBase</object-name>
+        <object-name>lampBase</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>lamp1</object-name>
+        <object-name>lamp2</object-name>
     </effect>
 
     <animation>
         <type>pick</type>
         <object-name>button</object-name>
-        <object-name>bolt1</object-name>
+        <object-name>buttonBase</object-name>
         <action>
             <button>0</button>
             <binding>
@@ -39,14 +44,15 @@
             </binding>
         </hovered>
     </animation>
+
     <animation>
        <type>translate</type>
        <object-name>button</object-name>
        <property>ja37/avionics/master-warning-button</property>
-       <factor>0.01</factor>
+       <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
-         <x>-1</x>
+           <x>-1</x>
        </axis>
        <center>
             <x-m>0</x-m>
@@ -57,9 +63,9 @@
 
     <animation>
         <type>material</type>
-        <object-name>lamp2</object-name>
+        <object-name>lamp1</object-name>
         <emission>
-            <red>1.0</red>
+            <red>0.7</red>
             <green>0.0</green>
             <blue>0.0</blue>
             <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamp1</factor-prop>
@@ -68,9 +74,9 @@
 
     <animation>
         <type>material</type>
-        <object-name>lamp3</object-name>
+        <object-name>lamp2</object-name>
         <emission>
-            <red>1.0</red>
+            <red>0.7</red>
             <green>0.0</green>
             <blue>0.0</blue>
             <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamp2</factor-prop>
@@ -79,10 +85,11 @@
 
     <animation>
         <type>pick</type>
+        <object-name>lamp1</object-name>
         <object-name>lamp2</object-name>
-        <object-name>lamp3</object-name>
-        <object-name>bolt2</object-name>
-        <object-name>bolt3</object-name>
+        <object-name>button</object-name>
+        <object-name>buttonBase</object-name>
+        <object-name>lampBase</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -91,6 +98,4 @@
             </binding>
         </hovered>
     </animation>
-
-
 </PropertyList>
