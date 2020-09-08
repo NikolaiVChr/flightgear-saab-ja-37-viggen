@@ -5,8 +5,6 @@
   	<layout>vbox</layout>
   	<draggable>true</draggable>
     <resizable>true</resizable>
-    <width>250</width>
-    <height>550</height>
 
     <group>
 		<layout>hbox</layout>
