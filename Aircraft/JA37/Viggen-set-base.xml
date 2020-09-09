@@ -1505,15 +1505,21 @@
             <serviceable type="bool">true</serviceable>
         </altimeter>
         <radar-altimeter>
+            <!-- In the foreplanes, and calibrated w.r.t. the bottom of the aircraft -->
+            <antenna>
+                <x-offset-m type="double">0.5</x-offset-m>
+                <y-offset-m type="double">0</y-offset-m>
+                <z-offset-m type="double">0.85</z-offset-m>
+            </antenna>
             <serviceable type="bool">true</serviceable>
             <radar-altitude-ft type="double">0</radar-altitude-ft>
-            <tilt>90</tilt>
-            <elev-limit>39</elev-limit>
-            <elev-step-deg>13</elev-step-deg>
-            <az-limit-deg>60</az-limit-deg>
-            <az-step-deg>60</az-step-deg>
-            <max-range-m>1525</max-range-m>
-            <min-range-m>1</min-range-m>
+            <tilt type="double">90</tilt>
+            <elev-limit type="double">39</elev-limit>
+            <elev-step-deg type="double">13</elev-step-deg>
+            <az-limit-deg type="double">60</az-limit-deg>
+            <az-step-deg type="double">60</az-step-deg>
+            <max-range-m type="double">1525</max-range-m>
+            <min-range-m type="double">1</min-range-m>
             <!-- signals above this value are ignored -->
             <!-- <max-usable-altitude-m type="double">1375</max-usable-altitude-m> differs between JA and AJS -->
         </radar-altimeter>
