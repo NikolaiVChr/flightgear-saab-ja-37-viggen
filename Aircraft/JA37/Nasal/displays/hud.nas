@@ -1037,7 +1037,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
         combat:           "ja37/hud/combat",
-        ctrlRadar:        "controls/altimeter-radar",
         currentMode:      "ja37/hud/current-mode",
         dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
@@ -1062,7 +1061,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         nav0HeadingDefl:  "instrumentation/nav[0]/heading-needle-deflection",
         nav0InRange:      "instrumentation/nav[0]/in-range",
         pitch:            "orientation/pitch-deg",
-        rad_alt:          "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
+        rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
+        rad_alt_ready:    "instrumentation/radar-altimeter/ready",
         radar_serv:       "instrumentation/radar/serviceable",
         RMActive:         "autopilot/route-manager/active",
         rmDist:           "autopilot/route-manager/wp/dist",
@@ -1458,7 +1458,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displayAltitude: func () {
     me.metric = me.input.units.getValue();
     me.alti = me.metric == TRUE ? me.input.alt_ft.getValue() * FT2M : me.input.alt_ft.getValue();
-    me.radAlt = me.input.ctrlRadar.getValue() == 1?(me.metric == TRUE ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
+    me.radAlt = me.input.rad_alt_ready.getBoolValue() ?(me.metric == TRUE ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
     if (mode == COMBAT) {
       me.displayAltitudeNumber(me.alti);
     } else {
@@ -1735,13 +1735,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.inter = TRUE;
       me.INT = TRUE;
     }
-    if (radAlt == nil and me.input.ctrlRadar.getValue() == 1) {
-      # Radar alt instrument not initialized yet
-      if (me.INT == FALSE) {
-        me.inter = FALSE;
-        me.alt.setText("");
-      }
-    } elsif (radAlt != nil and radAlt < me.radar_clamp) {
+    if (radAlt != nil and radAlt < me.radar_clamp) {
       if (me.INT == FALSE) {
         me.inter = FALSE;
         # in radar alt range
@@ -1856,7 +1850,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.mach = me.input.mach.getValue();
     me.metric = me.input.units.getValue();
     me.displayGS = air2ground;# in AJ(S) speed type is selected by weapon type when in tactical mode.
-    if (mode == LANDING or me.input.rad_alt.getValue()*FT2M > 1000) {
+    if (mode == LANDING or (me.input.rad_alt_ready.getBoolValue() and me.input.rad_alt.getValue()*FT2M > 1000)) {
       # page 368 in JA37Di manual (small).
       me.displayGS = FALSE;
     } elsif (getprop("ja37/systems/variant") == 0) {

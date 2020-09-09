@@ -1,27 +1,6 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-  <filter>
-    <type>gain</type>
-    <gain>0.3048</gain>
-    <input>
-    	<expression>
-            <sum>
-                <property>/position/altitude-agl-ft</property>
-                <product>
-                	<property>/position/altitude-agl-ft</property>
-                	<product>
-		                <value>0.005</value>
-		                <property>/position/altitude-agl-ft</property>
-	                </product>
-	            </product>
-            </sum>
-        </expression>
-    </input>
-    <reference>1</reference>
-    <output>/position/altitude-agl-m</output>
-  </filter>
-
   <logic>
     <input>
       <and>

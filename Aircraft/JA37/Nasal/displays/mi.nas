@@ -131,7 +131,8 @@ var MI = {
 			cursor_click:         "controls/displays/cursor-total-click",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
-			rad_alt:              "position/altitude-agl-ft",
+			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
+			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
 			radarEnabled:         "ja37/hud/tracks-enabled",
 			radarRange:           "instrumentation/radar/range",
 			radarServ:            "instrumentation/radar/serviceable",
@@ -158,7 +159,6 @@ var MI = {
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        currentMode:          "ja37/hud/current-mode",
-	        ctrlRadar:        "controls/altimeter-radar",
 	        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
 	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
       	};
@@ -1349,7 +1349,7 @@ var MI = {
 	},
 
 	radarIndex: func {
-		me.radAlt = me.input.ctrlRadar.getValue() == TRUE?me.input.rad_alt.getValue() * FT2M : nil;
+		me.radAlt = me.input.rad_alt_ready.getBoolValue()?me.input.rad_alt.getValue() * FT2M : nil;
 		if (me.radAlt != nil and me.radAlt < 600) {
 			me.radar_index.setTranslation(0, extrapolate(me.radAlt, 0, 600, 0, halfHeightOfSideScales));
 			me.radar_index.show();

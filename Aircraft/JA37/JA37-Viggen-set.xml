@@ -474,6 +474,9 @@
                  tanks, and 136% with external tank in addition. -->
             <indicated-ratio-factor>1.36</indicated-ratio-factor>
         </fuel>
+        <radar-altimeter>
+            <max-usable-altitude-m type="double">1375</max-usable-altitude-m>
+        </radar-altimeter>
     </instrumentation>
 
     <nasal>

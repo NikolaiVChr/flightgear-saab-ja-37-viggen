@@ -114,7 +114,8 @@ input = {
   explode:          "damage/sounds/explode-on",
   pilotG:           "ja37/accelerations/pilot-G",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
-  rad_alt:          "position/altitude-agl-ft",
+  rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
+  rad_alt_ready:    "instrumentation/radar-altimeter/ready",
   rainNorm:         "environment/rain-norm",
   rainVol:          "ja37/sound/rain-volume",
   replay:           "sim/replay/replay-state",
@@ -272,7 +273,7 @@ var Saab37 = {
     if (!input.indAT.getBoolValue() and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
       if (input.indAltMeter.getValue() < 1200) {
         if (
-          (input.gearsPos.getValue() == 1 and (getprop("controls/altimeter-radar")==TRUE?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
+          (input.gearsPos.getValue() == 1 and (input.rad_alt_ready.getBoolValue()?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
           or input.gearsPos.getValue() != 1) {
           if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") < 19 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             me.lowSpeed = TRUE;

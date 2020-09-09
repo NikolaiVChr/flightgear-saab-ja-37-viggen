@@ -488,6 +488,9 @@
             -->
             <indicated-ratio-factor>1.32</indicated-ratio-factor>
         </fuel>
+        <radar-altimeter>
+            <max-usable-altitude-m type="double">600</max-usable-altitude-m>
+        </radar-altimeter>
     </instrumentation>
 
     <nasal>

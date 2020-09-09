@@ -54,10 +54,10 @@ var Common = {
 	        qfeShown:		  "ja37/displays/qfe-shown",
 	        altCalibrated:    "ja37/avionics/altimeters-calibrated",
 	        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
-	        ctrlRadar:        "controls/altimeter-radar",
 	        units:            "ja37/hud/units-metric",
 	        fiveHz:           "ja37/blink/two-Hz/state",
-	        rad_alt:          "position/altitude-agl-ft",
+	        rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
+	        rad_alt_ready:    "instrumentation/radar-altimeter/ready",
 	        dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         RMActive:         "autopilot/route-manager/active",
@@ -399,17 +399,13 @@ units:                "ja37/hud/units-metric",
     	if (me.input.alt_ft.getValue() != nil) {
 	    	me.metric = me.input.units.getValue();
 	    	var alt = me.metric == METRIC ? me.input.alt_ft.getValue() * FT2M : me.input.alt_ft.getValue();
-	    	var radAlt = me.input.ctrlRadar.getValue() == 1?(me.metric == METRIC ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
+	    	var radAlt = me.input.rad_alt_ready.getBoolValue() ? (me.metric == METRIC ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
 
 	    	me.radar_clamp = me.metric == METRIC ? 100 : 100/FT2M;
 		    me.alt_diff = me.metric == METRIC ? 7 : 7/FT2M;
 		    me.INT = FALSE;
 
-		    if (radAlt == nil and me.input.ctrlRadar.getValue() == 1) {
-		      # Radar alt instrument not initialized yet
-		      countQFE = 0;
-		      me.input.altCalibrated.setBoolValue(FALSE);
-		    } elsif (radAlt != nil and radAlt < me.radar_clamp) {
+		    if (radAlt != nil and radAlt < me.radar_clamp) {
 		      # check for QFE warning
 		      me.diff = radAlt - alt;
 		      if (countQFE == 0 and (me.diff > me.alt_diff or me.diff < -me.alt_diff)) {

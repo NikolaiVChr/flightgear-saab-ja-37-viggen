@@ -1505,7 +1505,8 @@ var TI = {
 			#APTgtAgl:             "autopilot/settings/target-agl-ft",
 			#APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
-			rad_alt:              "position/altitude-agl-ft",
+			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
+			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
 			radarEnabled:         "ja37/hud/tracks-enabled",
 			radarRange:           "instrumentation/radar/range",
 			radarServ:            "instrumentation/radar/serviceable",
@@ -1532,7 +1533,6 @@ var TI = {
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        currentMode:          "ja37/hud/current-mode",
-	        ctrlRadar:        	  "controls/altimeter-radar",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
 	        fullMenus:            "ja37/displays/show-full-menus",
 	        APLockHeading:    	  "autopilot/locks/heading",
@@ -4407,7 +4407,7 @@ var TI = {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;
-		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.rad_alt.getValue()*FT2M < 1000 or math.abs(me.input.pitch.getValue()) > 10 or math.abs(me.input.roll.getValue()) > 45)) {
+		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.rad_alt_ready.getBoolValue() and me.input.rad_alt.getValue()*FT2M < 1000 or math.abs(me.input.pitch.getValue()) > 10 or math.abs(me.input.roll.getValue()) > 45)) {
 			me.fData = TRUE;
 		}
 		if (me.fData == TRUE) {

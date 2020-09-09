@@ -1504,6 +1504,19 @@
         <altimeter n="1">
             <serviceable type="bool">true</serviceable>
         </altimeter>
+        <radar-altimeter>
+            <serviceable type="bool">true</serviceable>
+            <radar-altitude-ft type="double">0</radar-altitude-ft>
+            <tilt>90</tilt>
+            <elev-limit>39</elev-limit>
+            <elev-step-deg>13</elev-step-deg>
+            <az-limit-deg>60</az-limit-deg>
+            <az-step-deg>60</az-step-deg>
+            <max-range-m>1525</max-range-m>
+            <min-range-m>1</min-range-m>
+            <!-- signals above this value are ignored -->
+            <!-- <max-usable-altitude-m type="double">1375</max-usable-altitude-m> differs between JA and AJS -->
+        </radar-altimeter>
         <heading-indicator n="0">
             <indicator-pos-deg type="double">0</indicator-pos-deg>
         </heading-indicator>

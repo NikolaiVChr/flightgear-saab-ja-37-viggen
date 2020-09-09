@@ -227,6 +227,43 @@
         </pure_gain>
     </channel>
 
+    <channel execrate="4" name="radar-altimeter">
+        <switch name="instruments/radar-altimeter/enabled">
+            <default value="1"/>
+            <test logic="OR" value="0">
+                /instrumentation/radar-altimeter/serviceable == 0
+                /ja37/elec/dc-bus-main-bool == 0
+                /controls/altimeter-radar == 0
+                gear/unit[1]/WOW == 1
+                /instrumentation/attitude-indicator/indicated-pitch-deg gt 45
+                /instrumentation/attitude-indicator/indicated-pitch-deg lt -45
+                /instrumentation/attitude-indicator/indicated-roll-deg gt 45
+                /instrumentation/attitude-indicator/indicated-roll-deg lt -45
+            </test>
+            <output>/instrumentation/radar-altimeter/enabled</output>
+        </switch>
+
+        <pure_gain name="instruments/radar-altimeter/radar-altitude-m">
+            <input>/instrumentation/radar-altimeter/radar-altitude-ft</input>
+            <gain>0.3048</gain>
+            <output>/instrumentation/radar-altimeter/radar-altitude-m</output>
+        </pure_gain>
+
+        <!-- Indicates if the radar altimeter signal is good enough for use by flight computer.
+             If false, flight computer should do as if no signal is received -->
+        <switch name="instruments/radar-altimeter/ready">
+            <default value="1"/>
+            <test logic="OR" value="0">
+                instruments/radar-altimeter/enabled == 0
+                instruments/radar-altimeter/radar-altitude-m > /instrumentation/radar-altimeter/max-usable-altitude-m
+                /instrumentation/attitude-indicator/indicated-pitch-deg gt 40
+                /instrumentation/attitude-indicator/indicated-pitch-deg lt -40
+                /instrumentation/attitude-indicator/indicated-roll-deg gt 40
+                /instrumentation/attitude-indicator/indicated-roll-deg lt -40
+            </test>
+            <output>/instrumentation/radar-altimeter/ready</output>
+        </switch>
+    </channel>
 
     <channel execrate="4" name="airspeed-indicators">
         <pure_gain name="instruments/airspeed/airspeed-kmh">
