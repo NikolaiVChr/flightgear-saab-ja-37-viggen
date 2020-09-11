@@ -334,6 +334,9 @@
         <datalink>
             <file>Aircraft/JA37/Nasal/datalink.nas</file>
         </datalink>
+        <canvas_HUD>
+            <file>Aircraft/JA37/Nasal/displays/hud.nas</file>
+        </canvas_HUD>
     </nasal>
     
 </PropertyList>

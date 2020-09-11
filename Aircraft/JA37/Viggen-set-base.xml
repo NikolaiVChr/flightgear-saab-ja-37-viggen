@@ -1687,9 +1687,6 @@
         <displays>
             <file>Aircraft/JA37/Nasal/displays/common.nas</file>
         </displays>
-        <canvas_HUD>
-            <file>Aircraft/JA37/Nasal/displays/hud.nas</file>
-        </canvas_HUD>
         <monitor>
             <file>Aircraft/JA37/Nasal/monitor/dialog-perf.nas</file>
             <file>Aircraft/JA37/Nasal/monitor/performance.nas</file>

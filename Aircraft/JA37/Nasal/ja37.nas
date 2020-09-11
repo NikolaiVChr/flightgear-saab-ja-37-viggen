@@ -426,7 +426,9 @@ var Saab37 = {
     me.theShakeEffect();
     # The HUD should not shake (relative to the background).
     # This requires to update the hud translation just after head movements.
-    canvas_HUD.hud_pilot.followHeadPosition();
+    if (getprop("/ja37/systems/variant") == 0) {
+      canvas_HUD.hud_pilot.followHeadPosition();
+    }
 
     logTime();
   
@@ -954,12 +956,15 @@ var Saab37 = {
     }
 
     # HUD:
-    canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
-    me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func canvas_HUD.hud_pilot.update());
-    #me.loop_ir  = maketimer(1.5, me, func canvas_HUD.IR_loop());
-
+    if (getprop("ja37/systems/variant") == 0) {
+      canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
+      me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func canvas_HUD.hud_pilot.update());
+    } else {
+      hud.hud = hud.HUD.new();
+      hud.hud.addPlacement({"node": "hud", "texture": "hud.png"});
+      me.loop_hud = maketimer(0.05, hud.hud, hud.hud.update);
+    }
     me.loop_hud.start();
-    #me.loop_ir.start();
 
     if (variant.JA) {
       # data-panel
@@ -976,6 +981,7 @@ var Saab37 = {
     failureSys.init_fire();
     me.loop_fire  = maketimer(1, me, func failureSys.loop_fire());
     me.loop_fire.start();
+
 
     me.loop_test  = maketimer(0.25, me, func testing.loop());
     me.loop_test.start();
@@ -1066,12 +1072,15 @@ var Saab37 = {
     }
 
     # HUD:
-    canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
-    me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func {timer.timeLoop("HUD", canvas_HUD.hud_pilot.update,canvas_HUD.hud_pilot);});
-    #me.loop_ir  = maketimer(1.5, me, func canvas_HUD.IR_loop());
-
+    if (getprop("ja37/systems/variant") == 0) {
+      canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
+      me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func {timer.timeLoop("HUD", canvas_HUD.hud_pilot.update,canvas_HUD.hud_pilot);});
+    } else {
+      hud.hud = hud.HUD.new();
+      hud.hud.addPlacement({"node": "hud", "texture": "hud.png"});
+      me.loop_hud = maketimer(0.05, hud.hud, func {timer.timeLoop("HUD", hud.hud.update, hud.hud);});
+    }
     me.loop_hud.start();
-    #me.loop_ir.start();
 
     if (variant.JA) {
       # data-panel

@@ -266,6 +266,9 @@
         <rdr>
             <file>Aircraft/JA37/Nasal/displays/radar.nas</file>
         </rdr>
+        <hud>
+            <file>Aircraft/JA37/Nasal/displays/ajs-hud.nas</file>
+        </hud>
     </nasal>
 
 </PropertyList>
