@@ -105,13 +105,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/afterburner.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/afterburner-mount.xml</path>
     <name>Augmentation Indicator</name>
     <offsets>
-      <x-m>0.02</x-m>
+      <x-m>0.0</x-m>
       <y-m>0.2</y-m>
-      <z-m>0.082</z-m>
-      <pitch-deg>-15</pitch-deg>
+      <z-m>0.075</z-m>
     </offsets>
   </model>
 
