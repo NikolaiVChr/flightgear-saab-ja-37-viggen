@@ -1687,7 +1687,7 @@
             <file>Aircraft/JA37/Nasal/payload/loadout.nas</file>
         </loadout>
         <formation>
-            <file>Aircraft/JA37/Nasal/formation.nas</file>
+            <file>Aircraft/Generic/formation.nas</file>
         </formation>
 		<navigation>
 			<file>Aircraft/JA37/Nasal/navigation.nas</file>
