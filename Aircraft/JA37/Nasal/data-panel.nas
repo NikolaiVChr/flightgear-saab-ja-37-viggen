@@ -4,7 +4,7 @@ var FALSE = 0;
 
 #var theInit = setlistener("ja37/supported/initialized", func {
 #    removelistener(theInit);
-#    if (getprop("ja37/systems/variant") == 0 and getprop("ja37/supported/canvas") == TRUE) {
+#    if (getprop("ja37/systems/variant") == 0) {
 #      callInit();
 #    }
 #});

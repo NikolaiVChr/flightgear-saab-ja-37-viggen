@@ -684,9 +684,7 @@ var radar = {
 #}
 var scope = nil;
 #var theinit = setlistener("ja37/supported/initialized", func {
-#  if(getprop("ja37/supported/radar") == 1) {
-#    removelistener(theinit);
-#    scope = radar.new();
-#    scope.update();
-#  }
+#  removelistener(theinit);
+#  scope = radar.new();
+#  scope.update();
 #}, 1, 0);

@@ -2109,48 +2109,6 @@
   </emission>
 </animation>
 
- <!--<animation>
-  <type>select</type>
-  <condition>
-    <property>ja37/supported/canvas</property>
-  </condition>
-  <object-name>hud</object-name>
-  <object-name>hudStruts</object-name>
-</animation>-->
-
- <animation>
-  <type>scale</type>
-  <object-name>hud</object-name>
-  <object-name>aj37hudStruts</object-name>
-  <property>ja37/supported/canvas</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.01 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
-
  <animation>
   <type>material</type> 
   <object-name>hud</object-name>

@@ -1720,9 +1720,7 @@ var TI = {
 
 	startFailListener: func {
 		#this will run entire session, so no need to unsubscribe.
-		if (getprop("ja37/supported/failEvents") == TRUE) {
-			FailureMgr.events["trigger-fired"].subscribe(func {call(func{me.newFails = 1}, nil, me, me)});
-		}
+		FailureMgr.events["trigger-fired"].subscribe(func {call(func{me.newFails = 1}, nil, me, me)});
 	},
 
 
@@ -5970,15 +5968,13 @@ var TI = {
 var ti = nil;
 var init = func {
 	removelistener(idl); # only call once
-	if (getprop("ja37/supported/canvas") == TRUE) {
-		setupCanvas();
-		ti = TI.new();
-		settimer(func {
-			ti.loop();#must be first due to me.rootCenterY
-			ti.loopFast();
-			ti.loopSlow();
-		},0.5);# this will prevent it from starting before route has been initialized.
-	}
+	setupCanvas();
+	ti = TI.new();
+	settimer(func {
+		ti.loop();#must be first due to me.rootCenterY
+		ti.loopFast();
+		ti.loopSlow();
+	},0.5);# this will prevent it from starting before route has been initialized.
 }
 
 #idl = setlistener("ja37/supported/initialized", init, 0, 0);

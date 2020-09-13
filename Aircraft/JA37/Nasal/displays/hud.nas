@@ -1052,7 +1052,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         ias:              "instrumentation/airspeed-indicator/indicated-speed-kt",#"/velocities/airspeed-kt",
         landingMode:      "ja37/hud/landing-mode",
         mach:             "instrumentation/airspeed-indicator/indicated-mach",
-        mode:             "ja37/hud/mode",
         nav0GSNeedleDefl: "instrumentation/nav[0]/gs-needle-deflection-norm",
         nav0GSNeedleDeflD:"instrumentation/nav[0]/gs-needle-deflection-deg",
         nav0GSInRange:    "instrumentation/nav[0]/gs-in-range",
@@ -1156,7 +1155,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
     me.displaySeeker(mode);
 
-    if(me.has_power == FALSE or me.input.mode.getValue() == 0 or testing.ongoing == TRUE) {
+    if(me.has_power == FALSE or testing.ongoing == TRUE) {
       me.root.hide();
       me.root.update();
       air2air = FALSE;
@@ -3204,14 +3203,12 @@ var reinitHUD = FALSE;
 var hud_pilot = nil;
 var init = func() {
   removelistener(id); # only call once
-  if(getprop("ja37/supported/canvas") == TRUE) {
-    hud_pilot = HUDnasal.new({"node": "hud", "texture": "hud.png"});
-    #setprop("sim/hud/visibility[1]", 0);
-    
-    #print("HUD initialized.");
-    hud_pilot.update();
-    #IR_loop();
-  }
+  hud_pilot = HUDnasal.new({"node": "hud", "texture": "hud.png"});
+  #setprop("sim/hud/visibility[1]", 0);
+  
+  #print("HUD initialized.");
+  hud_pilot.update();
+  #IR_loop();
 };
 
 var init2 = setlistener("/sim/signals/reinit", func() {
@@ -3283,16 +3280,12 @@ setlistener("sim/rendering/als-filters/use-filtering", reinit,0,0);
 setlistener("sim/rendering/als-filters/use-IR-vision", reinit,0,0);
 
 var cycle_units = func () {
-  if(getprop("ja37/hud/mode") > 0) {
-    ja37.click();
-    var current = getprop("ja37/hud/units-metric");
-    if(current == TRUE) {
-      setprop("ja37/hud/units-metric", FALSE);
-    } else {
-      setprop("ja37/hud/units-metric", TRUE);
-    }
+  ja37.click();
+  var current = getprop("ja37/hud/units-metric");
+  if(current == TRUE) {
+    setprop("ja37/hud/units-metric", FALSE);
   } else {
-    aircraft.HUD.cycle_type();
+    setprop("ja37/hud/units-metric", TRUE);
   }
 };
 
@@ -3307,30 +3300,22 @@ var cycle_landingMode = func () {
 };
 
 var toggle_combat = func () {
-  if(getprop("ja37/hud/mode") > 0) {
-    ja37.click();
-    var current = getprop("/ja37/hud/combat");
-    if(current == 1) {
-      setprop("/ja37/hud/combat", FALSE);
-    } else {
-      setprop("/ja37/hud/combat", TRUE);
-    }
+  ja37.click();
+  var current = getprop("/ja37/hud/combat");
+  if(current == 1) {
+    setprop("/ja37/hud/combat", FALSE);
   } else {
-    aircraft.HUD.cycle_color();
+    setprop("/ja37/hud/combat", TRUE);
   }
 };
 
 var toggleCallsign = func () {
-  if(getprop("ja37/hud/mode") > 0) {
-    ja37.click();
-    var current = getprop("/ja37/hud/callsign");
-    if(current == 1) {
-      setprop("/ja37/hud/callsign", FALSE);
-    } else {
-      setprop("/ja37/hud/callsign", TRUE);
-    }
+  ja37.click();
+  var current = getprop("/ja37/hud/callsign");
+  if(current == 1) {
+    setprop("/ja37/hud/callsign", FALSE);
   } else {
-    aircraft.HUD.normal_type();
+    setprop("/ja37/hud/callsign", TRUE);
   }
 };
 

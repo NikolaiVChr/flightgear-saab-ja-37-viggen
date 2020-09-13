@@ -1889,10 +1889,8 @@ var radarLogic = nil;
 
 var starter = func () {
   removelistener(lsnr);
-  if(getprop("ja37/supported/radar") == TRUE) {
-    radarLogic = RadarLogic.new();
-    #radarLogic.loop();
-  }
+  radarLogic = RadarLogic.new();
+  #radarLogic.loop();
 };
 #var lsnr = setlistener("ja37/supported/initialized", starter);
 

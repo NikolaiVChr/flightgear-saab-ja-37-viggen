@@ -8,7 +8,7 @@ var eject = func () {
     es.releaseAtNothing();
     view.view_firing_missile(es);
     #setprop("sim/view[0]/enabled",0);
-    settimer(func {crash1.exp();},3.5);
+    settimer(func {crash.exp();},3.5);
 }
 
 var n_repeat = 3;

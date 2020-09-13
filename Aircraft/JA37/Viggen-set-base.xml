@@ -72,7 +72,6 @@
             <!-- Properties that get saved to persist locally between FG sessions -->
             <path>ja37/radar/enabled</path>
             <path>ja37/hud/units-metric</path>
-            <path>ja37/hud/mode</path>
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
             <path>ja37/effect/swedish-labels</path>
@@ -533,18 +532,9 @@
             <pilot-G-max type="double">1.0</pilot-G-max>
         </accelerations>
         <supported>
-            <old-custom-fails type="int">0</old-custom-fails>
-            <canvas type="bool">false</canvas>
-            <radar type="bool">false</radar>
-            <options type="bool">false</options>
-            <landing-light type="bool">false</landing-light>
             <initialized type="bool">false</initialized>
-            <popuptips type="int">0</popuptips>
-            <crash-system type="int">0</crash-system>
-            <ubershader type="bool">false</ubershader>
-            <fuel-temp type="bool">true</fuel-temp>
-            <new-marker type="bool">true</new-marker>
             <picking type="bool">false</picking>
+            <multiple-flightplans type="bool">false</multiple-flightplans>
         </supported>
         <failures>
             <installed type="bool">false</installed>
@@ -609,7 +599,6 @@
         <hud>
             <tracks-enabled type="bool">true</tracks-enabled>
             <units-metric type="bool">false</units-metric>
-            <mode type="bool">true</mode>
             <current-mode type="int">0</current-mode>
             <combat type="bool">false</combat>
             <callsign type="bool">true</callsign>
@@ -1684,12 +1673,9 @@
             <file>Aircraft/JA37/Nasal/failure/ja37-failures.nas</file>
             <file>Aircraft/JA37/Nasal/failure/engine-fire.nas</file>
         </failureSys>
-        <crash0>
-            <file>Aircraft/JA37/Nasal/failure/crash.nas</file>
-        </crash0>
-        <crash1>
+        <crash>
             <file>Aircraft/JA37/Nasal/failure/crash-and-stress.nas</file>
-        </crash1>
+        </crash>
         <armament>
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
             <file>Aircraft/JA37/Nasal/payload/stores.nas</file>

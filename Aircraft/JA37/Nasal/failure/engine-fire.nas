@@ -156,8 +156,6 @@ var init_fire = func {
 
 # start the init function
 #var main_init_listener = setlistener("ja37/supported/initialized", func {
-#	if (getprop("ja37/supported/fire") == TRUE) {
-#		init_fire();
-#	}	
+#	init_fire();
 #	removelistener(main_init_listener);
 #}, 0, 0);

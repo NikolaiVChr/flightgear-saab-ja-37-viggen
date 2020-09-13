@@ -186,8 +186,8 @@ var incoming_listener = func {
             }
           }
         }
-      } elsif (getprop("ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/msg")) {
-        # latest or second latest version of failure manager and taking damage enabled
+      } elsif (getprop("payload/armament/msg")) {
+        # damage enabled
         #print("damage enabled");
         var last1 = split(" ", last_vector[1]);
         if(size(last1) > 2 and last1[size(last1)-1] == "exploded" ) {

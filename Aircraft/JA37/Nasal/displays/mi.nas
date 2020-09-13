@@ -1366,13 +1366,11 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 var mi = nil;
 var init = func {
 	removelistener(idl); # only call once
-	if (getprop("ja37/supported/canvas") == TRUE) {
-		setupCanvas();
-		mi = MI.new();
-		settimer(func {
-			mi.loop();
-		},0.5);# this will prevent it from starting before TI has been initialized.
-	}
+	setupCanvas();
+	mi = MI.new();
+	settimer(func {
+		mi.loop();
+	},0.5);# this will prevent it from starting before TI has been initialized.
 }
 
 #idl = setlistener("ja37/supported/initialized", init, 0, 0);
