@@ -929,10 +929,12 @@ var Saab37 = {
       }
     }
 
-    # CI display
-    rdr.scope = rdr.radar.new();
-    me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
-    me.loop_radar_screen.start();
+    if (getprop("ja37/systems/variant") != 0) {
+      # CI display
+      rdr.scope = rdr.radar.new();
+      me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
+      me.loop_radar_screen.start();
+    }
 
     # flightplans
     route.poly_start();
@@ -1038,10 +1040,12 @@ var Saab37 = {
       }
     }
 
-    # CI display
-    rdr.scope = rdr.radar.new();
-    me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
-    me.loop_radar_screen.start();
+    if (getprop("ja37/systems/variant") != 0) {
+      # CI display
+      rdr.scope = rdr.radar.new();
+      me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
+      me.loop_radar_screen.start();
+    }
 
     # flightplans
     route.poly_start();
