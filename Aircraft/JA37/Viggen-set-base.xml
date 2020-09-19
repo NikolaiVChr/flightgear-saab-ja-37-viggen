@@ -1659,12 +1659,12 @@
             <file>Aircraft/JA37/Nasal/displays/hud.nas</file>
         </canvas_HUD>
         <monitor>
-            <file>Aircraft/JA37/Nasal/dialog-perf.nas</file>
-            <file>Aircraft/JA37/Nasal/performance.nas</file>
+            <file>Aircraft/JA37/Nasal/monitor/dialog-perf.nas</file>
+            <file>Aircraft/JA37/Nasal/monitor/performance.nas</file>
         </monitor>
         <monitor2>
-            <file>Aircraft/JA37/Nasal/dialog-sys.nas</file>
-            <file>Aircraft/JA37/Nasal/systems.nas</file>
+            <file>Aircraft/JA37/Nasal/monitor/dialog-sys.nas</file>
+            <file>Aircraft/JA37/Nasal/monitor/systems.nas</file>
         </monitor2>
         <limits>
             <file>Aircraft/Generic/limits.nas</file>
