@@ -1,6 +1,7 @@
 var TRUE = 1;
 var FALSE = 0;
 
+
 # General, constant options
 var opts = {
     res: 512,
@@ -10,17 +11,22 @@ var opts = {
 };
 
 var input = {
-    heading: "/instrumentation/heading-indicator/indicated-heading-deg",
-    pitch: "/instrumentation/attitude-indicator/indicated-pitch-deg",
-    roll: "/instrumentation/attitude-indicator/indicated-roll-deg",
-    speed: "/instrumentation/airspeed-indicator/indicated-speed-kmh",
-    weight: "/fdm/jsbsim/inertia/weight-lbs",
-    alt: "/instrumentation/altimeter/indicated-altitude-meter",
-    rad_alt: "/instrumentation/radar-altimeter/radar-altitude-m",
-    rad_alt_ready: "/instrumentation/radar-altimeter/ready",
-    rel_bearing: "/instrumentation/waypoint-indicator/bearing-index-goal",
-    eta: "/autopilot/route-manager/wp/eta-seconds",
-    fpv_fin_blink: "/ja37/blink/four-Hz/state",
+    heading:        "/instrumentation/heading-indicator/indicated-heading-deg",
+    pitch:          "/instrumentation/attitude-indicator/indicated-pitch-deg",
+    roll:           "/instrumentation/attitude-indicator/indicated-roll-deg",
+    speed:          "/instrumentation/airspeed-indicator/indicated-speed-kmh",
+    fpv_up:         "/instrumentation/fpv/angle-up-stab-deg",
+    fpv_right:      "/instrumentation/fpv/angle-right-stab-deg",
+    fpv_head_true:  "/instrumentation/fpv/heading-true",
+    head_true:      "/orientation/heading-deg",
+    weight:         "/fdm/jsbsim/inertia/weight-lbs",
+    alt:            "/instrumentation/altimeter/indicated-altitude-meter",
+    rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
+    rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
+    rel_bearing:    "/fdm/jsbsim/instruments/waypoint/bearing-deg-rel",
+    rm_active:      "/autopilot/route-manager/active",
+    eta:            "/autopilot/route-manager/wp/eta-seconds",
+    fpv_fin_blink:  "/ja37/blink/four-Hz/state",
 };
 
 foreach(var name; keys(input)) {
@@ -121,11 +127,16 @@ var Horizon = {
         }
     },
 
-    update: func(pitch, roll, rel_bearing) {
+    update: func(pitch, roll, rel_bearing, fpv_rel_bearing) {
         me.roll_group.setRotation(-roll * D2R);
         me.horizon_group.setTranslation(0, pitch * 100);
-        rel_bearing = math.periodic(-180, 180, rel_bearing);
-        rel_bearing = math.clamp(rel_bearing, -3.6, 3.6);
+
+        if (rel_bearing == nil) rel_bearing = fpv_rel_bearing;
+        else {
+            rel_bearing = math.periodic(-180, 180, rel_bearing);
+            rel_bearing = math.clamp(rel_bearing, fpv_rel_bearing - 3.6, fpv_rel_bearing + 3.6);
+        }
+
         me.ref_point_group.setTranslation(rel_bearing * 100, 0);
         me.ref_point_offset = rel_bearing;
     },
@@ -405,8 +416,8 @@ var FPV = {
         }
     },
 
-    update: func(down, right) {
-        me.group.setTranslation(100*right, 100*down);
+    update: func(up, right) {
+        me.group.setTranslation(100*right, -100*up);
     },
 };
 
@@ -498,12 +509,22 @@ var HUD = {
             }
         }
 
-        me.horizon.update(input.pitch.getValue(), input.roll.getValue(), input.rel_bearing.getValue());
-        var ref_point_offset = me.horizon.get_ref_point_offset();
+        # FPV
+        var fpv_rel_bearing = 0;
+        if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
+            me.fpv.update(input.fpv_up.getValue(), input.fpv_right.getValue());
+
+            fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();
+            fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
+        }
+
+        var rel_bearing = input.rm_active.getBoolValue() ? input.rel_bearing.getValue() : nil;
+        me.horizon.update(input.pitch.getValue(), input.roll.getValue(), rel_bearing, fpv_rel_bearing);
+        rel_bearing = me.horizon.get_ref_point_offset();
 
         # Digital altitude.
         var alt = input.alt.getValue();
-        me.dig_alt.update(alt, ref_point_offset);
+        me.dig_alt.update(alt, rel_bearing);
 
         if (me.mode != HUD.MODE_NAV_DECLUTTER) {
             # Altitude reference bars need to be updated early.
@@ -531,10 +552,5 @@ var HUD = {
             }
         }
 
-        # FPV
-        if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
-            me.fpv.update(getprop("fdm/jsbsim/aero/alpha-deg"),
-                          getprop("fdm/jsbsim/aero/beta-deg"));
-        }
     },
 };
