@@ -23,6 +23,7 @@ var input = {
     alt:            "/instrumentation/altimeter/indicated-altitude-meter",
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
+    ref_alt:        "/ja37/displays/reference-altitude-m",
     rel_bearing:    "/fdm/jsbsim/instruments/waypoint/bearing-deg-rel",
     rm_active:      "/autopilot/route-manager/active",
     eta:            "/autopilot/route-manager/wp/eta-seconds",
@@ -366,8 +367,19 @@ var HeadingScale = {
     set_mode: func(mode) {
         me.mode = mode;
         if (me.mode == HUD.MODE_NAV_DECLUTTER) {
+            me.declutter_visible = FALSE;
             me.group.hide();
         } else {
+            me.group.show();
+        }
+    },
+
+    declutter_toggle: func {
+        if (me.declutter_visible) {
+            me.declutter_visible = FALSE;
+            me.group.hide();
+        } else {
+            me.declutter_visible = TRUE;
             me.group.show();
         }
     },
@@ -383,7 +395,8 @@ var HeadingScale = {
 
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
             var vpos = 1000;
-        } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
+        } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT
+                 or me.mode == HUD.MODE_NAV_DECLUTTER) {
             var vpos = 0;
         } else {
             var vpos = alt_bars_pos;
@@ -480,6 +493,7 @@ var HUD = {
     },
 
     set_mode: func(mode) {
+        if (me.mode == mode) return;
         me.mode = mode;
         me.horizon.set_mode(mode);
         me.alt_bars.set_mode(mode);
@@ -493,22 +507,19 @@ var HUD = {
         if (modes.main == modes.TAKEOFF) {
             if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
-            } elsif (me.mode == HUD.MODE_TAKEOFF_ROLL and input.pitch.getValue() > 5) {
+            } elsif (input.pitch.getValue() > 5) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROTATE);
-            } elsif (me.mode == HUD.MODE_TAKEOFF_ROTATE and input.pitch.getValue() < 3) {
+            } elsif (input.pitch.getValue() < 3) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             }
         } elsif (modes.main == modes.NAV) {
-            var declutter = input.declutter.getBoolValue() and input.alt.getValue() < 97.5;
-            if (declutter and me.mode != HUD.MODE_NAV_DECLUTTER) {
+            if (input.declutter.getBoolValue() and input.alt.getValue() < 97.5) {
                 me.set_mode(HUD.MODE_NAV_DECLUTTER);
-            } elsif (!declutter and me.mode != HUD.MODE_NAV) {
+            } else {
                 me.set_mode(HUD.MODE_NAV);
             }
         } elsif (modes.main == modes.LANDING) {
-            if (me.mode != HUD.MODE_FINAL_OPT) {
-                me.set_mode(HUD.MODE_FINAL_OPT);
-            }
+            me.set_mode(HUD.MODE_FINAL_OPT);
         }
     },
 
@@ -529,18 +540,15 @@ var HUD = {
         rel_bearing = me.horizon.get_ref_point_offset();
 
         # Digital altitude.
-        var alt = input.alt.getValue();
-        me.dig_alt.update(alt, rel_bearing);
+        me.dig_alt.update(input.alt.getValue(), rel_bearing);
 
+        var alt_bars_pos = 0;
         if (me.mode != HUD.MODE_NAV_DECLUTTER) {
             # Altitude reference bars need to be updated early.
             # Positions of other groups depends on the space they occupy.
             var rad_alt = input.rad_alt_ready.getBoolValue() ? input.rad_alt.getValue() : nil;
-            me.alt_bars.update(alt, 500, rad_alt);
-            var alt_bars_pos = me.alt_bars.get_base_pos();
-
-            # Heading Scale
-            me.heading.update(input.heading.getValue(), alt_bars_pos);
+            me.alt_bars.update(input.alt.getValue(), input.ref_alt.getValue(), rad_alt);
+            alt_bars_pos = me.alt_bars.get_base_pos();
 
             # Time/distance line
             if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
@@ -558,5 +566,11 @@ var HUD = {
             }
         }
 
+        # Heading Scale
+        me.heading.update(input.heading.getValue(), alt_bars_pos);
+    },
+
+    declutter_heading_toggle: func {
+        me.heading.declutter_toggle();
     },
 };

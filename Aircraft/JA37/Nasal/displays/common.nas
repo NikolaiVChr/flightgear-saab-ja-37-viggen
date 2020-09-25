@@ -42,8 +42,8 @@ var Common = {
 	        altCalibrated:    "ja37/avionics/altimeters-calibrated",
 	        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
 	        alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
-	        ref_alt:        "ja37/displays/reference-altitude-m",
-	        APmode:          "fdm/jsbsim/autoflight/mode",
+	        ref_alt:          "ja37/displays/reference-altitude-m",
+	        APmode:           "fdm/jsbsim/autoflight/mode",
 	        AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
 	        units:            "ja37/hud/units-metric",
 	        fiveHz:           "ja37/blink/two-Hz/state",
@@ -344,6 +344,12 @@ var Common = {
 	},
 
 	refAltButton: func {
+		# For AJS, different functionality in LOW NAV (declutter) mode
+		if (getprop("/ja37/systems/variant") != 0 and hud.hud.mode == hud.hud.MODE_NAV_DECLUTTER) {
+			hud.hud.declutter_heading_toggle();
+			return;
+		}
+
 		# Manual reference altitude setting is not available at takeoff,
 		# with ALT HOLD autopilot, and during the landing final phase.
 		if (modes.takeoff or me.input.APmode.getValue() == 3
