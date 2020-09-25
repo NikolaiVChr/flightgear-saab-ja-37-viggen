@@ -254,22 +254,20 @@ var DigitalAltitude = {
     # Altitude in meters
     update: func(altitude, ref_point_offset) {
         var str = "";
-        if (altitude < 97.5) {
-            # Below 100m, 2 digits, precision 5m
+        if (altitude < -2.5) {
+            # Negative altitudes (min -97.5), 2 digits, precision 5m
             altitude = math.round(altitude, 5);
-            if (altitude <= -100) altitude = -95;
-            str = sprintf("%02.0f", altitude);
+            altitude = math.clamp(altitude, -95, -5);
+            str = sprintf("-%.2d", -altitude);
         } elsif (altitude < 995) {
-            # Between 100m and 1000m, 3 digits, precision 10m
-            altitude = math.round(altitude, 10);
-            str = sprintf("%03.0f", altitude);
+            # Below 1000m, 3 digits, precision 10m, precision 5m below 100m
+            altitude = math.round(altitude, altitude < 100 ? 5 : 10);
+            altitude = math.clamp(altitude, 0, 990);
+            str = sprintf("%.3d", altitude);
         } else {
             # Above 1000m, 2 digits, precision 100m, units km, modulo 10km
-            altitude = math.round(altitude, 100);
-            altitude = math.mod(altitude, 10000);
-            var thousand = math.floor(altitude/1000);
-            var hundred = math.mod(altitude, 1000)/100;
-            str = sprintf(thousand~","~hundred);
+            altitude = math.round(altitude/1000, 0.1);
+            str = sprintf("%.1d,%.1d", math.mod(math.floor(altitude), 10), math.mod(altitude*10, 10));
         }
         me.text.updateText(str);
 
