@@ -27,6 +27,7 @@ var input = {
     rm_active:      "/autopilot/route-manager/active",
     eta:            "/autopilot/route-manager/wp/eta-seconds",
     fpv_fin_blink:  "/ja37/blink/four-Hz/state",
+    declutter:      "/ja37/hud/declutter-mode",
 };
 
 foreach(var name; keys(input)) {
@@ -162,9 +163,9 @@ var AltitudeBars = {
         }
         me.ref_bars_group = me.group.createChild("group");
         me.ref_bars = make_path(me.ref_bars_group)
-            .moveTo(-330, 0).vert(-300).moveTo(330,0).vert(-300);
+            .moveTo(-350, 0).vert(-300).moveTo(350,0).vert(-300);
         me.rhm_index = make_path(me.ref_bars_group)
-            .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
+            .moveTo(-325, 0).horiz(-50).moveTo(325,0).horiz(50);
     },
 
     # Set the bars normalised position.
@@ -488,7 +489,7 @@ var HUD = {
         me.fpv.set_mode(mode);
     },
 
-    update: func {
+    update_mode: func {
         if (modes.main == modes.TAKEOFF) {
             if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
@@ -498,16 +499,21 @@ var HUD = {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             }
         } elsif (modes.main == modes.NAV) {
-            if (me.mode != HUD.MODE_NAV and input.alt.getValue() >= 97.5) {
-                me.set_mode(HUD.MODE_NAV);
-            } elsif (me.mode != HUD.MODE_NAV_DECLUTTER and input.alt.getValue() < 97.5) {
+            var declutter = input.declutter.getBoolValue() and input.alt.getValue() < 97.5;
+            if (declutter and me.mode != HUD.MODE_NAV_DECLUTTER) {
                 me.set_mode(HUD.MODE_NAV_DECLUTTER);
+            } elsif (!declutter and me.mode != HUD.MODE_NAV) {
+                me.set_mode(HUD.MODE_NAV);
             }
         } elsif (modes.main == modes.LANDING) {
             if (me.mode != HUD.MODE_FINAL_OPT) {
                 me.set_mode(HUD.MODE_FINAL_OPT);
             }
         }
+    },
+
+    update: func {
+        me.update_mode();
 
         # FPV
         var fpv_rel_bearing = 0;
