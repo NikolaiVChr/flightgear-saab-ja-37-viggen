@@ -234,7 +234,11 @@
                 /instrumentation/radar-altimeter/serviceable == 0
                 /ja37/elec/dc-bus-main-bool == 0
                 /controls/altimeter-radar == 0
-                gear/unit[1]/WOW == 1
+                <!-- gear/unit[1]/WOW == 1
+                  Radar altimeter is disabled on the ground, but of course the flight computer
+                  can just use 0 as 'radar altitude' in that case.
+                  Keeping it like that for now because the HUD is designed for it.
+                 -->
                 /instrumentation/attitude-indicator/indicated-pitch-deg gt 45
                 /instrumentation/attitude-indicator/indicated-pitch-deg lt -45
                 /instrumentation/attitude-indicator/indicated-roll-deg gt 45
