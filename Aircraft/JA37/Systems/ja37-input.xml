@@ -432,19 +432,6 @@
             </binding>
         </key>
         
-        <key n="117">
-            <name>u</name>
-            <desc>Afterburner Cutoff</desc>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/engines/engine[0]/cutoff-augmentation</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </key>
-        
         <key n="91">
             <name>[</name>
             <desc>Decrease radar range</desc>

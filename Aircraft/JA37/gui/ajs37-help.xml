@@ -21,10 +21,6 @@
         <name>Ctrl-B</name>
         <desc>Toggle airbrakes (with gear down: keep pressed to extend)</desc>
     </key>
-	<key>
-        <name>u</name>
-        <desc>Afterburner on/off</desc>
-    </key>
     <key>
         <name>q</name>
         <desc>Trigger flare release</desc>
@@ -40,22 +36,6 @@
     <key>
         <name>J</name>
         <desc>Jettison Drop tank in flight</desc>
-    </key>
-    <key>
-        <name>Del</name>
-        <desc>Yaw damper on/off</desc>
-    </key>
-    <key>
-        <name>Shift Del</name>
-        <desc>Pitch damper on/off</desc>
-    </key>
-    <key>
-        <name>Ctrl Del</name>
-        <desc>Roll damper on/off</desc>
-    </key>
-	<key>
-        <name>w</name>
-        <desc>Pitch Gearing on/off</desc>
     </key>
     <key>
         <name>o</name>
@@ -78,10 +58,10 @@
         <desc>Cycle weapons</desc>
     </key>
     <key>
-        <name>M</name>
-        <desc>Toggle nose wheel steering</desc>
+        <name>y</name>
+        <desc>Toggle cursor/flight control</desc>
     </key>
-	<key>
+    <key>
         <name>Y</name>
         <desc>Landing HUD mode on/off</desc>
     </key>
@@ -125,10 +105,6 @@
         <name>Ctrl n</name>
         <desc>Target next route-manager waypoint</desc>
     </key>
-    <!--<key>
-        <name>Ctrl Shift a</name>
-        <desc>Continue on current heading, speed and altitude with A/P</desc>
-    </key>-->
     <key>
         <name>Q</name>
         <desc>Reset view</desc>
@@ -164,6 +140,10 @@
     <key>
         <name>Ctrl-G</name>
         <desc>Autothrottle quick disengage</desc>
+    </key>
+    <key>
+        <name>R</name>
+        <desc>Set target altitude (does not affect autopilot)</desc>
     </key>
     <key>
         <name>Shift PageUp</name>
