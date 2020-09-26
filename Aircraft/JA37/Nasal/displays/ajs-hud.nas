@@ -211,7 +211,7 @@ var AltitudeBars = {
             me.ref_bars.hide();
         }
 
-        if (radar_altitude != nil) {
+        if (radar_altitude != nil and me.mode != HUD.MODE_TAKEOFF_ROLL) {
             me.rhm_index.show();
             var rhm_pos = math.clamp((altitude - radar_altitude) / command_altitude, -1, 1);
             me.rhm_index.setTranslation(0, -300 * rhm_pos);
