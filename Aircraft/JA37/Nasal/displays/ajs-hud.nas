@@ -4,7 +4,7 @@ var FALSE = 0;
 
 # General, constant options
 var opts = {
-    res: 512,
+    res: 1024,
     ang_width: 2000,    # Coordinate system uses 1/100 deg as unit. Issues occur if this value is chosen too small.
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
@@ -24,8 +24,8 @@ var input = {
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
     ref_alt:        "/ja37/displays/reference-altitude-m",
-    rel_bearing:    "/fdm/jsbsim/instruments/waypoint/bearing-deg-rel",
     rm_active:      "/autopilot/route-manager/active",
+    wp_bearing:     "/autopilot/route-manager/wp/bearing-deg",
     eta:            "/autopilot/route-manager/wp/eta-seconds",
     fpv_fin_blink:  "/ja37/blink/four-Hz/state",
     declutter:      "/ja37/hud/declutter-mode",
@@ -84,7 +84,16 @@ var make_label = func(parent, x, y, text) {
 
 ### HUD elements classes
 
-# Horizon and pitch scale lines
+# General conventions/methods for HUD elements classes:
+# - new(parent): creates the element, 'parent' must be a Canvas
+#                group used as root for the element.
+# - set_mode(mode): used to indicate that the HUD display mode changed
+# - update(): updates the element
+
+# Artificial horizon and pitch scale lines
+#
+# The artificial horizon canvas groups are used for several other HUD elements.
+# Specifically, the following
 var Horizon = {
     new: func(parent) {
         var m = { parents: [Horizon], parent: parent, mode: -1 };
@@ -129,18 +138,25 @@ var Horizon = {
         }
     },
 
-    update: func(pitch, roll, rel_bearing, fpv_rel_bearing) {
-        me.roll_group.setRotation(-roll * D2R);
-        me.horizon_group.setTranslation(0, pitch * 100);
+    update: func(fpv_rel_bearing) {
+        me.roll_group.setRotation(-input.roll.getValue() * D2R);
+        me.horizon_group.setTranslation(0, input.pitch.getValue() * 100);
 
-        if (rel_bearing == nil) rel_bearing = fpv_rel_bearing;
-        else {
-            rel_bearing = math.periodic(-180, 180, rel_bearing);
-            rel_bearing = math.clamp(rel_bearing, fpv_rel_bearing - 3.6, fpv_rel_bearing + 3.6);
+        # Position of reference point (indicates target heading)
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
+            # locked on forward axis at takeoff
+            me.ref_point_offset = 0;
+        } elsif (!input.rm_active.getBoolValue()) {
+            # locked on FPV if no target is defined
+            me.ref_point_offset = fpv_rel_bearing;
+        } else {
+            # towards target heading, clamped around FPV
+            me.ref_point_offset = input.wp_bearing.getValue() - input.heading.getValue();
+            me.ref_point_offset = math.periodic(-180, 180, me.ref_point_offset);
+            me.ref_point_offset = math.clamp(me.ref_point_offset, fpv_rel_bearing - 3.6, fpv_rel_bearing + 3.6);
         }
 
-        me.ref_point_group.setTranslation(rel_bearing * 100, 0);
-        me.ref_point_offset = rel_bearing;
+        me.ref_point_group.setTranslation(me.ref_point_offset * 100, 0);
     },
 
     get_horizon_group: func { return me.horizon_group; },
@@ -195,7 +211,13 @@ var AltitudeBars = {
     },
 
     # All altitudes in meters
-    update: func(altitude, command_altitude, radar_altitude) {
+    update: func {
+        if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) return;
+
+        var altitude = input.alt.getValue();
+        var radar_altitude = input.rad_alt_ready.getBoolValue() ? input.rad_alt.getValue() : nil;
+        var command_altitude = input.ref_alt.getValue();
+
         # restrict displayed commanded altitude
         var min_command = math.max(altitude/2, altitude-500);
         var max_command = math.min(altitude*2, altitude+250);
@@ -204,6 +226,7 @@ var AltitudeBars = {
 
         me.set_bars_pos(math.clamp(altitude / command_altitude, 0, 2));
 
+        # reference altitude bars
         if (command_altitude <= 500) {
             me.ref_bars.show();
             me.ref_bars.setScale(1, 100/command_altitude);
@@ -211,6 +234,7 @@ var AltitudeBars = {
             me.ref_bars.hide();
         }
 
+        # radar altitude index
         if (radar_altitude != nil and me.mode != HUD.MODE_TAKEOFF_ROLL) {
             me.rhm_index.show();
             var rhm_pos = math.clamp((altitude - radar_altitude) / command_altitude, -1, 1);
@@ -252,7 +276,8 @@ var DigitalAltitude = {
     },
 
     # Altitude in meters
-    update: func(altitude, ref_point_offset) {
+    update: func(ref_point_offset) {
+        var altitude = input.alt.getValue();
         var str = "";
         if (altitude < -2.5) {
             # Negative altitudes (min -97.5), 2 digits, precision 5m
@@ -298,43 +323,64 @@ var DistanceLine = {
         if (mode == HUD.MODE_TAKEOFF_ROLL) {
             me.group.show();
             me.group.setTranslation(0, 1000);
+            me.set_mid_mark(TRUE);
+            me.set_side_marks(0.667);
         } elsif (mode == HUD.MODE_NAV) {
-            me.group.show();
+            me.set_mid_mark(TRUE);
+            me.set_side_marks(0);
         } else {
             me.group.hide();
         }
     },
 
-    # Args:
-    # - line_length (in [0,1]): length of horizontal line.
-    #   Maximum width is 1, corresponding to the width of altitude bars (6degs).
-    #   When equal to 0, the line is hidden.
-    # - mid_mark (boolean): display center marker.
-    # - side_marks (in [0,1]): position of side markers. Same scale as line_length.
-    #   When equal to 0, the side markers are hidden.
-    update: func(line_length, mid_mark, side_marks, alt_bars_pos=0) {
-        if (line_length > 0) {
-            me.line.setScale(line_length, 1);
+    # Time/distance line length, normalised in [0,1]. 0 hides the line.
+    set_line: func(length) {
+        if (length > 0) {
+            me.line.setScale(length, 1);
             me.line.show();
         } else {
             me.line.hide();
         }
+    },
 
-        if (mid_mark) me.middle_mark.show();
+    # Toggle middle marker on/off.
+    set_mid_mark: func(show) {
+        if (show) me.middle_mark.show();
         else me.middle_mark.hide();
+    },
 
-        if (side_marks > 0) {
-            me.left_mark.setTranslation(-300*side_marks, 0);
-            me.right_mark.setTranslation(300*side_marks, 0);
+    # Set side markers position, normalised in [0,1]. 0 hides the markers.
+    set_side_marks: func(pos) {
+        if (pos > 0) {
+            me.left_mark.setTranslation(-300*pos, 0);
+            me.right_mark.setTranslation(300*pos, 0);
             me.left_mark.show();
             me.right_mark.show();
         } else {
             me.left_mark.hide();
             me.right_mark.hide();
         }
+    },
 
-        if (me.mode == HUD.MODE_NAV) {
-            me.group.setTranslation(0, alt_bars_pos);
+    update: func(alt_bars_pos) {
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
+            # rotation speeds:
+            #28725 lbm -> 250 km/h
+            #40350 lbm -> 280 km/h
+            var weight = input.weight.getValue();
+            var rotation_speed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
+            rotation_speed = math.clamp(rotation_speed, 250, 300);
+
+            me.set_line(input.speed.getValue() * 0.667 / rotation_speed);
+        } elsif (me.mode == HUD.MODE_NAV) {
+            var eta = input.eta.getValue();
+            if (eta != nil and eta <= 60) {
+                me.group.show();
+                me.set_line(eta / 60);
+                me.group.setTranslation(0, alt_bars_pos);
+            } else {
+                me.group.hide();
+            }
         }
     },
 };
@@ -382,8 +428,10 @@ var HeadingScale = {
         }
     },
 
-    update: func(heading, alt_bars_pos) {
-        heading = heading/10;
+    update: func(alt_bars_pos) {
+        if (me.mode == HUD.MODE_NAV_DECLUTTER and !me.declutter_visible) return;
+
+        var heading = input.heading.getValue()/10;
         var heading_int = math.round(heading);
         var heading_frac = heading - heading_int;
         var text_grads = [heading_int-1, heading_int, heading_int+1];
@@ -420,7 +468,7 @@ var FPV = {
 
     set_mode: func(mode) {
         me.mode = mode;
-        if (mode == HUD.MODE_TAKEOFF_ROLL or mode == HUD.MODE_TAKEOFF_ROTATE) {
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
             me.tail.hide();
             me.group.setTranslation(0, 1000);
         } else {
@@ -428,8 +476,10 @@ var FPV = {
         }
     },
 
-    update: func(up, right) {
-        me.group.setTranslation(100*right, -100*up);
+    update: func {
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) return;
+
+        me.group.setTranslation(100 * input.fpv_right.getValue(), -100 * input.fpv_up.getValue());
     },
 };
 
@@ -485,7 +535,7 @@ var HUD = {
         # Other HUD elements
         me.alt_bars = AltitudeBars.new(me.groups.ref_point);
         me.dig_alt = DigitalAltitude.new(me.groups.ref_point);
-        me.heading = HeadingScale.new(me.groups.horizon); # horizon, not ref_point: do not apply lateral offset
+        me.heading = HeadingScale.new(me.groups.horizon); # rooted on horizon, not ref_point: do not apply lateral offset
         me.distance = DistanceLine.new(me.groups.ref_point);
         me.fpv = FPV.new(me.groups.forward_axis);
     },
@@ -514,6 +564,9 @@ var HUD = {
             me.set_mode(HUD.MODE_FINAL_OPT);
         } elsif (modes.main == modes.LANDING and land.mode == 3) {
             me.set_mode(HUD.MODE_FINAL_NAV);
+        } elsif (modes.main == modes.LANDING) {
+            # Initial landing phase, NAV display mode
+            me.set_mode(HUD.MODE_NAV);
         } else { # Nav
             if (input.declutter.getBoolValue() and input.alt.getValue() < 97.5) {
                 me.set_mode(HUD.MODE_NAV_DECLUTTER);
@@ -525,49 +578,16 @@ var HUD = {
 
     update: func {
         me.update_mode();
-
-        # FPV
-        var fpv_rel_bearing = 0;
-        if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
-            me.fpv.update(input.fpv_up.getValue(), input.fpv_right.getValue());
-
-            fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();
-            fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
-        }
-
-        var rel_bearing = input.rm_active.getBoolValue() ? input.rel_bearing.getValue() : nil;
-        me.horizon.update(input.pitch.getValue(), input.roll.getValue(), rel_bearing, fpv_rel_bearing);
-        rel_bearing = me.horizon.get_ref_point_offset();
-
-        # Digital altitude.
-        me.dig_alt.update(input.alt.getValue(), rel_bearing);
-
-        var alt_bars_pos = 0;
-        if (me.mode != HUD.MODE_NAV_DECLUTTER) {
-            # Altitude reference bars need to be updated early.
-            # Positions of other groups depends on the space they occupy.
-            var rad_alt = input.rad_alt_ready.getBoolValue() ? input.rad_alt.getValue() : nil;
-            me.alt_bars.update(input.alt.getValue(), input.ref_alt.getValue(), rad_alt);
-            alt_bars_pos = me.alt_bars.get_base_pos();
-
-            # Time/distance line
-            if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
-                # rotation speeds:
-                #28725 lbm -> 250 km/h
-                #40350 lbm -> 280 km/h
-                var weight = input.weight.getValue();
-                var rotation_speed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
-                rotation_speed = math.clamp(rotation_speed, 250, 300);
-                me.distance.update(input.speed.getValue() * 0.667 / rotation_speed, TRUE, 0.667);
-            } elsif (me.mode == HUD.MODE_NAV) {
-                var eta = input.eta.getValue();
-                if (eta == nil or eta > 60) me.distance.update(FALSE, FALSE, FALSE, alt_bars_pos);
-                else me.distance.update(eta/60.0, TRUE, FALSE, alt_bars_pos);
-            }
-        }
-
-        # Heading Scale
-        me.heading.update(input.heading.getValue(), alt_bars_pos);
+        me.fpv.update();
+        var fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();
+        fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
+        me.horizon.update(fpv_rel_bearing);
+        var rel_bearing = me.horizon.get_ref_point_offset();
+        me.dig_alt.update(rel_bearing);
+        me.alt_bars.update();
+        var alt_bars_pos = me.alt_bars.get_base_pos();
+        me.distance.update(alt_bars_pos);
+        me.heading.update(alt_bars_pos);
     },
 
     declutter_heading_toggle: func {
