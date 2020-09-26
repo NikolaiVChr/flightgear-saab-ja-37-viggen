@@ -1,10 +1,6 @@
 #
 # Methods that is used across multiple displays (HUD, CI, MI, TI)
 #
-var TAKEOFF = 0;
-var NAV = 1;
-var COMBAT =2;
-var LANDING = 3;
 
 var FALSE = 0;
 var TRUE = 1;
@@ -36,16 +32,7 @@ var Common = {
 	new: func {
 	  	var co = { parents: [Common] };
 	  	co.input = {
-	        fpv_up:           "instrumentation/fpv/angle-up-stab-deg",
-	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
-	        gearsPos:         "gear/gear/position-norm",
-	        wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
 	        wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
-	        wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
-	        dev:              "dev",
-	        combat:           "ja37/hud/combat",
-	        landingMode:      "ja37/hud/landing-mode",
-	        elapsedSec:       "sim/time/elapsed-sec",
 	        nav0InRange:      "instrumentation/nav[0]/in-range",
 	        qfeActive:        "ja37/displays/qfe-active",
 	        qfeShown:		  "ja37/displays/qfe-shown",
@@ -67,8 +54,6 @@ units:                "ja37/hud/units-metric",
         	co.input[name] = props.globals.getNode(co.input[name], 1);
       	}
 
-      	co.mode = TAKEOFF;
-      	co.modeTimeTakeoff = -1;
       	co.currArmName = "None";
       	co.currArmNameMedium = "";
       	co.currArmNameSh = "--";
@@ -87,7 +72,6 @@ units:                "ja37/hud/units-metric",
 	},
 
 	loop: func {#todo: make slower loop
-		me.displayMode();
 		me.armName();
 		me.armNameShort();
 		me.armNameMedium();
@@ -331,60 +315,6 @@ units:                "ja37/hud/units-metric",
 	        return nil;
 	      }
 	},
-
-	displayMode: func {
-		# from manual:
-		#
-		# STARTMOD: always at wow0. Switch to other mode when FPI >3degs or gear retract or mach>0.35 (earliest 4s after wow0==0).
-		# NAVMOD: Press B or L, or auto switch after STARTMOD.
-		# LANDMOD: Press LT or LS on TI. (key 'Y' is same as LS)
-		#
-		if (me.input.mach.getValue() != nil) {
-		    me.hasRotated = FALSE;
-		    if (me.input.mach.getValue() > 0.1) {
-		      # we are moving, test rotation
-		      me.hasRotated = me.input.fpv_up.getValue() > 3;
-		    }
-		    me.takeoffForbidden = me.hasRotated or me.input.gearsPos.getValue() != 1;# takeoff no longer allowed
-		    me.takeoffForbidden2 = me.input.mach.getValue() > 0.35 and me.modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - me.modeTimeTakeoff > 4;
-		    me.takeoffForbidden = me.takeoffForbidden or me.takeoffForbidden2;
-		    if(me.mode!= TAKEOFF and !me.takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
-		      # nosewheel touch runway, so we switch to TAKEOFF
-		      me.mode= TAKEOFF;
-		      me.input.landingMode.setValue(0);
-		      me.modeTimeTakeoff = -1;
-		    } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
-		      # developer mode is active with tactical request, so we switch to COMBAT
-		      me.mode= COMBAT;
-		      me.modeTimeTakeoff = -1;
-		    } elsif (me.mode== TAKEOFF and me.modeTimeTakeoff == -1 and me.input.wow0.getValue() == FALSE) {
-		      # Nosewheel lifted off, so we start the 4 second counter
-		      me.modeTimeTakeoff = me.input.elapsedSec.getValue();
-		    } elsif (me.mode== TAKEOFF and me.takeoffForbidden == TRUE) {
-		        # time to switch away from TAKEOFF mode.
-		        if (me.input.landingMode.getValue() == TRUE) {
-		          me.mode = LANDING;
-		        } else {
-		          me.mode = (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0)? COMBAT : NAV;
-		        }
-		        me.modeTimeTakeoff = -1;
-		    } elsif ((me.mode== COMBAT or me.mode== NAV) and (me.input.landingMode.getValue() == TRUE)) {
-		      # Switch to LANDING
-		      me.mode= LANDING;
-		      me.modeTimeTakeoff = -1;
-		    } elsif (me.mode== COMBAT or me.mode== NAV) {
-		      # determine if we should have COMBAT or NAV
-		      me.mode= (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0)? COMBAT : NAV;
-		      me.modeTimeTakeoff = -1;
-		    } elsif (me.mode== LANDING and me.input.landingMode.getValue() == FALSE) {
-		      # switch from LANDING to COMBAT/NAV
-		      me.mode= (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0) ? COMBAT : NAV;
-		      me.modeTimeTakeoff = -1;
-		    }
-		    modes.main = me.mode;
-        modes.input.main.setValue(me.mode);
-		}
-    },
 
     QFE: func {
     	if (me.input.alt_ft.getValue() != nil) {

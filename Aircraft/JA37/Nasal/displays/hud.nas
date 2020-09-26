@@ -3258,16 +3258,6 @@ var cycle_landingMode = func () {
     }
 };
 
-var toggle_combat = func () {
-  ja37.click();
-  var current = getprop("/ja37/hud/combat");
-  if(current == 1) {
-    setprop("/ja37/hud/combat", FALSE);
-  } else {
-    setprop("/ja37/hud/combat", TRUE);
-  }
-};
-
 var toggleCallsign = func () {
   ja37.click();
   var current = getprop("/ja37/hud/callsign");

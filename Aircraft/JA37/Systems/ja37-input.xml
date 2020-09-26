@@ -125,7 +125,7 @@
             <desc>Toggle masterarm</desc>
             <binding>
                 <command>nasal</command>
-                <script>canvas_HUD.toggle_combat()</script>
+                <script>modes.toggle_master_arm(); ja37.click();</script>
             </binding>
         </key>
         <key n="72">

@@ -71,7 +71,7 @@
             <button>0</button>
             <binding>
                 <command>nasal</command>
-                <script>canvas_HUD.toggle_combat()</script>
+                <script>modes.toggle_master_arm(); ja37.click();</script>
             </binding>
         </action>
         <hovered>
