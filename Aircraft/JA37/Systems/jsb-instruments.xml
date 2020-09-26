@@ -507,6 +507,69 @@
         </actuator>
     </channel>
 
+    <channel name="flight path vector">
+        <fcs_function name="instruments/fpv/angle-up-deg">
+            <function>
+                <todegrees>
+                    <atan2>
+                        <property>-velocities/w-fps</property>
+                        <property>velocities/u-fps</property>
+                    </atan2>
+                </todegrees>
+            </function>
+            <output>/instrumentation/fpv/angle-up-deg</output>
+        </fcs_function>
+
+        <fcs_function name="instruments/fpv/angle-right-deg">
+            <function>
+                <todegrees>
+                    <atan2>
+                        <property>velocities/v-fps</property>
+                        <property>velocities/u-fps</property>
+                    </atan2>
+                </todegrees>
+            </function>
+            <output>/instrumentation/fpv/angle-right-deg</output>
+        </fcs_function>
+
+        <!-- Stabilized version for displays (fixed forward when velocity is too low) -->
+        <scheduled_gain name="instruments/fpv/angle-up-stab-deg">
+            <input>instruments/fpv/angle-up-deg</input>
+            <table>
+                <independentVar>velocities/vg-fps</independentVar>
+                <tableData>
+                    15  0
+                    20  1
+                </tableData>
+            </table>
+            <output>/instrumentation/fpv/angle-up-stab-deg</output>
+        </scheduled_gain>
+
+        <scheduled_gain name="instruments/fpv/angle-right-stab-deg">
+            <input>instruments/fpv/angle-right-deg</input>
+            <table>
+                <independentVar>velocities/vg-fps</independentVar>
+                <tableData>
+                    15  0
+                    20  1
+                </tableData>
+            </table>
+            <output>/instrumentation/fpv/angle-right-stab-deg</output>
+        </scheduled_gain>
+
+
+        <fcs_function name="instruments/fpv/heading-true">
+            <function>
+                <todegrees>
+                    <atan2>
+                        <property>velocities/v-east-fps</property>
+                        <property>velocities/v-north-fps</property>
+                    </atan2>
+                </todegrees>
+            </function>
+            <output>/instrumentation/fpv/heading-true</output>
+        </fcs_function>
+    </channel>
 
     <channel execrate="4" name="instruments">
 

@@ -1521,6 +1521,8 @@ var TI = {
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
+			fpv_up:               "instrumentation/fpv/angle-up-stab-deg",
+			fpv_right:            "instrumentation/fpv/angle-right-stab-deg",
 #			twoHz:                "ja37/blink/two-Hz/state",
 			station:          	  "controls/armament/station-select-custom",
 			roll:             	  "orientation/roll-deg",
@@ -4421,12 +4423,8 @@ var TI = {
 	},
 
 	displayFPI: func {
-		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
-		me.fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
-		if (me.fpi_x_deg == nil) {
-			me.fpi_x_deg = 0;
-			me.fpi_y_deg = 0;
-		}
+		me.fpi_x_deg = me.input.fpv_right.getValue();
+		me.fpi_y_deg = -me.input.fpv_up.getValue();
 		me.fpi_x = me.fpi_x_deg*texel_per_degree;
 		me.fpi_y = me.fpi_y_deg*texel_per_degree;
 		#me.fpi.setTranslation(me.fpi_x, me.fpi_y);

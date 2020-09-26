@@ -1064,9 +1064,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         roll:             "orientation/roll-deg",
         srvHead:          "instrumentation/heading-indicator/serviceable",
         service:          "instrumentation/head-up-display/serviceable",
-        speed_d:          "velocities/speed-down-fps",
-        speed_e:          "velocities/speed-east-fps",
-        speed_n:          "velocities/speed-north-fps",
+        fpv_up:           "instrumentation/fpv/angle-up-stab-deg",
+        fpv_right:        "instrumentation/fpv/angle-right-stab-deg",
         station:          "controls/armament/station-select-custom",
         tenHz:            "ja37/blink/four-Hz/state",
         twoHz:            "ja37/blink/two-Hz/state",
@@ -1094,8 +1093,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         terrainWarn:      "/instrumentation/terrain-warning",
         qfeActive:        "ja37/displays/qfe-active",
         qfeShown:         "ja37/displays/qfe-shown",
-        fpiHorz:          "ja37/displays/fpi-horz-deg",
-        fpiVert:          "ja37/displays/fpi-vert-deg",
         hudBright:        "ja37/hud/brightness",
         hudBrightSI:      "ja37/hud/brightness-si",
         hudBrightRES:     "ja37/hud/brightness-res",
@@ -2207,40 +2204,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   showFlightPathVector: func (show, out_of_ammo, mode) {
-    me.vel_gx = me.input.speed_n.getValue();
-    me.vel_gy = me.input.speed_e.getValue();
-    me.vel_gz = me.input.speed_d.getValue();
-
-    me.yaw = me.input.hdgReal.getValue() * D2R;
-    me.roll = me.input.roll.getValue() * D2R;
-    me.pitch = me.input.pitch.getValue() * D2R;
-
-    if (math.sqrt(me.vel_gx *me.vel_gx+me.vel_gy*me.vel_gy+me.vel_gz*me.vel_gz)<15) {
-      # we are pretty much still, point the vector along axis.
-      me.vel_gx = math.cos(me.yaw)*1;
-      me.vel_gy = math.sin(me.yaw)*1;
-      me.vel_gz = 0;
-    }
- 
-    me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
-    me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
-    me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
- 
-    me.vel_bx = me.vel_gx * me.cy * me.cp
-               + me.vel_gy * me.sy * me.cp
-               + me.vel_gz * -me.sp;
-    me.vel_by = me.vel_gx * (me.cy * me.sp * me.sr - me.sy * me.cr)
-               + me.vel_gy * (me.sy * me.sp * me.sr + me.cy * me.cr)
-               + me.vel_gz * me.cp * me.sr;
-    me.vel_bz = me.vel_gx * (me.cy * me.sp * me.cr + me.sy * me.sr)
-               + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
-               + me.vel_gz * me.cp * me.cr;
- 
-    me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
-    me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
-    
-    me.input.fpiHorz.setDoubleValue(me.dir_x);#used in MI display
-    me.input.fpiVert.setDoubleValue(me.dir_y);
+    me.dir_x = me.input.fpv_right.getValue();
+    me.dir_y = -me.input.fpv_up.getValue();
 
     me.pos_x = clamp(me.dir_x * pixelPerDegreeX, -max_width, max_width);
     me.pos_y = clamp((me.dir_y * pixelPerDegreeY)+centerOffset, -max_width, (800/1024)*canvasWidth);

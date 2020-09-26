@@ -36,9 +36,7 @@ var Common = {
 	new: func {
 	  	var co = { parents: [Common] };
 	  	co.input = {
-			speed_d:          "velocities/speed-down-fps",
-	        speed_e:          "velocities/speed-east-fps",
-	        speed_n:          "velocities/speed-north-fps",
+	        fpv_up:           "instrumentation/fpv/angle-up-stab-deg",
 	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
 	        gearsPos:         "gear/gear/position-norm",
 	        wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
@@ -344,10 +342,8 @@ units:                "ja37/hud/units-metric",
 		if (me.input.mach.getValue() != nil) {
 		    me.hasRotated = FALSE;
 		    if (me.input.mach.getValue() > 0.1) {
-		      # we are moving, calc the flight path angle
-		      me.vel_gh = math.sqrt(me.input.speed_n.getValue()*me.input.speed_n.getValue()+me.input.speed_e.getValue()*me.input.speed_e.getValue());
-		      me.vel_gv = -me.input.speed_d.getValue();
-		      me.hasRotated = math.atan2(me.vel_gv, me.vel_gh)*R2D > 3;
+		      # we are moving, test rotation
+		      me.hasRotated = me.input.fpv_up.getValue() > 3;
 		    }
 		    me.takeoffForbidden = me.hasRotated or me.input.gearsPos.getValue() != 1;# takeoff no longer allowed
 		    me.takeoffForbidden2 = me.input.mach.getValue() > 0.35 and me.modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - me.modeTimeTakeoff > 4;
