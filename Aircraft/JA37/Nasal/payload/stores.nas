@@ -18,7 +18,6 @@ var jettisonAll = FALSE;
 
 input = {
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
-  combat:           "/ja37/hud/current-mode",
   elapsed:          "sim/time/elapsed-sec",
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
@@ -385,14 +384,14 @@ var loop_stores = func {
           #pylon not selected, and not flying set missile on standby
           armament.AIM.active[i].stop();
           #print("not sel "~i);
-        } elsif (!power.prop.acMainBool.getValue() or input.combat.getValue() != 2
+        } elsif (!power.prop.acMainBool.getValue() or modes.main != modes.COMBAT
                   or (armament.AIM.active[i].status != MISSILE_STANDBY
                       and armament.AIM.active[i].status != MISSILE_FLYING
                       and payloadName.getValue() == "none")) {
           #pylon has logic but missile not mounted and not flying or not in tactical mode or has no power
           armament.AIM.active[i].stop();
           #print("empty "~i);
-        } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY and input.combat.getValue() == 2) {
+        } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY and modes.main == modes.COMBAT) {
           #pylon selected, missile mounted, in tactical mode, activate search
           armament.AIM.active[i].start();
           #print("active "~i);
@@ -410,7 +409,7 @@ var loop_stores = func {
         if(payloadName.getValue() == "RB 75 Maverick"
                 and armament.AIM.active[i] != nil
                 and armament.AIM.active[i].status == MISSILE_SEARCH
-                and input.combat.getValue() == 2) {
+                and modes.main == modes.COMBAT) {
           #pylon selected, maverick mounted, in tactical mode, searching: activate VID
           setprop("ja37/avionics/vid", TRUE);
         } else {
@@ -672,7 +671,7 @@ var trigger_listener = func {
   }
 
   #if masterarm is on and HUD in tactical mode, propagate trigger to station
-  if(armSelect != -1 and input.combat.getValue() == 2 and power.prop.dcMainBool.getValue() and !(armSelect == 0 and !power.prop.acMainBool.getValue())) {
+  if(armSelect != -1 and modes.main == modes.COMBAT and power.prop.dcMainBool.getValue() and !(armSelect == 0 and !power.prop.acMainBool.getValue())) {
     setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
 
     # M70 and M55 use specific trigger properties.
@@ -1349,7 +1348,7 @@ var buttonIRRB = func {
 # Caging of the IR seeker for AJ(S)
 var setIRCaged = func (cage) {
     # Check master arm on, IR seeker selected
-    if (input.combat.getValue() != 2) return;
+    if (modes.main != modes.COMBAT) return;
     var armSelect = input.stationSelect.getValue();
     if (armSelect <= 0) return;
     var arm = armament.AIM.active[armSelect-1];

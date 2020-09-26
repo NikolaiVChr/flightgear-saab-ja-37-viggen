@@ -136,7 +136,7 @@ MiscMonitor.update = func()
   }
   setprop("/sim/gui/dialogs/systems-monitor/gate", gate);
   var landingMode = "Off/No Route";
-  if(canvas_HUD.mode == canvas_HUD.LANDING) {
+  if(modes.main == modes.LANDING) {
     if (land.mode == 1) {
       landingMode = "Mode 1";
     } elsif (land.mode == 2) {

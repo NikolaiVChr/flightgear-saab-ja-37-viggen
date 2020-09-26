@@ -29,12 +29,7 @@ var TRUE = 1;
 
 var on_backup_power = FALSE;
 
-var TAKEOFF = 0;
-var NAV = 1;
-var COMBAT =2;
-var LANDING = 3;
-
-var mode = TAKEOFF;
+var mode = 0;
 var modeTimeTakeoff = -1;
 
 var air2air = FALSE;
@@ -1037,7 +1032,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
         combat:           "ja37/hud/combat",
-        currentMode:      "ja37/hud/current-mode",
         dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         elapsedSec:       "sim/time/elapsed-sec",
@@ -1150,7 +1144,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.lastPower = power.prop.dcMain.getValue()+power.prop.acSecond.getValue();
 
-    mode = me.input.currentMode.getValue();
+    mode = modes.main;
     me.station = me.input.station.getValue();
 
     me.displaySeeker(mode);
@@ -1183,7 +1177,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
       me.cannon = me.station == 0;
       me.cannon = me.cannon or (me.station != -1 and getprop("payload/weight["~ (me.station-1) ~"]/selected") == "M55 AKAN");
-      me.cannon = mode == COMBAT and me.cannon;
+      me.cannon = mode == modes.COMBAT and me.cannon;
       me.out_of_ammo = FALSE;
       #if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
       #      out_of_ammo = TRUE;
@@ -1278,7 +1272,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   topHeadingScaleShown: func () {
-    return mode != LANDING or me.input.pitch.getValue() < -2 or me.input.pitch.getValue() > 13.5;
+    return mode != modes.LANDING or me.input.pitch.getValue() < -2 or me.input.pitch.getValue() > 13.5;
   },
 
   displayHeadingScale: func () {
@@ -1321,7 +1315,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   displayHeadingHorizonScale: func () {
-    if (mode == LANDING) {
+    if (mode == modes.LANDING) {
       if(me.input.srvHead.getValue() == 1) {
         me.heading = me.input.hdg.getValue();
         me.headOffset = me.heading/10 - int (me.heading/10);
@@ -1441,7 +1435,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       } else {
         me.heading_bug.hide();
       }
-      if (mode == LANDING) {
+      if (mode == modes.LANDING) {
         me.pos_xxx = me.middleOffsetHorz + me.degOffset*(pixelPerDegreeX);
         me.heading_bug_horz_group.setTranslation(me.pos_xxx, 0);
         me.heading_bug_horz.show();
@@ -1458,7 +1452,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.metric = me.input.units.getValue();
     me.alti = me.metric == TRUE ? me.input.alt_ft.getValue() * FT2M : me.input.alt_ft.getValue();
     me.radAlt = me.input.rad_alt_ready.getBoolValue() ?(me.metric == TRUE ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
-    if (mode == COMBAT) {
+    if (mode == modes.COMBAT) {
       me.displayAltitudeNumber(me.alti);
     } else {
       me.displayAltitudeScale(me.alti, me.radAlt);
@@ -1767,7 +1761,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.desired_alt_delta_ft = nil;
       me.showBoxes = FALSE;
       me.showLines = TRUE;
-      if(mode == TAKEOFF) {
+      if(mode == modes.TAKEOFF) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
@@ -1775,7 +1769,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         if (me.input.alt_ft.getValue() * FT2M > 1000) {
           me.showLines = FALSE;
         }
-      } elsif(mode == LANDING and land.mode < 3 and land.mode > 0) {
+      } elsif(mode == modes.LANDING and land.mode < 3 and land.mode > 0) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
       #  me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
@@ -1815,7 +1809,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
   displayLandingGuide: func (mode, deflect) {
     me.guideUseLines = FALSE;
-    if(mode == LANDING and (land.mode < 1 or land.mode > 2)) {
+    if(mode == modes.LANDING and (land.mode < 1 or land.mode > 2)) {
       me.deg = 0;#clamp(deflect, -8, 6);
       
       if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE and (land.has_waypoint < 1 or ( land.has_waypoint > 1 and land.ils != 0 and getprop("ja37/hud/TILS") == TRUE))) {
@@ -1849,7 +1843,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.mach = me.input.mach.getValue();
     me.metric = me.input.units.getValue();
     me.displayGS = air2ground;# in AJ(S) speed type is selected by weapon type when in tactical mode.
-    if (mode == LANDING or (me.input.rad_alt_ready.getBoolValue() and me.input.rad_alt.getValue()*FT2M > 1000)) {
+    if (mode == modes.LANDING or (me.input.rad_alt_ready.getBoolValue() and me.input.rad_alt.getValue()*FT2M > 1000)) {
       # page 368 in JA37Di manual (small).
       me.displayGS = FALSE;
     } elsif (getprop("ja37/systems/variant") == 0) {
@@ -1859,7 +1853,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     if(me.metric == TRUE) {
       # metric
       me.airspeedInt.hide();
-      if (me.mach >= 0.5 and mode != LANDING and mode != TAKEOFF) {
+      if (me.mach >= 0.5 and mode != modes.LANDING and mode != modes.TAKEOFF) {
         me.speed = me.displayGS == TRUE?me.input.gs.getValue()*KT2KMH:me.input.ias.getValue()*KT2KMH;
         me.type  = me.displayGS == TRUE?"GS":"";
         me.airspeedInt.setText(sprintf(me.type~"%03d", me.speed));
@@ -1874,7 +1868,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.airspeed.setText("");
         }
       }
-    } elsif (mode == LANDING or mode == TAKEOFF or me.mach < 0.5) {
+    } elsif (mode == modes.LANDING or mode == modes.TAKEOFF or me.mach < 0.5) {
       # interoperability without mach
       me.airspeedInt.hide();
       if (me.input.ias.getValue() * KT2KMH > 75) {
@@ -1893,11 +1887,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.airspeed.setText(sprintf("M%.2f", me.mach));
     }
 
-    if (mode == LANDING and me.input.alphaJSB.getValue() > 8.5) {
+    if (mode == modes.LANDING and me.input.alphaJSB.getValue() > 8.5) {
       me.airspeed.setTranslation(0, airspeedPlaceFinal);
       me.airspeedInt.setTranslation(0, airspeedPlaceFinal - (70/1024)*canvasWidth);
       me.final = TRUE;
-    } elsif (mode != LANDING or (me.final == FALSE) or (me.final == TRUE and me.input.alphaJSB.getValue() < 5.5)) {
+    } elsif (mode != modes.LANDING or (me.final == FALSE) or (me.final == TRUE and me.input.alphaJSB.getValue() < 5.5)) {
       me.airspeed.setTranslation(0, airspeedPlace);
       me.airspeedInt.setTranslation(0, airspeedPlace - (70/1024)*canvasWidth);
       me.final = FALSE;
@@ -1925,7 +1919,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.default_lateral_pitchnumbers = canvasWidth*0.25;
     me.max_vertical_max = 0;
     me.max_vertical_min = 0;
-    me.vertical_buffer = mode==LANDING?altimeterScaleHeight*1.4:6*pixelPerDegreeY;
+    me.vertical_buffer = mode==modes.LANDING?altimeterScaleHeight*1.4:6*pixelPerDegreeY;
     if (me.rot_deg >= 0 and me.rot_deg < 90) {
       me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,0,90,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers+centerOffset);
       me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,0,90,me.default_lateral_pitchnumbers*0.65,me.default_lateral_pitchnumbers*0.65-centerOffset);
@@ -1954,14 +1948,14 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.horizon_group3.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
     me.horizon_group4.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
     me.alt_scale_clip_grp.setTranslation(me.horizon_lateral, me.horizon_vertical);
-    if(mode == COMBAT) {
+    if(mode == modes.COMBAT) {
       me.horizon_group3.show();
       me.horizon_group4.show();
       me.horizon_dots.hide();
       me.horizon_line_gap.hide();
       me.horizon_line_nav.hide();
       me.horizon_line.show();
-    } elsif (mode == LANDING) {
+    } elsif (mode == modes.LANDING) {
       me.horizon_group3.hide();
       me.horizon_group4.hide();
       me.horizon_dots.hide();
@@ -1980,7 +1974,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
   displayQFE: func (mode) {
     me.DME = me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0;
-    if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
+    if (mode == modes.LANDING and me.input.nav0InRange.getValue() == TRUE) {
       if (land.has_waypoint > 1 and land.ils != 0) {
         if (me.DME == TRUE) {
           me.qfe.setText("TILS/DME");
@@ -2008,10 +2002,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.qfe.hide();
         }
       }
-    } elsif ((mode == LANDING or mode == NAV) and me.DME == TRUE) {
+    } elsif ((mode == modes.LANDING or mode == modes.NAV) and me.DME == TRUE) {
       me.qfe.setText("DME");
       me.qfe.show();
-    } elsif (mode == COMBAT) {
+    } elsif (mode == modes.COMBAT) {
       me.qfe.setText(displays.common.currArmNameMedium);
       me.qfe.show();
     } elsif (me.input.qfeActive.getValue()) {
@@ -2029,7 +2023,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   showReticle: func (mode, cannon, out_of_ammo) {
-    if (mode == COMBAT and cannon == TRUE) {
+    if (mode == modes.COMBAT and cannon == TRUE) {
       me.showSidewind(FALSE);
       
       me.reticle_cannon.setTranslation(0, centerOffset);
@@ -2039,7 +2033,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       air2air = FALSE;
       air2ground = FALSE;
       return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
-    } elsif (mode == COMBAT and cannon == FALSE) {
+    } elsif (mode == modes.COMBAT and cannon == FALSE) {
       if (me.station == -1) {
         air2air = FALSE;
         air2ground = FALSE;
@@ -2158,7 +2152,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.reticle_c_missile.hide();
       }
       return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
-    } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
+    } elsif (mode != modes.TAKEOFF and mode != modes.LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       air2air = FALSE;
       air2ground = FALSE;
@@ -2167,7 +2161,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.reticle_missile.hide();
       me.reticle_c_missile.hide();
       return me.showFlightPathVector(1, FALSE, mode);
-    } elsif(mode == TAKEOFF) {      
+    } elsif(mode == modes.TAKEOFF) {      
       air2air = FALSE;
       air2ground = FALSE;
       me.showSidewind(TRUE);
@@ -2175,7 +2169,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.reticle_missile.hide();
       me.reticle_c_missile.hide();
       return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE, mode);
-    } elsif(mode == LANDING) {      
+    } elsif(mode == modes.LANDING) {      
       air2air = FALSE;
       air2ground = FALSE;
       me.showSidewind(FALSE);
@@ -2264,7 +2258,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         
         #me.reticle_group.setTranslation(me.pos_x, me.pos_y);
                 
-        if (mode == LANDING) {
+        if (mode == modes.LANDING) {
           # move fin to alpha or speed
           me.gearsDown = me.input.gearsPos.getValue();
 
@@ -2311,7 +2305,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   showDistanceScale: func (mode, fallTime) {
-    if(mode == TAKEOFF) {
+    if(mode == modes.TAKEOFF) {
       if (me.input.pitch.getValue() < 5) {
         me.line = (200/1024)*canvasWidth;
 
@@ -2350,7 +2344,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.distanceText.hide();
         me.distanceScale.hide();
       }
-    } elsif (mode == COMBAT) {
+    } elsif (mode == modes.COMBAT) {
       if (radar_logic.selection != nil) {
         me.line = (200/1024)*canvasWidth;
         me.aim = displays.common.armActive();
@@ -2532,7 +2526,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.towerAlt = me.input.towerAlt.getValue();
     me.towerLat = me.input.towerLat.getValue();
     me.towerLon = me.input.towerLon.getValue();
-    if(mode != COMBAT and me.towerAlt != nil and me.towerLat != nil and me.towerLon != nil and me.final == FALSE) {# and me.final == FALSE
+    if(mode != modes.COMBAT and me.towerAlt != nil and me.towerLat != nil and me.towerLon != nil and me.final == FALSE) {# and me.final == FALSE
       me.towerPos = geo.Coord.new();
       me.towerPos.set_latlon(me.towerLat, me.towerLon, me.towerAlt*FT2M);
       me.showme = TRUE;
@@ -2778,7 +2772,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     },
 
   displayCCIP: func () {
-    if(mode == COMBAT) {
+    if(mode == modes.COMBAT) {
 
       me.armSelect = me.station;
       if(me.armSelect > 0 and (getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett" or getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)")) {
@@ -2849,7 +2843,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.missileCurr = displays.common.armActive();
     me.diamond_small.hide();
     me.lock_ir.hide();
-    if (me.missileCurr != nil and mode == COMBAT and me.missileCurr.guidance == "heat") {
+    if (me.missileCurr != nil and mode == modes.COMBAT and me.missileCurr.guidance == "heat") {
       me.ds = me.missileCurr.getSeekerInfo();
       if (me.ds == nil) {
           me.diamond_small.hide();
@@ -2962,7 +2956,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.blink = TRUE;
           me.pos_y = -(462/1024)*canvasWidth;
         }
-        if(me.selection.get_type() != radar_logic.ORDNANCE and mode == COMBAT) {
+        if(me.selection.get_type() != radar_logic.ORDNANCE and mode == modes.COMBAT) {
           #targetable
           #diamond_node = selection[6];
           armament.contact = me.selection;

@@ -596,10 +596,12 @@
                 <state type="bool">false</state>
             </third-Hz>
         </blink>
+        <mode>
+            <main type="int">0</main>
+        </mode>
         <hud>
             <tracks-enabled type="bool">true</tracks-enabled>
             <units-metric type="bool">false</units-metric>
-            <current-mode type="int">0</current-mode>
             <combat type="bool">false</combat>
             <callsign type="bool">true</callsign>
             <stroke-linewidth type="double">5.0</stroke-linewidth>
@@ -1643,6 +1645,9 @@
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
             <file>Aircraft/JA37/Nasal/ejection.nas</file>
         </ja37>
+        <modes>
+            <file>Aircraft/JA37/Nasal/modes.nas</file>
+        </modes>
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
         </tyre>

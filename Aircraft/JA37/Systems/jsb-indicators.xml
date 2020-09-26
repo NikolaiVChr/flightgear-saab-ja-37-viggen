@@ -1689,7 +1689,7 @@
         <switch name="/ja37/sound/terrain-on">
             <default value="0"/>
             <test logic="AND" value="0">
-                /ja37/hud/current-mode == 0 <!-- equals takeoff -->
+                /ja37/mode/main == 0 <!-- equals takeoff -->
             </test>
             <test logic="AND" value="1">
                 gear/gear-pos-norm == 1 <!-- equals landing -->
@@ -1716,7 +1716,7 @@
             </test>
             <test logic="AND" value="1">
                 gear/gear-pos-norm ne 1
-                /ja37/hud/current-mode ne 3 <!-- not equals landing -->
+                /ja37/mode/main ne 3 <!-- not equals landing -->
                 /ja37/radar/time-till-crash lt 10
                 /ja37/radar/time-till-crash gt 0
                 /controls/altimeter-radar == 1

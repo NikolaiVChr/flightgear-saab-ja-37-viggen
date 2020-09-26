@@ -45,7 +45,6 @@ input = {
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
   canopyHinge:      "/fdm/jsbsim/fcs/canopy/hinges/serviceable",
   reload_allowed:   "/ja37/reload-allowed",
-  combat:           "/ja37/hud/current-mode",
   cutoff:           "fdm/jsbsim/propulsion/engine/cutoff-commanded",
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",

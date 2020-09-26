@@ -158,7 +158,6 @@ var MI = {
 			tenHz:            	  "ja37/blink/four-Hz/state",
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
-	        currentMode:          "ja37/hud/current-mode",
 	        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
 	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
       	};
@@ -761,7 +760,7 @@ var MI = {
 	},
 
 	showArm: func {
-		if (me.input.currentMode.getValue() == displays.COMBAT) {
+		if (modes.main == modes.COMBAT) {
 			me.ammo = armament.ammoCount(me.input.station.getValue());
 		    if (me.ammo == -1) {
 		    	me.ammoT = "  ";
@@ -776,7 +775,7 @@ var MI = {
 	},
 
 	showArmCircle: func {
-		if (me.input.currentMode.getValue() == displays.COMBAT) {
+		if (modes.main == modes.COMBAT) {
 			me.armActive = displays.common.armActive();
 			if (me.armActive != nil) {
 				me.dlz = me.armActive.getDLZ();
@@ -864,7 +863,7 @@ var MI = {
 
 	displaySeeker: func {
 		me.missileCurr = displays.common.armActive();
-	    if (me.missileCurr != nil and displays.common.mode == displays.COMBAT) {
+	    if (me.missileCurr != nil and modes.main == modes.COMBAT) {
 	      me.ds = me.missileCurr.getSeekerInfo();
 	      if (me.ds == nil) {
 	          me.diamond_small.hide();
@@ -955,7 +954,7 @@ var MI = {
 
 	displayRadarTracks: func () {
 
-		var mode = canvas_HUD.mode;
+		var mode = modes.main;
 
 	    me.track_index = 1;
 	    me.selection_updated = FALSE;
@@ -1308,13 +1307,13 @@ var MI = {
 	      me.showLines = TRUE;
 	      me.desired_alt_delta_ft = nil;
 	      me.desired_alt_ft = nil;
-	      if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
+	      if(modes.main == modes.TAKEOFF) {
 	      	me.desired_alt_ft = (500*M2FT);
 	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
 	      } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
 	      	me.desired_alt_ft = me.input.APTgtAlt.getValue();
 	        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
-	      } elsif(canvas_HUD.mode == canvas_HUD.LANDING and land.mode < 3 and land.mode > 0) {
+	      } elsif(modes.main == modes.LANDING and land.mode < 3 and land.mode > 0) {
 	      	me.desired_alt_ft = (500*M2FT);
 	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
 	      #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {

@@ -47,7 +47,6 @@ var Common = {
 	        dev:              "dev",
 	        combat:           "ja37/hud/combat",
 	        landingMode:      "ja37/hud/landing-mode",
-	        currentMode:      "ja37/hud/current-mode",
 	        elapsedSec:       "sim/time/elapsed-sec",
 	        nav0InRange:      "instrumentation/nav[0]/in-range",
 	        qfeActive:        "ja37/displays/qfe-active",
@@ -386,7 +385,8 @@ units:                "ja37/hud/units-metric",
 		      me.mode= (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0) ? COMBAT : NAV;
 		      me.modeTimeTakeoff = -1;
 		    }
-		    me.input.currentMode.setIntValue(me.mode);
+		    modes.main = me.mode;
+        modes.input.main.setValue(me.mode);
 		}
     },
 
