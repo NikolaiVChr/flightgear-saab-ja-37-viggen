@@ -510,14 +510,16 @@ var HUD = {
             } elsif (input.pitch.getValue() < 3) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             }
-        } elsif (modes.main == modes.NAV) {
+        } elsif (modes.main == modes.LANDING and (land.mode < 1 or land.mode == 4)) {
+            me.set_mode(HUD.MODE_FINAL_OPT);
+        } elsif (modes.main == modes.LANDING and land.mode == 3) {
+            me.set_mode(HUD.MODE_FINAL_NAV);
+        } else { # Nav
             if (input.declutter.getBoolValue() and input.alt.getValue() < 97.5) {
                 me.set_mode(HUD.MODE_NAV_DECLUTTER);
             } else {
                 me.set_mode(HUD.MODE_NAV);
             }
-        } elsif (modes.main == modes.LANDING) {
-            me.set_mode(HUD.MODE_FINAL_OPT);
         }
     },
 
