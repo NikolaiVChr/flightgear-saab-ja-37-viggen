@@ -1501,9 +1501,6 @@ var TI = {
 	  	var ti = { parents: [TI] };
 	  	ti.input = {
 			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
-			#APmode:               "fdm/jsbsim/autoflight/mode",
-			#APTgtAgl:             "autopilot/settings/target-agl-ft",
-			#APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",

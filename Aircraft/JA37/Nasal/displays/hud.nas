@@ -1019,15 +1019,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         alpha:            "orientation/alpha-deg",
         alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
         alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+        alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
         alt_ft_real:      "position/altitude-ft",
         altCalibrated:    "ja37/avionics/altimeters-calibrated",
-        #APHeadingBug:     "autopilot/settings/heading-bug-deg",
         APmode:           "fdm/jsbsim/autoflight/mode",
-        #APLockHeading:    "autopilot/locks/heading",
-        #APnav0HeadingErr: "autopilot/internal/nav1-heading-error-deg",
-        #APTgtAgl:         "autopilot/settings/target-agl-ft",
-        APTgtAlt:         "fdm/jsbsim/autoflight/pitch/alt/target",
-        #APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
         beta:             "orientation/side-slip-deg",
         callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
@@ -1057,9 +1052,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
         rad_alt_ready:    "instrumentation/radar-altimeter/ready",
         radar_serv:       "instrumentation/radar/serviceable",
+        ref_alt:          "ja37/displays/reference-altitude-m",
         RMActive:         "autopilot/route-manager/active",
         rmDist:           "autopilot/route-manager/wp/dist",
-        RMCurrWaypoint:   "autopilot/route-manager/current-wp",
         RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
         roll:             "orientation/roll-deg",
         srvHead:          "instrumentation/heading-indicator/serviceable",
@@ -1754,53 +1749,44 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   displayDesiredAltitudeLines: func (guideUseLines) {
-    if (guideUseLines == FALSE) {
-      me.desired_alt_delta_ft = nil;
-      me.showBoxes = FALSE;
-      me.showLines = TRUE;
-      if(mode == modes.TAKEOFF) {
-        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-      } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
-        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
-        me.showBoxes = TRUE;
-        if (me.input.alt_ft.getValue() * FT2M > 1000) {
-          me.showLines = FALSE;
-        }
-      } elsif(mode == modes.LANDING and land.mode < 3 and land.mode > 0) {
-        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-      #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
-      #  me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
-      } elsif(me.input.RMActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
-        me.idx = me.input.RMCurrWaypoint.getValue();
-        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.idx~"]/altitude-ft");
-        if(me.rt_alt != nil and me.rt_alt > 0) {
-          me.desired_alt_delta_ft = me.rt_alt - me.input.alt_ft.getValue();
-        }
-      }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
-      if(me.desired_alt_delta_ft != nil) {
-        me.pos_yyy = clamp(-me.desired_alt_delta_ft*me.pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
-
-        me.desired_lines3.setTranslation(0, me.pos_yyy);
-        me.desired_boxes.setTranslation(0, me.pos_yyy);
-        if (me.showLines == TRUE) {
-          me.desired_lines3.show();
-        } else {
-          me.desired_lines3.hide();
-        }
-        if (me.showBoxes == TRUE and (!getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue())) {
-          me.desired_boxes.show();
-        } else {
-          me.desired_boxes.hide();
-        }
-      } else {
-        me.desired_lines3.hide();
-        me.desired_boxes.hide();
-      }
-      me.desired_lines2.hide();
-    } else {
+    if (guideUseLines) {
+      # TILS controls the altitude lines. Just display them.
       me.desired_lines2.show();
       me.desired_lines3.show();
-      me.desired_boxes.hide();# todo: show them
+      me.desired_boxes.hide();
+      return;
+    }
+
+    # Lines offset
+    me.alt_delta = me.input.ref_alt.getValue() - me.input.alt_m.getValue();
+    me.pos_yyy = clamp(-me.alt_delta * M2FT * me.pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
+    me.desired_lines3.setTranslation(0, me.pos_yyy);
+    me.desired_boxes.setTranslation(0, me.pos_yyy);
+
+    # These lines are only used by TILS
+    me.desired_lines2.hide();
+
+    # Main altitude lines
+    if (mode == modes.TAKEOFF) {
+      # Always shown on takeoff
+      me.desired_lines3.show();
+    } elsif (mode == modes.LANDING and land.mode != 1 and land.mode != 2) {
+      # Hide in optical final mode (remark: does not affect TILS, handled at the begining of this function).
+      me.desired_lines3.hide();
+    } else {
+      # In the remaining modes (NAV, COMBAT, LANDING phase 1 and 2), display when below 1000m
+      if (me.input.alt_m.getValue() <= 1000) {
+      me.desired_lines3.show();
+      } else {
+        me.desired_lines3.hide()
+      }
+    }
+
+    # ALT HOLD boxes
+    if (me.input.APmode.getValue() == 3 and (!getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue())) {
+      me.desired_boxes.show();
+    } else {
+      me.desired_boxes.hide();
     }
   },
 

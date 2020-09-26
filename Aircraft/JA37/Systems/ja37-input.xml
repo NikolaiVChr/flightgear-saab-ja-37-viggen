@@ -227,6 +227,14 @@
                 <value>0</value>
             </binding>
         </key>
+        <key n="82">
+            <name>R</name>
+            <desc>Set reference altitude</desc>
+            <binding>
+                <command>nasal</command>
+                <script>displays.common.refAltButton(); ja37.click();</script>
+            </binding>
+        </key>
         <key n="113">
             <name>q</name>
             <desc>Trigger flare release</desc>

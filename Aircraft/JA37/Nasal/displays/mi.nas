@@ -122,9 +122,7 @@ var MI = {
 	new: func {
 	  	var mi = { parents: [MI] };
 	  	mi.input = {
-			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
-			APmode:               "fdm/jsbsim/autoflight/mode",
-			APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
+			alt_m:                "instrumentation/altimeter/indicated-altitude-meter",
 			brightnessSetting:    "ja37/avionics/brightness-mi-knob",
 			cursor_slew_x:        "controls/displays/cursor-total-slew-x",
 			cursor_slew_y:        "controls/displays/cursor-total-slew-y",
@@ -136,11 +134,8 @@ var MI = {
 			radarEnabled:         "ja37/hud/tracks-enabled",
 			radarRange:           "instrumentation/radar/range",
 			radarServ:            "instrumentation/radar/serviceable",
+			ref_alt:              "ja37/displays/reference-altitude-m",
 			rmActive:             "autopilot/route-manager/active",
-			rmDist:               "autopilot/route-manager/wp/dist",
-			rmId:                 "autopilot/route-manager/wp/id",
-			rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
-			RMCurrWaypoint:       "autopilot/route-manager/current-wp",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
 			screenEnabled:        "ja37/radar/enabled",
 			timeElapsed:          "sim/time/elapsed-sec",
@@ -1301,48 +1296,21 @@ var MI = {
 	},
 
 	showAltLines: func {
-		if (me.input.alt_ft.getValue() != nil) {
-	      me.showLines = TRUE;
-	      me.desired_alt_delta_ft = nil;
-	      me.desired_alt_ft = nil;
-	      if(modes.main == modes.TAKEOFF) {
-	      	me.desired_alt_ft = (500*M2FT);
-	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-	      } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
-	      	me.desired_alt_ft = me.input.APTgtAlt.getValue();
-	        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
-	      } elsif(modes.main == modes.LANDING and land.mode < 3 and land.mode > 0) {
-	      	me.desired_alt_ft = (500*M2FT);
-	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-	      #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
-	      #	me.desired_alt_ft = me.input.APTgtAgl.getValue();
-	      #  me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
-	      } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
-	        me.i = me.input.RMCurrWaypoint.getValue();
-	        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.i~"]/altitude-ft");
-	        if(me.rt_alt != nil and me.rt_alt > 0) {
-	          me.desired_alt_ft = me.rt_alt;
-	          me.desired_alt_delta_ft = me.rt_alt - me.input.alt_ft.getValue();
-	        }
-	      }
-	      if(me.desired_alt_delta_ft != nil) {
-	        me.pos_y = clamp(-((me.desired_alt_delta_ft*FT2M)/300)*halfHeightOfSideScales*0.5, -halfHeightOfSideScales*0.25, halfHeightOfSideScales*0.5);#150 m up, 300 m down
+		me.showLines = modes.main == modes.TAKEOFF or modes.main == modes.NAV or modes.main == modes.COMBAT
+									 or (modes.main == modes.LANDING and (land.mode == 1 or land.mode == 2));
 
-	        me.desired_lines3.setTranslation(0, me.pos_y);
+		if (me.showLines and !getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue()) {
+			me.desired_lines3.show();
 
-	        me.scale = clamp(extrapolate(me.desired_alt_ft, 200, 300, 0.6666, 1), 0.6666, 1);
+			me.alt_delta = me.input.ref_alt.getValue() - me.input.alt_m.getValue();
+			me.pos_y = clamp(-(me.alt_delta/300)*halfHeightOfSideScales*0.5, -halfHeightOfSideScales*0.25, halfHeightOfSideScales*0.5);#150 m up, 300 m down
+			me.desired_lines3.setTranslation(0, me.pos_y);
 
-	        me.desired_lines3.setScale(1, me.scale);
-
-	        if (me.showLines == TRUE and (!getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue())) {
-	          me.desired_lines3.show();
-	        } else {
-	          me.desired_lines3.hide();
-	        }
-	      } else {
-	        me.desired_lines3.hide();
-	      }
-	  	}
+			me.scale = clamp(extrapolate(me.input.ref_alt.getValue(), 200, 300, 0.6666, 1), 0.6666, 1);
+			me.desired_lines3.setScale(1, me.scale);
+		} else {
+			me.desired_lines3.hide();
+		}
 	},
 
 	radarIndex: func {

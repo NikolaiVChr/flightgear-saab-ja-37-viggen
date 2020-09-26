@@ -38,6 +38,10 @@ var Common = {
 	        qfeShown:		  "ja37/displays/qfe-shown",
 	        altCalibrated:    "ja37/avionics/altimeters-calibrated",
 	        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+	        alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
+	        ref_alt:        "ja37/displays/reference-altitude-m",
+	        APmode:          "fdm/jsbsim/autoflight/mode",
+	        AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
 	        units:            "ja37/hud/units-metric",
 	        fiveHz:           "ja37/blink/two-Hz/state",
 	        rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
@@ -62,6 +66,8 @@ units:                "ja37/hud/units-metric",
 		co.distance_model = "";
       	co.error = FALSE;
       	co.cursor = MI;
+      	co.ref_alt = 500;
+      	co.ref_alt_ldg_override = FALSE;
 
       	co.wowPrev = 0;
       	co.timeGround = 0;
@@ -78,6 +84,7 @@ units:                "ja37/hud/units-metric",
 		me.distance();
 		me.errors();
 		me.flighttime();
+		me.referenceAlt();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
@@ -398,9 +405,54 @@ units:                "ja37/hud/units-metric",
 		    #print("QFE count " ~ countQFE);
 		}
     },
+
+	referenceAlt: func {
+		# Reference (target) altitude displayed on HUD and other displays.
+		# TAKEOFF mode: fixed, 500m
+		# NAV/COMBAT: can be modified with reference alt button, or ALT hold autopilot
+		# LANDING: defaults to 500m, but can be overriden as in NAV/COMBAT
+		if (modes.main == modes.TAKEOFF) {
+			me.ref_alt = 500;
+			me.ref_alt_ldg_override = FALSE;
+		} elsif (modes.main == modes.LANDING) {
+			# me.ref_alt_ldg_override indicates that the altitude was manually selected
+			# with the reference altitude button while in LANDING mode.
+			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
+			if (me.input.APmode.getValue() == 3) {
+				me.ref_alt_ldg_override = FALSE;
+				me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
+			} elsif (!me.ref_alt_ldg_override) {
+				me.ref_alt = 500;
+			}
+		} else {
+			if (me.input.APmode.getValue() == 3) {
+				me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
+			}
+			me.ref_alt_ldg_override = FALSE;
+		}
+		me.input.ref_alt.setValue(me.ref_alt);
+	},
+
+	refAltButton: func {
+		# Manual reference altitude setting is not available at takeoff,
+		# with ALT HOLD autopilot, and during the landing final phase.
+		if (modes.main == modes.TAKEOFF or me.input.APmode.getValue() == 3
+			or (modes.main == modes.LANDING and land.mode != 1 and land.mode != 2)) return;
+
+		me.ref_alt = me.input.alt_m.getValue();
+		if (me.ref_alt < 20) me.ref_alt = 20;
+		me.input.ref_alt.setValue(me.ref_alt);
+
+		# Set flag if manually setting reference altitude during landing.
+		if (modes.main == modes.LANDING) {
+			me.ref_alt_ldg_override = TRUE;
+		}
+	},
 };
 
 var common = Common.new();
+
+
 
 var init = func {
 	removelistener(idl); # only call once
