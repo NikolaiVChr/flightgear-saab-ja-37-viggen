@@ -16,6 +16,7 @@ input.ja_lights = props.globals.getNode("instrumentation/rwr/ja-lights").getChil
 input.ajs_lights = props.globals.getNode("instrumentation/rwr/ajs-lights").getChildren("sector");
 input.beeps = props.globals.getNode("instrumentation/rwr/sound").getChildren("beep");
 input.beeps_freq = props.globals.getNode("instrumentation/rwr/sound").getChildren("freq");
+input.beeps_vol = props.globals.getNode("instrumentation/rwr/sound").getChildren("vol");
 
 var is_ja = (getprop("/ja37/systems/variant") == 0);
 
@@ -43,6 +44,12 @@ var find_free_beep = func() {
     return -1;
 }
 
+# Normalisation function applied to the beep volume.
+# Compensate for higher frequencies being percieved far louder.
+var volume_normalisation = func(freq) {
+    return 300/freq + 0.25;
+}
+
 # Start a new beeping sound with the given frequency.
 # Returns an index which identifies this sound, to be passed to 'stop_beep'.
 # Returns a negative index if no free beeping sounds are available.
@@ -53,6 +60,7 @@ var start_beep = func(freq) {
     used_beeps[i] = TRUE;
     input.beeps[i].setBoolValue(TRUE);
     input.beeps_freq[i].setValue(freq);
+    input.beeps_vol[i].setValue(volume_normalisation(freq));
     return i;
 }
 
