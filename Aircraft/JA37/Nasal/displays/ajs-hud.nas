@@ -19,6 +19,8 @@ var input = {
     fpv_right:      "/instrumentation/fpv/angle-right-stab-deg",
     fpv_head_true:  "/instrumentation/fpv/heading-true",
     head_true:      "/orientation/heading-deg",
+    alpha:          "/orientation/alpha-deg",
+    high_alpha:     "/fdm/jsbsim/autoflight/high-alpha",
     weight:         "/fdm/jsbsim/inertia/weight-lbs",
     alt:            "/instrumentation/altimeter/indicated-altitude-meter",
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
@@ -29,6 +31,7 @@ var input = {
     eta:            "/autopilot/route-manager/wp/eta-seconds",
     fpv_fin_blink:  "/ja37/blink/four-Hz/state",
     declutter:      "/ja37/hud/declutter-mode",
+    gear_pos:       "/gear/gear/position-norm",
 };
 
 foreach(var name; keys(input)) {
@@ -469,17 +472,54 @@ var FPV = {
     set_mode: func(mode) {
         me.mode = mode;
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
-            me.tail.hide();
             me.group.setTranslation(0, 1000);
+            me.set_fin(FALSE);
         } else {
-            me.tail.show();
+            me.set_fin(TRUE);
         }
+    },
+
+    # Display 'fin' (speed error indicator)
+    # pos: normalised in [-1,1], 0: correct speed, -1: speed is too low
+    set_fin: func(show, pos=0, blink=0) {
+        if (show and (!blink or input.fpv_fin_blink.getBoolValue())) {
+            me.tail.show();
+            me.tail.setTranslation(0, -50*pos);
+        } else {
+            me.tail.hide();
+        }
+    },
+
+    # Update 'fin' (speed error indicator) for landing mode
+    update_landing_speed_error: func {
+        var dev = 0;
+        var blink = FALSE;
+        if (input.gear_pos.getValue() != 1) {
+            # Gear (partially) up, indicates speed deviation from 550km/h, max deviation is 37km/h
+            dev = (input.speed.getValue() - 550) / 37;
+        } else {
+            # Gear full down, indicates alpha deviation from 12deg (or 15.5deg in high alpha mode)
+            # maximum deviation is 3.3deg
+            var high_alpha = input.high_alpha.getBoolValue();
+            dev = - (input.alpha.getValue() - (high_alpha ? 15.5 : 12)) / 3.3;
+            # If the lower limit of the indicator is reached, blink to indicate critical alpha
+            # (in high alpha mode: 3/4 of lower limit).
+            blink = (dev <= (high_alpha ? -0.75 : -1));
+        }
+        dev = math.clamp(dev, -1, 1);
+        me.set_fin(TRUE, dev, blink);
     },
 
     update: func {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) return;
 
         me.group.setTranslation(100 * input.fpv_right.getValue(), -100 * input.fpv_up.getValue());
+
+        if (modes.main == modes.LANDING) {
+            me.update_landing_speed_error();
+        } else {
+            me.set_fin(TRUE);
+        }
     },
 };
 
