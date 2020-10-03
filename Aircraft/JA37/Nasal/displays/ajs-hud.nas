@@ -183,9 +183,9 @@ var AltitudeBars = {
         }
         me.ref_bars_group = me.group.createChild("group");
         me.ref_bars = make_path(me.ref_bars_group)
-            .moveTo(-350, 0).vert(-300).moveTo(350,0).vert(-300);
+            .moveTo(-330, 0).vert(-300).moveTo(330,0).vert(-300);
         me.rhm_index = make_path(me.ref_bars_group)
-            .moveTo(-325, 0).horiz(-50).moveTo(325,0).horiz(50);
+            .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
     },
 
     # Set the bars normalised position.
@@ -316,9 +316,9 @@ var DistanceLine = {
     initialize: func {
         me.group = me.parent.createChild("group", "distance line");
         me.line = make_path(me.group).moveTo(-300, 0).horizTo(300);
-        me.middle_mark = make_path(me.group).moveTo(0, 0).vert(-40);
-        me.left_mark = make_path(me.group).moveTo(0, 0).vert(-40);
-        me.right_mark = make_path(me.group).moveTo(0, 0).vert(-40);
+        me.middle_mark = make_path(me.group).moveTo(0, 0).vert(-50);
+        me.left_mark = make_path(me.group).moveTo(0, 0).vert(-50);
+        me.right_mark = make_path(me.group).moveTo(0, 0).vert(-50);
     },
 
     set_mode: func(mode) {
@@ -405,10 +405,10 @@ var HeadingScale = {
             me.text[i+1].enableUpdate();
         }
         me.ticks = make_path(me.group)
-            .moveTo(-1500, 10).vert(40)
-            .moveTo(-500, 10).vert(40)
-            .moveTo(500, 10).vert(40)
-            .moveTo(1500, 10).vert(40);
+            .moveTo(-1500, 5).vert(50)
+            .moveTo(-500, 5).vert(50)
+            .moveTo(500, 5).vert(50)
+            .moveTo(1500, 5).vert(50);
     },
 
     set_mode: func(mode) {
@@ -432,8 +432,6 @@ var HeadingScale = {
     },
 
     update: func(alt_bars_pos) {
-        if (me.mode == HUD.MODE_NAV_DECLUTTER and !me.declutter_visible) return;
-
         var heading = input.heading.getValue()/10;
         var heading_int = math.round(heading);
         var heading_frac = heading - heading_int;
@@ -444,13 +442,14 @@ var HeadingScale = {
 
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
             var vpos = 1000;
-        } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT
-                 or me.mode == HUD.MODE_NAV_DECLUTTER) {
+        } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
             var vpos = 0;
+        } elsif (me.mode == HUD.MODE_NAV_DECLUTTER) {
+            var vpos = 300;
         } else {
             var vpos = alt_bars_pos;
         }
-        me.group.setTranslation(heading_frac * -1000, vpos + 20);
+        me.group.setTranslation(heading_frac * -1000, vpos + 10);
     },
 };
 
