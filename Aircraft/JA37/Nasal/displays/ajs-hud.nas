@@ -437,7 +437,7 @@ var HeadingScale = {
         var heading_frac = heading - heading_int;
         var text_grads = [heading_int-1, heading_int, heading_int+1];
         for (var i=0; i<3; i+=1) {
-            me.text[i].updateText(sprintf("%02.0f", math.periodic(1, 37, text_grads[i])));
+            me.text[i].updateText(sprintf("%.2d", math.periodic(0, 36, text_grads[i])));
         }
 
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
