@@ -110,14 +110,14 @@ var radar_types = {
     "f-20prototype":    "f-20A",
     "f-20bmw":          "f-20A",
     "f-20-dutchdemo":   "f-20A",
-    "EC-137R":          { scan_freq: 450, scan_period: 4, scan_length: 0.5, lock_freq: 1900, half_angle: 180 },
+    "EC-137R":          { scan_freq: 450, scan_period: 4.2, scan_length: 0.5, lock_freq: 1900, half_angle: 180 },
     "EC-137D":          "EC-137R",
     # Scan: P-40, lock: SNR-125
-    "buk-m2":           { scan_freq: 400, scan_period: 4, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
+    "buk-m2":           { scan_freq: 400, scan_period: 3.7, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
     # Scan: P-37, lock: SNR-75
-    "s-300":            { scan_freq: 375, scan_period: 10, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
+    "s-300":            { scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
     # Scan: AN/SPS-49, lock: AN/SPG-60
-    "frigate":          { scan_freq: 800, scan_period: 5, scan_length: 0.6, lock_freq: 1800, half_angle: 180 },
+    "frigate":          { scan_freq: 800, scan_period: 5.1, scan_length: 0.6, lock_freq: 1800, half_angle: 180 },
     "missile_frigate":  "frigate",
     "USS-NORMANDY":     "frigate",
     "USS-LakeChamplain":"frigate",
