@@ -9,7 +9,8 @@ var input = {
     gear_pos:   "/gear/gear/position-norm",
     wow_nose:   "/fdm/jsbsim/gear/unit[0]/WOW",
     time_sec:   "/sim/time/elapsed-sec",
-    landingMode:    "/ja37/hud/landing-mode",
+    landing_mode:   "/ja37/hud/landing-mode",
+    rm_active:  "/autopilot/route-manager/active",
 };
 
 foreach (var name; keys(input)) {
@@ -58,20 +59,28 @@ var update_main_mode = func {
     if (main != TAKEOFF and !takeoffForbidden and input.wow_nose.getBoolValue()) {
         # nosewheel on runway, switch to takeoff
         main = TAKEOFF;
-        input.landingMode.setValue(0);
+        input.landing_mode.setValue(0);
     } elsif (main == TAKEOFF and !input.wow_nose.getBoolValue() and !takeoff_time.started()) {
         # Nosewheel lifted off, so we start the 4 second counter
         takeoff_time.start();
     } elsif (main == TAKEOFF and takeoffForbidden) {
         # time to switch away from TAKEOFF mode.
-        if (input.landingMode.getBoolValue()) {
+        if (input.landing_mode.getBoolValue()) {
             main = LANDING;
         } else {
             main = (master_arm and input.gear_pos.getValue() == 0) ? COMBAT : NAV;
         }
         takeoff_time.reset();
+
+        # If current waypoint is the starting base, select the next one.
+        if (input.rm_active.getBoolValue()) {
+            var fp = flightplan();
+            if (fp.current == 0 and navigation.departure_set(fp)) {
+                fp.current = 1;
+            }
+        }
     } elsif (main == COMBAT or main == NAV or main == LANDING) {
-        if (input.landingMode.getBoolValue()) {
+        if (input.landing_mode.getBoolValue()) {
             main = LANDING;
         } else {
             main = (master_arm and input.gear_pos.getValue() == 0) ? COMBAT : NAV;
