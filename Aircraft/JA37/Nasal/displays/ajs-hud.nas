@@ -169,7 +169,7 @@ var Horizon = {
 
 var AltitudeBars = {
     new: func(parent) {
-        var m = { parents: [AltitudeBars], parent: parent, mode: -1, base_pos: 0 };
+        var m = { parents: [AltitudeBars], parent: parent, mode: -1 };
         m.initialize();
         return m;
     },
@@ -181,11 +181,13 @@ var AltitudeBars = {
             me.bars[i-1] = make_path(me.group)
                 .moveTo(-100*i,0).vert(-100*i).moveTo(100*i,0).vert(-100*i);
         }
+        me.base_pos = 0;
         me.ref_bars_group = me.group.createChild("group");
         me.ref_bars = make_path(me.ref_bars_group)
             .moveTo(-330, 0).vert(-300).moveTo(330,0).vert(-300);
         me.rhm_index = make_path(me.ref_bars_group)
             .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
+        me.rhm_shown = FALSE;
     },
 
     # Set the bars normalised position.
@@ -238,7 +240,12 @@ var AltitudeBars = {
         }
 
         # radar altitude index
-        if (radar_altitude != nil and me.mode != HUD.MODE_TAKEOFF_ROLL) {
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or radar_altitude == nil or radar_altitude > 575) {
+            me.rhm_shown = FALSE;
+        } elsif (radar_altitude < 550) {
+            me.rhm_shown = TRUE;
+        }
+        if (me.rhm_shown) {
             me.rhm_index.show();
             var rhm_pos = math.clamp((altitude - radar_altitude) / command_altitude, -1, 1);
             me.rhm_index.setTranslation(0, -300 * rhm_pos);
