@@ -333,22 +333,16 @@
 
     <channel execrate="4" name="waypoint-indicators">
         <!-- waypoint bearing indicator -->
-        <summer name="instruments/waypoint/bearing-deg-rel">
-            <input>/autopilot/route-manager/wp/bearing-deg</input>
-            <input>-/instrumentation/heading-indicator/indicated-heading-deg</input>
-        </summer>
-
         <switch name="instruments/waypoint/bearing-index-goal">
+            <default value="/autopilot/route-manager/wp/bearing-deg"/>
             <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
                 /ja37/elec/ac-bus-main-bool == 0
                 /instrumentation/heading-indicator/serviceable == 0
-            </test>
-            <test value="0">
                 /autopilot/route-manager/active == 0
             </test>
-            <default value="instruments/waypoint/bearing-deg-rel"/>
             <output>/instrumentation/waypoint-indicator/bearing-index-goal</output>
         </switch>
+
         <!-- the rest is done in instruments-rules.xml,
              because property rules are easier to use for cyclic values
         -->

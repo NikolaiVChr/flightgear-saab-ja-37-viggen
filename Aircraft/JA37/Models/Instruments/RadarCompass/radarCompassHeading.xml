@@ -24,7 +24,13 @@
     <animation>
         <type>rotate</type>
         <object-name>waypointHeadingIndicator</object-name>
-        <property>/instrumentation/waypoint-indicator/bearing-index</property>
+        <!-- Waypoint bearing indicator moves relative to the heading ring -->
+        <expression>
+          <difference>
+            <property>/instrumentation/waypoint-indicator/bearing-index</property>
+            <property>/instrumentation/heading-indicator/indicator-pos-deg</property>
+          </difference>
+        </expression>
         <center>
             <x-m>0.04</x-m>
             <y-m>0.0</y-m>

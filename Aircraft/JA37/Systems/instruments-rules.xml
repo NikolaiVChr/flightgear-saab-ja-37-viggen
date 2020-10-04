@@ -42,6 +42,10 @@
     <output>/instrumentation/heading-indicator/indicator-pos-deg</output>
   </filter>
 
+  <!-- Remark: The waypoint bearing indicator works is if it was fixed
+       to the heading ring (servo inputs go through a differential gear).
+       Thus the indicator speed limit 25deg/s applies to true bearing, not relative bearing.
+  -->
   <filter>
     <name>Waypoint bearing indicator offset</name>
     <type>gain</type>
@@ -64,7 +68,23 @@
   <filter>
     <name>Waypoint bearing indicator</name>
     <type>noise-spike</type>
-    <max-rate-of-change>25</max-rate-of-change>
+    <max-rate-of-change>
+      <!-- Low speed mode, for offset < 5deg -->
+      <condition>
+        <less-than>
+          <property>/instrumentation/waypoint-indicator/bearing-index-offset</property>
+          <value>5</value>
+        </less-than>
+        <greater-than>
+          <property>/instrumentation/waypoint-indicator/bearing-index-offset</property>
+          <value>-5</value>
+        </greater-than>
+      </condition>
+      <value>3</value>
+    </max-rate-of-change>
+    <max-rate-of-change>
+      <value>25</value>
+    </max-rate-of-change>
     <input>
       <expression>
         <sum>
