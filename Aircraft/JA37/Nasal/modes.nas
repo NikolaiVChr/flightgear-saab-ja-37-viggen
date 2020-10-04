@@ -75,7 +75,7 @@ var update_main_mode = func {
         # If current waypoint is the starting base, select the next one.
         if (input.rm_active.getBoolValue()) {
             var fp = flightplan();
-            if (fp.current == 0 and navigation.departure_set(fp)) {
+            if (fp.current == 0 and fp.getPlanSize() >= 2 and navigation.departure_set(fp)) {
                 fp.current = 1;
             }
         }
