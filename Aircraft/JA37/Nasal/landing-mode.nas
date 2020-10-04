@@ -8,9 +8,7 @@ input = {
 	rmId:                 "autopilot/route-manager/wp/id",
 	rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
 	rmCurrWaypoint:       "autopilot/route-manager/current-wp",
-	heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 	headTrue:             "orientation/heading-deg",
-    headMagn:             "orientation/heading-magnetic-deg",
     nav0GSInRange:    	  "instrumentation/nav[0]/gs-in-range",
     nav0HasGS:        	  "instrumentation/nav[0]/has-gs",
     nav0InRange:       	  "instrumentation/nav[0]/in-range",
@@ -332,7 +330,7 @@ var Landing = {
     	if (route.Polygon.isPrimaryActive() == TRUE) {
             has_waypoint = 0;
             runway_dist = input.rmDist.getValue();        
-            me.heading = input.heading.getValue();#true
+            me.heading = input.headTrue.getValue();#true
             me.bearing = input.rmTrueBearing.getValue();#true
             if (runway_dist != nil and me.bearing != nil and me.heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
                 has_waypoint = 1;

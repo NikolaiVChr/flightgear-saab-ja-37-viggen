@@ -4174,7 +4174,7 @@ var TI = {
   		}
   		#printf("%d degs %0.1f NM", me.texAngle*R2D, me.mDist*M2NM);
   		me.texAngle  = -me.texAngle*R2D+90;#convert from unit circle to heading circle, 0=up on display
-  		me.headAngle = me.input.heading.getValue()+me.texAngle;#bearing
+  		me.headAngle = me.input.headTrue.getValue()+me.texAngle;#bearing
   		#printf("%d bearing   %d rel bearing", me.headAngle, me.texAngle);
   		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
   		me.coordSelf.set_latlon(me.lat, me.lon);
@@ -4685,7 +4685,7 @@ var TI = {
 		    me.runway_l = land.line*1000;
 		    me.scale = clamp(me.runway_l*M2TEX,10*MM2TEX,1000);#in the real they are always 10mm, cheated abit.
 		    me.approach_line.setScale(1, me.scale);
-		    me.heading = me.input.heading.getValue();#true
+		    me.heading = me.input.headTrue.getValue();#true
 		    me.dest.setRotation((180+land.head-me.heading)*D2R);
 		    me.runway_name.setText(land.runway);
 		    me.runway_name.setRotation(-(180+land.head)*D2R);

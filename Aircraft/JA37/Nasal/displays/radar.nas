@@ -397,7 +397,6 @@ var radar = {
       APmode:               "fdm/jsbsim/autoflight/mode",
       #APTgtAgl:             "autopilot/settings/target-agl-ft",
       APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
-      heading:              "instrumentation/heading-indicator/indicated-heading-deg",
       rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
       rad_alt_ready:        "instrumentation/radar-altimeter/ready",
       radarEnabled:         "ja37/hud/tracks-enabled",
@@ -413,7 +412,6 @@ var radar = {
       timeElapsed:          "sim/time/elapsed-sec",
       viewNumber:           "sim/current-view/view-number",
       headTrue:             "orientation/heading-deg",
-      headMagn:             "orientation/heading-magnetic-deg",
       twoHz:                "ja37/blink/two-Hz/state",
     };
 
@@ -507,7 +505,7 @@ var radar = {
     #        }
             me.scale = (me.runway_l/me.radarRange) * me.strokeHeight/50;
             me.dest_runway.setScale(1, me.scale);
-            me.heading = me.input.heading.getValue();#true
+            me.heading = me.input.headTrue.getValue();#true
             me.dest.setRotation((180+land.head-me.heading)*D2R);
             me.dest_runway.show();
             if (land.show_approach_circle == TRUE) {
