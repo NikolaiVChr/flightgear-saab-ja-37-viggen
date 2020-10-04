@@ -5,7 +5,8 @@ var FALSE = 0;
 # General, constant options
 var opts = {
     res: 1024,          # Actual resolution of the canvas.
-    ang_width: 20,      # Angular width of the HUD picture
+    ang_width: 20.1,    # Angular width of the HUD picture.
+                        # Desired width is 20deg, add a small margin to avoid border issues.
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
     # HUD physical dimensions
@@ -588,7 +589,22 @@ var HUD = {
 
         # Group centered on the HUD optical axis.
         # (Used with HUD shader off, when simulating parallax in Nasal).
-        me.groups.optical_axis = me.root.createChild("group", "optical axis");
+        me.groups.optical_axis = me.root.createChild("group", "optical axis")
+            # Clipping
+            .set("clip-frame", canvas.Element.LOCAL)
+            .set("clip", "rect(-1000, 1000, 1000, -1000)");
+
+        # Clip the picture to a 20deg diameter disk.
+        me.clip_disk = me.groups.optical_axis.createChild("image")
+            .setTranslation(-1000, 1000)
+            .setScale(2000/256)
+            .set("z-index",50)
+            .set("blend-source-rgb","zero")
+            .set("blend-source-alpha","zero")
+            .set("blend-destination-rgb","one")
+            .set("blend-destination-alpha","one-minus-src-alpha")
+            .set("src", "Aircraft/JA37/gui/canvas-blend-mask/hud-global-mask.png");
+
         # Group centered on the aircraft forward axis.
         me.groups.forward_axis = me.groups.optical_axis.createChild("group", "forward axis")
             .setTranslation(0, -opts.optical_axis_pitch_offset * 100);
