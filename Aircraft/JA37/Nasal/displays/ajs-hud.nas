@@ -4,10 +4,14 @@ var FALSE = 0;
 
 # General, constant options
 var opts = {
-    res: 1024,
-    ang_width: 2000,    # Coordinate system uses 1/100 deg as unit. Issues occur if this value is chosen too small.
+    res: 1024,          # Actual resolution of the canvas.
+    ang_width: 20,      # Angular width of the HUD picture
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
+    # HUD physical dimensions
+    hud_center_y: 0.7,
+    hud_center_z: -4.06203,
+    hud_width: 0.15,
 };
 
 var input = {
@@ -32,6 +36,10 @@ var input = {
     fpv_fin_blink:  "/ja37/blink/four-Hz/state",
     declutter:      "/ja37/hud/declutter-mode",
     gear_pos:       "/gear/gear/position-norm",
+    use_ALS:        "/sim/rendering/shaders/skydome",
+    view_x:         "/sim/current-view/x-offset-m",
+    view_y:         "/sim/current-view/y-offset-m",
+    view_z:         "/sim/current-view/z-offset-m",
 };
 
 foreach(var name; keys(input)) {
@@ -559,7 +567,9 @@ var HUD = {
     canvas_opts: {
         name: "AJS HUD",
         size: [opts.res, opts.res],
-        view: [opts.ang_width, opts.ang_width],
+        # Internal coordinate system uses 1/100deg as unit.
+        # Choosing the values in 'view' too small (e.g. 1deg as unit) causes issues with circles (rounding?).
+        view: [opts.ang_width*100, opts.ang_width*100],
         mipmapping: 1,
     },
 
@@ -571,14 +581,14 @@ var HUD = {
         me.canvas = canvas.new(me.canvas_opts);
         me.canvas.setColorBackground(0, 0, 0, 0);
         me.root = me.canvas.createGroup("root");
-        me.root.set("font", "LiberationFonts/LiberationSans-Bold.ttf");
+        me.root.set("font", "LiberationFonts/LiberationSans-Bold.ttf")
+            .setTranslation(opts.ang_width*50, opts.ang_width*50);
 
         me.groups = {};
 
         # Group centered on the HUD optical axis.
-        # Using the HUD shader, it simply needs to be centered in the canvas.
-        me.groups.optical_axis = me.root.createChild("group", "optical axis")
-            .setTranslation(opts.ang_width/2, opts.ang_width/2);
+        # (Used with HUD shader off, when simulating parallax in Nasal).
+        me.groups.optical_axis = me.root.createChild("group", "optical axis");
         # Group centered on the aircraft forward axis.
         me.groups.forward_axis = me.groups.optical_axis.createChild("group", "forward axis")
             .setTranslation(0, -opts.optical_axis_pitch_offset * 100);
@@ -632,8 +642,32 @@ var HUD = {
         }
     },
 
+    # Update the position of me.groups.optical_axis to simulate parallax.
+    update_parallax: func {
+        # With ALS, the HUD shader deals with parallax, simply recenter the group.
+        if (input.use_ALS.getBoolValue()) {
+            me.groups.optical_axis.setScale(1);
+            me.groups.optical_axis.setTranslation(0, 0);
+            return;
+        }
+
+        # Scaling
+        var distance = input.view_z.getValue() - opts.hud_center_z;
+        var scale = distance * 2 * math.tan(opts.ang_width/2*D2R) / opts.hud_width;
+        me.groups.optical_axis.setScale(scale);
+
+        # Translation
+        var m_to_hud_units = opts.ang_width * 100 / opts.hud_width;
+        var x_offset = input.view_x.getValue() * m_to_hud_units;
+        var y_offset = (opts.hud_center_y - input.view_y.getValue()) * m_to_hud_units;
+        # This group must not be centered in front of the pilot eyes, but 7.3deg below.
+        y_offset += distance * math.tan(opts.optical_axis_pitch_offset*D2R) * m_to_hud_units;
+        me.groups.optical_axis.setTranslation(x_offset, y_offset);
+    },
+
     update: func {
         me.update_mode();
+        me.update_parallax();
         me.fpv.update();
         var fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();
         fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
