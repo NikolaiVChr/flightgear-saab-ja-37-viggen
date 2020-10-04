@@ -290,13 +290,23 @@ var DigitalAltitude = {
         var altitude = input.alt.getValue();
         var str = "";
         if (altitude < -2.5) {
-            # Negative altitudes (min -97.5), 2 digits, precision 5m
-            altitude = math.round(altitude, 5);
-            altitude = math.clamp(altitude, -95, -5);
+            # Negative altitudes (min -97.5), 2 digits, precision 10m (5m in declutter mode)
+            if (me.mode == HUD.MODE_NAV_DECLUTTER) {
+                altitude = math.round(altitude, 5);
+                altitude = math.clamp(altitude, -95, -5);
+            } else {
+                altitude = math.round(altitude, 10);
+                altitude = math.clamp(altitude, -90, -10);
+            }
             str = sprintf("-%.2d", -altitude);
+        } elsif (me.mode == HUD.MODE_NAV_DECLUTTER) {
+            # Declutter mode (below 100m), 2 digits, precision 5m.
+            altitude = math.round(altitude, 5);
+            altitude = math.clamp(altitude, 0, 95);
+            str = sprintf("%.2d", altitude);
         } elsif (altitude < 995) {
-            # Below 1000m, 3 digits, precision 10m, precision 5m below 100m
-            altitude = math.round(altitude, altitude < 100 ? 5 : 10);
+            # Below 1000m, 3 digits, precision 10m.
+            altitude = math.round(altitude, 10);
             altitude = math.clamp(altitude, 0, 990);
             str = sprintf("%.3d", altitude);
         } else {
