@@ -114,8 +114,6 @@ input = {
   reversed:         "/engines/engine/is-reversed",
   rmActive:         "/autopilot/route-manager/active",
   RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
-  landingMode:      "ja37/hud/landing-mode",
-  approachMode:     "ja37/avionics/approach",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   servFire:         "engines/engine[0]/fire/serviceable",
@@ -156,8 +154,6 @@ input = {
   wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
-  waypointType:     "instrumentation/waypoint-indicator/type",
-  waypointNumber:   "instrumentation/waypoint-indicator/number",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
@@ -305,34 +301,6 @@ var Saab37 = {
       input.aeroSmoke.setIntValue(1);
     }
 
-    # AJS waypoint indicator
-    if(input.rmActive.getBoolValue()) {
-      me.wp = flightplan().currentWP();
-      me.wp_index = me.wp.index;
-      if(me.wp_index == 0) {
-        # takeoff
-        input.waypointType.setIntValue(1);
-        input.waypointNumber.setIntValue(11);
-      } elsif(me.wp.wp_role == "approach") {
-        # landing
-        if(!input.landingMode.getBoolValue()) {
-          input.waypointType.setIntValue(1);
-        } elsif(!input.approachMode.getBoolValue()) {
-          input.waypointType.setIntValue(2);
-        } else {
-          input.waypointType.setIntValue(3);
-        }
-        input.waypointNumber.setIntValue(1);
-      } else {
-        # Can only correctly display waypoint 1-9
-        if(me.wp_index > 9) me.wp_index = 10;
-        input.waypointType.setIntValue(4);
-        input.waypointNumber.setIntValue(me.wp_index);
-      }
-    } else {
-      input.waypointType.setIntValue(0);
-      input.waypointNumber.setIntValue(0);
-    }
 
     #if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {
     #  setprop("/instrumentation/radar/range", 120000);
