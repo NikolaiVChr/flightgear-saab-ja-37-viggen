@@ -598,6 +598,7 @@
         </blink>
         <mode>
             <main type="int">0</main>
+            <ajs-selector type="int">1</ajs-selector>
         </mode>
         <hud>
             <tracks-enabled type="bool">true</tracks-enabled>
