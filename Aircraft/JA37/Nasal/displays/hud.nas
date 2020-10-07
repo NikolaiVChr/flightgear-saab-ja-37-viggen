@@ -30,7 +30,6 @@ var TRUE = 1;
 var on_backup_power = FALSE;
 
 var mode = 0;
-var modeTimeTakeoff = -1;
 
 var air2air = FALSE;
 var air2ground = FALSE;
@@ -1026,7 +1025,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         beta:             "orientation/side-slip-deg",
         callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
-        combat:           "ja37/hud/combat",
         dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         elapsedSec:       "sim/time/elapsed-sec",

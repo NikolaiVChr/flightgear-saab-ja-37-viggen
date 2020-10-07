@@ -124,8 +124,12 @@
             <name>h</name>
             <desc>Toggle masterarm</desc>
             <binding>
+              <command>property-toggle</command>
+              <property>ja37/armament/master-arm</property>
+            </binding>
+            <binding>
                 <command>nasal</command>
-                <script>modes.toggle_master_arm(); ja37.click();</script>
+                <script>ja37.click();</script>
             </binding>
         </key>
         <key n="72">

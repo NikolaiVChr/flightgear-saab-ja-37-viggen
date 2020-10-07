@@ -72,11 +72,11 @@
                 <scale>6.5372</scale>
             </marker>
             <condition>
-                <not><property>/ja37/hud/combat</property></not>
+                <not><property>/ja37/armament/master-arm</property></not>
             </condition>
             <binding>
                 <command>property-assign</command>
-                <property>/ja37/hud/combat</property>
+                <property>/ja37/armament/master-arm</property>
                 <value>0</value>
             </binding>
         </item>

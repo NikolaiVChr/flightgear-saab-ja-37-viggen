@@ -136,7 +136,7 @@ MiscMonitor.update = func()
   }
   setprop("/sim/gui/dialogs/systems-monitor/gate", gate);
   var landingMode = "Off/No Route";
-  if(modes.main == modes.LANDING) {
+  if(getprop("/ja37/hud/landing-mode")) {
     if (land.mode == 1) {
       landingMode = "Mode 1";
     } elsif (land.mode == 2) {

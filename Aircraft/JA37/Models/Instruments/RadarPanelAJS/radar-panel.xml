@@ -30,7 +30,7 @@
   <animation>
     <type>knob</type>
     <object-name>knob_mode</object-name>
-    <property>ja37/mode/ajs-selector</property>
+    <property>ja37/mode/selector-ajs</property>
     <factor>30</factor>
     <center>
       <x-m>-0.067702</x-m>
@@ -45,7 +45,7 @@
     <action>
       <binding>
         <command>property-adjust</command>
-        <property>ja37/mode/ajs-selector</property>
+        <property>ja37/mode/selector-ajs</property>
         <min>0</min>
         <max>6</max>
         <wrap>false</wrap>

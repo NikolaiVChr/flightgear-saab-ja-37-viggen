@@ -860,8 +860,8 @@ var Saab37 = {
     me.loop_saab37   = maketimer(0.25, me, func me.update_loop());
 
     # aircraft/display modes
-    modes.update_modes();
-    me.loop_modes    = maketimer(0.22, modes.update_modes);
+    modes.update();
+    me.loop_modes    = maketimer(0.22, modes.update);
     me.loop_modes.start();
 
     # displays commons
@@ -974,8 +974,8 @@ var Saab37 = {
     me.loop_saab37   = maketimer(0.25, me, func {timer.timeLoop("ja37-medium", me.update_loop,me);});
 
     # aircraft/display modes
-    modes.update_modes();
-    me.loop_modes    = maketimer(0.22, func {timer.timeLoop("modes", modes.update_modes, nil);});
+    modes.update();
+    me.loop_modes    = maketimer(0.22, func {timer.timeLoop("modes", modes.update, nil);});
     me.loop_modes.start();
 
     # displays commons

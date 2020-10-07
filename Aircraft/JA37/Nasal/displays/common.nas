@@ -411,10 +411,10 @@ units:                "ja37/hud/units-metric",
 		# TAKEOFF mode: fixed, 500m
 		# NAV/COMBAT: can be modified with reference alt button, or ALT hold autopilot
 		# LANDING: defaults to 500m, but can be overriden as in NAV/COMBAT
-		if (modes.main == modes.TAKEOFF) {
+		if (modes.takeoff) {
 			me.ref_alt = 500;
 			me.ref_alt_ldg_override = FALSE;
-		} elsif (modes.main == modes.LANDING) {
+		} elsif (modes.landing) {
 			# me.ref_alt_ldg_override indicates that the altitude was manually selected
 			# with the reference altitude button while in LANDING mode.
 			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
@@ -436,15 +436,15 @@ units:                "ja37/hud/units-metric",
 	refAltButton: func {
 		# Manual reference altitude setting is not available at takeoff,
 		# with ALT HOLD autopilot, and during the landing final phase.
-		if (modes.main == modes.TAKEOFF or me.input.APmode.getValue() == 3
-			or (modes.main == modes.LANDING and land.mode != 1 and land.mode != 2)) return;
+		if (modes.takeoff or me.input.APmode.getValue() == 3
+			or (modes.landing and land.mode != 1 and land.mode != 2)) return;
 
 		me.ref_alt = me.input.alt_m.getValue();
 		if (me.ref_alt < 20) me.ref_alt = 20;
 		me.input.ref_alt.setValue(me.ref_alt);
 
 		# Set flag if manually setting reference altitude during landing.
-		if (modes.main == modes.LANDING) {
+		if (modes.landing) {
 			me.ref_alt_ldg_override = TRUE;
 		}
 	},

@@ -560,7 +560,7 @@ var radar = {
       me.showBoxes = FALSE;
       me.showLines = TRUE;
       me.desired_alt_delta_ft = nil;
-      if(modes.main == modes.TAKEOFF) {
+      if(modes.takeoff) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APmode.getValue() == 3 and me.input.APTgtAlt.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
@@ -568,7 +568,7 @@ var radar = {
         if (me.input.alt_ft.getValue() * FT2M > 1000) {
           me.showLines = FALSE;
         }
-      } elsif(modes.main == modes.LANDING and land.mode < 3 and land.mode > 0) {
+      } elsif(modes.landing and land.mode < 3 and land.mode > 0) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       #} elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
       #  me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();

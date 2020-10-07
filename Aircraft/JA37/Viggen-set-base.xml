@@ -597,13 +597,13 @@
             </third-Hz>
         </blink>
         <mode>
-            <main type="int">0</main>
-            <ajs-selector type="int">1</ajs-selector>
+          <selector-ajs type="int">1</selector-ajs>
+          <takeoff type="bool">true</takeoff>
+          <combat type="bool">false</combat>
         </mode>
         <hud>
             <tracks-enabled type="bool">true</tracks-enabled>
             <units-metric type="bool">false</units-metric>
-            <combat type="bool">false</combat>
             <callsign type="bool">true</callsign>
             <stroke-linewidth type="double">5.0</stroke-linewidth>
             <TILS type="bool">true</TILS>
