@@ -91,6 +91,9 @@
             </engine>
         </engines>
         <ja37>
+            <mode>
+                <selector-ajs type="int">2</selector-ajs><!-- NAV -->
+            </mode>
             <radar>
                 <enabled type="bool">true</enabled>
             </radar>
