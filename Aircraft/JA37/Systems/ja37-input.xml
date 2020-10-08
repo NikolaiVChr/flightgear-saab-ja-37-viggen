@@ -394,32 +394,54 @@
                 <script>armament.drop();</script>
             </binding>
         </key>
-        <!--<key n="109">
+        <key n="109">
             <name>m</name>
-            <desc>Final approach</desc>
+            <desc>Next AJS main mode</desc>
             <binding>
-                <command>property-toggle</command>
-                <property>ja37/hud/final</property>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>/ja37/mode/selector-ajs</property>
+                <step>1</step>
+                <min>0</min>
+                <max>6</max>
             </binding>
+        </key>
+        <key n="77">
+            <name>M</name>
+            <desc>Previous AJS main mode</desc>
             <binding>
-                <command>nasal</command>
-                <script>ja37.click();ja37.popupTip("Toggled configure HUD for final approach.");</script>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>/ja37/mode/selector-ajs</property>
+                <step>-1</step>
+                <min>0</min>
+                <max>6</max>
             </binding>
-        </key>-->
-        
+        </key>
         <key n="89">
             <name>Y</name>
             <desc>Landing Mode</desc>
             <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
                 <command>nasal</command>
-                <script>
-                    if (getprop("ja37/systems/variant")==0) {
-                        land.LB();
-                    }
-                </script>
+                <script>land.LB();</script>
             </binding>
         </key>
-        
         <key n="121">
             <name>y</name>
             <desc>Cursor control</desc>
