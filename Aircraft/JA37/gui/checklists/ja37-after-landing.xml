@@ -3,6 +3,10 @@
 <PropertyList>
     <title>After Landing</title>
     <item>
+        <name>Flight Time</name>
+        <value>READ</value>
+    </item>
+    <item>
         <name>Landing lights</name>
         <value>AS REQUIRED</value>
         <marker>

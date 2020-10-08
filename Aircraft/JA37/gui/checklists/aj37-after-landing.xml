@@ -3,6 +3,31 @@
 <PropertyList>
     <title>After Landing</title>
     <item>
+        <name>Mode Selector</name>
+        <value>BER (STANDBY)</value>
+        <marker>
+            <x-m>-3.66</x-m>
+            <y-m>-0.36</y-m>
+            <z-m>0.06</z-m>
+            <scale>3</scale>
+        </marker>
+        <condition>
+            <equals>
+                <property>/ja37/mode/selector-ajs</property>
+                <value>1</value>
+            </equals>
+        </condition>
+        <binding>
+            <command>property-assign</command>
+            <property>/ja37/mode/selector-ajs</property>
+            <value>1</value>
+        </binding>
+    </item>
+    <item>
+        <name>Flight Time</name>
+        <value>READ</value>
+    </item>
+    <item>
         <name>Landing lights</name>
         <value>AS REQUIRED</value>
         <marker>
