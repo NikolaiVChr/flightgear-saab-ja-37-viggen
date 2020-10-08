@@ -51,6 +51,13 @@
         <wrap>false</wrap>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>mode-selector</tooltip-id>
+        <label>Main mode selector</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
