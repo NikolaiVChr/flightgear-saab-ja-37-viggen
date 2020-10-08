@@ -102,29 +102,4 @@
             <z-m>  0</z-m>
         </offsets>
     </model>
-
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/landing-mode.xml</path>
-        <name>switch-landing-mode</name>
-        <offsets>
-            <x-m> -0.750</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
-
-    <animation>
-    <type>select</type>
-    <object-name>switch-landing-mode</object-name>
-    <condition>
-       <greater-than>
-        <property>ja37/systems/variant</property>
-        <value>0</value>
-       </greater-than>
-    </condition>
-  </animation>
-  
-
-      
-
 </PropertyList>

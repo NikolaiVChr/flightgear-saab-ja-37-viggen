@@ -415,10 +415,8 @@
                 <script>
                     if (getprop("ja37/systems/variant")==0) {
                         land.LB();
-                    } else {
-                        setprop("ja37/hud/landing-mode", !getprop("ja37/hud/landing-mode"));
-                        ja37.click();
-                    }</script>
+                    }
+                </script>
             </binding>
         </key>
         

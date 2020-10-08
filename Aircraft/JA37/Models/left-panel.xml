@@ -100,18 +100,6 @@
     </offsets>
   </model>
 
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/elec-supply.xml</path>
-    <name>elec supply</name>
-    <offsets>
-      <heading-deg>180</heading-deg>
-      <x-m>  0.38</x-m>
-      <y-m> -0.040</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>-->
-
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/engine-start.xml</path>
     <name>starter</name>
@@ -153,17 +141,6 @@
       <z-m>  0.00</z-m>
     </offsets>
   </model>
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/battery.xml</path>
-    <name>battery</name>
-    <offsets>
-      <heading-deg>-90</heading-deg>
-      <x-m>  0.300</x-m>
-      <y-m> -0.02</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/radar.xml</path>
@@ -276,17 +253,6 @@
       </offsets>
   </model>
 
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/approach.xml</path>
-    <name>approach</name>
-    <offsets>
-      <heading-deg>90</heading-deg>
-      <x-m>  0.42</x-m>
-      <y-m> -0.020</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
     <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/radioFrontLeft.xml</path>
     <name>flr</name>
@@ -377,7 +343,6 @@
   <animation>
     <type>select</type>
     <object-name>radar screen</object-name>
-    <object-name>approach</object-name>
     <object-name>radar-panel-ajs</object-name>
     <condition>
        <greater-than>
