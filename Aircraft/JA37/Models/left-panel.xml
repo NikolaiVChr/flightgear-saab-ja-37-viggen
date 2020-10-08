@@ -306,6 +306,23 @@
     </offsets>
   </model>
 
+  <animation>
+    <type>translate</type>
+    <object-name>radar control</object-name>
+    <!-- Slight offset on the AJS -->
+    <expression>
+      <min>
+        <property>ja37/systems/variant</property>
+        <value>0.04</value>
+      </min>
+    </expression>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
   <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/fr31.xml</path>
     <name>fr31</name>
@@ -332,10 +349,10 @@
     <object-name>kv1</object-name>
     <object-name>radar-panel-ja</object-name>
     <condition>
-       <equals>
+      <equals>
         <property>ja37/systems/variant</property>
         <value>0</value>
-       </equals>
+      </equals>
     </condition>
   </animation>
 
@@ -345,10 +362,10 @@
     <object-name>radar screen</object-name>
     <object-name>radar-panel-ajs</object-name>
     <condition>
-       <greater-than>
+      <greater-than>
         <property>ja37/systems/variant</property>
         <value>0</value>
-       </greater-than>
+      </greater-than>
     </condition>
   </animation>
 </PropertyList>
