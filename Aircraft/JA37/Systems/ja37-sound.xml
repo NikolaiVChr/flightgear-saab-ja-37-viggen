@@ -889,6 +889,76 @@
             </volume>
         </knobs>
 
+        <knobs>
+            <name>AJS mode selector even</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <or>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>2</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>4</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>6</value>
+                    </equals>
+                </or>
+            </condition>
+            <position>
+                <x>-3.66</x>
+                <y>0.36</y><!-- minus means right, plus means left -->
+                <z>0</z>
+            </position>
+            <volume>
+                <factor>0.30</factor>
+            </volume>
+        </knobs>
+
+        <knobs>
+            <name>AJS mode selector odd</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <or>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>3</value>
+                    </equals>
+                    <equals>
+                        <property>ja37/mode/selector-ajs</property>
+                        <value>5</value>
+                    </equals>
+                </or>
+            </condition>
+            <position>
+                <x>-3.66</x>
+                <y>0.36</y><!-- minus means right, plus means left -->
+                <z>0</z>
+            </position>
+            <volume>
+                <factor>0.30</factor>
+            </volume>
+        </knobs>
+
         <gearlever>
             <name>gearlever0</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
