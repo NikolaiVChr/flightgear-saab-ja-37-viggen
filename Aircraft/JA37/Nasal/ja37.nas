@@ -301,6 +301,8 @@ var Saab37 = {
       input.aeroSmoke.setIntValue(1);
     }
 
+    # AJS waypoint name indicator.
+    navigation.update_wp_indicator();
 
     #if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {
     #  setprop("/instrumentation/radar/range", 120000);

@@ -14,7 +14,6 @@ input = {
 	wp_ind_num:		"instrumentation/waypoint-indicator/number",
 	rm_active:		"autopilot/route-manager/active",
 	landing_mode:	"ja37/hud/landing-mode",
-	approach_mode:	"ja37/avionics/approach",
 };
 
 foreach(var name; keys(input)) {
@@ -158,7 +157,7 @@ var update_wp_indicator = func {
         # landing
         if (!input.landing_mode.getBoolValue()) {
             set_wp_name(WP_TYPE.LAND, 1);
-        } elsif (!input.approach_mode.getBoolValue()) {
+        } elsif (land.mode == 1) {
             set_wp_name(WP_TYPE.LAND_B, 1);
         } else {
             set_wp_name(WP_TYPE.LAND_F, 1);
@@ -169,20 +168,6 @@ var update_wp_indicator = func {
         # Can only correctly display waypoint 1-9. After that, display '0'.
         if (index > 9) index = WP_NUM.ZERO;
         set_wp_name(WP_TYPE.WPT, index);
-    }
-}
-
-var update_wp_indicator_listeners = [
-    input.rm_active,
-    input.landing_mode,
-    input.approach_mode,
-    "autopilot/route-manager/signals/edited",
-    "autopilot/route-manager/current-wp",
-];
-
-if (getprop("ja37/systems/variant") != 0) {
-    forindex(var i; update_wp_indicator_listeners) {
-        update_wp_indicator_listeners[i] = setlistener(update_wp_indicator_listeners[i], update_wp_indicator);
     }
 }
 
