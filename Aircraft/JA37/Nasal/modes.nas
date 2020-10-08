@@ -167,16 +167,13 @@ var selector_callback = func (node) {
 
     # Update landing mode
     if (selector_ajs == SELECTOR.LND_NAV) {
-        input.landing.setBoolValue(TRUE);
+        land.LND_NAV();
         landing = TRUE;
     } elsif (selector_ajs == SELECTOR.LND_OPT) {
-        input.landing.setBoolValue(TRUE);
-        input.approach.setBoolValue(TRUE);
+        land.LND_PO();
         landing = TRUE;
-        land.OPT();
     } else {
-        input.landing.setBoolValue(FALSE);
-        input.approach.setBoolValue(FALSE);
+        land.noMode();
         landing = FALSE;
     }
 
@@ -185,7 +182,6 @@ var selector_callback = func (node) {
 
     update_mode_ajs();
 }
-if (getprop("/ja37/systems/variant") != 0) setlistener(input.selector_ajs, selector_callback, 1, 0);
 
 
 ###  Main update function
@@ -194,4 +190,11 @@ var update_mode = getprop("/ja37/systems/variant") == 0 ? update_mode_ja : updat
 var update = func {
     update_takeoff_allowed();
     update_mode();
+};
+
+
+var initialize = func {
+    if (getprop("/ja37/systems/variant") != 0) {
+        setlistener(input.selector_ajs, selector_callback, 1, 0);
+    }
 };

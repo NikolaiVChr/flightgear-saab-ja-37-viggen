@@ -274,6 +274,25 @@ var OPT = func {
     }
 };
 
+
+var LND_NAV = func {
+    setprop("ja37/hud/landing-mode", TRUE);
+    mode_OPT_active = FALSE;
+    if (getprop("ja37/avionics/approach") == TRUE) {
+        mode = 2;
+    } else {
+        mode = 1;
+    }
+};
+
+var LND_PO = func {
+    setprop("ja37/hud/landing-mode", TRUE);
+    setprop("ja37/avionics/approach", TRUE);#short
+    mode = 4;
+    mode_OPT_active = TRUE;
+};
+
+
 var RR = func {
     # radar steer order enabled
     noMode();
