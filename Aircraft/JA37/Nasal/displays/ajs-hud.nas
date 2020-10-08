@@ -298,26 +298,24 @@ var DigitalAltitude = {
     update: func(ref_point_offset) {
         var altitude = input.alt.getValue();
         var str = "";
-        if (altitude < -2.5) {
-            # Negative altitudes (min -97.5), 2 digits, precision 10m (5m in declutter mode)
+        if (altitude < 995) {
+            # Below 1000m, 3 digits, 10m precision.
+            # In declutter mode, 2 digits, 5m precision instead.
+            # Below 0m, 2 digits
             if (me.mode == HUD.MODE_NAV_DECLUTTER) {
                 altitude = math.round(altitude, 5);
-                altitude = math.clamp(altitude, -95, -5);
+                altitude = math.clamp(altitude, -95, 95);
             } else {
                 altitude = math.round(altitude, 10);
-                altitude = math.clamp(altitude, -90, -10);
+                altitude = math.clamp(altitude, -90, 990);
             }
-            str = sprintf("-%.2d", -altitude);
-        } elsif (me.mode == HUD.MODE_NAV_DECLUTTER) {
-            # Declutter mode (below 100m), 2 digits, precision 5m.
-            altitude = math.round(altitude, 5);
-            altitude = math.clamp(altitude, 0, 95);
-            str = sprintf("%.2d", altitude);
-        } elsif (altitude < 995) {
-            # Below 1000m, 3 digits, precision 10m.
-            altitude = math.round(altitude, 10);
-            altitude = math.clamp(altitude, 0, 990);
-            str = sprintf("%.3d", altitude);
+            if (altitude < 0) {
+                str = sprintf("-%.2d", -altitude);
+            } elsif (me.mode == HUD.MODE_NAV_DECLUTTER) {
+                str = sprintf("%.2d", altitude);
+            } else {
+                str = sprintf("%.3d", altitude);
+            }
         } else {
             # Above 1000m, 2 digits, precision 100m, units km, modulo 10km
             altitude = math.round(altitude/1000, 0.1);
