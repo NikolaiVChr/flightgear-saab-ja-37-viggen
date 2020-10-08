@@ -1139,7 +1139,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
     me.displaySeeker(mode);
 
-    if(me.has_power == FALSE or testing.ongoing == TRUE) {
+    if(me.has_power == FALSE or testing.ongoing == TRUE or !modes.displays) {
       me.root.hide();
       me.root.update();
       air2air = FALSE;

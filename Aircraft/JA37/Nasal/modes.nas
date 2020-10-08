@@ -40,6 +40,7 @@ var main = TAKEOFF;
 var combat = FALSE;
 var takeoff = TRUE;
 var landing = FALSE;
+var displays = TRUE;
 
 
 
@@ -179,6 +180,9 @@ var selector_callback = func (node) {
         input.approach.setBoolValue(FALSE);
         landing = FALSE;
     }
+
+    # Displays disabled in STBY mode (and TEST mode, because it is not implemented).
+    displays = (selector_ajs > SELECTOR.STBY);
 
     update_mode_ajs();
 }

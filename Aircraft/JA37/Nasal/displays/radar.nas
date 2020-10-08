@@ -428,7 +428,7 @@ var radar = {
   {
     if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and power.prop.acSecond.getValue()
         and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1 and testing.ongoing == FALSE
-        and getprop("ja37/radar/active") == TRUE) {
+        and getprop("ja37/radar/active") == TRUE and modes.displays) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.rangeText.setText(sprintf("%3d",me.radarRange/1000));
