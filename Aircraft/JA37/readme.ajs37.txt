@@ -3,8 +3,7 @@
 
 Main Mode Selector
 ==================
-The AJS mode selector knob is located on the radar panel
-(left panel, next to the throttle).
+The AJS mode selector knob is located on the radar panel (left panel, next to the throttle).
 It allows to select the following main operation modes during the flight:
 
 FK (TEST)       Not implemented (does the same as BER)
@@ -15,6 +14,8 @@ SPA (RECO)      Not implemented (does the same as NAV, without takeoff mode)
 LANDING NAV     Instruments landing mode.
 LANDING P/O (OPT)   Visual landing mode.
 
+Keyboard shortcut is m/M.
+
 Landing 'Flip-Flop'
 -------------------
 For the LANDING NAV mode, the landing patterns can be modified by doing a
@@ -23,3 +24,4 @@ For the LANDING NAV mode, the landing patterns can be modified by doing a
   to select a short approach pattern.
 - Switch the mode selector to LND NAV -> NAV -> LND NAV
   to restart a full approach procedure.
+  (any non-landing mode will work instead of NAV).
