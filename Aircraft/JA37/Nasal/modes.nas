@@ -109,7 +109,6 @@ var update_mode_ja = func {
     takeoff = (main == TAKEOFF);
     landing = (main == LANDING);
 
-    input.main.setValue(main);
     input.combat.setValue(combat);
     input.takeoff.setValue(takeoff);
 };
