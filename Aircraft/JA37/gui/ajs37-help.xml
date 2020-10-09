@@ -181,52 +181,49 @@
     <text><![CDATA[
       Startup
       _______
-      Start up engine and systems
-      Wait for the engine to spool up and generator to turn on.
-      Calibrate the altimeter.
-      Apply full throttle with afterburner.
-      Release parking brakes.
-      
+      See checklists (Help -> Checklists) for detailled procedures.
+
       Takeoff
       _______
-      Mind the sidewind indicator in the HUD.
-      Pull back on the stick when the distance scale upper marker is aligned with the lower.
-      Takeoff at 315 km/h. (170 kt)
+      Rotation speed is between 250km/h and 300km/h (135 to 160kts).
+      Rotate when the upper and lower markers are aligned on the distance scale on the HUD.
 
       Landing
       _______
-      Land with speeds within 220km/h. (119 kt) and an Angle of Attack of 12.0 degrees for standard landing.
-      Land with speeds within 195-249km/h. (105-134 kt) and an Angle of Attack of 15.5 degrees and no flare for short landing.
-      Deploy reverse thrust and brakes after touchdown.
+      For normal landings, approach is done with an Angle of Attack of up to 12.0 degrees.
+      For short landings, approach is done with an Angle of Attack of 15.5 degrees, and no flare.
+      Thrust reverser can be engaged on final, and will deploy at touchdown.
 
       Landing with ILS or TILS
       ________________________
-      Below the HUD horizon line is a line with a dot in the middle. When within ILS range, align the dot in the center and keep the flight path indicator on it. Close to that same line is also 4 vertical lines, align the top of those to the horizontal line (not the horizon line).
+      Below the HUD horizon line is a line with a dot in the middle.
+      When within ILS range, align the dot in the center and keep the flight path indicator on it.
+      Close to that same line are 4 vertical lines, align the top of those to the horizontal line (not the horizon line).
       The heading bug will indicate the touchdown spot.
 
       Flaps
       _____
-      The Viggen control the flaps automatically.
-      At takeoff and landing it will set flaps to 30 degrees down.
-      In flight it will be set at 4 degrees up.    
-
-      Afterburner stages
-      __________________
-      The afterburner has 3 stages, the throttle controls this. Throttle position 94% = stage 1, 96% = stage 2, 98% = stage 3
-      The nozzle indicator alternate as a afterburner stage indicator.
+      Flaps (on the canard planes) are tied to the landing gear.
+      With gear down, they are deployed 30 degrees down.
+      In flight, they are set 4 degrees up.
 
       Instruments
       ___________
-      The angle of attack indicator will act as a pitch indicator when on the ground.
-      If the next waypoint is an airport it will be shown as a circle on the radar screen. If a runway is specified it will also show the direction as a line out from the circle.
-      The selected radar echo will be shown a '+' on the radar screen.
-      Mouse middle clicking on altimeter setting knobs, will reset to standard pressure.
+      Clicking on the center of altimeter setting knobs toggles standard pressure (1013.2).
+      Viggen is designed to use QFE setting insdead of QNH (calibrate 0m to the airport altitude).
+
+      Displays
+      ________
+      CI: Center display, radar screen with some navigation information (e.g. waypoint position, as a big circle).
+
+      Modes
+      -----
+      Operation modes (navigation, landing, tactical...) are selected through
+      the main mode selector knob, located on the radar panel, left side, next to the throttle.
 
       HUD info
       ________
       The HUD uses Km/h and meters, but this can be switched to imperial with 'I'.
-      The HUD switches automatically between takeoff, landing, navigation and tactical mode.
-      An exception is when landing mode switch is activated, that will force landing mode, when not in takeoff mode.
       When in takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
       The vertical tail on the flight path indicator will move/blink according to AoA and speed in landing mode.
       In tactical mode when the cannon or rockets is selected, a fixed crosshair will appear.
@@ -242,7 +239,7 @@
       The heading at the top is shown as a scale showing 1/10 of heading in degrees. The scale will move to the hozizon line in landing mode.
       Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In tactical mode the selected radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
       Nearest tower is shown as a small diamond, with ICAO and distance. It will not be shown in tactical mode though.
-      
+
       Warnings
       ________
       Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
@@ -251,67 +248,13 @@
       If you try to extend the gears at high speed they won't extend till you get into lower speeds. The limit is 0.65M or 620Km/h (335KTS).
       The gears will not retract on the runway.
 
-      Automatic Thrust reversing
-      __________________________
-      This will enable the reverse thrust when you touch down with all 3 gears.
-      If you take off from a rough strip or without runway, the ground bumpiness will trigger this and prevent you from taking off. So in that case I recommend switching it off.
-
-      Using autopilot to follow target
-      ________________________________
-      The HUD must turned on and a something selected.
-      Press 'f'. Then the auto-pilot will enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
-      If the target changes during the intercept, it will not switch to the new target.
-      To stop, press 'F'. Or select another and press 'f' again to follow that instead.
-
-      Using the Selection View
-      ________________________
-      This view will keep the Viggen in view while at the same time pointing the camera at the selected entity.
-      Do not rotate the camera in this view, that will ruin its ability to track the selection. You can however zoom without a problem.
-
       Repairing
       _________
       In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are many systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
 
       Air-conditioning
       ________________
-      When using ALS, the windshield can fog up under certain conditions. Be sure to remember to enable hot air on windshield to be able to see.
-      The cockpit windshield and canopy might ice up when using ALS. Be sure to set the aircondition right for removing ice and for pilot comfort.
-
-      Unstable fuel configurations
-      ____________________________
-      It is entirely possible to fill the fuel tanks in such a way that the plane become too longitudal unstable. I recommend filling up the internal tanks (except the first) evenly to avoid this. Bringing up the performance monitor you can check the static-margin, if below 0.30 meter the plane is dangerous unstable. Most of the time the automatic fuel system will keep the plane stable but under some conditions it can fail to do that, for example with prolonged aerobatic manouvres. Flying level for some time would remedy this in many cases.
-
-      Liveries
-      ________
-      Livery 59, uses half the texture memory of the other liveries.
-
-      Additional keys
-      _______________
-      Some additional keys for navigation is listed here:
-      
-      } - gross freq up
-      { - gross freq down
-      > - fine freq up
-      < - fine freq down
-      ) - radial up
-      ( - radial down
-      * - comm / nav
-      & - mhz / khz
-      + - volume up
-      = - volume down
-      Ctrl-. - next waypoint
-      Ctrl-, - previous waypoint
-      \ - DME
-
-      Trivia
-      ______
-      400 meter runway is required to takeoff.
-      500 meter runway is required to land.
-      Service ceiling: 18,300 m (60,000 ft)
-      From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
-      
-      Notes:
-      _____
-      Hangar homepage: https://sites.google.com/site/fghangar
+      Air-conditioning (left side, on a vertical panel) and defogging (right side)
+      should be used to avoid fog or ice on the windshield (requires ALS to be visible).
       ]]></text>
 </PropertyList>
