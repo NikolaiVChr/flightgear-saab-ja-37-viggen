@@ -1140,11 +1140,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.lastPower = power.prop.dcMain.getValue()+power.prop.acSecond.getValue();
 
-    mode = modes.main;
+    mode = modes.main_ja;
 
     me.displaySeeker(mode);
 
-    if(me.has_power == FALSE or testing.ongoing == TRUE or !modes.displays) {
+    if(me.has_power == FALSE or testing.ongoing == TRUE) {
       me.root.hide();
       me.root.update();
       air2air = FALSE;

@@ -538,7 +538,7 @@ var FPV = {
 
         me.group.setTranslation(100 * input.fpv_right.getValue(), -100 * input.fpv_up.getValue());
 
-        if (modes.main == modes.LANDING) {
+        if (modes.landing) {
             me.update_landing_speed_error();
         } else {
             me.set_fin(TRUE);
@@ -550,6 +550,7 @@ var FPV = {
 
 ### Main HUD class
 var HUD = {
+    MODE_STBY: 0,
     MODE_TAKEOFF_ROLL: 1,
     MODE_TAKEOFF_ROTATE: 2,
     MODE_NAV: 3,
@@ -623,16 +624,24 @@ var HUD = {
     set_mode: func(mode) {
         if (me.mode == mode) return;
         me.mode = mode;
-        me.horizon.set_mode(mode);
-        me.alt_bars.set_mode(mode);
-        me.dig_alt.set_mode(mode);
-        me.heading.set_mode(mode);
-        me.distance.set_mode(mode);
-        me.fpv.set_mode(mode);
+
+        if (mode == HUD.MODE_STBY) {
+            me.root.hide();
+        } else {
+            me.root.show();
+            me.horizon.set_mode(mode);
+            me.alt_bars.set_mode(mode);
+            me.dig_alt.set_mode(mode);
+            me.heading.set_mode(mode);
+            me.distance.set_mode(mode);
+            me.fpv.set_mode(mode);
+        }
     },
 
     update_mode: func {
-        if (modes.main == modes.TAKEOFF) {
+        if (modes.selector_ajs == modes.STBY or modes.selector_ajs == modes.TEST) {
+            me.set_mode(HUD.MODE_STBY);
+        } elsif (modes.takeoff) {
             if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             } elsif (input.pitch.getValue() > 5) {
@@ -640,11 +649,11 @@ var HUD = {
             } elsif (input.pitch.getValue() < 3) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             }
-        } elsif (modes.main == modes.LANDING and (land.mode < 1 or land.mode == 4)) {
+        } elsif (modes.landing and (land.mode < 1 or land.mode == 4)) {
             me.set_mode(HUD.MODE_FINAL_OPT);
-        } elsif (modes.main == modes.LANDING and land.mode == 3) {
+        } elsif (modes.landing and land.mode == 3) {
             me.set_mode(HUD.MODE_FINAL_NAV);
-        } elsif (modes.main == modes.LANDING) {
+        } elsif (modes.landing and (land.mode == 1 or land.mode == 2)) {
             # Initial landing phase, NAV display mode
             me.set_mode(HUD.MODE_NAV);
         } else { # Nav
@@ -681,6 +690,8 @@ var HUD = {
 
     update: func {
         me.update_mode();
+        if (me.mode == HUD.MODE_STBY) return;
+
         me.update_parallax();
         me.fpv.update();
         var fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();

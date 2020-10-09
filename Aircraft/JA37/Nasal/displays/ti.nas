@@ -3541,7 +3541,7 @@ var TI = {
 	},
 
 	showTargetInfo: func {
-		if (me.mapshowing == TRUE and radar_logic.selection != nil and (me.tgt_dist != nil or me.tgt_alt != nil)) {# and modes.main == modes.COMBAT and radar_logic.selection.isPainted() == TRUE) {
+		if (me.mapshowing == TRUE and radar_logic.selection != nil and (me.tgt_dist != nil or me.tgt_alt != nil)) {# and modes.main_ja == modes.COMBAT and radar_logic.selection.isPainted() == TRUE) {
 			# this is a little infobox about the locked target.
 
 	  		if (me.tgt_dist != nil) {
@@ -4556,7 +4556,7 @@ var TI = {
 			me.textBDist.setText("  ");
 			me.textBDistN.setText(" ");
 		}
-		if (modes.main == modes.LANDING and me.input.gearsPos.getValue() == 1) {
+		if (modes.main_ja == modes.LANDING and me.input.gearsPos.getValue() == 1) {
 			me.alphaT  = me.swedishMode?"ALFA":"ALPH";
 			me.weightT = me.swedishMode?"VIKT":"WEIG";
 			if (me.swedishMode) {
@@ -4619,7 +4619,7 @@ var TI = {
 	},
 
 	showRadarLimit: func {
-		if (modes.main == modes.COMBAT and me.input.tracks_enabled.getValue() == TRUE) {
+		if (modes.main_ja == modes.COMBAT and me.input.tracks_enabled.getValue() == TRUE) {
 			if (me.lastZ != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
 				me.radar_limit_grp.removeAllChildren();
 				me.rdrField = 61.5*D2R;

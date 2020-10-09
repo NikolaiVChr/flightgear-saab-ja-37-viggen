@@ -642,7 +642,7 @@ var MI = {
 	},
 
 	displayFPI: func {
-		if (modes.main == modes.LANDING or modes.main == modes.COMBAT) {
+		if (modes.main_ja == modes.LANDING or modes.main_ja == modes.COMBAT) {
 			me.fpi_tail.hide();
 		} else {
 			me.fpi_tail.show();
@@ -659,10 +659,10 @@ var MI = {
 
 	displayAltLines: func {
 		me.showLines = TRUE;
-		if (modes.main == modes.LANDING and land.mode != 1 and land.mode != 2) {
+		if (modes.main_ja == modes.LANDING and land.mode != 1 and land.mode != 2) {
 			me.showLines = FALSE;
 		}
-		if (modes.main != modes.TAKEOFF and me.input.alt_m.getValue() > 1000 and me.input.APmode.getValue() != 3) {
+		if (modes.main_ja != modes.TAKEOFF and me.input.alt_m.getValue() > 1000 and me.input.APmode.getValue() != 3) {
 			me.showLines = FALSE;
 		}
 		if (me.input.flash_alt_bars.getBoolValue() and !me.input.twoHz.getBoolValue()) {
@@ -911,7 +911,7 @@ var MI = {
 	},
 
 	displayArmCircle: func {
-		if (modes.main == modes.COMBAT) {
+		if (modes.main_ja == modes.COMBAT) {
 			me.armActive = displays.common.armActive();
 			if (me.armActive != nil) {
 				me.dlz = me.armActive.getDLZ();

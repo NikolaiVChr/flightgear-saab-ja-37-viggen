@@ -24,23 +24,32 @@ foreach (var name; keys(input)) {
 
 ### Main modes
 
-# Note: I would prefer if this 'main' mode was JA-only,
-# with the mode selector serving a similar role for the AJS.
-# The variables 'combat' 'takeoff' 'landing' can be used for shared systems.
-# The main blocking point currently is the HUD.
-var TAKEOFF = 0;
-var NAV = 1;
-var COMBAT = 2;
-var LANDING = 3;
+if (getprop("/ja37/systems/variant") == 0) {
+    # JA
+    var TAKEOFF = 0;
+    var NAV = 1;
+    var COMBAT = 2;
+    var LANDING = 3;
 
-var main = TAKEOFF;
+    var main_ja = TAKEOFF;
+} else {
+    # AJS
+    var TEST = 0;
+    var STBY = 1;
+    var NAV = 2;
+    var COMBAT = 3;
+    var RECO = 4;
+    var LND_NAV = 5;
+    var LND_OPT = 6;
+
+    var selector_ajs = STBY;
+}
 
 
 ### These variables summarize common JA/AJS modes to support shared systems.
 var combat = FALSE;
 var takeoff = TRUE;
 var landing = FALSE;
-var displays = TRUE;
 
 
 
@@ -80,13 +89,13 @@ var update_mode_ja = func {
     # LANDMOD: Press LT or LS on TI. (key 'Y' is same as LS)
     #
 
-    if (main != TAKEOFF and input.wow_nose.getBoolValue()) {
+    if (main_ja != TAKEOFF and input.wow_nose.getBoolValue()) {
         # nosewheel on runway, switch to takeoff
-        main = TAKEOFF;
+        main_ja = TAKEOFF;
         input.landing.setValue(0);
-    } elsif (main == TAKEOFF and !takeoff_allowed) {
+    } elsif (main_ja == TAKEOFF and !takeoff_allowed) {
         # time to switch away from TAKEOFF mode.
-        main = NAV; # Can be changed to COMBAT or LANDING below.
+        main_ja = NAV; # Can be changed to COMBAT or LANDING below.
 
         # If current waypoint is the starting base, select the next one.
         if (input.rm_active.getBoolValue()) {
@@ -97,17 +106,17 @@ var update_mode_ja = func {
         }
     }
 
-    if (main == COMBAT or main == NAV or main == LANDING) {
+    if (main_ja == COMBAT or main_ja == NAV or main_ja == LANDING) {
         if (input.landing.getBoolValue()) {
-            main = LANDING;
+            main_ja = LANDING;
         } else {
-            main = (input.master_arm.getBoolValue() and input.gear_pos.getValue() == 0) ? COMBAT : NAV;
+            main_ja = (input.master_arm.getBoolValue() and input.gear_pos.getValue() == 0) ? COMBAT : NAV;
         }
     }
 
-    combat = (main == COMBAT);
-    takeoff = (main == TAKEOFF);
-    landing = (main == LANDING);
+    combat = (main_ja == COMBAT);
+    takeoff = (main_ja == TAKEOFF);
+    landing = (main_ja == LANDING);
 
     input.combat.setValue(combat);
     input.takeoff.setValue(takeoff);
@@ -116,27 +125,14 @@ var update_mode_ja = func {
 
 # AJS
 
-# Selector knob positions
-var SELECTOR = {
-    TEST: 0,
-    STBY: 1,
-    NAV: 2,
-    COMBAT: 3,
-    RECO: 4,
-    LND_NAV: 5,
-    LND_OPT: 6,
-};
-
-var selector_ajs = SELECTOR.STBY;
-
 # This function handles submodes (i.e. anything that does not only depend on the selector position).
 # The rest is done in the mode selector listener below.
 var update_mode_ajs = func {
     # Update combat mode
-    combat = (selector_ajs == SELECTOR.COMBAT) and input.gear_pos.getValue() == 0;
+    combat = (selector_ajs == COMBAT) and input.gear_pos.getValue() == 0;
 
     # Update takeoff submode
-    if (selector_ajs != SELECTOR.NAV) {
+    if (selector_ajs != NAV) {
         takeoff = FALSE;
     } elsif (input.wow_nose.getBoolValue()) {
         takeoff = TRUE;
@@ -154,31 +150,22 @@ var update_mode_ajs = func {
 
     input.combat.setValue(combat);
     input.takeoff.setValue(takeoff);
-
-    # Update 'main' mode. A bit silly...
-    if (takeoff) main = TAKEOFF;
-    elsif (combat) main = COMBAT;
-    elsif (landing) main = LANDING;
-    else main = NAV;
 };
 
 var selector_callback = func (node) {
     selector_ajs = node.getValue();
 
     # Update landing mode
-    if (selector_ajs == SELECTOR.LND_NAV) {
+    if (selector_ajs == LND_NAV) {
         land.LND_NAV();
         landing = TRUE;
-    } elsif (selector_ajs == SELECTOR.LND_OPT) {
+    } elsif (selector_ajs == LND_OPT) {
         land.LND_PO();
         landing = TRUE;
     } else {
         land.noMode();
         landing = FALSE;
     }
-
-    # Displays disabled in STBY mode (and TEST mode, because it is not implemented).
-    displays = (selector_ajs > SELECTOR.STBY);
 
     update_mode_ajs();
 }
