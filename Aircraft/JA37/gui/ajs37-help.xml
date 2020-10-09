@@ -46,10 +46,6 @@
         <desc>HUD Brightness</desc>
     </key>
     <key>
-        <name>h</name>
-        <desc>Toggle masterarm</desc>
-    </key>
-    <key>
         <name>I</name>
         <desc>Toggle HUD units. Metric/imperial.</desc>
     </key>

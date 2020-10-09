@@ -124,10 +124,22 @@
             <name>h</name>
             <desc>Toggle masterarm</desc>
             <binding>
-              <command>property-toggle</command>
-              <property>ja37/armament/master-arm</property>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>ja37/armament/master-arm</property>
             </binding>
             <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
                 <command>nasal</command>
                 <script>ja37.click();</script>
             </binding>
