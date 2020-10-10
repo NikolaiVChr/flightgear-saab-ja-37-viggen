@@ -62,7 +62,7 @@
         <name>weapon-select</name>
         <offsets>
             <heading-deg>-90</heading-deg>
-            <x-m>  0.290</x-m>
+            <x-m>  0.230</x-m>
             <y-m>  0.02625</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -89,6 +89,17 @@
             <z-m>  0</z-m>
         </offsets>
     </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>weapon-mode</object-name>
+        <condition>
+           <equals>
+            <property>ja37/systems/variant</property>
+            <value>0</value>
+           </equals>
+        </condition>
+    </animation>
 
     <model>
         <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-tank.xml</path>
