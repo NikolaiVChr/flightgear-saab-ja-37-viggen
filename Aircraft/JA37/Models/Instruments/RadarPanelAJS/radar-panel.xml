@@ -16,6 +16,13 @@
   </effect>
 
   <animation>
+    <type>material</type>
+    <object-name>base</object-name>
+    <condition><property>/ja37/effect/swedish-labels</property></condition>
+    <texture>radar-panel-se.png</texture>
+  </animation>
+
+  <animation>
     <type>pick</type>
     <object-name>base</object-name>
     <hovered>
@@ -33,8 +40,8 @@
     <property>ja37/mode/selector-ajs</property>
     <factor>30</factor>
     <center>
-      <x-m>-0.067702</x-m>
-      <y-m>-0.030824</y-m>
+      <x-m>-0.071252</x-m>
+      <y-m>-0.030333</y-m>
       <z-m>0</z-m>
     </center>
     <axis>
@@ -66,8 +73,8 @@
     <property>ja37/radar/panel/filter</property>
     <factor>30</factor>
     <center>
-      <x-m>0.065625</x-m>
-      <y-m>-0.035529</y-m>
+      <x-m>0.071759</x-m>
+      <y-m>-0.036265</y-m>
       <z-m>0</z-m>
     </center>
     <axis>
@@ -94,8 +101,8 @@
     <offset-deg>-30</offset-deg>
     <drag-direction>vertical</drag-direction>
     <center>
-      <x-m>-0.068158</x-m>
-      <y-m>0.016052</y-m>
+      <x-m>-0.070683</x-m>
+      <y-m>0.018675</y-m>
       <z-m>0.003</z-m>
     </center>
     <axis>
@@ -123,7 +130,7 @@
     <offset-deg>-30</offset-deg>
     <drag-direction>vertical</drag-direction>
     <center>
-      <x-m>-0.02042</x-m>
+      <x-m>-0.019003</x-m>
       <y-m>-0.012922</y-m>
       <z-m>0.003</z-m>
     </center>
@@ -152,8 +159,8 @@
     <offset-deg>-30</offset-deg>
     <drag-direction>vertical</drag-direction>
     <center>
-      <x-m>-0.02042</x-m>
-      <y-m>-0.039292</y-m>
+      <x-m>-0.019003</x-m>
+      <y-m>-0.040222</y-m>
       <z-m>0.003</z-m>
     </center>
     <axis>
@@ -181,8 +188,8 @@
     <offset-deg>-30</offset-deg>
     <drag-direction>vertical</drag-direction>
     <center>
-      <x-m>0.019383</x-m>
-      <y-m>-0.039292</y-m>
+      <x-m>0.023597</x-m>
+      <y-m>-0.040492</y-m>
       <z-m>0.003</z-m>
     </center>
     <axis>
