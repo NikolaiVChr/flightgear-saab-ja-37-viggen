@@ -102,8 +102,8 @@ var WP_TYPE = {
 # Digits 1-9 are displayed as-is.
 var WP_NUM = {
     OFF: 0,
-    START: 11,
     ZERO: 10,
+    START: 11,
 };
 
 # Test if departure/destination are set in a flightplan.
@@ -142,13 +142,13 @@ var set_wp_name = func(type, number) {
 }
 
 var update_wp_indicator = func {
-    if(!input.rm_active.getBoolValue()) {
+    var fp = flightplan();
+    var index = fp.current;
+
+    if(!input.rm_active.getBoolValue() or index < 0) {
         set_wp_name(WP_TYPE.OFF, WP_NUM.OFF);
         return;
     }
-
-    var fp = flightplan();
-    var index = fp.current;
 
     if (index == 0 and departure_set(fp)) {
         # takeoff

@@ -339,6 +339,7 @@
                 /ja37/elec/ac-bus-main-bool == 0
                 /instrumentation/heading-indicator/serviceable == 0
                 /autopilot/route-manager/active == 0
+                /autopilot/route-manager/current-wp lt 0
             </test>
             <output>/instrumentation/waypoint-indicator/bearing-index-goal</output>
         </switch>
@@ -365,6 +366,7 @@
             <test logic="AND" value="1"> <!-- mil -->
                 /ja37/elec/ac-bus-main-bool == 1
                 /autopilot/route-manager/active == 1
+                /autopilot/route-manager/current-wp ge 0
                 instruments/waypoint/distance-km gt 40
             </test>
         </switch>
@@ -373,8 +375,9 @@
             <test value="/instrumentation/waypoint-indicator/distance-needle">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
-            <test value="-5"><!-- Hides the needle -->
+            <test logic="OR" value="-5"><!-- Hides the needle -->
                 /autopilot/route-manager/active == 0
+                /autopilot/route-manager/current-wp lt 0
             </test>
             <test value="instruments/waypoint/distance-mil">
                 instruments/waypoint/distance-unit == 1
