@@ -1309,40 +1309,6 @@
 
         <!--                                          avionics warnings                           -->
 
-        <!--<stall>
-            <name>stall</name>
-            <mode>looped</mode>
-            <path>Aircraft/JA37/Sounds/tones/stall.wav</path>
-            <type>avionics</type>
-            <condition>
-                <property>ja37/avionics/annunciator/serviceable</property>
-                <not>
-                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
-                </not>
-                <greater-than>
-                    <property>fdm/jsbsim/aero/stall-hyst-norm</property>
-                    <value>0</value>
-                </greater-than>
-                <greater-than>
-                    <property>ja37/sound/stall-enabled</property>
-                    <value>0</value>
-                </greater-than>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>ja37/elec/dc-bus-main-volt</property>
-                    <value>23</value>
-                </greater-than>
-            </condition>
-            <volume>
-                <property>ja37/sound/helmet</property>
-                <factor>1</factor>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
-        </stall>-->
-
         <floor>
             <name>floor</name>
             <mode>once</mode>

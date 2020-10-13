@@ -137,7 +137,6 @@ var MI = {
 			ref_alt:              "ja37/displays/reference-altitude-m",
 			rmActive:             "autopilot/route-manager/active",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
-			screenEnabled:        "ja37/radar/enabled",
 			timeElapsed:          "sim/time/elapsed-sec",
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",

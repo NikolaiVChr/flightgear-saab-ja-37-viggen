@@ -1513,7 +1513,6 @@ var TI = {
 			rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
 			RMCurrWaypoint:       "autopilot/route-manager/current-wp",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
-			screenEnabled:        "ja37/radar/enabled",
 			timeElapsed:          "sim/time/elapsed-sec",
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",

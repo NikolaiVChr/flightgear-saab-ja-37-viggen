@@ -182,28 +182,6 @@
     </offsets>
   </model>
 
-
-  <!--
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-d/smoke.xml</path>
-    <name>follow</name>
-    <offsets>
-      <x-m>  0.475</x-m>
-      <y-m>  0.05</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>-->
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/warning-stall.xml</path>
-    <name>stall</name>
-    <offsets>
-      <x-m>  0.525</x-m>
-      <y-m>  0.065</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
   <model>
      <path>Aircraft/JA37/Models/Instruments/Datapanel/datapanel.xml</path>
      <name>Datapanel</name>
@@ -363,7 +341,6 @@
   <animation>
     <type>select</type>
     <object-name>Navpanel</object-name>
-    <object-name>stall</object-name>
     <object-name>tilsG</object-name>
     <object-name>switch-dme</object-name>
     <object-name>switch-radar-alt</object-name>

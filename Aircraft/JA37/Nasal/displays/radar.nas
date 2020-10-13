@@ -400,6 +400,7 @@ var radar = {
       rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
       rad_alt_ready:        "instrumentation/radar-altimeter/ready",
       radarEnabled:         "ja37/hud/tracks-enabled",
+      radarActive:          "ja37/radar/active",
       radarRange:           "instrumentation/radar/range",
       radarServ:            "instrumentation/radar/serviceable",
       rmActive:             "autopilot/route-manager/active",
@@ -408,7 +409,6 @@ var radar = {
       rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
       RMCurrWaypoint:       "autopilot/route-manager/current-wp",
       roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
-      screenEnabled:        "ja37/radar/enabled",
       timeElapsed:          "sim/time/elapsed-sec",
       viewNumber:           "sim/current-view/view-number",
       headTrue:             "orientation/heading-deg",
@@ -427,8 +427,7 @@ var radar = {
   update: func()
   {
     if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and power.prop.acSecond.getValue()
-        and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1 and testing.ongoing == FALSE
-        and getprop("ja37/radar/active") == TRUE and modes.displays) {
+        and me.input.radarServ.getBoolValue() and me.input.radarEnabled.getBoolValue() and !testing.ongoing and me.input.radarActive.getBoolValue() and modes.displays) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.rangeText.setText(sprintf("%3d",me.radarRange/1000));

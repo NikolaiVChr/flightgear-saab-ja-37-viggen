@@ -1292,8 +1292,7 @@ var main_init = func {
   }
   #setprop("ja37/avionics/master-warning-button", 0);# for when starting up with engines running, to prevent master warning.
 
-#  aircraft.data.add("ja37/radar/enabled",
-#                    "ja37/hud/units-metric",
+#  aircraft.data.add("ja37/hud/units-metric",
 #                    "ja37/autoReverseThrust",
 #                    "ja37/hud/stroke-linewidth",
 #                    "ai/submodels/submodel[2]/random",
@@ -1540,7 +1539,6 @@ var startSupply = func {
 }
 
 var endSupply = func {
-  setprop("ja37/radar/enabled", TRUE);
   setprop("controls/engines/engine/reverser-cmd", FALSE);
   setprop("controls/fuel/auto", TRUE);
   setprop("controls/altimeter-radar", TRUE);

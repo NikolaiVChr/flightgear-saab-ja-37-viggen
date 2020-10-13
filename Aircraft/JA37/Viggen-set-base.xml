@@ -70,7 +70,6 @@
         <aircraft-operator>Swedish Air Force</aircraft-operator>
         <aircraft-data>
             <!-- Properties that get saved to persist locally between FG sessions -->
-            <path>ja37/radar/enabled</path>
             <path>ja37/hud/units-metric</path>
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
@@ -542,7 +541,6 @@
         <radar>
             <selectedMP type="int">-1</selectedMP>
             <selected type="int">-1</selected>
-            <enabled type="bool">false</enabled>
             <look-through-terrain type="bool">true</look-through-terrain>
             <doppler-enabled type="bool">true</doppler-enabled>
             <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>

@@ -154,18 +154,6 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/radar-screen.xml</path>
-    <name>radar screen</name>
-    <offsets>
-      <heading-deg>90</heading-deg>
-      <x-m>  0.590</x-m>
-      <y-m> -0.070</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-
-  <model>
       <path>Aircraft/JA37/Models/Instruments/Datapanel/trim-reset.xml</path>
       <name>reset trim</name>
       <offsets>
@@ -359,7 +347,6 @@
   <!-- AJS only -->
   <animation>
     <type>select</type>
-    <object-name>radar screen</object-name>
     <object-name>radar-panel-ajs</object-name>
     <condition>
       <greater-than>
