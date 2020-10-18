@@ -998,8 +998,6 @@ var Saab37 = {
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
-    me.loop_ap.start();
-    me.loop_hydrLost.start();    
     me.loop_land.start();
     me.loop_nav.start();
     me.loop_stores.start();
