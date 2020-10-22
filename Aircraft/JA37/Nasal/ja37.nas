@@ -1406,7 +1406,7 @@ var re_init = func {
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
-  autoflight.engageMode(0);
+  autoflight.System.engageMode(0);
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
   setprop("ja37/done",0);
