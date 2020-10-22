@@ -4,6 +4,11 @@
 
  <path>crater.ac</path>
  
+ <animation>
+      <object-name>Sphere</object-name>
+      <enable-hot type="bool">false</enable-hot>
+  </animation>
+ 
       <particlesystem>
          <name>explosion-smoke-longterm</name>
          <texture>smoke.png</texture>
@@ -72,7 +77,7 @@
            </end>
 
            <life-sec>
-             <value>60</value>
+             <value>50</value>
            </life-sec>
              
            <mass-kg>  5.0 </mass-kg>
