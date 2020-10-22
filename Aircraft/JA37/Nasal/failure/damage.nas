@@ -902,11 +902,6 @@ var fail_systems = func (probability, factor = 100) {#this factor needs tuning a
                 yasim_list5 = setlistener("controls/engines/engine[3]/cutoff",func {setprop("controls/engines/engine[3]/cutoff",1);});
               }
           }
-
-          # Viggen smoke animation
-          if(probability > 0.19) {
-              setprop("environment/damage", 1);
-          }
       }
       
       return failed;
