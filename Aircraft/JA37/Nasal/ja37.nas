@@ -1488,7 +1488,7 @@ var autostarttimer = func {
 }
 
 var stopAutostart = func {
-  setprop("/ja37/mode/selector-ajs", 1); # STBY
+  if (getprop("/ja37/systems/variant") != 0) setprop("/ja37/mode/selector-ajs", 1); # STBY
   setprop("/controls/electric/main", FALSE);
   setprop("/controls/electric/battery", FALSE);
   setprop("/controls/engines/engine/throttle", 0);
@@ -1633,7 +1633,7 @@ var final_engine = func () {
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     setprop("/controls/electric/battery", TRUE);
-    setprop("/ja37/mode/selector-ajs", 2); # NAV
+    if (getprop("/ja37/systems/variant") != 0) setprop("/ja37/mode/selector-ajs", 2); # NAV
     autostarting = FALSE;    
   } else {
     settimer(final_engine, 0.5, 1);
