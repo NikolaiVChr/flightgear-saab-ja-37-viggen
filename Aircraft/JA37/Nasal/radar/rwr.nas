@@ -151,7 +151,7 @@ var RWR_SQUAWK = 1; # Unused, fairly confident that it is not realistic
 var RWR_SCAN = 2;
 var RWR_LOCK = 3;
 var RWR_LAUNCH = 4;
-var RWR_MISSILE = 5; # Not used yet
+var RWR_MISSILE = 5;
 var RWR_SIGNAL_MIN = RWR_SQUAWK;
 var RWR_SIGNAL_MAX = RWR_MISSILE;
 

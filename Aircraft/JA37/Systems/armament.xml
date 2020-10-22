@@ -3,6 +3,7 @@
 <PropertyList>
     <!-- A/A IR -->
     <rb-24>                    <!-- RB-24 (Swedish version of aim-9b sidewinder) mach 1.5 -->
+        <type-id type="int">86</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -40,6 +41,7 @@
         <fire-msg type="string">Fox 2</fire-msg>
     </rb-24>
     <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 -->
+        <type-id type="int">87</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -88,6 +90,7 @@
         <ready-time type="double">1.5</ready-time>
     </rb-24j>
     <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 2.5 -->
+        <type-id type="int">89</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -116,7 +119,6 @@
         <lock-on-sun-deg type="double">5</lock-on-sun-deg>
         <loft-altitude type="int">0</loft-altitude>
         <min-fire-range-nm type="double">0.2</min-fire-range-nm>
-        <flare-resistance type="double">0.95</flare-resistance>
         <rail type="bool">true</rail>
         <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
         <rail-point-forward type="bool">true</rail-point-forward>
@@ -136,6 +138,7 @@
     </rb-74>
     <!-- A/A radar -->
     <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) -->
+        <type-id type="int">88</type-id>
         <vol-search type="double">0.00</vol-search>
         <vol-track type="double">0.15</vol-track>
         <vol-track-weak type="double">0.1</vol-track-weak>
@@ -175,6 +178,7 @@
         <ready-time type="double">2.5</ready-time>
     </rb-71>
     <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
+        <type-id type="int">90</type-id>
         <vol-search type="double">0.00</vol-search>
         <vol-track type="double">1.00</vol-track>
         <guidance type="string">radar</guidance>
@@ -216,6 +220,7 @@
     <!-- Anti-ship -->
     <rb-04e>
         <!-- Swedish antiship cruise-missile RB-04E subsonic -->
+        <type-id type="int">37</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -251,6 +256,7 @@
     </rb-04e>
     <rb-15f>
         <!-- Swedish antiship cruise-missile RB-15F mach 0.8-->
+        <type-id type="int">38</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -288,6 +294,7 @@
     <!-- Air to ground -->
     <rb-05a>
         <!-- Swedish attack-missile RB-05A supersonic -->
+        <type-id type="int">85</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0</sound-volume>
@@ -336,6 +343,7 @@
     </rb-05a>
     <rb-75>
         <!-- Swedish version of AGM-65B Maverick RB-75 620kt -->
+        <type-id type="int">39</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -371,6 +379,7 @@
     </rb-75>
     <m90>
         <!-- Swedish cluster glide-bomb M90 Mjölner subsonic -->
+        <type-id type="int">31</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -406,6 +415,7 @@
     </m90>
     <m71>
         <!-- Swedish bomblet M71 Virgo -->
+        <type-id type="int">29</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -441,6 +451,7 @@
     </m71>
     <m71r>
         <!-- Swedish bomblet M71 Virgo retarded with parachute -->
+        <type-id type="int">30</type-id>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -518,5 +529,6 @@
         <long-name type="string">Project Gamma</long-name>
         <short-name type="string">gamma</short-name>
         <pitch-animation-disabled type="bool">true</pitch-animation-disabled>
+        <type-id type="int">93</type-id>
     </es>
 </PropertyList>

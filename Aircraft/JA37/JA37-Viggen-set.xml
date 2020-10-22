@@ -212,6 +212,14 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Event log</label>
+                        <name>flightlog</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>flightlog</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                       <label>Friends and Foes</label>
                       <name>faf</name>
                       <binding>

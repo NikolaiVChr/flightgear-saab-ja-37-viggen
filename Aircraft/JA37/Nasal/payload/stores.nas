@@ -707,17 +707,10 @@ var trigger_listener = func {
       # Trigger is pulled, a pylon is selected, and loaded.
       # The gear check is prevent missiles from firing when changing airport location.
       if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
-        var brevity = armament.AIM.active[armSelect-1].brevity;
+        fireLog.push("Self: "~armament.AIM.active[armSelect-1].brevity);
 
         armament.AIM.active[armSelect-1].release(radar_logic.complete_list);#print("release "~(armSelect-1));
 
-        var phrase = brevity;
-        if (getprop("payload/armament/msg")) {
-          armament.defeatSpamFilter(phrase);
-        } else {
-          setprop("/sim/messages/atc", phrase);
-        }
-        fireLog.push("Self: "~phrase);
         var next = TRUE;
 
         var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
@@ -740,21 +733,13 @@ var trigger_listener = func {
         last_rb05 = armSelect-1;
         active_rb05[last_rb05] = TRUE;
 
-        var brevity = armament.AIM.active[armSelect-1].brevity;
+        fireLog.push("Self: "~armament.AIM.active[armSelect-1].brevity);
 
         armament.AIM.active[armSelect-1].release(radar_logic.complete_list);
 
         setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
         setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
 
-        var phrase = brevity;
-        if (getprop("payload/armament/msg")) {
-          armament.defeatSpamFilter(phrase);
-        } else {
-          setprop("/sim/messages/atc", phrase);
-        }
-
-        fireLog.push("Self: "~phrase);
         var newStation = selectType(fired);
         if (newStation != -1) {
           input.stationSelect.setValue(newStation);
@@ -765,18 +750,11 @@ var trigger_listener = func {
         setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
 
         #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
-        var callsign = armament.AIM.active[armSelect-1].callsign;
-        var brevity = armament.AIM.active[armSelect-1].brevity;
+        var phrase = armament.AIM.active[armSelect-1].brevity ~ " at: " ~ armament.AIM.active[armSelect-1].callsign;
+        fireLog.push("Self: "~phrase);
 
         armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
 
-        var phrase = brevity ~ " at: " ~ callsign;
-        if (getprop("payload/armament/msg")) {
-          armament.defeatSpamFilter(phrase);
-        } else {
-          setprop("/sim/messages/atc", phrase);
-        }
-        fireLog.push("Self: "~phrase);
         var newStation = selectType(fired);
         if (newStation != -1) {
           input.stationSelect.setValue(newStation);
@@ -891,11 +869,15 @@ var impact_listener = func {
 
 var hitmessage = func(typeOrd) {
   #print("inside hitmessage");
-  var phrase = typeOrd ~ " hit: " ~ hit_callsign ~ ": " ~ hits_count ~ " hits";
+
   if (getprop("payload/armament/msg") == TRUE) {
-    defeatSpamFilter(phrase);
-  } else {
-    setprop("/sim/messages/atc", phrase);
+    var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
+            msg.RelativeAltitude = 0;
+            msg.Bearing = 0;
+            msg.Distance = hits_count;
+            msg.RemoteCallsign = hit_callsign;
+    notifications.hitBridgedTransmitter.NotifyAll(msg);
+    damage.damageLog.push("You hit "~hit_callsign~" with "~typeOrd~", "~hits_count~" times.");
   }
   hit_callsign = "";
   hit_timer = nil;
