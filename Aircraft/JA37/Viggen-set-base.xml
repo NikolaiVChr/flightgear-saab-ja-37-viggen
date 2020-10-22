@@ -1614,6 +1614,13 @@
 
 *************************************************************************-->
     <nasal>
+        <!-- Emeary files available in FGDATA, to remove once FGDATA is updated with required bugfixes -->
+        <emesary>
+            <file>Aircraft/JA37/Nasal/emesary/emesary.nas</file>
+        </emesary>
+        <emesary_mp_bridge>
+            <file>Aircraft/JA37/Nasal/emesary/emesary_mp_bridge.nas</file>
+        </emesary_mp_bridge>
         <events>
             <file>Aircraft/JA37/Nasal/events.nas</file>
         </events>
@@ -1696,6 +1703,10 @@
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
             <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
+        <notifications>
+            <file>Aircraft/JA37/Nasal/emesary/ArmamentNotification.nas</file>
+            <file>Aircraft/JA37/Nasal/emesary/GeoBridgedTransmitter.nas</file>
+        </notifications>
         <damage>
             <file>Aircraft/JA37/Nasal/failure/damage.nas</file>
         </damage>
