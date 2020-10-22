@@ -1566,21 +1566,7 @@
     </instrumentation>
 
     <payload>
-        <armament include="Systems/armament.xml">
-            <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
-            <modelsUseCase type="bool">true</modelsUseCase>
-            <modelsUpperCase type="bool">true</modelsUpperCase>
-            <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
-            <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
-            <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
-            <hit-interpolation type="bool">true</hit-interpolation>
-            <enable-craters type="bool">true</enable-craters>
-            <pylon-offset type="int">1</pylon-offset>
-            <pylon-stations>controls/armament</pylon-stations>
-            <station-name type="string">station</station-name>
-            <msg type="bool">false</msg>
-            <damage type="bool">false</damage>
-        </armament>
+        <armament include="Systems/armament.xml"/>
     </payload>
 
     <!-- Using commandline these can be entered at start. Areas should max have 8 points. The others max 48 steerpoints including dest/dep. Format GPX or FG xml. -->
