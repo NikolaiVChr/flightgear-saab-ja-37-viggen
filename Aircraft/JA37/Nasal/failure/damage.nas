@@ -311,10 +311,6 @@ var DamageRecipient =
                       if (rwr_to_screen) screen.log.write(out, 1,1,0);# temporary till someone models a RWR in RIO seat
                       print(out);
                       damageLog.push(sprintf("Missile Launch Warning from %03d degrees from %s.", bearing, notification.Callsign));
-                      # Viggen specific stuff
-                      var rel_bearing = geo.normdeg(bearing - getprop("orientation/heading-deg"));
-                      rwr.signal(notification.Callsign~notification.UniqueIdentity, rwr.RWR_LAUNCH, rel_bearing);
-                      armament.ecmLog.push("Missile launch warning from %03d deg.", rel_bearing);
                     }
                   }
                 }
@@ -337,10 +333,6 @@ var DamageRecipient =
                   approached[notification.Callsign~notification.UniqueIdentity] = elapsed;
                   if (m28_auto) mig28.engagedBy(notification.Callsign);
                 }
-                # Viggen specific stuff
-                var rel_bearing = geo.normdeg(bearing - getprop("orientation/heading-deg"));
-                rwr.signal(notification.Callsign~notification.UniqueIdentity, rwr.RWR_MISSILE, rel_bearing);
-
                 return emesary.Transmitter.ReceiptStatus_OK;
             }
             if (notification.NotificationType == "ArmamentNotification") {

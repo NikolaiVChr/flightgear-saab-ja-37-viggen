@@ -3,10 +3,13 @@ var FALSE = 0;
 
 
 var input = {
-    time: "sim/time/elapsed-sec",
+    time:           "sim/time/elapsed-sec",
     sound_high_prf: "instrumentation/rwr/sound/high-prf",
     sound_incoming: "instrumentation/rwr/sound/incoming",
     heading:        "/orientation/heading-deg",
+    damage:         "/payload/armament/msg",
+    MLW_bearing:    "/payload/armament/MLW-bearing",
+    MLW_count:      "/payload/armament/MLW-count",
 };
 foreach (var name; keys(input)) {
     input[name] = props.globals.getNode(input[name], 1);
@@ -170,6 +173,8 @@ var RWRSignal = {
         m.aircraft = aircraft;
         m.radar_info = radar_info(aircraft);
         m.sound = nil;
+        # Random shift to the periodic signal.
+        m.period_shift = rand() * m.radar_info.scan_period;
         return m;
     },
     refresh: func(bearing, lifetime) {
@@ -187,9 +192,7 @@ var RWRSignal = {
     # The AJS RWR displays the 'raw radar signal'.
     # A scan signal is periodic, hence should be seen as a periodic 'beep'.
     scan_active: func(time) {
-        # UID is a random float in [0,1]. It is used to add a random shift to the periodic signal.
-        var period_shift = me.UID * me.radar_info.scan_period;
-        return math.mod(time + period_shift, me.radar_info.scan_period) < me.radar_info.scan_length;
+        return math.mod(time + me.period_shift, me.radar_info.scan_period) < me.radar_info.scan_length;
     },
 };
 
@@ -205,7 +208,7 @@ var signals_list = {};
 # If a previous signal was given with the same UID, then this signal is
 # updated instead of creating a new one.
 var signal = func(UID, type, bearing, lifetime=2, aircraft="default") {
-    if(contains(signals_list, UID)) {
+    if (contains(signals_list, UID)) {
         var s = signals_list[UID];
         if (s.type == type and s.aircraft == aircraft) {
             # Same signal characteristics, just refresh
@@ -392,3 +395,53 @@ var update_rwr = func() {
     input.sound_high_prf.setBoolValue(sound_high_prf);
     input.sound_incoming.setBoolValue(sound_incoming);
 }
+
+
+
+#### Missile notifications
+
+# Missile launch warning (JA only)
+var MLW_count = input.MLW_count.getValue();
+
+var missile_launch_callback = func {
+    if (input.MLW_count.getValue() == MLW_count + 1) {
+        var bearing = geo.normdeg(input.MLW_bearing.getValue() - input.heading.getValue());
+        signal(rand(), RWR_LAUNCH, bearing);
+        armament.ecmLog.push("Missile launch warning from %03d deg.", bearing);
+    }
+    MLW_count = input.MLW_count.getValue();
+}
+
+if (is_ja) setlistener(input.MLW_count, missile_launch_callback);
+
+# Missile radar warning
+var RWRRecipient = {
+    new: func(_ident) {
+        var new_class = emesary.Recipient.new(_ident);
+
+        new_class.Receive = func(notification) {
+            if (!notification.FromIncomingBridge
+                or notification.NotificationType != "ArmamentInFlightNotification"
+                or (!input.damage.getBoolValue() and notification.RemoteCallsign != notification.Callsign)) {
+                return emesary.Transmitter.ReceiptStatus_NotProcessed;
+            }
+            if (notification.Kind == 3) {
+                return emesary.Transmitter.ReceiptStatus_OK;
+            }
+
+            if (bits.test(notification.Flags, 0)) {
+                # Missile radar on
+                var bearing = geo.aircraft_position().course_to(notification.Position);
+                bearing -= input.heading.getValue();
+                bearing = geo.normdeg(bearing);
+                signal(notification.Callsign~notification.UniqueIdentity, RWR_MISSILE, bearing);
+            }
+            return emesary.Transmitter.ReceiptStatus_OK;
+        }
+
+        return new_class;
+    },
+};
+
+var RWR_recipient = RWRRecipient.new("RWRRecipient");
+emesary.GlobalTransmitter.Register(RWR_recipient);
