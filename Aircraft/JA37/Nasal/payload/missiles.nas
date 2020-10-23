@@ -641,7 +641,7 @@ var AIM = {
 			print("Attempting to load "~id_model);
 		}
 		m.life_time = 0;
-		m.last_noti = -1;
+		m.last_noti = -2;
 
 		# Create the AI position and orientation properties.
 		m.latN   = m.ai.getNode("position/latitude-deg", 1);
@@ -1285,6 +1285,7 @@ var AIM = {
 		me.stage_2_duration = 0;
 		me.force_lbf_2      = 0;
 		me.stage_gap_duration = 0;
+		me.drop_time        = 10000;
 		me.inert            = TRUE;
 		me.engineEnabled    = FALSE;
 		me.guidanceEnabled  = FALSE;
@@ -3716,9 +3717,9 @@ var AIM = {
             	me.event = "exploded";
             	if(me.life_time < me.arming_time) {
                 	me.event = "landed disarmed";
-                	thread.lock(mutexTimer);
-					append(AIM.timerQueue, [me,me.log,[me.typeLong~" landed disarmed."],0]);
-					thread.unlock(mutexTimer);
+                	#thread.lock(mutexTimer);
+					#append(AIM.timerQueue, [me,me.log,[me.typeLong~" landed disarmed."],0]);
+					#thread.unlock(mutexTimer);
             	}
             	if (me.Tgt != nil and me.direct_dist_m == nil) {
             		# maddog might go here
@@ -3726,6 +3727,7 @@ var AIM = {
             		#me.direct_dist_m = me.coord.direct_distance_to(me.Tgt.get_Coord());
             	}
             	if ((me.Tgt != nil and me.direct_dist_m != nil) or me.Tgt == nil) {
+            		me.coord.set_alt(me.ground);
             		me.explode("Hit terrain.", me.coord, nil, me.event);
             		return TRUE;
             	}
@@ -3734,9 +3736,9 @@ var AIM = {
         	me.event = "exploded";
         	if(me.life_time < me.arming_time) {
             	me.event = "landed disarmed";
-            	thread.lock(mutexTimer);
-				append(AIM.timerQueue, [me,me.log,[me.typeLong~" landed disarmed."],0]);
-				thread.unlock(mutexTimer);
+            	#thread.lock(mutexTimer);
+				#append(AIM.timerQueue, [me,me.log,[me.typeLong~" landed disarmed."],0]);
+				#thread.unlock(mutexTimer);
         	}
         	if (me.Tgt != nil and me.direct_dist_m == nil) {
         		# maddog might go here
@@ -3744,6 +3746,7 @@ var AIM = {
         		#me.direct_dist_m = me.coord.direct_distance_to(me.Tgt.get_Coord());
         	}
         	if ((me.Tgt != nil and me.direct_dist_m != nil) or me.Tgt == nil) {
+        		me.coord.set_alt(0);
         		me.explode("Hit terrain.", me.coord, nil, me.event);
         		return TRUE;
         	}
@@ -3910,7 +3913,10 @@ var AIM = {
 	},
 
 	explode: func (reason, coordinates, range = nil, event = "exploded") {
-
+		var hitGround = 0;
+		if (reason == "Hit terrain.") {
+			hitGround = 1;
+		}
 		if (me.lock_on_sun) {
 			reason = "Locked onto sun.";
 		} elsif (me.flareLock) {
@@ -3973,8 +3979,8 @@ var AIM = {
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
-		if (event == "exploded" and !me.inert) {
-			me.animate_explosion();
+		if (event == "exploded" and !me.inert and wh_mass > 0) {
+			me.animate_explosion(hitGround);
 			me.explodeSound = TRUE;
 		} else {
 			me.animate_dud();
@@ -4864,7 +4870,7 @@ var AIM = {
 		me.deploy_prop = props.globals.initNode(deploy_path, 0, "DOUBLE", TRUE);
 	},
 
-	animate_explosion: func {
+	animate_explosion: func (hitGround) {
 		#
 		# a last position update to where the explosion happened:
 		#
@@ -4876,13 +4882,17 @@ var AIM = {
 		me.msl_prop.setBoolValue(FALSE);
 		me.smoke_prop.setBoolValue(FALSE);
 		var info = geodinfo(me.coord.lat(), me.coord.lon());
-
-		if (info == nil) {
-			me.explode_water_prop.setValue(FALSE);
-		} elsif (info[1] == nil) {
-			#print ("Building hit!");
-		} elsif (info[1].solid == 0) {
-		 	me.explode_water_prop.setValue(TRUE);
+		
+		if (hitGround) {
+			if (info == nil) {
+				me.explode_water_prop.setValue(FALSE);
+			} elsif (info[1] == nil) {
+				#print ("Building hit!");
+			} elsif (info[1].solid == 0) {
+			 	me.explode_water_prop.setValue(TRUE);
+			} else {
+				me.explode_water_prop.setValue(FALSE);
+			}
 		} else {
 			me.explode_water_prop.setValue(FALSE);
 		}
@@ -4896,7 +4906,7 @@ var AIM = {
 		append(AIM.timerQueue, [me, func me.explode_smoke_prop.setBoolValue(TRUE), [], 0.5]);
 		append(AIM.timerQueue, [me, func me.explode_smoke_prop.setBoolValue(FALSE), [], 3]);
 		thread.unlock(mutexTimer);
-		if (info == nil or getprop("payload/armament/enable-craters") == nil or !getprop("payload/armament/enable-craters")) {return;};
+		if (info == nil or !hitGround or getprop("payload/armament/enable-craters") == nil or !getprop("payload/armament/enable-craters")) {return;};
 		thread.lock(mutexTimer);
 		append(AIM.timerQueue, [me, func {
 		 	if (info[1] == nil) {
@@ -4976,7 +4986,7 @@ var AIM = {
 		}
 	},
 
-	steering_speed_G: func(meHeading, mePitch,steering_e_deg, steering_h_deg, s_fps, dt) {
+	steering_speed_G_old: func(meHeading, mePitch,steering_e_deg, steering_h_deg, s_fps, dt) {
 		# Get G number from steering (e, h) in deg, speed in ft/s.
 		me.meVector = me.myMath.eulerToCartesian3X(-meHeading, mePitch, 0);
 		me.itVector = me.myMath.eulerToCartesian3X(-(meHeading+steering_h_deg), mePitch+steering_e_deg, 0);
@@ -4992,6 +5002,32 @@ var AIM = {
 
 		# Delta velocity: subtract the vectors from each other and get the magnitude
 		me.dv = me.myMath.minus([me.vector_now_x,me.vector_now_y,0],[me.vector_next_x,me.vector_next_y,0]);
+		me.dv = me.myMath.magnitudeVector(me.dv);
+		
+		# calculate g-force
+		# dv/dt=a
+		me.g = (me.dv/dt) / g_fps;
+
+		return me.g;
+	},
+	
+	steering_speed_G: func(meHeading, mePitch, steering_e_deg, steering_h_deg, s_fps, dt) {
+		if (s_fps == 0) {
+			return 1;
+		}
+		# Get G number from steering (e, h) in deg, speed in ft/s.
+		me.meVector = me.myMath.eulerToCartesian3X(-meHeading, mePitch, 0);
+		me.meVectorN= me.myMath.normalize(me.meVector);
+		me.meVector = me.myMath.product(s_fps, me.meVectorN);#velocity vector now		
+		me.itVector = me.myMath.eulerToCartesian3X(-(meHeading+steering_h_deg), mePitch+steering_e_deg, 0);
+		me.itVector = me.myMath.normalize(me.itVector);
+		me.itVector = me.myMath.product(s_fps, me.itVector);#velocity vector if doing that steering
+		me.grVector  = [0,0,dt*g_fps];#velocity vector due to fighting gravity
+			
+		# Delta lateral velocity
+		me.dv = me.myMath.minus(me.itVector, me.meVector);
+		me.dv = me.myMath.plus(me.dv, me.grVector);
+		me.dv = me.myMath.projVectorOnPlane(me.meVectorN, me.dv);		
 		me.dv = me.myMath.magnitudeVector(me.dv);
 		
 		# calculate g-force
