@@ -7,7 +7,6 @@
     <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
     <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
     <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
-    <hit-interpolation type="bool">true</hit-interpolation>
     <enable-craters type="bool">true</enable-craters>
     <pylon-offset type="int">1</pylon-offset>
     <pylon-stations>controls/armament</pylon-stations>
@@ -354,7 +353,6 @@
         <lock-on-after-launch type="bool">true</lock-on-after-launch>
         <auto-switch-target-allowed type="bool">true</auto-switch-target-allowed>
         <detect-range-nm type="double">0.035</detect-range-nm>
-        <trigger-algorithm type="string">passing</trigger-algorithm>
         <seeker-field-deg type="int">360</seeker-field-deg>
         <all-aspect type="bool">true</all-aspect>
         <class type="string">AGM</class>
