@@ -3,41 +3,31 @@
 var TRUE = 1;
 var FALSE = 0;
 
-### Parameters
 
-# Shortcuts for weapon names
-var load_option_names = {
-    none: "none",
-    rb24: "RB 24 Sidewinder",
-    rb24j: "RB 24J Sidewinder",
-    rb74: "RB 74 Sidewinder",
-    rb71: "RB 71 Skyflash",
-    rb99: "RB 99 Amraam",
-    rb04: "RB 04E Attackrobot",
-    rb15: "RB 15F Attackrobot",
-    rb05: "RB 05A Attackrobot",
-    rb75: "RB 75 Maverick",
-    m55: "M55 AKAN",
-    m70: "M70 ARAK",
-    m71: "M71 Bomblavett",
-    m71r: "M71 Bomblavett (Retarded)",
-    m90: "M90 Bombkapsel",
-    tank: "Drop tank",
+var input = {
+    payload:    "payload",
+    fuel:       "consumables/fuel",
+    drop_tank:  "payload/weight[6]/drop-tank",
 };
+
+foreach(var name; keys(input)) {
+    input[name] = props.globals.getNode(input[name], 1);
+}
+
+
 
 # A loadout is specified as an array of six weapon names, corresponding to the
 # six pylons (excluding the center one).
-# The order of pylons is the one in the '*-set.xml' files, that is:
-var n_pylons = 6;
-var pylons = {
-    R7V: 4, # Left outer wing
-    V7V: 0, # Left wing
-    S7V: 1, # Left fuselage
-    S7H: 3, # Right fuselage
-    V7H: 2, # Right wing
-    R7H: 5, # Right outer wing
-    C7: 6,  # Center, only used for drop tank
-};
+# The order of pylons is:
+#   0: left wing
+#   1: left fuselage
+#   2: right wing
+#   3: right fuselage
+#   4: left outer wing
+#   5: right outer wing
+# !! This is the same order as pylons.STATIONS, but shifted by 1.
+
+# Weapon names are defined by 'pylons.load_options' (pylons.nas)
 
 # Full list of known loadouts
 var loadouts = {
@@ -132,56 +122,34 @@ var AJ_loadouts = [
 ];
 
 
-### Input properties
-var input = {
-    payload:    "payload",
-    fuel:       "consumables/fuel",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
-
 ### Internal reload functions.
 
-var get_full_name = func(name) {
-    if(contains(load_option_names, name)) return load_option_names[name];
-    else return name;
-}
-
 # Load a pylon. 'pylon' is the pylon number (see above), and 'option' is the
-# loadout option name (weapon).
-# 'option' can either be the full name, or a short name as defined in 'load_option_names'
+# loadout option name (weapon), as defined in pylons.load_options
 var load_pylon = func(pylon, option) {
-    option = get_full_name(option);
-    input.payload.getChild("weight", pylon).setValue("selected", option);
+    pylons.pylons[pylon].loadSet(pylons.load_options(pylon, option));
 }
 
 # Select a loadout
 var set_loadout = func(loadout) {
     forindex(i; loadout) {
-        var name = load_pylon(i, loadout[i]);
+        var name = load_pylon(i+1, loadout[i]);
     }
 }
 
 # Reload internal stuff
 var reload_internal = func() {
     if(getprop("ja37/systems/variant") == 0) {
-        setprop("ai/submodels/submodel[3]/count", 146);
-        setprop("ai/submodels/submodel[4]/count", 146);
+        pylons.M75station.reloadCurrentSet();
     }
 
     setprop("ai/submodels/submodel[0]/count", 60);
     setprop("ai/submodels/submodel[1]/count", 60);
 }
 
-# Reload ammo of loaded weapons (gun/rocket pods, bombs)
+# Reload previous weapon selection.
 var reload_ammo = func() {
-    # Setting weight to 0 will force a reload in 'stores.nas'
-    foreach(var pylon; input.payload.getChildren("weight")) {
-        pylon.setDoubleValue("weight-lb", 0);
-    }
+    for(var i=1; i<=7; i+=1) pylons.pylons[i].reloadCurrentSet();
 }
 
 
@@ -265,7 +233,7 @@ var refuel = func(fuel_norm) {
         ["2", "3V", "3H", "4V", "4H"],
         fuel_request_m3 - fuel_loaded_m3
     );
-    if(!input.fuel.getNode("tank[8]/jettisoned").getBoolValue()) {
+    if(input.drop_tank.getBoolValue()) {
         fuel_loaded_m3 += balance_tanks(["external"], fuel_request_m3 - fuel_loaded_m3);
     }
 
@@ -274,11 +242,11 @@ var refuel = func(fuel_norm) {
 
 var set_droptank = func(b) {
     if(!ja37.reload_allowed(must_land_msg)) {
-        return !input.fuel.getNode("tank[8]/jettisoned").getBoolValue();
+        return input.drop_tank.getBoolValue();
     }
 
-    if(b) load_pylon(pylons.C7, "tank");
-    else load_pylon(pylons.C7, "none");
+    if(b) load_pylon(pylons.STATIONS.C7, pylons.load_options_table.tank);
+    else load_pylon(pylons.STATIONS.C7, pylons.load_options_table.none);
     return b;
 }
 
@@ -316,26 +284,25 @@ var print_reload_message = func {
 
 ### Final reload functions, for the GUI
 
-var reload_loadout = func(loadout_name) {
+var load_loadout = func(loadout_name) {
     if(!ja37.reload_allowed(must_land_msg)) return;
 
     var loadout = loadouts[loadout_name];
 
     set_loadout(loadout);
-    reload_ammo();
     reload_internal();
     print_reload_message();
 }
 
-var reload_ammo_flares = func {
+var reload = func {
     if(!ja37.reload_allowed(must_land_msg)) return;
     reload_ammo();
     reload_internal();
     print_reload_message();
 }
 
-var reload_clean = func() {
-    reload_loadout("clean");
+var load_clean = func() {
+    load_loadout("clean");
 }
 
 
@@ -407,7 +374,7 @@ var Dialog = {
 
         var binding = button.addChild("binding");
         binding.setValue("command", "nasal");
-        var script = sprintf("loadout.reload_loadout(\"%s\");", name);
+        var script = sprintf("loadout.load_loadout(\"%s\");", name);
         binding.setValue("script", script);
 
         var group = me.table.addChild("group");

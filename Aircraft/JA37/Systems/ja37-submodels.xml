@@ -60,7 +60,7 @@
         <pitch-offset>0</pitch-offset>
         <life>2.42</life>
         <wind>true</wind>
-        <weight>2.69</weight>        <!-- pound -->
+        <weight>0.79</weight>        <!-- pound, 360g -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
         <random>false</random>
@@ -84,7 +84,7 @@
         <pitch-offset>0</pitch-offset>
         <life>5.0</life>
         <wind>true</wind>
-        <weight>2.69</weight>
+        <weight>0.79</weight>        <!-- pound, 360g -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
         <random>false</random>

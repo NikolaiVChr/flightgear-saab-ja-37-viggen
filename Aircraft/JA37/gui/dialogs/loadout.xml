@@ -45,25 +45,14 @@
       }
 
       ### Drop tank
-      var droptank = base_node.getNode("fuel/droptank", 1);
-
-      var update_droptank = func(node) {
-          var b = !node.getBoolValue();
-          droptank.setValue(b);
-      }
-
-      var droptank_listener = setlistener("/consumables/fuel/tank[8]/jettisoned", update_droptank, 1, 0);
-
       var on_droptank_request = func {
-          var b = droptank.getBoolValue();
+      var b = getprop("/payload/weight[6]/drop-tank");
           b = loadout.set_droptank(b);
-          droptank.setBoolValue(b);
           settimer(update_fuel_slider, 0);
       }
     </open>
     <close>
       fuel_slider_timer.stop();
-      removelistener(droptank_listener);
     </close>
   </nasal>
   <!-- Title bar -->
@@ -129,7 +118,7 @@
 
     <checkbox>
       <label>External fuel tank</label>
-      <property>/sim/gui/dialogs/loadout/dialog/fuel/droptank</property>
+      <property>/payload/weight[6]/drop-tank</property>
       <live>true</live>
       <enable>/ja37/reload-allowed</enable>
       <binding>
@@ -164,16 +153,16 @@
       <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>nasal</command>
-        <script>loadout.reload_clean();</script>
+        <script>loadout.load_clean();</script>
       </binding>
     </button>
 
     <button>
-      <legend>Reload ammo/flares</legend>
+      <legend>Reload</legend>
       <enable>/ja37/reload-allowed</enable>
       <binding>
         <command>nasal</command>
-        <script>loadout.reload_ammo_flares();</script>
+        <script>loadout.reload();</script>
       </binding>
     </button>
   </group>

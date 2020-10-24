@@ -2684,7 +2684,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             
             me.eegsMe.rs = armament.AIM.rho_sndspeed(me.eegsMe.altC*M2FT);#simplified
             me.eegsMe.rho = me.eegsMe.rs[0];
-            me.eegsMe.mass =  2.69/ armament.slugs_to_lbm;#2.69=lbs
+            me.eegsMe.mass =  0.79/ armament.slugs_to_lbm;#0.79=lbs
             
             for (var j = 0;j < me.funnelParts;j+=1) {
                 
