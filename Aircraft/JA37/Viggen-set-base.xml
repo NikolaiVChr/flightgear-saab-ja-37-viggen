@@ -1717,6 +1717,9 @@
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
             <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
+        <impact>
+            <file>Aircraft/JA37/Nasal/payload/impact.nas</file>
+        </impact>
         <damage>
             <file>Aircraft/JA37/Nasal/failure/damage.nas</file>
         </damage>
