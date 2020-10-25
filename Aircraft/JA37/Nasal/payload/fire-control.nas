@@ -5,6 +5,12 @@ var FALSE = 0;
 var is_ja = (getprop("/ja37/systems/variant") == 0);
 
 
+var find_index = func(val, vec) {
+    forindex(var i; vec) if (vec[i] == val) return i;
+    return nil;
+}
+
+
 var input = {
     combat:     "/ja37/mode/combat",
     trigger:    "/controls/armament/trigger",
@@ -136,7 +142,7 @@ var Missile = {
     parents: [WeaponLogic],
 
     # Selection order.
-    pylons_priority: [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H, STATIONS.R7V, STATIONS.R7H],
+    pylons_priority: [STATIONS.R7V, STATIONS.R7H, STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H],
 
     new: func(type) {
         var w = { parents: [Missile], };
@@ -192,10 +198,7 @@ var Missile = {
     cycle_selection: func {
         var first = 0;
         if (me.selected != nil) {
-            forindex(var i; me.pylons_priority) {
-                if (me.pylons_priority[i] == me.selected) first = i+1;
-                break;
-            }
+            first = find_index(me.selected, me.pylons_priority)+1;
             if (first >= size(me.pylons_priority)) first = 0;
         }
 
@@ -286,6 +289,8 @@ var SubModelWeapon = {
         setprop("controls/armament/station-select-custom", -1);
     },
 
+    cycle_selection: func {},
+
     set_unsafe: func(unsafe) {
         # Call parent method
         call(WeaponLogic.set_unsafe, [unsafe], me);
@@ -308,13 +313,17 @@ var SubModelWeapon = {
 
 if (is_ja) {
     var weapons = [
-        SubModelWeapon.new("M75 AKAN"),
         Missile.new("RB-74"),
         Missile.new("RB-99"),
         Missile.new("RB-71"),
         Missile.new("RB-24J"),
         SubModelWeapon.new("M70 ARAK"),
     ];
+
+    # Indices in the previous array
+    var IRRB = [0, 3];
+
+    var internal_gun = SubModelWeapon.new("M75 AKAN");
 } else {
     var weapons = [
         Missile.new("RB-74"),
@@ -328,14 +337,29 @@ if (is_ja) {
         Missile.new("RB-05A"),
         Missile.new("M90"),
     ];
+
+    var IRRB = [0, 1, 2];
 }
-var selected_type_index = 0;
+
+var selected_type_index = -1;
 
 
 ### Controls
-var cycle_weapons = func {
-    weapons[selected_type_index].deselect();
 
+# Weapon selection.
+# list: a list of indices in 'weapons', only these indices will be accepted (optional).
+var deselect_current = func {
+    if (selected_type_index >= 0) {
+        weapons[selected_type_index].deselect();
+    } else {
+        internal_gun.deselect();
+    }
+}
+
+var cycle_weapon_type = func {
+    deselect_current();
+
+    # Cycle through weapons, starting from the previous one.
     var prev = selected_type_index;
     selected_type_index += 1;
     if (selected_type_index >= size(weapons)) selected_type_index = 0;
@@ -346,8 +370,33 @@ var cycle_weapons = func {
         selected_type_index += 1;
         if (selected_type_index >= size(weapons)) selected_type_index = 0;
     }
+    # At this point we are back to the first weapon.
+    # Necessary if there is only one weapon type available.
+    weapons[selected_type_index].select();
 }
 
+var select_cannon = func {
+    deselect_current();
+    selected_type_index = -1;
+    internal_gun.select();
+}
+
+var select_IRRB = func {
+    deselect_current();
+    foreach(selected_type_index; IRRB) {
+        if (weapons[selected_type_index].select()) return;
+    }
+    selected_type_index = IRRB[0];
+}
+
+var cycle_weapon = func {
+    if (selected_type_index >= 0) {
+        weapons[selected_type_index].cycle_selection();
+    }
+}
+
+
+# Others
 var toggle_trigger_safe = func {
     var unsafe = !input.unsafe.getBoolValue();
     input.unsafe.setBoolValue(unsafe);

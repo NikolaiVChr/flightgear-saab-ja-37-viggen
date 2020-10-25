@@ -199,7 +199,19 @@
             <desc>Cycle weapons.</desc>
             <binding>
                 <command>nasal</command>
-                <script>fire_control.cycle_weapons()</script>
+                <script>fire_control.cycle_weapon_type(); ja37.click();</script>
+            </binding>
+        </key>
+        <key n="102">
+            <name>f</name>
+            <desc>Select internal cannon (JA) / Select IR missile (AJS)</desc>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/ja37/systems/variant") == 0) fire_control.select_cannon();
+                    else fire_control.select_IRRB();
+                    ja37.click();
+                </script>
             </binding>
         </key>
         <key n="114">
@@ -317,14 +329,6 @@
                 </condition>
                 <command>nasal</command>
                 <script>ja37.click();</script>
-            </binding>
-        </key>
-        <key n="102">
-            <name>f</name>
-            <desc>Toggle radar steer order on current selection</desc>
-            <binding>
-                <command>nasal</command>
-                <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
         <key n="8">
