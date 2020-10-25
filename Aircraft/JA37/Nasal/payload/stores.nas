@@ -1286,49 +1286,6 @@ var uncageIRButton = func (pushed) {
     }
 }
 
-
-############ droptank #####################
-
-var drop = func {
-    if (getprop("/consumables/fuel/tank[8]/jettisoned") == TRUE) {
-       screen.log.write("Drop tank already jettisoned.", 0.0, 1.0, 0.0);
-       return;
-    }  
-    if (input.wow0.getValue() > 0.05) {
-       screen.log.write("Can not eject drop tank while on ground!", 0.0, 1.0, 0.0);
-       return;
-    }
-    if (!power.prop.dcMainBool.getValue()) {
-       screen.log.write("Too little DC power to eject drop tank!", 0.0, 1.0, 0.0);
-       return;
-    }
-    ja37.click();
-    setprop("payload/weight[6]/selected", "none");# empty the pylon
-    screen.log.write("Drop tank shut off and ejected. Using internal fuel.", 0.0, 1.0, 0.0);
- }
-
- var dropAll = func {
-    if (input.wow0.getValue() > 0.05) {
-       screen.log.write("Can not jettison stores while on ground!", 0.0, 1.0, 0.0);
-       return;
-    }
-    if (!power.prop.dcMainBool.getValue()) {
-       screen.log.write("Too little DC power to jettison!", 0.0, 1.0, 0.0);
-       return;
-    }
-    ja37.click();
-    screen.log.write("All stores jettisoning.", 0.0, 1.0, 0.0);
-    jettisonAll = TRUE;
-    settimer(func {jettisonAll = FALSE;},5);
-#    setprop("payload/weight[0]/selected", "none");
-#    setprop("payload/weight[1]/selected", "none");
-#    setprop("payload/weight[2]/selected", "none");
-#    setprop("payload/weight[3]/selected", "none");
-#    setprop("payload/weight[4]/selected", "none");
-#    setprop("payload/weight[5]/selected", "none");
-#    setprop("payload/weight[6]/selected", "none");# empty the pylon
- }
-
 ############ main function #####################
 
 var main_weapons = func {
@@ -1340,7 +1297,7 @@ var main_weapons = func {
   }
 
   # setup trigger listener
-  setlistener("controls/armament/trigger", trigger_listener, 0, 0);
+  #setlistener("controls/armament/trigger", trigger_listener, 0, 0);
 
   # start the main loop
   #settimer(func { loop_stores() }, 0.1);

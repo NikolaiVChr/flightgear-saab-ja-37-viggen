@@ -29,9 +29,8 @@ var STATIONS = {
     R7H: 6, # Right outer wing
 };
 
-
-var can_fire = func {
-    return TRUE;
+var operable = func {
+    return power.prop.acSecondBool.getBoolValue();
 }
 
 var can_jettison = func {
@@ -45,7 +44,7 @@ var make_M70 = func(pylon) {
     return stations.SubModelWeapon.new(
         "M70 ARAK", 100, 6, [4+pylon], [],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
-        TRUE, can_fire, FALSE,
+        TRUE, operable, FALSE,
         [pylon+13], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
@@ -53,14 +52,14 @@ var make_M55 = func(pylon) {
     return stations.SubModelWeapon.new(
         "M55 AKAN", 0.5, 150, [4+pylon], [],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
-        TRUE, can_fire, FALSE,
+        TRUE, operable, FALSE,
         [(pylon == STATIONS.V7V) ? 18 : 19], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var M75 = stations.SubModelWeapon.new(
     "M75 AKAN", 1, 146, [3,4], [2],
     input.ctrl_arm.getNode("station[0]/trigger"),
-    FALSE, can_fire);
+    FALSE, operable);
 
 
 
@@ -151,12 +150,12 @@ foreach(var name; keys(STATIONS)) {
         sets[id], id-1,
         input.inertia.getChild("pointmass-weight-lbs", id, 1),
         input.inertia.getChild("pointmass-dragarea-sqft", id, 1),
-        can_fire);
+        operable);
 }
 
 if (getprop("/ja37/systems/variant") == 0) {
     var M75station = stations.InternalStation.new("M75 AKAN", 0, [load_options.m75],
-        input.inertia.getChild("pointmass-weight-lbs", 8, 1), can_fire);
+        input.inertia.getChild("pointmass-weight-lbs", 8, 1), operable);
 }
 
 

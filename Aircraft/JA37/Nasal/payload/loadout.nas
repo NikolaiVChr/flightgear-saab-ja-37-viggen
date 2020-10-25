@@ -149,7 +149,7 @@ var reload_internal = func() {
 
 # Reload previous weapon selection.
 var reload_ammo = func() {
-    for(var i=1; i<=7; i+=1) pylons.pylons[i].reloadCurrentSet();
+    for(var i=1; i<=6; i+=1) pylons.pylons[i].reloadCurrentSet();
 }
 
 

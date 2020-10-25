@@ -1033,6 +1033,7 @@
     <controls>
         <armament>
             <trigger type="bool">false</trigger>
+            <trigger-unsafe type="bool">false</trigger-unsafe>
             <station n="1">
                 <offsets>
                     <x-m type="double">  4.15986</x-m>
@@ -1731,6 +1732,9 @@
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
             <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
+        <fire_control>
+            <file>Aircraft/JA37/Nasal/payload/fire-control.nas</file>
+        </fire_control>
         <impact>
             <file>Aircraft/JA37/Nasal/payload/impact.nas</file>
         </impact>
