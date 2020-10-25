@@ -239,7 +239,7 @@
     <submodel>
         <name>left M55 cannonpod tracer</name>
         <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
-        <trigger>controls/armament/station[8]/trigger</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <trigger>controls/armament/station[1]/trigger-m55</trigger>
         <speed>2431.1023</speed>        <!-- ft/sec - 741 m/s-->
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
@@ -264,7 +264,7 @@
     <submodel><!-- submodel 10 -->
         <name>M55 cannon shell</name>
         <model>Models/Geometry/null.ac</model>
-        <trigger>controls/armament/station[8]/trigger</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <trigger>controls/armament/station[1]/trigger-m55</trigger>
         <speed>2431.1023</speed>
         <repeat>true</repeat>
         <delay>0.0443</delay><!-- 23 shots/s AJS37 manual -->
@@ -292,7 +292,7 @@
     <submodel>
         <name>right M55 cannonpod tracer</name>
         <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
-        <trigger>controls/armament/station[9]/trigger</trigger>
+        <trigger>controls/armament/station[3]/trigger-m55</trigger>
         <speed>2431.1023</speed>        <!-- ft/sec-->
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
@@ -317,7 +317,7 @@
     <submodel><!-- submodel 12 -->
         <name>M55 cannon shell</name>
         <model>Models/Geometry/null.ac</model>
-        <trigger>controls/armament/station[9]/trigger</trigger>
+        <trigger>controls/armament/station[3]/trigger-m55</trigger>
         <speed>2431.1023</speed>
         <repeat>true</repeat>
         <delay>0.0443</delay>

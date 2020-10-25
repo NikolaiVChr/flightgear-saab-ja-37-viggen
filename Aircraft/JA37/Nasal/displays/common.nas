@@ -50,8 +50,6 @@ var Common = {
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         RMActive:         "autopilot/route-manager/active",
         rmDist:           "autopilot/route-manager/wp/dist",
-units:                "ja37/hud/units-metric",
-	        station:          "controls/armament/station-select-custom",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -151,108 +149,67 @@ units:                "ja37/hud/units-metric",
 	},
 
 	armName: func {
-		  me.armSelect = me.input.station.getValue();
-		  if (me.armSelect == -1) {
-		  	me.currArmName = getprop("ja37/hud/units-metric")==1?"RENS":"CLR";
-		  	return;
-		  }
-	      if (me.armSelect > 0) {
-	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
-	      } else {
-	        me.armament = "";
-	      }
-	      if(me.armSelect == 0) {
-	        me.currArmName = "AKAN";	        
-	      } elsif(me.armament == "RB 24 Sidewinder") {
-	        me.currArmName = "RB-24";	        
-	      } elsif(me.armament == "RB 24J Sidewinder") {
-	        me.currArmName = "RB-24J";	        
-	      } elsif(me.armament == "RB 74 Sidewinder") {
-	        me.currArmName = "RB-74";	        
-	      } elsif(me.armament == "M70 ARAK") {
-	        me.currArmName = "M70 ARAK";	        
-	      } elsif(me.armament == "RB 71 Skyflash") {
-	        me.currArmName = "RB-71";	        
-	      } elsif(me.armament == "RB 99 Amraam") {
-	        me.currArmName = "RB-99";	        
-	      } elsif(me.armament == "RB 15F Attackrobot") {
-	        me.currArmName = "RB-15F";	        
-	      } elsif(me.armament == "RB 04E Attackrobot") {
-	        me.currArmName = "RB-04E";	        
-	      } elsif(me.armament == "RB 05A Attackrobot") {
-	        me.currArmName = "RB-05A";	        
-	      } elsif(me.armament == "RB 75 Maverick") {
-	        me.currArmName = "RB-75";	        
-	      } elsif(me.armament == "M71 Bomblavett") {
-	        me.currArmName = "M71";	        
-	      } elsif(me.armament == "M71 Bomblavett (Retarded)") {
-	        me.currArmName = "M71R";	        
-	      } elsif(me.armament == "M90 Bombkapsel") {
-	        me.currArmName = "M90";	        
-	      } elsif(me.armament == "M55 AKAN") {
-	        me.currArmName = "M55 AKAN";	        
-	      } elsif(me.armament == "TEST") {
-	        me.currArmName = "TEST";	        
-	      } else {
-	        me.currArmName = getprop("ja37/hud/units-metric")==1?"TOM":"NONE";
-	      }
+		var weapon = fire_control.selected;
+		if (weapon == nil) {
+			me.currArmName = me.input.units.getBoolValue()?"RENS":"CLR";
+		} elsif (!weapon.weapon_ready()) {
+			me.currArmName = me.input.units.getBoolValue()?"TOM":"NONE";
+		} else {
+			me.currArmName = weapon.type;
+		}
+	},
+
+	arm_name_medium: {
+		"RB-24": "24",
+		"RB-24J": "24J",
+		"RB-74": "74",
+		"RB-71": "71",
+		"RB-99": "99",
+		"RB-04E": "04",
+		"RB-15F": "15",
+		"RB-05A": "05",
+		"RB-75": "75",
+		"M70 ARAK": "70",
+		"M55 AKAN": "55",
+		"M75 AKAN": "AK",
+		"M71": "71",
+		"M71R": "71R",
+		"M90": "90",
 	},
 
 	armNameMedium: func {
-		  me.armSelect = me.input.station.getValue();
-		  if (me.armSelect == -1) {
-		  	me.currArmNameMedium = getprop("ja37/hud/units-metric")==1?"RENS":"CLR";
-		  	return;
-		  }
-	      if (me.armSelect > 0) {
-	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
-	      } else {
-	        me.armament = "";
-	      }
-	      if(me.armSelect == 0) {
-	        me.currArmNameMedium = "AK";	        
-	      } elsif(me.armament == "RB 24 Sidewinder") {
-	        me.currArmNameMedium = "24";	        
-	      } elsif(me.armament == "RB 24J Sidewinder") {
-	        me.currArmNameMedium = "24J";	        
-	      } elsif(me.armament == "RB 74 Sidewinder") {
-	        me.currArmNameMedium = "74";	        
-	      } elsif(me.armament == "M70 ARAK") {
-	        me.currArmNameMedium = "70";	        
-	      } elsif(me.armament == "RB 71 Skyflash") {
-	        me.currArmNameMedium = "71";	        
-	      } elsif(me.armament == "RB 99 Amraam") {
-	        me.currArmNameMedium = "99";	        
-	      } elsif(me.armament == "RB 15F Attackrobot") {
-	        me.currArmNameMedium = "15";	        
-	      } elsif(me.armament == "RB 04E Attackrobot") {
-	        me.currArmNameMedium = "04";	        
-	      } elsif(me.armament == "RB 05A Attackrobot") {
-	        me.currArmNameMedium = "05";	        
-	      } elsif(me.armament == "RB 75 Maverick") {
-	        me.currArmNameMedium = "75";	        
-	      } elsif(me.armament == "M71 Bomblavett") {
-	        me.currArmNameMedium = "71";	        
-	      } elsif(me.armament == "M71 Bomblavett (Retarded)") {
-	        me.currArmNameMedium = "71R";	        
-	      } elsif(me.armament == "M90 Bombkapsel") {
-	        me.currArmNameMedium = "90";	        
-	      } elsif(me.armament == "M55 AKAN") {
-	        me.currArmNameMedium = "55";	        
-	      } elsif(me.armament == "TEST") {
-	        me.currArmNameMedium = "TEST";	        
-	      } else {
-	        me.currArmNameMedium = getprop("ja37/hud/units-metric")==1?"TOM":"NONE";
-	      }
+		var weapon = fire_control.selected;
+		if (weapon == nil) {
+			me.currArmNameMedium = me.input.units.getBoolValue()?"RENS":"CLR";
+		} elsif (!weapon.weapon_ready()) {
+			me.currArmNameMedium = me.input.units.getBoolValue()?"TOM":"NONE";
+		} else {
+			me.currArmNameMedium = me.arm_name_medium[weapon.type];
+		}
+	},
+
+	arm_name_short: {
+		"RB-24J": "24",
+		"RB-74": "74",
+		"RB-71": "71",
+		"RB-99": "99",
+		"M70 ARAK": "70",
+		"M75 AKAN": "AK",
+	},
+
+	armNameShort: func {
+		var weapon = fire_control.selected;
+		if (weapon == nil) {
+			me.currArmNameSh = "";
+		} elsif (!weapon.weapon_ready()) {
+			me.currArmNameSh = "--";
+		} else {
+			me.currArmNameSh = me.arm_name_short[weapon.type];
+		}
 	},
 
 	armActive: func {
-		me.armSelect = me.input.station.getValue();
-	    if (me.armSelect > 0) {
-	        me.aim = armament.AIM.active[me.armSelect-1];
-	        return me.aim;
-	    }
-	    return nil;
+		return fire_control.get_weapon();
 	},
 
 	sidewinders: func {
@@ -265,62 +222,10 @@ units:                "ja37/hud/units-metric",
 		return me.snakes;
 	},
 
-	armNameShort: func {
-		  me.armSelect = me.input.station.getValue();
-		  if (me.armSelect == -1) {
-		  	me.currArmNameSh = "";
-		  	return;
-		  }
-	      if (me.armSelect > 0) {
-	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
-	      } else {
-	        me.armament = "";
-	      }
-	      if(me.armSelect == 0) {
-	        me.currArmNameSh = "AK";
-	      } elsif(me.armament == "RB 24J Sidewinder") {
-	        me.currArmNameSh = "24";	        
-	      } elsif(me.armament == "RB 74 Sidewinder") {
-	        me.currArmNameSh = "74";	        
-	      } elsif(me.armament == "M70 ARAK") {
-	        me.currArmNameSh = "70";	        
-	      } elsif(me.armament == "RB 71 Skyflash") {
-	        me.currArmNameSh = "71";	        
-	      } elsif(me.armament == "RB 99 Amraam") {
-	        me.currArmNameSh = "99";	        
-	      } elsif(me.armament == "TEST") {
-	        me.currArmNameSh = "TS";	        
-	      } elsif(me.armament == "") {
-	        me.currArmNameSh = "";
-	      } else {
-	        me.currArmNameSh = "--";	        
-	      }
-	},
-
 	armNamePylon: func (station) {
-		  me.armSelect = station;
-	      if (me.armSelect > 0) {
-	        me.armamentp = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
-	      } else {
-	        me.armamentp = "";
-	      }
-	      if(me.armSelect == 0) {
-	        return "AK";
-	      } elsif(me.armamentp == "RB 24J Sidewinder") {
-	        return "24";	        
-	      } elsif(me.armamentp == "RB 74 Sidewinder") {
-	        return "74";	        
-	      } elsif(me.armamentp == "M70 ARAK") {
-	        return "70";	        
-	      } elsif(me.armamentp == "RB 71 Skyflash") {
-	        return "71";	        
-	      } elsif(me.armamentp == "RB 99 Amraam") {
-	        return "99";	        
-	      } elsif(me.armamentp == "TEST") {
-	        return "TS";	        
-	      } else {
-	        return nil;
-	      }
+		me.armamentp = pylons.station_by_id(station).singleName;
+		if (!contains(me.arm_name_short, me.armamentp)) return nil;
+		else return me.arm_name_short[me.armamentp];
 	},
 
     QFE: func {

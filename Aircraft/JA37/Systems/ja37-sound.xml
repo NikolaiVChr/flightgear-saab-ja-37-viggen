@@ -2034,14 +2034,14 @@
                         </greater-than>
                     </and>
                     <and>
-                        <property>controls/armament/station[8]/trigger</property>
+                        <property>controls/armament/station[1]/trigger-m55</property>
                         <greater-than>
                             <property>ai/submodels/submodel[10]/count</property>
                             <value>0</value>
                         </greater-than>
                     </and>
                     <and>
-                        <property>controls/armament/station[9]/trigger</property>
+                        <property>controls/armament/station[3]/trigger-m55</property>
                         <greater-than>
                             <property>ai/submodels/submodel[12]/count</property>
                             <value>0</value>

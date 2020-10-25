@@ -1059,7 +1059,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         service:          "instrumentation/head-up-display/serviceable",
         fpv_up:           "instrumentation/fpv/angle-up-stab-deg",
         fpv_right:        "instrumentation/fpv/angle-right-stab-deg",
-        station:          "controls/armament/station-select-custom",
         tenHz:            "ja37/blink/four-Hz/state",
         twoHz:            "ja37/blink/two-Hz/state",
         terrainOn:        "ja37/sound/terrain-on",
@@ -1069,6 +1068,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         towerLon:         "sim/tower/longitude-deg",
         tracks_enabled:   "ja37/hud/tracks-enabled",
         units:            "ja37/hud/units-metric",
+        unsafe:           "controls/armament/trigger-unsafe",
         viewNumber:       "sim/current-view/view-number",
         viewX:            "sim/current-view/x-offset-m",
         viewY:            "sim/current-view/y-offset-m",
@@ -1135,7 +1135,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.lastPower = power.prop.dcMain.getValue()+power.prop.acSecond.getValue();
 
     mode = modes.main;
-    me.station = me.input.station.getValue();
 
     me.displaySeeker(mode);
 
@@ -1165,23 +1164,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       #  return;
       #}
 
-      me.cannon = me.station == 0;
-      me.cannon = me.cannon or (me.station != -1 and getprop("payload/weight["~ (me.station-1) ~"]/selected") == "M55 AKAN");
-      me.cannon = mode == modes.COMBAT and me.cannon;
-      me.out_of_ammo = FALSE;
-      #if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
-      #      out_of_ammo = TRUE;
-      #} elsif (me.input.station.getValue() == 0 and me.input.cannonAmmo.getValue() == 0) {
-      #      out_of_ammo = TRUE;
-      #} elsif (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70 ARAK" and getprop("ai/submodels/submodel["~(4+me.input.station.getValue())~"]/count") == 0) {
-      #      out_of_ammo = TRUE;
-      #}
-      me.ammo = armament.ammoCount(me.station);
-      if (me.ammo > 0) {
-        me.out_of_ammo = FALSE;
-      } else {
-        me.out_of_ammo = TRUE;
-      }
+      me.cannon = (modes.COMBAT and fire_control.selected != nil
+                   and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M55 AKAN"));
+
+      me.ammo = fire_control.get_current_ammo();
+      me.out_of_ammo = fire_control.selected == nil or !fire_control.selected.weapon_ready();
 
       me.finalVisual = land.mode_OPT_active;
 
@@ -2004,133 +1991,64 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   showReticle: func (mode, cannon, out_of_ammo) {
-    if (mode == modes.COMBAT and cannon == TRUE) {
-      me.showSidewind(FALSE);
-      
-      me.reticle_cannon.setTranslation(0, centerOffset);
-      me.reticle_cannon.show();
-      me.reticle_missile.hide();
-      me.reticle_c_missile.hide();
-      air2air = FALSE;
-      air2ground = FALSE;
-      return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
-    } elsif (mode == modes.COMBAT and cannon == FALSE) {
-      if (me.station == -1) {
+    if (mode == modes.COMBAT) {
+      if (fire_control.selected == nil) {
         air2air = FALSE;
         air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.hide();
         me.reticle_c_missile.hide();
-        return;
-      }
-      me.armament = getprop("payload/weight["~ (me.station-1) ~"]/selected");
-      if(me.armament == "M70 ARAK") {
-        air2air = FALSE;
-        air2ground = TRUE;
+      } elsif (cannon) {
         me.showSidewind(FALSE);
-        me.reticle_cannon.setTranslation(0, centerOffset);
-        me.reticle_cannon.show();
+        if (me.input.unsafe.getBoolValue()) {
+          me.reticle_cannon.setTranslation(0, centerOffset);
+          me.reticle_cannon.show();
+        } else {
+          me.reticle_cannon.hide();
+        }
         me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "RB 24 Sidewinder") {
-        air2air = TRUE;
-        air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        #me.reticle_missile.show();
         me.reticle_c_missile.hide();
-      } elsif(me.armament == "RB 24J Sidewinder") {
-        air2air = TRUE;
+        air2air = FALSE;
         air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        #me.reticle_missile.show();
-        me.reticle_c_missile.hide();
-      } elsif(me.armament == "RB 74 Sidewinder") {
-        air2air = TRUE;
-        air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        #me.reticle_missile.show();
-        me.reticle_c_missile.hide();
-      } elsif(me.armament == "RB 71 Skyflash") {
-        air2air = TRUE;
-        air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        #me.reticle_missile.show();
-        me.reticle_c_missile.hide();
-      } elsif(me.armament == "RB 99 Amraam") {
-        air2air = TRUE;
-        air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        #me.reticle_missile.show();
-        me.reticle_c_missile.hide();
-      } elsif(me.armament == "RB 15F Attackrobot") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "RB 04E Attackrobot") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "RB 05A Attackrobot") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "RB 75 Maverick") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "M71 Bomblavett") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "M71 Bomblavett (Retarded)") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "M90 Bombkapsel") {
-        air2air = FALSE;
-        air2ground = TRUE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        #me.reticle_c_missile.show();
-      } elsif(me.armament == "TEST") {
-        air2air = TRUE;
-        air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        #me.reticle_missile.show();
-        me.reticle_c_missile.hide();
       } else {
-        air2air = FALSE;
-        air2ground = FALSE;
-        me.showSidewind(FALSE);
-        me.reticle_cannon.hide();
-        me.reticle_missile.hide();
-        me.reticle_c_missile.hide();
+        me.armament = fire_control.selected.type;
+        if (me.armament == "M70 ARAK") {
+          air2air = FALSE;
+          air2ground = TRUE;
+          me.showSidewind(FALSE);
+          if (me.input.unsafe.getBoolValue()) {
+            me.reticle_cannon.setTranslation(0, centerOffset);
+            me.reticle_cannon.show();
+          } else {
+            me.reticle_cannon.hide();
+          }
+          me.reticle_missile.hide();
+          #me.reticle_c_missile.show();
+        } elsif(me.armament == "RB-24" or me.armament == "RB-24J" or me.armament == "RB-74"
+                or me.armament == "RB-71" or me.armament == "RB-99") {
+          air2air = TRUE;
+          air2ground = FALSE;
+          me.showSidewind(FALSE);
+          me.reticle_cannon.hide();
+          #me.reticle_missile.show();
+          me.reticle_c_missile.hide();
+        } elsif(me.armament == "RB-15F" or me.armament == "RB-04E" or me.armament == "RB-05A"
+                or me.armament == "RB-75" or me.armament == "M71" or me.armament == "M71R" or me.armament == "M90") {
+          air2air = FALSE;
+          air2ground = TRUE;
+          me.showSidewind(FALSE);
+          me.reticle_cannon.hide();
+          me.reticle_missile.hide();
+          #me.reticle_c_missile.show();
+        } else {
+          air2air = FALSE;
+          air2ground = FALSE;
+          me.showSidewind(FALSE);
+          me.reticle_cannon.hide();
+          me.reticle_missile.hide();
+          me.reticle_c_missile.hide();
+        }
       }
       return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
     } elsif (mode != modes.TAKEOFF and mode != modes.LANDING) {# or me.input.wow_nlg.getValue() == 0
@@ -2302,19 +2220,15 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         } else {
           me.dlz = nil;
         }
-        me.armSelect = me.station;
-        if (me.armSelect > 0) {
-          me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
-        } else {
-          me.armament = "";
-        }
+        if (fire_control.selected == nil) me.armament = "";
+        else me.armament = fire_control.selected.type;
         me.minDist = nil;# meters
         me.maxDist = nil;# meters
         me.currDist = radar_logic.selection.get_range()*NM2M;
         me.unit = "meters";
         me.blink = FALSE;
         me.shown = TRUE;
-        if(me.armSelect == 0) {
+        if(me.armament == "M75 AKAN") {
           # cannon
           me.minDist =  100;
           me.maxDist = 2500;# as per sources
@@ -2354,8 +2268,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.distanceScale.hide();
             me.mySpeed.hide();
           }
-          me.ammo = armament.ammoCount(me.station);
-          if (me.station == 0) {
+          me.ammo = fire_control.get_current_ammo();
+          if (me.cannon) {
             me.distanceText.setText(sprintf("%3d", me.ammo));
             me.distanceText.show();
           } elsif (me.ammo != -1) {
@@ -2414,8 +2328,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.targetDistance2.hide();
         me.distanceScale.hide();
       }
-      me.ammo = armament.ammoCount(me.station);
-      if (me.station == 0) {
+      me.ammo = fire_control.get_current_ammo();
+      if (me.cannon) {
         me.distanceText.setText(sprintf("%3d", me.ammo));
         me.distanceText.show();
       } elsif (me.ammo != -1) {
@@ -2723,13 +2637,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displayCCIP: func () {
     if(mode == modes.COMBAT) {
 
-      me.armSelect = me.station;
-      if(me.armSelect > 0 and (getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett" or getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)")) {
-
-        me.bomb = nil;
-        if(armament.AIM.active[me.armSelect-1] != nil) {
-          me.bomb = armament.AIM.active[me.armSelect-1];
-        } else {
+      if (fire_control.selected != nil and (fire_control.selected.type == "M71" or fire_control.selected.type == "M71R")) {
+        me.bomb = fire_control.get_weapon();
+        if (me.bomb == nil) {
           me.ccip_symbol.hide();
           return 20;
         }
@@ -2830,7 +2740,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.designatedDistanceFT = nil;
     me.track_index = 1;
     me.selection_updated = FALSE;
-    me.armSelect = me.station;
     me.missileCurr = displays.common.armActive();
     if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
       me.radar_group.show();
@@ -2968,7 +2877,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           #print("diamond="~diamond~" blink="~blink);
           if (me.displayDiamond > 0) {
             if (radar_logic.lockLast == nil or (radar_logic.lockLast != nil and radar_logic.lockLast.getUnique() != me.selection.getUnique())) {
-              radar_logic.lockLog.push(sprintf("Radar lock on to %s (%s)",me.selection.get_Callsign(),armament.AIM.active[me.armSelect-1].type));
+              radar_logic.lockLog.push(sprintf("Radar lock on to %s (%s)",me.selection.get_Callsign(),fire_control.get_weapon().type));
               radar_logic.lockLast = me.selection;
             }
 

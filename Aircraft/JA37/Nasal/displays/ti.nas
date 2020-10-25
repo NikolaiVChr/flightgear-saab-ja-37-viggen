@@ -4493,7 +4493,7 @@ var TI = {
 		me.svy_grp.set("clip", "rect("~me.clip3~")");#top,right,bottom,left
 		me.bottom_text_grp.setTranslation(0,-height*0.025*me.upText);
 		me.textBArmType.setText(displays.common.currArmNameSh);
-		me.ammo = armament.ammoCount(me.input.station.getValue());
+		me.ammo = fire_control.get_current_ammo();
 	    if (me.ammo == -1) {
 	    	me.ammoT = "  ";
 	    } else {

@@ -214,6 +214,23 @@
                 </script>
             </binding>
         </key>
+        <key n="117">
+            <name>u</name>
+            <desc>Uncage IR seeker (held: reset seeker)</desc>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    fire_control.uncageIRButton(1);
+                    ja37.click();
+                </script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>nasal</command>
+                    <script>fire_control.uncageIRButton(0);</script>
+                </binding>
+            </mod-up>
+        </key>
         <key n="114">
             <name>r</name>
             <desc>Toggle radar</desc>
@@ -304,7 +321,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>fire_control.toggle_trigger_safe();</script>
+                <script>fire_control.toggle_trigger_safe(); ja37.click();</script>
             </binding>
         </key>
         <key n="104">

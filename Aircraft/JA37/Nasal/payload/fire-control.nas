@@ -25,50 +25,17 @@ foreach (var prop; keys(input)) {
 
 
 
-var fireLog = events.LogBuffer.new(echo: 0);
-var ecmLog = events.LogBuffer.new(echo: 0);
+### Pylons
 
-
-### Pylon selection
-
-# Pylon names.
+# Pylon names
 var STATIONS = pylons.STATIONS;
 var M75 = 0;
 
-# Pylon lookup functions.
-var station_by_id = func(id) {
-    if (id == M75 and is_ja) return pylons.M75station;
-    else return pylons.pylons[id];
-}
+var stations_list = keys(STATIONS);
+if (is_ja) append(stations_list, M75);
 
-var is_loaded_with = func(pylon, type) {
-    return station_by_id(pylon).singleName == type;
-}
 
-var find_pylon_by_type = func(type, order, first=0) {
-    var i = first;
-    var looped = FALSE;
-    while (i < first or !looped) {
-        if (is_loaded_with(order[i], type)) return order[i];
-
-        i += 1;
-        if (i >= size(order)) {
-            i = 0;
-            looped = TRUE;
-        }
-    }
-    return nil;
-}
-
-var find_all_pylons_by_type = func(type) {
-    var res = [];
-    for(var pylon=0; pylon<7; pylon+=1) {
-        if (is_loaded_with(pylon, type)) {
-            append(res, pylon);
-        }
-    }
-    return res;
-}
+# Pylon lookup functions
 
 
 ### Weapon logic API (abstract class)
@@ -105,7 +72,6 @@ var WeaponLogic = {
     set_combat: func(combat) {
         me.combat = combat;
         if (!combat) me.set_unsafe(FALSE);
-        else me.update_unsafe();
     },
 
     update_combat: func {
@@ -116,14 +82,7 @@ var WeaponLogic = {
     set_unsafe: func(unsafe) {
         if (!me.combat) unsafe = FALSE;
         me.unsafe = unsafe;
-
         if (!me.unsafe) me.set_trigger(FALSE);
-        # Explicitely do not update the trigger when switching to unsafe.
-        # If the trigger is held pressed while unsafing, it will do nothing until the next press.
-    },
-
-    update_unsafe: func {
-        me.set_unsafe(input.unsafe.getBoolValue());
     },
 
     armed: func {
@@ -134,6 +93,16 @@ var WeaponLogic = {
     set_trigger: func(trigger) {
         die("Called unimplemented abstract class method");
     },
+
+    uncage_IR_seeker: func {},
+    reset_IR_seeker: func {},
+
+    weapon_ready: func { return FALSE; },
+
+    get_ammo: func { return 0; },
+
+    # Return the active weapon (object from missile.nas), when it makes sense.
+    get_weapon: func { return nil; },
 };
 
 
@@ -150,6 +119,7 @@ var Missile = {
         w.selected = nil;
         w.station = nil;
         w.weapon = nil;
+        w.fired = FALSE;
         return w;
     },
 
@@ -159,12 +129,12 @@ var Missile = {
         me.deselect();
 
         me.selected = pylon;
-        me.station = station_by_id(me.selected);
+        me.station = pylons.station_by_id(me.selected);
         me.weapon = me.station.getWeapons()[0];
+        me.fired = FALSE;
         setprop("controls/armament/station-select-custom", pylon);
 
         me.update_combat();
-        me.update_unsafe();
     },
 
     deselect: func {
@@ -173,16 +143,17 @@ var Missile = {
         me.selected = nil;
         me.station = nil;
         me.weapon = nil;
+        me.fired = FALSE;
         setprop("controls/armament/station-select-custom", -1);
     },
 
     select: func(pylon=nil) {
         if (pylon == nil) {
             # Pylon not given as argument. Find a matching one.
-            pylon = find_pylon_by_type(me.type, me.pylons_priority);
+            pylon = pylons.find_pylon_by_type(me.type, me.pylons_priority);
         } else {
             # Pylon given as argument. Check that it matches.
-            if (!is_loaded_with(pylon, me.type)) pylon = nil;
+            if (!pylons.is_loaded_with(pylon, me.type)) pylon = nil;
         }
 
         # If pylon is nil at this point, selection failed.
@@ -196,13 +167,16 @@ var Missile = {
     },
 
     cycle_selection: func {
+        # Cycling is only possible when trigger is safed.
+        if (me.unsafe) return !me.fired;
+
         var first = 0;
         if (me.selected != nil) {
             first = find_index(me.selected, me.pylons_priority)+1;
             if (first >= size(me.pylons_priority)) first = 0;
         }
 
-        pylon = find_pylon_by_type(me.type, me.pylons_priority, first);
+        pylon = pylons.find_pylon_by_type(me.type, me.pylons_priority, first);
         if (pylon == nil) {
             me.deselect();
             return FALSE;
@@ -217,8 +191,25 @@ var Missile = {
         call(WeaponLogic.set_unsafe, [unsafe], me);
 
         if (me.weapon != nil) {
-            if (me.unsafe) me.weapon.start();
-            else me.weapon.stop();
+            if (me.unsafe) {
+                # Setup weapon
+                me.weapon.start();
+
+                # IR weapons parameters
+                if (me.weapon.guidance == "heat") {
+                    me.weapon.setAutoUncage(FALSE);
+                    me.weapon.setCaged(TRUE);
+                    me.weapon.setBore(TRUE);
+                }
+            } else {
+                me.weapon.stop();
+            }
+        }
+
+        # Select next weapon when safing after firing.
+        if (me.fired and !me.unsafe) {
+            me.fired = FALSE;
+            me.cycle_selection();
         }
     },
 
@@ -235,12 +226,37 @@ var Missile = {
         } else {
             input.atc_msg.setValue(phrase);
         }
-        fireLog.push("Self: "~phrase);
+        events.fireLog.push("Self: "~phrase);
 
         me.station.fireWeapon(0);
 
-        me.cycle_selection();
+        me.weapon = nil;
+        me.fired = TRUE;
     },
+
+    uncage_IR_seeker: func {
+        if (me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
+            or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+
+        me.weapon.setAutoUncage(TRUE);
+        me.weapon.setBore(FALSE);
+    },
+
+    reset_IR_seeker: func {
+        if (me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+
+        me.weapon.stop();
+        me.weapon.start();
+        me.weapon.setAutoUncage(FALSE);
+        me.weapon.setCaged(TRUE);
+        me.weapon.setBore(TRUE);
+    },
+
+    get_weapon: func { return me.weapon; },
+
+    weapon_ready: func { return me.weapon != nil; },
+
+    get_ammo: func { return pylons.get_ammo(me.type); },
 };
 
 
@@ -258,7 +274,7 @@ var SubModelWeapon = {
 
     # Argument ignored. Always select all weapons of this type.
     select: func (pylon=nil) {
-        me.selected = find_all_pylons_by_type(me.type);
+        me.selected = pylons.find_all_pylons_by_type(me.type);
 
         if (size(me.selected) == 0) {
             me.deselect();
@@ -268,14 +284,19 @@ var SubModelWeapon = {
         setsize(me.stations, size(me.selected));
         setsize(me.weapons, size(me.selected));
         forindex(var i; me.selected) {
-            me.stations[i] = station_by_id(me.selected[i]);
+            me.stations[i] = pylons.station_by_id(me.selected[i]);
             me.weapons[i] = me.stations[i].getWeapons()[0];
+        }
+
+        if (!me.weapon_ready()) {
+            # no ammo
+            me.deselect();
+            return FALSE;
         }
 
         setprop("controls/armament/station-select-custom", size(me.selected) > 0 ? me.selected[0] : -1);
 
         me.update_combat();
-        me.update_unsafe();
 
         return TRUE;
     },
@@ -308,9 +329,22 @@ var SubModelWeapon = {
             weapon.trigger.setBoolValue(trigger and weapon.operableFunction());
         }
     },
+
+    get_ammo: func {
+        var count = 0;
+        foreach(var weapon; me.weapons) {
+            count += weapon.getAmmo();
+        }
+        return count;
+    },
+
+    weapon_ready: func {
+        return me.get_ammo() > 0;
+    },
 };
 
 
+### Selected weapon type.
 if (is_ja) {
     var weapons = [
         Missile.new("RB-74"),
@@ -341,84 +375,140 @@ if (is_ja) {
     var IRRB = [0, 1, 2];
 }
 
-var selected_type_index = -1;
+var selected_index = -2;
+var selected = nil;
+
+# Internal function.
+var _set_selected_index = func(index) {
+    selected_index = index;
+    if (index >= 0) selected = weapons[index];
+    elsif (index == -1 and is_ja) selected = internal_gun;
+    else selected = nil;
+}
+
+var get_weapon = func {
+    if (selected == nil) return nil;
+    else return selected.get_weapon();
+}
+
+var get_current_ammo = func {
+    if (selected == nil) return -1;
+    else return selected.get_ammo();
+}
 
 
 ### Controls
+## Weapon selection.
 
-# Weapon selection.
-# list: a list of indices in 'weapons', only these indices will be accepted (optional).
-var deselect_current = func {
-    if (selected_type_index >= 0) {
-        weapons[selected_type_index].deselect();
-    } else {
-        internal_gun.deselect();
-    }
+var _deselect_current = func {
+    if (selected != nil) selected.deselect();
 }
 
 var cycle_weapon_type = func {
-    deselect_current();
+    _deselect_current();
 
     # Cycle through weapons, starting from the previous one.
-    var prev = selected_type_index;
-    selected_type_index += 1;
-    if (selected_type_index >= size(weapons)) selected_type_index = 0;
+    var prev = selected_index;
+    if (prev < 0) prev = 0;
+    var i = prev;
+    i += 1;
+    if (i >= size(weapons)) i = 0;
 
-    while (selected_type_index != prev) {
-        if (weapons[selected_type_index].select()) return;
-
-        selected_type_index += 1;
-        if (selected_type_index >= size(weapons)) selected_type_index = 0;
+    while (i != prev) {
+        if (weapons[i].select()) {
+            _set_selected_index(i);
+            return
+        }
+        i += 1;
+        if (i >= size(weapons)) i = 0;
     }
-    # At this point we are back to the first weapon.
-    # Necessary if there is only one weapon type available.
-    weapons[selected_type_index].select();
+    # We are back to the first weapon. Last try
+    if (weapons[i].select()) {
+        _set_selected_index(i);
+    } else {
+        # Nothing found
+        _set_selected_index(-2);
+    }
 }
 
 var select_cannon = func {
-    deselect_current();
-    selected_type_index = -1;
+    _deselect_current();
     internal_gun.select();
+    _set_selected_index(-1);
 }
 
 var select_IRRB = func {
-    deselect_current();
-    foreach(selected_type_index; IRRB) {
-        if (weapons[selected_type_index].select()) return;
+    _deselect_current();
+    foreach(var i; IRRB) {
+        if (weapons[i].select()) {
+            _set_selected_index(i);
+            return;
+        }
     }
-    selected_type_index = IRRB[0];
+    # Not found
+    _set_selected_index(-2);
 }
 
 var cycle_weapon = func {
-    if (selected_type_index >= 0) {
-        weapons[selected_type_index].cycle_selection();
-    }
+    if (selected != nil) selected.cycle_selection();
+}
+
+var deselect_weapon = func {
+    _deselect_current();
+    _set_selected_index(-2);
 }
 
 
-# Others
+## Others
 var toggle_trigger_safe = func {
     var unsafe = !input.unsafe.getBoolValue();
     input.unsafe.setBoolValue(unsafe);
 
-    ja37.click();
     if (unsafe) {
         screen.log.write("Trigger unsafed", 1, 0, 0);
     } else {
         screen.log.write("Trigger safed", 0, 0, 1);
     }
-
-    weapons[selected_type_index].set_unsafe(unsafe);
 }
 
+
+# IR seeker release button
+var uncageIR = func {
+    if (selected != nil) selected.uncage_IR_seeker();
+}
+
+var resetIR = func {
+    if (selected != nil) selected.reset_IR_seeker();
+}
+
+# Pressing the button uncages, holding it resets
+var uncageIRButtonTimer = maketimer(1, resetIR);
+uncageIRButtonTimer.singleShot = TRUE;
+uncageIRButtonTimer.simulatedTime = TRUE;
+
+var uncageIRButton = func (pushed) {
+    if (pushed) {
+        uncageIR();
+        uncageIRButtonTimer.start();
+    } else {
+        uncageIRButtonTimer.stop();
+    }
+}
+
+
+
 var trigger_listener = func (node) {
-    weapons[selected_type_index].set_trigger(node.getBoolValue());
+    if (selected != nil) selected.set_trigger(node.getBoolValue());
+}
+
+var unsafe_listener = func (node) {
+    if (selected != nil) selected.set_unsafe(node.getBoolValue());
 }
 
 var combat_listener = func (node) {
-    weapons[selected_type_index].set_combat(node.getBoolValue());
+    if (selected != nil) selected.set_combat(node.getBoolValue());
 }
 
-
 setlistener(input.combat, combat_listener, 0, 0);
+setlistener(input.unsafe, unsafe_listener, 0, 0);
 setlistener(input.trigger, trigger_listener, 0, 0);

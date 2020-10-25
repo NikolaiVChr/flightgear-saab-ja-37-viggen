@@ -753,7 +753,7 @@ var MI = {
 
 	showArm: func {
 		if (modes.main == modes.COMBAT) {
-			me.ammo = armament.ammoCount(me.input.station.getValue());
+			me.ammo = fire_control.get_current_ammo();
 		    if (me.ammo == -1) {
 		    	me.ammoT = "  ";
 		    } else {

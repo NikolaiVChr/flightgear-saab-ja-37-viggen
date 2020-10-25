@@ -29,6 +29,18 @@ var STATIONS = {
     R7H: 6, # Right outer wing
 };
 
+var INT_AKAN = 0;
+
+var stations_list = [];
+foreach(var pylon; keys(STATIONS)) {
+    append(stations_list, STATIONS[pylon]);
+}
+if (getprop("/ja37/systems/variant") == 0) append(stations_list, INT_AKAN);
+
+
+
+### Operation conditions.
+
 var operable = func {
     return power.prop.acSecondBool.getBoolValue();
 }
@@ -50,14 +62,14 @@ var make_M70 = func(pylon) {
 
 var make_M55 = func(pylon) {
     return stations.SubModelWeapon.new(
-        "M55 AKAN", 0.5, 150, [4+pylon], [],
-        input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
+        "M55 AKAN", 0.5, 150, [9+pylon], [8+pylon],
+        input.ctrl_arm.getChild("station", pylon).getChild("trigger-m55"),
         TRUE, operable, FALSE,
         [(pylon == STATIONS.V7V) ? 18 : 19], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var M75 = stations.SubModelWeapon.new(
-    "M75 AKAN", 1, 146, [3,4], [2],
+    "M75 AKAN", 1, 146, [3], [2,4],
     input.ctrl_arm.getNode("station[0]/trigger"),
     FALSE, operable);
 
@@ -156,6 +168,52 @@ foreach(var name; keys(STATIONS)) {
 if (getprop("/ja37/systems/variant") == 0) {
     var M75station = stations.InternalStation.new("M75 AKAN", 0, [load_options.m75],
         input.inertia.getChild("pointmass-weight-lbs", 8, 1), operable);
+}
+
+
+# Some lookup functions
+var station_by_id = func(id) {
+    if (id == INT_AKAN) return M75station;
+    else return pylons[id];
+}
+
+var is_loaded_with = func(pylon, type) {
+    return station_by_id(pylon).singleName == type;
+}
+
+var find_pylon_by_type = func(type, order, first=0) {
+    var i = first;
+    var looped = FALSE;
+    while (i < first or !looped) {
+        if (is_loaded_with(order[i], type)) return order[i];
+
+        i += 1;
+        if (i >= size(order)) {
+            i = 0;
+            looped = TRUE;
+        }
+    }
+    return nil;
+}
+
+var find_all_pylons_by_type = func(type) {
+    var res = [];
+    foreach(var pylon; stations_list) {
+        if (is_loaded_with(pylon, type)) {
+            append(res, pylon);
+        }
+    }
+    return res;
+}
+
+
+# Total ammunition of a given type.
+var get_ammo = func(type) {
+    var count = 0;
+    foreach(var pylon; stations_list) {
+        count += station_by_id(pylon).getAmmo(type);
+    }
+    return count;
 }
 
 

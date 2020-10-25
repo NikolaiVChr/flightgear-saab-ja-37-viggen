@@ -1042,6 +1042,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <trigger-m55 type="bool">false</trigger-m55>
                 <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="2">
@@ -1062,6 +1063,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <trigger-m55 type="bool">false</trigger-m55>
                 <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="4">
