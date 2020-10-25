@@ -49,7 +49,7 @@
     <object-name>aj37dropTank</object-name>
     <type>select</type>
     <condition>
-      <property>sim/multiplay/generic/bool[8]</property><!-- consumables/fuel/tank[8]/selected -->
+      <not><property>sim/multiplay/generic/bool[8]</property></not><!-- consumables/fuel/tank[8]/jettisoned -->
     </condition>
   </animation>
 

@@ -245,8 +245,7 @@ var set_droptank = func(b) {
         return input.drop_tank.getBoolValue();
     }
 
-    if(b) load_pylon(pylons.STATIONS.C7, "tank");
-    else load_pylon(pylons.STATIONS.C7, "none");
+    pylons.set_droptank(b);
     return b;
 }
 

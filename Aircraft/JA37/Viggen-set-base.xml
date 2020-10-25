@@ -428,7 +428,7 @@
                 <!-- booleans for outer pylons because they can only mount a rb24/rb74 -->
                 <bool n="6" alias="/payload/armament/station/id-5-count"/>      <!-- outer left wing -->
                 <bool n="7" alias="/payload/armament/station/id-6-count"/>      <!-- outer right wing -->
-                <bool n="8" alias="/consumables/fuel/tank[8]/mounted"/>         <!-- drop tank -->
+                <bool n="8" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank -->
                 <!-- m71 ammo -->
                 <short n="4" alias="/payload/armament/station/id-1-count"/>
                 <short n="5" alias="/payload/armament/station/id-2-count"/>
@@ -1380,7 +1380,6 @@
             <tank n="8">
                 <name>Drop tank</name>
                 <jettisoned type="bool">false</jettisoned>
-                <mounted type="bool">true</mounted>
             </tank>
         </fuel>
     </consumables>
@@ -1588,6 +1587,19 @@
             <msg type="bool">false</msg>
             <damage type="bool">false</damage>
         </armament>
+        <weight n="6">
+            <name type="string">Center fuselage pylon</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
+            <selected>Drop tank</selected>
+            <opt>
+                <name>none</name>
+                <lbs>0</lbs>
+            </opt>
+            <opt>
+                <name>Drop tank</name>
+                <lbs>211.64</lbs>
+            </opt>
+        </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
             <name type="string">Pilot</name>
             <weight-lb type="double">158.7328</weight-lb>

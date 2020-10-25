@@ -8,6 +8,10 @@ var input = {
     station:    "/payload/armament/station",
     wings_on:   "/fdm/jsbsim/structural/wings/serviceable",
     wow1:       "fdm/jsbsim/gear/unit[1]/WOW",
+    tank8Jettison:    "/consumables/fuel/tank[8]/jettisoned",
+    tank8Mounted:     "/consumables/fuel/tank[8]/mounted",
+    tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
+    tank8Selected:    "/consumables/fuel/tank[8]/selected",
 };
 
 foreach (var prop; keys(input)) {
@@ -15,16 +19,14 @@ foreach (var prop; keys(input)) {
 }
 
 
-# pylon names
+### Pylon names
 var STATIONS = {
-    KCA: 0, # Internal gun mount
     V7V: 1, # Left wing
     S7V: 2, # Left fuselage
     V7H: 3, # Right wing
     S7H: 4, # Right fuselage
     R7V: 5, # Left outer wing
     R7H: 6, # Right outer wing
-    C7: 7,  # Center, only used for drop tank
 };
 
 
@@ -38,6 +40,7 @@ var can_jettison = func {
 }
 
 
+### Submodel based weapons
 var make_M70 = func(pylon) {
     return stations.SubModelWeapon.new(
         "M70 ARAK", 100, 6, [4+pylon], [],
@@ -60,14 +63,10 @@ var M75 = stations.SubModelWeapon.new(
     FALSE, can_fire);
 
 
-var tank = stations.FuelTank.new("Drop tank", "tank", 8, 275, "/consumables/fuel/tank[8]/mounted");
 
-
-
-# Pylon load options.
+### Pylon load options.
 var load_options = {
     none: {name: "none", content: [], fireOrder: [], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    tank: {name: "Drop tank", content: [tank], fireOrder: [0], launcherMass: 211.64, launcherDragArea: 0.0, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1},
     m75: {name: "M75 AKAN", content: [M75], fireOrder: [0], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
     rb24: {name: "RB 24 Sidewinder", content: ["RB-24"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
     rb24j: {name: "RB 24J Sidewinder", content: ["RB-24J"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
@@ -103,8 +102,6 @@ var load_options_pylon = func(pylon, name) {
 var sets = {};
 
 # Use indices for load_options to define sets.
-sets[STATIONS.C7] = ["tank", "none"];
-
 if (getprop("/ja37/systems/variant") == 0) {
     sets[STATIONS.V7V] = sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb71", "rb99", "m70"];
     sets[STATIONS.S7V] = sets[STATIONS.S7H] = ["none", "rb24j", "rb74", "rb99", "m70"];
@@ -121,7 +118,6 @@ if (getprop("/ja37/systems/variant") == 0) {
 
 # Lookup actual values in load_options.
 foreach(var pylon_name; keys(STATIONS)) {
-    if (pylon_name == "KCA") continue;
     var id = STATIONS[pylon_name];
 
     forindex(var i; sets[id]) {
@@ -133,7 +129,7 @@ foreach(var pylon_name; keys(STATIONS)) {
 }
 
 
-# Pylon objects.
+### Pylon objects.
 var pylon_names = {};
 pylon_names[STATIONS.V7V] = "Left wing pylon";
 pylon_names[STATIONS.V7H] = "Right wing pylon";
@@ -141,12 +137,10 @@ pylon_names[STATIONS.S7V] = "Left fuselage pylon";
 pylon_names[STATIONS.S7H] = "Right fuselage pylon";
 pylon_names[STATIONS.R7V] = "Left outer wing pylon";
 pylon_names[STATIONS.R7H] = "Right outer wing pylon";
-pylon_names[STATIONS.C7] = "Center fuselage pylon";
 
 var pylons = {};
 
 foreach(var name; keys(STATIONS)) {
-    if (name == "KCA") continue;
     var id = STATIONS[name];
 
     pylons[id] = stations.Pylon.new(
@@ -167,7 +161,7 @@ if (getprop("/ja37/systems/variant") == 0) {
 
 
 
-# Weapon ID number for model/MP
+### Weapon ID number for model/MP
 var weapon_id = {
     "none": 0,
     # Same model for all sidewinders
@@ -210,7 +204,24 @@ foreach(var pylon; [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H]) {
 }
 
 
-# Jettison
+### Drop tank logic
+var update_droptank = func (node) {
+    var droptank = (node.getValue() == "Drop tank");
+
+    input.tank8Selected.setBoolValue(droptank);
+    input.tank8Jettison.setBoolValue(!droptank);
+    input.tank8Mounted.setBoolValue(droptank);
+    if (!droptank) input.tank8LvlNorm.setValue(0);
+}
+
+setlistener("/payload/weight[6]/selected", update_droptank, 1, 1);
+
+var set_droptank = func (b) {
+    setprop("/payload/weight[6]/selected", b ? "Drop tank" : "none");
+}
+
+
+### Jettison
 var jettison_pylon = func (pylon) {
     pylon = pylons[pylon];
     if (pylon.currentSet != nil and
@@ -237,7 +248,8 @@ var jettison_pylon = func (pylon) {
 var jettison_tank = func {
     ja37.click();
     if (!can_jettison()) return;
-    jettison_pylon(STATIONS.C7);
+
+    set_droptank(FALSE);
 }
 
 var jettison_stores = func {
@@ -245,7 +257,8 @@ var jettison_stores = func {
     if (!can_jettison()) return;
 
     # Do not jettison outer pylons.
-    foreach(var pylon; [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H, STATIONS.C7]) {
+    foreach(var pylon; [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H]) {
         jettison_pylon(pylon);
     }
+    jettison_tank();
 }
