@@ -62,11 +62,6 @@
             </style>
         </gui>
 
-        <state include="states/cold-and-dark.xml" n="0"/>
-        <state include="states/ready-for-takeoff.xml" n="1"/>
-        <state include="states/ready-for-long-range-combat.xml" n="3"/>
-        <!--<state include="states/cruise.xml" n="4"/>-->
-
         <previews>
             <preview>
                 <type>exterior</type>

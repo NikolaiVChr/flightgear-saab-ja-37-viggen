@@ -49,6 +49,10 @@
             </style>
         </gui>
 
+        <state n="0" include="states/cold-and-dark.xml"/>
+        <state n="1" include="states/ready-for-takeoff.xml"/>
+        <!--<state n="2" include="states/cruise.xml"/>-->
+
         <submodels>
             <serviceable type="bool">1</serviceable>
             <path>Aircraft/JA37/Systems/ja37-submodels.xml</path>

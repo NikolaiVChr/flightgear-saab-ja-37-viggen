@@ -51,9 +51,6 @@
             </style>
         </gui>
 
-        <state include="states/cold-and-dark.xml" n="0"/>
-        <state include="states/ready-for-takeoff.xml" n="1"/>
-
         <previews>
             <preview>
                 <type>exterior</type>
