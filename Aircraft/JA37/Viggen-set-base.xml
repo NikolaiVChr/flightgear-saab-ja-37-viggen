@@ -568,11 +568,6 @@
                 <color type="double">0</color>
             </heatblur>
             <!--<g-suit type="int">3</g-suit>--><!-- 1:71 2:79 3:97 moved to individual aircraft set files -->
-            <!-- triggers for rocket pods jettison animation -->
-            <pod n="1" type="bool">false</pod>
-            <pod n="2" type="bool">false</pod>
-            <pod n="3" type="bool">false</pod>
-            <pod n="4" type="bool">false</pod>
             <rust-outside type="bool">false</rust-outside>
             <rust-inside type="bool">false</rust-inside>
             <swedish-labels type="bool">false</swedish-labels>
@@ -1042,6 +1037,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="2">
                 <offsets>
@@ -1051,6 +1047,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="3">
                 <offsets>
@@ -1060,6 +1057,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="4">
                 <offsets>
@@ -1069,6 +1067,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="5"><!-- left outer wing -->
                 <offsets>

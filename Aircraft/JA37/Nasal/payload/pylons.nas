@@ -33,40 +33,25 @@ var can_fire = func {
 }
 
 var can_jettison = func {
+    return TRUE;
     return power.prop.dcMainBool.getBoolValue() and !input.wow1.getBoolValue();;
 }
 
 
 var make_M70 = func(pylon) {
-    var m70 = stations.SubModelWeapon.new(
+    return stations.SubModelWeapon.new(
         "M70 ARAK", 100, 6, [4+pylon], [],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
-        TRUE, can_fire);
-
-    # Trigger rocket pod submodel animation.
-    m70.pod_jettison_count = props.globals.getNode("ai/submodels").getChild("submodel", pylon+13).getChild("count");
-    m70.pod_jettison_trigger = props.globals.getNode("ja37/effect").getChild("pod", pylon);
-
-    m70.eject = func {
-        me.pod_jettison_count.setValue(1);
-        me.pod_jettison_trigger.setBoolValue(TRUE);
-        var t = maketimer(0, me, func {
-            me.pod_jettison_trigger.setBoolValue(FALSE);
-        });
-        t.singleShot = TRUE;
-        t.start();
-
-        call(stations.SubModelWeapon.eject, [], me);
-    };
-
-    return m70;
+        TRUE, can_fire, FALSE,
+        [pylon+13], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var make_M55 = func(pylon) {
     return stations.SubModelWeapon.new(
         "M55 AKAN", 0.5, 150, [4+pylon], [],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
-        TRUE, can_fire);
+        TRUE, can_fire, FALSE,
+        [(pylon == STATIONS.V7V) ? 18 : 19], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var M75 = stations.SubModelWeapon.new(

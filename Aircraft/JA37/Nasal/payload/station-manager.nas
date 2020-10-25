@@ -576,13 +576,14 @@ var SubModelWeapon = {
 #
 # Attributes:
 #  drag, weight, submodel(s)
-	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable, operableFunction=nil, alternate = 0) {
+	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable,  operableFunction=nil, alternate=0, podSubModelNumbers=nil, podSubModelTrigger=nil) {
 		var s = {parents:[SubModelWeapon]};
 		s.type = name;
 		s.typeLong = name;
 		s.typeShort = name;
 		s.subModelNumbers = subModelNumbers;
 		s.tracerSubModelNumbers = tracerSubModelNumbers;
+		s.podSubModelNumbers = podSubModelNumbers;
 		s.operableFunction = operableFunction;
 		s.maxAmmo = maxAmmo;
 		s.munitionMass = munitionMass;
@@ -590,6 +591,7 @@ var SubModelWeapon = {
 		s.weight_launch_lbm = 0;
 		s.trigger = trigger;
 		s.triggerNode = nil;
+		s.podSubModelTrigger = podSubModelTrigger;
 		s.active = 0;
 		s.alternate = alternate;
 		s.timer = nil;
@@ -643,6 +645,7 @@ var SubModelWeapon = {
 
 	mount: func(pylon) {
 		me.reloadAmmo();
+		me.loadPodSubModels(1);
 		#if (me.timer != nil and me.timer.isRunning) me.timer.stop();
 		#me.timer = nil;
 		me.timer = 1;#maketimer(0.1, me, func me.loop());
@@ -659,6 +662,7 @@ var SubModelWeapon = {
 			me.timer = nil;
 			me.trigger.unalias();
 			me.trigger.setBoolValue(0);
+			me.ejectPodSubModels();
 		}
 	},
 
@@ -667,6 +671,7 @@ var SubModelWeapon = {
 		me.timer = nil;
 		me.trigger.unalias();
 		me.trigger.setBoolValue(0);
+		me.loadPodSubModels(0);
 	},
 
 	getAmmo: func () {
@@ -682,6 +687,22 @@ var SubModelWeapon = {
 		for(me.i = 0;me.i<size(me.subModelNumbers);me.i+=1) {
 			setprop("ai/submodels/submodel["~me.subModelNumbers[me.i]~"]/count", me.maxAmmo);
 		}
+	},
+
+	loadPodSubModels: func(count) {
+		if (me.podSubModelNumbers == nil) return;
+		foreach(me.submodel; me.podSubModelNumbers) {
+			setprop("ai/submodels/submodel["~me.submodel~"]/count", count);
+		}
+	},
+
+	ejectPodSubModels: func {
+		if (me.podSubModelTrigger == nil) return;
+
+		me.podSubModelTrigger.setBoolValue(1);
+		me.podTimer = maketimer(0, me, func { me.podSubModelTrigger.setBoolValue(0); });
+		me.podTimer.singleShot = 1;
+		me.podTimer.start();
 	},
 };
 
