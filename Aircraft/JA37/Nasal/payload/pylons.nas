@@ -103,7 +103,7 @@ var load_options_pylon = func(pylon, name) {
 var sets = {};
 
 # Use indices for load_options to define sets.
-sets[STATIONS.C7] = ["none", "tank"];
+sets[STATIONS.C7] = ["tank", "none"];
 
 if (getprop("/ja37/systems/variant") == 0) {
     sets[STATIONS.V7V] = sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb71", "rb99", "m70"];
