@@ -75,7 +75,7 @@ var M75 = stations.SubModelWeapon.new(
     FALSE, can_fire);
 
 
-var tank = stations.FuelTank.new("Drop tank", "tank", 8, 275, "/payload/weight[6]/drop-tank");
+var tank = stations.FuelTank.new("Drop tank", "tank", 8, 275, "/consumables/fuel/tank[8]/mounted");
 
 
 

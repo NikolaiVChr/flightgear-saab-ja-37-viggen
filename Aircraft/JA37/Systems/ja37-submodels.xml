@@ -380,7 +380,7 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.5</cd>        
+        <cd>0.5</cd>
         <eda>2.112</eda>
         <weight>794</weight>
         <wind>true</wind>
@@ -404,7 +404,7 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.5</cd>        
+        <cd>0.5</cd>
         <eda>2.112</eda>
         <weight>794</weight>
         <wind>true</wind>
@@ -428,7 +428,7 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.5</cd>        
+        <cd>0.5</cd>
         <eda>2.112</eda>
         <weight>794</weight>
         <wind>true</wind>
@@ -452,7 +452,7 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.5</cd>        
+        <cd>0.5</cd>
         <eda>2.112</eda>
         <weight>794</weight>
         <wind>true</wind>

@@ -46,8 +46,7 @@
 
       ### Drop tank
       var on_droptank_request = func {
-      var b = getprop("/payload/weight[6]/drop-tank");
-          b = loadout.set_droptank(b);
+          loadout.set_droptank(getprop("/consumables/fuel/tank[8]/mounted"));
           settimer(update_fuel_slider, 0);
       }
     </open>
@@ -118,7 +117,7 @@
 
     <checkbox>
       <label>External fuel tank</label>
-      <property>/payload/weight[6]/drop-tank</property>
+      <property>/consumables/fuel/tank[8]/mounted</property>
       <live>true</live>
       <enable>/ja37/reload-allowed</enable>
       <binding>

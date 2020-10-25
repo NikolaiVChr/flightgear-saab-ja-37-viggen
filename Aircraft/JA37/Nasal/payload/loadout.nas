@@ -7,7 +7,7 @@ var FALSE = 0;
 var input = {
     payload:    "payload",
     fuel:       "consumables/fuel",
-    drop_tank:  "payload/weight[6]/drop-tank",
+    drop_tank:  "consumables/fuel/tank[8]/mounted",
 };
 
 foreach(var name; keys(input)) {

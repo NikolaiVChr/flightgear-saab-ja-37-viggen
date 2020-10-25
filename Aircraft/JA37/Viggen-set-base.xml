@@ -421,14 +421,14 @@
                 <short n="1" alias="/ja37/effect/formation-light"/>
                 <short n="2" alias="/ja37/effect/rear-navigation-light"/>
                 <!-- Stores -->
-                <short n="8" alias="/payload/armament/station/id-1-type-id"/>    <!-- left wing -->
-                <short n="9" alias="/payload/armament/station/id-2-type-id"/>    <!-- left fuselage -->
-                <short n="10" alias="/payload/armament/station/id-3-type-id"/>   <!-- right wing -->
-                <short n="11" alias="/payload/armament/station/id-4-type-id"/>   <!-- right fuselage -->
+                <short n="8" alias="/payload/armament/station/id-1-type-id"/>   <!-- left wing -->
+                <short n="9" alias="/payload/armament/station/id-2-type-id"/>   <!-- left fuselage -->
+                <short n="10" alias="/payload/armament/station/id-3-type-id"/>  <!-- right wing -->
+                <short n="11" alias="/payload/armament/station/id-4-type-id"/>  <!-- right fuselage -->
                 <!-- booleans for outer pylons because they can only mount a rb24/rb74 -->
                 <bool n="6" alias="/payload/armament/station/id-5-count"/>      <!-- outer left wing -->
                 <bool n="7" alias="/payload/armament/station/id-6-count"/>      <!-- outer right wing -->
-                <bool n="8" alias="/payload/weight[6]/drop-tank"/>              <!-- drop tank -->
+                <bool n="8" alias="/consumables/fuel/tank[8]/mounted"/>         <!-- drop tank -->
                 <!-- m71 ammo -->
                 <short n="4" alias="/payload/armament/station/id-1-count"/>
                 <short n="5" alias="/payload/armament/station/id-2-count"/>
@@ -1381,6 +1381,7 @@
             <tank n="8">
                 <name>Drop tank</name>
                 <jettisoned type="bool">false</jettisoned>
+                <mounted type="bool">true</mounted>
             </tank>
         </fuel>
     </consumables>
@@ -1588,9 +1589,6 @@
             <msg type="bool">false</msg>
             <damage type="bool">false</damage>
         </armament>
-        <weight n="6">
-            <drop-tank type="bool">false</drop-tank>
-        </weight>
         <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
             <name type="string">Pilot</name>
             <weight-lb type="double">158.7328</weight-lb>
