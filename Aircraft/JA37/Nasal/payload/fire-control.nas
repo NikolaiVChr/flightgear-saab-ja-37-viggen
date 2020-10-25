@@ -225,7 +225,7 @@ var Missile = {
     set_trigger: func(trigger) {
         if (!me.armed() or !trigger or me.weapon == nil) return;
 
-        if (!me.weapon.status == armament.MISSILE_LOCK) return;
+        if (me.weapon.status != armament.MISSILE_LOCK) return;
 
         var callsign = me.weapon.callsign;
         var brevity = me.weapon.brevity;
