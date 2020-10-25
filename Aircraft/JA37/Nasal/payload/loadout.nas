@@ -127,7 +127,7 @@ var AJ_loadouts = [
 # Load a pylon. 'pylon' is the pylon number (see above), and 'option' is the
 # loadout option name (weapon), as defined in pylons.load_options
 var load_pylon = func(pylon, option) {
-    pylons.pylons[pylon].loadSet(pylons.load_options(pylon, option));
+    pylons.pylons[pylon].loadSet(pylons.load_options_pylon(pylon, option));
 }
 
 # Select a loadout
@@ -245,8 +245,8 @@ var set_droptank = func(b) {
         return input.drop_tank.getBoolValue();
     }
 
-    if(b) load_pylon(pylons.STATIONS.C7, pylons.load_options_table.tank);
-    else load_pylon(pylons.STATIONS.C7, pylons.load_options_table.none);
+    if(b) load_pylon(pylons.STATIONS.C7, "tank");
+    else load_pylon(pylons.STATIONS.C7, "none");
     return b;
 }
 

@@ -366,13 +366,13 @@
     </submodel>
 
     <submodel><!-- submodel 14 -->
-        <name>M70 rocket pod0</name>        <!-- left wing -->
+        <name>M70 rocket pod1</name>        <!-- left wing -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
-        <trigger>ja37/effect/pod0</trigger>
+        <trigger>ja37/effect/pod[1]</trigger>
         <speed>0</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
-        <count>0</count>
+        <delay>0</delay>
+        <count>1</count>
         <y-offset> -9.02</y-offset><!-- in feet -->
         <z-offset> -4.92</z-offset>
         <x-offset> -7.22</x-offset>
@@ -386,16 +386,17 @@
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
+        <impact>true</impact>
     </submodel>
 
     <submodel>
-        <name>M70 rocket pod1</name>        <!-- left fuselage -->
+        <name>M70 rocket pod2</name>        <!-- left fuselage -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
-        <trigger>ja37/effect/pod1</trigger>
+        <trigger>ja37/effect/pod[2]</trigger>
         <speed>0</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
-        <count>0</count>
+        <delay>0</delay>
+        <count>1</count>
         <y-offset> -3.12</y-offset>
         <z-offset> -5.82</z-offset>
         <x-offset> -3.28</x-offset>
@@ -409,16 +410,17 @@
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
+        <impact>true</impact>
     </submodel>
 
     <submodel>
-        <name>M70 rocket pod2</name>        <!-- right wing -->
+        <name>M70 rocket pod3</name>        <!-- right wing -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
-        <trigger>ja37/effect/pod2</trigger>
+        <trigger>ja37/effect/pod[3]</trigger>
         <speed>0</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
-        <count>0</count>
+        <delay>0</delay>
+        <count>1</count>
         <y-offset>  9.02</y-offset><!-- in feet -->
         <z-offset> -4.92</z-offset>
         <x-offset> -7.22</x-offset>
@@ -432,16 +434,17 @@
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
+        <impact>true</impact>
     </submodel>
 
     <submodel>
-        <name>M70 rocket pod3</name>        <!-- right fuselage -->
+        <name>M70 rocket pod4</name>        <!-- right fuselage -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
-        <trigger>ja37/effect/pod3</trigger>
+        <trigger>ja37/effect/pod[4]</trigger>
         <speed>0</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
-        <count>0</count>
+        <delay>0</delay>
+        <count>1</count>
         <y-offset>  3.12</y-offset>
         <z-offset> -5.82</z-offset>
         <x-offset> -3.28</x-offset>
@@ -455,5 +458,6 @@
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
+        <impact>true</impact>
     </submodel>
 </PropertyList>

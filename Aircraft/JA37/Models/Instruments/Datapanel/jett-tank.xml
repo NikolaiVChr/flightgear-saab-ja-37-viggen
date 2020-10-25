@@ -24,7 +24,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>armament.drop();</script>
+				<script>pylons.jettison_tank();</script>
 			</binding>
 		</action>
 		<hovered>

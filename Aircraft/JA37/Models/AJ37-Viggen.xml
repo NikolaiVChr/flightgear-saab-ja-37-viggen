@@ -70,7 +70,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>5</value>
       </equals>
     </condition>
@@ -92,7 +92,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>5</value>
       </equals>
     </condition>
@@ -116,7 +116,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>12</value>
       </equals>
     </condition>
@@ -139,7 +139,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>12</value>
       </equals>
     </condition>
@@ -164,11 +164,11 @@
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <or>
         <equals>
-          <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+          <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
           <value>9</value>
         </equals>
         <equals>
-          <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+          <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
           <value>10</value>
         </equals>
       </or>
@@ -191,12 +191,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -217,12 +217,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -243,7 +243,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
@@ -269,12 +269,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -295,12 +295,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -321,12 +321,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -347,7 +347,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
@@ -373,12 +373,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -400,11 +400,11 @@
     <condition>
       <or>
         <equals>
-          <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+          <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
           <value>9</value>
         </equals>
         <equals>
-          <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+          <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
           <value>10</value>
         </equals>
       </or>
@@ -426,12 +426,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -451,12 +451,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -476,7 +476,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
@@ -501,12 +501,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -526,12 +526,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -551,12 +551,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -576,7 +576,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
@@ -601,12 +601,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -629,11 +629,11 @@
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <or>
         <equals>
-          <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+          <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
           <value>9</value>
         </equals>
         <equals>
-          <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+          <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
           <value>10</value>
         </equals>
       </or>
@@ -656,12 +656,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -682,12 +682,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -708,7 +708,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
@@ -734,12 +734,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -760,12 +760,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -786,12 +786,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -812,7 +812,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
@@ -838,12 +838,12 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -866,11 +866,11 @@
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <or>
         <equals>
-          <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+          <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
           <value>9</value>
         </equals>
         <equals>
-          <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+          <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
           <value>10</value>
         </equals>
       </or>
@@ -892,12 +892,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -917,12 +917,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -942,7 +942,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
@@ -967,12 +967,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>9</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -992,12 +992,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>0</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -1017,12 +1017,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>1</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -1042,7 +1042,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
@@ -1067,12 +1067,12 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>10</value>
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -1095,7 +1095,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>8</value>
       </equals>
     </condition>
@@ -1118,7 +1118,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>8</value>
       </equals>
     </condition>
@@ -1142,7 +1142,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>4</value>
       </equals>
     </condition>
@@ -1165,7 +1165,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>4</value>
       </equals>
     </condition>
@@ -1188,7 +1188,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>6</value>
       </equals>
     </condition>
@@ -1210,7 +1210,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>6</value>
       </equals>
     </condition>
@@ -1235,7 +1235,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>7</value>
       </equals>
     </condition>
@@ -1258,7 +1258,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>7</value>
       </equals>
     </condition>
@@ -1281,7 +1281,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>7</value>
       </equals>
     </condition>
@@ -1303,7 +1303,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>7</value>
       </equals>
     </condition>
@@ -4072,7 +4072,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>1</value>
       </equals>
     </condition>
@@ -4083,7 +4083,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>1</value>
       </equals>
     </condition>
@@ -4095,7 +4095,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>1</value>
       </equals>
     </condition>
@@ -4106,7 +4106,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>1</value>
       </equals>
     </condition>
@@ -4147,7 +4147,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-set-id -->
+        <property>sim/multiplay/generic/short[8]</property><!-- payload/armament/station/id-1-type-id -->
         <value>11</value>
       </equals>
     </condition>
@@ -4168,7 +4168,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-set-id -->
+        <property>sim/multiplay/generic/short[9]</property><!-- payload/armament/station/id-2-type-id -->
         <value>11</value>
       </equals>
     </condition>
@@ -4190,7 +4190,7 @@
     <condition>
       <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
       <equals>
-        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-set-id -->
+        <property>sim/multiplay/generic/short[10]</property><!-- payload/armament/station/id-3-type-id -->
         <value>11</value>
       </equals>
     </condition>
@@ -4211,7 +4211,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-set-id -->
+        <property>sim/multiplay/generic/short[11]</property><!-- payload/armament/station/id-4-type-id -->
         <value>11</value>
       </equals>
     </condition>
