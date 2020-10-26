@@ -486,6 +486,7 @@
         <weight-warhead-lbs type="double">200</weight-warhead-lbs>   <!-- guess -->
         <drag-coeff type="double">0.08</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
         <delta-drag-coeff-deploy type="double">1.0</delta-drag-coeff-deploy>  <!-- for drag chute -->
+        <deploy-time type="double">1.0</deploy-time>
         <cross-section-sqft type="double">1.95</cross-section-sqft>
         <arming-time-sec type="double">4.0</arming-time-sec>                  <!-- source -->
         <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
