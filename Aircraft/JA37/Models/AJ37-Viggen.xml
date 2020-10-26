@@ -1828,12 +1828,7 @@
    <object-name>mirrorholder</object-name>
    <object-name>mirrorreflect</object-name>
    <condition>
-     <or>
-       <!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
-       <property>sim/multiplay/generic/bool[13]</property>
-       <!-- backwards compatibility -->
-       <property>sim/multiplay/generic/int[1]</property>
-     </or>
+     <property>sim/multiplay/generic/bool[13]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
    </condition>
  </animation>
 

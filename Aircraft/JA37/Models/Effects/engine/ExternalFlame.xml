@@ -28,20 +28,10 @@
     <object-name>ExternalFlamePoly</object-name>
     <nopreview/>
     <condition>
-     <or>
-       <!-- engines/engine/augmentation -->
-       <property>sim/multiplay/generic/bool[10]</property>
-       <!-- backwards compatibility -->
-       <property>sim/multiplay/generic/int[4]</property>
-     </or>
+     <property>sim/multiplay/generic/bool[10]</property><!-- engines/engine/augmentation -->
      <not>
        <property>/sim/rendering/shaders/skydome</property><!-- als -->
-       <or>
-         <!-- engines/engine/is-reversed -->
-         <property>sim/multiplay/generic/bool[11]</property>
-         <!-- backwards compatibility -->
-         <property>sim/multiplay/generic/int[8]</property>
-       </or>
+       <property>sim/multiplay/generic/bool[11]</property><!-- engines/engine/is-reversed -->
      </not>
     </condition>
   </animation>

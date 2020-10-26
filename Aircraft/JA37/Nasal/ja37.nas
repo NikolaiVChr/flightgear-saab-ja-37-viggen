@@ -1,11 +1,5 @@
 # $Id$
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
-var encode3bits = func(first, second, third) {
-  var integer = first;
-  integer = integer + 2 * second;
-  integer = integer + 4 * third;
-  return integer;
-}
 
 var LOOP_SLOW_RATE     = 1.50;
 
@@ -99,8 +93,6 @@ input = {
   mass6:            "fdm/jsbsim/inertia/pointmass-weight-lbs[6]",
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
-  MPint17:          "sim/multiplay/generic/int[17]",
-  MPint18:          "sim/multiplay/generic/int[18]",
   MPbool4:          "sim/multiplay/generic/bool[4]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
@@ -293,7 +285,6 @@ var Saab37 = {
     me.d_smoke = !input.servFire.getValue()+input.damage.getValue();
     input.damageSmoke.setValue(me.d_smoke);
     input.MPbool4.setValue(me.contrails);
-    input.MPint18.setIntValue(encode3bits(me.contrails, me.d_smoke, 0));
 
     # smoke
     if (power.prop.dcMainBool.getValue()) {
@@ -417,12 +408,6 @@ var Saab37 = {
     me.real_speed = math.sqrt((me.horz_speed * me.horz_speed) + (me.vert_speed * me.vert_speed));
     me.real_speed = me.real_speed * FPS2KT;
     input.g3d.setDoubleValue(me.real_speed);
-
-    # MP gear wow
-    me.wow0 = input.wow0.getValue();
-    me.wow1 = input.wow1.getValue();
-    me.wow2 = input.wow2.getValue();
-    input.MPint17.setIntValue(encode3bits(me.wow0, me.wow1, me.wow2));
 
     # environment volume
     me.canopy = input.canopyHinge.getValue() == FALSE?1:input.canopyPos.getValue();

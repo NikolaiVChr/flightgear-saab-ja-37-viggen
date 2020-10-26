@@ -365,9 +365,6 @@
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[17]  = wow bits - deprecated
-                int[18]  = contrails and damage smoke bits - deprecated
-                int[19]  = outer pylons sidewinders and canard tip vapour bits - deprecated
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
@@ -381,25 +378,22 @@
                 rotors/main/blade[3]/flap-deg      = flares
 
                 used up to:
-                int[19], short[11], bool[22], float[19]
+                int[2], short[11], bool[22], float[19]
 
                 unused:
-                int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
+                int[1]
                 float[1], float[4], float[6], float[8], float[10-15], float[18]
                 bool[15-19]
              -->
             <generic>
                 <!-- effects -->
                 <short n="3" alias="/ja37/effect/smoke"/>                       <!-- airshow smoke -->
-                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke - deprecated -->
                 <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
                 <bool n="4"/>                                                   <!-- contrail - nasal -->
                 <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
                 <bool n="14" alias="/damage/sounds/explode-on"/>                <!-- aircraft explosion -->
-                <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- explosion - deprecated -->
                 <bool n="12" alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- broken wing -->
-                <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/> <!-- detached canopy -->
-                <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy - deprecated-->
+                <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/><!-- detached canopy -->
                 <int n="2" type="int">0</int>                                   <!-- radar - nasal -->
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
@@ -412,9 +406,6 @@
                 <bool n="9" alias="/engines/engine/running"/>                   <!-- used for engine animations -->
                 <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used for engine flame -->
                 <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
-                <int n="3" alias="/engines/engine/running"/>                    <!-- used in MP sound - deprecated -->
-                <int n="4" alias="/engines/engine[0]/augmentation"/>            <!-- used in MP sound - deprecated -->
-                <int n="8" alias="/engines/engine[0]/is-reversed"/>             <!-- to animate afterburnerflame - deprecated -->
                 <float n="9"/>                                                  <!-- inverted scene red color -->
                 <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- nose wheel steering -->
                 <!-- Animating light -->

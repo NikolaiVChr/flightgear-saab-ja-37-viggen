@@ -35,12 +35,8 @@
 	                <property>/sim/rendering/shaders/skydome</property>
 	                <value>1</value>
 				</equals>
-                <or>
-                    <!-- consumables/fuel/tank[8]/jettisoned -->
-                    <not><property>sim/multiplay/generic/bool[8]</property></not>
-                    <!-- backwards compatibility -->
-                    <not><property>sim/multiplay/generic/int[16]</property></not>
-                </or>
+                <not><property>sim/multiplay/generic/bool[8]</property></not>
+                <!-- consumables/fuel/tank[8]/jettisoned -->
         </condition>
     </animation>
 

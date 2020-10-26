@@ -7,26 +7,7 @@
    <lighting type="bool">false</lighting><!-- sadly have to be false, since the polygons are not double sided -->
    
    <condition>
-     <or>
-       <property>sim/multiplay/generic/bool[5]</property> <!-- fdm/jsbsim/effects/wingtip-vapour -->
-       <!-- backwards compatibility - vapour: bit 3 -->
-       <equals>
-         <property>sim/multiplay/generic/int[19]</property>
-         <value>4</value>
-       </equals>
-       <equals>
-         <property>sim/multiplay/generic/int[19]</property>
-         <value>5</value>
-       </equals>
-       <equals>
-         <property>sim/multiplay/generic/int[19]</property>
-         <value>6</value>
-       </equals>
-       <equals>
-         <property>sim/multiplay/generic/int[19]</property>
-         <value>7</value>
-       </equals>
-     </or>
+     <property>sim/multiplay/generic/bool[5]</property> <!-- fdm/jsbsim/effects/wingtip-vapour -->
    </condition>
  
    <attach>local</attach>
