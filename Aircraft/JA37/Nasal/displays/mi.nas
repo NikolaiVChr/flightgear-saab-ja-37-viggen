@@ -144,7 +144,6 @@ var MI = {
 			fpv_up:               "instrumentation/fpv/angle-up-stab-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-stab-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
-			station:          	  "controls/armament/station-select-custom",
 			roll:             	  "orientation/roll-deg",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",

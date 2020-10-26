@@ -876,16 +876,11 @@ var Saab37 = {
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
     me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
 
-    # stores
-    armament.main_weapons();
-    me.loop_stores   = maketimer(0.29, me, func armament.loop_stores());#0.05
- 
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_land.start();
     me.loop_nav.start();
-    #me.loop_stores.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
@@ -991,16 +986,11 @@ var Saab37 = {
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
 
-    # stores
-    armament.main_weapons();
-    me.loop_stores   = maketimer(0.29, me, func {timer.timeLoop("stores", armament.loop_stores,me);});#0.05
- 
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_land.start();
     me.loop_nav.start();
-    me.loop_stores.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();

@@ -1068,7 +1068,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         towerLon:         "sim/tower/longitude-deg",
         tracks_enabled:   "ja37/hud/tracks-enabled",
         units:            "ja37/hud/units-metric",
-        unsafe:           "controls/armament/trigger-unsafe",
         viewNumber:       "sim/current-view/view-number",
         viewX:            "sim/current-view/x-offset-m",
         viewY:            "sim/current-view/y-offset-m",
@@ -2001,7 +2000,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.reticle_c_missile.hide();
       } elsif (cannon) {
         me.showSidewind(FALSE);
-        if (me.input.unsafe.getBoolValue()) {
+        if (fire_control.selected.unsafe) {
           me.reticle_cannon.setTranslation(0, centerOffset);
           me.reticle_cannon.show();
         } else {
@@ -2017,7 +2016,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           air2air = FALSE;
           air2ground = TRUE;
           me.showSidewind(FALSE);
-          if (me.input.unsafe.getBoolValue()) {
+          if (fire_control.selected.unsafe) {
             me.reticle_cannon.setTranslation(0, centerOffset);
             me.reticle_cannon.show();
           } else {
@@ -2455,7 +2454,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   
   displayGunPipper: func {
     var eegsShow = 0;
-    if(me.cannon) {
+    if(me.cannon and fire_control.selected.unsafe) {
         eegsShow = 1;
     }
     me.eegsGroup.setVisible(eegsShow);
