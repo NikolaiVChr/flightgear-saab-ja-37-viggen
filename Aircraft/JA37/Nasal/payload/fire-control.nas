@@ -98,7 +98,7 @@ var WeaponLogic = {
 
     weapon_ready: func { return FALSE; },
 
-    get_ammo: func { return 0; },
+    get_ammo: func { return pylons.get_ammo(me.type); },
 
     # Return the active weapon (object from missile.nas), when it makes sense.
     get_weapon: func { return nil; },
@@ -258,8 +258,6 @@ var Missile = {
 
     weapon_ready: func { return me.weapon != nil; },
 
-    get_ammo: func { return pylons.get_ammo(me.type); },
-
     get_selected_pylons: func { return [me.selected]; },
 };
 
@@ -374,14 +372,6 @@ var SubModelWeapon = {
         }
     },
 
-    get_ammo: func {
-        var count = 0;
-        foreach(var weapon; me.weapons) {
-            count += weapon.getAmmo();
-        }
-        return count;
-    },
-
     weapon_ready: func {
         return me.get_ammo() > 0;
     },
@@ -390,6 +380,120 @@ var SubModelWeapon = {
         return me.selected;
     },
 };
+
+
+var Bomb = {
+    parents: [WeaponLogic],
+
+    release_interval: 0.08,
+
+    release_order: [],
+
+    new: func(type) {
+        var w = { parents: [Bomb], };
+        w.init(type);
+        w.positions = [];
+        w.next_pos = 0;
+        w.next_weapon = nil;
+
+        # Release order: fuselage L/R alternating, then wing L/R alternating.
+        for(var i=0; i<4; i+=1) {
+            append(w.release_order, [STATIONS.S7V, i]);
+            append(w.release_order, [STATIONS.S7H, i]);
+        }
+        for(var i=0; i<4; i+=1) {
+            append(w.release_order, [STATIONS.V7V, i]);
+            append(w.release_order, [STATIONS.V7H, i]);
+        }
+
+        w.drop_bomb_timer = maketimer(w.release_interval, w, w.drop_next_bomb);
+        w.simulatedTime = TRUE;
+        w.singleShot = FALSE;
+        return w;
+    },
+
+    select: func(pylon=nil) {
+        me.weapons = [];
+
+        foreach(var pos; me.release_order) {
+            if (me.is_pos_loaded(pos)) append(me.positions, pos);
+        }
+
+        if (size(me.positions) == 0) {
+            me.deselect();
+            return FALSE;
+        } else {
+            me.next_pos = 0;
+            me.next_weapon = me.get_bomb_pos(me.positions[0]);
+            me.update_combat();
+            return TRUE;
+        }
+    },
+
+    deselect: func {
+        me.set_unsafe(FALSE);
+        me.set_combat(FALSE);
+        me.positions = [];
+        me.next_pos = 0;
+        me.next_weapon = nil;
+    },
+
+    cycle_selection: func {},
+
+    is_pos_loaded: func (pos) {
+        return pylons.is_loaded_with(pos[0], me.type) and pylons.station_by_id(pos[0]).getWeapons()[pos[1]] != nil;
+    },
+
+    drop_bomb_pos: func (pos) {
+        pylons.station_by_id(pos[0]).fireWeapon(pos[1], radar_logic.complete_list);
+    },
+
+    get_bomb_pos: func (pos) {
+        return pylons.station_by_id(pos[0]).getWeapons()[pos[1]];
+    },
+
+    drop_next_bomb: func {
+        me.drop_bomb_pos(me.positions[me.next_pos]);
+
+        me.next_pos += 1;
+        if (me.next_pos < size(me.positions)) {
+            me.next_weapon = me.get_bomb_pos(me.positions[me.next_pos]);
+        } else {
+            me.drop_bomb_timer.stop();
+        }
+    },
+
+    set_trigger: func(trigger) {
+        if (!me.armed() or !me.weapon_ready()) trigger = FALSE;
+
+        if (trigger) {
+            var brevity = me.next_weapon.brevity;
+            if (input.mp_msg.getBoolValue()) {
+                armament.defeatSpamFilter(brevity);
+            } else {
+                input.atc_msg.setValue(brevity);
+            }
+
+            me.drop_bomb_timer.start();
+        } else {
+            me.drop_bomb_timer.stop();
+        }
+    },
+
+    weapon_ready: func {
+        return me.next_pos < size(me.positions);
+    },
+
+    # Return the active weapon (object from missile.nas), when it makes sense.
+    get_weapon: func {
+        return me.next_weapon;
+    },
+
+    get_selected_pylons: func {
+        return [];
+    },
+};
+
 
 
 ### Selected weapon type.
@@ -418,6 +522,8 @@ if (variant.JA) {
         Missile.new("RB-75"),
         Rb05,
         Missile.new("M90"),
+        Bomb.new("M71"),
+        Bomb.new("M71R"),
     ];
 
     var IRRB = [0, 1, 2];
