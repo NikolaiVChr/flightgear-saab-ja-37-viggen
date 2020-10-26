@@ -1813,7 +1813,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     if (mode == modes.LANDING or (me.input.rad_alt_ready.getBoolValue() and me.input.rad_alt.getValue()*FT2M > 1000)) {
       # page 368 in JA37Di manual (small).
       me.displayGS = FALSE;
-    } elsif (getprop("ja37/systems/variant") == 0) {
+    } elsif (ja37.variant_ja) {
       #JA-37Di
       me.displayGS = TI.ti.ModeAttack;# in JA speed type can be selected on TI display
     }
@@ -2825,7 +2825,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           } else {
             me.diamond_dist.setText(sprintf("%02d", me.diamond_dista/1000));
           }
-          if (getprop("ja37/systems/variant") > 0) {
+          if (!ja37.variant_ja) {
             # only show names in HUD on the AJ variants as they lack the MI display.
             if (me.input.callsign.getValue() == TRUE) {
               me.diamond_name.setText(me.selection.get_Callsign());
@@ -2923,7 +2923,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.diamond_name.setAlignment("left-bottom");
             me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
           }
-          if (getprop("ja37/systems/variant") > 0) {
+          if (!ja37.variant_ja) {
             # only show names in HUD on the AJ variants as they lack the MI display.
             if (me.input.callsign.getValue() == TRUE) {
               me.diamond_name.setText(me.selection.get_Callsign());

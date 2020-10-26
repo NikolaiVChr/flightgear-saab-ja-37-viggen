@@ -2,9 +2,6 @@ var TRUE = 1;
 var FALSE = 0;
 
 
-var is_ja = (getprop("/ja37/systems/variant") == 0);
-
-
 var find_index = func(val, vec) {
     forindex(var i; vec) if (vec[i] == val) return i;
     return nil;
@@ -32,7 +29,7 @@ var STATIONS = pylons.STATIONS;
 var M75 = 0;
 
 var stations_list = keys(STATIONS);
-if (is_ja) append(stations_list, M75);
+if (ja37.variant_ja) append(stations_list, M75);
 
 
 # Pylon lookup functions
@@ -199,7 +196,7 @@ var Missile = {
 
                 # IR weapons parameters. For AJS, locked on bore.
                 # I'm not sure about the JA, keeping it simple to use for now.
-                if (!is_ja and me.weapon.guidance == "heat") {
+                if (!ja37.variant_ja and me.weapon.guidance == "heat") {
                     me.weapon.setAutoUncage(FALSE);
                     me.weapon.setCaged(TRUE);
                     me.weapon.setBore(TRUE);
@@ -238,7 +235,7 @@ var Missile = {
     },
 
     uncage_IR_seeker: func {
-        if (is_ja or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
+        if (ja37.variant_ja or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
 
         me.weapon.setAutoUncage(TRUE);
@@ -246,7 +243,7 @@ var Missile = {
     },
 
     reset_IR_seeker: func {
-        if (is_ja or me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        if (ja37.variant_ja or me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
 
         me.weapon.stop();
         me.weapon.start();
@@ -354,7 +351,7 @@ var SubModelWeapon = {
 
 
 ### Selected weapon type.
-if (is_ja) {
+if (ja37.variant_ja) {
     var weapons = [
         Missile.new("RB-74"),
         Missile.new("RB-99"),
@@ -391,7 +388,7 @@ var selected = nil;
 var _set_selected_index = func(index) {
     selected_index = index;
     if (index >= 0) selected = weapons[index];
-    elsif (index == -1 and is_ja) selected = internal_gun;
+    elsif (index == -1 and ja37.variant_ja) selected = internal_gun;
     else selected = nil;
 }
 

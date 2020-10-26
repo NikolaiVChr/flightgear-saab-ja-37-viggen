@@ -139,7 +139,7 @@ var set_loadout = func(loadout) {
 
 # Reload internal stuff
 var reload_internal = func() {
-    if(getprop("ja37/systems/variant") == 0) {
+    if(ja37.variant_ja) {
         pylons.M75station.reloadCurrentSet();
     }
 
@@ -271,7 +271,7 @@ var print_reload_message = func {
         screen.log.write("All external weapons removed", 0.0, 1.0, 0.0);
     }
 
-    if(getprop("/ja37/systems/variant") == 0) {
+    if(ja37.variant_ja) {
         var cannon_rounds = getprop("ai/submodels/submodel[3]/count");
         screen.log.write(cannon_rounds ~ " cannon rounds loaded", 0.0, 1.0, 0.0);
     }
@@ -312,8 +312,7 @@ var Dialog = {
     init: func {
         me.prop = props.globals.getNode("/sim/gui/dialogs/loadout/dialog", 1);
         me.path = "Aircraft/JA37/gui/dialogs/loadout.xml";
-        var variant = getprop("/ja37/systems/variant");
-        me.loadouts = (variant == 0) ? JA_loadouts : (variant == 2) ? AJS_loadouts : AJ_loadouts;
+        me.loadouts = (ja37.variant == ja37.JA) ? JA_loadouts : (ja37.variant == ja37.AJS) ? AJS_loadouts : AJ_loadouts;
         me.state = 0;
         me.listener = setlistener("/sim/signals/reinit-gui", func me.init_dialog(), 1);
     },

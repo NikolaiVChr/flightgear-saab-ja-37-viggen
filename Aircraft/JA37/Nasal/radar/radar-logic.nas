@@ -6,7 +6,7 @@ var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
-var is_ja = (getprop("ja37/systems/variant") == 0);
+var is_ja = (ja37.variant_ja);
 var maxRadarRange = 120000; #meters
 var radarRange = maxRadarRange;
 var rwrRange = 200000;

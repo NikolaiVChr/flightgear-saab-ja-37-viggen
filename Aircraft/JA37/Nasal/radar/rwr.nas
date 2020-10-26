@@ -18,7 +18,7 @@ input.beeps = props.globals.getNode("instrumentation/rwr/sound").getChildren("be
 input.beeps_freq = props.globals.getNode("instrumentation/rwr/sound").getChildren("freq");
 input.beeps_vol = props.globals.getNode("instrumentation/rwr/sound").getChildren("vol");
 
-var is_ja = (getprop("/ja37/systems/variant") == 0);
+var is_ja = (ja37.variant_ja);
 
 
 

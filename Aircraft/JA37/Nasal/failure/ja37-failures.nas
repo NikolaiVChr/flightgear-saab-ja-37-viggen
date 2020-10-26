@@ -234,7 +234,7 @@ var install_failures = func {
     var actuator_annunciator = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Annunciator", actuator_annunciator);
 
-    if (getprop("/ja37/systems/variant") != 0) {
+    if (!ja37.variant_ja) {
         prop = "sim/failure-manager/controls/flight/speedbrake";
         var actuator_speedbrake = compat_failure_modes.set_unserviceable(prop);
         FailureMgr.add_failure_mode("controls/flight/speedbrakes", "Speedbrakes", actuator_speedbrake);
