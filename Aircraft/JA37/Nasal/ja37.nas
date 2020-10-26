@@ -20,6 +20,8 @@ var MISSILE_SEARCH = 0;
 var MISSILE_LOCK = 1;
 var MISSILE_FLYING = 2;
 
+var flareCount = -1;
+var flareStart = -1;
 
 ############### Main loop ###############
 
@@ -445,6 +447,42 @@ var Saab37 = {
     
     me.aural();
     me.headingBug();
+    me.flare();
+  },
+
+  flare: func {
+    # Flare/chaff release
+    var flareCmd = getprop("ai/submodels/submodel[0]/flare-release-cmd");
+    if (flareCmd and !getprop("ai/submodels/submodel[0]/flare-release")
+                 and !getprop("ai/submodels/submodel[0]/flare-release-out-snd")
+                 and !getprop("ai/submodels/submodel[0]/flare-release-snd")) {
+      flareCount = getprop("ai/submodels/submodel[0]/count");
+      flareStart = input.elapsed.getValue();
+      if (flareCount > 0) {
+        # release a flare
+        setprop("ai/submodels/submodel[0]/flare-release-snd", TRUE);
+        setprop("ai/submodels/submodel[0]/flare-release", TRUE);
+        setprop("rotors/main/blade[3]/flap-deg", flareStart);
+        setprop("rotors/main/blade[3]/position-deg", flareStart);
+      } else {
+        # play the sound for out of flares
+        setprop("ai/submodels/submodel[0]/flare-release-out-snd", TRUE);
+      }
+    }
+    setprop("ai/submodels/submodel[0]/flare-release-cmd", FALSE);
+    if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1.3) < input.elapsed.getValue()) {
+      setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);# sound sample is 0.7s long
+      setprop("rotors/main/blade[3]/flap-deg", 0);
+      setprop("rotors/main/blade[3]/position-deg", 0);#MP interpolates between numbers, so nil is better than 0.
+    }
+    if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 2) < input.elapsed.getValue()) {
+      setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);#sound sample is 1.4s long
+    }
+    if (flareCount > getprop("ai/submodels/submodel[0]/count")) {
+      # A flare was released in last loop, we stop releasing flares, so user have to press button again to release new.
+      setprop("ai/submodels/submodel[0]/flare-release", FALSE);
+      flareCount = -1;
+    }
   },
   
   aural: func {
