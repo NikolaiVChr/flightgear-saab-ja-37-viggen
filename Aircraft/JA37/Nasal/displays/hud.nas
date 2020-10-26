@@ -2636,7 +2636,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displayCCIP: func () {
     if(mode == modes.COMBAT) {
 
-      if (fire_control.selected != nil and (fire_control.selected.type == "M71" or fire_control.selected.type == "M71R")) {
+      if (fire_control.selected != nil and fire_control.selected.unsafe
+          and (fire_control.selected.type == "M71" or fire_control.selected.type == "M71R")) {
         me.bomb = fire_control.get_weapon();
         if (me.bomb == nil) {
           me.ccip_symbol.hide();
