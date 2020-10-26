@@ -185,7 +185,7 @@ var selector_callback = func (node) {
 
 
 ###  Main update function
-var update_mode = ja37.variant_ja ? update_mode_ja : update_mode_ajs;
+var update_mode = variant.JA ? update_mode_ja : update_mode_ajs;
 
 var update = func {
     update_takeoff_allowed();
@@ -194,7 +194,7 @@ var update = func {
 
 
 var initialize = func {
-    if (!ja37.variant_ja) {
+    if (!variant.JA) {
         setlistener(input.selector_ajs, selector_callback, 1, 0);
     }
 };

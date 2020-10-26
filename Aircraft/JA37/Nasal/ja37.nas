@@ -27,12 +27,6 @@ var MISSILE_LOCK = 1;
 var MISSILE_FLYING = 2;
 
 
-var variant = getprop("/ja37/systems/variant");
-var JA = 0;
-var AJ = 1;
-var AJS = 2;
-var variant_ja = (variant == JA);
-
 ############### Main loop ###############
 
 input = {
@@ -312,7 +306,7 @@ var Saab37 = {
     # AJS waypoint name indicator.
     navigation.update_wp_indicator();
 
-    #if(!variant_ja and getprop("/instrumentation/radar/range") == 180000) {
+    #if(!variant.JA and getprop("/instrumentation/radar/range") == 180000) {
     #  setprop("/instrumentation/radar/range", 120000);
     #}
 
@@ -907,7 +901,7 @@ var Saab37 = {
       }
     }
 
-    if (!variant_ja) {
+    if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
       me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
@@ -917,7 +911,7 @@ var Saab37 = {
     # flightplans
     route.poly_start();
 
-    if (variant_ja) {
+    if (variant.JA) {
       # TI
       # must not start looping before route has been init
       TI.setupCanvas();
@@ -946,7 +940,7 @@ var Saab37 = {
     me.loop_hud.start();
     #me.loop_ir.start();
 
-    if (variant_ja) {
+    if (variant.JA) {
       # data-panel
       dap.callInit();
       me.loop_dap  = maketimer(1, me, func dap.loop_main());
@@ -1017,7 +1011,7 @@ var Saab37 = {
       }
     }
 
-    if (!variant_ja) {
+    if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
       me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
@@ -1027,7 +1021,7 @@ var Saab37 = {
     # flightplans
     route.poly_start();
 
-    if (variant_ja) {
+    if (variant.JA) {
       # TI
       # must not start looping before route has been init
       TI.setupCanvas();
@@ -1056,7 +1050,7 @@ var Saab37 = {
     me.loop_hud.start();
     #me.loop_ir.start();
 
-    if (variant_ja) {
+    if (variant.JA) {
       # data-panel
       dap.callInit();
       me.loop_dap  = maketimer(1, me, func {timer.timeLoop("DAP", dap.loop_main,me);});
@@ -1486,7 +1480,7 @@ var autostarttimer = func {
 }
 
 var stopAutostart = func {
-  if (!variant_ja) setprop("/ja37/mode/selector-ajs", 1); # STBY
+  if (!variant.JA) setprop("/ja37/mode/selector-ajs", 1); # STBY
   setprop("/controls/electric/main", FALSE);
   setprop("/controls/electric/battery", FALSE);
   setprop("/controls/engines/engine/throttle", 0);
@@ -1631,7 +1625,7 @@ var final_engine = func () {
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     setprop("/controls/electric/battery", TRUE);
-    if (!ja37.variant_ja) setprop("/ja37/mode/selector-ajs", 2); # NAV
+    if (!variant.JA) setprop("/ja37/mode/selector-ajs", 2); # NAV
     autostarting = FALSE;
   } else {
     settimer(final_engine, 0.5, 1);

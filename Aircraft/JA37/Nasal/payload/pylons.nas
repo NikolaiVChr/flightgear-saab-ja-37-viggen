@@ -35,7 +35,7 @@ var stations_list = [];
 foreach(var pylon; keys(STATIONS)) {
     append(stations_list, STATIONS[pylon]);
 }
-if (ja37.variant_ja) append(stations_list, INT_AKAN);
+if (variant.JA) append(stations_list, INT_AKAN);
 
 
 
@@ -113,11 +113,11 @@ var load_options_pylon = func(pylon, name) {
 var sets = {};
 
 # Use indices for load_options to define sets.
-if (ja37.variant == ja37.JA) {
+if (variant.JA) {
     sets[STATIONS.V7V] = sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb71", "rb99", "m70"];
     sets[STATIONS.S7V] = sets[STATIONS.S7H] = ["none", "rb24j", "rb74", "rb99", "m70"];
     sets[STATIONS.R7V] = sets[STATIONS.R7H] = ["none", "rb24j", "rb74"];
-} elsif (ja37.variant == ja37.AJ) {
+} elsif (variant.AJ) {
     sets[STATIONS.V7V] = sets[STATIONS.V7H] = ["none", "rb04", "m55", "m70", "m71", "m71r"];
     sets[STATIONS.S7V] = sets[STATIONS.S7H] = ["none", "rb24", "rb24j", "rb05", "rb75", "m70", "m71", "m71r"];
     sets[STATIONS.R7V] = sets[STATIONS.R7H] = ["none"];
@@ -165,7 +165,7 @@ foreach(var name; keys(STATIONS)) {
         operable);
 }
 
-if (ja37.variant_ja) {
+if (variant.JA) {
     var M75station = stations.InternalStation.new("M75 AKAN", 0, [load_options.m75],
         input.inertia.getChild("pointmass-weight-lbs", 8, 1), operable);
 }

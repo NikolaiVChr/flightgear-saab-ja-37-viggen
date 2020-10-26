@@ -273,7 +273,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    if (ja37.variant_ja) fire_control.select_cannon();
+                    if (variant.JA) fire_control.select_cannon();
                     else fire_control.select_IRRB();
                     ja37.click();
                 </script>

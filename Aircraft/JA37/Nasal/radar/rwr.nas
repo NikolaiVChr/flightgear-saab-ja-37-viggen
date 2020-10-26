@@ -18,8 +18,6 @@ input.beeps = props.globals.getNode("instrumentation/rwr/sound").getChildren("be
 input.beeps_freq = props.globals.getNode("instrumentation/rwr/sound").getChildren("freq");
 input.beeps_vol = props.globals.getNode("instrumentation/rwr/sound").getChildren("vol");
 
-var is_ja = (ja37.variant_ja);
-
 
 
 ### Sounds
@@ -368,7 +366,7 @@ var update_rwr = func() {
         }
 
         # Sounds
-        if (signal.type == RWR_LAUNCH) sound_incoming = is_ja; # missile launch, JA only
+        if (signal.type == RWR_LAUNCH) sound_incoming = variant.JA; # missile launch, JA only
         elsif (signal.type == RWR_MISSILE) sound_high_prf = TRUE;
         elsif (signal.type == RWR_LOCK or (signal.type == RWR_SCAN and signal.scan_active(time))) {
             # Beep sound.

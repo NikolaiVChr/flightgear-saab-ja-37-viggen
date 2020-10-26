@@ -742,7 +742,7 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 		Polygon.insertSteer = FALSE;
 		Polygon.editDetail  = FALSE;
 		Polygon.dragSteer   = FALSE;
-		if (ja37.variant_ja and TI.ti != nil) {
+		if (variant.JA and TI.ti != nil) {
 			TI.ti.stopDAP();
 		}
 	},
@@ -1280,7 +1280,7 @@ var poly_start = func {
 	# Setup the polygon system for the aircraft.
 	#
 	#removelistener(lsnr);
-	if (ja37.variant_ja) {
+	if (variant.JA) {
 		Polygon.setupJAPolygons();
 	} else {
 		Polygon.setupAJPolygons();

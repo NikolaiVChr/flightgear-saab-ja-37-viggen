@@ -1646,6 +1646,10 @@
 
 *************************************************************************-->
     <nasal>
+        <!-- Should be in first position -->
+        <variant>
+            <file>Aircraft/JA37/Nasal/variant.nas</file>
+        </variant>
         <events>
             <file>Aircraft/JA37/Nasal/events.nas</file>
         </events>
