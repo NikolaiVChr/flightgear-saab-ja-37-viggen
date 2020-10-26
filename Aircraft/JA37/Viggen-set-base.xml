@@ -1728,7 +1728,6 @@
         </pylons>
         <armament>
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
-            <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
         <fire_control>
             <file>Aircraft/JA37/Nasal/payload/fire-control.nas</file>
