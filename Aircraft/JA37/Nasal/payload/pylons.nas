@@ -96,13 +96,13 @@ var load_options = {
     rb05: {name: "RB 05A Attackrobot", content: ["RB-05A"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
     rb75: {name: "RB 75 Maverick", content: ["RB-75"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
     m90: {name: "M90 Bombkapsel", content: ["M90"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m71: {name: "M71 Bomblavett", content: ["M71","M71","M71","M71"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m71r: {name: "M71 Bomblavett (Retarded)", content: ["M71R","M71R","M71R","M71R"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
+    m71: {name: "M71 Bomblavett", content: ["M71","M71","M71","M71"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
+    m71r: {name: "M71 Bomblavett (Retarded)", content: ["M71R","M71R","M71R","M71R"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
     m70: func(pylon) {
-        return {name: "M70 ARAK", content: [make_M70(pylon)], fireOrder: [0], launcherMass: 230, launcherDragArea: 0.0, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1};
+        return {name: "M70 ARAK", content: [make_M70(pylon)], fireOrder: [0], launcherMass: 230, launcherDragArea: 0.4, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1};
     },
     m55: func(pylon) {
-        return {name: "M55 AKAN", content: [make_M55(pylon)], fireOrder: [0], launcherMass: 725, launcherDragArea: 0.0, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1};
+        return {name: "M55 AKAN", content: [make_M55(pylon)], fireOrder: [0], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1};
     },
 };
 

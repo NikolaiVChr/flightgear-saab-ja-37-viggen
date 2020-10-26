@@ -279,9 +279,9 @@
     <pointmass name="Internal gun pod">
       <weight unit="LBS">0</weight>
       <location name="POINTMASS" unit="M">
-        <x>0</x>
-        <y>0</y>
-        <z>0</z>
+        <x>  -1.05893</x>
+        <y>  -0.20322</y>
+        <z> -0.91246</z>
       </location>
     </pointmass>
   </mass_balance>

@@ -844,34 +844,12 @@
                 Left wing pylon axial Coefficient
             </description>
             <product>
+                <property>inertia/pointmass-dragarea-sqft[1]</property>
                 <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table name="aero/table/CA_missile">
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[1]</independentVar>
-                    <tableData>
-                        <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
                 <property>aero/function/stores-wave-drag-factor</property>
             </product>
         </function>
@@ -882,34 +860,12 @@
                Left fuselage pylon axial Coefficient
             </description>
             <product>
+                <property>inertia/pointmass-dragarea-sqft[2]</property>
                 <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table>
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[2]</independentVar>
-                    <tableData>
-                         <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
                 <property>aero/function/stores-wave-drag-factor</property>
             </product>
         </function>
@@ -920,34 +876,12 @@
                Right wing pylon axial Coefficient
             </description>
             <product>
+                <property>inertia/pointmass-dragarea-sqft[3]</property>
                 <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table>
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[3]</independentVar>
-                    <tableData>
-                         <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
                 <property>aero/function/stores-wave-drag-factor</property>
             </product>
         </function>
@@ -958,34 +892,12 @@
                Right fuselage pylon axial Coefficient
             </description>
             <product>
+                <property>inertia/pointmass-dragarea-sqft[4]</property>
                 <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table>
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[4]</independentVar>
-                    <tableData>
-                         <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
                 <property>aero/function/stores-wave-drag-factor</property>
             </product>
         </function>
@@ -996,34 +908,12 @@
                Left outer wing pylon axial Coefficient
             </description>
             <product>
+                <property>inertia/pointmass-dragarea-sqft[5]</property>
                 <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table>
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[5]</independentVar>
-                    <tableData>
-                         <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
                 <property>aero/function/stores-wave-drag-factor</property>
             </product>
         </function>
@@ -1034,77 +924,13 @@
                Right outer wing pylon axial Coefficient
             </description>
             <product>
+                <property>inertia/pointmass-dragarea-sqft[6]</property>
                 <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
                 <cos>
                     <property>aero/alpha-rad</property>
                 </cos>
-                <table>
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[6]</independentVar>
-                    <tableData>
-                         <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
                 <property>aero/function/stores-wave-drag-factor</property>
-            </product>
-        </function>
-
-        <!-- estimate -->
-        <function name="aero/coefficient/CAMissile7">
-            <description>
-               Center pylon axial Coefficient
-            </description>
-            <product>
-                <property>aero/qbar-psf</property>
-                <property>metrics/Sw-sqft</property>
-                <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <property>aero/drag/missile</property>
-                <cos>
-                    <property>aero/alpha-rad</property>
-                </cos>
-                <table>
-                    <independentVar lookup="row">inertia/pointmass-weight-lbs[7]</independentVar>
-                    <tableData>
-                         <!--     1 means same as RB-24 -->
-                         0       0
-                         160.94  1     <!-- rb24  -->
-                         179     1     <!-- rb24j -->
-                         188     1     <!-- rb74  -->
-                         291     1.915 <!-- rb99  -->
-                         425     2.838 <!-- rb71  -->
-                         462     2.625 <!-- rb75  -->
-                         672.4   2.551 <!-- rb05a -->
-                         794     4     <!-- m70   -->
-                         802.5   2.75  <!-- m55   -->
-                         1060    2.727 <!-- m71   -->
-                         1062    2.727 <!-- m71r  -->
-                         1322.77 4.692 <!-- m90   -->
-                         1378    5.912 <!-- rb04e -->
-                         1763.7  5.912 <!-- rb15f -->
-                    </tableData>
-                </table>
-                <property>aero/function/stores-wave-drag-factor</property>
-                <nq>
-                    <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>211.64</value>
-                </nq>
             </product>
         </function>
 
@@ -1180,10 +1006,7 @@
                         </sin>
                     </product>
                 </difference>
-                <eq>
-                    <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>211.64</value>
-                </eq>
+                <not><property>/consumables/fuel/tank[8]/jettisoned</property></not>
             </product>
         </function>
 
@@ -1392,10 +1215,7 @@
                         27.0785      0.000                        
                     </tableData>
                 </table>
-                <eq>
-                    <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>211.64</value>
-                </eq>
+                <not><property>/consumables/fuel/tank[8]/jettisoned</property></not>
             </product>
         </function>
 
@@ -1595,10 +1415,7 @@
                           35.5501        0.0301
                     </tableData>
                 </table>
-                <eq>
-                    <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>211.64</value>
-                </eq>
+                <not><property>/consumables/fuel/tank[8]/jettisoned</property></not>
             </product>
         </function>
 
@@ -2642,10 +2459,7 @@
                         20.0            -0.01
                     </tableData>
                 </table>
-                <eq>
-                    <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>211.64</value>
-                </eq>
+                <not><property>/consumables/fuel/tank[8]/jettisoned</property></not>
             </product>
         </function>
 
