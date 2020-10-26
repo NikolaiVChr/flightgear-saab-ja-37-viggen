@@ -1,3 +1,5 @@
+#### Weapons firing logic.
+
 var TRUE = 1;
 var FALSE = 0;
 
@@ -25,17 +27,8 @@ foreach (var prop; keys(input)) {
 
 
 
-### Pylons
-
-# Pylon names
+### Pylon names
 var STATIONS = pylons.STATIONS;
-var M75 = 0;
-
-var stations_list = keys(STATIONS);
-if (variant.JA) append(stations_list, M75);
-
-
-# Pylon lookup functions
 
 
 ### Weapon logic API (abstract class)
@@ -58,7 +51,7 @@ var WeaponLogic = {
         die("Called unimplemented abstract class method");
     },
 
-    # Select the next weapon of this type.
+    # Select the next weapon of this type (when it makes sense).
     cycle_selection: func {
         die("Called unimplemented abstract class method");
     },
@@ -94,21 +87,20 @@ var WeaponLogic = {
         die("Called unimplemented abstract class method");
     },
 
-    uncage_IR_seeker: func {},
-    reset_IR_seeker: func {},
-
     weapon_ready: func { return FALSE; },
 
+    # Return ammo count for this type of weapon.
     get_ammo: func { return pylons.get_ammo(me.type); },
 
-    # Return the active weapon (object from missile.nas), when it makes sense.
+    # Return the active weapon object (created from missile.nas), when it makes sense.
     get_weapon: func { return nil; },
 
+    # Return an array containing selected stations.
     get_selected_pylons: func { return []; },
 };
 
 
-# Generic missile weapons, based on missiles.nas
+### Generic missile weapons, based on missiles.nas
 var Missile = {
     parents: [WeaponLogic],
 
@@ -237,6 +229,7 @@ var Missile = {
         me.fired = TRUE;
     },
 
+    # IR seeker manipulation
     uncage_IR_seeker: func {
         if (variant.JA or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
@@ -262,7 +255,7 @@ var Missile = {
     get_selected_pylons: func { return [me.selected]; },
 };
 
-# Rb-05 has some special additional logic.
+### Rb-05 has some special additional logic for remote control.
 var Rb05 = {
     parents: [Missile.new("RB-05A")],
 
@@ -303,6 +296,8 @@ var Rb05 = {
 };
 
 
+### Generic submodel based weapon (gun, rockets).
+# Expect the underlying weapon to be an instance of stations.SubModelWeapon.
 var SubModelWeapon = {
     parents: [WeaponLogic],
 
@@ -382,13 +377,16 @@ var SubModelWeapon = {
     },
 };
 
-
+### M71 Bomb logic.
+#
+# In this class, a position is a pair [pylon, bomb] where
+# pylon is the number of the station, bomb is the number of the bomb of that station.
 var Bomb = {
     parents: [WeaponLogic],
 
     release_distance: 20,   # meter
 
-    release_order: [],
+    release_order: [],      # list of positions indicating release priority order.
 
     new: func(type) {
         var w = { parents: [Bomb], };
@@ -442,7 +440,8 @@ var Bomb = {
     cycle_selection: func {},
 
     is_pos_loaded: func (pos) {
-        return pylons.is_loaded_with(pos[0], me.type) and pylons.station_by_id(pos[0]).getWeapons()[pos[1]] != nil;
+        return pylons.is_loaded_with(pos[0], me.type)
+            and pylons.station_by_id(pos[0]).getWeapons()[pos[1]] != nil;
     },
 
     drop_bomb_pos: func (pos) {
@@ -514,7 +513,7 @@ var Bomb = {
 
 
 
-### Selected weapon type.
+### List of weapon types.
 if (variant.JA) {
     var weapons = [
         Missile.new("RB-74"),
@@ -524,7 +523,7 @@ if (variant.JA) {
         SubModelWeapon.new("M70 ARAK"),
     ];
 
-    # Indices in the previous array
+    # Indices in the previous array for IR missiles.
     var IRRB = [0, 3];
 
     var internal_gun = SubModelWeapon.new("M75 AKAN");
@@ -544,13 +543,15 @@ if (variant.JA) {
         Bomb.new("M71R"),
     ];
 
+    # Indices in the previous array for IR missiles.
     var IRRB = [0, 1, 2];
 }
 
+# Selected weapon type.
 var selected_index = -2;
 var selected = nil;
 
-# Internal function.
+# Internal selection function.
 var _set_selected_index = func(index) {
     selected_index = index;
     if (index >= 0) selected = weapons[index];
@@ -558,6 +559,8 @@ var _set_selected_index = func(index) {
     else selected = nil;
 }
 
+
+### Access functions.
 var get_weapon = func {
     if (selected == nil) return nil;
     else return selected.get_weapon();
@@ -573,9 +576,10 @@ var get_selected_pylons = func {
     else return selected.get_selected_pylons();
 }
 
-### Controls
-## Weapon selection.
 
+### Controls
+
+## Weapon selection.
 var _deselect_current = func {
     if (selected != nil) selected.deselect();
 }
@@ -653,7 +657,10 @@ var select_pylon = func(pylon) {
 }
 
 
-## Others
+## Other controls.
+
+# Trigger safety.
+# Note: toggling /controls/armament/trigger-unsafe also works, this is just for the nice message.
 var toggle_trigger_safe = func {
     var unsafe = !input.unsafe.getBoolValue();
     input.unsafe.setBoolValue(unsafe);
@@ -668,11 +675,15 @@ var toggle_trigger_safe = func {
 
 # IR seeker release button
 var uncageIR = func {
-    if (selected != nil) selected.uncage_IR_seeker();
+    if (selected != nil and (selected.type == "RB-24J" or selected.type == "RB-74")) {
+        selected.uncage_IR_seeker();
+    }
 }
 
 var resetIR = func {
-    if (selected != nil) selected.reset_IR_seeker();
+    if (selected != nil and (selected.type == "RB-24J" or selected.type == "RB-74")) {
+        selected.reset_IR_seeker();
+    }
 }
 
 # Pressing the button uncages, holding it resets
@@ -690,7 +701,7 @@ var uncageIRButton = func (pushed) {
 }
 
 
-
+# Propagate controls to weapon logic.
 var trigger_listener = func (node) {
     if (selected != nil) selected.set_trigger(node.getBoolValue());
 }

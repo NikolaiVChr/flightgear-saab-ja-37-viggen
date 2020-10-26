@@ -1,3 +1,5 @@
+#### Pylons loading/jettison logic, implemented with station-manager.nas
+
 var TRUE = 1;
 var FALSE = 0;
 
@@ -19,7 +21,9 @@ foreach (var prop; keys(input)) {
 }
 
 
-### Pylon names
+### Pylon names and station numbers.
+# Station numbers correspond to /controls/armament/station[i]
+# and are used as id in station-manager.nas
 var STATIONS = {
     V7V: 1, # Left wing
     S7V: 2, # Left fuselage
@@ -29,6 +33,7 @@ var STATIONS = {
     R7H: 6, # Right outer wing
 };
 
+# JA internal cannon
 var INT_AKAN = 0;
 
 var stations_list = [];
@@ -39,14 +44,16 @@ if (variant.JA) append(stations_list, INT_AKAN);
 
 
 
-### Operation conditions.
+### Operation conditions for stations.
 
+# Does not decide if the station is armed etc. (this is in fire_control.nas),
+# just if its not broken/has power.
 var operable = func {
     return power.prop.acSecondBool.getBoolValue();
 }
 
+# Weapon jettison conditions.
 var can_jettison = func {
-    return TRUE;
     return power.prop.dcMainBool.getBoolValue() and !input.wow1.getBoolValue();;
 }
 
@@ -99,7 +106,7 @@ var load_options = {
     },
 };
 
-# Function, to resolve the special submodel weapons in the above table.
+# Function to resolve the special submodel weapons in the above table.
 var load_options_pylon = func(pylon, name) {
     if (name == "m70" or name == "m55") {
         return load_options[name](pylon);
@@ -109,10 +116,10 @@ var load_options_pylon = func(pylon, name) {
 }
 
 
-# Load option available on each pylon.
+### Load options available on each pylon.
 var sets = {};
 
-# Use indices for load_options to define sets.
+# sets are defined using the indices in load_options (above)
 if (variant.JA) {
     sets[STATIONS.V7V] = sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb71", "rb99", "m70"];
     sets[STATIONS.S7V] = sets[STATIONS.S7H] = ["none", "rb24j", "rb74", "rb99", "m70"];
@@ -171,7 +178,7 @@ if (variant.JA) {
 }
 
 
-# Some lookup functions
+# Pylon lookup functions
 var station_by_id = func(id) {
     if (id == INT_AKAN) return M75station;
     else return pylons[id];
@@ -218,7 +225,7 @@ var get_ammo = func(type) {
 
 
 
-### Weapon ID number for model/MP
+### Weapon ID number for 3D model of weapons on pylons (including over MP).
 var weapon_id = {
     "none": 0,
     # Same model for all sidewinders
