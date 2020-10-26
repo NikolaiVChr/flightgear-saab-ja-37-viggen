@@ -147,7 +147,6 @@ input = {
   thrustLb:         "engines/engine/thrust_lb",
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
   TILS:             "ja37/hud/TILS",
-  trigger:          "controls/armament/trigger",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   viewInternal:     "sim/current-view/internal",
   viewName:         "sim/current-view/name",

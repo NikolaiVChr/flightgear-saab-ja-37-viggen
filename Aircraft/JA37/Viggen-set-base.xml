@@ -1033,6 +1033,7 @@
     <controls>
         <armament>
             <trigger type="bool">false</trigger>
+            <trigger-final type="bool">false</trigger-final>
             <trigger-unsafe type="bool">false</trigger-unsafe>
             <station n="1">
                 <offsets>

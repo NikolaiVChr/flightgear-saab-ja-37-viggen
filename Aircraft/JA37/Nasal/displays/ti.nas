@@ -1554,7 +1554,6 @@ var TI = {
 			cursorSelect:         "controls/displays/cursor-total-click",
 			elevCmd:              "fdm/jsbsim/fcs/elevator-cmd-norm",
 			ailCmd:               "fdm/jsbsim/fcs/aileron-cmd-norm",
-			trigger:              "controls/armament/trigger",
 			instrNorm:            "controls/lighting/instruments-norm",
 			bullseyeOn:           "ja37/navigation/bulls-eye-defined",
 			bullseyeLat:          "ja37/navigation/bulls-eye-lat",

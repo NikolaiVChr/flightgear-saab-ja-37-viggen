@@ -10,7 +10,7 @@ var find_index = func(val, vec) {
 
 var input = {
     combat:     "/ja37/mode/combat",
-    trigger:    "/controls/armament/trigger",
+    trigger:    "/controls/armament/trigger-final",
     unsafe:     "/controls/armament/trigger-unsafe",
     mp_msg:     "/payload/armament/msg",
     atc_msg:    "/sim/messages/atc",
@@ -361,7 +361,7 @@ var SubModelWeapon = {
         call(WeaponLogic.set_unsafe, [unsafe], me);
 
         foreach(var weapon; me.weapons) {
-            if (me.unsafe) weapon.start();
+            if (me.unsafe) weapon.start(input.trigger);
             else weapon.stop();
         }
     },
