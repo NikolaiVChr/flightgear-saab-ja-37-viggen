@@ -46,9 +46,15 @@
 	</animation>
 
 	<animation>
-  		<object-name>rb05</object-name>
+		<type>scale</type>
 		<object-name>flare</object-name>
-  		<enable-hot type="bool">false</enable-hot>
- 	</animation>
+		<property>payload/armament/rb-05a/flags/deploy-id-3</property>
+	</animation>
+
+	<animation>
+		<object-name>rb05</object-name>
+		<object-name>flare</object-name>
+		<enable-hot type="bool">false</enable-hot>
+	</animation>
 
 </PropertyList>
