@@ -14,6 +14,8 @@ var input = {
     unsafe:     "/controls/armament/trigger-unsafe",
     mp_msg:     "/payload/armament/msg",
     atc_msg:    "/sim/messages/atc",
+    rb05_pitch: "payload/armament/rb05-control-pitch",
+    rb05_yaw:   "payload/armament/rb05-control-yaw",
 };
 
 foreach (var prop; keys(input)) {
@@ -261,6 +263,46 @@ var Missile = {
     get_selected_pylons: func { return [me.selected]; },
 };
 
+# Rb-05 has some special additional logic.
+var Rb05 = {
+    parents: [Missile.new("RB-05A")],
+
+    active_rb05: nil,
+
+    makeMidFlightFunction: func(pylon) {
+        return func(state) {
+            # Missile can be controlled ~1.7s after launch (manual)
+            if (state.time_s < 1.7 or Rb05.active_rb05 != pylon) return {};
+            else return {
+                remote_yaw: input.rb05_yaw.getValue(),
+                remote_pitch: input.rb05_pitch.getValue(),
+            };
+        };
+    },
+
+    set_trigger: func(trigger) {
+        if (!me.armed() or !trigger or me.weapon == nil) return;
+
+        me.active_rb05 = me.selected;
+        me.weapon.mfFunction = me.makeMidFlightFunction(me.selected);
+
+        var callsign = me.weapon.callsign;
+        var brevity = me.weapon.brevity;
+        var phrase = brevity~" at: "~callsign;
+        if (input.mp_msg.getBoolValue()) {
+            armament.defeatSpamFilter(phrase);
+        } else {
+            input.atc_msg.setValue(phrase);
+        }
+        events.fireLog.push("Self: "~phrase);
+
+        me.station.fireWeapon(0);
+
+        me.weapon = nil;
+        me.fired = TRUE;
+    },
+};
+
 
 var SubModelWeapon = {
     parents: [WeaponLogic],
@@ -374,7 +416,7 @@ if (variant.JA) {
         Missile.new("RB-15F"),
         Missile.new("RB-04E"),
         Missile.new("RB-75"),
-        Missile.new("RB-05A"),
+        Rb05,
         Missile.new("M90"),
     ];
 
