@@ -81,6 +81,15 @@
                 <script>radar_logic.centerTarget()</script>
             </binding>
         </key>
+        <key n="14">
+            <name>CTRL-N</name>
+            <desc>Target next route-manager waypoint</desc>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>radar_logic.selectNextWaypoint()</script>
+            </binding>
+        </key>
         <key n="70">
             <name>F</name>
             <desc>Unlock selected target</desc>
@@ -89,7 +98,14 @@
                 <script>radar_logic.unlockSelection()</script>
             </binding>
         </key>
-
+        <key n="102">
+            <name>f</name>
+            <desc>Toggle radar steer order on current selection</desc>
+            <binding>
+                <command>nasal</command>
+                <script>radar_logic.toggleRadarSteerOrder();</script>
+            </binding>
+        </key>
         <key n="105">
             <name>i</name>
             <desc>Toggle type/callsign</desc>
@@ -194,6 +210,55 @@
                 <script>canvas_HUD.cycle_units()</script>
             </binding>
         </key>
+        <key n="104">
+            <name>h</name>
+            <desc>Toggle masterarm</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>ja37/armament/master-arm</property>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </key>
+        <key n="101">
+            <name>e</name>
+            <desc>Trigger</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/armament/trigger</property>
+                <value>true</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/armament/trigger</property>
+                    <value>false</value>
+                </binding>
+            </mod-up>
+        </key>
+        <key n="69">
+            <name>E</name>
+            <desc>Toggle trigger safety</desc>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>fire_control.toggle_trigger_safe(); ja37.click();</script>
+            </binding>
+        </key>
         <key n="99">
             <name>c</name>
             <desc>Cycle weapons.</desc>
@@ -202,8 +267,8 @@
                 <script>fire_control.cycle_weapon_type(); ja37.click();</script>
             </binding>
         </key>
-        <key n="102">
-            <name>f</name>
+        <key n="117">
+            <name>u</name>
             <desc>Select internal cannon (JA) / Select IR missile (AJS)</desc>
             <binding>
                 <command>nasal</command>
@@ -214,10 +279,16 @@
                 </script>
             </binding>
         </key>
-        <key n="117">
-            <name>u</name>
+        <key n="85">
+            <name>U</name>
             <desc>Uncage IR seeker (held: reset seeker)</desc>
             <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
                 <command>nasal</command>
                 <script>
                     fire_control.uncageIRButton(1);
@@ -226,6 +297,12 @@
             </binding>
             <mod-up>
                 <binding>
+                    <condition>
+                        <not-equals>
+                            <property>/ja37/systems/variant</property>
+                            <value>0</value>
+                        </not-equals>
+                    </condition>
                     <command>nasal</command>
                     <script>fire_control.uncageIRButton(0);</script>
                 </binding>
@@ -297,55 +374,6 @@
                 <command>property-assign</command>
                 <property>instrumentation/gci/cutoff</property>
                 <value>1</value>
-            </binding>
-        </key>
-        <key n="101">
-            <name>e</name>
-            <desc>Trigger</desc>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/armament/trigger</property>
-                <value>true</value>
-            </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>controls/armament/trigger</property>
-                    <value>false</value>
-                </binding>
-            </mod-up>
-        </key>
-        <key n="69">
-            <name>E</name>
-            <desc>Toggle trigger safety</desc>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>nasal</command>
-                <script>fire_control.toggle_trigger_safe(); ja37.click();</script>
-            </binding>
-        </key>
-        <key n="104">
-            <name>h</name>
-            <desc>Toggle masterarm</desc>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>property-toggle</command>
-                <property>ja37/armament/master-arm</property>
-            </binding>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>nasal</command>
-                <script>ja37.click();</script>
             </binding>
         </key>
         <key n="8">
@@ -508,16 +536,6 @@
             <binding>
                 <command>nasal</command>
                 <script>ja37.click()</script>
-            </binding>
-        </key>
-
-        <key n="14">
-            <name>CTRL-N</name>
-            <desc>Target next route-manager waypoint</desc>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>nasal</command>
-                <script>armament.selectNextWaypoint()</script>
             </binding>
         </key>
 
