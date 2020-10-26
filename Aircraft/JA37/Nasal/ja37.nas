@@ -1717,10 +1717,10 @@ var toggleTracks = func {
   setprop("ja37/hud/tracks-enabled", !enabled);
   if(enabled == FALSE) {
     notice("Radar ON");
-    armament.ecmLog.push("Radar switched active.");
+    events.ecmLog.push("Radar switched active.");
   } else {
     notice("Radar OFF");
-    armament.ecmLog.push("Radar switched silent.");
+    events.ecmLog.push("Radar switched silent.");
   }
 }
 

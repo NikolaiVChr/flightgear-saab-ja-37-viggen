@@ -180,7 +180,7 @@ var incoming_listener = func {
                 while(clock > 360) {
                   clock = clock - 360;
                 }
-                armament.ecmLog.push(last~sprintf("%d deg.", clock));
+                events.ecmLog.push(last~sprintf("%d deg.", clock));
                 return;
               }
             }
