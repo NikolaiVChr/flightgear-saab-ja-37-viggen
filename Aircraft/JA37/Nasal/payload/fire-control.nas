@@ -717,3 +717,20 @@ var combat_listener = func (node) {
 setlistener(input.combat, combat_listener, 0, 0);
 setlistener(input.unsafe, unsafe_listener, 0, 0);
 setlistener(input.trigger, trigger_listener, 0, 0);
+
+
+
+### Reset fire control logic when reloading.
+var ReloadCallback = {
+    updateAll: func {
+        deselect_weapon();
+    },
+
+    init: func {
+        foreach(var station; pylons.stations_list) {
+            pylons.station_by_id(station).setPylonListener(me);
+        }
+    },
+};
+
+ReloadCallback.init();
