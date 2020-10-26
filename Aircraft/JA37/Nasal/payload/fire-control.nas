@@ -14,8 +14,9 @@ var input = {
     unsafe:     "/controls/armament/trigger-unsafe",
     mp_msg:     "/payload/armament/msg",
     atc_msg:    "/sim/messages/atc",
-    rb05_pitch: "payload/armament/rb05-control-pitch",
-    rb05_yaw:   "payload/armament/rb05-control-yaw",
+    rb05_pitch: "/payload/armament/rb05-control-pitch",
+    rb05_yaw:   "/payload/armament/rb05-control-yaw",
+    speed_kt:   "/velocities/groundspeed-kt",
 };
 
 foreach (var prop; keys(input)) {
@@ -385,7 +386,7 @@ var SubModelWeapon = {
 var Bomb = {
     parents: [WeaponLogic],
 
-    release_interval: 0.08,
+    release_distance: 20,   # meter
 
     release_order: [],
 
@@ -396,17 +397,17 @@ var Bomb = {
         w.next_pos = 0;
         w.next_weapon = nil;
 
-        # Release order: fuselage L/R alternating, then wing L/R alternating.
+        # Release order: fuselage R/L alternating, then wing R/L alternating (AJS manual)
         for(var i=0; i<4; i+=1) {
-            append(w.release_order, [STATIONS.S7V, i]);
             append(w.release_order, [STATIONS.S7H, i]);
+            append(w.release_order, [STATIONS.S7V, i]);
         }
         for(var i=0; i<4; i+=1) {
-            append(w.release_order, [STATIONS.V7V, i]);
             append(w.release_order, [STATIONS.V7H, i]);
+            append(w.release_order, [STATIONS.V7V, i]);
         }
 
-        w.drop_bomb_timer = maketimer(w.release_interval, w, w.drop_next_bomb);
+        w.drop_bomb_timer = maketimer(0, w, w.drop_next_bomb);
         w.simulatedTime = TRUE;
         w.singleShot = FALSE;
         return w;
@@ -453,14 +454,32 @@ var Bomb = {
     },
 
     drop_next_bomb: func {
+        if (!me.weapon_ready()) {
+            me.stop_drop_sequence();
+            return;
+        }
+
         me.drop_bomb_pos(me.positions[me.next_pos]);
 
         me.next_pos += 1;
         if (me.next_pos < size(me.positions)) {
             me.next_weapon = me.get_bomb_pos(me.positions[me.next_pos]);
         } else {
-            me.drop_bomb_timer.stop();
+            me.next_weapon = nil;
         }
+    },
+
+    release_interval: func(distance) {
+        return distance / (input.speed_kt.getValue() * KT2MPS);
+    },
+
+    start_drop_sequence: func {
+        me.drop_next_bomb();
+        me.drop_bomb_timer.restart(me.release_interval(me.release_distance));
+    },
+
+    stop_drop_sequence: func {
+        me.drop_bomb_timer.stop();
     },
 
     set_trigger: func(trigger) {
@@ -473,15 +492,14 @@ var Bomb = {
             } else {
                 input.atc_msg.setValue(brevity);
             }
-
-            me.drop_bomb_timer.start();
+            me.start_drop_sequence();
         } else {
-            me.drop_bomb_timer.stop();
+            me.stop_drop_sequence();
         }
     },
 
     weapon_ready: func {
-        return me.next_pos < size(me.positions);
+        return me.next_weapon != nil;
     },
 
     # Return the active weapon (object from missile.nas), when it makes sense.

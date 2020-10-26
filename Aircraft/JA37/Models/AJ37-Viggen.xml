@@ -222,7 +222,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -248,7 +248,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>2</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -274,7 +274,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>0</value>
+        <value>2</value>
       </greater-than>
     </condition>
   </animation>
@@ -326,7 +326,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -352,7 +352,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>2</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -378,7 +378,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[4]</property><!-- payload/armament/station/id-1-count -->
-        <value>0</value>
+        <value>2</value>
       </greater-than>
     </condition>
   </animation>
@@ -456,7 +456,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -481,7 +481,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>2</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -506,7 +506,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>0</value>
+        <value>2</value>
       </greater-than>
     </condition>
   </animation>
@@ -556,7 +556,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>3</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -581,7 +581,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>2</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -606,7 +606,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[5]</property><!-- payload/armament/station/id-2-count -->
-        <value>0</value>
+        <value>2</value>
       </greater-than>
     </condition>
   </animation>
@@ -661,7 +661,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>1</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -687,7 +687,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>3</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -739,7 +739,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>0</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -765,7 +765,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>1</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -791,7 +791,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>3</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -843,7 +843,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[6]</property><!-- payload/armament/station/id-3-count -->
-        <value>0</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -897,7 +897,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>1</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -922,7 +922,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>3</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -972,7 +972,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>0</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
@@ -997,7 +997,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>1</value>
+        <value>0</value>
       </greater-than>
     </condition>
   </animation>
@@ -1022,7 +1022,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>3</value>
+        <value>1</value>
       </greater-than>
     </condition>
   </animation>
@@ -1072,7 +1072,7 @@
       </equals>
       <greater-than>
         <property>sim/multiplay/generic/short[7]</property><!-- payload/armament/station/id-4-count -->
-        <value>0</value>
+        <value>3</value>
       </greater-than>
     </condition>
   </animation>
