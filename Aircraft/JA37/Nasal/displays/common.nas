@@ -214,9 +214,9 @@ var Common = {
 
 	sidewinders: func {
 		me.snakes = [];
-		for(var x=0; x<7; x+=1) {
-			if (armament.AIM.active[x] != nil and armament.AIM.active[x].guidance=="heat") {
-				append(me.snakes, armament.AIM.active[x]);
+		for(var x=1; x<=6; x+=1) {
+			if (armament.AIM.active[100*x] != nil and armament.AIM.active[100*x].guidance=="heat") {
+				append(me.snakes, armament.AIM.active[100*x]);
 			}
 		}
 		return me.snakes;

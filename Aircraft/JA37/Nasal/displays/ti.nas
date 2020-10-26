@@ -1520,7 +1520,6 @@ var TI = {
 			fpv_up:               "instrumentation/fpv/angle-up-stab-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-stab-deg",
 #			twoHz:                "ja37/blink/two-Hz/state",
-			station:          	  "controls/armament/station-select-custom",
 			roll:             	  "orientation/roll-deg",
 			pitch:             	  "orientation/pitch-deg",
 			units:                "ja37/hud/units-metric",
@@ -1863,7 +1862,7 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				me.drawLog = FALSE;
 				if (me.trapFire == TRUE) {
-					me.buffer = armament.fireLog;
+					me.buffer = events.fireLog;
 					if (me.swedishMode)
 						me.bufferStr = "       Registrerede avfyringar:\n";
 					else
@@ -1891,14 +1890,14 @@ var TI = {
 						me.bufferStr = "       Landing log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapECM == TRUE) {
-					me.buffer = armament.ecmLog;
+					me.buffer = events.ecmLog;
 					if (me.swedishMode)
 						me.bufferStr = "       Registrerede motmedelsf\xC3\xA4llninger:\n";
 					else
 						me.bufferStr = "       ECM log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapAll == TRUE) {
-					me.bufferContent = events.combineBuffers([armament.ecmLog.get_buffer(), me.logLand.get_buffer(), radar_logic.lockLog.get_buffer(), me.logEvents.get_buffer(), armament.fireLog.get_buffer()]);
+					me.bufferContent = events.combineBuffers([events.ecmLog.get_buffer(), me.logLand.get_buffer(), radar_logic.lockLog.get_buffer(), me.logEvents.get_buffer(), events.fireLog.get_buffer()]);
 					if (me.swedishMode)
 						me.bufferStr = "       Alla h\xC3\xA4ndelser:\n";
 					else
@@ -1956,23 +1955,24 @@ var TI = {
 			me.clipLogPage();
 
 			# improve this crap programming:
-			if (me.input.timeElapsed.getValue()-me.BITtime > armament.count99()*2+5) {
+			me.count99 = pylons.get_ammo("RB-99");
+			if (me.input.timeElapsed.getValue()-me.BITtime > me.count99*2+5) {
 				me.BITon = FALSE;
 				me.active = TRUE;
 			} elsif (me.input.timeElapsed.getValue()-me.BITtime > 8 and me.BITok4 == FALSE) {
-				if (armament.count99() > 3)
+				if (me.count99 > 3)
 					me.logBIT.push("RB-99: ....OK");
 				me.BITok4 = TRUE;
 			} elsif (me.input.timeElapsed.getValue()-me.BITtime > 6 and me.BITok3 == FALSE) {
-				if (armament.count99() > 2)
+				if (me.count99 > 2)
 					me.logBIT.push("RB-99: ....OK");
 				me.BITok3 = TRUE;
 			} elsif (me.input.timeElapsed.getValue()-me.BITtime > 4 and me.BITok2 == FALSE) {
-				if (armament.count99() > 1)
+				if (me.count99 > 1)
 					me.logBIT.push("RB-99: ....OK");
 				me.BITok2 = TRUE;
 			} elsif (me.input.timeElapsed.getValue()-me.BITtime > 2 and me.BITok1 == FALSE) {
-				if (armament.count99() > 0)
+				if (me.count99 > 0)
 					me.logBIT.push("RB-99: ....OK");
 				me.BITok1 = TRUE;
 			}
@@ -2019,6 +2019,15 @@ var TI = {
 		me.mapshowing = FALSE;
 	},
 
+	pylon_to_main_button: {
+		5: 8,
+		1: 9,
+		2: 10,
+		4: 11,
+		3: 12,
+		6: 13,
+	},
+
 	updateMainMenu: func {
 		#
 		# Update the display of the main menus
@@ -2045,35 +2054,13 @@ var TI = {
 			me.stopEditPlan();
 		}
 		if (me.menuMain == MAIN_WEAPONS) {
-			if (me.input.station.getValue() == 5) {
-				me.menuButtonBox[8].show();
-			} else {
-				me.menuButtonBox[8].hide();
+			for(var i = MAIN_WEAPONS; i <= MAIN_CONFIGURATION; i+=1) {
+				me.menuButtonBox[i].hide();
 			}
-			if (me.input.station.getValue() == 1) {
-				me.menuButtonBox[9].show();
-			} else {
-				me.menuButtonBox[9].hide();
-			}
-			if (me.input.station.getValue() == 2) {
-				me.menuButtonBox[10].show();
-			} else {
-				me.menuButtonBox[10].hide();
-			}
-			if (me.input.station.getValue() == 4) {
-				me.menuButtonBox[11].show();
-			} else {
-				me.menuButtonBox[11].hide();
-			}
-			if (me.input.station.getValue() == 3) {
-				me.menuButtonBox[12].show();
-			} else {
-				me.menuButtonBox[12].hide();
-			}
-			if (me.input.station.getValue() == 6) {
-				me.menuButtonBox[13].show();
-			} else {
-				me.menuButtonBox[13].hide();
+			foreach(var pylon; fire_control.get_selected_pylons()) {
+				if (contains(me.pylon_to_main_button, pylon)) {
+					me.menuButtonBox[me.pylon_to_main_button[pylon]].show();
+				}
 			}
 		}
 	},
@@ -2127,11 +2114,10 @@ var TI = {
 			me.menuButton[i].setText(me.compileFastMenu(i));
 			me.menuButtonBox[i].hide();
 		}
-		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == 0) {
-			me.menuButtonBox[14].show();
-		}
-		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == -1) {
+		if (me.menuMain == MAIN_WEAPONS and fire_control.selected == nil) {
 			me.menuButtonBox[15].show();
+		} elsif (me.menuMain == MAIN_WEAPONS and fire_control.selected.type == "M75 AKAN") {
+			me.menuButtonBox[14].show();
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
@@ -5386,7 +5372,7 @@ var TI = {
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(5);
+				fire_control.select_pylon(5);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
 				if (me.menuShowFast == TRUE) {
@@ -5406,7 +5392,7 @@ var TI = {
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(1);
+				fire_control.select_pylon(1);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
 				if (me.menuShowFast == TRUE) {
@@ -5426,7 +5412,7 @@ var TI = {
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(2);
+				fire_control.select_pylon(2);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
 				if (me.menuShowFast == TRUE) {
@@ -5446,7 +5432,7 @@ var TI = {
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(4);
+				fire_control.select_pylon(4);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
 				if (me.menuShowFast == TRUE) {
@@ -5466,7 +5452,7 @@ var TI = {
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(3);
+				fire_control.select_pylon(3);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
 				if (me.menuShowFast == TRUE) {
@@ -5486,7 +5472,7 @@ var TI = {
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(6);
+				fire_control.select_pylon(6);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
 				if (me.menuShowFast == TRUE) {
@@ -5507,7 +5493,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(0);
+				fire_control.select_cannon();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
@@ -5515,12 +5501,12 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# clear tact reports
-				armament.fireLog.clear();
+				events.fireLog.clear();
 				me.logEvents.clear();
 				me.logBIT.clear();
 				me.logLand.clear();
 				radar_logic.lockLog.clear();
-				armament.ecmLog.clear();
+				events.ecmLog.clear();
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 
@@ -5565,7 +5551,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (me.menuMain == MAIN_WEAPONS) {
-				me.input.station.setIntValue(-1);
+				fire_control.deselect_weapon();
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				setprop("ja37/avionics/gps-cmd", !getprop("ja37/avionics/gps-cmd"));

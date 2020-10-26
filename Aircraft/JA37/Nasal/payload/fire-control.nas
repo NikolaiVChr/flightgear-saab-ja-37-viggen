@@ -103,6 +103,8 @@ var WeaponLogic = {
 
     # Return the active weapon (object from missile.nas), when it makes sense.
     get_weapon: func { return nil; },
+
+    get_selected_pylons: func { return []; },
 };
 
 
@@ -195,8 +197,9 @@ var Missile = {
                 # Setup weapon
                 me.weapon.start();
 
-                # IR weapons parameters
-                if (me.weapon.guidance == "heat") {
+                # IR weapons parameters. For AJS, locked on bore.
+                # I'm not sure about the JA, keeping it simple to use for now.
+                if (!is_ja and me.weapon.guidance == "heat") {
                     me.weapon.setAutoUncage(FALSE);
                     me.weapon.setCaged(TRUE);
                     me.weapon.setBore(TRUE);
@@ -235,7 +238,7 @@ var Missile = {
     },
 
     uncage_IR_seeker: func {
-        if (me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
+        if (is_ja or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
 
         me.weapon.setAutoUncage(TRUE);
@@ -243,7 +246,7 @@ var Missile = {
     },
 
     reset_IR_seeker: func {
-        if (me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        if (is_ja or me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
 
         me.weapon.stop();
         me.weapon.start();
@@ -257,6 +260,8 @@ var Missile = {
     weapon_ready: func { return me.weapon != nil; },
 
     get_ammo: func { return pylons.get_ammo(me.type); },
+
+    get_selected_pylons: func { return [me.selected]; },
 };
 
 
@@ -341,6 +346,10 @@ var SubModelWeapon = {
     weapon_ready: func {
         return me.get_ammo() > 0;
     },
+
+    get_selected_pylons: func {
+        return me.selected;
+    },
 };
 
 
@@ -396,6 +405,10 @@ var get_current_ammo = func {
     else return selected.get_ammo();
 }
 
+var get_selected_pylons = func {
+    if (selected == nil) return [];
+    else return selected.get_selected_pylons();
+}
 
 ### Controls
 ## Weapon selection.
@@ -456,6 +469,24 @@ var cycle_weapon = func {
 var deselect_weapon = func {
     _deselect_current();
     _set_selected_index(-2);
+}
+
+var select_pylon = func(pylon) {
+    _deselect_current();
+
+    var type = pylons.station_by_id(pylon).singleName;
+    forindex(var i; weapons) {
+        # Find matching weapon type.
+        if (weapons[i].type == type) {
+            # Attempt to load this pylon.
+            if (weapons[i].select(pylon)) {
+                _set_selected_index(i);
+            } else {
+                _set_selected_index(-2);
+            }
+            return;
+        }
+    }
 }
 
 
