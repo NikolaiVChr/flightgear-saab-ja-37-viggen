@@ -63,21 +63,19 @@
             </binding>
         </item>
         <item>
-            <name>Master arm</name>
-            <value>OFF (h)</value>
-            <marker>
-                <x-m>-3.6330</x-m>
-                <y-m>0.4496</y-m>
-                <z-m>0.1694</z-m>
-                <scale>6.5372</scale>
-            </marker>
+            <name>Trigger safety (Shift-E)</name>
+            <value>SAFE</value>
             <condition>
-                <not><property>/ja37/armament/master-arm</property></not>
+                <not><property>/controls/armament/trigger-unsafe</property></not>
             </condition>
             <binding>
-                <command>property-assign</command>
-                <property>/ja37/armament/master-arm</property>
-                <value>0</value>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/controls/armament/trigger-unsafe")) {
+                        fire_control.toggle_trigger_safe();
+                        ja37.click();
+                    }
+                </script>
             </binding>
         </item>
         <item>
