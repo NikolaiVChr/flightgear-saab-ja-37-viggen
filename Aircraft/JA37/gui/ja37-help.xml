@@ -14,18 +14,6 @@
         <desc>Toggle thrust reverser</desc>
     </key>
     <key>
-        <name>q</name>
-        <desc>Trigger flare release</desc>
-    </key>
-    <key>
-        <name>e</name>
-        <desc>Fire selected weapon</desc>
-    </key>
-    <key>
-        <name>[ / ]</name>
-        <desc>Radar range decrease / increase</desc>
-    </key>
-    <key>
         <name>J</name>
         <desc>Jettison Drop tank in flight</desc>
     </key>
@@ -34,20 +22,28 @@
         <desc>Toggle canopy</desc>
     </key>
     <key>
-        <name>H</name>
-        <desc>HUD Brightness</desc>
-    </key>
-    <key>
         <name>h</name>
         <desc>Toggle masterarm</desc>
     </key>
     <key>
-        <name>I</name>
-        <desc>Toggle HUD units. Metric/imperial.</desc>
-    </key>
-    <key>
         <name>c</name>
         <desc>Cycle weapons</desc>
+    </key>
+    <key>
+        <name>u</name>
+        <desc>Select cannon</desc>
+    </key>
+    <key>
+        <name>E</name>
+        <desc>Toggle trigger safety</desc>
+    </key>
+    <key>
+        <name>e</name>
+        <desc>Press trigger</desc>
+    </key>
+    <key>
+        <name>q</name>
+        <desc>Release flare/chaff</desc>
     </key>
     <key>
         <name>y</name>
@@ -62,20 +58,16 @@
         <desc>Ask tower for QFE setting.</desc>
     </key>
     <key>
-        <name>r</name>
-        <desc>Toggle radar</desc>
-    </key>
-    <key>
-        <name>f</name>
-        <desc>Toggle radar steer order on current selection</desc>
-    </key>
-    <key>
         <name>S</name>
         <desc>Cycle smoke. Off, Yellow or Blue</desc>
     </key>
     <key>
-        <name>i</name>
-        <desc>Toggle MI to show type or callsign for radar selection</desc>
+        <name>r</name>
+        <desc>Toggle radar</desc>
+    </key>
+    <key>
+        <name>[ / ]</name>
+        <desc>Radar range decrease / increase</desc>
     </key>
     <key>
         <name>n</name>
@@ -92,6 +84,22 @@
     <key>
         <name>Ctrl-n</name>
         <desc>Target next route-manager waypoint</desc>
+    </key>
+    <key>
+        <name>f</name>
+        <desc>Toggle radar steer order on current selection</desc>
+    </key>
+    <key>
+        <name>I</name>
+        <desc>Toggle HUD units. Metric/imperial.</desc>
+    </key>
+    <key>
+        <name>i</name>
+        <desc>Toggle MI to show type or callsign for radar selection</desc>
+    </key>
+    <key>
+        <name>H</name>
+        <desc>HUD Brightness</desc>
     </key>
     <key>
         <name>Q</name>
