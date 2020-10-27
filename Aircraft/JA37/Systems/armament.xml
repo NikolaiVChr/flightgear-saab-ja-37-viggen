@@ -310,7 +310,7 @@
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
         <vol-track-weak type="double">0</vol-track-weak>
-        <guidance type="string">remote</guidance>
+        <guidance type="string">remote-stable</guidance>
         <navigation type="string">direct</navigation>
         <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
         <FCS-field-deg type="int">0</FCS-field-deg>
