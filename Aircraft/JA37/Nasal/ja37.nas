@@ -1,11 +1,5 @@
 # $Id$
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
-var encode3bits = func(first, second, third) {
-  var integer = first;
-  integer = integer + 2 * second;
-  integer = integer + 4 * third;
-  return integer;
-}
 
 var LOOP_SLOW_RATE     = 1.50;
 
@@ -25,6 +19,10 @@ var MISSILE_STANDBY = -1;
 var MISSILE_SEARCH = 0;
 var MISSILE_LOCK = 1;
 var MISSILE_FLYING = 2;
+
+var flareCount = -1;
+var flareStart = -1;
+
 ############### Main loop ###############
 
 input = {
@@ -91,14 +89,8 @@ input = {
   lampXTank:        "ja37/avionics/xtank",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
-  mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
-  mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
-  mass5:            "fdm/jsbsim/inertia/pointmass-weight-lbs[5]",
-  mass6:            "fdm/jsbsim/inertia/pointmass-weight-lbs[6]",
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
-  MPint17:          "sim/multiplay/generic/int[17]",
-  MPint18:          "sim/multiplay/generic/int[18]",
   MPbool4:          "sim/multiplay/generic/bool[4]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
@@ -145,7 +137,6 @@ input = {
   thrustLb:         "engines/engine/thrust_lb",
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
   TILS:             "ja37/hud/TILS",
-  trigger:          "controls/armament/trigger",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   viewInternal:     "sim/current-view/internal",
   viewName:         "sim/current-view/name",
@@ -292,7 +283,6 @@ var Saab37 = {
     me.d_smoke = !input.servFire.getValue()+input.damage.getValue();
     input.damageSmoke.setValue(me.d_smoke);
     input.MPbool4.setValue(me.contrails);
-    input.MPint18.setIntValue(encode3bits(me.contrails, me.d_smoke, 0));
 
     # smoke
     if (power.prop.dcMainBool.getValue()) {
@@ -304,7 +294,7 @@ var Saab37 = {
     # AJS waypoint name indicator.
     navigation.update_wp_indicator();
 
-    #if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {
+    #if(!variant.JA and getprop("/instrumentation/radar/range") == 180000) {
     #  setprop("/instrumentation/radar/range", 120000);
     #}
 
@@ -417,12 +407,6 @@ var Saab37 = {
     me.real_speed = me.real_speed * FPS2KT;
     input.g3d.setDoubleValue(me.real_speed);
 
-    # MP gear wow
-    me.wow0 = input.wow0.getValue();
-    me.wow1 = input.wow1.getValue();
-    me.wow2 = input.wow2.getValue();
-    input.MPint17.setIntValue(encode3bits(me.wow0, me.wow1, me.wow2));
-
     # environment volume
     me.canopy = input.canopyHinge.getValue() == FALSE?1:input.canopyPos.getValue();
     me.internal = input.viewInternal.getValue();
@@ -459,6 +443,43 @@ var Saab37 = {
     
     me.aural();
     me.headingBug();
+    me.flare();
+  },
+
+  flare: func {
+    # Flare/chaff release
+    var flareCmd = getprop("ai/submodels/submodel[0]/flare-release-cmd");
+    if (flareCmd and !getprop("ai/submodels/submodel[0]/flare-release")
+                 and !getprop("ai/submodels/submodel[0]/flare-release-out-snd")
+                 and !getprop("ai/submodels/submodel[0]/flare-release-snd")) {
+      flareCount = getprop("ai/submodels/submodel[0]/count");
+      flareStart = input.elapsed.getValue();
+      if (flareCount > 0) {
+        # release a flare
+        setprop("ai/submodels/submodel[0]/flare-release-snd", TRUE);
+        setprop("ai/submodels/submodel[0]/flare-release", TRUE);
+        setprop("rotors/main/blade[3]/flap-deg", flareStart);
+        setprop("rotors/main/blade[3]/position-deg", flareStart);
+        damage.flare_released();
+      } else {
+        # play the sound for out of flares
+        setprop("ai/submodels/submodel[0]/flare-release-out-snd", TRUE);
+      }
+    }
+    setprop("ai/submodels/submodel[0]/flare-release-cmd", FALSE);
+    if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1.3) < input.elapsed.getValue()) {
+      setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);# sound sample is 0.7s long
+      setprop("rotors/main/blade[3]/flap-deg", 0);
+      setprop("rotors/main/blade[3]/position-deg", 0);#MP interpolates between numbers, so nil is better than 0.
+    }
+    if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 2) < input.elapsed.getValue()) {
+      setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);#sound sample is 1.4s long
+    }
+    if (flareCount > getprop("ai/submodels/submodel[0]/count")) {
+      # A flare was released in last loop, we stop releasing flares, so user have to press button again to release new.
+      setprop("ai/submodels/submodel[0]/flare-release", FALSE);
+      flareCount = -1;
+    }
   },
   
   aural: func {
@@ -876,16 +897,11 @@ var Saab37 = {
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
     me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
 
-    # stores
-    armament.main_weapons();
-    me.loop_stores   = maketimer(0.29, me, func armament.loop_stores());#0.05
- 
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_land.start();
     me.loop_nav.start();
-    me.loop_stores.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
@@ -904,7 +920,7 @@ var Saab37 = {
       }
     }
 
-    if (getprop("ja37/systems/variant") != 0) {
+    if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
       me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
@@ -914,7 +930,7 @@ var Saab37 = {
     # flightplans
     route.poly_start();
 
-    if (getprop("ja37/systems/variant") == 0) {
+    if (variant.JA) {
       # TI
       # must not start looping before route has been init
       TI.setupCanvas();
@@ -943,7 +959,7 @@ var Saab37 = {
     me.loop_hud.start();
     #me.loop_ir.start();
 
-    if (getprop("ja37/systems/variant") == 0) {
+    if (variant.JA) {
       # data-panel
       dap.callInit();
       me.loop_dap  = maketimer(1, me, func dap.loop_main());
@@ -991,16 +1007,11 @@ var Saab37 = {
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
     me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
 
-    # stores
-    armament.main_weapons();
-    me.loop_stores   = maketimer(0.29, me, func {timer.timeLoop("stores", armament.loop_stores,me);});#0.05
- 
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_land.start();
     me.loop_nav.start();
-    me.loop_stores.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
@@ -1019,7 +1030,7 @@ var Saab37 = {
       }
     }
 
-    if (getprop("ja37/systems/variant") != 0) {
+    if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
       me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
@@ -1029,7 +1040,7 @@ var Saab37 = {
     # flightplans
     route.poly_start();
 
-    if (getprop("ja37/systems/variant") == 0) {
+    if (variant.JA) {
       # TI
       # must not start looping before route has been init
       TI.setupCanvas();
@@ -1058,7 +1069,7 @@ var Saab37 = {
     me.loop_hud.start();
     #me.loop_ir.start();
 
-    if (getprop("ja37/systems/variant") == 0) {
+    if (variant.JA) {
       # data-panel
       dap.callInit();
       me.loop_dap  = maketimer(1, me, func {timer.timeLoop("DAP", dap.loop_main,me);});
@@ -1406,7 +1417,7 @@ var re_init = func {
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
-  autoflight.engageMode(0);
+  autoflight.System.engageMode(0);
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
   setprop("ja37/done",0);
@@ -1488,7 +1499,7 @@ var autostarttimer = func {
 }
 
 var stopAutostart = func {
-  if (getprop("/ja37/systems/variant") != 0) setprop("/ja37/mode/selector-ajs", 1); # STBY
+  if (!variant.JA) setprop("/ja37/mode/selector-ajs", 1); # STBY
   setprop("/controls/electric/main", FALSE);
   setprop("/controls/electric/battery", FALSE);
   setprop("/controls/engines/engine/throttle", 0);
@@ -1633,8 +1644,8 @@ var final_engine = func () {
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     setprop("/controls/electric/battery", TRUE);
-    if (getprop("/ja37/systems/variant") != 0) setprop("/ja37/mode/selector-ajs", 2); # NAV
-    autostarting = FALSE;    
+    if (!variant.JA) setprop("/ja37/mode/selector-ajs", 2); # NAV
+    autostarting = FALSE;
   } else {
     settimer(final_engine, 0.5, 1);
   }
@@ -1717,10 +1728,10 @@ var toggleTracks = func {
   setprop("ja37/hud/tracks-enabled", !enabled);
   if(enabled == FALSE) {
     notice("Radar ON");
-    armament.ecmLog.push("Radar switched active.");
+    events.ecmLog.push("Radar switched active.");
   } else {
     notice("Radar OFF");
-    armament.ecmLog.push("Radar switched silent.");
+    events.ecmLog.push("Radar switched silent.");
   }
 }
 

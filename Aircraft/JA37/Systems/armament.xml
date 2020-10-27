@@ -21,6 +21,8 @@
     <!-- A/A IR -->
     <rb-24>                    <!-- RB-24 (Swedish version of aim-9b sidewinder) mach 1.5 -->
         <type-id type="int">86</type-id>
+        <short-name type="string">rb24</short-name>
+        <long-name type="string">RB 24 Sidewinder</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -59,6 +61,8 @@
     </rb-24>
     <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 -->
         <type-id type="int">87</type-id>
+        <short-name type="string">rb24j</short-name>
+        <long-name type="string">RB 24J Sidewinder</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -108,6 +112,8 @@
     </rb-24j>
     <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 2.5 -->
         <type-id type="int">89</type-id>
+        <short-name type="string">rb74</short-name>
+        <long-name type="string">RB 74 Sidewinder</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -156,6 +162,8 @@
     <!-- A/A radar -->
     <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) -->
         <type-id type="int">88</type-id>
+        <short-name type="string">rb71</short-name>
+        <long-name type="string">RB 71 Skyflash</long-name>
         <vol-search type="double">0.00</vol-search>
         <vol-track type="double">0.15</vol-track>
         <vol-track-weak type="double">0.1</vol-track-weak>
@@ -196,6 +204,8 @@
     </rb-71>
     <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
         <type-id type="int">90</type-id>
+        <short-name type="string">rb99</short-name>
+        <long-name type="string">RB 99 AMRAAM</long-name>
         <vol-search type="double">0.00</vol-search>
         <vol-track type="double">1.00</vol-track>
         <guidance type="string">radar</guidance>
@@ -238,6 +248,8 @@
     <rb-04e>
         <!-- Swedish antiship cruise-missile RB-04E subsonic -->
         <type-id type="int">37</type-id>
+        <short-name type="string">rb04</short-name>
+        <long-name type="string">RB 04E Attackrobot</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -274,6 +286,8 @@
     <rb-15f>
         <!-- Swedish antiship cruise-missile RB-15F mach 0.8-->
         <type-id type="int">38</type-id>
+        <short-name type="string">rb15</short-name>
+        <long-name type="string">RB 15F Attackrobot</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -292,7 +306,7 @@
         <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>
         <stage-1-duration-sec type="double">1500</stage-1-duration-sec>
         <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>
-        <weight-launch-lbs type="double">1763.7</weight-launch-lbs>
+        <weight-launch-lbs type="double">1260</weight-launch-lbs>         <!-- ~570kg. AJS manual says 605 with pylon -->
         <weight-warhead-lbs type="double">440.92</weight-warhead-lbs>
         <drag-coeff type="double">0.2</drag-coeff>
         <cross-section-sqft type="double">2.1135</cross-section-sqft>
@@ -312,13 +326,15 @@
     <rb-05a>
         <!-- Swedish attack-missile RB-05A supersonic -->
         <type-id type="int">85</type-id>
+        <short-name type="string">rb05</short-name>
+        <long-name type="string">RB 05A Attackrobot</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0</sound-volume>
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
         <vol-track-weak type="double">0</vol-track-weak>
-        <guidance type="string">remote</guidance>
+        <guidance type="string">remote-stable</guidance>
         <navigation type="string">direct</navigation>
         <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
         <FCS-field-deg type="int">0</FCS-field-deg>
@@ -361,6 +377,8 @@
     <rb-75>
         <!-- Swedish version of AGM-65B Maverick RB-75 620kt -->
         <type-id type="int">39</type-id>
+        <short-name type="string">rb75</short-name>
+        <long-name type="string">RB 75 Maverick</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -397,6 +415,8 @@
     <m90>
         <!-- Swedish cluster glide-bomb M90 Mjölner subsonic -->
         <type-id type="int">31</type-id>
+        <short-name type="string">m90</short-name>
+        <long-name type="string">M90 Bombkapsel</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -433,6 +453,8 @@
     <m71>
         <!-- Swedish bomblet M71 Virgo -->
         <type-id type="int">29</type-id>
+        <short-name type="string">m71</short-name>
+        <long-name type="string">M71 Bomblavett</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -469,6 +491,8 @@
     <m71r>
         <!-- Swedish bomblet M71 Virgo retarded with parachute -->
         <type-id type="int">30</type-id>
+        <short-name type="string">m71r</short-name>
+        <long-name type="string">M71 Bomblavett (Retarded)</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -488,7 +512,9 @@
         <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>        <!-- source -->
         <weight-launch-lbs type="double">264</weight-launch-lbs>        <!-- source -->
         <weight-warhead-lbs type="double">200</weight-warhead-lbs>   <!-- guess -->
-        <drag-coeff type="double">1.0</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
+        <drag-coeff type="double">0.08</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
+        <delta-drag-coeff-deploy type="double">1.0</delta-drag-coeff-deploy>  <!-- for drag chute -->
+        <deploy-time type="double">1.0</deploy-time>
         <cross-section-sqft type="double">1.95</cross-section-sqft>
         <arming-time-sec type="double">4.0</arming-time-sec>                  <!-- source -->
         <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>

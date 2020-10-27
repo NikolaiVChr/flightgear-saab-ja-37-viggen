@@ -276,6 +276,14 @@
         <z> -1.25748 </z>
       </location>
     </pointmass>
+    <pointmass name="Internal gun pod">
+      <weight unit="LBS">0</weight>
+      <location name="POINTMASS" unit="M">
+        <x>  -1.05893</x>
+        <y>  -0.20322</y>
+        <z> -0.91246</z>
+      </location>
+    </pointmass>
   </mass_balance>
   
   <propulsion file="Systems/jsb-propulsion-ja37"/>

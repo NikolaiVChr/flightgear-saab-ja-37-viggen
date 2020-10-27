@@ -12,26 +12,7 @@
 		</offsets>
 		<texture>smoke.png</texture>
 		<condition>
-			<or>
-				<property>sim/multiplay/generic/bool[3]</property> <!-- /environment/damage-smoke -->
-				<!-- backwards compatibility - damage smoke: bit 2-->
-				<equals>
-					<property>sim/multiplay/generic/int[18]</property>
-					<value>2</value>
-				</equals>
-				<equals>
-					<property>sim/multiplay/generic/int[18]</property>
-					<value>3</value>
-				</equals>
-				<equals>
-					<property>sim/multiplay/generic/int[18]</property>
-					<value>6</value>
-				</equals>
-				<equals>
-					<property>sim/multiplay/generic/int[18]</property>
-					<value>7</value>
-				</equals>
-			</or>
+			<property>sim/multiplay/generic/bool[3]</property><!-- /environment/damage-smoke -->
 		</condition>
 		<emissive>false</emissive>
 		<lighting>false</lighting>

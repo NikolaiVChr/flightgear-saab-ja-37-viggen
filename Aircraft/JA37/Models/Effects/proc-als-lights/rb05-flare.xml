@@ -8,20 +8,23 @@
     <object-name>procedural_light</object-name>
   </effect>
 
+  <!-- dist-scale causes issues with some FG LOD mechanism: high dist-scale factors
+    cause the object to become invisible when it should not be.
+    Split between a scale and a dist-scale to work around the issue. -->
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
-    <x-offset>10</x-offset>
-    <y-offset>10</y-offset>
-    <z-offset>10</z-offset>
+    <x-offset>50</x-offset>
+    <y-offset>50</y-offset>
+    <z-offset>50</z-offset>
   </animation>
 
   <animation>
     <type>dist-scale</type>
     <object-name>procedural_light</object-name>
     <interpolation>
-      <entry><ind>0</ind><dep>0.5</dep></entry>
-      <entry><ind>6000</ind><dep>30</dep></entry>
+      <entry><ind>0</ind><dep>0.1</dep></entry>
+      <entry><ind>6000</ind><dep>6</dep></entry>
     </interpolation>
   </animation>
 

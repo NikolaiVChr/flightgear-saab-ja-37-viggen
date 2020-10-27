@@ -49,6 +49,10 @@
             </style>
         </gui>
 
+        <state n="0" include="states/cold-and-dark.xml"/>
+        <state n="1" include="states/ready-for-takeoff.xml"/>
+        <!--<state n="2" include="states/cruise.xml"/>-->
+
         <submodels>
             <serviceable type="bool">1</serviceable>
             <path>Aircraft/JA37/Systems/ja37-submodels.xml</path>
@@ -361,9 +365,6 @@
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
-                int[17]  = wow bits - deprecated
-                int[18]  = contrails and damage smoke bits - deprecated
-                int[19]  = outer pylons sidewinders and canard tip vapour bits - deprecated
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
@@ -377,25 +378,22 @@
                 rotors/main/blade[3]/flap-deg      = flares
 
                 used up to:
-                int[19], short[7], bool[22], float[19]
+                int[2], short[11], bool[22], float[19]
 
                 unused:
-                int[5], int[6], int[9], int[10] (for flares in the future ?), int[11-15],
-                float[1], float[4], float[6], float[8], float[10], float[15], float[18]
+                int[1]
+                float[1], float[4], float[6], float[8], float[10-15], float[18]
                 bool[15-19]
              -->
             <generic>
                 <!-- effects -->
                 <short n="3" alias="/ja37/effect/smoke"/>                       <!-- airshow smoke -->
-                <int n="0" alias="/ja37/effect/smoke"/>                         <!-- to show smoke - deprecated -->
                 <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
                 <bool n="4"/>                                                   <!-- contrail - nasal -->
                 <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
                 <bool n="14" alias="/damage/sounds/explode-on"/>                <!-- aircraft explosion -->
-                <int n="7" alias="/damage/sounds/explode-on"/>                  <!-- explosion - deprecated -->
                 <bool n="12" alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- broken wing -->
-                <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/> <!-- detached canopy -->
-                <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>  <!-- to show detachment of canopy - deprecated-->
+                <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/><!-- detached canopy -->
                 <int n="2" type="int">0</int>                                   <!-- radar - nasal -->
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
@@ -408,10 +406,8 @@
                 <bool n="9" alias="/engines/engine/running"/>                   <!-- used for engine animations -->
                 <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used for engine flame -->
                 <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
-                <int n="3" alias="/engines/engine/running"/>                    <!-- used in MP sound - deprecated -->
-                <int n="4" alias="/engines/engine[0]/augmentation"/>            <!-- used in MP sound - deprecated -->
-                <int n="8" alias="/engines/engine[0]/is-reversed"/>             <!-- to animate afterburnerflame - deprecated -->
                 <float n="9"/>                                                  <!-- inverted scene red color -->
+                <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- nose wheel steering -->
                 <!-- Animating light -->
                 <bool n="0" alias="/ja37/effect/landing-light"/>
                 <bool n="1" alias="/ja37/effect/taxi-light"/>
@@ -420,21 +416,19 @@
                 <short n="1" alias="/ja37/effect/formation-light"/>
                 <short n="2" alias="/ja37/effect/rear-navigation-light"/>
                 <!-- Stores -->
-                <float n="11" alias="/payload/weight[0]/weight-lb"/>            <!-- left wing -->
-                <float n="12" alias="/payload/weight[1]/weight-lb"/>            <!-- left fuselage -->
-                <float n="13" alias="/payload/weight[2]/weight-lb"/>            <!-- right wing -->
-                <float n="14" alias="/payload/weight[3]/weight-lb"/>            <!-- right fuselage -->
+                <short n="8" alias="/payload/armament/station/id-1-type-id"/>   <!-- left wing -->
+                <short n="9" alias="/payload/armament/station/id-2-type-id"/>   <!-- left fuselage -->
+                <short n="10" alias="/payload/armament/station/id-3-type-id"/>  <!-- right wing -->
+                <short n="11" alias="/payload/armament/station/id-4-type-id"/>  <!-- right fuselage -->
                 <!-- booleans for outer pylons because they can only mount a rb24/rb74 -->
-                <bool n="6" alias="/payload/weight[4]/weight-lb"/>              <!-- outer left wing -->
-                <bool n="7" alias="/payload/weight[5]/weight-lb"/>              <!-- outer left wing -->
+                <bool n="6" alias="/payload/armament/station/id-5-count"/>      <!-- outer left wing -->
+                <bool n="7" alias="/payload/armament/station/id-6-count"/>      <!-- outer right wing -->
                 <bool n="8" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank -->
-                <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>      <!-- drop tank - deprecated -->
-                <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- nose wheel steering -->
                 <!-- m71 ammo -->
-                <short n="4" alias="/payload/weight[0]/ammo"/>
-                <short n="5" alias="/payload/weight[1]/ammo"/>
-                <short n="6" alias="/payload/weight[2]/ammo"/>
-                <short n="7" alias="/payload/weight[3]/ammo"/>
+                <short n="4" alias="/payload/armament/station/id-1-count"/>
+                <short n="5" alias="/payload/armament/station/id-2-count"/>
+                <short n="6" alias="/payload/armament/station/id-3-count"/>
+                <short n="7" alias="/payload/armament/station/id-4-count"/>
                 <!-- GCI -->
                 <bool n="20" type="bool" alias="/instrumentation/gci/picture"/>
                 <bool n="21" type="bool" alias="/instrumentation/gci/bogeydope"/>
@@ -569,10 +563,6 @@
                 <color type="double">0</color>
             </heatblur>
             <!--<g-suit type="int">3</g-suit>--><!-- 1:71 2:79 3:97 moved to individual aircraft set files -->
-            <pod0 type="bool">true</pod0>
-            <pod1 type="bool">true</pod1>
-            <pod2 type="bool">true</pod2>
-            <pod3 type="bool">true</pod3>
             <rust-outside type="bool">false</rust-outside>
             <rust-inside type="bool">false</rust-inside>
             <swedish-labels type="bool">false</swedish-labels>
@@ -1034,6 +1024,8 @@
     <controls>
         <armament>
             <trigger type="bool">false</trigger>
+            <trigger-final type="bool">false</trigger-final>
+            <trigger-unsafe type="bool">false</trigger-unsafe>
             <station n="1">
                 <offsets>
                     <x-m type="double">  4.15986</x-m>
@@ -1042,6 +1034,8 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <trigger-m55 type="bool">false</trigger-m55>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="2">
                 <offsets>
@@ -1051,6 +1045,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="3">
                 <offsets>
@@ -1060,6 +1055,8 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <trigger-m55 type="bool">false</trigger-m55>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="4">
                 <offsets>
@@ -1069,6 +1066,7 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
                 <trigger-m70 type="bool">false</trigger-m70>
+                <jettison-pod type="bool">false</jettison-pod>
             </station>
             <station n="5"><!-- left outer wing -->
                 <offsets>
@@ -1085,6 +1083,13 @@
                     <z-m type="double"> -0.73722</z-m>
                 </offsets>
                 <trigger type="bool">false</trigger>
+            </station>
+            <station n="7"><!-- center station -->
+                <offsets>
+                    <x-m type="double">  -0.09941</x-m>
+                    <y-m type="double">  0</y-m>
+                    <z-m type="double">  -0.97819</z-m>
+                </offsets>
             </station>
             <station n="8"><!-- M55 -->
                 <trigger type="bool">false</trigger>
@@ -1567,6 +1572,25 @@
 
     <payload>
         <armament include="Systems/armament.xml"/>
+        <weight n="6">
+            <name type="string">Center fuselage pylon</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
+            <selected>Drop tank</selected>
+            <opt>
+                <name>none</name>
+                <lbs>0</lbs>
+            </opt>
+            <opt>
+                <name>Drop tank</name>
+                <lbs>211.64</lbs>
+            </opt>
+        </weight>
+        <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
+            <name type="string">Pilot</name>
+            <weight-lb type="double">158.7328</weight-lb>
+            <min-lb type="double">119</min-lb>
+            <max-lb type="double">220.5</max-lb>
+        </weight>
     </payload>
 
     <!-- Using commandline these can be entered at start. Areas should max have 8 points. The others max 48 steerpoints including dest/dep. Format GPX or FG xml. -->
@@ -1600,6 +1624,10 @@
 
 *************************************************************************-->
     <nasal>
+        <!-- Should be in first position -->
+        <variant>
+            <file>Aircraft/JA37/Nasal/variant.nas</file>
+        </variant>
         <!-- Emeary files available in FGDATA, to remove once FGDATA is updated with required bugfixes -->
         <emesary>
             <file>Aircraft/JA37/Nasal/emesary/emesary.nas</file>
@@ -1685,14 +1713,25 @@
         <crash>
             <file>Aircraft/JA37/Nasal/failure/crash-and-stress.nas</file>
         </crash>
+        <stations>
+            <file>Aircraft/JA37/Nasal/payload/station-manager.nas</file>
+        </stations>
+        <pylons>
+            <file>Aircraft/JA37/Nasal/payload/pylons.nas</file>
+        </pylons>
         <armament>
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
-            <file>Aircraft/JA37/Nasal/payload/stores.nas</file>
         </armament>
         <notifications>
             <file>Aircraft/JA37/Nasal/emesary/ArmamentNotification.nas</file>
             <file>Aircraft/JA37/Nasal/emesary/GeoBridgedTransmitter.nas</file>
         </notifications>
+        <fire_control>
+            <file>Aircraft/JA37/Nasal/payload/fire-control.nas</file>
+        </fire_control>
+        <impact>
+            <file>Aircraft/JA37/Nasal/payload/impact.nas</file>
+        </impact>
         <damage>
             <file>Aircraft/JA37/Nasal/failure/damage.nas</file>
         </damage>

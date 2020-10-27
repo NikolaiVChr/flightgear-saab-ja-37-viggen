@@ -74,9 +74,6 @@
             <systems>
                 <state type="string">ready</state>
             </systems>
-            <hud>
-                <units-metric type="bool">false</units-metric>
-            </hud>
             <avionics>
                 <!--<master-warning-button type="bool">true</master-warning-button>-->
                 <init-done type="bool">true</init-done>

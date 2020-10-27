@@ -6,11 +6,10 @@ var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
-var is_ja = (getprop("ja37/systems/variant") == 0);
 var maxRadarRange = 120000; #meters
 var radarRange = maxRadarRange;
 var rwrRange = 200000;
-var groundRadar = !is_ja;
+var groundRadar = !variant.JA;
 # Aircrafts beyond that range will be entirely ignored
 var ignoreRange = math.max(radarRange, rwrRange);
 
@@ -65,7 +64,49 @@ var unlockSelection = func () {
     disableSteerOrder();
     selection = nil;
   }
-};
+}
+
+var selectNextWaypoint = func () {
+  if (getprop("ja37/avionics/cursor-on") != FALSE) {
+    var active_wp = getprop("autopilot/route-manager/current-wp");
+
+    if (active_wp == nil or active_wp < 0) {
+      screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
+      return;
+    }
+
+    var active_node = globals.props.getNode("autopilot/route-manager/route/wp["~active_wp~"]");
+
+    if (active_node == nil) {
+      screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
+      return;
+    }
+
+    var lat = active_node.getNode("latitude-deg");
+    var lon = active_node.getNode("longitude-deg");
+    var alt = active_node.getNode("altitude-m").getValue();
+
+    if (alt < -9000) {
+      var ground = geo.elevation(lat.getValue(), lon.getValue());
+      if(ground != nil) {
+        alt = ground;
+      } else {
+        screen.log.write("Active route-manager waypoint has no altitude, unable to create target.", 1.0, 0.0, 0.0);
+        return;
+      }
+    }
+
+    var name = active_node.getNode("id");
+
+    var coord = geo.Coord.new();
+    coord.set_latlon(lat.getValue(), lon.getValue(), alt+1);#plus 1 to raise it a little above ground if its on ground, so LOS can still have view of it.
+
+    var contact = ContactGPS.new(name.getValue(), coord);
+
+    setSelection(contact);
+  }
+}
+
 
 
 # True altitude corresponding to indicated altitude 0

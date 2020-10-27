@@ -25,7 +25,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>armament.buttonIRRB();</script>
+                <script>fire_control.cycle_weapon(); ja37.click();</script>
             </binding>
             <mod-up>
                 <binding>

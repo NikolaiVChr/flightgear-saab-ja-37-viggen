@@ -271,63 +271,49 @@
             <property type="string">consumables/fuel/tank[8]/jettisoned</property>
         </signal>
         <signal>
-            <type>bool</type>
-            <property type="string">controls/armament/station[1]/released</property>
+            <type>int</type>
+            <property type="string">payload/armament/station/id-1-type-id</property>
         </signal>
         <signal>
-            <type>bool</type>
-            <property type="string">controls/armament/station[2]/released</property>
+            <type>int</type>
+            <property type="string">payload/armament/station/id-2-type-id</property>
         </signal>
         <signal>
-            <type>bool</type>
-            <property type="string">controls/armament/station[3]/released</property>
+            <type>int</type>
+            <property type="string">payload/armament/station/id-3-type-id</property>
         </signal>
         <signal>
-            <type>bool</type>
-            <property type="string">controls/armament/station[4]/released</property>
+            <type>int</type>
+            <property type="string">payload/armament/station/id-4-type-id</property>
         </signal>
         <signal>
-            <type>bool</type>
-            <property type="string">controls/armament/station[5]/released</property>
+            <type>int</type>
+            <property>payload/armament/station/id-1-count</property>
         </signal>
         <signal>
-            <type>bool</type>
-            <property type="string">controls/armament/station[6]/released</property>
+            <type>int</type>
+            <property>payload/armament/station/id-2-count</property>
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>payload/armament/station/id-3-count</property>
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>payload/armament/station/id-4-count</property>
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>payload/armament/station/id-5-count</property>
+        </signal>
+        <signal>
+            <type>int</type>
+            <property>payload/armament/station/id-6-count</property>
         </signal>
         <signal>
             <type>bool</type>
             <property type="string">fdm/jsbsim/systems/electrical/external/available</property>
         </signal>
-        <signal>
-            <type>float</type>
-            <!-- careful, did these not change to use floating points?: -->
-            <property type="string">payload/weight[0]/weight-lb</property>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">payload/weight[1]/weight-lb</property>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">payload/weight[2]/weight-lb</property>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">payload/weight[3]/weight-lb</property>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">payload/weight[4]/weight-lb</property>
-        </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">payload/weight[5]/weight-lb</property>
-        </signal>
-        <signal>
-            <type>int8</type><!-- outer pylons sidewinders and canard tip vapour -->
-            <property type="string">sim/multiplay/generic/int[19]</property>
-        </signal>
-
 
         <!-- Gears -->
 

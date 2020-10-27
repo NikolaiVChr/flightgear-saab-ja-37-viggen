@@ -10,11 +10,6 @@
 	        <onground type="bool">true</onground>
 	      </presets>
 	    </sim>
-        <ja37>
-            <hud>
-                <units-metric type="bool">false</units-metric>
-            </hud>
-        </ja37>
         <controls>
             <gear>
                 <gear-down type="bool">true</gear-down>

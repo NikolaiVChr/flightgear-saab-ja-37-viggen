@@ -21,8 +21,6 @@ input.beeps = props.globals.getNode("instrumentation/rwr/sound").getChildren("be
 input.beeps_freq = props.globals.getNode("instrumentation/rwr/sound").getChildren("freq");
 input.beeps_vol = props.globals.getNode("instrumentation/rwr/sound").getChildren("vol");
 
-var is_ja = (getprop("/ja37/systems/variant") == 0);
-
 
 
 ### Sounds
@@ -374,7 +372,7 @@ var update_rwr = func() {
         }
 
         # Sounds
-        if (signal.type == RWR_LAUNCH) sound_incoming = is_ja; # missile launch, JA only
+        if (signal.type == RWR_LAUNCH) sound_incoming = variant.JA; # missile launch, JA only
         elsif (signal.type == RWR_MISSILE) sound_high_prf = TRUE;
         elsif (signal.type == RWR_LOCK or (signal.type == RWR_SCAN and signal.scan_active(time))) {
             # Beep sound.
@@ -410,12 +408,12 @@ var missile_launch_callback = func {
     if (input.MLW_count.getValue() == MLW_count + 1) {
         var bearing = geo.normdeg(input.MLW_bearing.getValue() - input.heading.getValue());
         signal(rand(), RWR_LAUNCH, bearing);
-        armament.ecmLog.push("Missile launch warning from %03d deg.", bearing);
+        events.ecmLog.push("Missile launch warning from %03d deg.", bearing);
     }
     MLW_count = input.MLW_count.getValue();
 }
 
-if (is_ja) setlistener(input.MLW_count, missile_launch_callback);
+if (variant.JA) setlistener(input.MLW_count, missile_launch_callback);
 
 # Missile radar warning
 var RWRRecipient = {

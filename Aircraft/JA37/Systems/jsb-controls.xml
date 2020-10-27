@@ -1268,12 +1268,27 @@
             /ja37/systems/input-controls-flight == 0
         </test>
       </switch>
+
+      <!-- For now only the JA uses trigger for cursor select.
+      On the AJS, it does nothing, and disabling it allows to fire Rb05 while using FC for Rb05 steering -->
       <switch name="names/cursor/cursor-trigger-from-flight-controls">
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
-        <test value="/controls/armament/trigger">
+        <test logic="AND" value="/controls/armament/trigger">
             /ja37/systems/input-controls-flight == 0
+            /ja37/systems/variant == 0
         </test>
+      </switch>
+      <switch name="names/trigger-final">
+        <default value="/controls/armament/trigger"/>
+        <test logic="AND" value="0">
+            /ja37/systems/input-controls-flight == 0
+            /ja37/systems/variant == 0
+        </test>
+        <test value="0">
+            /controls/armament/trigger-unsafe == 0
+        </test>
+        <output>/controls/armament/trigger-final</output>
       </switch>
 
       <summer name="names/cursor/cursor-slew-x">

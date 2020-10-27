@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+
+
+<PropertyList>
+
+	<name>m71-203</name>
+	<path>m71.ac</path>
+
+	<animation>
+		<type>select</type>
+		<object-name>m71</object-name>
+		<condition>
+			<property>payload/armament/m71/flags/msl-id-203</property>
+		</condition>
+	</animation>
+
+	<model>
+		<name>explosion</name>
+		<path>Aircraft/JA37/Models/Armament/Weapons/M71/explosion-203.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<animation>
+  		<object-name>m71</object-name>
+  		<enable-hot type="bool">false</enable-hot>
+ 	</animation>
+
+</PropertyList>

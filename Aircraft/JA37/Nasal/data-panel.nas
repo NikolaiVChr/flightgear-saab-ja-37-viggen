@@ -4,7 +4,7 @@ var FALSE = 0;
 
 #var theInit = setlistener("ja37/supported/initialized", func {
 #    removelistener(theInit);
-#    if (getprop("ja37/systems/variant") == 0) {
+#    if (variant.JA) {
 #      callInit();
 #    }
 #});
@@ -128,7 +128,7 @@ var setError = func {
 }
 
 var main = func {
-  if (getprop("ja37/systems/variant") != 0 or testDisplay != "") return;
+  if (!variant.JA or testDisplay != "") return;
   if (!power.prop.acMainBool.getValue()) {
     printDA("DAP: offline");
     return;
@@ -899,7 +899,7 @@ var disp = func {
 };
 var metric = 0;
 var loop_main = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   metric = getprop("ja37/hud/units-metric");
   disp();
   #settimer(loop_main,1);
@@ -1143,21 +1143,21 @@ var resetSign = func {
 }
 
 var toggleInOut = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   settingDir = !settingDir;
   updateProps();
   main();
 }
 
 var togglePosMsda = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   settingPos = !settingPos;
   updateProps();
   main();
 }
 
 var togglePN = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (settingSign<0) {
     settingSign = 1;
   } else {
@@ -1168,7 +1168,7 @@ var togglePN = func {
 }
 
 var test = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
 }
 
 var syst = func {
@@ -1199,7 +1199,7 @@ var updateProps = func {
 updateProps();
 
 var switch = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   settingKnob = getprop("ja37/navigation/dp-mode");
   settingSign = getprop("ja37/navigation/ispos")?-1:1;
   settingDir  = getprop("ja37/navigation/inout");
@@ -1207,7 +1207,7 @@ var switch = func {
 }
 
 var keyPress = func (key) {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("DAP: offline");
     return;
@@ -1224,7 +1224,7 @@ var keyPress = func (key) {
 }
 
 var okPress = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1234,7 +1234,7 @@ var okPress = func {
 }
 
 var okRelease = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1244,7 +1244,7 @@ var okRelease = func {
 }
 
 var lPress = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1254,7 +1254,7 @@ var lPress = func {
 }
 
 var lRelease = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1264,7 +1264,7 @@ var lRelease = func {
 }
 
 var gPress = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1274,7 +1274,7 @@ var gPress = func {
 }
 
 var gRelease = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1284,7 +1284,7 @@ var gRelease = func {
 }
 
 var xPress = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1298,7 +1298,7 @@ var xPress = func {
 }
 
 var xRelease = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;
@@ -1308,7 +1308,7 @@ var xRelease = func {
 }
 
 var backPress = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (!variant.JA) return;
   if (!power.prop.acMainBool.getValue()){
     printDA("NAV: offline");
     return;

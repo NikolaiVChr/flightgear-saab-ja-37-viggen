@@ -82,7 +82,7 @@
         <switch name="names/recoil/magnitude2">
             <default value="0"/>
             <test logic="AND" value="4397.7126"><!-- used 0.22 Kg, 741 m/s -->
-              /controls/armament/station[8]/trigger == 1
+              /controls/armament/station[1]/trigger-m55 == 1
               /ai/submodels/submodel[10]/count gt 0
               systems/recoil/impulse == 1
             </test>
@@ -92,7 +92,7 @@
         <switch name="names/recoil/magnitude3">
             <default value="0"/>
             <test logic="AND" value="4397.7126">
-              /controls/armament/station[9]/trigger == 1
+              /controls/armament/station[3]/trigger-m55 == 1
               /ai/submodels/submodel[12]/count gt 0
               systems/recoil/impulse == 1
             </test>
