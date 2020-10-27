@@ -1280,10 +1280,13 @@
         </test>
       </switch>
       <switch name="names/trigger-final">
-        <default value="0"/>
-        <test logic="OR" value="/controls/armament/trigger">
-            /ja37/systems/input-controls-flight == 1
-            /ja37/systems/variant != 0
+        <default value="/controls/armament/trigger"/>
+        <test logic="AND" value="0">
+            /ja37/systems/input-controls-flight == 0
+            /ja37/systems/variant == 0
+        </test>
+        <test value="0">
+            /controls/armament/trigger-unsafe == 0
         </test>
         <output>/controls/armament/trigger-final</output>
       </switch>
