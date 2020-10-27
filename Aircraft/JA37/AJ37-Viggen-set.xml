@@ -92,7 +92,9 @@
 
         </model>
 
-        <help include="gui/aj37-help.xml"/>
+        <help include="gui/ajs37-help.xml">
+            <title>Saab AJ-37 Viggen</title>
+        </help>
 
 
         <!--**********************************************************************
