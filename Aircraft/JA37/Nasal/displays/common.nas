@@ -46,6 +46,7 @@ var Common = {
 	        fiveHz:           "ja37/blink/two-Hz/state",
 	        rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
 	        rad_alt_ready:    "instrumentation/radar-altimeter/ready",
+	        vid:              "ja37/avionics/vid",
 	        dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         RMActive:         "autopilot/route-manager/active",
@@ -83,6 +84,7 @@ var Common = {
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
+		me.EP13();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
@@ -352,6 +354,13 @@ var Common = {
 		if (modes.landing) {
 			me.ref_alt_ldg_override = TRUE;
 		}
+	},
+
+	EP13: func {
+		# Mavericks screen
+		me.input.vid.setBoolValue(
+			modes.combat and fire_control.get_weapon() != nil and fire_control.get_weapon().type == "RB-75"
+		);
 	},
 };
 
