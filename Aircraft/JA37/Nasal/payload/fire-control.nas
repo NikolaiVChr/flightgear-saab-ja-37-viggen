@@ -278,17 +278,15 @@ var Rb05 = {
         me.active_rb05 = me.selected;
         me.weapon.mfFunction = me.makeMidFlightFunction(me.selected);
 
-        var callsign = me.weapon.callsign;
         var brevity = me.weapon.brevity;
-        var phrase = brevity~" at: "~callsign;
         if (input.mp_msg.getBoolValue()) {
-            armament.defeatSpamFilter(phrase);
+            armament.defeatSpamFilter(brevity);
         } else {
-            input.atc_msg.setValue(phrase);
+            input.atc_msg.setValue(brevity);
         }
-        events.fireLog.push("Self: "~phrase);
+        events.fireLog.push("Self: "~brevity);
 
-        me.station.fireWeapon(0);
+        me.station.fireWeapon(0, radar_logic.complete_list);
 
         me.weapon = nil;
         me.fired = TRUE;
