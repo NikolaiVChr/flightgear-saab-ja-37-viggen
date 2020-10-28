@@ -1349,6 +1349,105 @@
             </mod-up>
         </key>
 
+        <key n="10"> <!-- OSG -->
+            <name>Enter</name>
+            <!-- default: flight controls -->
+            <repeatable type="bool">true</repeatable>
+            <binding>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <command>property-adjust</command>
+                <property>/controls/flight/rudder</property>
+                <step type="double">0.05</step>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-click</property>
+                <value type="int">1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-click</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+        </key>
+
+        <key n="13"> <!-- PLIB -->
+            <name>Enter</name>
+            <!-- default: flight controls -->
+            <repeatable type="bool">true</repeatable>
+            <binding>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <command>property-adjust</command>
+                <property>/controls/flight/rudder</property>
+                <step type="double">0.05</step>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-click</property>
+                <value type="int">1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-click</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+        </key>
+
+        <key n="269">
+            <name>Enter</name>
+            <!-- default: flight controls -->
+            <repeatable type="bool">true</repeatable>
+            <binding>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <command>property-adjust</command>
+                <property>/controls/flight/rudder</property>
+                <step type="double">0.05</step>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-click</property>
+                <value type="int">1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-click</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+        </key>
+
         <key n="5">
           <name>Ctrl-E</name>
           <desc>eject</desc>

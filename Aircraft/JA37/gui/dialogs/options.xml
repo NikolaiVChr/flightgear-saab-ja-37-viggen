@@ -251,7 +251,7 @@
       <row>9</row>
       <col>1</col>
       <halign>left</halign>
-      <label>Arrow keys control radar cursor</label>
+      <label>Arrow keys control radar cursor, Enter selects</label>
     </text>
 
     <text>
