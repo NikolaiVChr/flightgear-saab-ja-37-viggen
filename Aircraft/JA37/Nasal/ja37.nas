@@ -148,7 +148,7 @@ input = {
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
-  inputFlight:      "ja37/systems/input-controls-flight",
+  inputCursor:      "controls/displays/stick-controls-cursor",
   terrainWarn:      "instrumentation/terrain-warning",
   parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
   parachuteForce:    "ja37/force",
@@ -430,8 +430,8 @@ var Saab37 = {
 
     logTime();
   
-    if (!input.inputFlight.getValue() and input.terrainWarn.getValue()) {
-      input.inputFlight.setBoolValue(TRUE);
+    if (input.inputCursor.getBoolValue() and input.terrainWarn.getValue()) {
+      input.inputCursor.setBoolValue(FALSE);
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
 
@@ -676,7 +676,7 @@ var Saab37 = {
       screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
     }
 
-    if (getprop("ja37/systems/input-controls-flight") == FALSE and rand() > 0.95) {
+    if (input.inputCursor.getBoolValue() and rand() > 0.95) {
       ja37.notice("Flight ctrls OFF. Press key 'y' to reactivate.");
     }
   },

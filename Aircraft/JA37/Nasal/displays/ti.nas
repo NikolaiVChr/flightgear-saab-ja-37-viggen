@@ -1548,7 +1548,6 @@ var TI = {
         	longitude:            "position/longitude-deg",
         	terrainOn:            "ja37/sound/terrain-on",
 			terrainWarn:          "instrumentation/terrain-warning",
-			inputFlight:          "ja37/systems/input-controls-flight",
 			cursorControlX:       "controls/displays/cursor-total-slew-x",
 			cursorControlY:       "controls/displays/cursor-total-slew-y",
 			cursorSelect:         "controls/displays/cursor-total-click",

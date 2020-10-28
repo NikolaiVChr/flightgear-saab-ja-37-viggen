@@ -108,10 +108,10 @@ var pressX2 = func {
 var cursor = func {
 	cursorOn = !cursorOn;
 	if (!cursorOn) {
-		if (!getprop("ja37/systems/input-controls-flight")) {
+		if (getprop("controls/displays/stick-controls-cursor")) {
 			ja37.notice("Cursor OFF. Flight ctrl ON.");
 		}
-		setprop("/ja37/systems/input-controls-flight", 1);
+		setprop("controls/displays/stick-controls-cursor", 0);
 	}
 }
 

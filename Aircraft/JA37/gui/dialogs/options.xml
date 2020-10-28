@@ -51,16 +51,9 @@
     <layout>table</layout>
 
     <!-- HUD line width -->
-    <text>
-      <row>0</row>
-      <col>0</col>
-      <halign>left</halign>
-      <label>HUD line width</label>
-    </text>
-
     <slider>
       <row>0</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/hud/stroke-linewidth</property>
       <min>1</min>
       <max>10</max>
@@ -73,20 +66,17 @@
       </binding>
     </slider>
 
-    <!-- G suit -->
     <text>
-      <row>1</row>
-      <col>0</col>
+      <row>0</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>G-suit quality: anno 1997</label>
-      <format>G-suit quality: anno %s</format>
-      <property>/ja37/effect/g-suit-anno</property>
-      <live>true</live>
+      <label>HUD line width</label>
     </text>
 
+    <!-- G suit -->
     <slider>
       <row>1</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/effect/g-suit</property>
       <min>1</min>
       <max>3</max>
@@ -100,17 +90,20 @@
       </binding>
     </slider>
 
-    <!-- Swedish cockpit -->
     <text>
-      <row>2</row>
-      <col>0</col>
+      <row>1</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>Cockpit labels in Swedish (default: English)</label>
+      <label>G-suit quality: anno 1997</label>
+      <format>G-suit quality: anno %s</format>
+      <property>/ja37/effect/g-suit-anno</property>
+      <live>true</live>
     </text>
 
+    <!-- Swedish cockpit -->
     <checkbox>
       <row>2</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/effect/swedish-labels</property>
       <live>true</live>
       <binding>
@@ -118,17 +111,17 @@
       </binding>
     </checkbox>
 
-    <!-- Swedish HUD/TI -->
     <text>
-      <row>3</row>
-      <col>0</col>
+      <row>2</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>HUD/TI in metric units and Swedish (default: imperial and English)</label>
+      <label>Cockpit labels in Swedish (default: English)</label>
     </text>
 
+    <!-- Swedish HUD/TI -->
     <checkbox>
       <row>3</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/hud/units-metric</property>
       <live>true</live>
       <binding>
@@ -136,23 +129,17 @@
       </binding>
     </checkbox>
 
-    <!-- TI menus -->
     <text>
-      <row>4</row>
-      <col>0</col>
+      <row>3</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>TI Display: show non-functional menu items</label>
-      <visible>
-        <equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </equals>
-      </visible>
+      <label>HUD/TI in metric units and Swedish (default: imperial and English)</label>
     </text>
 
+    <!-- TI menus -->
     <checkbox>
       <row>4</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/displays/show-full-menus</property>
       <live>true</live>
       <binding>
@@ -166,12 +153,11 @@
       </visible>
     </checkbox>
 
-    <!-- TI map -->
     <text>
-      <row>5</row>
-      <col>0</col>
+      <row>4</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>TI Display: use Internet to fetch map</label>
+      <label>TI Display: show non-functional menu items</label>
       <visible>
         <equals>
           <property>/ja37/systems/variant</property>
@@ -180,9 +166,10 @@
       </visible>
     </text>
 
+    <!-- TI map -->
     <checkbox>
       <row>5</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/displays/live-map</property>
       <live>true</live>
       <binding>
@@ -196,17 +183,23 @@
       </visible>
     </checkbox>
 
-    <!-- Outside rust -->
     <text>
-      <row>6</row>
-      <col>0</col>
+      <row>5</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>Rust on fuselage (requires ALS)</label>
+      <label>TI Display: use Internet to fetch map</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
     </text>
 
+    <!-- Outside rust -->
     <checkbox>
       <row>6</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/effect/rust-outside</property>
       <live>true</live>
       <binding>
@@ -215,15 +208,15 @@
     </checkbox>
 
     <text>
-      <row>7</row>
-      <col>0</col>
+      <row>6</row>
+      <col>1</col>
       <halign>left</halign>
-      <label>Rust in cockpit (requires ALS)</label>
+      <label>Rust on fuselage (requires ALS)</label>
     </text>
 
     <checkbox>
       <row>7</row>
-      <col>1</col>
+      <col>0</col>
       <property>/ja37/effect/rust-inside</property>
       <live>true</live>
       <binding>
@@ -231,22 +224,101 @@
       </binding>
     </checkbox>
 
+    <text>
+      <row>7</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>Rust in cockpit (requires ALS)</label>
+    </text>
+
     <hrule>
       <row>8</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
-    <text>
-      <row>9</row>
-      <col>0</col>
-      <halign>left</halign>
-      <label>Enable multiplayer damage</label>
-    </text>
-
     <checkbox>
       <row>9</row>
+      <col>0</col>
+      <property>controls/displays/arrows-controls-cursor</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <text>
+      <row>9</row>
       <col>1</col>
+      <halign>left</halign>
+      <label>Arrow keys control radar cursor</label>
+    </text>
+
+    <text>
+      <row>10</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>Alternative controls for radar cursor:</label>
+    </text>
+
+    <text>
+      <row>11</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label> - Add joystick bindings for the cursor through File > Joystick Configuration</label>
+    </text>
+
+    <text>
+      <row>12</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label> - Manually edit joystick configuration files to bind the properties</label>
+    </text>
+
+    <text>
+      <row>13</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>    /controls/displays/cursor-slew-x</label>
+    </text>
+
+    <text>
+      <row>14</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>    /controls/displays/cursor-slew-y</label>
+    </text>
+
+    <text>
+      <row>15</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>    /controls/displays/cursor-click</label>
+    </text>
+
+    <text>
+      <row>16</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label> - Press 'y' to temporarily control the cursor with the main flight controls.</label>
+    </text>
+
+    <hrule>
+      <row>17</row>
+      <col>0</col>
+      <colspan>2</colspan>
+    </hrule>
+
+    <checkbox>
+      <row>18</row>
+      <col>0</col>
       <enable><property>/ja37/on-ground</property></enable>
       <property>/payload/armament/msg</property>
       <live>true</live>
@@ -254,22 +326,41 @@
         <command>dialog-apply</command>
       </binding>
     </checkbox>
-  </group>
 
     <text>
+      <row>18</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>Enable multiplayer damage</label>
+    </text>
+
+    <text>
+      <row>19</row>
+      <col>0</col>
+      <colspan>2</colspan>
       <halign>left</halign>
       <label>This option allows to deal and receive damage from other compatible aircrafts,</label>
     </text>
     <text>
+      <row>20</row>
+      <col>0</col>
+      <colspan>2</colspan>
       <halign>left</halign>
       <label>if they have also enabled it. It can only be toggled when stopped on the ground.</label>
     </text>
     <text>
+      <row>21</row>
+      <col>0</col>
+      <colspan>2</colspan>
       <halign>left</halign>
       <label>Enabling this enforces some realism options, such as blackout, normal simulation</label>
     </text>
     <text>
+      <row>22</row>
+      <col>0</col>
+      <colspan>2</colspan>
       <halign>left</halign>
       <label>speed, and disabling fuel, payload, and repair menus while in flight.</label>
     </text>
+  </group>
 </PropertyList>

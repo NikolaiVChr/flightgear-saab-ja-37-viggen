@@ -490,15 +490,19 @@
             <desc>Cursor control</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>ja37/systems/input-controls-flight</property>
+                <property>controls/displays/stick-controls-cursor</property>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>if (getprop("ja37/systems/input-controls-flight")) ja37.notice("Cursor ctrl OFF. Flight ctrl ON.");
-                        else ja37.notice("Cursor ctrl ON. Flight ctrl OFF.");</script>
+                <script>
+                  if (getprop("controls/displays/stick-controls-cursor")) {
+                      ja37.notice("Cursor ctrl ON. Flight ctrl OFF.");
+                  } else {
+                      ja37.notice("Cursor ctrl OFF. Flight ctrl ON.");
+                  }
+                </script>
             </binding>
         </key>
-        
         <key n="91">
             <name>[</name>
             <desc>Decrease radar range</desc>
@@ -1171,6 +1175,39 @@
 
         <key n="356">
             <name>Left</name>
+            <!-- default: flight controls -->
+            <binding>
+                <command>nasal</command>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <script>
+                    if (getprop("/sim/freeze/replay-state"))
+                        controls.replaySkip(-5);
+                    else
+                        controls.incAileron(-0.05, -1.0);
+                </script>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-slew-x</property>
+                <value type="int">-1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-slew-x</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+            <!-- Ctrl: Trim/autopilot control -->
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
@@ -1190,6 +1227,39 @@
 
         <key n="358">
             <name>Right</name>
+            <!-- default: flight controls -->
+            <binding>
+                <command>nasal</command>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <script>
+                    if (getprop("/sim/freeze/replay-state"))
+                        controls.replaySkip(5);
+                    else
+                        controls.incAileron(0.05, 1.0);
+                </script>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-slew-x</property>
+                <value type="int">1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-slew-x</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+            <!-- Ctrl: Trim/autopilot control -->
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
@@ -1205,6 +1275,78 @@
                     </binding>
                 </mod-up>
             </mod-ctrl>
+        </key>
+
+        <key n="357">
+            <name>Up</name>
+            <!-- default: flight controls -->
+            <binding>
+                <command>nasal</command>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <script>
+                    if (getprop("/sim/freeze/replay-state"))
+                        controls.speedup(1);
+                    else
+                        controls.incElevator(0.05, -100);
+                </script>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-slew-y</property>
+                <value type="int">-1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-slew-y</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+        </key>
+
+        <key n="359">
+            <name>Down</name>
+            <!-- default: flight controls -->
+            <binding>
+                <command>nasal</command>
+                <condition>
+                    <not><property>controls/displays/arrows-controls-cursor</property></not>
+                </condition>
+                <script>
+                    if (getprop("/sim/freeze/replay-state"))
+                        controls.speedup(-1);
+                    else
+                        controls.incElevator(-0.05, 100);
+                </script>
+            </binding>
+            <!-- alternate: cursor controls -->
+            <binding>
+                <command>property-assign</command>
+                <condition>
+                    <property>controls/displays/arrows-controls-cursor</property>
+                </condition>
+                <property>controls/displays/cursor-slew-y</property>
+                <value type="int">1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <condition>
+                        <property>controls/displays/arrows-controls-cursor</property>
+                    </condition>
+                    <property>controls/displays/cursor-slew-y</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
         </key>
 
         <key n="5">

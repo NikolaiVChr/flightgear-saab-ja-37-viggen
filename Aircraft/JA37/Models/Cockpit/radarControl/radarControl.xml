@@ -63,7 +63,7 @@
       <object-name>Wheel_KnurledFaces</object-name>
       <object-name>Wheel_SmoothFaces</object-name>
       <property>/controls/displays/cursor-total-slew-y</property>
-      <factor>25</factor>
+      <factor>-25</factor>
       <center>
       	<x-m>0</x-m>
       	<y-m>0</y-m>

@@ -8,7 +8,7 @@
 			<description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
 			<default value="fcs/elevator-cmd-norm"/>
 			<test value="fcs/elevator/input">
-				/ja37/systems/input-controls-flight == 0
+				/controls/displays/stick-controls-cursor == 1
 			</test>
 		</switch>
 		
@@ -29,7 +29,7 @@
 			<description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
 			<default value="fcs/aileron-cmd-norm"/>
 			<test value="fcs/aileron/input">
-				/ja37/systems/input-controls-flight == 0
+				/controls/displays/stick-controls-cursor == 1
 			</test>
 		</switch>
 		
@@ -50,7 +50,7 @@
 			<description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
 			<default value="fcs/rudder-cmd-norm"/>
 			<test value="fcs/rudder/input">
-				/ja37/systems/input-controls-flight == 0
+				/controls/displays/stick-controls-cursor == 1
 			</test>
 		</switch>
 		

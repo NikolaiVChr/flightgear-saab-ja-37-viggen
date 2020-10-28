@@ -1258,14 +1258,14 @@
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
         <test value="fcs/aileron-cmd-norm">
-            /ja37/systems/input-controls-flight == 0
+            /controls/displays/stick-controls-cursor == 1
         </test>
       </switch>
       <switch name="names/cursor/cursor-y-from-flight-controls">
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
-        <test value="fcs/elevator-cmd-norm">
-            /ja37/systems/input-controls-flight == 0
+        <test value="-fcs/elevator-cmd-norm">
+            /controls/displays/stick-controls-cursor == 1
         </test>
       </switch>
 
@@ -1275,14 +1275,14 @@
         <description>Cursor control component from flight controls</description>
         <default value="0"/>
         <test logic="AND" value="/controls/armament/trigger">
-            /ja37/systems/input-controls-flight == 0
+            /controls/displays/stick-controls-cursor == 1
             /ja37/systems/variant == 0
         </test>
       </switch>
       <switch name="names/trigger-final">
         <default value="/controls/armament/trigger"/>
         <test logic="AND" value="0">
-            /ja37/systems/input-controls-flight == 0
+            /controls/displays/stick-controls-cursor == 1
             /ja37/systems/variant == 0
         </test>
         <test value="0">
@@ -1333,7 +1333,7 @@
 
       <pure_gain name="names/cursor/rb05-control-pitch">
         <input>names/cursor/cursor-slew-y</input>
-        <gain>-10</gain>
+        <gain>10</gain>
         <output>/payload/armament/rb05-control-pitch</output>
       </pure_gain>
     </channel>
