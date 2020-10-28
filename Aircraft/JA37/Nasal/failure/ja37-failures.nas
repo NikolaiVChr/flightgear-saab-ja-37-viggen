@@ -1,84 +1,102 @@
+##
+# Trigger object that will fire when aircraft air-speed is over
+# min, specified in knots. Probability of failing will
+# be 0% at min speed and 100% at max speed and beyond.
+# When the specified property is 0 there is zero chance of failing.
+var RandSpeedTrigger = {
 
-var install_failures = func {
-    # random failure code:
-    # put in 3.5+ failure handling code here
-    var lsnr = setlistener("sim/signals/fdm-initialized", func {
-        if(getprop("sim/signals/fdm-initialized") == 1) {
-            #print("installing new failures B "~lsnr);
-            removelistener(lsnr);
-            #_failmgr.init();
+    parents: [FailureMgr.Trigger],
+    requires_polling: 1,
+    type: "RandSpeed",
 
-            # Load legacy failure modes for backwards compatibility
-            #io.load_nasal(getprop("/sim/fg-root") ~
-            #              "/Aircraft/Generic/Systems/compat_failure_modes.nas");
+    new: func(min, max, prop) {
+        if(min == nil or max == nil)
+            die("RandSpeedTrigger.new: min and max must be specified");
 
-            install_failures();
-            #print("installing new failures C");
+        if(min >= max)
+            die("RandSpeedTrigger.new: min must be less than max");
+
+        if(min < 0 or max <= 0)
+            die("RandSpeedTrigger.new: min must be positive or zero and max larger than zero");
+
+        if(prop == nil or prop == "")
+            die("RandSpeedTrigger.new: prop must be specified");
+
+        var m = FailureMgr.Trigger.new();
+        m.parents = [RandSpeedTrigger];
+        m.params["min-speed-kt"] = min;
+        m.params["max-speed-kt"] = max;
+        m.params["property"] = prop;
+        m._speed_prop = "/velocities/airspeed-kt";
+        return m;
+    },
+
+    to_str: func {
+        sprintf("Increasing probability of fails between %d and %d kt air-speed when deployed",
+            int(me.params["min-speed-kt"]), int(me.params["max-speed-kt"]))
+    },
+
+    update: func {
+        if(getprop(me.params["property"]) != 0) {
+            var speed = getprop(me._speed_prop);
+            var min = me.params["min-speed-kt"];
+            var max = me.params["max-speed-kt"];
+            var speed_d =  0;
+            if(speed > min) {
+                speed_d = speed-min;
+                var delta_factor = 1/(max - min);
+                var factor = speed <= max ? delta_factor*speed_d : 1;
+                if(rand() < factor) {
+                    return me.fired = 1;
+                }
+            }
         }
-    }, 0, 1);
-}
+        return me.fired = 0;
+    }
+};
+
+
+
+## Trigger if many other systems are damaged
+var DamageTrigger = {
+
+    parents: [FailureMgr.Trigger],
+    requires_polling: 1,
+    type: "Damage",
+
+    new: func(threshold) {
+        var m = FailureMgr.Trigger.new();
+        m.parents = [DamageTrigger];
+        m.params.threshold = threshold;
+        return m;
+    },
+
+    to_str: func {
+        return sprintf("Triggers when %f%% of other systems have failed", me.params.threshold);
+    },
+
+    total_failure_level: func {
+        var modes = FailureMgr._failmgr.failure_modes;
+        var total = 0;
+        foreach(var id; keys(modes)) {
+            total += modes[id].mode.get_failure_level();
+        }
+        return total / size(modes);
+    },
+
+    update: func {
+        if (me.total_failure_level() > me.params.threshold) me.fired = 1;
+        return me.fired;
+    }
+};
+
+
+
+
 
 var install_failures = func {
     #print("3.5+ failures being processed.");
     #io.include("Aircraft/Generic/Systems/failures.nas");
-
-    ##
-    # Trigger object that will fire when aircraft air-speed is over
-    # min, specified in knots. Probability of failing will
-    # be 0% at min speed and 100% at max speed and beyond.
-    # When the specified property is 0 there is zero chance of failing.
-    var RandSpeedTrigger = {
-
-        parents: [FailureMgr.Trigger],
-        requires_polling: 1,
-        type: "RandSpeed",
-
-        new: func(min, max, prop) {
-            if(min == nil or max == nil)
-                die("RandSpeedTrigger.new: min and max must be specified");
-
-            if(min >= max)
-                die("RandSpeedTrigger.new: min must be less than max");
-
-            if(min < 0 or max <= 0)
-                die("RandSpeedTrigger.new: min must be positive or zero and max larger than zero");
-
-            if(prop == nil or prop == "")
-                die("RandSpeedTrigger.new: prop must be specified");
-
-            var m = FailureMgr.Trigger.new();
-            m.parents = [RandSpeedTrigger];
-            m.params["min-speed-kt"] = min;
-            m.params["max-speed-kt"] = max;
-            m.params["property"] = prop;
-            m._speed_prop = "/velocities/airspeed-kt";
-            return m;
-        },
-
-        to_str: func {
-            sprintf("Increasing probability of fails between %d and %d kt air-speed when deployed",
-                int(me.params["min-speed-kt"]), int(me.params["max-speed-kt"]))
-        },
-
-        update: func {
-            if(getprop(me.params["property"]) != 0) {
-                var speed = getprop(me._speed_prop);
-                var min = me.params["min-speed-kt"];
-                var max = me.params["max-speed-kt"];
-                var speed_d =  0;
-                if(speed > min) {
-                    speed_d = speed-min;
-                    var delta_factor = 1/(max - min);
-                    var factor = speed <= max ? delta_factor*speed_d : 1;
-                    if(rand() < factor) {
-                        return me.fired = 1;
-                    }
-                }
-            }
-            return me.fired = 0;
-        }
-    };
-
 
     ##
     # Returns an actuator object that will set a property at
@@ -95,7 +113,6 @@ var install_failures = func {
     }
 
     var failure_root = "/sim/failure-manager";
-
 
 
     #gears
@@ -270,6 +287,7 @@ var install_failures = func {
 #    var trigger_flaps = compat_failure_modes.McbfTrigger.new(prop, 0);
 #    FailureMgr.set_trigger(prop, trigger_flaps);
 
+
     ##
     # Returns an actuator object that will set the serviceable property at
     # the given node to zero when the level of failure is > 0.
@@ -325,10 +343,19 @@ var install_failures = func {
     #prop = "fdm/jsbsim/fcs/wings";
     #var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
     #FailureMgr.add_failure_mode(prop, "Delta wings", actuator_wings);
-    
-    
 
-    
+
+
+    ## Add smoke if many other systems have failed
+    prop = "environment/damage";
+    var trigger_smoke = DamageTrigger.new(0.3);
+    var actuator_smoke = set_value(prop, 1);
+    FailureMgr.add_failure_mode(prop, "Damage smoke", actuator_smoke);
+    FailureMgr.set_trigger(prop, trigger_smoke);
+    trigger_smoke.arm();
+
+
+
 
     ## test stuff: ##
 
@@ -366,6 +393,7 @@ var install_failures = func {
 #    FailureMgr.set_trigger("gear2", trigger_gear2);
     setprop("ja37/failures/installed", 1);
 }
+
 
 var _init = func {
         removelistener(lsnr_s);

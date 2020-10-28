@@ -10,7 +10,7 @@
     <sim>
         <aircraft-version>4.318</aircraft-version>
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Josh Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Colin Geniet (Misc), Nikolai V. Chr.</author>
-        <minimum-fg-version>2018.3.1</minimum-fg-version>
+        <minimum-fg-version>2020.3.1</minimum-fg-version>
 
         <tags>
             <tag>saab</tag>
@@ -1573,21 +1573,7 @@
     </instrumentation>
 
     <payload>
-        <armament include="Systems/armament.xml">
-            <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
-            <modelsUseCase type="bool">true</modelsUseCase>
-            <modelsUpperCase type="bool">true</modelsUpperCase>
-            <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
-            <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
-            <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
-            <hit-interpolation type="bool">true</hit-interpolation>
-            <enable-craters type="bool">true</enable-craters>
-            <pylon-offset type="int">1</pylon-offset>
-            <pylon-stations>controls/armament</pylon-stations>
-            <station-name type="string">station</station-name>
-            <msg type="bool">false</msg>
-            <damage type="bool">false</damage>
-        </armament>
+        <armament include="Systems/armament.xml"/>
         <weight n="6">
             <name type="string">Center fuselage pylon</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
@@ -1666,6 +1652,7 @@
             <file>Aircraft/JA37/Nasal/radar/radar-logic.nas</file>
         </radar_logic>
         <rcs>
+            <file>Aircraft/JA37/Nasal/radar/rcs_mand.nas</file>
             <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
         </rcs>
         <rwr>
@@ -1731,6 +1718,10 @@
         <armament>
             <file>Aircraft/JA37/Nasal/payload/missiles.nas</file>
         </armament>
+        <notifications>
+            <file>Aircraft/JA37/Nasal/emesary/ArmamentNotification.nas</file>
+            <file>Aircraft/JA37/Nasal/emesary/GeoBridgedTransmitter.nas</file>
+        </notifications>
         <fire_control>
             <file>Aircraft/JA37/Nasal/payload/fire-control.nas</file>
         </fire_control>

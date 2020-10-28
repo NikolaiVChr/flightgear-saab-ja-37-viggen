@@ -27,9 +27,15 @@
 	</model>
 
 	<animation>
-  		<object-name>m71</object-name>
-  		<object-name>parachute</object-name>
-  		<enable-hot type="bool">false</enable-hot>
- 	</animation>
+		<object-name>parachute</object-name>
+		<type>scale</type>
+		<property>payload/armament/m71r/flags/deploy-id-103</property>
+	</animation>
+
+	<animation>
+		<object-name>m71</object-name>
+		<object-name>parachute</object-name>
+		<enable-hot type="bool">false</enable-hot>
+	</animation>
 
 </PropertyList>

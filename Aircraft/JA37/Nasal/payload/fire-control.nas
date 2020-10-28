@@ -213,14 +213,7 @@ var Missile = {
 
         if (me.weapon.status != armament.MISSILE_LOCK) return;
 
-        var callsign = me.weapon.callsign;
-        var brevity = me.weapon.brevity;
-        var phrase = brevity~" at: "~callsign;
-        if (input.mp_msg.getBoolValue()) {
-            armament.defeatSpamFilter(phrase);
-        } else {
-            input.atc_msg.setValue(phrase);
-        }
+        var phrase = me.weapon.brevity~" at: "~me.weapon.callsign;
         events.fireLog.push("Self: "~phrase);
 
         me.station.fireWeapon(0);
@@ -278,13 +271,7 @@ var Rb05 = {
         me.active_rb05 = me.selected;
         me.weapon.mfFunction = me.makeMidFlightFunction(me.selected);
 
-        var brevity = me.weapon.brevity;
-        if (input.mp_msg.getBoolValue()) {
-            armament.defeatSpamFilter(brevity);
-        } else {
-            input.atc_msg.setValue(brevity);
-        }
-        events.fireLog.push("Self: "~brevity);
+        events.fireLog.push("Self: "~me.weapon.brevity);
 
         me.station.fireWeapon(0, radar_logic.complete_list);
 
@@ -483,12 +470,7 @@ var Bomb = {
         if (!me.armed() or !me.weapon_ready()) trigger = FALSE;
 
         if (trigger) {
-            var brevity = me.next_weapon.brevity;
-            if (input.mp_msg.getBoolValue()) {
-                armament.defeatSpamFilter(brevity);
-            } else {
-                input.atc_msg.setValue(brevity);
-            }
+            events.fireLog.push("Self: "~me.next_weapon.brevity);
             me.start_drop_sequence();
         } else {
             me.stop_drop_sequence();

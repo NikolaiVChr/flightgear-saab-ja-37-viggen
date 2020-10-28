@@ -48,12 +48,14 @@ var findmultiplayer = func(targetCoord, dist) {
 }
 
 var hitmessage = func(typeOrd) {
-  #print("inside hitmessage");
-  var phrase = typeOrd ~ " hit: " ~ hit_callsign ~ ": " ~ hits_count ~ " hits";
   if (getprop("payload/armament/msg")) {
-    armament.defeatSpamFilter(phrase);
-  } else {
-    setprop("/sim/messages/atc", phrase);
+    var msg = notifications.ArmamentNotification.new("mhit", 4, -1*(damage.shells[typeOrd][0]+1));
+    msg.RelativeAltitude = 0;
+    msg.Bearing = 0;
+    msg.Distance = hits_count;
+    msg.RemoteCallsign = hit_callsign;
+    notifications.hitBridgedTransmitter.NotifyAll(msg);
+    events.damageLog.push("You hit "~hit_callsign~" with "~typeOrd~", "~hits_count~" times.");
   }
   hit_callsign = "";
   hit_timer = nil;
