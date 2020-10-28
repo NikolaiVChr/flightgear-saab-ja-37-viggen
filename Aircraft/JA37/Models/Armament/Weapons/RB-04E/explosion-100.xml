@@ -8,7 +8,7 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-         <property>payload/armament/rb-1004e/flags/explode-id-100</property>
+         <property>payload/armament/rb-04e/flags/explode-id-100</property>
    </condition>
 
    <attach>world</attach>
@@ -94,7 +94,7 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-         <property>payload/armament/rb-1004e/flags/explode-smoke-id-100</property>
+         <property>payload/armament/rb-04e/flags/explode-smoke-id-100</property>
    </condition>
 
    <attach>world</attach>
