@@ -1658,6 +1658,7 @@
         </radar_logic>
         <rcs>
             <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/rcs_mand.nas</file>
         </rcs>
         <rwr>
             <file>Aircraft/JA37/Nasal/radar/rwr.nas</file>
