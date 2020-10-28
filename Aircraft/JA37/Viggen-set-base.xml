@@ -10,7 +10,7 @@
     <sim>
         <aircraft-version>4.318</aircraft-version>
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Josh Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Colin Geniet (Misc), Nikolai V. Chr.</author>
-        <minimum-fg-version>2018.3.1</minimum-fg-version>
+        <minimum-fg-version>2020.3.1</minimum-fg-version>
 
         <tags>
             <tag>saab</tag>
@@ -1628,13 +1628,6 @@
         <variant>
             <file>Aircraft/JA37/Nasal/variant.nas</file>
         </variant>
-        <!-- Emeary files available in FGDATA, to remove once FGDATA is updated with required bugfixes -->
-        <emesary>
-            <file>Aircraft/JA37/Nasal/emesary/emesary.nas</file>
-        </emesary>
-        <emesary_mp_bridge>
-            <file>Aircraft/JA37/Nasal/emesary/emesary_mp_bridge.nas</file>
-        </emesary_mp_bridge>
         <events>
             <file>Aircraft/JA37/Nasal/events.nas</file>
         </events>
