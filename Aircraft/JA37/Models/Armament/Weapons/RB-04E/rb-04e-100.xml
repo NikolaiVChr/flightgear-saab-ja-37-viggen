@@ -4,19 +4,19 @@
 
 <PropertyList>
 
-	<name>rb-1004</name>
+	<name>rb-04</name>
 	<path>rb04.ac</path>
 
 	<animation>
 		<type>select</type>
 		<object-name>rb04</object-name>
 		<condition>
-			<property>payload/armament/rb-1004e/flags/msl-id-100</property>
+			<property>payload/armament/rb-04e/flags/msl-id-100</property>
 		</condition>
 	</animation>
 
 	<model>
-		<path>Aircraft/JA37/Models/Armament/Weapons/RB-1004E/motor-smoke-100.xml</path>
+		<path>Aircraft/JA37/Models/Armament/Weapons/RB-04E/motor-smoke-100.xml</path>
 		<offsets>
 			<x-m>1.90437</x-m>
 			<y-m>0</y-m>
@@ -26,7 +26,7 @@
 
 	<model>
 		<name>explosion</name>
-		<path>Aircraft/JA37/Models/Armament/Weapons/RB-1004E/explosion-100.xml</path>
+		<path>Aircraft/JA37/Models/Armament/Weapons/RB-04E/explosion-100.xml</path>
 		<offsets>
 			<x-m>0</x-m>
 			<y-m>0</y-m>

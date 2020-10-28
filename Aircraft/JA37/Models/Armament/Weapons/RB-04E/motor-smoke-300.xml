@@ -8,7 +8,7 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-         <property>payload/armament/rb-3004e/flags/smoke-id-300</property>
+         <property>payload/armament/rb-04e/flags/smoke-id-300</property>
    </condition>
 
    <attach>world</attach>
