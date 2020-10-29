@@ -671,6 +671,7 @@ var AIM = {
 		m.speed_down_fps  = nil;
 		m.speed_east_fps  = nil;
 		m.speed_north_fps = nil;
+		m.speed_horizontal_fps = nil;
 		m.alt_ft          = nil;
 		m.pitch           = nil;
 		m.hdg             = nil;
@@ -1414,6 +1415,7 @@ var AIM = {
 		me.speed_down_fps = getprop("velocities/speed-down-fps");
 		me.speed_east_fps = getprop("velocities/speed-east-fps");
 		me.speed_north_fps = getprop("velocities/speed-north-fps");
+		me.speed_horizontal_fps = math.sqrt(me.speed_east_fps*me.speed_east_fps + me.speed_north_fps*me.speed_north_fps);
 		if (me.rail == TRUE) {
 			if (me.rail_forward == FALSE) {
 					me.u = noseAir.getValue();
@@ -1426,15 +1428,14 @@ var AIM = {
 			}
 		} elsif (me.intoBore == FALSE and me.eject_speed == 0) {
 			# to prevent the missile from falling up, we need to sometimes pitch it into wind:
-			var h_spd = math.sqrt(me.speed_east_fps*me.speed_east_fps + me.speed_north_fps*me.speed_north_fps);
 			#var t_spd = math.sqrt(me.speed_down_fps*me.speed_down_fps + h_spd*h_spd);
-			var wind_pitch = math.atan2(-me.speed_down_fps, h_spd) * R2D;
+			var wind_pitch = math.atan2(-me.speed_down_fps, me.speed_horizontal_fps) * R2D;
 			if (wind_pitch < ac_pitch) {
 				# super hack, and might temporary as missile leaves launch platform look stupid:
 				ac_pitch = wind_pitch;
 				# this should really take place over a duration instead of instantanious.
 			}
-			if (h_spd != 0) {
+			if (me.speed_horizontal_fps != 0) {
 				# will turn weapon into wind
 				# (not sure this is a good idea..might lose lock immediatly if firing with a big AoA,
 				# but then on other hand why would you do that, unless in dogfight, and there you use aim9 anyway,
