@@ -183,6 +183,8 @@
       <desc>Toggle configure HUD for final approach</desc>
      </key> -->
     <text><![CDATA[
+      A more complete PDF manual is located in Aircraft/JA37/Doc/ (or through the menu AJS-37 > Manual (open in browser)).
+
       Startup
       _______
       See checklists (Help -> Checklists) for detailled procedures.

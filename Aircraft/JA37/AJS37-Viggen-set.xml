@@ -108,6 +108,13 @@
                     <label>AJS-37</label>
                     <enabled type="bool">true</enabled>
                     <item>
+                        <label>Manual (open in browser)</label>
+                        <binding>
+                            <command>open-browser</command>
+                            <path>Aircraft/JA37/Doc/AJS_manual.pdf</path>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Select Livery</label>
                         <binding>
                             <command>nasal</command>

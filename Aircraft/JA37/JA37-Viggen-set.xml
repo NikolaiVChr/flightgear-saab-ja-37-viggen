@@ -159,6 +159,13 @@
                     <label>JA-37Di</label>
                     <enabled type="bool">true</enabled>
                     <item>
+                        <label>Manual (open in browser)</label>
+                        <binding>
+                            <command>open-browser</command>
+                            <path>Aircraft/JA37/Doc/JA_manual.pdf</path>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Select Livery</label>
                         <binding>
                             <command>nasal</command>
