@@ -307,7 +307,7 @@ var AIM = {
         m.ready_time            = getprop(m.nodeString~"ready-time");                 # time to get ready after standby mode.
         m.loal                  = getprop(m.nodeString~"lock-on-after-launch");       # bool. LOAL supported. For loal to work [optional]
         m.canSwitch             = getprop(m.nodeString~"auto-switch-target-allowed"); # bool. Can switch target at will if it loses lock [optional]
-        m.standbyFlight         = getprop(m.nodeString~"prowl-flight");               # unguided/level/gyro-pitch/5 for LOAL and that stuff, when not locked onto stuff.
+        m.standbyFlight         = getprop(m.nodeString~"prowl-flight");               # unguided/level/gyro-pitch/5/terrain-follow for LOAL and that stuff, when not locked onto stuff.
         m.switchTime            = getprop(m.nodeString~"switch-time-sec");            # auto switch of targets in flight: time to scan FoV.
         m.noCommonTarget        = getprop(m.nodeString~"no-common-target");           # bool. If true, target must be set directly on weapon.
 		# navigation, guiding and seekerhead
@@ -2133,6 +2133,8 @@ var AIM = {
 				me.level5();
 			} elsif (me.standbyFlight == "gyro-pitch") {
 				me.pitchGyro();
+			} elsif (me.standbyFlight == "terrain-follow") {
+				me.terrainFollow();
 			} else {
 				me.track_signal_e = 0;
 				me.track_signal_h = 0;
@@ -3214,58 +3216,60 @@ var AIM = {
 	            var GroundIntersectCoord = geo.Coord.new();
 	            var howmany = 0;
 	            var altitude_step = 30;
-	            
-	        	# detect terrain for use in terrain following
-	        	me.nextGroundElevationMem[1] -= 1;
-	            #First we need origin coordinates we transorfm it in xyz        
-	            xyz = {"x":me.coord.x(),                  "y":me.coord.y(),                 "z":me.coord.z()};
-	            
-	            #Then we need the coordinate of the future point at let say 20 dt
-	            me.geoPlus4 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, 5);
-	            me.geoAlt = geo.elevation(me.geoPlus4.lat(),me.geoPlus4.lon());
-	            if (me.geoAlt != nil) {
-	            	me.geoPlus4.set_alt(me.geoAlt);
-				}
-	            
-	            #Loop
-	            while(No_terrain != 1){
-	                howmany = howmany + 1;
-	                #We finalize the vector
-	                dir = {"x":me.geoPlus4.x()-me.coord.x(),  "y":me.geoPlus4.y()-me.coord.y(), "z":me.geoPlus4.z()-me.coord.z()};
-	                #We measure distance to be sure that the ground intersection is closer than geoPlus4 
-	                distance_Target = me.coord.direct_distance_to(me.geoPlus4);
-	                # Check for terrain between own aircraft and other:
-	                GroundIntersectResult = get_cart_ground_intersection(xyz, dir);
-	                if(GroundIntersectResult == nil){
-	                    No_terrain = 1;
-	                #Checking if the distance to the intersection is before or after geoPlus4
-	                }else{
-	                    GroundIntersectCoord.set_latlon(GroundIntersectResult.lat, GroundIntersectResult.lon, GroundIntersectResult.elevation);
-	                    if(me.coord.direct_distance_to(GroundIntersectCoord)>distance_Target){
-	                        No_terrain = 1;
-	                    }else{
-	                        #Raising geoPlus4 altitude by 100 meters
-	                        me.geoPlus4.set_alt(me.geoPlus4.alt()+altitude_step);
-	                        #print("Alt too low :" ~ me.geoPlus4.alt() ~ "; Raising alt by 30 meters (100 feet)");
-	                    }
-	                }
-	                
-	            }
-	            me.printGuideDetails("There was : " ~ howmany ~ " iteration of the ground loop");
-	            me.nextGroundElevation = me.geoPlus4.alt();
-	            
 
-	            me.Daground = 0;# zero for sealevel in case target is ship. Don't shoot A/S missiles over terrain. :)
-	            if(me.Tgt.get_type() == SURFACE or me.Tgt.get_type() == POINT or me.follow == TRUE) {
+	            # Do terrain following for air/ground missile (but not anti-ship), or if explicitly set with me.follow
+	            if (me.follow or (me.Tgt != nil and (me.Tgt.get_type() == SURFACE or me.Tgt.get_type() == POINT))) {
+	                # detect terrain for use in terrain following
+	                me.nextGroundElevationMem[1] -= 1;
+	                #First we need origin coordinates we transorfm it in xyz
+	                xyz = {"x":me.coord.x(),                  "y":me.coord.y(),                 "z":me.coord.z()};
+
+	                #Then we need the coordinate of the future point at let say 20 dt
+	                me.geoPlus4 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, 5);
+	                me.geoAlt = geo.elevation(me.geoPlus4.lat(),me.geoPlus4.lon());
+	                if (me.geoAlt != nil) {
+	                    me.geoPlus4.set_alt(me.geoAlt);
+	                }
+
+	                #Loop
+	                while(No_terrain != 1){
+	                    howmany = howmany + 1;
+	                    #We finalize the vector
+	                    dir = {"x":me.geoPlus4.x()-me.coord.x(),  "y":me.geoPlus4.y()-me.coord.y(), "z":me.geoPlus4.z()-me.coord.z()};
+	                    #We measure distance to be sure that the ground intersection is closer than geoPlus4 
+	                    distance_Target = me.coord.direct_distance_to(me.geoPlus4);
+	                    # Check for terrain between own aircraft and other:
+	                    GroundIntersectResult = get_cart_ground_intersection(xyz, dir);
+	                    if(GroundIntersectResult == nil){
+	                        No_terrain = 1;
+	                    #Checking if the distance to the intersection is before or after geoPlus4
+	                    }else{
+	                        GroundIntersectCoord.set_latlon(GroundIntersectResult.lat, GroundIntersectResult.lon, GroundIntersectResult.elevation);
+	                        if(me.coord.direct_distance_to(GroundIntersectCoord)>distance_Target){
+	                            No_terrain = 1;
+	                        }else{
+	                            #Raising geoPlus4 altitude by 100 meters
+	                            me.geoPlus4.set_alt(me.geoPlus4.alt()+altitude_step);
+	                            #print("Alt too low :" ~ me.geoPlus4.alt() ~ "; Raising alt by 30 meters (100 feet)");
+	                        }
+	                    }
+
+	                }
+	                me.printGuideDetails("There was : " ~ howmany ~ " iteration of the ground loop");
+	                me.nextGroundElevation = me.geoPlus4.alt();
+
 	                me.Daground = me.nextGroundElevation * M2FT;
+	            } else {
+	                me.Daground = 0;# zero for sealevel in case target is ship. Don't shoot A/S missiles over terrain. :)
 	            }
+
 	            me.loft_alt_curr = me.loft_alt;
-	            if (me.dist_curr < me.old_speed_fps * me.terminal_rise_time * FT2M and me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {
+	            if (me.Tgt != nil and me.dist_curr < me.old_speed_fps * me.terminal_rise_time * FT2M and me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {
 	            	# the missile lofts a bit at the end to avoid APN to slam it into ground before target is reached.
 	            	# end here is between 2.5-4 seconds
 	            	me.loft_alt_curr = me.loft_alt*me.terminal_alt_factor;
 	            }
-	            if (me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {# need to give the missile time to do final navigation
+	            if (me.Tgt == nil or me.dist_curr > me.old_speed_fps * me.terminal_dive_time * FT2M) {# need to give the missile time to do final navigation
 	                # it's 1 or 2 seconds for this kinds of missiles...
 	                me.t_alt_delta_ft = (me.loft_alt_curr + me.Daground - me.alt_ft);
 	                me.printGuideDetails("var t_alt_delta_m : "~me.t_alt_delta_ft*FT2M);
@@ -3439,6 +3443,13 @@ var AIM = {
         me.track_signal_e = (me.keepPitch-me.pitch) * !me.free;
         me.track_signal_h = 0;
         me.printGuide("Gyro keeping %04.1f deg pitch. Current is %04.1f deg.", me.keepPitch, me.pitch);
+	},
+
+	# Terrain following as standby guidance mode.
+	terrainFollow: func () {
+		me.cruiseAndLoft();
+		me.track_signal_e = me.raw_steer_signal_elev * !me.free;
+		me.track_signal_h = me.raw_steer_signal_head * !me.free;
 	},
 	
 	remoteControl: func () {
