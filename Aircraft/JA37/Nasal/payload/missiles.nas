@@ -2182,7 +2182,7 @@ var AIM = {
 			# missile still on rail, lets calculate its speed relative to the wind coming in from the aircraft nose.
 			me.rail_speed_into_wind = me.rail_speed_into_wind + me.speed_change_fps;
 			#printf("Rail: ms_fps=%d", me.rail_speed_into_wind);
-		} elsif (me.observing != "gyro-pitch" or (me.speed_m < me.min_speed_for_guiding and me.tooLowSpeedPass)) {
+		} else {
 			# gravity acc makes the weapon pitch down			
 			me.pitch = math.atan2(-me.speed_down_fps, me.speed_horizontal_fps ) * R2D;
 		}
