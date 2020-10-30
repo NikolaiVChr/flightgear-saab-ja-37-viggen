@@ -248,6 +248,36 @@ var Missile = {
     get_selected_pylons: func { return [me.selected]; },
 };
 
+var Rb04 = {
+    parents: [Missile.new("RB-04E")],
+
+    set_trigger: func(trigger) {
+        if (!me.armed() or !trigger or me.weapon == nil) return;
+
+        events.fireLog.push("Self: "~me.weapon.brevity);
+
+        me.station.fireWeapon(0, radar_logic.complete_list);
+
+        me.weapon = nil;
+        me.fired = TRUE;
+    },
+};
+
+var Rb15 = {
+    parents: [Missile.new("RB-15F")],
+
+    set_trigger: func(trigger) {
+        if (!me.armed() or !trigger or me.weapon == nil) return;
+
+        events.fireLog.push("Self: "~me.weapon.brevity);
+
+        me.station.fireWeapon(0, radar_logic.complete_list);
+
+        me.weapon = nil;
+        me.fired = TRUE;
+    },
+};
+
 ### Rb-05 has some special additional logic for remote control.
 var Rb05 = {
     parents: [Missile.new("RB-05A")],
@@ -514,8 +544,8 @@ if (variant.JA) {
         Missile.new("RB-24"),
         SubModelWeapon.new("M55 AKAN"),
         SubModelWeapon.new("M70 ARAK"),
-        Missile.new("RB-15F"),
-        Missile.new("RB-04E"),
+        Rb15,
+        Rb04,
         Missile.new("RB-75"),
         Rb05,
         Missile.new("M90"),
