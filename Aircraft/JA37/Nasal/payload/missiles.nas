@@ -5025,7 +5025,7 @@ var AIM = {
 	
 	steering_speed_G: func(meHeading, mePitch, steering_e_deg, steering_h_deg, s_fps, dt) {
 		if (s_fps == 0) {
-			return 1;
+			return 0;
 		}
 		# Get G number from steering (e, h) in deg, speed in ft/s.
 		me.meVector = me.myMath.eulerToCartesian3X(-meHeading, mePitch, 0);
@@ -5034,11 +5034,9 @@ var AIM = {
 		me.itVector = me.myMath.eulerToCartesian3X(-(meHeading+steering_h_deg), mePitch+steering_e_deg, 0);
 		me.itVector = me.myMath.normalize(me.itVector);
 		me.itVector = me.myMath.product(s_fps, me.itVector);#velocity vector if doing that steering
-		me.grVector  = [0,0,dt*g_fps];#velocity vector due to fighting gravity
 			
 		# Delta lateral velocity
 		me.dv = me.myMath.minus(me.itVector, me.meVector);
-		me.dv = me.myMath.plus(me.dv, me.grVector);
 		me.dv = me.myMath.projVectorOnPlane(me.meVectorN, me.dv);		
 		me.dv = me.myMath.magnitudeVector(me.dv);
 		
