@@ -2082,6 +2082,17 @@ var AIM = {
 		###################
 		#### Guidance.#####
 		###################
+
+		if(me.speed_m < me.min_speed_for_guiding) {
+			# No guidance at low speed.
+			# Still go through the guidance loop for sensor logic (need to check flares, LOS, etc.
+			# to detect loss of lock), but the steering commands will be ignored.
+			if (me.tooLowSpeed == FALSE) {
+				me.printStats(me.type~": Not guiding (too low speed)");
+			}
+			me.tooLowSpeed = TRUE;
+		}
+
 		if (me.guidance == "remote" or me.guidance == "remote-stable") {
 			me.printGuide("Remote control");
 			if (me.guidance == "remote-stable") {
@@ -2089,11 +2100,6 @@ var AIM = {
 			} else {
 				me.remoteControl();
 			}
-			me.limitG();
-			me.pitch      += me.track_signal_e;
-			me.hdg	      += me.track_signal_h;
-			me.printGuideDetails("%04.1f deg elevation command done, new pitch: %04.1f deg", me.track_signal_e, me.pitch);
-			me.printGuideDetails("%05.1f deg bearing command done, new heading: %05.1f", me.last_track_h, me.hdg);
 		} elsif (me.Tgt != nil and me.t_coord !=nil and me.free == FALSE and me.guidance != "unguided"
 			and (me.rail == FALSE or me.rail_passed == TRUE) and me.guidanceEnabled) {
 				#
@@ -2106,19 +2112,6 @@ var AIM = {
 				} else {
 					me.guide();
 				}
-				me.limitG();
-				
-				if (me.track_signal_e > 0 and me.pitch+me.track_signal_e > me.maxPitch and me.thrust_lbf==0) {# super hack
-	            	me.printGuideDetails("Prevented to pitch up to %.2f degs.", me.pitch+me.track_signal_e);
-	            	me.adjst = 1-(me.pitch+me.track_signal_e - me.maxPitch)/45;
-	            	if (me.adjst < 0) me.adjst = 0;
-	            	me.track_signal_e *= me.adjst;
-	            }
-	            me.pitch      += me.track_signal_e;
-            	me.hdg        += me.track_signal_h;
-            	me.pitch       = math.max(-90, math.min(90, me.pitch));
-	            me.printGuideDetails("%04.1f deg elevation command done, new pitch: %04.1f deg", me.track_signal_e, me.pitch);
-	            me.printGuideDetails("%05.1f deg bearing command done, new heading: %05.1f", me.last_track_h, me.hdg);
 	            me.observing = me.guidance;
 	    } elsif (me.guidance != "unguided" and (me.rail == FALSE or me.rail_passed == TRUE) and me.guidanceEnabled and me.free == FALSE and me.t_coord == nil
 	    		and (me.newTargetAssigned or (me.canSwitch and (me.fovLost or me.lostLOS or me.radLostLock or me.semiLostLock or me.heatLostLock) or (me.loal and me.maddog)))) {
@@ -2139,11 +2132,6 @@ var AIM = {
 				me.track_signal_e = 0;
 				me.track_signal_h = 0;
 			}
-			me.limitG();
-			me.pitch      += me.track_signal_e;
-           	me.hdg        += me.track_signal_h;
-            me.printGuideDetails("%04.1f deg elevation command done, new pitch: %04.1f deg", me.track_signal_e, me.pitch);
-            me.printGuideDetails("%05.1f deg bearing command done, new heading: %05.1f", me.last_track_h, me.hdg);
             me.observing = me.standbyFlight;
 		} else {
 			me.observing = "unguided";
@@ -2152,6 +2140,26 @@ var AIM = {
 			me.printGuide("Unguided");
 			#me.printGuideDetails(sprintf("not guiding %d %d %d %d %d",me.Tgt != nil,me.free == FALSE,me.guidance != "unguided",me.rail == FALSE,me.rail_passed == TRUE));
 		}
+
+		if(me.tooLowSpeed) {
+			# Guidance disabled due to low speed.
+			me.track_signal_e = 0;
+			me.track_signal_h = 0;
+		} elsif (me.observing != "unguided") {
+			me.limitG();
+			if (me.track_signal_e > 0 and me.pitch+me.track_signal_e > me.maxPitch and me.thrust_lbf==0) {# super hack
+				me.printGuideDetails("Prevented to pitch up to %.2f degs.", me.pitch+me.track_signal_e);
+				me.adjst = 1-(me.pitch+me.track_signal_e - me.maxPitch)/45;
+				if (me.adjst < 0) me.adjst = 0;
+				me.track_signal_e *= me.adjst;
+			}
+			me.pitch      += me.track_signal_e;
+			me.hdg        += me.track_signal_h;
+			me.pitch       = math.max(-90, math.min(90, me.pitch));
+			me.printGuideDetails("%04.1f deg elevation command done, new pitch: %04.1f deg", me.track_signal_e, me.pitch);
+			me.printGuideDetails("%05.1f deg bearing command done, new heading: %05.1f", me.last_track_h, me.hdg);
+		}
+
        	me.last_track_e = me.track_signal_e;
 		me.last_track_h = me.track_signal_h;
 
@@ -3025,13 +3033,8 @@ var AIM = {
 	},
 
 	checkForGuidance: func () {
-		if(me.speed_m < me.min_speed_for_guiding) {
-			# it doesn't guide at lower speeds
+		if(me.tooLowSpeed) {
 			me.guiding = FALSE;
-			if (me.tooLowSpeed == FALSE) {
-				me.printStats(me.type~": Not guiding (too low speed)");
-			}
-			me.tooLowSpeed = TRUE;
 		} elsif ((me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE) or (me.guidance =="laser" and me.is_laser_painted(me.Tgt) == FALSE) ) {
 			# if its semi-radar guided and the target is no longer painted
 			me.guiding = FALSE;
