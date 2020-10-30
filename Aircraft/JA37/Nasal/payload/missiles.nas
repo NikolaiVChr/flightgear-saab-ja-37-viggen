@@ -3245,7 +3245,9 @@ var AIM = {
 	                    #Checking if the distance to the intersection is before or after geoPlus4
 	                    }else{
 	                        GroundIntersectCoord.set_latlon(GroundIntersectResult.lat, GroundIntersectResult.lon, GroundIntersectResult.elevation);
-	                        if(me.coord.direct_distance_to(GroundIntersectCoord)>distance_Target){
+	                        # Factor 0.95 to account for error in the two distance computations.
+	                        # Otherwise falso positive obstacle detection occurs.
+	                        if(me.coord.direct_distance_to(GroundIntersectCoord) > 0.95 * distance_Target){
 	                            No_terrain = 1;
 	                        }else{
 	                            #Raising geoPlus4 altitude by 100 meters
