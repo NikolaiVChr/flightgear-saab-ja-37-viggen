@@ -5029,9 +5029,6 @@ var AIM = {
 	},
 	
 	steering_speed_G: func(meHeading, mePitch, steering_e_deg, steering_h_deg, s_fps, dt) {
-		if (s_fps == 0) {
-			return 0;
-		}
 		# Get G number from steering (e, h) in deg, speed in ft/s.
 		me.meVector = me.myMath.eulerToCartesian3X(-meHeading, mePitch, 0);
 		me.meVectorN= me.myMath.normalize(me.meVector);
