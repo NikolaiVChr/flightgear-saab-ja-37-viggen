@@ -49,7 +49,6 @@
                 <command>set-tooltip</command>
                 <tooltip-id>reservkurs</tooltip-id>
                 <label>Backup heading</label>
-                <property>/instrumentation/transonic-indicator</property>
             </binding>
         </hovered>
     </animation>
@@ -77,7 +76,7 @@
             <red>0.8</red>
             <green>0.34</green>
             <blue>0.06</blue>
-            <factor-prop>ja37/avionics/reservkurs-indicator</factor-prop>
+            <factor-prop>/instrumentation/indicators/reservkurs</factor-prop>
         </emission>
     </animation>
 </PropertyList>

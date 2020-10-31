@@ -69,7 +69,7 @@
   </animation>
 
     <model>
-    <path>Aircraft/JA37/Models/Instruments/RollTrimIndicator/indicator-roll.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/trim-roll.xml</path>
     <name>trim-roll</name>
     <offsets>
       <pitch-deg>0</pitch-deg>
@@ -198,7 +198,7 @@
   </model>
   
   <model>
-    <path>Aircraft/JA37/Models/Instruments/RollTrimIndicator/indicator-yaw.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/trim-yaw.xml</path>
     <name>trim-yaw</name>
     <offsets>
       <pitch-deg>0</pitch-deg>

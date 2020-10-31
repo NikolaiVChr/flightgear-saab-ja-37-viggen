@@ -1588,7 +1588,7 @@
             </function>
         </fcs_function>
 
-        <switch name="/instrumentation/transonic-indicator">
+        <switch name="/instrumentation/indicators/transonic">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
@@ -1602,7 +1602,7 @@
 
         -->
 
-        <switch name="/instrumentation/reverse-indicator">
+        <switch name="/instrumentation/indicators/reverse">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
@@ -1610,7 +1610,7 @@
             </test>
         </switch>
 
-        <switch name="propulsion/engine/cutoff-indicator">
+        <switch name="/instrumentation/indicators/cutoff">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
@@ -1619,7 +1619,7 @@
             </test>
         </switch>
 
-        <switch name="/ja37/avionics/roll-trim-centered">
+        <switch name="/instrumentation/indicators/roll-trim-centered">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
@@ -1630,7 +1630,7 @@
             </test>
         </switch>
         
-        <switch name="/ja37/avionics/yaw-trim-centered">
+        <switch name="/instrumentation/indicators/yaw-trim-centered">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
@@ -1641,35 +1641,7 @@
             </test>
         </switch>
         
-
-        <switch name="systems/electrical/battery-charging-test">
-            <description>
-                      Converted DC digital
-
-                      Used for translating texture on indicator lamp
-            </description>
-            <default value="0"/>
-            <test logic="OR" value="1">
-                systems/electrical/battery-charging-norm == 1
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/battery-indicator">
-            <default value="systems/electrical/battery-charging-norm"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/external-indicator">
-            <default value="systems/electrical/external/available"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <switch name="/ja37/avionics/reservkurs-indicator">
+        <switch name="/instrumentation/indicators/reservkurs">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1

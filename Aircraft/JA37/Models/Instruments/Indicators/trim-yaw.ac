@@ -53,7 +53,7 @@ name "Light"
 data 12
 Cylinder.002
 crease 45.0
-texture "indicator-roll.png"
+texture "trim-roll.png"
 texrep 1 1
 numvert 16
 -0.00009 0.00079 -0.00469
@@ -98,7 +98,7 @@ name "MountLight"
 data 8
 Cylinder
 crease 95.0
-texture "indicator-roll.png"
+texture "trim-roll.png"
 texrep 1 1
 numvert 64
 0 -0.00249 -0.00625

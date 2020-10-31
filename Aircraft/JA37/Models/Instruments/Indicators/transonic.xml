@@ -24,7 +24,7 @@
             <red>0.8</red>
             <green>0.7</green>
             <blue>0</blue>
-            <factor-prop>/instrumentation/transonic-indicator</factor-prop>
+            <factor-prop>/instrumentation/indicators/transonic</factor-prop>
         </emission>
     </animation>
 
@@ -69,7 +69,6 @@
                 <command>set-tooltip</command>
                 <tooltip-id>Transonic Indicator</tooltip-id>
                 <label>Transonic regime or risky low speed for reverse thrust</label>
-                <property>/instrumentation/transonic-indicator</property>
             </binding>
         </hovered>
     </animation>

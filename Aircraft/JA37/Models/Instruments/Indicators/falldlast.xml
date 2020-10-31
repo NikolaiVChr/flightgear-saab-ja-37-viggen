@@ -23,7 +23,7 @@
             <red>0.8</red>
             <green>0.3</green>
             <blue>0</blue>
-            <factor-prop>/instrumentation/release-indicator</factor-prop>
+            <factor-prop>/instrumentation/indicators/release</factor-prop>
         </emission>
     </animation>
 
@@ -45,7 +45,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>falldlast</tooltip-id>
                 <label>Load release</label>
-                <property>/instrumentation/release-indicator</property>
+                <property>/instrumentation/indicators/release</property>
             </binding>
         </hovered>
     </animation>

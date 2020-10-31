@@ -29,7 +29,7 @@
             <red>0</red>
             <green>0.7</green>
             <blue>0</blue>
-            <factor-prop>/instrumentation/reverse-indicator</factor-prop>
+            <factor-prop>/instrumentation/indicators/reverse</factor-prop>
         </emission>
     </animation>
 
@@ -43,7 +43,6 @@
                 <command>set-tooltip</command>
                 <tooltip-id>Reverse Indicator</tooltip-id>
                 <label>Reverse thrust</label>
-                <property>/instrumentation/reverse-indicator</property>
             </binding>
         </hovered>
     </animation>
