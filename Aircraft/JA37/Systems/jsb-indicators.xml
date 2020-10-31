@@ -1596,12 +1596,6 @@
             </test>
         </switch>
 
-        <!-- Swedish: REV (green)
-
-            Indicator: Engine is reversed
-
-        -->
-
         <switch name="/instrumentation/indicators/reverse">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
@@ -1629,7 +1623,7 @@
                 /controls/flight/aileron-trim gt -0.025
             </test>
         </switch>
-        
+
         <switch name="/instrumentation/indicators/yaw-trim-centered">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
@@ -1640,12 +1634,31 @@
                 /controls/flight/rudder-trim gt -0.025
             </test>
         </switch>
-        
+
         <switch name="/instrumentation/indicators/reservkurs">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/avionics/reservkurs == 1
+            </test>
+        </switch>
+
+        <switch name="instruments/indicators/released-failed">
+            <default value="/instrumentation/indicators/release-failed"/>
+            <test value="0">
+                /ja37/avionics/master-warning-button == 1
+            </test>
+            <output>/instrumentation/indicators/release-failed</output>
+        </switch>
+
+        <switch name="/instrumentation/indicators/release">
+            <default value="0"/>
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">
+                /instrumentation/indicators/release-failed == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /instrumentation/indicators/release-complete == 1
             </test>
         </switch>
 

@@ -1570,6 +1570,10 @@
             <bogeydope type="bool">false</bogeydope>
             <cutoff type="bool">false</cutoff>
         </gci>
+        <indicators>
+            <release-complete type="bool">false</release-complete>
+            <release-failed type="bool">false</release-failed>
+        </indicators>
     </instrumentation>
 
     <payload>

@@ -14,6 +14,8 @@ var input = {
     combat:     "/ja37/mode/combat",
     trigger:    "/controls/armament/trigger-final",
     unsafe:     "/controls/armament/trigger-unsafe",
+    release:    "/instrumentation/indicators/release-complete",
+    release_fail:   "/instrumentation/indicators/release-failed",
     mp_msg:     "/payload/armament/msg",
     atc_msg:    "/sim/messages/atc",
     rb05_pitch: "/payload/armament/rb05-control-pitch",
@@ -36,10 +38,12 @@ var STATIONS = pylons.STATIONS;
 # Different weapon types should inherit this object and define the methods,
 # so as to implement custom firing logic.
 var WeaponLogic = {
-    init: func(type) {
-        me.type = type;
-        me.combat = FALSE;
-        me.unsafe = FALSE;
+    new: func(type) {
+        var m = { parents: [WeaponLogic] };
+        m.type = type;
+        m.combat = FALSE;
+        m.unsafe = FALSE;
+        return m;
     },
 
     # Select a weapon.
@@ -108,8 +112,7 @@ var Missile = {
     pylons_priority: [STATIONS.R7V, STATIONS.R7H, STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H],
 
     new: func(type) {
-        var w = { parents: [Missile], };
-        w.init(type);
+        var w = { parents: [Missile, WeaponLogic.new(type)], };
         w.selected = nil;
         w.station = nil;
         w.weapon = nil;
@@ -160,7 +163,8 @@ var Missile = {
         }
     },
 
-    cycle_selection: func {
+    # Internal function, select next missile of same type.
+    _cycle_selection: func {
         # Cycling is only possible when trigger is safed.
         if (me.unsafe) return !me.fired;
 
@@ -179,6 +183,11 @@ var Missile = {
             return TRUE;
         }
     },
+
+    # Called when pressing the 'cycle missile' button.
+    # By default it is the same as the internal function,
+    # but some missile do not allow cycling, which is why two functions are used.
+    cycle_selection: func { me._cycle_selection(); },
 
     set_unsafe: func(unsafe) {
         # Call parent method
@@ -204,7 +213,7 @@ var Missile = {
         # Select next weapon when safing after firing.
         if (me.fired and !me.unsafe) {
             me.fired = FALSE;
-            me.cycle_selection();
+            me._cycle_selection();
         }
     },
 
@@ -248,33 +257,51 @@ var Missile = {
     get_selected_pylons: func { return [me.selected]; },
 };
 
-var Rb04 = {
-    parents: [Missile.new("RB-04E")],
+# Logic specific to Rb 04 / Rb 15
+var AntiShipMissile = {
+    parents: [Missile],
 
-    set_trigger: func(trigger) {
-        if (!me.armed() or !trigger or me.weapon == nil) return;
-
-        events.fireLog.push("Self: "~me.weapon.brevity);
-
-        me.station.fireWeapon(0, radar_logic.complete_list);
-
-        me.weapon = nil;
-        me.fired = TRUE;
+    new: func(type) {
+        var m = { parents: [AntiShipMissile, Missile.new(type) ] };
+        m.release_timer = maketimer(1, m, m.release_weapon);
+        m.release_timer.simulatedTime = TRUE;
+        m.release_timer.singleShot = TRUE;
+        return m;
     },
-};
 
-var Rb15 = {
-    parents: [Missile.new("RB-15F")],
-
-    set_trigger: func(trigger) {
-        if (!me.armed() or !trigger or me.weapon == nil) return;
-
+    release_weapon: func {
         events.fireLog.push("Self: "~me.weapon.brevity);
-
         me.station.fireWeapon(0, radar_logic.complete_list);
-
         me.weapon = nil;
         me.fired = TRUE;
+        input.release.setBoolValue(TRUE);
+    },
+
+    set_unsafe: func(unsafe) {
+        # Call parent method
+        call(Missile.set_unsafe, [unsafe], me);
+
+        if (!me.unsafe) {
+            # 'FALLD LAST' off when securing the trigger.
+            input.release.setBoolValue(FALSE);
+            # Interupt firing sequence
+            if (me.release_timer.isRunning) {
+                me.release_timer.stop();
+                input.release_fail.setBoolValue(TRUE);
+            }
+        }
+    },
+
+    set_trigger: func(trigger) {
+        if (!me.armed() or !trigger or me.weapon == nil or me.release_timer.isRunning) return;
+
+        me.release_timer.start();
+    },
+
+    # Cycling selected missile is not possible with the Rb04
+    cycle_selection: func {
+        if (me.type == "RB-04E") return;
+        else call(Missile._cycle_selection, [], me);
     },
 };
 
@@ -308,6 +335,9 @@ var Rb05 = {
         me.weapon = nil;
         me.fired = TRUE;
     },
+
+    # Cycling selected missile is not possible with the Rb05
+    cycle_selection: func {},
 };
 
 
@@ -317,8 +347,7 @@ var SubModelWeapon = {
     parents: [WeaponLogic],
 
     new: func(type) {
-        var w = { parents: [SubModelWeapon], };
-        w.init(type);
+        var w = { parents: [SubModelWeapon, WeaponLogic.new(type)], };
         w.selected = [];
         w.stations = [];
         w.weapons = [];
@@ -399,17 +428,15 @@ var SubModelWeapon = {
 var Bomb = {
     parents: [WeaponLogic],
 
-    release_distance: 20,   # meter
-
-    release_order: [],      # list of positions indicating release priority order.
-
     new: func(type) {
-        var w = { parents: [Bomb], };
-        w.init(type);
+        var w = { parents: [Bomb, WeaponLogic.new(type)], };
         w.positions = [];
         w.next_pos = 0;
         w.next_weapon = nil;
 
+        w.release_distance = 20;   # meter
+
+        w.release_order = [];      # list of positions indicating release priority order.
         # Release order: fuselage R/L alternating, then wing R/L alternating (AJS manual)
         for(var i=0; i<4; i+=1) {
             append(w.release_order, [STATIONS.S7H, i]);
@@ -427,8 +454,7 @@ var Bomb = {
     },
 
     select: func(pylon=nil) {
-        me.weapons = [];
-
+        me.positions = [];
         foreach(var pos; me.release_order) {
             if (me.is_pos_loaded(pos)) append(me.positions, pos);
         }
@@ -480,6 +506,7 @@ var Bomb = {
             me.next_weapon = me.get_bomb_pos(me.positions[me.next_pos]);
         } else {
             me.next_weapon = nil;
+            input.release.setBoolValue(TRUE);
         }
     },
 
@@ -494,6 +521,16 @@ var Bomb = {
 
     stop_drop_sequence: func {
         me.drop_bomb_timer.stop();
+    },
+
+    set_unsafe: func(unsafe) {
+        # Call parent method
+        call(WeaponLogic.set_unsafe, [unsafe], me);
+
+        if (!me.unsafe) {
+            # 'FALLD LAST' off when securing the trigger.
+            input.release.setBoolValue(FALSE);
+        }
     },
 
     set_trigger: func(trigger) {
@@ -544,8 +581,8 @@ if (variant.JA) {
         Missile.new("RB-24"),
         SubModelWeapon.new("M55 AKAN"),
         SubModelWeapon.new("M70 ARAK"),
-        Rb15,
-        Rb04,
+        AntiShipMissile.new("RB-04E"),
+        AntiShipMissile.new("RB-15F"),
         Missile.new("RB-75"),
         Rb05,
         Missile.new("M90"),
