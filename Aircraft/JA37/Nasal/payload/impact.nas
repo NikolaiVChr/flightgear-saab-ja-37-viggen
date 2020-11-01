@@ -55,7 +55,7 @@ var hitmessage = func(typeOrd) {
     msg.Distance = hits_count;
     msg.RemoteCallsign = hit_callsign;
     notifications.hitBridgedTransmitter.NotifyAll(msg);
-    events.damageLog.push("You hit "~hit_callsign~" with "~typeOrd~", "~hits_count~" times.");
+    damage.damageLog.push("You hit "~hit_callsign~" with "~typeOrd~", "~hits_count~" times.");
   }
   hit_callsign = "";
   hit_timer = nil;
