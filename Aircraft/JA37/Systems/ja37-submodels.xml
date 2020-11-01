@@ -127,7 +127,7 @@
         <trigger>controls/armament/station[1]/trigger-m70</trigger>
         <speed>1969</speed><!-- as per source -->
         <repeat>true</repeat>
-        <delay>0.25</delay>
+        <delay>0.1</delay><!-- manual -->
         <count>6</count>
         <x-offset>  7.2178</x-offset><!-- in feet -->
         <y-offset>  -9.0223</y-offset>
@@ -156,7 +156,7 @@
         <trigger>controls/armament/station[2]/trigger-m70</trigger>
         <speed>1969</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
+        <delay>0.1</delay><!-- manual -->
         <count>6</count>
         <x-offset> -2.9184</x-offset><!-- in feet -->
         <y-offset> -3.11679</y-offset>
@@ -185,7 +185,7 @@
         <trigger>controls/armament/station[3]/trigger-m70</trigger>
         <speed>1969</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
+        <delay>0.1</delay><!-- manual -->
         <count>6</count>
         <x-offset>  7.2178</x-offset><!-- in feet -->
         <y-offset>  9.0223</y-offset>
@@ -214,7 +214,7 @@
         <trigger>controls/armament/station[4]/trigger-m70</trigger>
         <speed>1969</speed>
         <repeat>true</repeat>
-        <delay>0.25</delay>
+        <delay>0.1</delay><!-- manual -->
         <count>6</count>
         <x-offset> -2.9184</x-offset><!-- in feet -->
         <y-offset>  3.11679</y-offset>

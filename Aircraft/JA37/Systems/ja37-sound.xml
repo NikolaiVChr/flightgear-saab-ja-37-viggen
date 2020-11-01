@@ -2253,8 +2253,8 @@
 
         <m70>
             <name>m70</name>
-            <path>Aircraft/JA37/Sounds/M70-release.wav</path>
-            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/M70-release-all.wav</path>
+            <mode>once</mode>
             <type>avionics</type>
             <condition>
                 <or>

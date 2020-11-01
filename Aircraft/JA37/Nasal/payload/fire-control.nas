@@ -14,6 +14,7 @@ var input = {
     combat:     "/ja37/mode/combat",
     trigger:    "/controls/armament/trigger-final",
     unsafe:     "/controls/armament/trigger-unsafe",
+    trigger_m70:    "/controls/armament/trigger-m70",
     release:    "/instrumentation/indicators/release-complete",
     release_fail:   "/instrumentation/indicators/release-failed",
     mp_msg:     "/payload/armament/msg",
@@ -330,8 +331,9 @@ var Rb05 = {
 var SubModelWeapon = {
     parents: [WeaponLogic],
 
-    new: func(type) {
+    new: func(type, fire_all=0) {
         var w = { parents: [SubModelWeapon, WeaponLogic.new(type)], };
+        w.fire_all = fire_all;
         w.selected = [];
         w.stations = [];
         w.weapons = [];
@@ -382,18 +384,27 @@ var SubModelWeapon = {
         # Call parent method
         call(WeaponLogic.set_unsafe, [unsafe], me);
 
+        var trigger_prop = input.trigger;
+
+        if (me.fire_all) {
+            # For rockets, trigger logic is a bit different because all rockets must be fired.
+            trigger_prop = input.trigger_m70;
+            input.trigger_m70.setBoolValue(FALSE);
+        }
+
         foreach(var weapon; me.weapons) {
-            if (me.unsafe) weapon.start(input.trigger);
+            if (me.unsafe) weapon.start(trigger_prop);
             else weapon.stop();
         }
     },
 
     set_trigger: func(trigger) {
-        if (!me.armed()) trigger = FALSE;
+        # For guns, submodel triggers are linked to the main trigger by set_unsafe,
+        # so there is nothing to do.
+        if (!me.fire_all) return;
 
-        foreach(var weapon; me.weapons) {
-            weapon.trigger.setBoolValue(trigger and weapon.operableFunction());
-        }
+        # For rockets, set the trigger ON as required, but do not set it OFF, so that all rockets get fired.
+        if (me.armed() and trigger) input.trigger_m70.setBoolValue(TRUE);
     },
 
     weapon_ready: func {
@@ -551,7 +562,7 @@ if (variant.JA) {
         Missile.new(type:"RB-99", fire_delay:0.7),
         Missile.new(type:"RB-71", fire_delay:0.7),
         Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new("M70 ARAK"),
+        SubModelWeapon.new(type:"M70 ARAK", fire_all:1),
     ];
 
     # Indices in the previous array for IR missiles.
@@ -564,7 +575,7 @@ if (variant.JA) {
         Missile.new(type:"RB-24J", fire_delay:0.7),
         Missile.new(type:"RB-24", fire_delay:0.7),
         SubModelWeapon.new("M55 AKAN"),
-        SubModelWeapon.new("M70 ARAK"),
+        SubModelWeapon.new(type:"M70 ARAK", fire_all:1),
         Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
         Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1),
         Missile.new(type:"RB-75", fire_delay:1),
