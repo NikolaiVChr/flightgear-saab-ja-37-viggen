@@ -111,12 +111,29 @@ var Missile = {
     # Selection order.
     pylons_priority: [STATIONS.R7V, STATIONS.R7H, STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H],
 
-    new: func(type) {
+    # Additional parameters:
+    #   falld_last: (bool) If the FALLD LAST indicator (for AJS) should light up after release.
+    #   fire_delay: (float) Delay between trigger pull and firing.
+    #   at_everything: (bool) Required for any lock after launch, change of lock, multiple target hit...
+    #   no_lock: (bool) Allow firing without missile lock.
+    #   cycling: (bool) If cycling pylon is allowed with the FRAMSTEGN button. default ON
+    new: func(type, falld_last=0, fire_delay=0, at_everything=0, no_lock=0, cycling=1) {
         var w = { parents: [Missile, WeaponLogic.new(type)], };
         w.selected = nil;
         w.station = nil;
         w.weapon = nil;
         w.fired = FALSE;
+        w.falld_last = falld_last;
+        w.fire_delay = fire_delay;
+        w.at_everything = at_everything;
+        w.no_lock = no_lock;
+        w.cycling = cycling;
+
+        if (w.fire_delay > 0) {
+            w.release_timer = maketimer(w.fire_delay, w, w.release_weapon);
+            w.release_timer.simulatedTime = TRUE;
+            w.release_timer.singleShot = TRUE;
+        }
         return w;
     },
 
@@ -185,9 +202,10 @@ var Missile = {
     },
 
     # Called when pressing the 'cycle missile' button.
-    # By default it is the same as the internal function,
-    # but some missile do not allow cycling, which is why two functions are used.
-    cycle_selection: func { me._cycle_selection(); },
+    # Same as _cycle_selection, unless cycling is disabled by the argument cycling in the constructor.
+    cycle_selection: func {
+        if (me.cycling) me._cycle_selection();
+    },
 
     set_unsafe: func(unsafe) {
         # Call parent method
@@ -215,20 +233,37 @@ var Missile = {
             me.fired = FALSE;
             me._cycle_selection();
         }
+
+        # FALLD LAST off when safing.
+        if (!me.unsafe) input.release.setBoolValue(FALSE);
+
+        # Interupt firing sequence if timer is running.
+        if (!me.unsafe and me.fire_delay > 0 and me.release_timer.isRunning) {
+            me.release_timer.stop();
+            input.release_fail.setBoolValue(TRUE);
+        }
     },
 
-    set_trigger: func(trigger) {
-        if (!me.armed() or !trigger or me.weapon == nil) return;
-
-        if (me.weapon.status != armament.MISSILE_LOCK) return;
-
-        var phrase = me.weapon.brevity~" at: "~me.weapon.callsign;
+    release_weapon: func {
+        var phrase = me.weapon.brevity;
+        if (me.weapon.status == armament.MISSILE_LOCK) {
+            phrase = phrase~" at: "~me.weapon.callsign;
+        }
         events.fireLog.push("Self: "~phrase);
 
-        me.station.fireWeapon(0);
+        me.station.fireWeapon(0, me.at_everything ? radar_logic.complete_list : nil);
 
         me.weapon = nil;
         me.fired = TRUE;
+        input.release.setBoolValue(me.falld_last);
+    },
+
+    set_trigger: func(trigger) {
+        if (!me.armed() or !trigger or me.weapon == nil
+            or (!me.no_lock and me.weapon.status != armament.MISSILE_LOCK)) return;
+
+        if (me.fire_delay > 0) me.release_timer.start();
+        else me.release_weapon();
     },
 
     # IR seeker manipulation
@@ -257,57 +292,9 @@ var Missile = {
     get_selected_pylons: func { return [me.selected]; },
 };
 
-# Logic specific to Rb 04 / Rb 15
-var AntiShipMissile = {
-    parents: [Missile],
-
-    new: func(type) {
-        var m = { parents: [AntiShipMissile, Missile.new(type) ] };
-        m.release_timer = maketimer(1, m, m.release_weapon);
-        m.release_timer.simulatedTime = TRUE;
-        m.release_timer.singleShot = TRUE;
-        return m;
-    },
-
-    release_weapon: func {
-        events.fireLog.push("Self: "~me.weapon.brevity);
-        me.station.fireWeapon(0, radar_logic.complete_list);
-        me.weapon = nil;
-        me.fired = TRUE;
-        input.release.setBoolValue(TRUE);
-    },
-
-    set_unsafe: func(unsafe) {
-        # Call parent method
-        call(Missile.set_unsafe, [unsafe], me);
-
-        if (!me.unsafe) {
-            # 'FALLD LAST' off when securing the trigger.
-            input.release.setBoolValue(FALSE);
-            # Interupt firing sequence
-            if (me.release_timer.isRunning) {
-                me.release_timer.stop();
-                input.release_fail.setBoolValue(TRUE);
-            }
-        }
-    },
-
-    set_trigger: func(trigger) {
-        if (!me.armed() or !trigger or me.weapon == nil or me.release_timer.isRunning) return;
-
-        me.release_timer.start();
-    },
-
-    # Cycling selected missile is not possible with the Rb04
-    cycle_selection: func {
-        if (me.type == "RB-04E") return;
-        else call(Missile._cycle_selection, [], me);
-    },
-};
-
 ### Rb-05 has some special additional logic for remote control.
 var Rb05 = {
-    parents: [Missile.new("RB-05A")],
+    parents: [Missile.new(type:"RB-05A", cycling:0)],
 
     active_rb05: nil,
 
@@ -335,9 +322,6 @@ var Rb05 = {
         me.weapon = nil;
         me.fired = TRUE;
     },
-
-    # Cycling selected missile is not possible with the Rb05
-    cycle_selection: func {},
 };
 
 
@@ -563,10 +547,10 @@ var Bomb = {
 ### List of weapon types.
 if (variant.JA) {
     var weapons = [
-        Missile.new("RB-74"),
-        Missile.new("RB-99"),
-        Missile.new("RB-71"),
-        Missile.new("RB-24J"),
+        Missile.new(type:"RB-74", fire_delay:0.7),
+        Missile.new(type:"RB-99", fire_delay:0.7),
+        Missile.new(type:"RB-71", fire_delay:0.7),
+        Missile.new(type:"RB-24J", fire_delay:0.7),
         SubModelWeapon.new("M70 ARAK"),
     ];
 
@@ -576,16 +560,16 @@ if (variant.JA) {
     var internal_gun = SubModelWeapon.new("M75 AKAN");
 } else {
     var weapons = [
-        Missile.new("RB-74"),
-        Missile.new("RB-24J"),
-        Missile.new("RB-24"),
+        Missile.new(type:"RB-74", fire_delay:0.7),
+        Missile.new(type:"RB-24J", fire_delay:0.7),
+        Missile.new(type:"RB-24", fire_delay:0.7),
         SubModelWeapon.new("M55 AKAN"),
         SubModelWeapon.new("M70 ARAK"),
-        AntiShipMissile.new("RB-04E"),
-        AntiShipMissile.new("RB-15F"),
-        Missile.new("RB-75"),
+        Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
+        Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1),
+        Missile.new(type:"RB-75", fire_delay:1),
         Rb05,
-        Missile.new("M90"),
+        Missile.new(type:"M90", at_everything:1),
         Bomb.new("M71"),
         Bomb.new("M71R"),
     ];
