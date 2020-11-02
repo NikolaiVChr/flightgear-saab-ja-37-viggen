@@ -558,6 +558,41 @@
             <output>/instrumentation/fpv/angle-right-stab-deg</output>
         </scheduled_gain>
 
+        <fcs_function name="instruments/fpv/pitch-deg">
+            <function>
+                <todegrees>
+                    <atan2>
+                        <property>-velocities/v-down-fps</property>
+                        <pow>
+                            <sum>
+                                <product>
+                                    <property>velocities/v-north-fps</property>
+                                    <property>velocities/v-north-fps</property>
+                                </product>
+                                <product>
+                                    <property>velocities/v-east-fps</property>
+                                    <property>velocities/v-east-fps</property>
+                                </product>
+                            </sum>
+                            <value>0.5</value>
+                        </pow>
+                    </atan2>
+                </todegrees>
+            </function>
+            <output>/instrumentation/fpv/pitch-deg</output>
+        </fcs_function>
+
+        <scheduled_gain name="instruments/fpv/pitch-stab-deg">
+            <input>instruments/fpv/pitch-deg</input>
+            <table>
+                <independentVar>velocities/vg-fps</independentVar>
+                <tableData>
+                    15  0
+                    20  1
+                </tableData>
+            </table>
+            <output>/instrumentation/fpv/pitch-stab-deg</output>
+        </scheduled_gain>
 
         <fcs_function name="instruments/fpv/heading-true">
             <function>
