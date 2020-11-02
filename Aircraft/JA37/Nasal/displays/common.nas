@@ -30,8 +30,11 @@ var countQFE = 0;
 var Common = {
 
 	new: func {
-	  	var co = { parents: [Common] };
-	  	co.input = {
+			var co = { parents: [Common] };
+			co.input = {
+					cursor_dx:        "controls/displays/cursor-slew-x-delta",
+					cursor_dy:        "controls/displays/cursor-slew-y-delta",
+					cursor_clicked:   "controls/displays/cursor-was-clicked",
 	        wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
 	        nav0InRange:      "instrumentation/nav[0]/in-range",
 	        qfeActive:        "ja37/displays/qfe-active",
@@ -357,10 +360,22 @@ var Common = {
 	},
 
 	EP13: func {
-		# Mavericks screen
+		# Rb 75 screen
 		me.input.vid.setBoolValue(
 			modes.combat and fire_control.get_weapon() != nil and fire_control.get_weapon().type == "RB-75"
 		);
+	},
+
+	# Cursor position low level updates are in JSBSim to not suffer from low refresh rate.
+	# These functions are the interface with this JSBSim system.
+	getCursorDelta: func {
+		return [me.input.cursor_dx.getValue(), me.input.cursor_dy.getValue(), me.input.cursor_clicked.getBoolValue()];
+	},
+
+	resetCursorDelta: func {
+		me.input.cursor_dx.setValue(0);
+		me.input.cursor_dy.setValue(0);
+		me.input.cursor_clicked.setBoolValue(0);
 	},
 };
 

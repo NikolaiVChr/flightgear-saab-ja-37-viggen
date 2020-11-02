@@ -1323,6 +1323,44 @@
         <output>/controls/displays/cursor-total-click</output>
       </switch>
 
+      <!-- Integrates cursor control, and allow the integrator to be reset from outside.
+          Displays can know how much the cursor moved between two updates by
+          reading this property then reseting it to 0.
+      -->
+      <fcs_function name="names/cursor/cursor-slew-x-delta">
+        <function>
+          <sum>
+            <property>/controls/displays/cursor-slew-x-delta</property>
+            <product>
+              <property>/controls/displays/cursor-total-slew-x</property>
+              <property>simulation/channel-dt</property>
+            </product>
+          </sum>
+        </function>
+        <output>/controls/displays/cursor-slew-x-delta</output>
+      </fcs_function>
+
+      <fcs_function name="names/cursor/cursor-slew-y-delta">
+        <function>
+          <sum>
+            <property>/controls/displays/cursor-slew-y-delta</property>
+            <product>
+              <property>/controls/displays/cursor-total-slew-y</property>
+              <property>simulation/channel-dt</property>
+            </product>
+          </sum>
+        </function>
+        <output>/controls/displays/cursor-slew-y-delta</output>
+      </fcs_function>
+
+      <switch name="names/cursor/cursor-was-clicked">
+        <default value="/controls/displays/cursor-was-clicked"/>
+        <test value="1">
+          /controls/displays/cursor-total-click == 1
+        </test>
+        <output>/controls/displays/cursor-was-clicked</output>
+      </switch>
+
       <!-- RB05 remote control. Currently hardwired to the cursor control.
            Will need to be improved when adding a cursor to the AJS -->
       <pure_gain name="names/cursor/rb05-control-yaw">
