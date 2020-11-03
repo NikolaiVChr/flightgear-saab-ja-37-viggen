@@ -70,8 +70,12 @@
         <desc>Radar range decrease / increase</desc>
     </key>
     <key>
+        <name>arrow keys</name>
+        <desc>Cursor control, if option is enabled (JA-37Di > Options)</desc>
+    </key>
+    <key>
         <name>n</name>
-        <desc>Cycle next radar track selection</desc>
+        <desc>Click display cursor</desc>
     </key>
     <key>
         <name>N</name>

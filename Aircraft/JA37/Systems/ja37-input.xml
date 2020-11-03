@@ -67,8 +67,38 @@
 
         <key n="110">
             <name>n</name>
-            <desc>Next selection</desc>
+            <desc>Cursor click</desc>
             <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-assign</command>
+                <property>controls/displays/cursor-click</property>
+                <value type="int">1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <condition>
+                        <equals>
+                            <property>/ja37/systems/variant</property>
+                            <value>0</value>
+                        </equals>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>controls/displays/cursor-click</property>
+                    <value type="int">0</value>
+                </binding>
+            </mod-up>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
                 <command>nasal</command>
                 <script>radar_logic.nextTarget()</script>
             </binding>
