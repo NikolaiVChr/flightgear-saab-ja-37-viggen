@@ -290,7 +290,10 @@ var Missile = {
 
     weapon_ready: func { return me.weapon != nil; },
 
-    get_selected_pylons: func { return [me.selected]; },
+    get_selected_pylons: func {
+        if (me.selected == nil) return [];
+        else return [me.selected];
+    },
 };
 
 ### Rb-05 has some special additional logic for remote control.
