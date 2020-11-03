@@ -1,4 +1,5 @@
-var (width,height) = (512,512);#341
+var (width_px,height_px) = (512,512);
+var (width_mm,height_mm) = (180,180);
 
 #var gone = 0;
 
@@ -20,8 +21,8 @@ var root = nil;
 var setupCanvas = func {
 	mycanvas = canvas.new({
 	  "name": "MI",
-	  "size": [width, height],
-	  "view": [width, height],
+	  "size": [width_px, height_px],
+	  "view": [width_mm, height_mm],
 
 	  "mipmapping": 1
 	});
@@ -32,26 +33,27 @@ var setupCanvas = func {
 	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
 };
 
-var (center_x, center_y) = (397/2,height/2);#396.6625
+# Center of radar area. Offset down a bit.
+var (center_x, center_y) = (width_mm/2,height_mm/2+10);
+
+var radar_area_width = 100;
 
 var texel_per_degree = 397/(85*2);
 
-var halfHeightOfSideScales   = 75 * texel_per_degree;
-var sidePositionOfSideScales = 70 * texel_per_degree;
-var ticksLong                = 10 * texel_per_degree;
-var ticksMed                 =  5 * texel_per_degree;
-var ticksShort               =2.5 * texel_per_degree;
-var sidePositionOfAltLines   = 60 * texel_per_degree;
+var halfHeightOfSideScales = 50;
+var sidePositionOfSideScales = 50;
+
+var ticksLong                = 5;
+var ticksMed                 = 3;
+var ticksShort               = 2;
+
+var heading_deg_to_mm        = radar_area_width/120;
 
 var r = 0.0;#MI colors
 var g = 1.0;
 var b = 0.0;
 var a = 1.0;#alpha
-var w = 1.0;#stroke width
-
-var fpi_min = 3;
-var fpi_med = 6;
-var fpi_max = 9;
+var w = 0.5;#stroke width
 
 var maxTracks = 32;# how many radar tracks can be shown at once in the MI (was 16)
 
@@ -59,8 +61,6 @@ var roundabout = func(x) {
   var y = x - int(x);
   return y < 0.5 ? int(x) : 1 + int(x) ;
 };
-
-var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
 var FALSE = 0;
 var TRUE = 1;
@@ -73,6 +73,7 @@ var pressP3 = func {
 
 var releaseP3 = func {
 	helpOn = FALSE;
+	mi.helpTime = mi.input.timeElapsed.getValue();
 };
 
 var press2 = func {
@@ -107,6 +108,7 @@ var pressX2 = func {
 
 var cursor = func {
 	cursorOn = !cursorOn;
+	displays.common.resetCursorDelta();
 	if (!cursorOn) {
 		if (getprop("controls/displays/stick-controls-cursor")) {
 			ja37.notice("Cursor OFF. Flight ctrl ON.");
@@ -122,16 +124,16 @@ var MI = {
 	new: func {
 	  	var mi = { parents: [MI] };
 	  	mi.input = {
+			APmode:               "fdm/jsbsim/autoflight/mode",
 			alt_m:                "instrumentation/altimeter/indicated-altitude-meter",
 			brightnessSetting:    "ja37/avionics/brightness-mi-knob",
-			cursor_slew_x:        "controls/displays/cursor-total-slew-x",
-			cursor_slew_y:        "controls/displays/cursor-total-slew-y",
 			cursor_click:         "controls/displays/cursor-total-click",
+			flash_alt_bars:       "fdm/jsbsim/systems/indicators/flashing-alt-bars",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
 			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
-			radarEnabled:         "ja37/hud/tracks-enabled",
+			radar_active:         "ja37/radar/active",
 			radarRange:           "instrumentation/radar/range",
 			radarServ:            "instrumentation/radar/serviceable",
 			ref_alt:              "ja37/displays/reference-altitude-m",
@@ -141,39 +143,38 @@ var MI = {
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
-			fpv_up:               "instrumentation/fpv/angle-up-stab-deg",
-			fpv_right:            "instrumentation/fpv/angle-right-stab-deg",
+			fpv_pitch:            "instrumentation/fpv/pitch-stab-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
-			roll:             	  "orientation/roll-deg",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
 			hdgReal:              "orientation/heading-deg",
-			tracks_enabled:   	  "ja37/hud/tracks-enabled",
-			radar_serv:       	  "instrumentation/radar/serviceable",
-			tenHz:            	  "ja37/blink/four-Hz/state",
-			qfeActive:        	  "ja37/displays/qfe-active",
-	        qfeShown:		  	  "ja37/displays/qfe-shown",
-	        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
-	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
-      	};
+			terrain_warning:      "/instrumentation/terrain-warning",
+			gpws_time:            "fdm/jsbsim/systems/indicators/time-till-crash",
+			radar_serv:           "instrumentation/radar/serviceable",
+			tenHz:                "ja37/blink/four-Hz/state",
+			qfeActive:            "ja37/displays/qfe-active",
+			qfeShown:             "ja37/displays/qfe-shown",
+			alphaJSB:             "fdm/jsbsim/aero/alpha-deg",
+			mach:                 "instrumentation/airspeed-indicator/indicated-mach",
+			wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
+		};
 
-      	foreach(var name; keys(mi.input)) {
-        	mi.input[name] = props.globals.getNode(mi.input[name], 1);
-      	}
+		foreach(var name; keys(mi.input)) {
+			mi.input[name] = props.globals.getNode(mi.input[name], 1);
+		}
 
-      	mi.setupCanvasSymbols();
+		mi.setupCanvasSymbols();
 
-      	mi.tgt_dist_last = nil;
-      	mi.off = FALSE;
-      	mi.helpTime = 0;
-      	mi.cursorPosX = 0;
-      	mi.cursorPosY = 0;
-      	mi.cursorTriggerPrev = FALSE;
-      	mi.cursorManuallyLocked = FALSE;
-      	mi.selection_updated = FALSE;
-      	mi.preventRelock = FALSE;
+		mi.off = FALSE;
+		mi.helpTime = -5;
+		mi.cursor_pos = [0,-radar_area_width/2];
+		mi.cursorTriggerPrev = FALSE;
+		mi.interoperability = mi.input.units.getValue();
+		mi.radar_range = mi.input.radarRange.getValue();
+		mi.head_true = mi.input.headTrue.getValue();
+		mi.qfe = FALSE;
 
-      	return mi;
+		return mi;
 	},
 
 	setupCanvasSymbols: func {
@@ -181,437 +182,377 @@ var MI = {
 		me.rootCenter = root.createChild("group");
 		me.rootCenter.setTranslation(center_x,center_y);
 
-		me.fpi = me.rootCenter.createChild("path")
-		      .moveTo(texel_per_degree*fpi_max, -w*2)
-		      .lineTo(texel_per_degree*fpi_min, -w*2)
-		      .moveTo(texel_per_degree*fpi_max,  w*2)
-		      .lineTo(texel_per_degree*fpi_min,  w*2)
-		      .moveTo(texel_per_degree*fpi_max, 0)
-		      .lineTo(texel_per_degree*fpi_min, 0)
-		      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0, -texel_per_degree*fpi_med, 0)
-		      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0,  texel_per_degree*fpi_med, 0)
-		      .close()
-		      .moveTo(-texel_per_degree*fpi_min, -w*2)
-		      .lineTo(-texel_per_degree*fpi_max, -w*2)
-		      .moveTo(-texel_per_degree*fpi_min,  w*2)
-		      .lineTo(-texel_per_degree*fpi_max,  w*2)
-		      .moveTo(-texel_per_degree*fpi_min,  0)
-		      .lineTo(-texel_per_degree*fpi_max,  0)
-		      #tail
-		      .moveTo(-w*1, -texel_per_degree*fpi_min)
-		      .lineTo(-w*1, -texel_per_degree*fpi_med)
-		      .moveTo(w*1, -texel_per_degree*fpi_min)
-		      .lineTo(w*1, -texel_per_degree*fpi_med)
-		      .setStrokeLineWidth(w)
-		      .setColor(r,g,b, a);
+		# FPI
+		me.fpi_wing_length = 7.5;
+		me.fpi_tail_length = 5;
+		me.fpi_circ_radius = 2.5;
+		me.fpi = me.rootCenter.createChild("group");
+		# wings
+		me.fpi.createChild("path")
+			.moveTo(me.fpi_circ_radius, 0)
+			.horiz(me.fpi_wing_length)
+			.moveTo(-me.fpi_circ_radius, 0)
+			.horiz(-me.fpi_wing_length)
+			.setStrokeLineWidth(2)
+			.setStrokeLineCap("butt")
+			.setColor(r,g,b,a);
+		# tail
+		me.fpi_tail = me.fpi.createChild("path")
+			.moveTo(0, -me.fpi_circ_radius)
+			.vert(-me.fpi_tail_length)
+			.setStrokeLineWidth(1)
+			.setStrokeLineCap("butt")
+			.setColor(r,g,b,a);
+		# circle
+		me.fpi.createChild("path")
+			.moveTo(me.fpi_circ_radius, 0)
+			.arcSmallCCW(me.fpi_circ_radius, me.fpi_circ_radius, 0, -me.fpi_circ_radius*2, 0)
+			.arcSmallCCW(me.fpi_circ_radius, me.fpi_circ_radius, 0, me.fpi_circ_radius*2, 0)
+			.close()
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
 
-		me.reticle_missile =
-      me.a2a_circle = me.rootCenter.createChild("path")
-      .setColor(r,g,b, a)
-      .moveTo( 45*texel_per_degree, 0)
-      .arcSmallCCW(45*texel_per_degree,45*texel_per_degree, 0, -45*texel_per_degree,-45*texel_per_degree)
-      .moveTo( -45*texel_per_degree, 0)
-      .arcSmallCCW(45*texel_per_degree,45*texel_per_degree, 0,  90*texel_per_degree, 0)
-      .setStrokeLineWidth(w);
-      me.a2a_circle_arc = me.rootCenter.createChild("path")
-      .setColor(r,g,b, a)
-      .moveTo(-45*texel_per_degree, 0)
-      .arcSmallCW(45*texel_per_degree,45*texel_per_degree, 0,  45*texel_per_degree,-45*texel_per_degree)
-      .setStrokeLineWidth(w);
-      me.a2a_cross = me.rootCenter.createChild("path")
-		      .moveTo(-40*texel_per_degree, 40*texel_per_degree)
-		      .lineTo(40*texel_per_degree, -40*texel_per_degree)
-		      .moveTo(40*texel_per_degree, 40*texel_per_degree)
-		      .lineTo(-40*texel_per_degree, 40*texel_per_degree)
-		      .setStrokeLineWidth(w)
-		      .setColor(r,g,b, a);
-
-
+		# Horizon
 		me.horizon_group = me.rootCenter.createChild("group");
 		me.horizon_group2 = me.horizon_group.createChild("group");
 		me.horz_rot = me.horizon_group.createTransform();
 		me.horizon_line = me.horizon_group2.createChild("path")
-		                     .moveTo(-height*0.75, -w*1.5)
-		                     .horiz(height*1.5)
-		                     .moveTo(-height*0.75, w*1.5)
-		                     .horiz(height*1.5)
-		                     .setStrokeLineWidth(w)
-		                     .setColor(r,g,b, a);
-		me.horizon_alt = me.horizon_group2.createChild("text")
-				.setText("")
-				.setFontSize((25/512)*width, 1.0)
-		        .setAlignment("center-bottom")
-		        .setTranslation(-sidePositionOfSideScales*2/3, -w*4)
-		        .setColor(r,g,b, a);
+			.moveTo(-radar_area_width*0.65, 0)
+			.horiz(radar_area_width*1.3)
+			.setStrokeLineWidth(0.7)
+			.setColor(r,g,b,a);
+		me.horizon_alt = me.horizon_group2.createChild("text");
+		me.horizon_alt.enableUpdate();
+		me.horizon_alt.updateText("")
+			.setFontSize(6, 1.0)
+			.setAlignment("center-center")
+			.setTranslation(-radar_area_width/3, -6)
+			.setColor(r,g,b,a);
 
-		for(var i = 0; i <= 20; i += 1) # alt scale (right side)
-		      me.rootCenter.createChild("path")
-		         .moveTo(sidePositionOfSideScales, -i * halfHeightOfSideScales / 10 + halfHeightOfSideScales)
-		         .horiz(ticksMed)
-		         .setStrokeLineWidth(w)
-		         .setColor(r,g,b, a);
-		for(var i = 0; i <= 4; i += 1) # alt scale large ticks (right side)
-		      me.rootCenter.createChild("path")
-		         .moveTo(sidePositionOfSideScales, -i * halfHeightOfSideScales / 2 + halfHeightOfSideScales)
-		         .horiz(ticksLong)
-		         .setStrokeLineWidth(w)
-		         .setColor(r,g,b, a);
-		me.altScaleTexts = [];
-		for(var i = 0; i <= 4; i += 1) # alt scale large ticks text (right side)
-		      append(me.altScaleTexts, me.rootCenter.createChild("text")
-		      	 .setText(i*5)
-		         .setFontSize((15/512)*width, 1.0)
-		         .setAlignment("right-bottom")
-		         .setTranslation(sidePositionOfSideScales+ticksLong, -i * halfHeightOfSideScales / 2 + halfHeightOfSideScales-w)
-		         .setColor(r,g,b, a));
+		# alt lines
+		me.alt_line_height = 25; # manual
+		me.alt_line_pos = radar_area_width * 0.48;
+		me.desired_lines = me.horizon_group2.createChild("path")
+			.moveTo(me.alt_line_pos, 0)
+			.vert(me.alt_line_height)
+			.moveTo(-me.alt_line_pos, 0)
+			.vert(me.alt_line_height)
+			.setStrokeLineWidth(3)
+			.setStrokeLineCap("butt")
+			.setColor(r,g,b,a);
 
-		me.alt_cursor = me.rootCenter.createChild("path")
-				.moveTo(0,0)
-				.lineTo(-5*texel_per_degree,5*texel_per_degree)
-				.moveTo(0,0)
-				.lineTo(-5*texel_per_degree,-5*texel_per_degree)
-				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
-
-		me.alt_tgt_cursor = me.rootCenter.createChild("path")
-				.moveTo(-ticksShort, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
-				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
-
-		me.ground_cursor = me.rootCenter.createChild("path")
-				.moveTo(-10*texel_per_degree,0)
-				.horiz(ticksLong*2)
-				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
-
-		me.cursor = me.rootCenter.createChild("path")
-				.moveTo(-ticksShort*4,0)
-				.horiz(ticksShort*8)
-				.moveTo(0,-ticksShort*4)
-				.vert(ticksShort*8)
-				.setStrokeLineWidth(w)
-				.setTranslation(0,halfHeightOfSideScales)
-		        .setColor(r,g,b, a);
-
-		me.diamond_small = me.rootCenter.createChild("path")
-				.moveTo(-6,-6)
-				.lineTo(6,6)
-				.moveTo(6,-6)
-				.lineTo(-6,6)
-				.setStrokeLineWidth(w)
-				.setTranslation(0,halfHeightOfSideScales)
-		        .setColor(r,g,b, a);
-
-		me.cursor_grp = me.rootCenter.createChild("group");
-		me.cursor_grp_trans = me.cursor_grp.createTransform();
-		me.cursor_grp2 = me.cursor_grp.createChild("group");
-		me.cursor_lock = me.cursor_grp2.createChild("path")
-				.moveTo(-ticksShort, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
-	            .moveTo(-ticksShort, 0)
-	            .horiz(-ticksShort*3)
-	            .moveTo(ticksShort, 0)
-	            .horiz(ticksShort*3)
-	            .moveTo(0, ticksShort)
-	            .vert(ticksShort*3)
-	            .moveTo(0,-ticksShort)
-	            .vert(-ticksShort*3)
-				.setStrokeLineWidth(w)
-				.hide()
-		        .setColor(r,g,b, a);
+		# RHM indicator on alt lines
+		me.rhm_index = me.horizon_group2.createChild("path")
+			.moveTo(-me.alt_line_pos + 1.5, 0)
+			.line(-5, 0)
+			.moveTo(-me.alt_line_pos + 1.5, 0)
+			.line(-5, 2.5)
+			.moveTo(me.alt_line_pos - 1.5, 0)
+			.line(5, 0)
+			.moveTo(me.alt_line_pos - 1.5, 0)
+			.line(5, 2.5)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b);
 
 		# ground
 		me.ground_grp = me.rootCenter.createChild("group");
 		me.ground2_grp = me.ground_grp.createChild("group");
 		me.ground_grp_trans = me.ground2_grp.createTransform();
 		me.groundCurve = me.ground2_grp.createChild("path")
-				.moveTo(0,0)
-				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree)
-				.moveTo(0,0)
-				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree)
-				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree)
-				.lineTo( -60*texel_per_degree, 30*texel_per_degree)
-				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree)
-				.lineTo(  60*texel_per_degree, 30*texel_per_degree)
-				.moveTo(0,w*2)
-				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree+w*2)
-				.moveTo(0,w*2)
-				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree+w*2)
-				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree+w*2)
-				.lineTo( -60*texel_per_degree, 30*texel_per_degree+w*2)
-				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree+w*2)
-				.lineTo(  60*texel_per_degree, 30*texel_per_degree+w*2)
-				.moveTo(0,-w*2)
-				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree-w*2)
-				.moveTo(0,-w*2)
-				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree-w*2)
-				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree-w*2)
-				.lineTo( -60*texel_per_degree, 30*texel_per_degree-w*2)
-				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree-w*2)
-				.lineTo(  60*texel_per_degree, 30*texel_per_degree-w*2)
-				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
-
-		    # Collision warning arrow
-		me.arr_15 = 1.5;
-		me.arr_30 = 3;
-		me.arr_90 = 9;
-		me.arr_120 = 12;
-
-		me.arrow_group = me.rootCenter.createChild("group");
-		me.arrow_trans = me.arrow_group.createTransform();
-		me.arrow =
-		      me.arrow_group.createChild("path")
-		      .setColor(r,g,b, a)
-		      .moveTo(-me.arr_15*texel_per_degree,  me.arr_90*texel_per_degree)
-		      .lineTo(-me.arr_15*texel_per_degree, -me.arr_90*texel_per_degree)
-		      .lineTo(-me.arr_30*texel_per_degree, -me.arr_90*texel_per_degree)
-		      .lineTo(  0,                         -me.arr_120*texel_per_degree)
-		      .lineTo( me.arr_30*texel_per_degree, -me.arr_90*texel_per_degree)
-		      .lineTo( me.arr_15*texel_per_degree, -me.arr_90*texel_per_degree)
-		      .lineTo( me.arr_15*texel_per_degree,  me.arr_90*texel_per_degree)
-		      .setStrokeLineWidth(w);
-
-		    # scale heading ticks
-		me.headScaleTickSpacing = ticksLong;
-		me.headScalePlace       = 5 * texel_per_degree + halfHeightOfSideScales;
-		me.head_scale_grp = me.rootCenter.createChild("group");
-
-		#clip is in canvas coordinates
-		me.clip = (center_y-me.headScalePlace-texel_per_degree*7.5-(15/512)*width-w)~"px, "~(center_x+60*texel_per_degree)~"px, "~(center_y-me.headScalePlace+w)~"px, "~(center_x-60*texel_per_degree)~"px";
-		me.head_scale_grp.set("clip", "rect("~me.clip~")");#top,right,bottom,left
-
-		me.head_scale_grp_trans = me.head_scale_grp.createTransform();
-		me.head_scale = me.head_scale_grp.createChild("path")
-		        .moveTo(0, 0)
-		        .vert(-ticksMed)
-		        .moveTo(me.headScaleTickSpacing*2, 0)
-		        .vert(-ticksShort)
-		        .moveTo(-me.headScaleTickSpacing*2, 0)
-		        .vert(-ticksShort)
-		        .moveTo(-me.headScaleTickSpacing*1, 0)
-		        .vert(-ticksShort)
-		        .moveTo(me.headScaleTickSpacing*1, 0)
-		        .vert(-ticksShort)
-		        .moveTo(me.headScaleTickSpacing*3, 0)
-		        .vert(-ticksMed)
-		        .moveTo(-me.headScaleTickSpacing*3, 0)
-		        .vert(-ticksMed)
-		        .moveTo(me.headScaleTickSpacing*4, 0)
-		        .vert(-ticksShort)
-		        .moveTo(-me.headScaleTickSpacing*4, 0)
-		        .vert(-ticksShort)
-		        .moveTo(me.headScaleTickSpacing*5, 0)
-		        .vert(-ticksShort)
-		        .moveTo(-me.headScaleTickSpacing*5, 0)
-		        .vert(-ticksShort)
-		        .moveTo(me.headScaleTickSpacing*6, 0)
-		        .vert(-ticksMed)
-		        .moveTo(-me.headScaleTickSpacing*6, 0)
-		        .vert(-ticksMed)
-		        .moveTo(me.headScaleTickSpacing*7, 0)
-		        .vert(-ticksShort)
-		        .moveTo(me.headScaleTickSpacing*8, 0)
-		        .vert(-ticksShort)
-		        .moveTo(me.headScaleTickSpacing*9, 0)
-		        .vert(-ticksMed)
-		        .moveTo(me.headScaleTickSpacing*-9, 0)
-		        .horiz(me.headScaleTickSpacing*18)
-		        .setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
-
-		    # headingindicator
-		me.head_scale_indicator = me.rootCenter.createChild("path")
-		    .moveTo(-ticksMed, -me.headScalePlace+ticksMed)
-		    .lineTo(0, -me.headScalePlace)
-		    .lineTo(ticksMed, -me.headScalePlace+ticksMed)
-		    .setColor(r,g,b, a)
-		    .setStrokeLineWidth(w);
-
-		me.head_scale_tgt_indicator = me.rootCenter.createChild("path")
-				.moveTo(-ticksShort, -me.headScalePlace)
-	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
-				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
-
-		    # Heading middle number
-		me.hdgM = me.head_scale_grp.createChild("text")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setFontSize((15/512)*width, 1);
-
-		    # Heading left number
-		me.hdgL = me.head_scale_grp.createChild("text")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setFontSize((15/512)*width, 1);
-
-		    # Heading right number
-		me.hdgR = me.head_scale_grp.createChild("text")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setFontSize((15/512)*width, 1);
-
-		    # Heading left2 number
-		me.hdgL2 = me.head_scale_grp.createChild("text")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setFontSize((15/512)*width, 1);
-
-		    # Heading right2 number
-		me.hdgR2 = me.head_scale_grp.createChild("text")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setFontSize((15/512)*width, 1);
-
-		    # Heading right3 number
-		me.hdgR3 = me.head_scale_grp.createChild("text")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setFontSize((15/512)*width, 1);
-
-
-		    # alt lines
-		me.desired_lines3 = me.horizon_group2.createChild("path")
-		               .moveTo(-sidePositionOfAltLines, 0)
-		               .lineTo(-sidePositionOfAltLines, halfHeightOfSideScales*0.5)
-		               .moveTo(-sidePositionOfAltLines+w*2.5, 0)
-		               .lineTo(-sidePositionOfAltLines+w*2.5, halfHeightOfSideScales*0.5)
-		               .moveTo(-sidePositionOfAltLines-w*2.5, 0)
-		               .lineTo(-sidePositionOfAltLines-w*2.5, halfHeightOfSideScales*0.5)
-		               .moveTo(sidePositionOfAltLines, 0)
-		               .lineTo(sidePositionOfAltLines, halfHeightOfSideScales*0.5)
-		               .moveTo(sidePositionOfAltLines+w*2.5, 0)
-		               .lineTo(sidePositionOfAltLines+w*2.5, halfHeightOfSideScales*0.5)
-		               .moveTo(sidePositionOfAltLines-w*2.5, 0)
-		               .lineTo(sidePositionOfAltLines-w*2.5, halfHeightOfSideScales*0.5)
-		               .setStrokeLineWidth(w)
-		               .setColor(r,g,b);
-
-		me.radar_index = me.horizon_group2.createChild("path")
-		               .moveTo(-sidePositionOfAltLines-w*2.5, 0)
-		               .horiz(-ticksLong)
-		               .moveTo(-sidePositionOfAltLines-w*2.5, 0)
-		               .lineTo(-ticksLong-sidePositionOfAltLines-w*2.5, 5*texel_per_degree)
-		               .moveTo(sidePositionOfAltLines+w*2.5, 0)
-		               .horiz(ticksLong)
-		               .moveTo(sidePositionOfAltLines+w*2.5, 0)
-		               .lineTo(ticksLong+sidePositionOfAltLines+w*2.5, 5*texel_per_degree)
-		               .setStrokeLineWidth(w)
-		               .setColor(r,g,b);
-
-		me.radar_group = me.rootCenter.createChild("group");
-
-		      #diamond
-	    me.diamond_name = me.rootCenter.createChild("text")
-		    .setText("..")
-		    .setColor(r,g,b, a)
-		    .setAlignment("center-bottom")
-		    .setTranslation(0, texel_per_degree*20+halfHeightOfSideScales)
-		    .setFontSize(15, 1);
-
-	    me.echoes  = [];
-	    me.echo_group = me.radar_group.createChild("group");
-	    me.echo_group_trans = me.radar_group.createTransform();
-	    for(var i = 0; i < maxTracks; i += 1) {
-	      me.target_echoes = me.echo_group.createChild("path")
-	                           .moveTo(-texel_per_degree*1, 0)
-	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0,  texel_per_degree*2, 0)
-	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0, -texel_per_degree*2, 0)
-	                           .close()
-         					   .setColorFill(r,g,b, a)
-	                           .setStrokeLineWidth(w)
-	                           .setColor(r,g,b, a);
-	      append(me.echoes, me.target_echoes);
-	    }
-
-	    # tgt scale (left side)
-      	me.rootCenter.createChild("path")
-			.moveTo(-sidePositionOfSideScales, halfHeightOfSideScales)
-			.vert(-2*halfHeightOfSideScales)
-			.setStrokeLineWidth(w)
+			.moveTo(-0.42*radar_area_width, 0.30*radar_area_width)
+			.lineTo(-0.24*radar_area_width, 0.06*radar_area_width)
+			.lineTo(0,0)
+			.lineTo(0.24*radar_area_width, 0.06*radar_area_width)
+			.lineTo(0.42*radar_area_width, 0.30*radar_area_width)
+			.setStrokeLineWidth(2.5)
+			.setStrokeLineJoin("miter")
+			.setStrokeLineCap("butt")
 			.setColor(r,g,b, a);
-		for(var i = 0; i <= 6; i += 1) # tgt scale ticks (left side)
-		      me.rootCenter.createChild("path")
-		         .moveTo(-sidePositionOfSideScales, -i * halfHeightOfSideScales / 3 + halfHeightOfSideScales)
-		         .horiz(-ticksLong)
-		         .setStrokeLineWidth(w)
-		         .setColor(r,g,b, a);
-		me.tgtTexts = [];
-		for(var i = 0; i <= 3; i += 1) {# tgt scale large ticks text (left side)
-		      append(me.tgtTexts, me.rootCenter.createChild("text")
-		      	 .setText(i*10)
-		         .setFontSize((15/512)*width, 1.0)
-		         .setAlignment("right-bottom")
-		         .setTranslation(i!=3?-ticksShort-sidePositionOfSideScales:-sidePositionOfSideScales+ticksLong, -i * halfHeightOfSideScales / 1.5 + halfHeightOfSideScales-w)
-		         .setColor(r,g,b, a));
+
+		# Collision warning arrow
+		me.arrow_half_width = me.fpi_circ_radius*0.8;
+		me.arrow_length = 25;
+		me.arrow_point_half_width = me.arrow_half_width * 1.6;
+		me.arrow = me.rootCenter.createChild("path")
+			.moveTo(-me.arrow_half_width, -me.arrow_length/2)
+			.vert(me.arrow_length)
+			.moveTo(me.arrow_half_width, -me.arrow_length/2)
+			.vert(me.arrow_length)
+			.moveTo(0, -me.arrow_length/2 - me.arrow_half_width)
+			.line(me.arrow_point_half_width, me.arrow_point_half_width)
+			.moveTo(0, -me.arrow_length/2 - me.arrow_half_width)
+			.line(-me.arrow_point_half_width, me.arrow_point_half_width)
+			.setColor(r,g,b,a)
+			.setStrokeLineWidth(0.7);
+
+		# Altitude scale (right side)
+		me.alt_scale = me.rootCenter.createChild("group")
+			.setTranslation(radar_area_width/2 + 3, radar_area_width/2);
+		me.alt_scale_marks = me.alt_scale.createChild("path")
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		for (var i=1; i<=19; i+=1) {
+			if (math.mod(i, 5) == 0) continue;
+			me.alt_scale_marks.moveTo(0, -radar_area_width*i/20)
+				.horiz(ticksMed);
 		}
-	    me.dist_cursor = me.rootCenter.createChild("path")
-				.moveTo(0, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
-	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
+		for (var i=0; i<=4; i+=1) {
+			me.alt_scale_marks.moveTo(0, -radar_area_width*i/4)
+				.horiz(ticksLong)
+		}
+		me.alt_scale_texts = [];
+		for (var i=1; i<=4; i+=1) {
+			me.alt_scale_text = me.alt_scale.createChild("text");
+			me.alt_scale_text.enableUpdate();
+			me.alt_scale_text.updateText(sprintf("%d", i*4))
+				.setFontSize(5, 1.0)
+				.setAlignment("left-bottom")
+				.setTranslation(ticksMed, -radar_area_width*i/4 - 1)
+				.setColor(r,g,b,a);
+			append(me.alt_scale_texts, me.alt_scale_text);
+		}
+
+		me.alt_cursor = me.alt_scale.createChild("path")
+				.moveTo(-1,0)
+				.line(-3,3)
+				.moveTo(-1,0)
+				.line(-3,-3)
+				.moveTo(-10,0)
+				.horiz(20)
 				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
+				.setColor(r,g,b, a);
 
-		me.qfe = me.rootCenter.createChild("text")
-    		.setText("QFE")
-    		.setColor(r,g,b, a)
-    		.setAlignment("left-top")
-    		.setTranslation(5*texel_per_degree-sidePositionOfSideScales, halfHeightOfSideScales+5*texel_per_degree)
-    		.setFontSize(15, 1);
+		# Distance scale (left side)
+		me.dist_scale = me.rootCenter.createChild("group")
+			.setTranslation(-radar_area_width/2 - 3, radar_area_width/2);
+		me.dist_scale_marks = me.dist_scale.createChild("path")
+			.moveTo(0, 0).vert(-radar_area_width)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		for (var i=0; i<=6; i+=1) {
+			me.dist_scale_marks.moveTo(0, -radar_area_width*i/6)
+				.horiz(-ticksMed);
+		}
+		me.dist_scale_text_1 = me.dist_scale.createChild("text");
+		me.dist_scale_text_1.enableUpdate();
+		me.dist_scale_text_1.updateText("5")
+			.setFontSize(5, 1.0)
+			.setAlignment("right-bottom")
+			.setTranslation(-ticksMed, -radar_area_width*1/3-1)
+			.setColor(r,g,b,a);
+		me.dist_scale_text_2 = me.dist_scale.createChild("text");
+		me.dist_scale_text_2.enableUpdate();
+		me.dist_scale_text_2.updateText("10")
+			.setFontSize(5, 1.0)
+			.setAlignment("right-bottom")
+			.setTranslation(-ticksMed, -radar_area_width*2/3-1)
+			.setColor(r,g,b,a);
+		me.dist_scale_text_3 = me.dist_scale.createChild("text");
+		me.dist_scale_text_3.enableUpdate();
+		me.dist_scale_text_3.updateText("15")
+			.setFontSize(5, 1.0)
+			# Careful, weird position for the last number
+			.setAlignment("left-bottom")
+			.setTranslation(0, -radar_area_width*3/3)
+			.setColor(r,g,b,a);
 
-    	me.arm = me.rootCenter.createChild("text")
-    		.setText("None")
-    		.setColor(r,g,b, a)
-    		.setAlignment("left-top")
-    		.setTranslation(-10*texel_per_degree-sidePositionOfSideScales, halfHeightOfSideScales+15*texel_per_degree)
-    		.setFontSize(15, 1);
+		# Heading scale (top side)
+		me.heading_scale = me.rootCenter.createChild("group")
+			.setTranslation(0, -radar_area_width/2 - 8);
+		me.heading_scale.createChild("path")
+			# horizontal line
+			.moveTo(-radar_area_width/2,0).horiz(radar_area_width)
+			# fixed cursor
+			.moveTo(0,0).vert(5)
+			.moveTo(0,0).line(5,5)
+			.moveTo(0,0).line(-5,5)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
 
-    	me.machT = me.rootCenter.createChild("text")
-    		.setText("M")
-    		.setColor(r,g,b, a)
-    		.setAlignment("left-bottom")
-    		.setTranslation(-60*texel_per_degree, -halfHeightOfSideScales-27*texel_per_degree)
-    		.setFontSize(15, 1);
+		me.heading_scale_large_marks_grp = me.heading_scale.createChild("group");
+		me.heading_scale_large_marks = me.heading_scale_large_marks_grp.createChild("path")
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		me.heading_scale_texts = [];
+		for (var i=-1; i<=2; i+=1) {
+			me.heading_scale_large_marks.moveTo(i*30*heading_deg_to_mm, 0)
+				.vert(-ticksLong);
+			me.heading_scale_text = me.heading_scale_large_marks_grp.createChild("text");
+			me.heading_scale_text.enableUpdate();
+			me.heading_scale_text.updateText(sprintf("%.2d", math.mod(3*i, 36)))
+				.setFontSize(5, 1.0)
+				.setAlignment("center-bottom")
+				.setTranslation(i*30*heading_deg_to_mm, -ticksLong)
+				.setColor(r,g,b,a);
+			append(me.heading_scale_texts, me.heading_scale_text);
+		}
 
-    	me.distT = me.rootCenter.createChild("text")
-    		.setText("A")
-    		.setColor(r,g,b, a)
-    		.setAlignment("center-bottom")
-    		.setTranslation(0, -halfHeightOfSideScales-27*texel_per_degree)
-    		.setFontSize(15, 1);
+		me.heading_scale_small_marks = me.heading_scale.createChild("path")
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		for (var i=-5; i<=6; i+=1) {
+			me.heading_scale_small_marks.moveTo(i*10*heading_deg_to_mm, 0)
+				.vert(-ticksMed);
+		}
 
-    	me.distT2 = me.rootCenter.createChild("text")
-    		.setText("ÖKA")
-    		.setColor(r,g,b, a)
-    		.setAlignment("center-bottom")
-    		.setTranslation(0, -halfHeightOfSideScales-20*texel_per_degree)
-    		.setFontSize(15, 1);
+		# Center Marker at the bottom of the screen.
+		me.rootCenter.createChild("path")
+			.moveTo(0, radar_area_width/2)
+			.line(5,5)
+			.moveTo(0, radar_area_width/2)
+			.line(-5,5)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
 
-    	me.altT = me.rootCenter.createChild("text")
-    		.setText("H")
-    		.setColor(r,g,b, a)
-    		.setAlignment("right-bottom")
-    		.setTranslation(60*texel_per_degree, -halfHeightOfSideScales-27*texel_per_degree)
-    		.setFontSize(15, 1);
 
-    	me.rowBottom1 = me.rootCenter.createChild("text")
-    		.setText(" D   -   -  SVY  -   -  BIT LNK")
-    		.setColor(r,g,b, a)
-    		.setAlignment("center-bottom")
-    		.setTranslation(0, height/2-20)
-    		.setFontSize(15, 1);
+		# Radar display area
+		me.radar_group = me.rootCenter.createChild("group")
+			.setTranslation(0, radar_area_width/2);
 
-    	me.rowBottom2 = me.rootCenter.createChild("text")
-    		.setText(" -   -   -  VMI  -  TNF HÄN  - ")
-    		.setColor(r,g,b, a)
-    		.setAlignment("center-bottom")
-    		.setTranslation(0, height/2-5)
-    		.setFontSize(15, 1);
+		me.echoes_group = me.radar_group.createChild("group");
+		me.echo_radius = 1.5;
+		me.echoes  = [];
+		for(var i = 0; i < maxTracks; i += 1) {
+			append(me.echoes, me.echoes_group.createChild("path")
+				.moveTo(me.echo_radius,0)
+				.arcSmallCW(me.echo_radius, me.echo_radius, 0, -2*me.echo_radius, 0)
+				.arcSmallCW(me.echo_radius, me.echo_radius, 0, 2*me.echo_radius, 0)
+				.close()
+				.setColorFill(r,g,b,a));
+		}
+
+		me.selection = me.echoes_group.createChild("group");
+		me.selection.createChild("path")
+			.moveTo(-4,2).horiz(8)
+			.moveTo(-4,-2).horiz(8)
+			.moveTo(2,-4).vert(8)
+			.moveTo(-2,-4).vert(8)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+
+		me.selection_heading = me.selection.createChild("group");
+		me.selection_speed_vector = me.selection_heading.createChild("path")
+			.setTranslation(0,-4)
+			.moveTo(0,0).vert(-8)
+			.setStrokeLineWidth(2*w)
+			.setColor(r,g,b,a);
+
+		me.cursor = me.radar_group.createChild("path")
+			.moveTo(0,3).vert(8)
+			.moveTo(0,-3).vert(-8)
+			.moveTo(3,0).horiz(8)
+			.moveTo(-3,0).horiz(-8)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+
+
+		me.a2a_circle_radius = radar_area_width*3/8;
+		me.a2a_cross_size = radar_area_width*2/6;
+		me.a2a_circle = me.rootCenter.createChild("path")
+			.setColor(r,g,b,a)
+			.moveTo(-me.a2a_circle_radius, 0)
+			.arcLargeCCW(me.a2a_circle_radius, me.a2a_circle_radius, 0, me.a2a_circle_radius, -me.a2a_circle_radius)
+			.setStrokeLineWidth(w);
+		me.a2a_circle_arc = me.rootCenter.createChild("path")
+			.setColor(r,g,b,a)
+			.moveTo(-me.a2a_circle_radius, 0)
+			.arcSmallCW(me.a2a_circle_radius,me.a2a_circle_radius, 0,  me.a2a_circle_radius,-me.a2a_circle_radius)
+			.setStrokeLineWidth(w);
+		me.a2a_cross = me.rootCenter.createChild("path")
+			.moveTo(-me.a2a_cross_size, me.a2a_cross_size)
+			.lineTo(me.a2a_cross_size, -me.a2a_cross_size)
+			.moveTo(me.a2a_cross_size, me.a2a_cross_size)
+			.lineTo(-me.a2a_cross_size, me.a2a_cross_size)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+
+
+		# TYST (silent), bottom of radar area.
+		me.text_silent = me.rootCenter.createChild("text");
+		me.text_silent.enableUpdate();
+		me.text_silent.updateText("")
+			.setColor(r,g,b,a)
+			.setAlignment("center-bottom")
+			.setTranslation(0, radar_area_width/2)
+			.setFontSize(13, 1);
+
+		# Target speed/distance/altitude (top text)
+		me.target_info = me.rootCenter.createChild("group")
+			.setTranslation(0, -radar_area_width/2 - 42);
+
+		me.machT = me.target_info.createChild("text");
+		me.machT.enableUpdate();
+		me.machT.updateText("M    ")
+			.setColor(r,g,b, a)
+			.setAlignment("center-top")
+			.setTranslation(-radar_area_width/3, 0)
+			.setFontSize(9, 1);
+
+		me.distT = me.target_info.createChild("text");
+		me.distT.enableUpdate();
+		me.distT.updateText("A   ")
+			.setColor(r,g,b, a)
+			.setAlignment("center-top")
+			.setTranslation(0, 0)
+			.setFontSize(9, 1);
+
+		me.altT = me.target_info.createChild("text");
+		me.altT.enableUpdate();
+		me.altT.updateText("H    ")
+			.setColor(r,g,b, a)
+			.setAlignment("center-top")
+			.setTranslation(radar_area_width/3, 0)
+			.setFontSize(9, 1);
+
+		me.nameT = me.target_info.createChild("text");
+		me.nameT.enableUpdate();
+		me.nameT.updateText("")
+			.setColor(r,g,b, a)
+			.setAlignment("center-top")
+			.setTranslation(0, 12)
+			.setFontSize(9, 1);
+
+		# QFE, or selected weapon, or Mach
+		me.botl_text = me.rootCenter.createChild("text");
+		me.botl_text.enableUpdate();
+		me.botl_text.setText("QFE")
+			.setColor(r,g,b, a)
+			.setAlignment("left-top")
+			.setTranslation(-radar_area_width/2 + 5, radar_area_width/2 + 5)
+			.setFontSize(9, 1);
+
+		me.mreg = me.rootCenter.createChild("text")
+			.setText("MREG")
+			.setColor(r,g,b, a)
+			.setAlignment("right-top")
+			.setTranslation(radar_area_width/2 - 5, radar_area_width/2 + 5)
+			.setFontSize(9, 1);
+
+		me.diamond_small = me.rootCenter.createChild("path")
+				.moveTo(-3,-3)
+				.lineTo(3,3)
+				.moveTo(3,-3)
+				.lineTo(-3,3)
+				.setStrokeLineWidth(w)
+				.setTranslation(0,halfHeightOfSideScales)
+				.setColor(r,g,b,a)
+				.hide();
+
+		me.help_text_1 = me.rootCenter.createChild("text");
+		me.help_text_1.enableUpdate();
+		me.help_text_1.updateText(" D   -   -  SVY  -   -  BIT LNK")
+			.setColor(r,g,b, a)
+			.setAlignment("center-bottom")
+			.setTranslation(0, height_mm - center_y - 12)
+			.setFontSize(5, 1);
+
+		me.help_text_2 = me.rootCenter.createChild("text");
+		me.help_text_2.enableUpdate();
+		me.help_text_2.updateText(" -   -   -  VMI  -  TNF HÄN  - ")
+			.setColor(r,g,b, a)
+			.setAlignment("center-bottom")
+			.setTranslation(0, height_mm - center_y - 4)
+			.setFontSize(5, 1);
 	},
 
 	########################################################################################################
@@ -623,12 +564,8 @@ var MI = {
 	########################################################################################################
 	########################################################################################################
 	loop: func {
-		#if ( gone == TRUE) {
-		#	return;
-		#}
-
 		if (cursorOn == FALSE) {
-			radar_logic.setSelection(nil);
+			radar_logic.unlockSelection();
 		}
 
 		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
@@ -642,62 +579,107 @@ var MI = {
 		}
 
 		me.interoperability = me.input.units.getValue();
+		me.radar_range = me.input.radarRange.getValue();
+		me.head_true = me.input.headTrue.getValue();
 
+		me.displayAltScale();
+		me.displayDistScale();
+		me.displayRadarTracks();
+		me.displayText();
+		me.displayTargetInfo();
+		me.displayBottomInfo();
+		me.displayArmCircle();
+	},
+
+	loopFast: func {
 		me.displayFPI();
-		me.displayHorizon();#must be after displayFPI
+		me.displayHorizon();
+		me.displayAltLines();
+		me.displayDigitalAlt();
 		me.displayGround();
 		me.displayGroundCollisionArrow();
-		me.showAltLines();
-		me.displaySeeker();
-		me.showCursor();#must be before radar tracks, but after displayFPI
-		me.displayRadarTracks();#must be after displayFPI
-		me.displayHeadingScale();#must be after radar tracks
-		me.altScale();
-		me.targetScale();
-		me.showTgtName();
-		me.showqfe();
-		me.showArm();
-		me.showArmCircle();
-		me.radarIndex();
-		me.showTopInfo();
-		me.showBottomInfo();
-		me.rate = getprop("sim/frame-rate-worst");
-		#settimer(func me.loop(), me.rate!=nil?clamp(2.05/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
+		me.displayHeadingScale();
+		me.displayCursor();
+		me.blinkQFE();
 	},
 
 	displayFPI: func {
-		me.fpi_x_deg = me.input.fpv_right.getValue();
-		me.fpi_y_deg = -me.input.fpv_up.getValue();
-		me.fpi_x = me.fpi_x_deg*texel_per_degree;
-		me.fpi_y = me.fpi_y_deg*texel_per_degree;
-		#me.fpi.setTranslation(me.fpi_x, me.fpi_y);
-		me.fpi.setTranslation(0, 0);
+		if (modes.main == modes.LANDING or modes.main == modes.COMBAT) {
+			me.fpi_tail.hide();
+		} else {
+			me.fpi_tail.show();
+		}
 	},
 
 	displayHorizon: func {
-		me.rot = -getprop("orientation/roll-deg") * D2R;
-		me.horizon_group.setTranslation(-me.fpi_x, -me.fpi_y);
-		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+		me.fpi_x = 0;
+		me.fpi_y = 0;
+		me.horz_rot.setRotation(-me.input.roll.getValue() * D2R);
+		# From manual, movement is proportional to sine, maximum 90mm
+		me.horizon_group2.setTranslation(0, math.sin(me.input.fpv_pitch.getValue() * D2R) * 90);
 	},
 
-	displayGroundCollisionArrow: func () {
-	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
-	      me.arrow_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
-	      me.arrow.show();
-	    } else {
-	      me.arrow.hide();
-	    }
+	displayAltLines: func {
+		me.showLines = TRUE;
+		if (modes.main == modes.LANDING and land.mode != 1 and land.mode != 2) {
+			me.showLines = FALSE;
+		}
+		if (modes.main != modes.TAKEOFF and me.input.alt_m.getValue() > 1000 and me.input.APmode.getValue() != 3) {
+			me.showLines = FALSE;
+		}
+		if (me.input.flash_alt_bars.getBoolValue() and !me.input.twoHz.getBoolValue()) {
+			me.showLines = FALSE;
+		}
+
+		if (me.showLines) {
+			me.desired_lines.show();
+
+			# Minimum displayed reference alt is 200m
+			me.alt = me.input.alt_m.getValue();
+			me.ref_alt = me.input.ref_alt.getValue();
+			me.min_ref_alt = math.max(me.alt/2, me.alt - 300);
+			me.max_ref_alt = math.min(me.alt*2, me.alt + 150);
+			me.ref_alt = math.clamp(me.ref_alt, me.min_ref_alt, me.max_ref_alt);
+			if (me.ref_alt < 200) me.ref_alt = 200;
+
+			# Scale is 12m/mm
+			me.desired_lines.setTranslation(0, (me.alt - me.ref_alt) / 12);
+			# Bar length scales with reference altitude up to 300m
+			me.desired_lines.setScale(1, me.ref_alt <= 300 ? me.ref_alt / 300 : 1);
+
+			# radar altitude
+			me.rad_alt = me.input.rad_alt.getValue() * FT2M;
+			if (me.input.rad_alt_ready.getBoolValue() and me.rad_alt <= 600) {
+				me.rhm_index.show();
+				# Scale is 12m/mm
+				me.rhm_index.setTranslation(0, me.rad_alt/12);
+			} else {
+				me.rhm_index.hide();
+			}
+		} else {
+			me.desired_lines.hide();
+			me.rhm_index.hide();
+		}
+	},
+
+	displayDigitalAlt: func {
+		me.alt = me.input.alt_m.getValue();
+		if (me.interoperability == displays.IMPERIAL) me.alt *= M2FT;
+		if (me.alt < 995) {
+			me.text = sprintf("%.3d", math.round(me.alt, 10));
+		} else {
+			me.alt = math.round(me.alt, 100);
+			me.text = sprintf("%d,%.1d", math.floor(me.alt/1000), math.mod(me.alt, 1000)/100);
+		}
+		me.horizon_alt.setText(me.text);
 	},
 
 	displayGround: func () {
-		me.time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
+		me.time = me.input.wow0.getBoolValue() ? 0 : me.input.gpws_time.getValue();
 		if (me.time != nil and me.time >= 0 and me.time < 40) {
-			me.time = clamp(me.time - 10,0,30);
-			me.dist = me.time/30 * halfHeightOfSideScales;
-			#me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
-			me.ground_grp.setTranslation(0, 0);
-			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+			me.time = math.clamp(me.time - 10,0,30);
+			me.dist = me.time/30 * radar_area_width/2;
+			me.ground_grp_trans.setRotation(-me.input.roll.getValue() * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
 			me.ground_grp.show();
 		} else {
@@ -705,67 +687,159 @@ var MI = {
 		}
 	},
 
-	displayHeadingScale: func () {
-	    me.heading = getprop("orientation/heading-magnetic-deg");
-	    me.headOffset = me.heading/30 - int (me.heading/30);
-	    me.middleText = int(me.heading/30)*3;
-	    me.middleOffset = nil;
-	    if(me.middleText == 36) {
-	      me.middleText = 0;
-	    }
-	    me.leftText   = me.middleText ==  0?33 :me.middleText-3;
-	    me.rightText  = me.middleText == 33?0  :me.middleText+3;
-	    me.leftText2  = me.leftText   ==  0?33 :me.leftText-3;
-	    me.rightText2 = me.rightText  == 33?0  :me.rightText+3;
-	    me.rightText3 = me.rightText2 == 33?0  :me.rightText2+3;
-
-	    if (me.headOffset > 0.5) {
-	      me.middleOffset = -(me.headOffset)*me.headScaleTickSpacing*3;
-	      me.head_scale_grp_trans.setTranslation(me.middleOffset, -me.headScalePlace);
-	      me.head_scale_grp.update();
-	    } else {
-	      me.middleOffset = -me.headOffset*me.headScaleTickSpacing*3;
-	      me.head_scale_grp_trans.setTranslation(me.middleOffset, -me.headScalePlace);
-	      me.head_scale_grp.update();
-	    }
-	    me.hdgM.setTranslation(0, -7.5*texel_per_degree);
-	    me.hdgM.setText(sprintf("%02d", me.middleText));
-	    me.hdgL.setTranslation(-me.headScaleTickSpacing*3, -7.5*texel_per_degree);
-	    me.hdgL.setText(sprintf("%02d", me.leftText));
-	    me.hdgR.setTranslation(me.headScaleTickSpacing*3, -7.5*texel_per_degree);
-	    me.hdgR.setText(sprintf("%02d", me.rightText));
-	    me.hdgL2.setTranslation(-me.headScaleTickSpacing*6, -7.5*texel_per_degree);
-	    me.hdgL2.setText(sprintf("%02d", me.leftText2));
-	    me.hdgR2.setTranslation(me.headScaleTickSpacing*6, -7.5*texel_per_degree);
-	    me.hdgR2.setText(sprintf("%02d", me.rightText2));
-	    me.hdgR3.setTranslation(me.headScaleTickSpacing*9, -7.5*texel_per_degree);
-	    me.hdgR3.setText(sprintf("%02d", me.rightText3));
-	    me.head_scale_grp.show();
-	    me.head_scale_indicator.show();
-	    if (me.tgt_bug != nil and math.abs(me.tgt_bug) < 60) {
-			me.head_scale_tgt_indicator.setTranslation(me.tgt_bug*texel_per_degree, 0);
-			me.head_scale_tgt_indicator.show();
+	displayGroundCollisionArrow: func () {
+		if (me.input.terrain_warning.getBoolValue()) {
+			me.arrow.setRotation(-me.input.roll.getValue() * D2R);
+			me.arrow.show();
 		} else {
-			me.head_scale_tgt_indicator.hide();
+			me.arrow.hide();
 		}
 	},
 
-	showArm: func {
-		if (modes.main == modes.COMBAT) {
-			me.ammo = fire_control.get_current_ammo();
-		    if (me.ammo == -1) {
-		    	me.ammoT = "  ";
-		    } else {
-		    	me.ammoT = me.ammo~" ";
-		    }
-      		me.arm.setText(me.ammoT~displays.common.currArmName);
-      		me.arm.show();
-      	} else {
-      		me.arm.hide();
-      	}
+	displayAltScale: func {
+		me.alt = me.input.alt_m.getValue();
+		me.alt_cursor.setTranslation(0, -me.alt/20000*radar_area_width);
+
+		if (me.interoperability == displays.METRIC) {
+			for(var i=1; i<=4; i+=1) {
+				me.alt_scale_texts[i-1].updateText(sprintf("%d", 5*i));
+			}
+		} else {
+			for(var i=1; i<=4; i+=1) {
+				me.alt_scale_texts[i-1].updateText(sprintf("%d", math.round(5*i*M2FT)));
+			}
+		}
 	},
 
-	showArmCircle: func {
+	imperial_range_text: func(dist) {
+		if (dist >= 10) {
+			return sprintf("%d", math.round(dist));
+		} else {
+			dist = math.round(dist, 0.1);
+			return sprintf("%d,%.1d", math.floor(dist), math.mod(dist, 1)*10);
+		}
+	},
+
+	displayDistScale: func {
+		if (me.interoperability == displays.IMPERIAL) {
+			me.radar_displayed_range = me.radar_range * M2NM;
+			me.dist_scale_text_1.updateText(me.imperial_range_text(me.radar_displayed_range/3));
+			me.dist_scale_text_2.updateText(me.imperial_range_text(me.radar_displayed_range*2/3));
+			me.dist_scale_text_3.updateText(me.imperial_range_text(me.radar_displayed_range));
+		} else {
+			me.radar_displayed_range = me.radar_range * 0.001;
+			me.dist_scale_text_1.updateText(sprintf("%d", me.radar_displayed_range/3));
+			me.dist_scale_text_2.updateText(sprintf("%d", me.radar_displayed_range*2/3));
+			me.dist_scale_text_3.updateText(sprintf("%d", me.radar_displayed_range));
+		}
+	},
+
+	displayHeadingScale: func () {
+		me.heading = me.input.heading.getValue();
+		me.large_marks_offset = math.mod(me.heading, 30);
+		me.small_marks_offset = math.mod(me.heading, 10);
+		me.heading_scale_large_marks_grp.setTranslation(-me.large_marks_offset * heading_deg_to_mm, 0);
+		me.heading_scale_small_marks.setTranslation(-me.small_marks_offset * heading_deg_to_mm, 0);
+
+		me.center_mark_text = (me.heading - me.large_marks_offset)/10;
+		for (var i=-1; i<=2; i+=1) {
+			# offset of 1 for this array
+			me.heading_scale_texts[i+1].updateText(sprintf("%.2d", math.mod(me.center_mark_text + 3*i, 36)));
+		}
+	},
+
+	displayText: func {
+		# TYST/SILENT
+		if (TI.ti.newFails == TRUE) {
+			me.text_silent.show();
+			me.text_silent.updateText(me.interoperability == displays.METRIC?"FÖ":"FAIL");
+		} elsif (!me.input.radar_active.getBoolValue()) {
+			# radar is off, so silent mode
+			me.text_silent.show();
+			me.text_silent.updateText(me.interoperability == displays.METRIC?"TYST":"SILENT");
+		} else {
+			me.text_silent.hide();
+		}
+
+		# Bottom left.
+		if (me.input.qfeActive.getBoolValue()) {
+			me.qfe = TRUE;
+			me.botl_text.updateText("QFE");
+			if (me.input.qfeShown.getBoolValue()) {
+				me.botl_text.show();
+			} else {
+				me.botl_text.hide();
+			}
+		} elsif (fire_control.selected != nil) {
+			me.qfe = FALSE;
+			me.botl_text.updateText(displays.common.armNameShort());
+			me.botl_text.show();
+		} else {
+			me.qfe = FALSE;
+			me.mach = math.round(me.input.mach.getValue() * 100);
+			me.botl_text.updateText(sprintf("M%d,%.2d", math.floor(me.mach/100), math.mod(me.mach, 100)));
+			me.botl_text.show();
+		}
+
+		# Bottom right
+		if (TI.ti.mreg) {
+			me.mreg.show();
+		} else {
+			me.mreg.hide();
+		}
+	},
+
+	# Separate function with higher refresh rate for blinking.
+	blinkQFE: func {
+		if (!me.qfe) return;
+
+		if (me.input.qfeShown.getBoolValue()) {
+			me.botl_text.show();
+		} else {
+			me.botl_text.hide();
+		}
+	},
+
+	displayTargetInfo: func {
+		if (radar_logic.selection == nil) {
+			me.target_info.hide();
+			return;
+		}
+		me.target_info.show();
+
+		me.tgt_dist = radar_logic.selection.get_range();
+		if (me.interoperability == displays.METRIC) {
+			me.tgt_dist *= NM2M * 0.001;
+			me.distT.updateText(sprintf("A%3d", me.tgt_dist));
+		} else {
+			me.distT.updateText(sprintf("D%3d", me.tgt_dist));
+		}
+
+		me.tgt_alt = radar_logic.selection.get_indicated_altitude();
+		if (me.interoperability == displays.METRIC) {
+			me.tgt_alt *= FT2M;
+			me.tgt_alt = math.round(me.tgt_alt, 100);
+			me.altT.updateText(sprintf("H%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
+		} else {
+			me.tgt_alt = math.round(me.tgt_alt, 100);
+			me.altT.updateText(sprintf("A%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
+		}
+
+		me.tgt_speed = radar_logic.selection.get_Speed();
+		me.rs = armament.AIM.rho_sndspeed(radar_logic.selection.get_altitude());
+		me.sound_fps = me.rs[1];
+		me.tgt_mach = me.tgt_speed * KT2FPS / me.sound_fps;
+		me.tgt_mach = math.round(me.tgt_mach*100, 1);
+		me.machT.updateText(sprintf("M%d,%.2d", math.floor(me.tgt_mach/100), math.mod(me.tgt_mach, 100)));
+
+		if (me.input.callsign.getBoolValue()) {
+			me.nameT.updateText(radar_logic.selection.get_Callsign());
+		} else {
+			me.nameT.updateText(radar_logic.selection.get_model());
+		}
+	},
+
+	displayArmCircle: func {
 		if (modes.main == modes.COMBAT) {
 			me.armActive = displays.common.armActive();
 			if (me.armActive != nil) {
@@ -801,523 +875,160 @@ var MI = {
 					me.a2a_circle.setScale(me.dlz_scale);
 					me.a2a_circle.setStrokeLineWidth(w/me.dlz_scale);
 					if (me.dlz_circle == TRUE) {
-      					me.a2a_circle.show();
-      					if (me.dlz_full == TRUE) {
+						me.a2a_circle.show();
+						if (me.dlz_full == TRUE) {
 							me.a2a_circle_arc.show();
-      					} else {
-      						me.a2a_circle_arc.hide();
-      					}
-      				} else {
-      					me.a2a_circle.hide();
-      					me.a2a_circle_arc.hide();
-      				}
-      				if (me.dlz_cross == TRUE) {
-      					# for now this wont happen, as the missile wont have lock below min dist and therefore wont return dlz info.
-      					me.a2a_cross.show();
-      				} else {
-      					me.a2a_cross.hide();
-      				}
-      				return;
-      			}
-			}
-      	}
-      	me.a2a_circle.hide();
-      	me.a2a_circle_arc.hide();
-      	me.a2a_cross.hide();
-	},
-
-	showqfe: func {
-		if (me.input.qfeActive.getValue() != nil) {
-			if (me.input.qfeActive.getValue() == TRUE) {
-				me.qfe.setText("QFE");
-				me.qfe.setFontSize(15, 1);
-				if (me.input.qfeShown.getValue() == TRUE) {
-					me.qfe.show();
-				} else {
-					me.qfe.hide();
-				}
-			} else {
-				if (size(me.tele) != 0) {
-					var text = "LNK99";
-					for(var i = 0; i < size(me.tele); i+=1) {
-						text = text ~ me.tele[i];
+						} else {
+							me.a2a_circle_arc.hide();
+						}
+					} else {
+						me.a2a_circle.hide();
+						me.a2a_circle_arc.hide();
 					}
-					me.qfe.setText(text);
-					me.qfe.setFontSize(12.5, 1);
-					me.qfe.show();
-				} else {
-					me.qfe.hide();
+					if (me.dlz_cross == TRUE) {
+						# for now this wont happen, as the missile wont have lock below min dist and therefore wont return dlz info.
+						me.a2a_cross.show();
+					} else {
+						me.a2a_cross.hide();
+					}
+					return;
 				}
 			}
 		}
+		me.a2a_circle.hide();
+		me.a2a_circle_arc.hide();
+		me.a2a_cross.hide();
 	},
 
-	displaySeeker: func {
-		me.missileCurr = displays.common.armActive();
-	    if (me.missileCurr != nil and modes.main == modes.COMBAT) {
-	      me.ds = me.missileCurr.getSeekerInfo();
-	      if (me.ds == nil) {
-	          me.diamond_small.hide();
-	      } else {
-	          me.diamond_small.setTranslation(me.ds[0]*texel_per_degree, -me.ds[1]*texel_per_degree);
-	          if (me.missileCurr.status != armament.MISSILE_LOCK or me.input.twoHz.getValue()) {
-	            me.diamond_small.show();
-	          } else {
-	            me.diamond_small.hide();
-	          }
-	          me.diamond_small.update();
-	      }
-	    } else {
-	      me.diamond_small.hide();
-	    }
+	# Convert bearing/distance to position on radar display (in group me.radar_group)
+	# bearing is absolute, distance in meter
+	bearingDistToRadarPosition: func(bearing, distance) {
+		return [geo.normdeg180(bearing - me.head_true) * heading_deg_to_mm,
+				-distance/me.radar_range * radar_area_width];
 	},
 
-	rotate: func (angle_deg, x, y) {
-		# mimic a canvas rotation
-		me.sin = math.sin(angle_deg * D2R);
-		me.cos = math.cos(angle_deg * D2R);
-
-		return [x * me.cos + y * me.sin,-(x * me.sin - y * me.cos)];
+	# Convert a track object to position on radar display (in group me.radar_group)
+	trackToRadarPosition: func(track) {
+		return me.bearingDistToRadarPosition(track.get_bearing(), track.get_range()*NM2M);
 	},
 
-	showCursor: func {
-		if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
-    		me.cursorTrigger = me.input.cursor_click.getValue();
+	isInRadarScreen: func(pos) {
+		return pos[0] >= -radar_area_width/2 and pos[0] <= radar_area_width/2
+			and pos[1] <= 0 and pos[1] >= -radar_area_width;
+	},
 
-    		if (me.selection_updated == FALSE) {
-    			# we are free to move cursor
-				me.cursorSpeedY = me.input.cursor_slew_y.getValue();
-				me.cursorSpeedX = me.input.cursor_slew_x.getValue();
-				me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
-				me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
-				me.cursorPosX  += me.cursorMoveX;
-				me.cursorPosY  += me.cursorMoveY;
-				me.cursorPosX   = clamp(me.cursorPosX, -60*texel_per_degree,  60*texel_per_degree);
-				me.cursorPosY   = clamp(me.cursorPosY, -60*texel_per_degree,  60*texel_per_degree);
-				me.cursor.setTranslation(me.cursorPosX, me.cursorPosY);
-				#me.cursorTPosY  = me.cursorPosY - texel_per_degree * getprop("orientation/pitch-deg");
-				#me.rot = getprop("orientation/roll-deg") * D2R;
-				#rotate me.cursorOPos with me.rot
-				#me.sin = -math.sin(-me.rot);
-				#me.cos = math.cos(-me.rot);
+	displayRadarTrack: func(track) {
+		if (me.n_tracks >= maxTracks) return;
+		var pos = me.trackToRadarPosition(track);
+		if (!me.isInRadarScreen(pos)) return;
 
-				var rot = me.rotate(-getprop("orientation/roll-deg"), me.cursorPosX + me.fpi_x, me.cursorPosY + me.fpi_y);
+		append(me.radar_tracks, track);
+		append(me.radar_tracks_pos, pos);
+		me.echoes[me.n_tracks].setTranslation(pos[0], pos[1]).show();
+		me.n_tracks += 1;
 
-				me.cursorOPosX = rot[0];
-				me.cursorOPosY = rot[1] - texel_per_degree * getprop("orientation/pitch-deg");
-
-				#printf("(%d,%d) %d", me.fpi_x, me.fpi_y, texel_per_degree * getprop("orientation/pitch-deg"));
-
-				#me.echoes[maxTracks-1].setColor(1,0,0);
-				#me.echoes[maxTracks-1].setTranslation(me.cursorOPosX,me.cursorOPosY);
-				#me.echoes[maxTracks-1].show();
-				#me.echoes[maxTracks-1].update();
-
-				me.aim9 = displays.common.armActive();
-				if (me.aim9 != nil and me.aim9.isSlave() and me.aim9.status != armament.MISSILE_LOCK) {
-					me.aim9.commandDir(me.cursorPosX/texel_per_degree, -me.cursorPosY/texel_per_degree);
-				} elsif (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
-					me.aim9.commandRadar();
-				}
-				me.cursor.show();
-			} else {
-				me.cursor.hide();# the lock cursor is shown instead
-				me.preventRelock = TRUE;
-				if (me.cursorTrigger and !me.cursorManuallyLocked) {
-					# cursor click but did not select anything, so we deselect
-					#if (radar_logic.selection != nil) print("deselect");#TODO: Should cursor move to where the lock cursor was?
-					radar_logic.setSelection(nil);
-				}
+		if (track.get_type() == radar_logic.ORDNANCE) {
+			var eta = track.getETA();
+			var hit = track.getHitChance();
+			if (eta != nil) {
+				append(me.tele, [hit, eta]);
 			}
-
-			#printf(" %d %d !%d", me.cursorTrigger, me.cursorTriggerPrev, me.cursorManuallyLocked);
-			if (!me.cursorTrigger and !me.cursorTriggerPrev) {
-				#print("stop cursorManuallyLocked");
-				me.cursorManuallyLocked = FALSE;
-				me.preventRelock = FALSE;
-			}
-        } else {
-        	me.cursorManuallyLocked = FALSE;
-        	me.cursorTrigger = FALSE;
-        	me.cursor.hide();
-        }
-	},
-
-	displayRadarTracks: func () {
-
-		var mode = modes.main;
-
-	    me.track_index = 1;
-	    me.selection_updated = FALSE;
-	    me.tgt_dist = 1000000;
-	    me.tgt_callsign = "";
-	    me.tele = [];
-
-
-
-	    if(me.input.tracks_enabled.getValue() == TRUE and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
-	      me.radar_group.show();
-
-	      me.rot = -getprop("orientation/roll-deg") * D2R;
-		  me.radar_group.setTranslation(-me.fpi_x, -me.fpi_y);
-		  me.echo_group_trans.setRotation(me.rot);
-		  me.echo_group.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
-
-	      me.selection = radar_logic.selection;
-
-	      if (me.selection != nil and (me.selection.parents[0] == radar_logic.ContactGPS or me.selection.parents[0] == radar_logic.ContactGhost)) {
-	      	# this is not part of track vector, so we process it seperately
-	        me.displayRadarTrack(me.selection);
-	      }
-
-	      # do circles here
-	      foreach(hud_pos; radar_logic.tracks) {
-	        me.displayRadarTrack(hud_pos);
-	      }
-	      if(me.track_index != -1) {
-	        #hide the the rest unused circles
-	        for(var i = me.track_index; i < maxTracks ; i+=1) {
-	          me.echoes[i].hide();
-	        }
-	      }
-	      if(me.selection_updated == FALSE) {
-	        me.echoes[0].hide();
-	      } else {
-        	me.aim9 = displays.common.armActive();
-        	if (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
-				me.aim9.commandRadar();
-			}
-          }
-
-	      # draw selection
-	      if(me.selection != nil and me.selection.isValid() == TRUE and me.selection_updated == TRUE) {
-	        # selection is currently in forward looking radar view
-
-	          me.tgt_dist = me.selection.get_range()*NM2M;
-	          me.tgt_alt  = me.selection.get_indicated_altitude()*FT2M;
-	          me.tgt_bug  = me.selection.get_deviation(getprop("orientation/heading-deg"), geo.aircraft_position());
-	          if (me.input.callsign.getValue() == TRUE) {
-	            me.tgt_callsign = me.selection.get_Callsign();
-	          } else {
-	            me.tgt_callsign = me.selection.get_model();
-	          }
-	          me.cursor.hide();
-	      } else {
-	        # selection is outside radar view
-	        # or invalid
-	        # or nothing selected
-	        me.tgt_alt  = nil;
-	      	me.tgt_dist = nil;
-	      	me.tgt_bug  = nil;
-	      	me.cursor_lock.hide();
-	      	if (cursorOn == FALSE) {
-	      		me.cursor.hide();
-	      	}
-	      }
-	    } else {
-	      # radar tracks not shown at all
-	      me.tgt_alt  = nil;
-	      me.tgt_dist = nil;
-	      me.tgt_bug  = nil;
-	      me.radar_group.hide();
-	    }
-	    radar_logic.jump2Execute();
-	    me.cursorTriggerPrev = me.cursorTrigger;
-	},
-
-	displayRadarTrack: func (hud_pos) {
-		me.polarEcho = hud_pos.get_polar();
-		me.pos_xx = me.polarEcho[2]*R2D;
-		me.pos_yy = -me.polarEcho[4]*R2D;
-
-		me.currentIndexT = me.track_index;
-
-		if(hud_pos == radar_logic.selection and hud_pos.get_cartesian()[0] != 900000) {
-			me.selection_updated = TRUE;
-			me.selection_index = 0;
-			me.currentIndexT = 0;
-			if (me.selection.parents[0] == radar_logic.ContactGPS or me.selection.parents[0] == radar_logic.ContactGhost) {
-				me.currentIndexT = -1;
-				me.echoes[0].hide();
-			}
-			me.lock = TRUE;
-		} else {
-			me.lock = FALSE;
 		}
 
-		if(me.currentIndexT > -1) {
-			me.echoes[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-			if (me.cursorTrigger and !me.cursorTriggerPrev and !me.preventRelock) {
-				me.cursorDistX = me.cursorOPosX-me.pos_xx*texel_per_degree;
-				me.cursorDistY = me.cursorOPosY-me.pos_yy*texel_per_degree;
-				me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
-				#printf("testing %d",me.cursorDist);
-				if (me.cursorDist < 12) {#
-					#print("less than 20");
-					radar_logic.jump2To(hud_pos);
-					me.cursorManuallyLocked = TRUE;
-					#me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
-				}
-			}
-			me.echoes[me.currentIndexT].show();
-			me.echoes[me.currentIndexT].update();
-			if (hud_pos.get_type() == radar_logic.ORDNANCE) {
-				var eta = hud_pos.getETA();
-				var hit = hud_pos.getHitChance();
-				if (eta != nil) {
-					append(me.tele, sprintf(": %d%% %ds", hit, eta))
-				}
-			}
-			if(me.currentIndexT != 0) {
-				me.track_index += 1;
-				if (me.track_index == maxTracks) {
-					me.track_index = -1;
-				}
-			}
+		# Rest of the function is for the selected track.
+		if (track != radar_logic.selection) return;
+
+		me.selection_updated = TRUE;
+		me.selection.setTranslation(pos[0], pos[1]);
+		me.selection_heading.setRotation((track.get_heading() - me.head_true) * D2R);
+		me.selection_speed_vector.setScale(1, track.get_Speed()/600);
+		me.selection.show();
+	},
+
+	displayRadarTracks: func {
+		me.radar_tracks = [];
+		me.radar_tracks_pos = [];
+		me.n_tracks = 0;
+
+		me.tele = [];
+
+		if (!me.input.radar_active.getBoolValue()) {
+			me.echoes_group.hide();
+			return;
 		}
-		if (me.lock == TRUE) {
-			if (displays.common.cursor == displays.MI) {
-				me.rot = -getprop("orientation/roll-deg") * D2R;
-				me.cursor_grp.setTranslation(-me.fpi_x, -me.fpi_y);
-				me.cursor_grp_trans.setRotation(me.rot);
-				me.cursor_grp2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
-				me.cursor_lock.setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-				me.cursor_lock.setRotation(-me.rot);
-				me.cursor_lock.show();
-				me.cursor_lock.update();
-			}
+		me.echoes_group.show();
+
+		me.selection_updated = FALSE;
+		foreach (track; radar_logic.tracks) {
+			me.displayRadarTrack(track);
+		}
+
+		# Hide remaining echoes
+		for (var i = me.n_tracks; i < maxTracks; i += 1) me.echoes[i].hide();
+		if (!me.selection_updated) me.selection.hide();
+	},
+
+	distCursorTrack: func(i) {
+		return math.sqrt((me.cursor_pos[0] - me.radar_tracks_pos[i][0]) * (me.cursor_pos[0] - me.radar_tracks_pos[i][0])
+						+ (me.cursor_pos[1] - me.radar_tracks_pos[i][1]) * (me.cursor_pos[1] - me.radar_tracks_pos[i][1]));
+	},
+
+	displayCursor: func {
+		if (!cursorOn or displays.common.cursor != displays.MI) {
 			me.cursor.hide();
+			return;
 		}
-	},
 
-    showTgtName: func {
-    	if (TI.ti.newFails == TRUE) {
-    		me.diamond_name.setText(me.interoperability == displays.METRIC?"FÖ":"Failure");
-  	  	} elsif (TI.ti.mreg == TRUE) {
-    		me.diamond_name.setText("MREG");
-  	  	} elsif (me.input.tracks_enabled.getValue() == TRUE) {
-  			me.diamond_name.setText(me.tgt_callsign);
-  		} else {
-  			# radar is off, so silent mode
-  			me.diamond_name.setText(me.interoperability == displays.METRIC?"..TYST..":"..Silent..");
-  		}
-    },
+		# Retrieve cursor movement from JSBSim
+		me.cursor_mov = displays.common.getCursorDelta();
+		displays.common.resetCursorDelta();
 
-    showTopInfo: func {
-    	# this is info about the target.
+		# 1.5 seconds to cover the entire screen.
+		me.cursor_pos[0] += me.cursor_mov[0] * radar_area_width * 2/3;
+		me.cursor_pos[1] += me.cursor_mov[1] * radar_area_width * 2/3;
+		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -radar_area_width/2, radar_area_width/2);
+		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -radar_area_width, 0);
 
-  		if (me.tgt_dist != nil) {
-  			# distance
-  			if (me.interoperability == displays.METRIC) {
-  	  			me.distT.setText(sprintf("A%d", me.tgt_dist/1000));
-  			} else {
-  				me.distT.setText(sprintf("NM%d", me.tgt_dist*M2NM));
-  			}
-  			if (me.tgt_dist_last != nil) {
-  				if (me.interoperability == displays.METRIC) {
-	  	  			me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"ÖKA":me.tgt_dist!=me.tgt_dist_last?"AVTA":""));
-	  			} else {
-	  				me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"INC":me.tgt_dist!=me.tgt_dist_last?"DEC":""));
-	  			}
-  			}
-  			me.tgt_dist_last = me.tgt_dist;
-  		} else {
-  			me.distT.setText("");
-  			me.distT2.setText("");
-  			me.tgt_dist_last = nil;
-  		}
+		me.cursor.show();
+		me.cursor.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 
-  		if (me.tgt_alt != nil) {
-  			# altitude
-  			me.alt = me.tgt_alt*M2FT;
-  			me.text = "";
-			if (me.interoperability == displays.METRIC) {
-				if(me.alt*FT2M < 1000) {
-					me.text = "H"~roundabout(me.alt*FT2M/10)*10;
-				} else {
-					me.text = sprintf("H%.1f", me.alt*FT2M/1000);
-				}
-			} else {
-				me.text = sprintf("FT%d", roundabout(me.alt/10)*10);
-			}
-  	  		me.altT.setText(me.text);
+		if (me.cursor_mov[2] and !me.cursorTriggerPrev) {
+			var closest_i = nil;
+			var min_dist = 100000;
 
-  	  		if (radar_logic.selection != nil) {
-	    		# speed
-	    		me.tgt_speed_kt = radar_logic.selection.get_Speed();
-	    		me.rs = armament.AIM.rho_sndspeed(me.alt);
-				me.sound_fps = me.rs[1];
-	    		me.speed_m = (me.tgt_speed_kt*KT2FPS) / me.sound_fps;
-	  	  		me.machT.setText(sprintf("M%.2f", me.speed_m));
-	  		} else {
-	  			me.machT.setText("");
-	  		}
-  		} else {
-  			me.altT.setText("");
-  			me.machT.setText("");
-  		}
-    },
-
-    showBottomInfo: func {
-    	if (helpOn == TRUE) {
-    		me.helpTime = me.input.timeElapsed.getValue();
-    		if (me.interoperability == displays.METRIC) {
-    			me.rowBottom1.setText(" D   -   -  SVY  -   -  BIT LNK");
-	    		me.rowBottom2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
-    		} else {
-    			me.rowBottom1.setText(" D   -   -  SDV  -   -  BIT LNK");
-	    		me.rowBottom2.setText(" -   -   -  ECM  -  INN EVN  - ");
-    		}
-    		me.rowBottom1.show();
-    		me.rowBottom2.show();
-    	} elsif (me.input.timeElapsed.getValue() - me.helpTime < 5) {
-    		if (me.interoperability == displays.METRIC) {
-    			me.rowBottom1.setText(" D   -   -  SVY  -   -  BIT LNK");
-	    		me.rowBottom2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
-    		} else {
-    			me.rowBottom1.setText(" D   -   -  SDV  -   -  BIT LNK");
-	    		me.rowBottom2.setText(" -   -   -  ECM  -  INN EVN  - ");
-    		}
-			me.rowBottom1.show();
-    		me.rowBottom2.show();
-		} else {
-			me.rowBottom1.hide();
-			me.rowBottom2.hide();
-		}
-    },
-
-  	targetScale: func {
-	  	if (me.tgt_dist != nil and me.tgt_dist < me.input.radarRange.getValue()) {
-	  		me.dist_cursor.setTranslation(-sidePositionOfSideScales, -(me.tgt_dist / me.input.radarRange.getValue()) * 2 * halfHeightOfSideScales + halfHeightOfSideScales);
-	  		me.dist_cursor.show();
-		} else {
-			me.dist_cursor.hide();
-		}
-		if (me.interoperability == displays.METRIC) {
-			if (me.input.radarRange.getValue() == 15000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("5");
-				me.tgtTexts[2].setText("10");
-				me.tgtTexts[3].setText("15");
-			} elsif (me.input.radarRange.getValue() == 30000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("10");
-				me.tgtTexts[2].setText("20");
-				me.tgtTexts[3].setText("30");
-			} elsif (me.input.radarRange.getValue() == 60000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("20");
-				me.tgtTexts[2].setText("40");
-				me.tgtTexts[3].setText("60");
-			} elsif (me.input.radarRange.getValue() == 120000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("40");
-				me.tgtTexts[2].setText("80");
-				me.tgtTexts[3].setText("120");
-			}
-		} else {
-			if (me.input.radarRange.getValue() == 15000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("2.7");
-				me.tgtTexts[2].setText("5.4");
-				me.tgtTexts[3].setText("8.1");
-			} elsif (me.input.radarRange.getValue() == 30000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("5.4");
-				me.tgtTexts[2].setText("11");
-				me.tgtTexts[3].setText("16");
-			} elsif (me.input.radarRange.getValue() == 60000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("11");
-				me.tgtTexts[2].setText("22");
-				me.tgtTexts[3].setText("32");
-			} elsif (me.input.radarRange.getValue() == 120000) {
-				me.tgtTexts[0].setText("0");
-				me.tgtTexts[1].setText("22");
-				me.tgtTexts[2].setText("43");
-				me.tgtTexts[3].setText("65");
-			}
-		}
-  	},
-
-	altScale: func {
-		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
-		me.ground = getprop("position/ground-elev-m");
-		if (me.ground == nil) {
-			me.ground = -10000;
-		}
-		if (me.alt != nil) {
-			if (me.tgt_alt != nil) {
-				me.alt_tgt_cursor.setTranslation(sidePositionOfSideScales+7.5*texel_per_degree, -(me.tgt_alt)/20000 * 2 * halfHeightOfSideScales + halfHeightOfSideScales);
-				me.alt_tgt_cursor.show();
-			} else {
-				me.alt_tgt_cursor.hide();
-			}
-			me.alt_cursor.setTranslation(sidePositionOfSideScales, -(me.alt*FT2M)/20000 * 2 * halfHeightOfSideScales + halfHeightOfSideScales);
-			me.ground_cursor.setTranslation(sidePositionOfSideScales, -(me.ground)/20000 * 2 * halfHeightOfSideScales + halfHeightOfSideScales);
-			me.text = "";
-			if (me.interoperability == displays.METRIC) {
-				if(me.alt*FT2M < 1000) {
-					me.text = ""~roundabout(me.alt*FT2M/10)*10;
-				} else {
-					me.text = sprintf("%.1f", me.alt*FT2M/1000);
-				}
-			} else {
-				if(me.alt < 1000) {
-					me.text = ""~roundabout(me.alt/10)*10;
-				} else {
-					me.text = sprintf("%.1f", me.alt/1000);
+			# Select
+			for (var i=0; i<me.n_tracks; i+=1) {
+				var dist = me.distCursorTrack(i);
+				if (dist < min_dist) {
+					closest_i = i;
+					min_dist = dist;
 				}
 			}
-			me.horizon_alt.setText(me.text);
-			if (me.interoperability == displays.METRIC) {
-				me.altScaleTexts[0].setText("0");
-				me.altScaleTexts[1].setText("5");
-				me.altScaleTexts[2].setText("10");
-				me.altScaleTexts[3].setText("15");
-				me.altScaleTexts[4].setText("20");
+
+			if (min_dist < 8) {
+				radar_logic.setSelection(me.radar_tracks[closest_i]);
 			} else {
-				me.altScaleTexts[0].setText("0");
-				me.altScaleTexts[1].setText("16");
-				me.altScaleTexts[2].setText("33");
-				me.altScaleTexts[3].setText("49");
-				me.altScaleTexts[4].setText("66");
+				radar_logic.unlockSelection();
 			}
-			me.alt_cursor.show();
-			me.ground_cursor.show();
-			me.horizon_alt.show();
-		} else {
-			me.alt_cursor.hide();
-			me.ground_cursor.hide();
-			me.horizon_alt.hide();
 		}
+
+		me.cursorTriggerPrev = me.cursor_mov[2];
 	},
 
-	showAltLines: func {
-		me.showLines = modes.main == modes.TAKEOFF or modes.main == modes.NAV or modes.main == modes.COMBAT
-									 or (modes.main == modes.LANDING and (land.mode == 1 or land.mode == 2));
-
-		if (me.showLines and !getprop("fdm/jsbsim/systems/indicators/flashing-alt-bars") or me.input.twoHz.getValue()) {
-			me.desired_lines3.show();
-
-			me.alt_delta = me.input.ref_alt.getValue() - me.input.alt_m.getValue();
-			me.pos_y = clamp(-(me.alt_delta/300)*halfHeightOfSideScales*0.5, -halfHeightOfSideScales*0.25, halfHeightOfSideScales*0.5);#150 m up, 300 m down
-			me.desired_lines3.setTranslation(0, me.pos_y);
-
-			me.scale = clamp(extrapolate(me.input.ref_alt.getValue(), 200, 300, 0.6666, 1), 0.6666, 1);
-			me.desired_lines3.setScale(1, me.scale);
+	displayBottomInfo: func {
+		if (helpOn or me.input.timeElapsed.getValue() - me.helpTime < 5) {
+			if (me.interoperability == displays.METRIC) {
+				me.help_text_1.setText(" D   -   -  SVY  -   -  BIT LNK");
+				me.help_text_2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
+			} else {
+				me.help_text_1.setText(" D   -   -  SDV  -   -  BIT LNK");
+				me.help_text_2.setText(" -   -   -  ECM  -  INN EVN  - ");
+			}
+			me.help_text_1.show();
+			me.help_text_2.show();
 		} else {
-			me.desired_lines3.hide();
-		}
-	},
-
-	radarIndex: func {
-		me.radAlt = me.input.rad_alt_ready.getBoolValue()?me.input.rad_alt.getValue() * FT2M : nil;
-		if (me.radAlt != nil and me.radAlt < 600) {
-			me.radar_index.setTranslation(0, extrapolate(me.radAlt, 0, 600, 0, halfHeightOfSideScales));
-			me.radar_index.show();
-		} else {
-			me.radar_index.hide();
+			me.help_text_1.hide();
+			me.help_text_2.hide();
 		}
 	},
 };
@@ -1327,13 +1038,3 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 };
 
 var mi = nil;
-var init = func {
-	removelistener(idl); # only call once
-	setupCanvas();
-	mi = MI.new();
-	settimer(func {
-		mi.loop();
-	},0.5);# this will prevent it from starting before TI has been initialized.
-}
-
-#idl = setlistener("ja37/supported/initialized", init, 0, 0);

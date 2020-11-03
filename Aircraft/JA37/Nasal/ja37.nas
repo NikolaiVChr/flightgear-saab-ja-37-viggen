@@ -947,8 +947,10 @@ var Saab37 = {
       # must be after TI
       MI.setupCanvas();
       MI.mi = MI.MI.new();
-      me.loop_mi  = maketimer(0.15, MI.mi, func MI.mi.loop());
+      me.loop_mi  = maketimer(0.50, MI.mi, func MI.mi.loop());
+      me.loop_miF  = maketimer(0.05, MI.mi, func MI.mi.loopFast());
       me.loop_mi.start();
+      me.loop_miF.start();
     }
 
     # HUD:
@@ -1057,8 +1059,10 @@ var Saab37 = {
       # must be after TI
       MI.setupCanvas();
       MI.mi = MI.MI.new();
-      me.loop_mi  = maketimer(0.15, MI.mi, func {timer.timeLoop("MI", MI.mi.loop,MI.mi);});
+      me.loop_mi  = maketimer(0.50, MI.mi, func {timer.timeLoop("MI", MI.mi.loop,MI.mi);});
+      me.loop_miF  = maketimer(0.05, MI.mi, func {timer.timeLoop("MI", MI.mi.loopFast,MI.mi);});
       me.loop_mi.start();
+      me.loop_miF.start();
     }
 
     # HUD:
