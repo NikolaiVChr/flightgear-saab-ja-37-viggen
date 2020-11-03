@@ -366,6 +366,15 @@ var Common = {
 		);
 	},
 
+	setCursorDisplay: func (display) {
+		me.cursor = display;
+		me.resetCursorDelta();
+	},
+
+	toggleCursorDisplay: func {
+		me.setCursorDisplay(!me.cursor);
+	},
+
 	# Cursor position low level updates are in JSBSim to not suffer from low refresh rate.
 	# These functions are the interface with this JSBSim system.
 	getCursorDelta: func {

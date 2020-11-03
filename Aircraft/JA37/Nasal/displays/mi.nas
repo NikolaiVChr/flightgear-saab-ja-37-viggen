@@ -127,7 +127,6 @@ var MI = {
 			APmode:               "fdm/jsbsim/autoflight/mode",
 			alt_m:                "instrumentation/altimeter/indicated-altitude-meter",
 			brightnessSetting:    "ja37/avionics/brightness-mi-knob",
-			cursor_click:         "controls/displays/cursor-total-click",
 			flash_alt_bars:       "fdm/jsbsim/systems/indicators/flashing-alt-bars",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",

@@ -1548,9 +1548,6 @@ var TI = {
         	longitude:            "position/longitude-deg",
         	terrainOn:            "ja37/sound/terrain-on",
 			terrainWarn:          "instrumentation/terrain-warning",
-			cursorControlX:       "controls/displays/cursor-total-slew-x",
-			cursorControlY:       "controls/displays/cursor-total-slew-y",
-			cursorSelect:         "controls/displays/cursor-total-click",
 			elevCmd:              "fdm/jsbsim/fcs/elevator-cmd-norm",
 			ailCmd:               "fdm/jsbsim/fcs/aileron-cmd-norm",
 			instrNorm:            "controls/lighting/instruments-norm",
@@ -2888,16 +2885,18 @@ var TI = {
 		# center cursor in display
 		me.cursorPosX = 0;
 		me.cursorPosY = (-me.rootCenterY+height-me.rootCenterY)*0.5;
-		displays.common.cursor = displays.TI;
+		displays.common.setCursorDisplay(displays.TI);
 	},
 
 	showCursor: func {
 		# this function is called more often than regular overlays
 		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
-			me.cursorSpeedY = me.input.cursorControlY.getValue();
-			me.cursorSpeedX = me.input.cursorControlX.getValue();
-			me.cursorMoveY  = 150 * 0.05 * me.cursorSpeedY;
-			me.cursorMoveX  = 150 * 0.05 * me.cursorSpeedX;
+			# Retrieve cursor movement from JSBSim
+			me.cursorMov = displays.common.getCursorDelta();
+			displays.common.resetCursorDelta();
+			#  2.5 seconds to cover the screen (bottom to top)
+			me.cursorMoveX = me.cursorMov[0] * height * 0.4;
+			me.cursorMoveY = me.cursorMov[1] * height * 0.4;
 			if (me.dragMapEnabled) {
 				me.newMapPos = me.TexelToLaLoMap(me.cursorMoveX, me.cursorMoveY);
 				me.lat = me.newMapPos[0];
@@ -2915,7 +2914,7 @@ var TI = {
 			#me.cursorRPosX = me.cursorPosX + me.rootCenterTranslation[0];
 			#me.cursorRPosY = me.cursorPosY + me.rootCenterTranslation[1];# relative to own position
 			me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
-			me.cursorTrigger = me.input.cursorSelect.getValue();
+			me.cursorTrigger = me.cursorMov[2];
 			if (me.lvffDrag == nil and me.sDrag == nil) {
 				me.cursorDidSomething = FALSE;
 			} else {
@@ -5332,7 +5331,7 @@ var TI = {
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.setToggleAreaEdit();
 				if (route.Polygon.editing != nil) {
-					displays.common.cursor = displays.TI;
+					displays.common.setCursorDisplay(displays.TI);
 				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
@@ -5530,7 +5529,7 @@ var TI = {
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editRTB) {
 					route.Polygon.editPlan(route.Polygon.editRTB);
-					displays.common.cursor = displays.TI;
+					displays.common.setCursorDisplay(displays.TI);
 				} else {
 					route.Polygon.editPlan(nil);
 				}
@@ -5605,7 +5604,7 @@ var TI = {
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editMiss) {
 					route.Polygon.editPlan(route.Polygon.editMiss);
-					displays.common.cursor = displays.TI;
+					displays.common.setCursorDisplay(displays.TI);
 				} else {
 					route.Polygon.editPlan(nil);
 				}
@@ -5676,7 +5675,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
-				displays.common.cursor = !displays.common.cursor;
+				displays.common.toggleCursorDisplay();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
