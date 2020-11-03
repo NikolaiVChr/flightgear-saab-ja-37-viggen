@@ -110,7 +110,7 @@ var HudReticleDev  = props.globals.getNode("payload/armament/hud/reticle-total-d
 var HudReticleDeg  = props.globals.getNode("payload/armament/hud/reticle-total-angle", 1);
 var update_loop_time = 0.000;
 
-var fox2_unique_id = 0; # each missile needs to have a unique numeric ID
+var fox2_unique_id = -100; # each missile needs to have a unique numeric ID
 
 var SIM_TIME = 0;
 var REAL_TIME = 1;
@@ -276,7 +276,8 @@ var AIM = {
 		m.direct_dist_m     = nil;
 		m.speed_m           = -1;
 
-		fox2_unique_id = fox2_unique_id + 1;
+		fox2_unique_id += 1;
+		if (fox2_unique_id >100) fox2_unique_id = -100;
         m.unique_id = fox2_unique_id;
 		m.nodeString = "payload/armament/"~m.type_lc~"/";
 		
@@ -833,7 +834,8 @@ var AIM = {
 			}
 			if(getprop("payload/armament/msg")) {
 				thread.lock(mutexTimer);
-				append(AIM.timerQueue, [AIM, AIM.notifyInFlight, [nil, -1, -1,0,me.typeID,"",me.unique_id,0,"", 0, 0, 0,1], 0]);
+				#lat,lon,alt,rdar,typeID,typ,unique,thrustOn,callsign, heading, pitch, speed, is_deleted=0
+				append(AIM.timerQueue, [AIM, AIM.notifyInFlight, [nil, -1, -1, 0, me.typeID, "delete()", me.unique_id, 0,"", 0, 0, 0, 1], -1]);
 				thread.unlock(mutexTimer);
 			}
 		} else {
@@ -1626,6 +1628,7 @@ var AIM = {
 		
 		me.printStats("****************************************************");
 		me.printStats("Stats for %s", me.typeLong);
+		me.printStats("Damage ID is %d, notification ID is %d, unique ID is %d", me.typeID, me.typeID+21,me.unique_id);
 		me.printStats("DETECTION AND FIRING:");
 		me.printStats("Fire range %.1f-%.1f NM", me.min_fire_range_nm, me.max_fire_range_nm);
 		me.printStats("Can be fired againts %s targets", classes);
@@ -2091,6 +2094,8 @@ var AIM = {
 				me.printStats(me.type~": Not guiding (too low speed)");
 			}
 			me.tooLowSpeed = TRUE;
+		} else {
+			me.tooLowSpeed = FALSE;
 		}
 
 		if (me.guidance == "remote" or me.guidance == "remote-stable") {
@@ -2497,7 +2502,8 @@ var AIM = {
             # notify in flight using Emesary.
             me.last_noti = me.life_time;
         	thread.lock(mutexTimer);
-			append(AIM.timerQueue, [AIM, AIM.notifyInFlight, [me.latN.getValue(), me.lonN.getValue(), me.altN.getValue()*FT2M,me.guidance=="radar",me.typeID,me.type,me.unique_id,me.thrust_lbf>0,(me.free or me.lostLOS or me.tooLowSpeed or me.flareLock or me.chaffLock)?"":me.callsign, me.hdg, me.pitch, me.new_speed_fps], 0]);
+        	var rdr = me.guidance=="radar";
+			append(AIM.timerQueue, [AIM, AIM.notifyInFlight, [me.latN.getValue(), me.lonN.getValue(), me.altN.getValue()*FT2M,rdr,me.typeID,me.type,me.unique_id,me.thrust_lbf>0,(me.free or me.lostLOS or me.tooLowSpeed or me.flareLock or me.chaffLock)?"":me.callsign, me.hdg, me.pitch, me.new_speed_fps, 0], -1]);
 			thread.unlock(mutexTimer);
         }
 
@@ -2888,8 +2894,8 @@ var AIM = {
 		me.track_signal_e = me.raw_steer_signal_elev * !me.free * me.guiding;
 		me.track_signal_h = me.raw_steer_signal_head * !me.free * me.guiding;
 
-		me.printGuide("%04.1f deg elevate command desired", me.track_signal_e);
-		me.printGuide("%05.1f deg heading command desired", me.track_signal_h);
+		me.printGuideDetails("%04.1f deg elevate command desired", me.track_signal_e);
+		me.printGuideDetails("%05.1f deg heading command desired", me.track_signal_h);
 
 		# record some variables for next loop:
 		me.dist_last           = me.dist_curr;
@@ -3644,6 +3650,7 @@ var AIM = {
 					if (me.last_t_elev_norm_speed == nil) {
 						me.last_t_elev_norm_speed = me.t_LOS_elev_norm_speed;
 					}
+					
 
 					me.t_LOS_elev_norm_acc            = (me.t_LOS_elev_norm_speed - me.last_t_elev_norm_speed)/me.dt;
 					me.last_t_elev_norm_speed          = me.t_LOS_elev_norm_speed;
@@ -3877,20 +3884,21 @@ var AIM = {
 		damage.damageLog.push(str);
 	},
 	
-	notifyInFlight: func (lat,lon,alt,rdr,typeID,typ,unique,thrust,callsign, heading, pitch, speed, is_deleted=0) {
-		var msg = notifications.ArmamentInFlightNotification.new("mfly", unique, is_deleted?3:2, 21+typeID);
-        msg.Flags = rdr;#bit #0
-        if (thrust) {
-        	msg.Flags = bits.set(msg.Flags, 1);#bit #1
-        }
+	notifyInFlight: func (lat,lon,alt,rdar,typeID,typ,unique,thrustOn,callsign, heading, pitch, speed, is_deleted=0) {
+		## thrustON cannot be named 'thrust' as FG for some reason will then think its a function (probably fixed by the way call() now is used)
+		var msg = notifications.ArmamentInFlightNotification.new("mfly", unique, is_deleted?damage.DESTROY:damage.MOVE, 21+typeID);
         if (lat != nil) {
         	msg.Position.set_latlon(lat,lon,alt);
         } else {
         	msg.Position.set_latlon(0,0,0);
         }
+        msg.Flags = rdar;#bit #0
+        if (thrustOn) {
+        	msg.Flags = bits.set(msg.Flags, 1);#bit #1
+        }
         msg.IsDistinct = !is_deleted;
         msg.RemoteCallsign = callsign;
-        msg.UniqueIndex = unique;
+        msg.UniqueIndex = ""~typeID~unique;
         msg.Pitch = pitch;
         msg.Heading = heading;
         msg.u_fps = speed;
@@ -3943,10 +3951,12 @@ var AIM = {
 		}
 		
 		me.coord = coordinates;  # Set the current missile coordinates at the explosion point.
-
-		thread.lock(mutexTimer);
-		append(AIM.timerQueue, [AIM, AIM.notifyInFlight, [me.coord.lat(), me.coord.lon(), me.coord.alt(),0,me.typeID,me.type,me.unique_id,0,"", me.hdg, me.pitch, 0], 0]);
-		thread.unlock(mutexTimer);
+		
+		if(getprop("payload/armament/msg")) {
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [AIM, AIM.notifyInFlight, [me.coord.lat(), me.coord.lon(), me.coord.alt(),0,me.typeID,me.type,me.unique_id,0,"", me.hdg, me.pitch, 0, 0], -1]);
+			thread.unlock(mutexTimer);
+		}
 		
 		var wh_mass = (event == "exploded" and !me.inert) ? me.weight_whead_lbm : 0; #will report 0 mass if did not have time to arm
 		
@@ -3978,7 +3988,7 @@ var AIM = {
 				me.printStats("%s  time %.1f", phrase, me.life_time);
 				if(getprop("payload/armament/msg") and hitPrimaryTarget and wh_mass > 0){
 					thread.lock(mutexTimer);
-					append(AIM.timerQueue, [AIM, AIM.notifyHit, [coordinates.alt() - (me.inacc?me.Tgt.get_Coord(0).alt():me.t_coord.alt()),range,me.callsign,coordinates.course_to(me.inacc?me.Tgt.get_Coord(0):me.t_coord),reason,me.typeID, me.typeLong, 0], 0]);
+					append(AIM.timerQueue, [AIM, AIM.notifyHit, [coordinates.alt() - (me.inacc?me.Tgt.get_Coord(0).alt():me.t_coord.alt()),range,me.callsign,coordinates.course_to(me.inacc?me.Tgt.get_Coord(0):me.t_coord),reason,me.typeID, me.typeLong, 0], -1]);
 					thread.unlock(mutexTimer);
                 } else {
 	                thread.lock(mutexTimer);
@@ -4025,7 +4035,7 @@ var AIM = {
  					var cs = me.testMe.get_Callsign();
  					var cc = me.testMe.get_Coord();
  					thread.lock(mutexTimer);
-					append(AIM.timerQueue, [AIM, AIM.notifyHit, [explode_coord.alt() - cc.alt(),min_distance,cs,explode_coord.course_to(cc),"mhit1",me.typeID, me.typeLong,0], 0]);
+					append(AIM.timerQueue, [AIM, AIM.notifyHit, [explode_coord.alt() - cc.alt(),min_distance,cs,explode_coord.course_to(cc),"mhit1",me.typeID, me.typeLong,0], -1]);
 					thread.unlock(mutexTimer);
 				}
 
@@ -4041,7 +4051,7 @@ var AIM = {
 			var phrase = sprintf("%s %s: %.1f meters from: %s", me.type,event, min_distance, cs);# if we mention ourself then we need to explicit add ourself as author.
 			me.printStats(phrase);
 			thread.lock(mutexTimer);
-			append(AIM.timerQueue, [AIM, AIM.notifyHit, [explode_coord.alt() - geo.aircraft_position().alt(),min_distance,cs,explode_coord.course_to(geo.aircraft_position()),"mhit2",me.typeID, me.typeLong, 1], 0]);
+			append(AIM.timerQueue, [AIM, AIM.notifyHit, [explode_coord.alt() - geo.aircraft_position().alt(),min_distance,cs,explode_coord.course_to(geo.aircraft_position()),"mhit2",me.typeID, me.typeLong, 1], -1]);
 			thread.unlock(mutexTimer);
 			me.sendout = 1;
 		}
@@ -4930,7 +4940,9 @@ var AIM = {
 				#print ("Building hit..smoking");
 		       	var static = geo.put_model(getprop("payload/armament/models") ~ "bomb_hit_smoke.xml", me.coord.lat(), me.coord.lon());
 		       	if(getprop("payload/armament/msg") and info[0] != nil) {
+		       		thread.lock(mutexTimer);
 					append(AIM.timerQueue, [AIM, AIM.notifyCrater, [me.coord.lat(), me.coord.lon(), info[0], 2, 0, static], 0]);
+					thread.unlock(mutexTimer);
 				}
 		    } else if ((info[1] != nil) and (info[1].solid == 1)) {
 		        var crater_model = "";
@@ -4949,7 +4961,9 @@ var AIM = {
 		            var static = geo.put_model(crater_model, me.coord.lat(), me.coord.lon());
 					#print("put crater");
 					if(getprop("payload/armament/msg") and info[0] != nil) {
+						thread.lock(mutexTimer);
 						append(AIM.timerQueue, [AIM, AIM.notifyCrater, [me.coord.lat(), me.coord.lon(),info[0],siz, 0, static], 0]);
+						thread.unlock(mutexTimer);
 					}
 		        }
 		    }
@@ -5117,66 +5131,105 @@ var AIM = {
 
 	printFlight: func {
 		if (DEBUG_FLIGHT) {
-			call(printf,arg, nil, nil, var err = []);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printFlightDetails: func {
 		if (DEBUG_FLIGHT_DETAILS) {
-			call(printf,arg);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printStats: func {
 		if (DEBUG_STATS) {
-			call(printf,arg, nil, nil, var err = []);
-			#if (size(err)) {
-			#	print("printStats: "~err[0]);
-			#}
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printStatsDetails: func {
 		if (DEBUG_STATS_DETAILS) {
-			call(printf,arg);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printGuide: func {
 		if (DEBUG_GUIDANCE) {
-			call(printf,arg);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printGuideDetails: func {
 		if (DEBUG_GUIDANCE_DETAILS) {
-			call(printf,arg);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printCode: func {
 		if (DEBUG_CODE) {
-			call(printf,arg);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 
 	printSearch: func {
 		if (DEBUG_SEARCH) {
-			call(printf,arg);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [nil, printff, arg, -1]);
+			thread.unlock(mutexTimer);
 		}
 	},
 	
 	timerLoop: func {
 		thread.lock(mutexTimer);
-		var cmd = pop(AIM.timerQueue);
+		AIM.tq = AIM.timerQueue;
+		AIM.timerQueue = [];
 		thread.unlock(mutexTimer);
-		if (cmd != nil) {
-			var tr = maketimer(cmd[3], cmd[0], func {call(cmd[1], cmd[2], cmd[0], var err = []);if (size(err)) {foreach(e;err) {print(e);}}});
-			tr.singleShot = 1;
-			tr.start();#lets hope the timer tr dont get garbage collected..			
+		foreach(var cmd; AIM.tq) {
+			AIM.timerCall(cmd);
 		}
-		settimer(func AIM.timerLoop(),0);
 	},
+	
+	timerCall: func (cmd) {
+		if (cmd != nil) {
+			if (cmd[3] == -1) {
+				call(cmd[1], cmd[2], cmd[0], nil, var err = []);
+				debug.printerror(err);
+			} else {
+				var code = "timer_"~rand();
+				var tr = maketimer(cmd[3], cmd[0], func {call(cmd[1], cmd[2], cmd[0], nil, var err = []);debug.printerror(err);delete(AIM.timers, code);});
+				tr.singleShot = 1;
+				tr.start();
+				AIM.timers[code] = tr;
+			}
+		}
+	},
+	
+	pop_front: func (vector) {
+		if (size(vector)==0) return [nil, vector];
+		var new_vector = [];
+		var first = 1;
+		foreach (i;vector) {
+			if (first) continue;
+			append(new_vector, i);
+		}
+		return [vector[0],new_vector];
+	},
+	
+	timers: {},
 	
 	timerQueue: [],
 
@@ -5318,5 +5371,12 @@ var spamLoop = func {
   settimer(spamLoop, 1.20);
 }
 
+var printff = func{
+	var str = call(sprintf, arg,nil,nil,var err = []);#call to printf directly sometimes crashes FG
+	debug.printerror(err);
+	print(str);
+}
+
 spamLoop();
-AIM.timerLoop();
+var timerLooper = maketimer(0, AIM, AIM.timerLoop);
+timerLooper.start();
