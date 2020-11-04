@@ -520,8 +520,9 @@ var MI = {
 			.setTranslation(-radar_area_width/2 + 5, radar_area_width/2 + 5)
 			.setFontSize(9, 1);
 
-		me.mreg = me.rootCenter.createChild("text")
-			.setText("MREG")
+		me.ti_msg = me.rootCenter.createChild("text");
+		me.ti_msg.enableUpdate();
+		me.ti_msg.updateText("MREG")
 			.setColor(r,g,b,a)
 			.setAlignment("right-top")
 			.setTranslation(radar_area_width/2 - 5, radar_area_width/2 + 5)
@@ -763,10 +764,7 @@ var MI = {
 
 	displayText: func {
 		# TYST/SILENT
-		if (TI.ti.newFails == TRUE) {
-			me.text_silent.show();
-			me.text_silent.updateText(me.interoperability == displays.METRIC?"FÖ":"FAIL");
-		} elsif (!me.input.radar_active.getBoolValue()) {
+		if (!me.input.radar_active.getBoolValue()) {
 			# radar is off, so silent mode
 			me.text_silent.show();
 			me.text_silent.updateText(me.interoperability == displays.METRIC?"TYST":"SILENT");
@@ -796,9 +794,13 @@ var MI = {
 
 		# Bottom right
 		if (TI.ti.mreg) {
-			me.mreg.show();
+			me.ti_msg.show();
+			me.ti_msg.updateText("MREG");
+		} elsif (TI.ti.newFails == TRUE) {
+			me.ti_msg.show();
+			me.ti_msg.updateText(me.interoperability == displays.METRIC?"FÖ":"FAIL");
 		} else {
-			me.mreg.hide();
+			me.ti_msg.hide();
 		}
 
 		# Bottom text. Buttons help or Rb 99 telemetry.
