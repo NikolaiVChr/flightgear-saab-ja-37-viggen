@@ -5203,6 +5203,7 @@ var TI = {
 				if (me.aim9 != nil) {
 					me.cage = me.aim9.isCaged();
 					foreach(snake;displays.common.sidewinders()) {
+						snake.setAutoUncage(FALSE);
 						snake.setCaged(!me.cage);
 					}
 				}
