@@ -2709,7 +2709,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.lock_ir_last = FALSE;
       } else {
           if (me.missileCurr.status != armament.MISSILE_LOCK) {
-            if ((me.missileCurr.isBore() and me.missileCurr.isCaged()) or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isCaged() and me.missileCurr.isSlave() and !me.missileCurr.command_tgt)) {
+            if (!me.missileCurr.isCaged() or !me.missileCurr.command_tgt) {
               # small seeker diamond should show. TODO: refine this if statement
               me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
               me.diamond_small.show();
@@ -2729,11 +2729,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     }
     me.diamond_small.update();
     me.lock_ir.update();
-    if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt))) {
-      me.missileCurr.setContacts(radar_logic.complete_list);
-    } elsif (me.missileCurr != nil) {
-      me.missileCurr.setContacts([]);
-    }
   },
 
   displayRadarTracks: func (mode) {
@@ -2817,7 +2812,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         if(me.selection.get_type() != radar_logic.ORDNANCE and mode == modes.COMBAT) {
           #targetable
           #diamond_node = selection[6];
-          armament.contact = me.selection;
           me.diamond_group.setTranslation(me.pos_x, me.pos_y);
           me.diamond_dista = me.input.units.getValue() ==1  ? me.selection.get_range()*NM2M : me.selection.get_range()*1000;
           

@@ -135,6 +135,14 @@ var Missile = {
             w.release_timer.simulatedTime = TRUE;
             w.release_timer.singleShot = TRUE;
         }
+
+        if (type == "RB-24" or type == "RB-24J" or type == "RB-74") {
+            w.is_IR = TRUE;
+            w.IR_seeker_timer = maketimer(0.5, w, w.IR_seeker_loop);
+        } else {
+            w.is_IR = FALSE;
+        }
+
         return w;
     },
 
@@ -150,6 +158,7 @@ var Missile = {
         setprop("controls/armament/station-select-custom", pylon);
 
         me.update_combat();
+        if (me.is_IR) me.IR_seeker_timer.start();
     },
 
     deselect: func {
@@ -159,6 +168,7 @@ var Missile = {
         me.station = nil;
         me.weapon = nil;
         me.fired = FALSE;
+        if (me.is_IR) me.IR_seeker_timer.stop();
         setprop("controls/armament/station-select-custom", -1);
     },
 
@@ -217,12 +227,17 @@ var Missile = {
                 # Setup weapon
                 me.weapon.start();
 
-                # IR weapons parameters. For AJS, locked on bore.
-                # I'm not sure about the JA, keeping it simple to use for now.
-                if (!variant.JA and me.weapon.guidance == "heat") {
-                    me.weapon.setAutoUncage(FALSE);
-                    me.weapon.setCaged(TRUE);
-                    me.weapon.setBore(TRUE);
+                # IR weapons parameters.
+                if (me.is_IR) {
+                    if (!variant.JA) {
+                        # For AJS, locked on bore.
+                        me.weapon.setAutoUncage(FALSE);
+                        me.weapon.setCaged(TRUE);
+                        me.weapon.setSlave(TRUE);
+                        me.weapon.commandDir(0,0);
+                    } else {
+                        me.weapon.setUncagedPattern(3, 2.5, -12);
+                    }
                 }
             } else {
                 me.weapon.stop();
@@ -273,17 +288,45 @@ var Missile = {
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
 
         me.weapon.setAutoUncage(TRUE);
-        me.weapon.setBore(FALSE);
+        me.weapon.setSlave(FALSE);
     },
 
     reset_IR_seeker: func {
-        if (variant.JA or me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        if (variant.JA or me.weapon == nil
+            or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
 
         me.weapon.stop();
         me.weapon.start();
         me.weapon.setAutoUncage(FALSE);
         me.weapon.setCaged(TRUE);
-        me.weapon.setBore(TRUE);
+        me.weapon.setSlave(TRUE);
+        me.weapon.commandDir(0,0);
+    },
+
+    IR_seeker_loop: func {
+        if (!me.weapon_ready()) return;
+
+        # For JA, switch between bore sight and radar command automatically.
+        # Note: not using 'setBore()' for bore sight. Instead keeping 'setSlave()'
+        # and using 'commandDir()' to allow to adjust bore position, if we want to.
+        if (variant.JA and me.weapon.isCaged()) {
+            if (radar_logic.selection == nil or TI.ti.rb74_force_bore) {
+                if (me.weapon.command_tgt) me.weapon.commandDir(0,0);
+            } else {
+                if (!me.weapon.command_tgt) me.weapon.commandRadar();
+            }
+        }
+
+        if (me.weapon.status != armament.MISSILE_LOCK) {
+            # Don't do anything if the missile has already locked. It would mess with the lock.
+            if (me.weapon.isCaged() and me.weapon.command_tgt) {
+                # Slave onto radar target.
+                me.weapon.setContacts([]);
+            } else {
+                # Send list of all contacts to allow searching.
+                me.weapon.setContacts(radar_logic.complete_list);
+            }
+        }
     },
 
     get_weapon: func { return me.weapon; },

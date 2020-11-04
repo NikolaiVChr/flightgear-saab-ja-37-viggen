@@ -51,6 +51,7 @@ var setSelection = func (s) {
 
   unlockSelection();
   selection = s;
+  armament.contact = selection;
   if (s != nil) {
     radarLogic.paint(selection.getNode(), TRUE);
     lookatSelection();
@@ -63,6 +64,7 @@ var unlockSelection = func () {
     input.locked_md5.setValue("");
     disableSteerOrder();
     selection = nil;
+    armament.contact = nil;
   }
 }
 
@@ -343,6 +345,7 @@ var RadarLogic = {
       # Keep track of selected target
       if (selection != nil and selection.getUnique() == UID) {
         selection = trackInfo;
+        armament.contact = trackInfo;
         me.paint(track, TRUE);
         if(mp) {
           input.locked_md5.setValue(left(md5(trackInfo.get_Callsign()), 4));
