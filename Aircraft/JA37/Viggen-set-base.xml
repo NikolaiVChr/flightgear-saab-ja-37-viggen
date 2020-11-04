@@ -361,11 +361,14 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 2, int 17, int 18, int 19, float 2, float 3 and float 9 are controlled from nasal or JSB
+            <!-- int 2, int 17, int 18, int 19, float 2, float 3, float 9, string[4], string[6] are controlled from nasal or JSB
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
+
+                string[6] = radar selected target
+                string[4] = IFF
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
@@ -1574,6 +1577,13 @@
             <release-complete type="bool">false</release-complete>
             <release-failed type="bool">false</release-failed>
         </indicators>
+        <iff>
+            <channel-selection type="int">1</channel-selection>
+            <power-knob type="int">0</power-knob>
+            <power type="bool">0</power>
+            <channel_prop type="string">/instrumentation/iff/channel-selection</channel_prop>
+            <power_prop type="string">/instrumentation/iff/power</power_prop>
+        </iff>
     </instrumentation>
 
     <payload>
@@ -1665,6 +1675,9 @@
         <faf>
             <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
         </faf>
+        <iff>
+            <file>Aircraft/JA37/Nasal/radar/iff.nas</file>
+        </iff>
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>

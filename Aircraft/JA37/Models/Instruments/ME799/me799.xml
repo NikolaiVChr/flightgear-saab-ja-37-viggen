@@ -35,9 +35,9 @@
         <object-name>handle1</object-name>
         <object-name>disc1</object-name>
         <object-name>screw1</object-name>
-        <property>ja37/radio/me799/knob-1</property>
-        <factor>-30</factor>
-        <offset-deg>30</offset-deg>
+        <property>instrumentation/iff/channel-selection</property>
+        <factor>30</factor>
+        <offset-deg>-30</offset-deg>
         <center>
             <x-m>  0.00107 </x-m>
             <y-m>  -0.02767 </y-m>
@@ -47,13 +47,13 @@
             <x>0</x>
             <y>0</y>
             <z>-1</z>
-        </axis>        
+        </axis>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/me799/knob-1</property>
+                <property>instrumentation/iff/channel-selection</property>
                 <min>1</min>
-                <max>11</max>                
+                <max>11</max>
                 <wrap>false</wrap>
            </binding>
         </action>
@@ -61,7 +61,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>qc</tooltip-id>
-                <label>Query code</label>
+                <label>IFF query code</label>
             </binding>
         </hovered>
     </animation>
@@ -71,9 +71,9 @@
         <object-name>handle2</object-name>
         <object-name>disc2</object-name>
         <object-name>screw2</object-name>
-        <property>ja37/radio/me799/knob-2</property>
-        <factor>-30</factor>
-        <offset-deg>0</offset-deg>
+        <property>instrumentation/iff/power-knob</property>
+        <factor>30</factor>
+        <offset-deg>-60</offset-deg>
         <center>
             <x-m>  0.00107 </x-m>
             <y-m>  0.03218 </y-m>
@@ -83,13 +83,13 @@
             <x>0</x>
             <y>0</y>
             <z>-1</z>
-        </axis>        
+        </axis>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/me799/knob-2</property>
+                <property>instrumentation/iff/power-knob</property>
                 <min>0</min>
-                <max>2</max>                
+                <max>2</max>
                 <wrap>false</wrap>
            </binding>
         </action>
@@ -102,7 +102,7 @@
         </hovered>
     </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>button</object-name>
         <action>

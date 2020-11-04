@@ -842,6 +842,19 @@
             <gain>/instrumentation/dme/switch-position</gain>
         </pure_gain>
 
+        <switch name="/instrumentation/iff/power">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /ja37/elec/ac-bus-main-bool == 1
+                /instrumentation/iff/power-knob == 2
+            </test>
+            <test logic="AND" value="1">
+                /ja37/elec/ac-bus-main-bool == 1
+                /instrumentation/iff/power-knob == 1
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
         <switch name="names/electrical/landing-light">
             <description>
                 Landing lights power

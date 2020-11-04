@@ -98,13 +98,13 @@
         <value>OFF</value>
         <binding>
             <command>property-assign</command>
-            <property>ja37/radio/me799/knob-2</property>
-            <value>2</value>
+            <property>instrumentation/iff/power-knob</property>
+            <value>0</value>
         </binding>
         <condition>
             <equals>
-                <property>ja37/radio/me799/knob-2</property>
-                <value>2</value>
+                <property>instrumentation/iff/power-knob</property>
+                <value>0</value>
             </equals>
         </condition>
         <marker>

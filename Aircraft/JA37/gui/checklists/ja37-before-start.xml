@@ -716,12 +716,12 @@
             <value>AUT</value>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me799/knob-2</property>
+                <property>instrumentation/iff/power-knob</property>
                 <value>1</value>
             </binding>
             <condition>
                 <equals>
-                    <property>ja37/radio/me799/knob-2</property>
+                    <property>instrumentation/iff/power-knob</property>
                     <value>1</value>
                 </equals>
             </condition>
