@@ -515,14 +515,14 @@ var MI = {
 		me.botl_text = me.rootCenter.createChild("text");
 		me.botl_text.enableUpdate();
 		me.botl_text.setText("QFE")
-			.setColor(r,g,b, a)
+			.setColor(r,g,b,a)
 			.setAlignment("left-top")
 			.setTranslation(-radar_area_width/2 + 5, radar_area_width/2 + 5)
 			.setFontSize(9, 1);
 
 		me.mreg = me.rootCenter.createChild("text")
 			.setText("MREG")
-			.setColor(r,g,b, a)
+			.setColor(r,g,b,a)
 			.setAlignment("right-top")
 			.setTranslation(radar_area_width/2 - 5, radar_area_width/2 + 5)
 			.setFontSize(9, 1);
@@ -537,21 +537,36 @@ var MI = {
 				.setColor(r,g,b,a)
 				.hide();
 
-		me.help_text_1 = me.rootCenter.createChild("text");
+		me.help_text = me.rootCenter.createChild("group")
+			.setTranslation(0, height_mm - center_y - 12);
+
+		me.help_text_1 = me.help_text.createChild("text");
 		me.help_text_1.enableUpdate();
 		me.help_text_1.updateText(" D   -   -  SVY  -   -  BIT LNK")
-			.setColor(r,g,b, a)
+			.setColor(r,g,b,a)
 			.setAlignment("center-bottom")
-			.setTranslation(0, height_mm - center_y - 12)
 			.setFontSize(5, 1);
 
-		me.help_text_2 = me.rootCenter.createChild("text");
+		me.help_text_2 = me.help_text.createChild("text");
 		me.help_text_2.enableUpdate();
 		me.help_text_2.updateText(" -   -   -  VMI  -  TNF HÄN  - ")
-			.setColor(r,g,b, a)
+			.setColor(r,g,b,a)
 			.setAlignment("center-bottom")
-			.setTranslation(0, height_mm - center_y - 4)
+			.setTranslation(0, 7)
 			.setFontSize(5, 1);
+
+		me.lnk99_grp = me.rootCenter.createChild("group")
+			.setTranslation(0, height_mm - center_y - 12);
+		me.lnk99 = [];
+		for (var i=0; i<4; i+=1) {
+			append(me.lnk99, me.lnk99_grp.createChild("text"));
+			me.lnk99[i].enableUpdate();
+			me.lnk99[i].updateText("")
+				.setColor(r,g,b,a)
+				.setFontSize(5, 1)
+				.setAlignment("left-bottom")
+				.setTranslation((math.mod(i, 2) == 0 ? -35 : 5), (i >= 2 ? 7 : 0));
+		}
 	},
 
 	########################################################################################################
@@ -586,7 +601,6 @@ var MI = {
 		me.displayRadarTracks();
 		me.displayText();
 		me.displayTargetInfo();
-		me.displayBottomInfo();
 		me.displayArmCircle();
 	},
 
@@ -769,7 +783,7 @@ var MI = {
 			} else {
 				me.botl_text.hide();
 			}
-		} elsif (fire_control.selected != nil) {
+		} elsif (fire_control.selected != nil and fire_control.selected.weapon_ready()) {
 			me.qfe = FALSE;
 			me.botl_text.updateText(displays.common.armNameShort());
 			me.botl_text.show();
@@ -785,6 +799,35 @@ var MI = {
 			me.mreg.show();
 		} else {
 			me.mreg.hide();
+		}
+
+		# Bottom text. Buttons help or Rb 99 telemetry.
+		if (helpOn or me.input.timeElapsed.getValue() - me.helpTime < 5) {
+			if (me.interoperability == displays.METRIC) {
+				me.help_text_1.setText(" D   -   -  SVY  -   -  BIT LNK");
+				me.help_text_2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
+			} else {
+				me.help_text_1.setText(" D   -   -  SDV  -   -  BIT LNK");
+				me.help_text_2.setText(" -   -   -  ECM  -  INN EVN  - ");
+			}
+			me.help_text.show();
+			me.lnk99_grp.hide();
+		} elsif (size(me.tele) > 0) {
+			me.help_text.hide();
+			me.lnk99_grp.show();
+
+			var i = 0;
+			forindex (i; me.tele) {
+				me.lnk99[i].updateText(sprintf("%2ds %2d%%", math.clamp(me.tele[i][1],-9,99), me.tele[i][0]));
+				me.lnk99[i].show();
+			}
+			i += 1;
+			for (; i<4; i+=1) {
+				me.lnk99[i].hide();
+			}
+		} else {
+			me.help_text.hide();
+			me.lnk99_grp.hide();
 		}
 	},
 
@@ -1012,23 +1055,6 @@ var MI = {
 		}
 
 		me.cursorTriggerPrev = me.cursor_mov[2];
-	},
-
-	displayBottomInfo: func {
-		if (helpOn or me.input.timeElapsed.getValue() - me.helpTime < 5) {
-			if (me.interoperability == displays.METRIC) {
-				me.help_text_1.setText(" D   -   -  SVY  -   -  BIT LNK");
-				me.help_text_2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
-			} else {
-				me.help_text_1.setText(" D   -   -  SDV  -   -  BIT LNK");
-				me.help_text_2.setText(" -   -   -  ECM  -  INN EVN  - ");
-			}
-			me.help_text_1.show();
-			me.help_text_2.show();
-		} else {
-			me.help_text_1.hide();
-			me.help_text_2.hide();
-		}
 	},
 };
 
