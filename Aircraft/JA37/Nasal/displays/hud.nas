@@ -836,6 +836,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.diamond_name.setAlignment("left-bottom");
     me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
     me.diamond_name.setFontSize((60/1024)*canvasWidth*fs, ar);
+    me.diamond_iff = me.diamond_group.createChild("path")
+        .moveTo(-(50/1024)*canvasWidth, -(50/1024)*canvasWidth)
+        .lineTo((50/1024)*canvasWidth, (50/1024)*canvasWidth)
+        .moveTo(-(50/1024)*canvasWidth, (50/1024)*canvasWidth)
+        .lineTo((50/1024)*canvasWidth, -(50/1024)*canvasWidth)
+        .setStrokeLineWidth(w)
+        .setColor(r,g,b,a);
 
 
     #other targets
@@ -2812,37 +2819,45 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.blink = TRUE;
           me.pos_y = -(462/1024)*canvasWidth;
         }
+
+        me.diamond_group.setTranslation(me.pos_x, me.pos_y);
+        me.diamond_group.show();
+        me.diamond_dista = me.input.units.getBoolValue() ? me.selection.get_range()*NM2M : me.selection.get_range()*1000;
+        if(me.diamond_dista < 10000) {
+          me.diamond_dist.setText(sprintf("%.1f", me.diamond_dista/1000));
+        } else {
+          me.diamond_dist.setText(sprintf("%02d", me.diamond_dista/1000));
+        }
+
+        if (!variant.JA) {
+          # only show names in HUD on the AJ variants as they lack the MI display.
+          if (me.input.callsign.getValue() == TRUE) {
+            me.diamond_name.setText(me.selection.get_Callsign());
+          } else {
+            me.diamond_name.setText(me.selection.get_model());
+          }
+        }
+
+        if (me.pos_x > (100/1024)*canvasWidth) {
+          me.diamond_dist.setAlignment("right-top");
+          me.diamond_dist.setTranslation(-(40/1024)*canvasWidth, (55/1024)*canvasWidth);
+          me.diamond_name.setAlignment("right-bottom");
+          me.diamond_name.setTranslation(-(40/1024)*canvasWidth, -(55/1024)*canvasWidth);
+        } elsif (me.pos_x < -(100/1024)*canvasWidth) {
+          me.diamond_dist.setAlignment("left-top");
+          me.diamond_dist.setTranslation((40/1024)*canvasWidth, (55/1024)*canvasWidth);
+          me.diamond_name.setAlignment("left-bottom");
+          me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
+        }
+
+        if (me.selection.getIFF()) {
+          me.diamond_iff.show();
+        } else {
+          me.diamond_iff.hide();
+        }
+
         if(me.selection.get_type() != radar_logic.ORDNANCE and mode == modes.COMBAT) {
           #targetable
-          #diamond_node = selection[6];
-          me.diamond_group.setTranslation(me.pos_x, me.pos_y);
-          me.diamond_dista = me.input.units.getValue() ==1  ? me.selection.get_range()*NM2M : me.selection.get_range()*1000;
-          
-          if(me.diamond_dista < 10000) {
-            me.diamond_dist.setText(sprintf("%.1f", me.diamond_dista/1000));
-          } else {
-            me.diamond_dist.setText(sprintf("%02d", me.diamond_dista/1000));
-          }
-          if (!variant.JA) {
-            # only show names in HUD on the AJ variants as they lack the MI display.
-            if (me.input.callsign.getValue() == TRUE) {
-              me.diamond_name.setText(me.selection.get_Callsign());
-            } else {
-              me.diamond_name.setText(me.selection.get_model());
-            }
-          }
-          if (me.pos_x > (100/1024)*canvasWidth) {
-            me.diamond_dist.setAlignment("right-top");
-            me.diamond_dist.setTranslation(-(40/1024)*canvasWidth, (55/1024)*canvasWidth);
-            me.diamond_name.setAlignment("right-bottom");
-            me.diamond_name.setTranslation(-(40/1024)*canvasWidth, -(55/1024)*canvasWidth);
-          } elsif (me.pos_x < -(100/1024)*canvasWidth) {
-            me.diamond_dist.setAlignment("left-top");
-            me.diamond_dist.setTranslation((40/1024)*canvasWidth, (55/1024)*canvasWidth);
-            me.diamond_name.setAlignment("left-bottom");
-            me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
-          }
-
           me.displayDiamond = 0;
           #print();
           me.roll = me.input.roll.getValue();
@@ -2853,25 +2868,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.displayDiamond = 2;
 #            me.diamond_small.hide();
           }
-		  
-          #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
-          #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
-          #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
-          #var down = me.myHeading+180.0;
-          #var relative_heading = heading + down - 90.0;
-          #var relative_speed = speed/10.0;
-          #var pos_y = relative_speed * math.sin(relative_heading*D2R);
-          #var pos_x = relative_speed * math.cos(relative_heading*D2R);
-
-          #if(me.track_line != nil) {
-          #  me.diamond_group_line.removeAllChildren();
-          #}
-
-          #me.track_line = me.diamond_group_line.createChild("path")
-          #               .lineTo( pos_x, pos_y)
-          #               .setStrokeLineWidth(w)
-          #               .setColor(r,g,b, a);
-          #print("diamond="~diamond~" blink="~blink);
           if (me.displayDiamond > 0) {
             if (radar_logic.lockLast == nil or (radar_logic.lockLast != nil and radar_logic.lockLast.getUnique() != me.selection.getUnique())) {
               radar_logic.lockLog.push(sprintf("Radar lock on to %s (%s)",me.selection.get_Callsign(),fire_control.get_weapon().type));
@@ -2895,47 +2891,18 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           } else {
             me.lock_rdr.hide();
             me.target_circle[0].hide();
-          }          
-          me.diamond_group.show();
+          }
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           #diamond_node = nil;
           radar_logic.lockLast = nil;
-          armament.contact = nil;
-          me.diamond_group.setTranslation(me.pos_x, me.pos_y);
           me.target_circle[me.selection_index].setTranslation(me.pos_x, me.pos_y);
-          me.diamond_dista = me.input.units.getValue() == TRUE  ? me.selection.get_range()*NM2M : me.selection.get_range()*1000;
-          if(me.diamond_dista < 10000) {
-            me.diamond_dist.setText(sprintf("%.1f", me.diamond_dista/1000));
-          } else {
-            me.diamond_dist.setText(sprintf("%02d", me.diamond_dista/1000));
-          }
-          if (me.pos_x > (100/1024)*canvasWidth) {
-            me.diamond_dist.setAlignment("right-top");
-            me.diamond_dist.setTranslation(-(40/1024)*canvasWidth, (55/1024)*canvasWidth);
-            me.diamond_name.setAlignment("right-bottom");
-            me.diamond_name.setTranslation(-(40/1024)*canvasWidth, -(55/1024)*canvasWidth);
-          } elsif (me.pos_x < -(100/1024)*canvasWidth) {
-            me.diamond_dist.setAlignment("left-top");
-            me.diamond_dist.setTranslation((40/1024)*canvasWidth, (55/1024)*canvasWidth);
-            me.diamond_name.setAlignment("left-bottom");
-            me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
-          }
-          if (!variant.JA) {
-            # only show names in HUD on the AJ variants as they lack the MI display.
-            if (me.input.callsign.getValue() == TRUE) {
-              me.diamond_name.setText(me.selection.get_Callsign());
-            } else {
-              me.diamond_name.setText(me.selection.get_model());
-            }
-          }
-          
+
           if(me.blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
             me.target_circle[me.selection_index].hide();
           } else {
             me.target_circle[me.selection_index].show();
           }
-          me.diamond_group.show();
           me.lock_rdr.hide();
         }
 

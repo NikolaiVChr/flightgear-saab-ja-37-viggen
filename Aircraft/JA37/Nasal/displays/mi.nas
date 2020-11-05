@@ -158,6 +158,7 @@ var MI = {
 			alphaJSB:             "fdm/jsbsim/aero/alpha-deg",
 			mach:                 "instrumentation/airspeed-indicator/indicated-mach",
 			wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
+			cursor_iff:           "controls/displays/cursor-iff",
 		};
 
 		foreach(var name; keys(mi.input)) {
@@ -421,7 +422,7 @@ var MI = {
 		}
 
 		me.selection = me.echoes_group.createChild("group");
-		me.selection.createChild("path")
+		me.selection_mark = me.selection.createChild("path")
 			.moveTo(-4,2).horiz(8)
 			.moveTo(-4,-2).horiz(8)
 			.moveTo(2,-4).vert(8)
@@ -436,6 +437,12 @@ var MI = {
 			.setStrokeLineWidth(2*w)
 			.setColor(r,g,b,a);
 
+		me.selection_iff = me.selection.createChild("path")
+			.moveTo(-4,-4).lineTo(4,4)
+			.moveTo(4,-4).lineTo(-4,4)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+
 		# Big dot showing selected target azimuth/elevation
 		me.selection_dot_radius = 2;
 		me.selection_azi_elev = me.rootCenter.createChild("path")
@@ -445,11 +452,28 @@ var MI = {
 			.close()
 			.setColorFill(r,g,b,a);
 
+		# Selection cursor
 		me.cursor = me.radar_group.createChild("path")
 			.moveTo(0,3).vert(8)
 			.moveTo(0,-3).vert(-8)
 			.moveTo(3,0).horiz(8)
 			.moveTo(-3,0).horiz(-8)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+
+		# IFF a contact under cursor without selecting it.
+		me.cursor_iff_time = -10;  # Time of IFF
+
+		me.cursor_iff = me.radar_group.createChild("group") .hide();
+
+		me.cursor_iff_pos = me.cursor_iff.createChild("path")
+			.moveTo(-4,-4).lineTo(4,4)
+			.moveTo(4,-4).lineTo(-4,4)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+
+		me.cursor_iff_neg = me.cursor_iff.createChild("path")
+			.moveTo(-2,-2).horiz(4).vert(4).horiz(-4).close()
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
 
@@ -989,6 +1013,13 @@ var MI = {
 		me.selection.setTranslation(pos[0], pos[1]);
 		me.selection_heading.setRotation((track.get_heading() - me.head_true) * D2R);
 		me.selection_speed_vector.setScale(1, track.get_Speed()/600);
+		if (track.getIFF()) {
+			me.selection_iff.show();
+			me.selection_mark.hide();
+		} else {
+			me.selection_iff.hide();
+			me.selection_mark.show();
+		}
 		me.selection.show();
 
 		# This indicator is enabled here, not in its own update function
@@ -1046,6 +1077,22 @@ var MI = {
 						+ (me.cursor_pos[1] - me.radar_tracks_pos[i][1]) * (me.cursor_pos[1] - me.radar_tracks_pos[i][1]));
 	},
 
+	findCursorTrack: func() {
+		var closest_i = nil;
+		var min_dist = 100000;
+
+		for (var i=0; i<me.n_tracks; i+=1) {
+			var dist = me.distCursorTrack(i);
+			if (dist < min_dist) {
+				closest_i = i;
+				min_dist = dist;
+			}
+		}
+
+		if (min_dist < 8) return me.radar_tracks[closest_i];
+		else return nil;
+	},
+
 	displayCursor: func {
 		if (!cursorOn or displays.common.cursor != displays.MI) {
 			me.cursor.hide();
@@ -1066,26 +1113,39 @@ var MI = {
 		me.cursor.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 
 		if (me.cursor_mov[2] and !me.cursorTriggerPrev) {
-			var closest_i = nil;
-			var min_dist = 100000;
-
-			# Select
-			for (var i=0; i<me.n_tracks; i+=1) {
-				var dist = me.distCursorTrack(i);
-				if (dist < min_dist) {
-					closest_i = i;
-					min_dist = dist;
-				}
-			}
-
-			if (min_dist < 8) {
-				radar_logic.setSelection(me.radar_tracks[closest_i]);
+			var new_sel = me.findCursorTrack();
+			if (new_sel != nil) {
+				radar_logic.setSelection(new_sel);
 			} else {
 				radar_logic.unlockSelection();
 			}
+		} elsif (me.input.cursor_iff.getBoolValue()) {
+			me.cursor_iff.hide();
+			me.displayCursorIFF(me.findCursorTrack());
+		} elsif (me.cursor_iff_time + 2 < me.input.timeElapsed.getValue()) {
+			me.cursor_iff.hide();
 		}
 
+
 		me.cursorTriggerPrev = me.cursor_mov[2];
+	},
+
+	displayCursorIFF: func(track) {
+		if (track == nil) return;
+		var pos = me.trackToRadarPosition(track);
+		if (!me.isInRadarScreen(pos)) return;
+
+		me.cursor_iff.setTranslation(pos[0], pos[1]).show();
+
+		if (track.getIFF()) {
+			me.cursor_iff_pos.show();
+			me.cursor_iff_neg.hide();
+		} else {
+			me.cursor_iff_pos.hide();
+			me.cursor_iff_neg.show();
+		}
+
+		me.cursor_iff_time = me.input.timeElapsed.getValue();
 	},
 };
 

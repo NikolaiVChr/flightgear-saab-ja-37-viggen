@@ -945,6 +945,10 @@ var Contact = {
       return p;
     },
 
+    getIFF: func () {
+      return faf.is_friend(me.callsign.getValue()) or iff.interrogate(me.node);
+    },
+
     getUnique: func () {
       if (me.unique == nil) {
         me.unique = me.node.getNode("unique");
@@ -1335,6 +1339,10 @@ var ContactGPS = {
     return TRUE;
   },
 
+  getIFF: func () {
+    return FALSE;
+  },
+
   getUnique: func () {
     return me.unique;
   },
@@ -1622,6 +1630,10 @@ var ContactGhost = {
 
   isPainted: func () {
     return TRUE;
+  },
+
+  getIFF: func () {
+    return FALSE;
   },
 
   getUnique: func () {

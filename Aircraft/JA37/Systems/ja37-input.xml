@@ -136,6 +136,22 @@
                 <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
+        <key n="6">
+            <name>Ctrl-F</name>
+            <desc>IFF radar track under cursor</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/displays/cursor-iff</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/displays/cursor-iff</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
         <key n="105">
             <name>i</name>
             <desc>Toggle type/callsign</desc>

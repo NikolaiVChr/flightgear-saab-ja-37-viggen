@@ -1179,6 +1179,7 @@
             <cursor-slew-x type="double">0.0</cursor-slew-x>
             <cursor-slew-y type="double">0.0</cursor-slew-y>
             <cursor-click type="bool">false</cursor-click>
+            <cursor-iff type="bool">false</cursor-iff>
             <!-- JSBSim computed final input. To be used in the systems reading the cursor. -->
             <cursor-total-slew-x type="double">0.0</cursor-total-slew-x>
             <cursor-total-slew-y type="double">0.0</cursor-total-slew-y>
