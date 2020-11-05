@@ -1,10 +1,6 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var deg2rads = math.pi/180.0;
-var rad2deg = 180.0/math.pi;
-var kts2kmh = 1.852;
-var feet2meter = 0.3048;
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
 var maxRadarRange = 120000; #meters
 var radarRange = maxRadarRange;
@@ -759,13 +755,11 @@ var centerTarget = func () {
     var i = -1;
     foreach(var track; tracks) {
       i += 1;
-      if(track.get_cartesian()[0] != 900000) {
-        var dist = math.abs(track.get_cartesian()[0]) + math.abs(track.get_cartesian()[1]);
-        if(dist < centerDist) {
-          centerDist = dist;
-          centerMost = track;
-          centerIndex = i;
-        }
+      var dist = math.abs(track.get_hud_coord()[0]) + math.abs(track.get_hud_coord()[1]);
+      if(dist < centerDist) {
+        centerDist = dist;
+        centerMost = track;
+        centerIndex = i;
       }
     }
     setSelection(centerMost);
@@ -1251,11 +1245,12 @@ var Contact = {
    
       me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
       me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
+      return [me.dir_x, me.dir_y];
+    },
 
-      var hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
-      var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
-
-      return [hud_pos_x, hud_pos_y];
+    get_hud_coord: func() {
+      var coord = me.get_cartesian();
+      return [canvas_HUD.pixelPerDegreeX * coord[0], canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * coord[1]];
     },
 
     get_polar: func() {
@@ -1264,13 +1259,13 @@ var Contact = {
 
       var self      =  geo.aircraft_position();
       var myPitch   =  input.pitch.getValue()*D2R;
-      var myRoll    =  0;#input.roll.getValue()*deg2rads;  Ignore roll, since a real radar does that
+      var myRoll    =  0;#input.roll.getValue()*D2R;  Ignore roll, since a real radar does that
       var myAlt     =  self.alt();
       var myHeading =  input.hdgReal.getValue();
       var distance  =  self.distance_to(me.coord);
 
       var yg_rad = vector.Math.getPitch(self, me.coord)*D2R-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
-      var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
+      var xg_rad = (self.course_to(me.coord) - myHeading) * D2R;
       
       while (xg_rad > math.pi) {
         xg_rad = xg_rad - 2*math.pi;
@@ -1541,10 +1536,12 @@ var ContactGPS = {
     me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
     me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
 
-    var hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
-    var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
+    return [me.dir_x, me.dir_y];
+  },
 
-    return [hud_pos_x, hud_pos_y];
+  get_hud_coord: func() {
+    var coord = me.get_cartesian();
+    return [canvas_HUD.pixelPerDegreeX * coord[0], canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * coord[1]];
   },
 
   get_polar: func() {
@@ -1552,14 +1549,14 @@ var ContactGPS = {
     var aircraftAlt = me.coord.alt();
 
     var self      =  geo.aircraft_position();
-    var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    =  0;#input.roll.getValue()*deg2rads;  Ignore roll, since a real radar does that
+    var myPitch   =  input.pitch.getValue()*D2R;
+    var myRoll    =  0;#input.roll.getValue()*D2R;  Ignore roll, since a real radar does that
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
 
     var yg_rad = vector.Math.getPitch(self, me.coord)*D2R-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
-    var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
+    var xg_rad = (self.course_to(me.coord) - myHeading) * D2R;
     
     while (xg_rad > math.pi) {
       xg_rad = xg_rad - 2*math.pi;
@@ -1823,14 +1820,14 @@ var ContactGhost = {
     var gpsAlt = me.get_Coord().alt();
 
     var self      =  geo.viewer_position();
-    var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    =  input.roll.getValue()*deg2rads;
+    var myPitch   =  input.pitch.getValue()*D2R;
+    var myRoll    =  input.roll.getValue()*D2R;
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.get_Coord());
 
     var yg_rad = vector.Math.getPitch(self, me.get_Coord())*D2R-myPitch;#math.atan2(gpsAlt-myAlt, distance) - myPitch; 
-    var xg_rad = (self.course_to(me.get_Coord()) - myHeading) * deg2rads;
+    var xg_rad = (self.course_to(me.get_Coord()) - myHeading) * D2R;
     
     while (xg_rad > math.pi) {
       xg_rad = xg_rad - 2*math.pi;
@@ -1862,24 +1859,26 @@ var ContactGhost = {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
-    var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
+    return [xa_rad * R2D, -ya_rad * R2D];
+  },
 
-    return [hud_pos_x, hud_pos_y];
+  get_hud_coord: func() {
+    var coord = me.get_cartesian();
+    return [canvas_HUD.pixelPerDegreeX * coord[0], canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * coord[1]];
   },
 
   get_polar: func() {
     var aircraftAlt = me.get_Coord().alt();
 
     var self      =  geo.aircraft_position();
-    var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    =  0;#input.roll.getValue()*deg2rads;  Ignore roll, since a real radar does that
+    var myPitch   =  input.pitch.getValue()*D2R;
+    var myRoll    =  0;#input.roll.getValue()*D2R;  Ignore roll, since a real radar does that
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.get_Coord());
 
     var yg_rad = vector.Math.getPitch(self, me.get_Coord())*D2R-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
-    var xg_rad = (self.course_to(me.get_Coord()) - myHeading) * deg2rads;
+    var xg_rad = (self.course_to(me.get_Coord()) - myHeading) * D2R;
     
     while (xg_rad > math.pi) {
       xg_rad = xg_rad - 2*math.pi;

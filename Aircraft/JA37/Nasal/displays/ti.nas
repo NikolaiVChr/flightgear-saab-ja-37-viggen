@@ -4795,7 +4795,7 @@ var TI = {
 
 		me.ordn = contact.get_type() == radar_logic.ORDNANCE;
 
-		if(contact == radar_logic.selection and contact.get_cartesian()[0] != 900000) {
+		if(contact == radar_logic.selection) {
 			me.selection_updated = TRUE;
 			me.currentIndexT = 0;
 		}

@@ -143,6 +143,8 @@ var MI = {
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
 			fpv_pitch:            "instrumentation/fpv/pitch-stab-deg",
+			fpv_up:               "instrumentation/fpv/angle-up-stab-deg",
+			fpv_right:            "instrumentation/fpv/angle-right-stab-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
@@ -409,15 +411,13 @@ var MI = {
 			.setTranslation(0, radar_area_width/2);
 
 		me.echoes_group = me.radar_group.createChild("group");
-		me.echo_radius = 1.5;
 		me.echoes  = [];
 		for(var i = 0; i < maxTracks; i += 1) {
 			append(me.echoes, me.echoes_group.createChild("path")
-				.moveTo(me.echo_radius,0)
-				.arcSmallCW(me.echo_radius, me.echo_radius, 0, -2*me.echo_radius, 0)
-				.arcSmallCW(me.echo_radius, me.echo_radius, 0, 2*me.echo_radius, 0)
-				.close()
-				.setColorFill(r,g,b,a));
+				.moveTo(-1,0)
+				.horiz(3)
+				.setStrokeLineWidth(1.5)
+				.setColor(r,g,b,a));
 		}
 
 		me.selection = me.echoes_group.createChild("group");
@@ -435,6 +435,15 @@ var MI = {
 			.moveTo(0,0).vert(-8)
 			.setStrokeLineWidth(2*w)
 			.setColor(r,g,b,a);
+
+		# Big dot showing selected target azimuth/elevation
+		me.selection_dot_radius = 2;
+		me.selection_azi_elev = me.rootCenter.createChild("path")
+			.moveTo(me.selection_dot_radius, 0)
+			.arcSmallCW(me.selection_dot_radius, me.selection_dot_radius, 0, -me.selection_dot_radius*2, 0)
+			.arcSmallCW(me.selection_dot_radius, me.selection_dot_radius, 0, me.selection_dot_radius*2, 0)
+			.close()
+			.setColorFill(r,g,b,a);
 
 		me.cursor = me.radar_group.createChild("path")
 			.moveTo(0,3).vert(8)
@@ -528,16 +537,6 @@ var MI = {
 			.setTranslation(radar_area_width/2 - 5, radar_area_width/2 + 5)
 			.setFontSize(9, 1);
 
-		me.diamond_small = me.rootCenter.createChild("path")
-				.moveTo(-3,-3)
-				.lineTo(3,3)
-				.moveTo(3,-3)
-				.lineTo(-3,3)
-				.setStrokeLineWidth(w)
-				.setTranslation(0,halfHeightOfSideScales)
-				.setColor(r,g,b,a)
-				.hide();
-
 		me.help_text = me.rootCenter.createChild("group")
 			.setTranslation(0, height_mm - center_y - 12);
 
@@ -614,6 +613,7 @@ var MI = {
 		me.displayGroundCollisionArrow();
 		me.displayHeadingScale();
 		me.displayCursor();
+		me.displaySelectionAziElev();
 		me.blinkQFE();
 	},
 
@@ -987,6 +987,10 @@ var MI = {
 		me.selection_heading.setRotation((track.get_heading() - me.head_true) * D2R);
 		me.selection_speed_vector.setScale(1, track.get_Speed()/600);
 		me.selection.show();
+
+		# This indicator is enabled here, not in its own update function
+		# because otherwise it shows up before the rest due to higher refresh rate.
+		me.selection_azi_elev.show();
 	},
 
 	displayRadarTracks: func {
@@ -1009,7 +1013,29 @@ var MI = {
 
 		# Hide remaining echoes
 		for (var i = me.n_tracks; i < maxTracks; i += 1) me.echoes[i].hide();
-		if (!me.selection_updated) me.selection.hide();
+		if (!me.selection_updated) {
+			me.selection.hide();
+		}
+	},
+
+	displaySelectionAziElev: func {
+		if (radar_logic.selection == nil) {
+			me.selection_azi_elev.hide();
+			return;
+		}
+
+		# 'show()' is not done here but in the displayRadarTracks() loop.
+		# Otherwise the different refresh rates make this indicator appear
+		# before other selected target indicators, which looks weird.
+		#me.selection_azi_elev.show();
+		me.sel_pos = radar_logic.selection.get_cartesian();
+		me.sel_pos[0] -= me.input.fpv_right.getValue();
+		me.sel_pos[1] += me.input.fpv_up.getValue();
+		me.sel_pos[0] *= heading_deg_to_mm;
+		me.sel_pos[1] *= heading_deg_to_mm;
+		me.sel_pos[0] = math.clamp(me.sel_pos[0], -radar_area_width/2, radar_area_width/2);
+		me.sel_pos[1] = math.clamp(me.sel_pos[1], -radar_area_width/2, radar_area_width/2);
+		me.selection_azi_elev.setTranslation(me.sel_pos[0], me.sel_pos[1]);
 	},
 
 	distCursorTrack: func(i) {

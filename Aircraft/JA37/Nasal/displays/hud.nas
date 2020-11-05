@@ -2396,8 +2396,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.hud_pos = radar_logic.ContactGPS.new(getprop("sim/tower/airport-id"), me.towerPos);
       if(me.hud_pos != nil) {
         me.distance = me.hud_pos.get_range()*NM2M;
-        me.pos_x = me.hud_pos.get_cartesian()[0];
-        me.pos_y = me.hud_pos.get_cartesian()[1];
+        me.pos = me.hud_pos.get_hud_coord();
+        me.pos_x = me.pos[0];
+        me.pos_y = me.pos[1];
 
         if(me.pos_x > (512/1024)*canvasWidth) {
           me.showme = FALSE;
@@ -2663,8 +2664,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.hud_pos = radar_logic.ContactGPS.new("CCIP", me.ccipPos);
         if(me.hud_pos != nil) {
           me.distance = me.hud_pos.get_range()*NM2M;
-          me.pos_x = me.hud_pos.get_cartesian()[0];
-          me.pos_y = me.hud_pos.get_cartesian()[1];
+          me.pos = me.hud_pos.get_hud_coord();
+          me.pos_x = me.pos[0];
+          me.pos_y = me.pos[1];
 
           #printf("dist=%0.1f (%3d , %3d)", dist, pos_x, pos_y);
 
@@ -2766,8 +2768,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         # selection is currently in forward looking radar view
         me.blink = FALSE;
         me.designatedDistanceFT = me.selection.get_range()*NM2FT;
-        me.pos_x = me.selection.get_cartesian()[0];
-        me.pos_y = me.selection.get_cartesian()[1];
+        me.pos = me.selection.get_hud_coord();
+        me.pos_x = me.pos[0];
+        me.pos_y = me.pos[1];
 
         if (me.pos_y != 0 and me.pos_x != 0 and (me.pos_x > (512/1024)*canvasWidth or me.pos_y > (512/1024)*canvasWidth or me.pos_x < -(512/1024)*canvasWidth or me.pos_y < -(462/1024)*canvasWidth)) {
           # outside HUD view, we then use polar coordinates to find where on the border it should be displayed
@@ -2987,10 +2990,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   },
 
   displayRadarTrack: func (hud_pos) {
-    me.pos_xx = hud_pos.get_cartesian()[0];
-    me.pos_yy = hud_pos.get_cartesian()[1];
+    me.pos = hud_pos.get_hud_coord();
+    me.pos_xx = me.pos[0];
+    me.pos_yy = me.pos[1];
     me.showmeT = TRUE;
-    
+
     if(me.pos_xx > (512/1024)*canvasWidth) {
       me.showmeT = FALSE;
     }
