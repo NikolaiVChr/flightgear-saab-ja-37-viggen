@@ -785,11 +785,14 @@ var MI = {
 			me.qfe = FALSE;
 			me.botl_text.updateText(displays.common.armNameShort());
 			me.botl_text.show();
-		} else {
+		} elsif ((me.mach = me.input.mach.getValue()) > 0.4) {
 			me.qfe = FALSE;
-			me.mach = math.round(me.input.mach.getValue() * 100);
+			me.mach = math.round(me.mach * 100);
 			me.botl_text.updateText(sprintf("M%d,%.2d", math.floor(me.mach/100), math.mod(me.mach, 100)));
 			me.botl_text.show();
+		} else {
+			me.qfe = FALSE;
+			me.botl_text.hide();
 		}
 
 		# Bottom right
