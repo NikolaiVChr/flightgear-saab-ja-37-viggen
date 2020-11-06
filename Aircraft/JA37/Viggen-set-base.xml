@@ -349,14 +349,17 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 2, int 17, int 18, int 19, float 2, float 3, float 9, string[4], string[6] are controlled from nasal or JSB
+          <!-- int 2, int 17, int 18, int 19, float 2, float 3, float 9, 
+                string[4], string[6], string[7], string[8], are controlled from nasal or JSB
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
 
-                string[6] = radar selected target
                 string[4] = IFF
+                string[6] = radar selected target
+                string[7] = datalink channel
+                string[8] = datalink data
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
@@ -1558,6 +1561,12 @@
             <channel_prop type="string">/instrumentation/iff/channel</channel_prop>
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
+        <datalink>
+            <channel_prop type="string">/instrumentation/iff/channel</channel_prop>
+            <power_prop type="string">/instrumentation/iff/power</power_prop>
+            <channel type="int">1</channel>
+            <power type="bool">true</power>
+        </datalink>
     </instrumentation>
 
     <payload>

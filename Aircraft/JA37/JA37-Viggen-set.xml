@@ -331,6 +331,9 @@
         <faf>
             <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
         </faf>
+        <datalink>
+            <file>Aircraft/JA37/Nasal/datalink.nas</file>
+        </datalink>
     </nasal>
     
 </PropertyList>
