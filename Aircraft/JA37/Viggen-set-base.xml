@@ -1552,10 +1552,10 @@
             <release-failed type="bool">false</release-failed>
         </indicators>
         <iff>
-            <channel-selection type="int">1</channel-selection>
+            <channel type="int">1</channel>
             <power-knob type="int">0</power-knob>
             <power type="bool">0</power>
-            <channel_prop type="string">/instrumentation/iff/channel-selection</channel_prop>
+            <channel_prop type="string">/instrumentation/iff/channel</channel_prop>
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
     </instrumentation>

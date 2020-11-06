@@ -35,7 +35,7 @@
         <object-name>handle1</object-name>
         <object-name>disc1</object-name>
         <object-name>screw1</object-name>
-        <property>instrumentation/iff/channel-selection</property>
+        <property>instrumentation/iff/channel</property>
         <factor>30</factor>
         <offset-deg>-30</offset-deg>
         <center>
@@ -51,7 +51,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>instrumentation/iff/channel-selection</property>
+                <property>instrumentation/iff/channel</property>
                 <min>1</min>
                 <max>11</max>
                 <wrap>false</wrap>
