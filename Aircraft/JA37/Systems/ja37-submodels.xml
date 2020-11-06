@@ -71,7 +71,7 @@
     </submodel>
 <!-- if changing weight, speed, eda, offsets or cd, then remember to also change the EEGS inside HUD -->
     <submodel>
-        <name>KCA cannon shell</name>
+        <name>KCA shell</name>
         <model>Models/Geometry/null.ac</model>
         <trigger>controls/armament/station[0]/trigger</trigger>        <!--  -->
         <speed>3383.33</speed>
@@ -262,7 +262,7 @@
     </submodel>
 
     <submodel><!-- submodel 10 -->
-        <name>M55 cannon shell</name>
+        <name>M55 shell</name>
         <model>Models/Geometry/null.ac</model>
         <trigger>controls/armament/station[1]/trigger-m55</trigger>
         <speed>2431.1023</speed>
@@ -315,7 +315,7 @@
     </submodel>
 
     <submodel><!-- submodel 12 -->
-        <name>M55 cannon shell</name>
+        <name>M55 shell</name>
         <model>Models/Geometry/null.ac</model>
         <trigger>controls/armament/station[3]/trigger-m55</trigger>
         <speed>2431.1023</speed>
