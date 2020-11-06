@@ -71,7 +71,8 @@ foreach (var name; keys(input)) {
 
 
 ### String encoding: 'hash|iff'.
-
+# iff is the character 'a'+iff (with ascii encoding).
+#
 # Callsigns are transmitted as MD5 hashes cut to length 4.
 var hash = func(callsign) {
     # Note: callsign is cut to length 7, to only use the part sent over MP.
@@ -81,7 +82,7 @@ var hash = func(callsign) {
 
 var encode_contact = func(callsign, iff=nil) {
     if (iff == nil) iff = IFF_UNKNOWN;
-    return hash(callsign)~iff;
+    return hash(callsign)~chr(97+iff);
 }
 
 var decode_contact = func(str) {
@@ -90,7 +91,7 @@ var decode_contact = func(str) {
     var contact = { hash: substr(str, 0, 4) };
 
     if (size(str) >= 5) {
-        contact.iff = num(str[4]);
+        contact.iff = str[4] - 97;
     } else {
         contact.iff = IFF_UNKNOWN;
     }
