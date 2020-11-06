@@ -75,7 +75,8 @@ foreach (var name; keys(input)) {
 # Callsigns are transmitted as MD5 hashes cut to length 4.
 var hash = func(callsign) {
     # Note: callsign is cut to length 7, to only use the part sent over MP.
-    return left(md5(left(callsign, 7)), 4);
+    if (size(callsign) > 7) callsign = left(callsign, 7);
+    return left(md5(callsign), 4);
 }
 
 var encode_contact = func(callsign, iff=nil) {

@@ -4775,7 +4775,8 @@ var TI = {
 	},
 
 	displayRadarTrack: func (contact) {
-		me.datalink_info = datalink.get_contact(contact.get_Callsign());
+		if (contact.type == "multiplayer") me.datalink_info = datalink.get_contact(contact.get_Callsign());
+		else me.datalink_info = nil;
 
 		# Show selected target, datalink contacts, and Rb 99
 		if (me.datalink_info == nil and contact != radar_logic.selection and contact.type != "rb-99") return;
