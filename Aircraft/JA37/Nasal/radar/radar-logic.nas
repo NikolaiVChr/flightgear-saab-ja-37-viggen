@@ -276,6 +276,15 @@ var RadarLogic = {
         # Lost lock
         unlockSelection();
       }
+
+      if (selection != nil and selection.type == "multiplayer") {
+        datalink.send_data([{
+          callsign: selection.get_Callsign(),
+          iff: selection.getIFF() ? datalink.IFF_FRIENDLY : datalink.IFF_HOSTILE,
+        }]);
+      } else {
+        datalink.clear_data();
+      }
   },
 
   processCallsigns: func (players) {
