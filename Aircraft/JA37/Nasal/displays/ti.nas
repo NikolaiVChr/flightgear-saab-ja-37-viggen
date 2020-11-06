@@ -4807,9 +4807,9 @@ var TI = {
 		    me.boogie = 0;
 		    if (faf.is_friend(contact.get_Callsign())) {
 	    		me.boogie = 1;
-		    } elsif (faf.is_foe(contact.get_Callsign())) {
-	    		me.boogie = -1;
-		    }
+		    } # elsif (faf.is_foe(contact.get_Callsign())) {
+	    	#	me.boogie = -1;
+		    #}
 
 		    if (me.currentIndexT == 0 and contact.parents[0] == radar_logic.ContactGPS) {
 		    	me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);

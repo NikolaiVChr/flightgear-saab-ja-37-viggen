@@ -1,252 +1,77 @@
 <?xml version="1.0"?>
 <PropertyList>
-	<name>faf</name>
-  	<modal>false</modal>
-  	<layout>vbox</layout>
-  	<draggable>true</draggable>
-    <resizable>true</resizable>
+  <name>faf</name>
+  <layout>vbox</layout>
 
-    <group>
-		<layout>hbox</layout>
-		<empty><stretch>1</stretch></empty>
+  <group>
+    <layout>hbox</layout>
+    <empty><stretch>1</stretch></empty>
 
-		<text>
-			<label>Friends and Foes</label>
-		</text>
+    <text>
+      <label>Friends (IFF)</label>
+    </text>
 
-		<empty><stretch>1</stretch></empty>
+    <empty><stretch>1</stretch></empty>
 
-		<button>
-			<pref-width>16</pref-width>
-			<pref-height>16</pref-height>
-			<legend></legend>
-			<default>1</default>
-			<keynum>27</keynum>
-			<border>2</border>
-			<binding>
-				<command>dialog-close</command>
-			</binding>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-		</button>
-	</group>
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>nasal</command>
+        <script>faf.Dialog.close();</script>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
 
-  	<text>
-	    <label>Callsigns:</label>
-	    <height>25</height>
-	</text>
+  <hrule/>
 
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Friend 1</label>
-	  	<property>ja37/faf/friends/friend[0]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>0.5</red>
-      		<green>1</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Friend 2</label>
-	  	<property>ja37/faf/friends/friend[1]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>0.5</red>
-      		<green>1</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Friend 3</label>
-	  	<property>ja37/faf/friends/friend[2]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>0.5</red>
-      		<green>1</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Friend 4</label>
-	  	<property>ja37/faf/friends/friend[3]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>0.5</red>
-      		<green>1</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Friend 5</label>
-	  	<property>ja37/faf/friends/friend[4]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>0.5</red>
-      		<green>1</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Friend 6</label>
-	  	<property>ja37/faf/friends/friend[5]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>0.5</red>
-      		<green>1</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Foe 1</label>
-	  	<property>ja37/faf/foes/foe[0]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>1</red>
-      		<green>0.5</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Foe 2</label>
-	  	<property>ja37/faf/foes/foe[1]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>1</red>
-      		<green>0.5</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Foe 3</label>
-	  	<property>ja37/faf/foes/foe[2]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>1</red>
-      		<green>0.5</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Foe 4</label>
-	  	<property>ja37/faf/foes/foe[3]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>1</red>
-      		<green>0.5</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Foe 5</label>
-	  	<property>ja37/faf/foes/foe[4]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>1</red>
-      		<green>0.5</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<input>
-	  	<width>250</width>
-	  	<height>25</height>
-	  	<label>Foe 6</label>
-	  	<property>ja37/faf/foes/foe[5]</property>
-	  	<live>true</live>
-	  	<halign>left</halign>
-        <binding>
-            <command>dialog-apply</command>
-      	</binding>
-      	<color>
-      		<red>1</red>
-      		<green>0.5</green>
-      		<blue>0.5</blue>
-      	</color>
-	</input>
-	<button>
-		<x>0</x>
-		<y>0</y>
-		<legend>Switch</legend>
-		<binding>
-			<command>nasal</command>
-			<script><![CDATA[
-			    var friends = props.globals.getNode("ja37/faf/friends");
-				var foes = props.globals.getNode("ja37/faf/foes");
-			    for(var i=0; i<6; i+=1) {
-				    var friend = friends.getChild("friend", i);
-				    var foe = foes.getChild("foe", i);
-					var tmp = friend.getValue();
-					friend.setValue(foe.getValue());
-					foe.setValue(tmp);
-				}
-			  ]]>
-			</script>
-		</binding>
-	</button>
+  <text>
+    <label>The following callsigns will be displayed as friendly,</label>
+    <halign>left</halign>
+  </text>
+  <text>
+    <label>by a cross on the radar and MI, and in green on the TI.</label>
+    <halign>left</halign>
+  </text>
+  <text>
+    <label>This is in addition to identification by IFF code</label>
+    <halign>left</halign>
+  </text>
+  <text>
+    <label>(identification transponder, on the rear right panel).</label>
+    <halign>left</halign>
+  </text>
+
+  <!-- This table is filled in Nasal/radar/faf.nas -->
+  <group>
+    <name>procedural_table</name>
+    <layout>table</layout>
+
+    <empty>
+      <row>0</row>
+      <col>0</col>
+      <width>20</width>
+    </empty>
+    <empty>
+      <row>0</row>
+      <col>2</col>
+      <width>30</width>
+    </empty>
+    <empty>
+      <row>0</row>
+      <col>4</col>
+      <width>20</width>
+    </empty>
+  </group>
+
+  <empty>
+    <height>10</height>
+  </empty>
 </PropertyList>

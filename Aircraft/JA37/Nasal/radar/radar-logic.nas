@@ -946,7 +946,8 @@ var Contact = {
     },
 
     getIFF: func () {
-      return faf.is_friend(me.callsign.getValue()) or iff.interrogate(me.node);
+      if (!variant.JA) return FALSE;
+      else return faf.is_friend(me.callsign.getValue()) or iff.interrogate(me.node);
     },
 
     getUnique: func () {
