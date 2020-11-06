@@ -433,7 +433,6 @@ var RadarLogic = {
   # Tests if the track can be seen by the radar, except for the line of sight
   # check (which will have been done earlier).
   isRadarVisible: func (track, trackInfo, trackPos, distance) {
-    if(track.getName() == "rb-99") return TRUE; # datalink
     if(distance > radarRange) return FALSE;
     if(!me.isInRadarAngles(trackPos)) return FALSE;
     # An air radar can only pick up targets through doppler effect.

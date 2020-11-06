@@ -1562,8 +1562,8 @@
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
         <datalink>
-            <channel_prop type="string">/instrumentation/iff/channel</channel_prop>
-            <power_prop type="string">/instrumentation/iff/power</power_prop>
+            <channel_prop type="string">/instrumentation/datalink/channel</channel_prop>
+            <power_prop type="string">/instrumentation/datalink/power</power_prop>
             <channel type="int">1</channel>
             <power type="bool">true</power>
         </datalink>
