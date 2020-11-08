@@ -759,7 +759,7 @@
     <animation>
 		<type>textranslate</type>
 		<object-name>topDig1</object-name>
-		<property>ja37/radio/kv1/digit-top-1</property>
+		<property>ja37/radio/kv1/digit-top[1]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -771,7 +771,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>topDig2</object-name>
-		<property>ja37/radio/kv1/digit-top-2</property>
+		<property>ja37/radio/kv1/digit-top[2]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -783,7 +783,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>topDig3</object-name>
-		<property>ja37/radio/kv1/digit-top-3</property>
+		<property>ja37/radio/kv1/digit-top[3]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -796,7 +796,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>middleDig1</object-name>
-		<property>ja37/radio/kv1/digit-middle-1</property>
+		<property>ja37/radio/kv1/digit-middle[1]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -808,7 +808,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>middleDig2</object-name>
-		<property>ja37/radio/kv1/digit-middle-2</property>
+		<property>ja37/radio/kv1/digit-middle[2]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -820,7 +820,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>middleDig3</object-name>
-		<property>ja37/radio/kv1/digit-middle-3</property>
+		<property>ja37/radio/kv1/digit-middle[3]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -833,7 +833,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig1</object-name>
-		<property>ja37/radio/kv1/digit-bottom-1</property>
+		<property>ja37/radio/kv1/digit-bottom[1]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -845,7 +845,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig2</object-name>
-		<property>ja37/radio/kv1/digit-bottom-2</property>
+		<property>ja37/radio/kv1/digit-bottom[2]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -857,7 +857,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig3</object-name>
-		<property>ja37/radio/kv1/digit-bottom-3</property>
+		<property>ja37/radio/kv1/digit-bottom[3]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -869,7 +869,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig4</object-name>
-		<property>ja37/radio/kv1/digit-bottom-4</property>
+		<property>ja37/radio/kv1/digit-bottom[4]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -881,7 +881,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig5</object-name>
-		<property>ja37/radio/kv1/digit-bottom-5</property>
+		<property>ja37/radio/kv1/digit-bottom[5]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
