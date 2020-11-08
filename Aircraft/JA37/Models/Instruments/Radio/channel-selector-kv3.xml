@@ -21,12 +21,12 @@
 
     <animation>
         <type>pick</type>
-        <object-name>Panel</object-name>
+        <object-name>panel</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>kv3</tooltip-id>
-                <label>KV3 Channel selector for fighter link</label>
+                <label>KV3 Fighter link channel selector</label>
             </binding>
         </hovered>
     </animation>
@@ -94,6 +94,13 @@
                 <script>ch_select.cl_kv3();</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>del</tooltip-id>
+                <label>Clear and input fighter link channel</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
