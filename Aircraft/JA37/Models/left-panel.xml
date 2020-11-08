@@ -242,8 +242,8 @@
   </model>
 
     <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/radioFrontLeft.xml</path>
-    <name>flr</name>
+    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-kv3.xml</path>
+    <name>kv3</name>
     <offsets>
       <heading-deg>0</heading-deg>
       <x-m>  0.3450</x-m>
@@ -335,6 +335,7 @@
   <animation>
     <type>select</type>
     <object-name>kv1</object-name>
+    <object-name>kv3</object-name>
     <object-name>radar-panel-ja</object-name>
     <condition>
       <equals>
