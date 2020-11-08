@@ -855,6 +855,15 @@
             </test>
         </switch>
 
+        <switch name="/instrumentation/datalink/power">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /ja37/elec/ac-bus-main-bool == 1
+                <!-- Code 0000 doesn't work, so that datalink is off by default. (need a better idea) -->
+                /ja37/radio/kv3/code != 0
+            </test>
+        </switch>
+
         <switch name="names/electrical/landing-light">
             <description>
                 Landing lights power

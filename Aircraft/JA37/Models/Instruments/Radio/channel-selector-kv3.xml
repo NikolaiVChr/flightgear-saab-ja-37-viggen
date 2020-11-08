@@ -89,6 +89,10 @@
                     <value>0</value>
                 </binding>
             </mod-up>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.cl_kv3();</script>
+            </binding>
         </action>
     </animation>
     <animation>

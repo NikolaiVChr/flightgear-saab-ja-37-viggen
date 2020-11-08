@@ -689,6 +689,9 @@
                 <button-mhz type="bool">true</button-mhz>
                 <switch type="bool">true</switch><!-- set to FM per default -->
             </kv1>
+            <kv3>
+                <code type="int">0</code>
+            </kv3>
             <me31>
                 <button-mhz type="bool">true</button-mhz>
             </me31>
@@ -1562,9 +1565,8 @@
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
         <datalink>
-            <channel_prop type="string">/instrumentation/datalink/channel</channel_prop>
+            <channel_prop type="string">/ja37/radio/kv3/code</channel_prop>
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
-            <channel type="int">1</channel>
             <power type="bool">true</power>
         </datalink>
     </instrumentation>
