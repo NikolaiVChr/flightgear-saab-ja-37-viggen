@@ -192,7 +192,7 @@
                         <label>Fuel/Loadout</label>
                         <binding>
                             <command>nasal</command>
-                            <script>loadout.Dialog.toggle()</script>
+                            <script>loadout.Dialog.toggle();</script>
                         </binding>
                     </item>
                     <item>
@@ -222,12 +222,12 @@
                         </binding>
                     </item>
                     <item>
-                      <label>Friends and Foes</label>
-                      <name>faf</name>
-                      <binding>
-                        <command>dialog-show</command>
-                        <dialog-name>faf</dialog-name>
-                      </binding>
+                        <label>Friends (IFF)</label>
+                        <name>faf</name>
+                        <binding>
+                            <command>nasal</command>
+                            <script>faf.Dialog.toggle();</script>
+                        </binding>
                     </item>
                     <item>
                         <label>Toggle external power</label>
@@ -328,6 +328,12 @@
         <TI>
             <file>Aircraft/JA37/Nasal/displays/ti.nas</file>
         </TI>
+        <faf>
+            <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
+        </faf>
+        <datalink>
+            <file>Aircraft/JA37/Nasal/datalink.nas</file>
+        </datalink>
     </nasal>
     
 </PropertyList>

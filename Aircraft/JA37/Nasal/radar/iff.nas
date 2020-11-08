@@ -31,12 +31,6 @@
 # returns 1 if a match, otherwise 0.
 #
 
-# MIG-21 SPECIFIC INFO
-# To keep things trimmed down, the IFF lights are handled in a couple different files.
-# the IMTR light and RESP light are in rwr.nas
-# the DECOD light is in radar-canvas.nas (should probably be in radar-logic but the code is basically already there in -canvas)  
-
-
 var iff_refresh_rate = getprop("/instrumentation/iff/iff_refresh_rate") or 120;
 var iff_unique_id = getprop("/instrumentation/iff/iff_unique_id") or "";
 var iff_hash_length = getprop("/instrumentation/iff/iff_hash_length") or 3;

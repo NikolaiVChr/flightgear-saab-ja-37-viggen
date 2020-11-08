@@ -4726,7 +4726,6 @@ var TI = {
 	    me.tele = [];
   		me.rrSymbol.hide();
 
-	    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
 			me.radar_group.show();
             me.svy_radar_grp.show();
 
@@ -4737,7 +4736,7 @@ var TI = {
 		    }
 
 			# do yellow triangles here
-			foreach(hud_pos; radar_logic.tracks) {
+			foreach(hud_pos; radar_logic.complete_list) {
 				me.displayRadarTrack(hud_pos);
 			}
 			if(me.track_index != -1) {
@@ -4773,17 +4772,15 @@ var TI = {
 			if (me.isGPS == FALSE) {
 				me.gpsSymbol.hide();
 		    }
-	    } else {
-	      	# radar tracks not shown at all
-	      	me.tgt_dist = nil;
-	        me.tgt_alt  = nil;
-	      	me.radar_group.hide();
-            me.svy_radar_grp.hide();
-	    }
-	    radar_logic.jumpExecute();
 	},
 
 	displayRadarTrack: func (contact) {
+		if (contact.type == "multiplayer") me.datalink_info = datalink.get_contact(contact.get_Callsign());
+		else me.datalink_info = nil;
+
+		# Show selected target, datalink contacts, and Rb 99
+		if (me.datalink_info == nil and contact != radar_logic.selection and contact.type != "rb-99") return;
+
 		me.texelDistance = contact.get_polar()[0]*M2TEX;
 		me.angle         = contact.get_polar()[1];
 		me.pos_xx		 = -me.texelDistance * math.cos(me.angle + math.pi/2);
@@ -4804,12 +4801,22 @@ var TI = {
 			me.tgtHeading = contact.get_heading();
 		    me.tgtSpeed = contact.get_Speed();
 		    me.myHeading = me.input.headTrue.getValue();
-		    me.boogie = 0;
-		    if (faf.is_friend(contact.get_Callsign())) {
-	    		me.boogie = 1;
-		    } elsif (faf.is_foe(contact.get_Callsign())) {
-	    		me.boogie = -1;
-		    }
+
+				# Decide friendly/enemy status from IFF and datalink.
+				# IFF (for selected target only)
+				if (contact != radar_logic.selection) me.boogie_iff = 0;
+				elsif (contact.getIFF())              me.boogie_iff = 1;
+				else                                  me.boogie_iff = -1;
+				# Datalink
+				if (me.datalink_info == nil)                          me.boogie_dl = 0;
+				elsif (me.datalink_info.on_link)                      me.boogie_dl = 1;
+				elsif (me.datalink_info.iff == datalink.IFF_FRIENDLY) me.boogie_dl = 1;
+				elsif (me.datalink_info.iff == datalink.IFF_HOSTILE)  me.boogie_dl = -1;
+				else                                                  me.boogie_dl = 0;
+				# Combine IFF and datalink to decide. Always choose friendly if anything is indicating it.
+				if (me.boogie_iff == 1 or me.boogie_dl == 1)      me.boogie = 1;
+				elsif (me.boogie_iff == -1 or me.boogie_dl == -1) me.boogie = -1;
+				else                                              me.boogie = 0;
 
 		    if (me.currentIndexT == 0 and contact.parents[0] == radar_logic.ContactGPS) {
 		    	me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);
@@ -4824,19 +4831,6 @@ var TI = {
 		    	}
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
-
-		    	if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnMap() and !me.cursorDidSomething) {
-					# not in MSDA so check if cursor is clicking on the aircraft
-					me.cursorDistX = me.cursorOPosX-me.pos_xx;
-					me.cursorDistY = me.cursorOPosY-me.pos_yy;
-					me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
-					#printf("Cursor clicking cursorOPos:%d,%d cursorRPos:%d,%d cursorGPos:%d,%d pos_:%d,%d", me.cursorOPosX, me.cursorOPosY, me.cursorRPosX, me.cursorRPosY, me.cursorGPosX, me.cursorGPosY, me.pos_xx, me.pos_yy);
-					if (me.cursorDist < 12) {
-						radar_logic.jumpTo(contact);
-						me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
-						me.cursorDidSomething = TRUE;
-					}
-				}
 
 		    	if (me.boogie == 1) {
 		    		me.echoesAircraftTri[me.currentIndexT].setColor(COLOR_GREEN);
@@ -4876,19 +4870,6 @@ var TI = {
 					me.pos_xxx = me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange;
 					me.pos_yyy = me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt;
 					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.pos_xxx, me.pos_yyy);
-
-					if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnSVY() and !me.cursorDidSomething) {
-						# not in MSDA so check if cursor is clicking on the aircraft
-						me.cursorDistX = me.cursorGPosX-me.pos_xxx;
-						me.cursorDistY = me.cursorGPosY-me.pos_yyy;
-						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
-						#printf("Cursor clicking cursorOPos:%d,%d cursorRPos:%d,%d cursorGPos:%d,%d pos_:%d,%d", me.cursorOPosX, me.cursorOPosY, me.cursorRPosX, me.cursorRPosY, me.cursorGPosX, me.cursorGPosY, me.pos_xx, me.pos_yy);
-						if (me.cursorDist < 12) {
-							radar_logic.jumpTo(contact);
-							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
-							me.cursorDidSomething = TRUE;
-						}
-					}
 
 					if (me.boogie == 1) {
 			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(COLOR_GREEN);

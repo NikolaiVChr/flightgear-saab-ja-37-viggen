@@ -276,6 +276,17 @@ var RadarLogic = {
         # Lost lock
         unlockSelection();
       }
+
+      if (variant.JA) {
+        if (selection != nil and selection.type == "multiplayer") {
+          datalink.send_data([{
+            callsign: selection.get_Callsign(),
+            iff: selection.getIFF() ? datalink.IFF_FRIENDLY : datalink.IFF_HOSTILE,
+          }]);
+        } else {
+          datalink.clear_data();
+        }
+      }
   },
 
   processCallsigns: func (players) {
@@ -433,7 +444,6 @@ var RadarLogic = {
   # Tests if the track can be seen by the radar, except for the line of sight
   # check (which will have been done earlier).
   isRadarVisible: func (track, trackInfo, trackPos, distance) {
-    if(track.getName() == "rb-99") return TRUE; # datalink
     if(distance > radarRange) return FALSE;
     if(!me.isInRadarAngles(trackPos)) return FALSE;
     # An air radar can only pick up targets through doppler effect.
@@ -946,7 +956,8 @@ var Contact = {
     },
 
     getIFF: func () {
-      return faf.is_friend(me.callsign.getValue()) or iff.interrogate(me.node);
+      if (!variant.JA) return FALSE;
+      else return faf.is_friend(me.callsign.getValue()) or iff.interrogate(me.node);
     },
 
     getUnique: func () {

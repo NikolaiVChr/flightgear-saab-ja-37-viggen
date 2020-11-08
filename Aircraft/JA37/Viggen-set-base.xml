@@ -81,18 +81,6 @@
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
-            <path>ja37/faf/friends/friend[0]</path>
-            <path>ja37/faf/friends/friend[1]</path>
-            <path>ja37/faf/friends/friend[2]</path>
-            <path>ja37/faf/friends/friend[3]</path>
-            <path>ja37/faf/friends/friend[4]</path>
-            <path>ja37/faf/friends/friend[5]</path>
-            <path>ja37/faf/foes/foe[0]</path>
-            <path>ja37/faf/foes/foe[1]</path>
-            <path>ja37/faf/foes/foe[2]</path>
-            <path>ja37/faf/foes/foe[3]</path>
-            <path>ja37/faf/foes/foe[4]</path>
-            <path>ja37/faf/foes/foe[5]</path>
             <path>controls/displays/arrows-controls-cursor</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
@@ -361,14 +349,17 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 2, int 17, int 18, int 19, float 2, float 3, float 9, string[4], string[6] are controlled from nasal or JSB
+          <!-- int 2, int 17, int 18, int 19, float 2, float 3, float 9, 
+                string[4], string[6], string[7], string[8], are controlled from nasal or JSB
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
                 float[9] = inverted scene red color
 
-                string[6] = radar selected target
                 string[4] = IFF
+                string[6] = radar selected target
+                string[7] = datalink channel
+                string[8] = datalink data
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
@@ -698,6 +689,9 @@
                 <button-mhz type="bool">true</button-mhz>
                 <switch type="bool">true</switch><!-- set to FM per default -->
             </kv1>
+            <kv3>
+                <code type="int">0</code>
+            </kv3>
             <me31>
                 <button-mhz type="bool">true</button-mhz>
             </me31>
@@ -712,22 +706,7 @@
             </fr31>
         </radio>
         <faf>
-            <friends>
-                <friend n="0" type="string"></friend>
-                <friend n="1" type="string"></friend>
-                <friend n="2" type="string"></friend>
-                <friend n="3" type="string"></friend>
-                <friend n="4" type="string"></friend>
-                <friend n="5" type="string"></friend>
-            </friends>
-            <foes>
-                <foe n="0" type="string"></foe>
-                <foe n="1" type="string"></foe>
-                <foe n="2" type="string"></foe>
-                <foe n="3" type="string"></foe>
-                <foe n="4" type="string"></foe>
-                <foe n="5" type="string"></foe>
-            </foes>
+          <!-- populated by Nasal/radar/faf.nas -->
         </faf>
         <navigation>
             <inout type="bool">true</inout>
@@ -1579,12 +1558,17 @@
             <release-failed type="bool">false</release-failed>
         </indicators>
         <iff>
-            <channel-selection type="int">1</channel-selection>
+            <channel type="int">1</channel>
             <power-knob type="int">0</power-knob>
             <power type="bool">0</power>
-            <channel_prop type="string">/instrumentation/iff/channel-selection</channel_prop>
+            <channel_prop type="string">/instrumentation/iff/channel</channel_prop>
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
+        <datalink>
+            <channel_prop type="string">/ja37/radio/kv3/code</channel_prop>
+            <power_prop type="string">/instrumentation/datalink/power</power_prop>
+            <power type="bool">true</power>
+        </datalink>
     </instrumentation>
 
     <payload>
@@ -1673,9 +1657,6 @@
         <rwr>
             <file>Aircraft/JA37/Nasal/radar/rwr.nas</file>
         </rwr>
-        <faf>
-            <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
-        </faf>
         <iff>
             <file>Aircraft/JA37/Nasal/radar/iff.nas</file>
         </iff>
