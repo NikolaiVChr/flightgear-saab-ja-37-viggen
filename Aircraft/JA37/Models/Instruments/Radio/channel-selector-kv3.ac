@@ -113,7 +113,7 @@ name "digit1"
 data 8
 Cube.012
 crease 50.0
-texture "../Common/digits.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07369 0.0004 0.002
 -0.06035 0.0004 0.002
@@ -123,17 +123,17 @@ numsurf 1
 SURF 0X10
 mat 1
 refs 4
-1 1.085154 -0.005781
-0 1.085154 0.105781
-3 -0.085154 0.105781
-2 -0.085154 -0.005781
+1 0.082913 -0.003286
+0 0.082913 1.003286
+3 0.00042 1.003286
+2 0.00042 -0.003286
 kids 0
 OBJECT poly
 name "digit10"
 data 8
 Cube.016
 crease 50.0
-texture "../Common/digits.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07369 0.0004 0.015
 -0.06035 0.0004 0.015
@@ -143,17 +143,17 @@ numsurf 1
 SURF 0X10
 mat 1
 refs 4
-1 1.085154 -0.005781
-0 1.085154 0.105781
-3 -0.085154 0.105781
-2 -0.085154 -0.005781
+1 0.082913 -0.003286
+0 0.082913 1.003286
+3 0.00042 1.003286
+2 0.00042 -0.003286
 kids 0
 OBJECT poly
 name "digit100"
 data 8
 Cube.017
 crease 50.0
-texture "../Common/digits.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07369 0.0004 0.028
 -0.06035 0.0004 0.028
@@ -163,17 +163,17 @@ numsurf 1
 SURF 0X10
 mat 1
 refs 4
-1 1.085154 -0.005781
-0 1.085154 0.105781
-3 -0.085154 0.105781
-2 -0.085154 -0.005781
+1 0.082913 -0.003286
+0 0.082913 1.003286
+3 0.00042 1.003286
+2 0.00042 -0.003286
 kids 0
 OBJECT poly
 name "digit1000"
 data 8
 Cube.018
 crease 50.0
-texture "../Common/digits.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07369 0.0004 0.041
 -0.06035 0.0004 0.041
@@ -183,10 +183,10 @@ numsurf 1
 SURF 0X10
 mat 1
 refs 4
-1 1.085154 -0.005781
-0 1.085154 0.105781
-3 -0.085154 0.105781
-2 -0.085154 -0.005781
+1 0.082913 -0.003286
+0 0.082913 1.003286
+3 0.00042 1.003286
+2 0.00042 -0.003286
 kids 0
 OBJECT poly
 name "fi"

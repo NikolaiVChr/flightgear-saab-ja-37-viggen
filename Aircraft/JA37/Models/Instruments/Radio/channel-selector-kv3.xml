@@ -34,45 +34,41 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit1</object-name>
-        <property>ja37/radio/kv3/code</property>
-        <factor>0.1</factor>
-        <step>1</step>
+        <property>ja37/radio/kv3/digit[4]</property>
+        <factor>0.083333</factor>
         <axis>
-            <x>0</x>
-            <y>1</y>
+            <x>1</x>
+            <y>0</y>
         </axis>
     </animation>
     <animation>
         <type>textranslate</type>
         <object-name>digit10</object-name>
-        <property>ja37/radio/kv3/code</property>
-        <factor>0.01</factor>
-        <step>10</step>
+        <property>ja37/radio/kv3/digit[3]</property>
+        <factor>0.083333</factor>
         <axis>
-            <x>0</x>
-            <y>1</y>
+            <x>1</x>
+            <y>0</y>
         </axis>
     </animation>
     <animation>
         <type>textranslate</type>
         <object-name>digit100</object-name>
-        <property>ja37/radio/kv3/code</property>
-        <factor>0.001</factor>
-        <step>100</step>
+        <property>ja37/radio/kv3/digit[2]</property>
+        <factor>0.083333</factor>
         <axis>
-            <x>0</x>
-            <y>1</y>
+            <x>1</x>
+            <y>0</y>
         </axis>
     </animation>
     <animation>
         <type>textranslate</type>
         <object-name>digit1000</object-name>
-        <property>ja37/radio/kv3/code</property>
-        <factor>0.0001</factor>
-        <step>1000</step>
+        <property>ja37/radio/kv3/digit[1]</property>
+        <factor>0.083333</factor>
         <axis>
-            <x>0</x>
-            <y>1</y>
+            <x>1</x>
+            <y>0</y>
         </axis>
     </animation>
 
