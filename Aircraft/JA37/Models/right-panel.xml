@@ -300,9 +300,8 @@
      <path>Aircraft/JA37/Models/Cockpit/switch-a/tils-group.xml</path>
      <name>tilsG</name>
      <offsets>
-       <heading-deg>90</heading-deg>
-       <x-m>  0.460</x-m>
-       <y-m> 0.08</y-m>
+       <x-m>  0.520</x-m>
+       <y-m> 0.06</y-m>
        <z-m>  0.00</z-m>
      </offsets>
    </model>
@@ -311,12 +310,25 @@
      <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel.xml</path>
      <name>Navpanel</name>
      <offsets>
-       <x-m>  0.3485</x-m>
-       <y-m>  0.050</y-m>
+       <x-m>  0.380</x-m>
+       <y-m>  0.048</y-m>
        <z-m> -0.004</z-m>
      </offsets>
    </model>
-   
+
+   <animation>
+     <type>scale</type>
+     <object-name>Navpanel</object-name>
+     <center>
+       <x-m>  0.380</x-m>
+       <y-m>  0.048</y-m>
+       <z-m> -0.004</z-m>
+     </center>
+     <x-offset>1.3</x-offset>
+     <y-offset>1.3</y-offset>
+     <z-offset>1.3</z-offset>
+   </animation>
+
    <model>
      <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel-ja.xml</path>
      <name>NavpanelJA</name>
