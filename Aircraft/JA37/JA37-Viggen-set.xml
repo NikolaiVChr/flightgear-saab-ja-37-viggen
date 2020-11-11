@@ -214,7 +214,7 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Event log</label>
+                        <label>Combat log</label>
                         <name>flightlog</name>
                         <binding>
                             <command>dialog-show</command>
