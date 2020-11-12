@@ -1800,10 +1800,18 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         }
       }
       me.desiredSink_deg = 2.86;
-      if (me.finalVisual == TRUE) {
-        me.sinkRateMax_mps = 2.8;
-        me.groundspeed_mps = me.input.gs.getValue() != 0?me.input.gs.getValue() * KT2FPS * FT2M:0.0001;
-        me.desiredSink_deg = math.asin(clamp(me.sinkRateMax_mps/me.groundspeed_mps,-1,1))*R2D;
+      if (me.finalVisual) {
+        if (me.input.rad_alt_ready.getBoolValue()) {
+          me.final_flare = (me.input.rad_alt.getValue()*FT2M < 15);
+        } else {
+          me.final_flare = (me.input.alt_m.getValue() < 35);
+        }
+        if (me.final_flare) {
+          me.sinkRateMax_mps = 2.8;
+          me.groundspeed_mps = me.input.gs.getValue() * KT2MPS;
+          me.desiredSink_deg = math.atan2(me.sinkRateMax_mps, me.groundspeed_mps) * R2D;
+          if (me.desiredSink_deg > 2.86) me.desiredSink_deg = 2.86;
+        }
       }
       HUDnasal.main.landing_line.setTranslation(pixelPerDegreeX*me.deg, me.desiredSink_deg*pixelPerDegreeY);
       HUDnasal.main.landing_line.show();
