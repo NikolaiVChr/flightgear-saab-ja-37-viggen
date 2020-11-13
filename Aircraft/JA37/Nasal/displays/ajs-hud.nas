@@ -188,27 +188,28 @@ var AltitudeBars = {
         me.bars = [nil, nil, nil];
         for (var i=1; i<=3; i+=1) {
             me.bars[i-1] = make_path(me.group)
-                .moveTo(-100*i,0).vert(-100*i).moveTo(100*i,0).vert(-100*i);
+                .moveTo(-100*i,0).vert(100*i).moveTo(100*i,0).vert(100*i);
         }
         me.base_pos = 0;
-        me.ref_bars_group = me.group.createChild("group");
-        me.ref_bars = make_path(me.ref_bars_group)
+        # Group centered on the top of the outer altitude bars.
+        me.outer_bars_group = me.group.createChild("group");
+
+        me.ref_bars = make_path(me.outer_bars_group)
+            .setTranslation(0, 300) # bottom of outer bars
             .moveTo(-330, 0).vert(-300).moveTo(330,0).vert(-300);
-        me.rhm_index = make_path(me.ref_bars_group)
+        me.rhm_index = make_path(me.outer_bars_group)
             .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
         me.rhm_shown = FALSE;
     },
 
     # Set the bars normalised position.
-    # pos=0: bottom of the bars on the horizon (indicates alt=0)
-    # pos=1: top of the bars on the horizon (indicates alt=commanded alt)
+    # pos=-1: bottom of the bars on the horizon (indicates alt=0)
+    # pos=0: top of the bars on the horizon (indicates alt=commanded alt)
     set_bars_pos: func(pos) {
         for (var i=1; i<=3; i+=1) {
             me.bars[i-1].setTranslation(0, 100 * i * pos);
         }
-        me.ref_bars_group.setTranslation(0, 300 * pos);
-        # Store position of the bottom of bars. It is used to place other hud elements.
-        me.base_pos = 300 * pos;
+        me.outer_bars_group.setTranslation(0, 300 * pos);
     },
 
     set_mode: func(mode) {
@@ -224,50 +225,87 @@ var AltitudeBars = {
         }
     },
 
+    # Clamp reference altitude to obtain the final value used for display.
+    clamp_reference_altitude: func(ref_alt, alt) {
+        # Fixed at takeoff
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) return 500;
+
+        # Limits (whichever is more restrictive)
+        # - between half and double the current altitude
+        # - between -500 and +250 compared to the current altitude
+        # Effectively, the former applies for ref_alt < 500, and the latter for ref_alt > 500.
+        var min = math.max(alt/2, alt-500);
+        var max = math.min(alt*2, alt+250);
+        ref_alt = math.clamp(ref_alt, min, max);
+        # Never less than 50.
+        return math.max(ref_alt, 50);
+    },
+
+    # Reference altitude bars, displayed at reference altitude < 500m
+    # Their length corresponds to 100m.
+    update_ref_bars: func(ref_alt) {
+        if (ref_alt <= 500) {
+            me.ref_bars.show();
+            me.ref_bars.setScale(1, 100/ref_alt);
+        } else {
+            me.ref_bars.hide();
+        }
+    },
+
+    update_rhm_index: func(scale, bars_pos) {
+        var rad_alt = input.rad_alt.getValue();
+        # Off during takeoff before rotation.
+        # Turns off at radar altitude > 575 (or if radar altitude is unavailable, obviously).
+        # Turns back on at radar altitude < 550 (small margin to avoid hysteresis).
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or !input.rad_alt_ready.getBoolValue() or rad_alt > 575) {
+            me.rhm_shown = FALSE;
+        } elsif (rad_alt < 550) {
+            me.rhm_shown = TRUE;
+        }
+
+        if (!me.rhm_shown) {
+            me.rhm_index.hide();
+            return;
+        }
+
+        # Position relative to artificial horizon.
+        var rhm_pos = rad_alt / scale;
+        # Position relative to the top of outer altitude bars.
+        rhm_pos -= bars_pos;
+        # Clamp (max: top of outer altitude bars, min: length of alt bars below the bottom of bars).
+        rhm_pos = math.clamp(rhm_pos, 0, 2);
+        me.rhm_index.setTranslation(0, 300 * rhm_pos);
+        me.rhm_index.show();
+    },
+
     # All altitudes in meters
     update: func {
         if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) return;
 
-        var altitude = input.alt.getValue();
-        var radar_altitude = input.rad_alt_ready.getBoolValue() ? input.rad_alt.getValue() : nil;
-        var command_altitude = input.ref_alt.getValue();
+        var alt = input.alt.getValue();
+        var ref_alt = me.clamp_reference_altitude(input.ref_alt.getValue(), alt);
+        # The outer altitude bars should be interpreted as an altitude scale
+        # - top of the bars is commanded altitude
+        # - artificial horizon is aircraft altitude
+        # - rhm index is ground altitude
+        # - reference bars go from 0m to 100m, when displayed.
+        # This is the scale (altitude difference corresponding to the outer altitude bars).
+        # If ref_alt < 500, the bottom of the bars corresponds to 0m.
+        var scale = math.min(ref_alt, 500);
 
-        # restrict displayed commanded altitude
-        var min_command = math.max(altitude/2, altitude-500);
-        var max_command = math.min(altitude*2, altitude+250);
-        command_altitude = math.clamp(command_altitude, min_command, max_command);
-        if (command_altitude <= 50) command_altitude = 50;
+        # Store position of the bars. It is used to place other hud elements.
+        me.bars_pos = math.clamp((alt - ref_alt)/scale, -1, 1);
+        me.set_bars_pos(me.bars_pos);
 
-        me.set_bars_pos(math.clamp(altitude / command_altitude, 0, 2));
-
-        # reference altitude bars
-        if (command_altitude <= 500) {
-            me.ref_bars.show();
-            me.ref_bars.setScale(1, 100/command_altitude);
-        } else {
-            me.ref_bars.hide();
-        }
-
-        # radar altitude index
-        if (me.mode == HUD.MODE_TAKEOFF_ROLL or radar_altitude == nil or radar_altitude > 575) {
-            me.rhm_shown = FALSE;
-        } elsif (radar_altitude < 550) {
-            me.rhm_shown = TRUE;
-        }
-        if (me.rhm_shown) {
-            me.rhm_index.show();
-            var rhm_pos = math.clamp((altitude - radar_altitude) / command_altitude, -1, 1);
-            me.rhm_index.setTranslation(0, -300 * rhm_pos);
-        } else {
-            me.rhm_index.hide();
-        }
+        me.update_ref_bars(ref_alt);
+        me.update_rhm_index(scale, me.bars_pos);
     },
 
     # Get the vertical position of the bottom of the (largest) altitude bars,
     # relative to the horizon line, in the HUD coordonate units.
     # Used to position the heading and time line just below the altitude bars.
     get_base_pos: func {
-        return me.base_pos;
+        return 300 * (me.bars_pos + 1);
     },
 };
 
