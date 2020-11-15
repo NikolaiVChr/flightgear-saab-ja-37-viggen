@@ -53,6 +53,9 @@ var input = {
     gpw:            "/instrumentation/terrain-warning",
     twoHz:          "/ja37/blink/two-Hz/state",
     fourHz:         "/ja37/blink/four-Hz/state",
+    bright:         "/ja37/hud/brightness",
+    bright_hud:     "/ja37/hud/brightness-si",
+    bright_bck:     "/ja37/hud/brightness-res",
 };
 
 foreach(var name; keys(input)) {
@@ -66,7 +69,6 @@ foreach(var name; keys(input)) {
 # Create a new path with default options
 var make_path = func(parent) {
     return parent.createChild("path")
-        .setColor(0,1,0,1)
         .setStrokeLineWidth(opts.line_width)
         .setStrokeLineJoin("round")
         .setStrokeLineCap("round");
@@ -81,17 +83,18 @@ var make_circle = func(parent, x, y, d) {
         .arcSmallCW(r, r, 0, d, 0);
 }
 
-# Create a new path and draw a dot (filled circle), with center (x,y) and diameter d
+# Create a new path and draw a dot, with center (x,y) and diameter d
 var make_dot = func(parent, x, y, d) {
-    return make_circle(parent, x, y, d)
-        .setStrokeLineWidth(0)
-        .setColorFill(0,1,0,1);
+    return make_path(parent)
+        # Hack
+        .moveTo(x,y).line(0.001,0)
+        .setStrokeLineWidth(d)
+        .setStrokeLineCap("round");
 }
 
 # Create a new text element with default options.
 var make_text = func(parent) {
     return parent.createChild("text")
-        .setColor(0,1,0,1)
         .setAlignment("center-bottom")
         .setFontSize(80, 1);
 }
@@ -163,14 +166,24 @@ var HUDCanvas = {
         # Group centered on the aircraft forward axis.
         me.forward_axis = me.optical_axis.createChild("group", "forward axis")
             .setTranslation(0, -opts.optical_axis_pitch_offset * 100);
+
+        me.grp_hud = me.forward_axis.createChild("group", "HUD");
+        me.grp_backup = me.forward_axis.createChild("group", "Backup sight");
+
+        me.bright_hud = -1;
+        me.bright_bck = -1;
     },
 
     add_placement: func(placement) {
         me.canvas.addPlacement(placement);
     },
 
-    get_group: func {
-        return me.forward_axis;
+    get_group_hud: func {
+        return me.grp_hud;
+    },
+
+    get_group_backup: func {
+        return me.grp_backup;
     },
 
     # Update the position of me.optical_axis to simulate parallax.
@@ -200,6 +213,22 @@ var HUDCanvas = {
 
         me.centered = FALSE;
     },
+
+    update_brightness: func {
+        var bright_hud = input.bright_hud.getValue();
+        if (bright_hud != me.bright_hud) {
+            me.bright_hud = bright_hud;
+            me.grp_hud.setColor(0,1,0,me.bright_hud);
+        }
+
+        var bright_bck = input.bright_bck.getValue();
+        if (bright_bck != me.bright_bck) {
+            me.bright_bck = bright_bck;
+            me.grp_backup.setColor(1,0.5,0,me.bright_bck);
+        }
+
+        input.bright.setValue(math.max(me.bright_hud, me.bright_bck));
+    },
 };
 
 var hud_canvas = nil;
@@ -208,7 +237,11 @@ var hud = nil;
 var initialize = func {
     hud_canvas = HUDCanvas.new();
     hud_canvas.add_placement({"node": "hud", "texture": "hud.png"});
-    hud = HUD.new(hud_canvas.get_group());
+    hud = HUD.new(hud_canvas.get_group_hud());
+    hud_canvas.update_brightness();
+
+    setlistener(input.bright_hud, func { hud_canvas.update_brightness(); });
+    setlistener(input.bright_bck, func { hud_canvas.update_brightness(); });
 }
 
 var update = func {

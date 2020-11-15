@@ -19,7 +19,7 @@
         <object-name>knobBaseSI</object-name>
         <property>ja37/hud/brightness-si</property>
         <factor>-240</factor>
-        <offset-deg>0</offset-deg>
+        <offset-deg>212</offset-deg>
         <center>
             <x-m> -4.0 </x-m>
             <y-m> -0.03 </y-m>
@@ -54,8 +54,8 @@
         <object-name>knobHeadRES</object-name>
         <object-name>knobBaseRES</object-name>
         <property>ja37/hud/brightness-res</property>
-        <factor>-240</factor>
-        <offset-deg>0</offset-deg>
+        <factor>-120</factor>
+        <offset-deg>80</offset-deg>
         <center>
             <x-m> -4.0 </x-m>
             <y-m>  0.03 </y-m>
@@ -70,9 +70,9 @@
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/brightness-res</property>
-                <factor>0.05</factor>
-                <min>0.55</min>
-                <max>0.85</max>                
+                <factor>0.10</factor>
+                <min>0.00</min>
+                <max>0.90</max>                
                 <wrap>false</wrap>
            </binding>
         </action>

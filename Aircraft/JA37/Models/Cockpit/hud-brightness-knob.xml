@@ -31,7 +31,7 @@
                 <command>property-adjust</command>
                 <property>ja37/hud/brightness-si</property>
                 <factor>0.05</factor>
-                <min>0.55</min>
+                <min>0.50</min>
                 <max>1.00</max>
                 <wrap>false</wrap>
            </binding>

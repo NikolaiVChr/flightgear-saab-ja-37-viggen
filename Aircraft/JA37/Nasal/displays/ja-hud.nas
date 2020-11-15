@@ -164,7 +164,7 @@ var Horizon = {
             .moveTo(-1000,0).horizTo(-300)
             .moveTo(1000,0).horizTo(580).moveTo(380,0).horizTo(300);
         for (var i=-250; i<=250; i+=100) {
-            make_dot(bar, i, 0, opts.line_width*2);
+            make_dot(bar, i, 0, opts.line_width);
         }
         make_label(bar, -400, -20, "0").setAlignment("left-bottom");
         return bar;
@@ -226,7 +226,7 @@ var Horizon = {
         make_path(bar)
             .moveTo(-600,0).horizTo(-100)
             .moveTo(700,0).horizTo(650).moveTo(380,0).horizTo(100);
-        make_dot(bar, 0, 0, 2*opts.line_width);
+        make_dot(bar, 0, 0, opts.line_width);
         return bar;
     },
 
