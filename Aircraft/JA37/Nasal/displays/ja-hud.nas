@@ -406,7 +406,8 @@ var Heading = {
         }
 
         if (me.mode != HUD.MODE_FINAL_NAV and me.mode != HUD.MODE_FINAL_OPT) {
-            if (input.rm_active.getBoolValue()) {
+            if (input.rm_active.getBoolValue()
+                and me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
                 var pos = geo.normdeg180(input.wp_bearing.getValue() - track);
                 pos *= me.scale_factor;
                 pos = math.clamp(pos, -200, 200);
