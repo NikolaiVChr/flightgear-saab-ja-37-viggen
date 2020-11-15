@@ -538,22 +538,17 @@ var radar = {
 
 
       # show antanea height
-      if (canvas_HUD.air2air == TRUE) {
-        if (radar_logic.selection != nil) {
-          me.elev = radar_logic.selection.getElevation();
-          me.elev = clamp(me.elev, -10, 10)/10;
-          me.xx = me.strokeHeight*0.18*me.elev;
-          me.ant_cursor.setTranslation(me.xx, 0);
-          me.ant_cursor.show();
-        } else {
-          me.ant_cursor.hide();
-        }
-        me.ant.show();
+      if (radar_logic.selection != nil) {
+        me.elev = radar_logic.selection.getElevation();
+        me.elev = clamp(me.elev, -10, 10)/10;
+        me.xx = me.strokeHeight*0.18*me.elev;
+        me.ant_cursor.setTranslation(me.xx, 0);
+        me.ant_cursor.show();
       } else {
         me.ant_cursor.hide();
-        me.ant.hide();
       }
-    
+      me.ant.show();
+
       # show horizon lines
       me.horzGroup.setRotation(-me.input.roll.getValue()*D2R);
       me.showBoxes = FALSE;

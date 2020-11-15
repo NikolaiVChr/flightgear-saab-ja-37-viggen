@@ -50,32 +50,9 @@
   <group>
     <layout>table</layout>
 
-    <!-- HUD line width -->
-    <slider>
-      <row>0</row>
-      <col>0</col>
-      <property>/ja37/hud/stroke-linewidth</property>
-      <min>1</min>
-      <max>10</max>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>canvas_HUD.reinit();</script>
-      </binding>
-    </slider>
-
-    <text>
-      <row>0</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>HUD line width</label>
-    </text>
-
     <!-- G suit -->
     <slider>
-      <row>1</row>
+      <row>0</row>
       <col>0</col>
       <property>/ja37/effect/g-suit</property>
       <min>1</min>
@@ -91,7 +68,7 @@
     </slider>
 
     <text>
-      <row>1</row>
+      <row>0</row>
       <col>1</col>
       <halign>left</halign>
       <label>G-suit quality: anno 1997</label>
@@ -102,7 +79,7 @@
 
     <!-- Swedish cockpit -->
     <checkbox>
-      <row>2</row>
+      <row>1</row>
       <col>0</col>
       <property>/ja37/effect/swedish-labels</property>
       <live>true</live>
@@ -112,7 +89,7 @@
     </checkbox>
 
     <text>
-      <row>2</row>
+      <row>1</row>
       <col>1</col>
       <halign>left</halign>
       <label>Cockpit labels in Swedish (default: English)</label>
@@ -120,25 +97,37 @@
 
     <!-- Swedish HUD/TI -->
     <checkbox>
-      <row>3</row>
+      <row>2</row>
       <col>0</col>
       <property>/ja37/hud/units-metric</property>
       <live>true</live>
       <binding>
         <command>dialog-apply</command>
       </binding>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
     </checkbox>
 
     <text>
-      <row>3</row>
+      <row>2</row>
       <col>1</col>
       <halign>left</halign>
       <label>HUD/TI in metric units and Swedish (default: imperial and English)</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
     </text>
 
     <!-- TI menus -->
     <checkbox>
-      <row>4</row>
+      <row>3</row>
       <col>0</col>
       <property>/ja37/displays/show-full-menus</property>
       <live>true</live>
@@ -154,7 +143,7 @@
     </checkbox>
 
     <text>
-      <row>4</row>
+      <row>3</row>
       <col>1</col>
       <halign>left</halign>
       <label>TI Display: show non-functional menu items</label>
@@ -168,7 +157,7 @@
 
     <!-- TI map -->
     <checkbox>
-      <row>5</row>
+      <row>4</row>
       <col>0</col>
       <property>/ja37/displays/live-map</property>
       <live>true</live>
@@ -184,7 +173,7 @@
     </checkbox>
 
     <text>
-      <row>5</row>
+      <row>4</row>
       <col>1</col>
       <halign>left</halign>
       <label>TI Display: use Internet to fetch map</label>
@@ -198,7 +187,7 @@
 
     <!-- Outside rust -->
     <checkbox>
-      <row>6</row>
+      <row>5</row>
       <col>0</col>
       <property>/ja37/effect/rust-outside</property>
       <live>true</live>
@@ -208,14 +197,14 @@
     </checkbox>
 
     <text>
-      <row>6</row>
+      <row>5</row>
       <col>1</col>
       <halign>left</halign>
       <label>Rust on fuselage (requires ALS)</label>
     </text>
 
     <checkbox>
-      <row>7</row>
+      <row>6</row>
       <col>0</col>
       <property>/ja37/effect/rust-inside</property>
       <live>true</live>
@@ -225,20 +214,20 @@
     </checkbox>
 
     <text>
-      <row>7</row>
+      <row>6</row>
       <col>1</col>
       <halign>left</halign>
       <label>Rust in cockpit (requires ALS)</label>
     </text>
 
     <hrule>
-      <row>8</row>
+      <row>7</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <checkbox>
-      <row>9</row>
+      <row>8</row>
       <col>0</col>
       <property>controls/displays/arrows-controls-cursor</property>
       <live>true</live>
@@ -248,14 +237,14 @@
     </checkbox>
 
     <text>
-      <row>9</row>
+      <row>8</row>
       <col>1</col>
       <halign>left</halign>
       <label>Arrow keys control radar cursor, Enter selects</label>
     </text>
 
     <text>
-      <row>10</row>
+      <row>9</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -263,7 +252,7 @@
     </text>
 
     <text>
-      <row>11</row>
+      <row>10</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -271,7 +260,7 @@
     </text>
 
     <text>
-      <row>12</row>
+      <row>11</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -279,7 +268,7 @@
     </text>
 
     <text>
-      <row>13</row>
+      <row>12</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -287,7 +276,7 @@
     </text>
 
     <text>
-      <row>14</row>
+      <row>13</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -295,7 +284,7 @@
     </text>
 
     <text>
-      <row>15</row>
+      <row>14</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -303,7 +292,7 @@
     </text>
 
     <text>
-      <row>16</row>
+      <row>15</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -311,13 +300,13 @@
     </text>
 
     <hrule>
-      <row>17</row>
+      <row>16</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <checkbox>
-      <row>18</row>
+      <row>17</row>
       <col>0</col>
       <enable><property>/ja37/on-ground</property></enable>
       <property>/payload/armament/msg</property>
@@ -328,35 +317,35 @@
     </checkbox>
 
     <text>
-      <row>18</row>
+      <row>17</row>
       <col>1</col>
       <halign>left</halign>
       <label>Enable multiplayer damage</label>
     </text>
 
     <text>
-      <row>19</row>
+      <row>18</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>This option allows to deal and receive damage from other compatible aircrafts,</label>
     </text>
     <text>
-      <row>20</row>
+      <row>19</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>if they have also enabled it. It can only be toggled when stopped on the ground.</label>
     </text>
     <text>
-      <row>21</row>
+      <row>20</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>Enabling this enforces some realism options, such as blackout, normal simulation</label>
     </text>
     <text>
-      <row>22</row>
+      <row>21</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>

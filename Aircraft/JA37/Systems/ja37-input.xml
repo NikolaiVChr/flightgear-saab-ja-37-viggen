@@ -156,8 +156,8 @@
             <name>i</name>
             <desc>Toggle type/callsign</desc>
             <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.toggleCallsign()</script>
+                <command>property-toggle</command>
+                <property>/ja37/hud/callsign</property>
             </binding>
         </key>
         <key n="83">
@@ -252,8 +252,8 @@
             <name>I</name>
             <desc>Switch HUD units.</desc>
             <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.cycle_units()</script>
+                <command>property-toggle</command>
+                <property>/ja37/hud/units-metric</property>
             </binding>
         </key>
         <key n="104">

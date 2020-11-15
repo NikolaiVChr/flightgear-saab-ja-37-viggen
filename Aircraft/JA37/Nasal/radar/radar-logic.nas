@@ -1263,11 +1263,6 @@ var Contact = {
       return [me.dir_x, me.dir_y];
     },
 
-    get_hud_coord: func() {
-      var coord = me.get_cartesian();
-      return [canvas_HUD.pixelPerDegreeX * coord[0], canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * coord[1]];
-    },
-
     get_polar: func() {
       me.get_Coord();
       var aircraftAlt = me.coord.alt();
@@ -1556,11 +1551,6 @@ var ContactGPS = {
     me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
 
     return [me.dir_x, me.dir_y];
-  },
-
-  get_hud_coord: func() {
-    var coord = me.get_cartesian();
-    return [canvas_HUD.pixelPerDegreeX * coord[0], canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * coord[1]];
   },
 
   get_polar: func() {
@@ -1883,11 +1873,6 @@ var ContactGhost = {
     }
 
     return [xa_rad * R2D, -ya_rad * R2D];
-  },
-
-  get_hud_coord: func() {
-    var coord = me.get_cartesian();
-    return [canvas_HUD.pixelPerDegreeX * coord[0], canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * coord[1]];
   },
 
   get_polar: func() {
