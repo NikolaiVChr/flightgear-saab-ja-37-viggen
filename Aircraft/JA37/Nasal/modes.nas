@@ -81,6 +81,13 @@ var update_takeoff_allowed = func {
 
 ### Mode update
 # JA
+
+# Some HUD functions are inhibited until 30s after leaving takeoff mode.
+var takeoff_30s_inhibit = TRUE;
+var takeoff_30s_timer = maketimer(30, func { takeoff_30s_inhibit = FALSE; });
+takeoff_30s_timer.simulatedTime = TRUE;
+takeoff_30s_timer.singleShot = TRUE;
+
 var update_mode_ja = func {
     # from manual:
     #
@@ -93,6 +100,9 @@ var update_mode_ja = func {
         # nosewheel on runway, switch to takeoff
         main_ja = TAKEOFF;
         input.landing.setValue(0);
+
+        takeoff_30s_timer.stop();
+        takeoff_30s_inhibit = TRUE;
     } elsif (main_ja == TAKEOFF and !takeoff_allowed) {
         # time to switch away from TAKEOFF mode.
         main_ja = NAV; # Can be changed to COMBAT or LANDING below.
@@ -104,6 +114,9 @@ var update_mode_ja = func {
                 fp.current = 1;
             }
         }
+
+        # Start 30s timer before enabling some of the HUD functions.
+        takeoff_30s_timer.start();
     }
 
     if (main_ja == COMBAT or main_ja == NAV or main_ja == LANDING) {

@@ -424,11 +424,6 @@ var Saab37 = {
     input.rainVol.setDoubleValue(me.rain*0.35*me.vol);
 
     me.theShakeEffect();
-    # The HUD should not shake (relative to the background).
-    # This requires to update the hud translation just after head movements.
-    if (getprop("/ja37/systems/variant") == 0) {
-      canvas_HUD.hud_pilot.followHeadPosition();
-    }
 
     logTime();
   
@@ -956,14 +951,8 @@ var Saab37 = {
     }
 
     # HUD:
-    if (getprop("ja37/systems/variant") == 0) {
-      canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
-      me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func canvas_HUD.hud_pilot.update());
-    } else {
-      hud.hud = hud.HUD.new();
-      hud.hud.addPlacement({"node": "hud", "texture": "hud.png"});
-      me.loop_hud = maketimer(0.05, hud.hud, hud.hud.update);
-    }
+    hud.initialize();
+    me.loop_hud = maketimer(0.05, hud.update);
     me.loop_hud.start();
 
     if (variant.JA) {
@@ -1072,14 +1061,8 @@ var Saab37 = {
     }
 
     # HUD:
-    if (getprop("ja37/systems/variant") == 0) {
-      canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
-      me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func {timer.timeLoop("HUD", canvas_HUD.hud_pilot.update,canvas_HUD.hud_pilot);});
-    } else {
-      hud.hud = hud.HUD.new();
-      hud.hud.addPlacement({"node": "hud", "texture": "hud.png"});
-      me.loop_hud = maketimer(0.05, hud.hud, func {timer.timeLoop("HUD", hud.hud.update, hud.hud);});
-    }
+    hud.initialize();
+    me.loop_hud = maketimer(0.05, func {timer.timeLoop("HUD", hud.update, nil);});
     me.loop_hud.start();
 
     if (variant.JA) {

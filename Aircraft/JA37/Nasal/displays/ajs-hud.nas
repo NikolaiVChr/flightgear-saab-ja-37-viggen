@@ -1,12 +1,9 @@
-var TRUE = 1;
-var FALSE = 0;
-
-
 # General, constant options
 var opts = {
-    res: 1024,          # Actual resolution of the canvas.
-    ang_width: 20.1,    # Angular width of the HUD picture.
-                        # Desired width is 20deg, add a small margin to avoid border issues.
+    res: 1024,              # Actual resolution of the canvas.
+    ang_width: 20,          # Angular width of the HUD picture.
+    canvas_ang_width: 21,   # Angular width to which the canvas is mapped.
+                            # Adds a small margin due to border clipping issues.
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
     # HUD physical dimensions
@@ -14,84 +11,6 @@ var opts = {
     hud_center_z: -4.06203,
     hud_width: 0.15,
 };
-
-var input = {
-    heading:        "/instrumentation/heading-indicator/indicated-heading-deg",
-    pitch:          "/instrumentation/attitude-indicator/indicated-pitch-deg",
-    roll:           "/instrumentation/attitude-indicator/indicated-roll-deg",
-    speed:          "/instrumentation/airspeed-indicator/indicated-speed-kmh",
-    fpv_up:         "/instrumentation/fpv/angle-up-stab-deg",
-    fpv_right:      "/instrumentation/fpv/angle-right-stab-deg",
-    fpv_head_true:  "/instrumentation/fpv/heading-true",
-    head_true:      "/orientation/heading-deg",
-    alpha:          "/orientation/alpha-deg",
-    high_alpha:     "/fdm/jsbsim/autoflight/high-alpha",
-    weight:         "/fdm/jsbsim/inertia/weight-lbs",
-    alt:            "/instrumentation/altimeter/indicated-altitude-meter",
-    rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
-    rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
-    ref_alt:        "/ja37/displays/reference-altitude-m",
-    rm_active:      "/autopilot/route-manager/active",
-    wp_bearing:     "/autopilot/route-manager/wp/bearing-deg",
-    eta:            "/autopilot/route-manager/wp/eta-seconds",
-    fpv_fin_blink:  "/ja37/blink/four-Hz/state",
-    declutter:      "/ja37/hud/declutter-mode",
-    gear_pos:       "/gear/gear/position-norm",
-    use_ALS:        "/sim/rendering/shaders/skydome",
-    view_x:         "/sim/current-view/x-offset-m",
-    view_y:         "/sim/current-view/y-offset-m",
-    view_z:         "/sim/current-view/z-offset-m",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
-
-
-### Canvas elements creators with default options
-
-# Create a new path with default options
-var make_path = func(parent) {
-    return parent.createChild("path")
-        .setColor(0,1,0,1)
-        .setStrokeLineWidth(opts.line_width)
-        .setStrokeLineJoin("round")
-        .setStrokeLineCap("round");
-}
-
-# Create a new path and draw a circle, with center (x,y) and diameter d
-var make_circle = func(parent, x, y, d) {
-    var r = d/2.0;
-    return make_path(parent)
-        .moveTo(x + r, y)
-        .arcSmallCW(r, r, 0, -d, 0)
-        .arcSmallCW(r, r, 0, d, 0);
-}
-
-# Create a new path and draw a dot (filled circle), with center (x,y) and diameter d
-var make_dot = func(parent, x, y, d) {
-    return make_circle(parent, x, y, d)
-        .setStrokeLineWidth(0)
-        .setColorFill(0,1,0,1);
-}
-
-# Create a new text element with default options.
-var make_text = func(parent) {
-    return parent.createChild("text")
-        .setColor(0,1,0,1)
-        .setAlignment("center-bottom")
-        .setFontSize(80, 1);
-}
-
-# Create a new text element, and initialize its position and content.
-# Intended for fixed text elements.
-var make_label = func(parent, x, y, text) {
-    return make_text(parent)
-        .setText(text)
-        .setTranslation(x,y);
-}
-
 
 
 ### HUD elements classes
@@ -103,9 +22,6 @@ var make_label = func(parent, x, y, text) {
 # - update(): updates the element
 
 # Artificial horizon and pitch scale lines
-#
-# The artificial horizon canvas groups are used for several other HUD elements.
-# Specifically, the following
 var Horizon = {
     new: func(parent) {
         var m = { parents: [Horizon], parent: parent, mode: -1 };
@@ -525,8 +441,8 @@ var FPV = {
     initialize: func {
         me.group = me.parent.createChild("group", "flight path vector");
 
-        me.circle = make_circle(me.group, 0, 0, 50);
-        me.wings = make_path(me.group).moveTo(-25, 0).horiz(-75).moveTo(25, 0).horiz(75);
+        make_circle(me.group, 0, 0, 50);                                        # circle
+        make_path(me.group).moveTo(-25, 0).horiz(-75).moveTo(25, 0).horiz(75);  # wings
         me.tail = make_path(me.group).moveTo(0,-25).vert(-50);
     },
 
@@ -543,7 +459,7 @@ var FPV = {
     # Display 'fin' (speed error indicator)
     # pos: normalised in [-1,1], 0: correct speed, -1: speed is too low
     set_fin: func(show, pos=0, blink=0) {
-        if (show and (!blink or input.fpv_fin_blink.getBoolValue())) {
+        if (show and (!blink or input.four_hz.getBoolValue())) {
             me.tail.show();
             me.tail.setTranslation(0, -50*pos);
         } else {
@@ -574,7 +490,7 @@ var FPV = {
     update: func {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) return;
 
-        me.group.setTranslation(100 * input.fpv_right.getValue(), -100 * input.fpv_up.getValue());
+        me.group.setTranslation(100 * input.fpv_right_stab.getValue(), -100 * input.fpv_up_stab.getValue());
 
         if (modes.landing) {
             me.update_landing_speed_error();
@@ -596,58 +512,21 @@ var HUD = {
     MODE_FINAL_NAV: 5,
     MODE_FINAL_OPT: 6,
 
-    new: func() {
+    new: func(root) {
         var m = { parents: [HUD], mode: -1 };
-        m.initialize();
+        m.initialize(root);
         return m;
     },
 
-    canvas_opts: {
-        name: "AJS HUD",
-        size: [opts.res, opts.res],
-        # Internal coordinate system uses 1/100deg as unit.
-        # Choosing the values in 'view' too small (e.g. 1deg as unit) causes issues with circles (rounding?).
-        view: [opts.ang_width*100, opts.ang_width*100],
-        mipmapping: 1,
-    },
-
-    addPlacement: func(placement) {
-        me.canvas.addPlacement(placement);
-    },
-
-    initialize: func {
-        me.canvas = canvas.new(me.canvas_opts);
-        me.canvas.setColorBackground(0, 0, 0, 0);
-        me.root = me.canvas.createGroup("root");
-        me.root.set("font", "LiberationFonts/LiberationSans-Bold.ttf")
-            .setTranslation(opts.ang_width*50, opts.ang_width*50);
-
+    initialize: func(root) {
         me.groups = {};
 
-        # Group centered on the HUD optical axis.
-        # (Used with HUD shader off, when simulating parallax in Nasal).
-        me.groups.optical_axis = me.root.createChild("group", "optical axis")
-            # Clipping
-            .set("clip-frame", canvas.Element.LOCAL)
-            .set("clip", "rect(-1000, 1000, 1000, -1000)");
-
-        # Clip the picture to a 20deg diameter disk.
-        me.clip_disk = me.groups.optical_axis.createChild("image")
-            .setTranslation(-1000, 1000)
-            .setScale(2000/256)
-            .set("z-index",50)
-            .set("blend-source-rgb","zero")
-            .set("blend-source-alpha","zero")
-            .set("blend-destination-rgb","one")
-            .set("blend-destination-alpha","one-minus-src-alpha")
-            .set("src", "Aircraft/JA37/gui/canvas-blend-mask/hud-global-mask.png");
-
-        # Group centered on the aircraft forward axis.
-        me.groups.forward_axis = me.groups.optical_axis.createChild("group", "forward axis")
-            .setTranslation(0, -opts.optical_axis_pitch_offset * 100);
+        # Group centered on the aircraft forward axis, with unit 0.01deg.
+        # Provided by class HUDCanvas from hud-shared.nas
+        me.root = root;
 
         # Artificial horizon. Most elements are attached to it.
-        me.horizon = Horizon.new(me.groups.forward_axis);
+        me.horizon = Horizon.new(me.root);
         me.groups.horizon = me.horizon.get_horizon_group(); # Roll/Pitch stabilized group
         me.groups.ref_point = me.horizon.get_ref_point_group(); # Same + centered on reference point (target heading)
 
@@ -656,7 +535,7 @@ var HUD = {
         me.dig_alt = DigitalAltitude.new(me.groups.ref_point);
         me.heading = HeadingScale.new(me.groups.horizon); # rooted on horizon, not ref_point: do not apply lateral offset
         me.distance = DistanceLine.new(me.groups.ref_point);
-        me.fpv = FPV.new(me.groups.forward_axis);
+        me.fpv = FPV.new(me.root);
     },
 
     set_mode: func(mode) {
@@ -703,34 +582,10 @@ var HUD = {
         }
     },
 
-    # Update the position of me.groups.optical_axis to simulate parallax.
-    update_parallax: func {
-        # With ALS, the HUD shader deals with parallax, simply recenter the group.
-        if (input.use_ALS.getBoolValue()) {
-            me.groups.optical_axis.setScale(1);
-            me.groups.optical_axis.setTranslation(0, 0);
-            return;
-        }
-
-        # Scaling
-        var distance = input.view_z.getValue() - opts.hud_center_z;
-        var scale = distance * 2 * math.tan(opts.ang_width/2*D2R) / opts.hud_width;
-        me.groups.optical_axis.setScale(scale);
-
-        # Translation
-        var m_to_hud_units = opts.ang_width * 100 / opts.hud_width;
-        var x_offset = input.view_x.getValue() * m_to_hud_units;
-        var y_offset = (opts.hud_center_y - input.view_y.getValue()) * m_to_hud_units;
-        # This group must not be centered in front of the pilot eyes, but 7.3deg below.
-        y_offset += distance * math.tan(opts.optical_axis_pitch_offset*D2R) * m_to_hud_units;
-        me.groups.optical_axis.setTranslation(x_offset, y_offset);
-    },
-
     update: func {
         me.update_mode();
         if (me.mode == HUD.MODE_STBY) return;
 
-        me.update_parallax();
         me.fpv.update();
         var fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();
         fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
