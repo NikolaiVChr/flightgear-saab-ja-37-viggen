@@ -158,13 +158,4 @@
       <roll-deg>-2.5</roll-deg>
     </offsets>
   </model>-->
-
-  <!--<animation>
-    <type>scale</type>
-    <object-name>Chronometer</object-name>
-    <x-offset>1.1</x-offset>
-    <y-offset>1.1</y-offset>
-    <z-offset>1.1</z-offset>
-  </animation>-->
-
 </PropertyList>

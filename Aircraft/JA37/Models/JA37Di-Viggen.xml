@@ -2,23 +2,8 @@
 
 <PropertyList>
 
-	<path>ja37.ac</path>
-  
-  <!--<model>
-    <path>Aircraft/JA37/Models/Effects/testCube.xml</path>
-    <offsets>
-      <x-m>  0</x-m>
-      <y-m>  0</y-m>
-      <z-m>  3</z-m>
-    </offsets>
-  </model>-->
+  <path>ja37.ac</path>
 
-  <!-- ALS volume shadow -->
-  <!--<model>
-    <path>Aircraft/JA37/Models/Effects/ground-shadow/shadow.xml</path>
-    <name>shadow-volume</name>
-  </model>-->
-  
   <animation>
     <type>noshadow</type>
     <object-name>ja37hudGlass</object-name>
@@ -2199,17 +2184,6 @@
   </offsets>
  </model>
 
-<!-- old internal flame -->
-<!--<model>
-  <name>InternalFlame</name>
-  <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
-  <offsets>
-   <x-m>0.0</x-m>
-   <y-m>0.0</y-m>
-   <z-m>0.0</z-m>
-  </offsets>
- </model>-->
- 
 <!--******************************************* Pinto's edits *******************************************-->
 
 <!-- Air Intake -->	
@@ -2715,26 +2689,6 @@
  </model>
 
 <!--         transsonic-vapor-cones               -->
-
-<!-- <model>
-  <name>transsonic-canard-vapor-cone</name>
-  <path>Aircraft/JA37/Models/Effects/transsonic-canard-vapor-cone.xml</path>
-  <offsets>
-   <x-m>0</x-m>
-   <y-m>0</y-m>
-   <z-m>0.50</z-m>
-  </offsets>
- </model>-->
- 
-  <!--<model>
-  <name>transsonic-deltawing-vapor-cone</name>
-  <path>Aircraft/JA37/Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
-  <offsets>
-   <x-m>-2</x-m>
-   <y-m>0</y-m>
-   <z-m>0.25</z-m>
-  </offsets>
- </model> -->
 
   <model>
     <path>Aircraft/JA37/Models/Effects/mach-cone.xml</path>

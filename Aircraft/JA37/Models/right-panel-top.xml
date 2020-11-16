@@ -53,46 +53,6 @@
         </offsets>
     </model>
 
-    <!--<model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-yaw.xml</path>
-        <name>switch-damp-yaw</name>
-        <offsets>
-            <x-m> -0.5</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-pitch.xml</path>
-        <name>switch-damp-pitch</name>
-        <offsets>
-            <x-m> -0.465</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-roll.xml</path>
-        <name>switch-damp-roll</name>
-        <offsets>
-            <x-m> -0.43</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>-->
-
-    <!--<model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/hud-sideslip.xml</path>
-        <name>switch-sideslip</name>
-        <offsets>
-            <x-m> -0.820</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>-->
-
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/tils.xml</path>
         <name>switch-tils</name>
