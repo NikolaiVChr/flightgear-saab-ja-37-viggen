@@ -426,8 +426,9 @@ var radar = {
 
   update: func()
   {
-    if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and power.prop.acSecond.getValue()
-        and me.input.radarServ.getBoolValue() and me.input.radarEnabled.getBoolValue() and !testing.ongoing and me.input.radarActive.getBoolValue() and modes.selector_ajs > modes.STBY) {
+    if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13)
+        and me.input.radarServ.getBoolValue() and me.input.radarEnabled.getBoolValue() and me.input.radarActive.getBoolValue()
+        and displays.common.ci_on) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.rangeText.setText(sprintf("%3d",me.radarRange/1000));

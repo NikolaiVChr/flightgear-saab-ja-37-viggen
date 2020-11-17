@@ -556,7 +556,7 @@ var HUD = {
     },
 
     update_mode: func {
-        if (modes.selector_ajs == modes.STBY or modes.selector_ajs == modes.TEST) {
+        if (!displays.common.hud_on) {
             me.set_mode(HUD.MODE_STBY);
         } elsif (modes.takeoff) {
             if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {

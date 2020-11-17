@@ -30,35 +30,46 @@ var countQFE = 0;
 var Common = {
 
 	new: func {
-			var co = { parents: [Common] };
-			co.input = {
-					cursor_dx:        "controls/displays/cursor-slew-x-delta",
-					cursor_dy:        "controls/displays/cursor-slew-y-delta",
-					cursor_clicked:   "controls/displays/cursor-was-clicked",
-	        wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
-	        nav0InRange:      "instrumentation/nav[0]/in-range",
-	        qfeActive:        "ja37/displays/qfe-active",
-	        qfeShown:		  "ja37/displays/qfe-shown",
-	        altCalibrated:    "ja37/avionics/altimeters-calibrated",
-	        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
-	        alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
-	        ref_alt:          "ja37/displays/reference-altitude-m",
-	        APmode:           "fdm/jsbsim/autoflight/mode",
-	        AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
-	        units:            "ja37/hud/units-metric",
-	        fiveHz:           "ja37/blink/two-Hz/state",
-	        rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
-	        rad_alt_ready:    "instrumentation/radar-altimeter/ready",
-	        vid:              "ja37/avionics/vid",
-	        dme:              "instrumentation/dme/KDI572-574/nm",
-        dmeDist:          "instrumentation/dme/indicated-distance-nm",
-        RMActive:         "autopilot/route-manager/active",
-        rmDist:           "autopilot/route-manager/wp/dist",
+		var co = { parents: [Common] };
+		co.input = {
+			cursor_dx:        "controls/displays/cursor-slew-x-delta",
+			cursor_dy:        "controls/displays/cursor-slew-y-delta",
+			cursor_clicked:   "controls/displays/cursor-was-clicked",
+			time:             "sim/time/elapsed-sec",
+			wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
+			nav0InRange:      "instrumentation/nav[0]/in-range",
+			qfeActive:        "ja37/displays/qfe-active",
+			qfeShown:         "ja37/displays/qfe-shown",
+			altCalibrated:    "ja37/avionics/altimeters-calibrated",
+			alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+			alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
+			ref_alt:          "ja37/displays/reference-altitude-m",
+			APmode:           "fdm/jsbsim/autoflight/mode",
+			AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
+			units:            "ja37/hud/units-metric",
+			fiveHz:           "ja37/blink/two-Hz/state",
+			rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
+			rad_alt_ready:    "instrumentation/radar-altimeter/ready",
+			vid:              "ja37/avionics/vid",
+			dme:              "instrumentation/dme/KDI572-574/nm",
+			dmeDist:          "instrumentation/dme/indicated-distance-nm",
+			RMActive:         "autopilot/route-manager/active",
+			rmDist:           "autopilot/route-manager/wp/dist",
+			rpm:              "fdm/jsbsim/propulsion/engine/n2",
+			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
       	};
    
       	foreach(var name; keys(co.input)) {
         	co.input[name] = props.globals.getNode(co.input[name], 1);
       	}
+
+		# Displays power and on/off logic.
+		co.power_time = 0;       # time at which AC secondary is on
+		co.displays_on_time = 0; # time at which displays are turned on
+		co.ep12_on = FALSE;
+		co.hud_on = FALSE;
+		co.ci_on = FALSE;
+		co.mi_ti_on = FALSE;
 
       	co.currArmName = "None";
       	co.currArmNameMedium = "";
@@ -80,6 +91,8 @@ var Common = {
 	},
 
 	loop: func {#todo: make slower loop
+		if (variant.JA) me.powerJA();
+		else me.powerAJS();
 		me.armName();
 		me.armNameShort();
 		me.armNameMedium();
@@ -97,9 +110,61 @@ var Common = {
 		#settimer(func me.loopFast(), 0.05);
 	},
 
+	powerJA: func {
+		var time = me.input.time.getValue();
+
+		# Remeber last time that power/displays were off, to know since how long they have on.
+		if (!power.prop.acSecond.getBoolValue()) {
+			me.power_time = time;
+			me.ep12_on = FALSE;
+		}
+		# Display turn on automatically at 90% RPM, if on internal power
+		if (power.prop.acSecond.getBoolValue() and !me.input.ext_power_used.getBoolValue()
+			and me.input.rpm.getValue() >= 90) {
+			me.ep12_on = TRUE;
+		}
+		if (!me.ep12_on or testing.ongoing) {
+			me.displays_on_time = time;
+		}
+
+		# SI is on 40s after power and 'within 2s' of EP12 on.
+		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1);
+		# MI/TI are on 'within 2s' of EP12 on.
+		me.mi_ti_on = (time - me.displays_on_time >= 1);
+	},
+
+	powerAJS: func {
+		var time = me.input.time.getValue();
+
+		# Remeber last time that power/displays were off, to know since how long they have on.
+		if (!power.prop.acSecond.getBoolValue()) {
+			me.power_time = time;
+		}
+		if (modes.selector_ajs <= modes.STBY or testing.ongoing) {
+			me.displays_on_time = time;
+		}
+
+		# SI is on 30s after power and 'within 2s' of switching to NAV.
+		me.hud_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 1);
+		# CI is on 30s after power + switching to NAV.
+		me.ci_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 30);
+	},
+
+	toggleJAdisplays: func(on=nil) {
+		if (on == nil) on = !me.ep12_on;
+
+		if (on) {
+			# Turn on if power is available
+			if (power.prop.acSecond.getBoolValue() and !testing.ongoing) me.ep12_on = TRUE;
+		} else {
+			# Turn off only with <90% RPM.
+			if (me.input.rpm.getValue() < 90) me.ep12_on = FALSE;
+		}
+	},
+
 	flighttime: func {
 		# works as JA manual says
-		me.elapsed = getprop("sim/time/elapsed-sec");
+		me.elapsed = me.input.time.getValue();
 		me.wow     = me.input.wow1.getValue();
 		
 		if (me.wow) {

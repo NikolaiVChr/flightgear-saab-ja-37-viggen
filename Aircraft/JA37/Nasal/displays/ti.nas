@@ -1592,8 +1592,9 @@ var TI = {
 		ti.gridTextMaxO = -1;
 		
 		# display
+		ti.on = FALSE;
 		ti.brightness = 1;
-		ti.active = TRUE;
+		ti.active = FALSE;
 
 		# menu system
 		ti.menuShowMain = FALSE;
@@ -1611,7 +1612,6 @@ var TI = {
 		ti.trapAll      = FALSE;
 		ti.upText = FALSE;
 		ti.logPage = 0;
-		ti.off = FALSE;
 		ti.showFullMenus = TRUE;
 		ti.mapshowing = TRUE;
 
@@ -1739,7 +1739,7 @@ var TI = {
 			me.brightness = 1;
 		}
 
-		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
+		if (!me.on) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
 			
@@ -1788,8 +1788,13 @@ var TI = {
 	},
 
 	loopFast: func {
-		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
-			#settimer(func me.loopFast(), 0.05);
+		if (me.on != displays.common.mi_ti_on) {
+			me.on = displays.common.mi_ti_on;
+			me.active = me.on;
+			# Reset state on restart
+			if (me.on) me.restart();
+		}
+		if (!me.on) {
 			return;
 		}
 		me.updateFlightData();
@@ -1803,14 +1808,19 @@ var TI = {
 	},
 
 	loopSlow: func {
-		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
+		if (!me.on) {
 			#settimer(func me.loopSlow(), 0.05);
 			return;
 		}
 		me.updateBasesNear();
 	},
 
-
+	restart: func {
+		me.menuShowMain = FALSE;
+		me.menuShowFast = FALSE;
+		me.menuMain = -MAIN_SYSTEMS;
+		me.menuNoSub();
+	},
 
 	########################################################################################################
 	########################################################################################################
@@ -1820,8 +1830,6 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
-
-
 
 	menuUpdate: func {
 		#
@@ -5091,10 +5099,8 @@ var TI = {
 
 	b1: func {
 		edgeButtonsStruct[1] = me.input.timeElapsed.getValue();
-		if (me.off == TRUE and testing.ongoing == FALSE) {
-			me.off = !me.off;
-			MI.mi.off = me.off;
-			me.active = !me.off;
+		if (!displays.common.ep12_on) {
+			displays.common.toggleJAdisplays(TRUE);
 		} elsif (me.active and me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.active and me.menuShowFast == TRUE) {
@@ -5105,9 +5111,7 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
 				if (me.input.wow1.getValue() == 1) {
-					me.off = !me.off;
-					MI.mi.off = me.off;
-					me.active = !me.off;
+					displays.common.toggleJAdisplays(FALSE);
 				} else {
 					radar_logic.toggleRadarSteerOrder();
 				}

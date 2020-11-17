@@ -109,6 +109,7 @@ var pressX2 = func {
 var cursor = func {
 	cursorOn = !cursorOn;
 	displays.common.resetCursorDelta();
+	mi.cursor_pos = [0,-radar_area_width/2];
 	if (!cursorOn) {
 		if (getprop("controls/displays/stick-controls-cursor")) {
 			ja37.notice("Cursor OFF. Flight ctrl ON.");
@@ -167,7 +168,6 @@ var MI = {
 
 		mi.setupCanvasSymbols();
 
-		mi.off = FALSE;
 		mi.helpTime = -5;
 		mi.cursor_pos = [0,-radar_area_width/2];
 		mi.cursorTriggerPrev = FALSE;
@@ -606,10 +606,13 @@ var MI = {
 			radar_logic.unlockSelection();
 		}
 
-		if (!power.prop.acSecondBool.getValue() or me.off == TRUE) {
+		if (!displays.common.mi_ti_on) {
 			setprop("ja37/avionics/brightness-mi", 0);
 			setprop("ja37/avionics/cursor-on", FALSE);
-			#settimer(func me.loop(), 0.05);
+
+			# Reset state
+			mi.cursor_pos = [0,-radar_area_width/2];
+			radar_logic.unlockSelection();
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-mi", me.input.brightnessSetting.getValue());

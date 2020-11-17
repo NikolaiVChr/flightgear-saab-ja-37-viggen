@@ -1143,7 +1143,9 @@ var HUD = {
         # Values of previous loop are used. Hopefully it won't be too much of an issue.
         me.show_horizon = me.fpv_pitch <= 7.5 and me.fpv_pitch >= -7.5;
 
-        if (modes.takeoff) {
+        if (!displays.common.hud_on) {
+            me.set_mode(HUD.MODE_STBY);
+        } elsif (modes.takeoff) {
             if (me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             } elsif (input.pitch.getValue() > 5) {
