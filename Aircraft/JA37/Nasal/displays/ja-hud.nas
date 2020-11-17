@@ -101,6 +101,86 @@ var FPV = {
 
 # Artificial horizon. Fixed on FPV.
 var Horizon = {
+    # A bar of the pitch scale.
+    #
+    # A bar object can be changed to display a bar for any pitch angle.
+    # This is done to only have 3 PitchBar objects (because only 3 pitch bars are displayed at all time).
+    PitchBar: {
+        new: func(parent, x, y) {
+            var b = { parents: [Horizon.PitchBar], parent: parent, aim_mode: -1, };
+            b.initialize(x, y);
+            return b;
+        },
+
+        initialize: func(x,y) {
+            me.group = me.parent.createChild("group").setTranslation(x,y);
+            me.nav = me.group.createChild("group");
+            me.aim = me.group.createChild("group");
+
+            # Create all different types of bars.
+            # Navigation mode
+            me.nav_upper_bar = make_path(me.nav)
+                .moveTo(-1000,0).horizTo(-200).moveTo(1000,0).horizTo(200);
+
+            me.nav_horizon = me.nav.createChild("group");
+            make_path(me.nav_horizon)
+                .moveTo(-1000,0).horizTo(-300)
+                .moveTo(1000,0).horizTo(580).moveTo(380,0).horizTo(300);
+            # Center dots (drawn as very short lines to simplify).
+            var dots = make_path(me.nav_horizon).setStrokeLineWidth(2*opts.line_width);
+            for (var i=-250; i<=250; i+=100) {
+                dots.moveTo(i-0.01,0).horizTo(i+0.01);
+            }
+
+            me.nav_lower_bar = me.nav.createChild("group");
+            make_path(me.nav_lower_bar).moveTo(-1000,0).horizTo(-200).setStrokeDashArray([80,64]);
+            make_path(me.nav_lower_bar).moveTo(1000,0).horizTo(488).setStrokeDashArray([80,64]);
+            make_path(me.nav_lower_bar).moveTo(280,0).horizTo(200);
+
+            # Aim mode
+            me.aim_upper_bar = make_path(me.aim)
+                .moveTo(-1000,0).horizTo(-440)
+                .moveTo(1000,0).horizTo(440);
+
+            me.aim_lower_bar = me.aim.createChild("group");
+            make_path(me.aim_lower_bar).moveTo(-1000,0).horizTo(-440).setStrokeDashArray([86,72]);
+            make_path(me.aim_lower_bar).moveTo(1000,0).horizTo(440).setStrokeDashArray([86,72]);
+
+            make_path(me.aim).moveTo(-440,0).vert(30).moveTo(440,0).vert(30);
+
+            # Text label
+            me.text = make_text(me.group).setTranslation(-400, -20).setAlignment("left-bottom");
+            me.text.enableUpdate();
+
+            me.set_aim_mode(FALSE);
+        },
+
+        set_aim_mode: func(aim) {
+            if (aim == me.aim_mode) return;
+            me.aim_mode = aim;
+
+            me.aim.setVisible(aim);
+            me.nav.setVisible(!aim);
+            me.text.setTranslation(aim ? -580 : -400, -20);
+        },
+
+        update: func(pitch) {
+            if (me.aim_mode) {
+                me.aim_upper_bar.setVisible(pitch >= 0);
+                me.aim_lower_bar.setVisible(pitch < 0);
+            } else {
+                me.nav_upper_bar.setVisible(pitch > 0);
+                me.nav_horizon.setVisible(pitch == 0);
+                me.nav_lower_bar.setVisible(pitch < 0);
+            }
+
+            me.text.updateText(sprintf("%+d", pitch));
+        },
+
+        show: func { me.group.show(); },
+        hide: func { me.group.hide(); },
+    },
+
     new: func(parent) {
         var m = { parents: [Horizon], parent: parent, mode: -1, };
         m.initialize();
@@ -109,178 +189,62 @@ var Horizon = {
 
     initialize: func {
         me.roll_group = me.parent.createChild("group", "roll");
-        me.horizon = me.roll_group.createChild("group", "horizon");
+        me.group = me.roll_group.createChild("group");
 
-        # Navigation mode pitch scale
-        me.nav = me.horizon.createChild("group");
-        me.nav_bars = {};
-        for (var i=5; i<=90; i+=5) {
-            me.nav_bars[i] = me.make_upper_bar(me.nav, i);
-        }
-        me.nav_bars[0] = me.make_center_bar(me.nav);
-        for (var i=-5; i>=-90; i-=5) {
-            me.nav_bars[i] = me.make_lower_bar(me.nav, i);
-        }
+        me.lower_bar = Horizon.PitchBar.new(me.group, 0, 500);
+        me.center_bar = Horizon.PitchBar.new(me.group, 0, 0);
+        me.upper_bar = Horizon.PitchBar.new(me.group, 0, -500);
 
-        # Landing mode pitch scale
-        me.landing = me.horizon.createChild("group");
-        me.make_upper_bar(me.landing, 5);
-        make_path(me.landing).moveTo(-1000,0).lineTo(1000,0);
-        me.glideslope = me.make_glideslope(me.landing)
-            .setTranslation(0, 286);
-
-        # Aiming mode pitch scale
-        me.aim = me.horizon.createChild("group");
-        me.aim_bars = {};
-        for (var i=0; i<=90; i+=5) {
-            me.aim_bars[i] = me.make_aim_upper_bar(me.aim, i);
-        }
-        for (var i=-5; i>=-90; i-=5) {
-            me.aim_bars[i] = me.make_aim_lower_bar(me.aim, i);
-        }
-
-        # Only 3 bars are shown at any time.
-        # This remembers which bars are currently displayed.
-        me.displayed_bars = {};
-        for (var i=-90; i<=90; i+=5) {
-            me.nav_bars[i].hide();
-            me.aim_bars[i].hide();
-        }
-    },
-
-    # Horizon scale bars. 3 types for navigation mode, 2 types for aiming mode.
-    make_upper_bar: func(group, angle) {
-        var bar = group.createChild("group")
-            .setTranslation(0, angle*-100);
-        make_path(bar)
-            .moveTo(-1000,0).horizTo(-200).moveTo(1000,0).horizTo(200);
-        make_label(bar, -400, -20, sprintf("%+d", angle)).setAlignment("left-bottom");
-        return bar;
-    },
-
-    make_center_bar: func(group) {
-        var bar = group.createChild("group");
-        make_path(bar)
-            .moveTo(-1000,0).horizTo(-300)
-            .moveTo(1000,0).horizTo(580).moveTo(380,0).horizTo(300);
-        for (var i=-250; i<=250; i+=100) {
-            make_dot(bar, i, 0, opts.line_width);
-        }
-        make_label(bar, -400, -20, "0").setAlignment("left-bottom");
-        return bar;
-    },
-
-    make_lower_bar: func(group, angle) {
-        var bar = group.createChild("group")
-            .setTranslation(0, angle*-100);
-
-        # Dashes
-        var path = make_path(bar).moveTo(-200,0);
-        for (var i=0; i<6; i+=1) {
-            path.horiz(-80).move(-64,0);
-        }
-        # Right side: skip over one dash to make space for the altitude scale.
-        path.moveTo(200,0).horiz(80).move(208,0);
-        for (var i=0; i<4; i+=1) {
-            path.horiz(80).move(64,0);
-        }
-
-        make_label(bar, -400, -20, sprintf("%+d", angle)).setAlignment("left-bottom");
-
-        return bar;
-    },
-
-    make_aim_upper_bar: func(group, angle) {
-        var bar = group.createChild("group")
-            .setTranslation(0, angle*-100);
-        make_path(bar)
-            .moveTo(-1000,0).horizTo(-440).vert(30)
-            .moveTo(1000,0).horizTo(440).vert(30);
-        make_label(bar, -540, -20, sprintf("%+d", angle)).setAlignment("left-bottom");
-        return bar;
-    },
-
-    make_aim_lower_bar: func(group, angle) {
-        var bar = group.createChild("group")
-            .setTranslation(0, angle*-100);
-
-        # Dashes
-        var path = make_path(bar).moveTo(-440,0);
-        for (var i=0; i<4; i+=1) {
-            path.horiz(-86).move(-72,0);
-        }
-        path.moveTo(440,0);
-        for (var i=0; i<4; i+=1) {
-            path.horiz(86).move(72,0);
-        }
-        path.moveTo(-440,0).vert(30);
-        path.moveTo(440,0).vert(30);
-
-        make_label(bar, -540, -20, sprintf("%+d", angle)).setAlignment("left-bottom");
-        return bar;
-    },
-
-    # Glideslope indicator at landing.
-    make_glideslope: func(group) {
-        var bar = group.createChild("group");
-        make_path(bar)
+        me.landing_horizon = make_path(me.group).moveTo(-1000,0).horizTo(1000);
+        me.glideslope = make_path(me.group)
+            .setTranslation(0, 286)
             .moveTo(-600,0).horizTo(-100)
+            .moveTo(-0.01,0).horizTo(0.01)
             .moveTo(700,0).horizTo(650).moveTo(380,0).horizTo(100);
-        make_dot(bar, 0, 0, opts.line_width);
-        return bar;
     },
 
     set_mode: func(mode) {
         me.mode = mode;
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            me.nav.hide();
-            me.landing.show();
-            me.aim.hide();
-        } elsif (me.mode == HUD.MODE_AIM) {
-            me.nav.hide();
-            me.landing.hide();
-            me.aim.show();
+            me.lower_bar.hide();
+            me.center_bar.hide();
+            me.upper_bar.set_aim_mode(FALSE);
+            me.upper_bar.update(5);
+            me.landing_horizon.show();
+            me.glideslope.show();
         } else {
-            me.nav.show();
-            me.landing.hide();
-            me.aim.hide();
-        }
-    },
-
-    show_bars: func(bars) {
-        foreach(var bar; keys(me.displayed_bars)) {
-            if (!contains(bars, bar)) {
-                me.nav_bars[bar].hide();
-                me.aim_bars[bar].hide();
-                delete(me.displayed_bars, bar);
-            }
-        }
-        foreach(var bar; keys(bars)) {
-            if (!contains(me.displayed_bars, bar)) {
-                me.nav_bars[bar].show();
-                me.aim_bars[bar].show();
-                me.displayed_bars[bar] = 1;
-            }
+            me.lower_bar.show();
+            me.center_bar.show();
+            me.lower_bar.set_aim_mode(me.mode == HUD.MODE_AIM);
+            me.center_bar.set_aim_mode(me.mode == HUD.MODE_AIM);
+            me.upper_bar.set_aim_mode(me.mode == HUD.MODE_AIM);
+            me.landing_horizon.hide();
+            me.glideslope.hide();
         }
     },
 
     update: func(fpv_roll, fpv_pitch) {
         # Position of pitch scale.
         me.roll_group.setRotation(-fpv_roll * D2R);
-        me.horizon.setTranslation(0, fpv_pitch * 100);
 
-        # Only show 3 pitch bars, closest to FPV.
-        var center_bar = math.round(fpv_pitch, 5);
-        center_bar = math.clamp(center_bar, -85, 85);
-        var bars = {};
-        bars[center_bar] = 1;
-        bars[center_bar+5] = 1;
-        bars[center_bar-5] = 1;
-        me.show_bars(bars);
+        if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
+            me.group.setTranslation(0, fpv_pitch * 100);
+        } else {
+            # Pitch of center bar.
+            var center_bar = math.round(fpv_pitch, 5);
+            center_bar = math.clamp(center_bar, -85, 85);
+
+            # Update bars position
+            me.group.setTranslation(0, (fpv_pitch - center_bar) * 100);
+
+            # Update pitch displayed by the 3 bars.
+            me.lower_bar.update(center_bar-5);
+            me.center_bar.update(center_bar);
+            me.upper_bar.update(center_bar+5);
+        }
     },
 
     get_roll_group: func { return me.roll_group; },
-    get_horizon_group: func { return me.horizon; },
     get_gs_pos: func { return 286; },
 };
 
@@ -1131,7 +1095,11 @@ var HUD = {
         me.fpv = FPV.new(me.root);
         me.horizon = Horizon.new(me.fpv.get_group());
 
+        # Horizon fixed group.
+        me.horizon_grp = me.horizon.get_roll_group().createChild("group");
+        # Heading scale group. Same as horizon_grp in landing mode, same as scales_grp otherwise.
         me.hdg_scale_grp = me.horizon.get_roll_group().createChild("group");
+        # Scales (altitude, speed, ...) group. In general, centered on FPV, roll stabilized.
         me.scales_grp = me.hdg_scale_grp.createChild("group");
 
         me.heading = Heading.new(me.hdg_scale_grp);
@@ -1143,7 +1111,7 @@ var HUD = {
         me.dist = Distance.new(me.scales_grp);
         me.gpw = GPW.new(me.horizon.get_roll_group());
 
-        me.alt_bars = AltitudeBars.new(me.horizon.get_horizon_group());
+        me.alt_bars = AltitudeBars.new(me.horizon_grp);
 
         me.fpv_pitch = 0;
     },
@@ -1241,13 +1209,14 @@ var HUD = {
         me.horizon.update(me.roll * R2D, me.fpv_pitch);
         var gs_pos = me.horizon.get_gs_pos();
 
-        # During final, heading is on the horizon, altitude/speed,... are on the glideslope.
+        # Update positions of various groups.
+        me.horizon_grp.setTranslation(0, me.fpv_pitch * 100);
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            me.hdg_scale_grp.setTranslation(0, me.fpv_pitch * 100);
             me.scales_grp.setTranslation(0, gs_pos);
+            me.hdg_scale_grp.setTranslation(0, me.fpv_pitch * 100);
         } else {
-            me.hdg_scale_grp.setTranslation(0, 0);
             me.scales_grp.setTranslation(0, 0);
+            me.hdg_scale_grp.setTranslation(0, 0);
         }
 
         me.heading.update(me.fpv_heading);
