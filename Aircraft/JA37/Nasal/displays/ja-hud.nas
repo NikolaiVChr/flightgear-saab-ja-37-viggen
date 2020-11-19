@@ -1144,6 +1144,92 @@ var GPW = {
 };
 
 
+var Targets = {
+    # Generic target marker. Used for actual target, IR seeker,...
+    # It consists of a main group (to which the appropriate symbol can be added).
+    # The symbol is clamped around the FPV, and is extended
+    # by a line if the target is outside the clamp area.
+    Target: {
+        new: func(parent) {
+            var t = { parents: [Targets.Target], parent: parent, };
+            t.initialize();
+            return t;
+        },
+
+        initialize: func {
+            me.group = me.parent.createChild("group");
+            me.line_rot = me.group.createChild("group");
+            me.line = make_path(me.line_rot).horiz(1000);
+            me.line.hide();
+        },
+
+        # Update to display a target at HUD coordinates (x,y).
+        update: func(x, y, fpv_pos) {
+            x -= fpv_pos[0];
+            y -= fpv_pos[1];
+            var radius = math.sqrt(x*x + y*y);
+            # Clamping at 3 degrees from center
+            if (radius <= 300) {
+                me.line.hide();
+                me.group.setTranslation(x,y);
+            } else {
+                # Switch to polar coordinates.
+                me.group.setTranslation(x/radius*300, y/radius*300);
+                me.line_rot.setRotation(math.atan2(y,x));
+                var line_length = math.min(radius - 300, 1000);
+                me.line.setScale(line_length / 1000, 1);
+                me.line.show();
+            }
+        },
+
+        get_symbol_group: func { return me.group; },
+        show: func { me.group.show(); },
+        hide: func { me.group.hide(); },
+    },
+
+    new: func(parent) {
+        var m = { parents: [Targets], parent: parent, };
+        m.initialize();
+        return m;
+    },
+
+    initialize: func {
+        me.group = me.parent.createChild("group");
+        # Radar target: upper circle
+        me.tgt = Targets.Target.new(me.group);
+        make_path(me.tgt.get_symbol_group()).moveTo(-50,0).arcSmallCWTo(50,50,0,50,0);
+        # IR seeker: lower circle
+        me.seeker = Targets.Target.new(me.group);
+        make_path(me.seeker.get_symbol_group()).moveTo(-50,0).arcSmallCCWTo(50,50,0,50,0);
+    },
+
+    set_mode: func(mode) {},
+
+    update: func(fpv_pos) {
+        if (radar_logic.selection != nil) {
+            var pos = radar_logic.selection.get_cartesian();
+            me.tgt.update(pos[0]*100, pos[1]*100, fpv_pos);
+            me.tgt.show();
+        } else {
+            me.tgt.hide();
+        }
+
+        var selected = fire_control.selected;
+        var weapon = fire_control.get_weapon();
+        var pos = nil;
+        # Use ["is_IR"] instead of .is_IR because it is not always a member of fire_control.selected
+        if (selected != nil and selected["is_IR"] and selected.unsafe
+            and weapon != nil and (pos = weapon.getSeekerInfo()) != nil
+            and (weapon.status == armament.MISSILE_LOCK or !weapon.isCaged() or !weapon.command_tgt)) {
+            me.seeker.update(pos[0]*100, pos[1]*-100, fpv_pos);
+            me.seeker.show();
+        } else {
+            me.seeker.hide();
+        }
+    },
+};
+
+
 var HUD = {
     MODE_STBY: 0,
     MODE_TAKEOFF_ROLL: 1,
@@ -1187,6 +1273,8 @@ var HUD = {
         me.gpw = GPW.new(me.horizon.get_roll_group());
         me.alt_bars = AltitudeBars.new(me.alt_bars_grp);
 
+        me.targets = Targets.new(me.fpv.get_group());
+
         me.fpv_pitch = 0;
     },
 
@@ -1209,6 +1297,7 @@ var HUD = {
             me.dist.set_mode(mode);
             me.alt_bars.set_mode(mode);
             me.gpw.set_mode(mode);
+            me.targets.set_mode(mode);
         }
     },
 
@@ -1306,5 +1395,6 @@ var HUD = {
         me.dist.update();
         me.alt_bars.update(me.alt_scale.get_scale_factor(), me.show_horizon);
         me.gpw.update();
+        me.targets.update(me.fpv.get_pos());
     },
 };
