@@ -1201,9 +1201,10 @@ var HUD = {
     },
 
     update: func {
-        metric = input.units_metric.getBoolValue();
-
         me.update_mode();
+        if (me.mode == HUD.MODE_STBY) return;
+
+        metric = input.units_metric.getBoolValue();
 
         me.fpv.update();
         me.compute_fpv_pitch_hdg(me.fpv.get_pos());
