@@ -757,15 +757,23 @@ var nextTarget = func () {
 }
 };
 
+# Distance from a target from the center of the HUD, for finding the centermost target.
+var track_hud_dist = func(track) {
+    var pos = track.get_cartesian();
+    pos[1] -= hud.opts.optical_axis_pitch_offset;
+    return math.sqrt(pos[0]*pos[0] + pos[1]*pos[1]);
+};
+
+# Lock on target within 5deg of HUD center.
 var centerTarget = func () {
   if (getprop("ja37/avionics/cursor-on") != FALSE and getprop("ja37/radar/active") == TRUE) {
     var centerMost = nil;
-    var centerDist = 99999;
+    var centerDist = 10;
     var centerIndex = -1;
     var i = -1;
     foreach(var track; tracks) {
       i += 1;
-      var dist = math.abs(track.get_hud_coord()[0]) + math.abs(track.get_hud_coord()[1]);
+      var dist = track_hud_dist(track);
       if(dist < centerDist) {
         centerDist = dist;
         centerMost = track;
