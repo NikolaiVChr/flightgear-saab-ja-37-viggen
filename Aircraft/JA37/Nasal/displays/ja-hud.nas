@@ -890,7 +890,9 @@ var TextMessage = {
         me.text.enableUpdate();
     },
 
-    set_mode: func(mode) {},
+    set_mode: func(mode) {
+        me.mode = mode;
+    },
 
     update: func {
         if (input.qfe_active.getBoolValue()) {
@@ -908,8 +910,8 @@ var TextMessage = {
             } else {
                 me.text.show();
             }
-        } elsif (!modes.takeoff_30s_inhibit and fire_control.selected != nil
-                 and fire_control.selected.weapon_ready()) {
+        } elsif (!modes.takeoff_30s_inhibit and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
+                 and fire_control.selected != nil and fire_control.selected.weapon_ready()) {
             me.text.updateText(displays.common.currArmNameMedium);
             me.text.show();
         } else {
@@ -1188,7 +1190,7 @@ var Targets = {
     },
 
     new: func(parent) {
-        var m = { parents: [Targets], parent: parent, };
+        var m = { parents: [Targets], parent: parent, mode: -1, };
         m.initialize();
         return m;
     },
@@ -1203,9 +1205,18 @@ var Targets = {
         make_path(me.seeker.get_symbol_group()).moveTo(-50,0).arcSmallCCWTo(50,50,0,50,0);
     },
 
-    set_mode: func(mode) {},
+    set_mode: func(mode) {
+        me.mode = mode;
+    },
 
     update: func(fpv_pos) {
+        if (modes.takeoff_30s_inhibit or (me.mode != HUD.MODE_NAV and me.mode != HUD.MODE_AIM)) {
+            me.group.hide();
+            return;
+        } else {
+            me.group.show();
+        }
+
         if (radar_logic.selection != nil) {
             var pos = radar_logic.selection.get_cartesian();
             me.tgt.update(pos[0]*100, pos[1]*100, fpv_pos);
@@ -1225,6 +1236,37 @@ var Targets = {
             me.seeker.show();
         } else {
             me.seeker.hide();
+        }
+    },
+};
+
+
+var Reticle = {
+    new: func(parent) {
+        var m = { parents: [Reticle], parent: parent, mode: -1, };
+        m.initialize();
+        return m;
+    },
+
+    initialize: func {
+        me.reticle = make_path(me.parent)
+            .moveTo(-30,0).horizTo(30).moveTo(0,-30).vertTo(30);
+    },
+
+
+    set_mode: func(mode) {
+        me.mode = mode;
+    },
+
+    update: func {
+        if (!modes.takeoff_30s_inhibit
+            and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
+            and fire_control.selected != nil
+            and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")
+            and fire_control.selected.unsafe) {
+            me.reticle.show();
+        } else {
+            me.reticle.hide();
         }
     },
 };
@@ -1274,6 +1316,7 @@ var HUD = {
         me.alt_bars = AltitudeBars.new(me.alt_bars_grp);
 
         me.targets = Targets.new(me.fpv.get_group());
+        me.reticle = Reticle.new(me.root);
 
         me.fpv_pitch = 0;
     },
@@ -1298,6 +1341,7 @@ var HUD = {
             me.alt_bars.set_mode(mode);
             me.gpw.set_mode(mode);
             me.targets.set_mode(mode);
+            me.reticle.set_mode(mode);
         }
     },
 
@@ -1396,5 +1440,6 @@ var HUD = {
         me.alt_bars.update(me.alt_scale.get_scale_factor(), me.show_horizon);
         me.gpw.update();
         me.targets.update(me.fpv.get_pos());
+        me.reticle.update();
     },
 };
