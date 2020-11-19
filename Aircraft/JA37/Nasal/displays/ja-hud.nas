@@ -196,11 +196,13 @@ var Horizon = {
         me.upper_bar = Horizon.PitchBar.new(me.group, 0, -500);
 
         me.landing_horizon = make_path(me.group).moveTo(-1000,0).horizTo(1000);
-        me.glideslope = make_path(me.group)
-            .setTranslation(0, 286)
+        me.gs_pos = [0,286];    # Nominal glidslope angle: 2.86deg (5% slope)
+        me.glideslope = me.group.createChild("group")
+            .setTranslation(me.gs_pos[0], me.gs_pos[1]);
+        make_path(me.glideslope)
             .moveTo(-600,0).horizTo(-100)
-            .moveTo(-0.01,0).horizTo(0.01)
             .moveTo(700,0).horizTo(650).moveTo(380,0).horizTo(100);
+        make_dot(me.glideslope, 0, 0, opts.line_width*2);
     },
 
     set_mode: func(mode) {
@@ -223,12 +225,44 @@ var Horizon = {
         }
     },
 
-    update: func(fpv_roll, fpv_pitch) {
+    # Warning, parameter fpv_heading (or track angle) is completely wrong it high pitch angles.
+    # It is only used for ILS indication, which are not displayed at high angles anyway.
+    update: func(fpv_roll, fpv_pitch, fpv_heading) {
         # Position of pitch scale.
         me.roll_group.setRotation(-fpv_roll * D2R);
 
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            me.group.setTranslation(0, fpv_pitch * 100);
+            # Glideslope position
+            # Horizontal
+            me.gs_pos[0] = 0;
+            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue()
+                and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))) {
+                # TILS. Extremely basic 'flight director' (proportional command)
+                var ils_rdl = input.nav_rdl.getValue() - input.head_true.getValue() + input.heading.getValue();
+                me.gs_pos[0] = ils_rdl + input.nav_defl.getValue()*2 - fpv_heading;
+                me.gs_pos[0] = geo.normdeg180(me.gs_pos[0]);
+                me.gs_pos[0] = math.clamp(me.gs_pos[0], -6, 6);
+                me.gs_pos[0] *= 100;
+            }
+            # Vertical
+            me.gs_pos[1] = 286; # default
+            if (me.mode == HUD.MODE_FINAL_OPT) {
+                # If sufficiently low, switch to landing flare mode. Threshold is lower if RHM is used.
+                if (input.rad_alt_ready.getBoolValue()) {
+                    var flare = input.rad_alt.getValue() < 15;
+                } else {
+                    var flare = input.alt.getValue() < 35;
+                }
+                # During flare, glideslope moves up to indicate maximal acceptable vertical speed (2.8m/s)
+                if (flare) {
+                    var groundspeed = input.groundspeed.getValue() * KT2MPS;
+                    me.gs_pos[1] = math.min(math.atan2(2.8, groundspeed) * R2D * 100, 286);
+                }
+            }
+
+            # Note: horizontally, the entire artificial moves with the glideslope.
+            me.glideslope.setTranslation(0, me.gs_pos[1]);
+            me.group.setTranslation(me.gs_pos[0], fpv_pitch * 100);
         } else {
             # Pitch of center bar.
             var center_bar = math.round(fpv_pitch, 5);
@@ -245,7 +279,7 @@ var Horizon = {
     },
 
     get_roll_group: func { return me.roll_group; },
-    get_gs_pos: func { return 286; },
+    get_gs_pos: func { return me.gs_pos; },
 };
 
 
@@ -891,8 +925,18 @@ var AltitudeBars = {
             # TILS final, only TILS guidance bars are displayed.
             me.alt_bars.hide();
             me.alt_boxes.hide();
-            #me.tils_bars_2.show();
-            #me.tils_bars_3.show();
+            # Glideslope indication
+            if ((land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))
+                and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
+                var defl = math.clamp(-input.nav_gs_defl.getValue(), -0.5, 1);
+                me.tils_bars_2.setTranslation(0, 286 + defl*200);
+                me.tils_bars_3.setTranslation(0, 286 + defl*300);
+                me.tils_bars_2.show();
+                me.tils_bars_3.show();
+            } else {
+                me.tils_bars_2.hide();
+                me.tils_bars_3.hide();
+            }
         } elsif (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
             # Takeoff mode, altitude bars fixed above the horizon, no boxes.
             me.alt_bars.setTranslation(0, -300);
@@ -1095,12 +1139,12 @@ var HUD = {
         me.fpv = FPV.new(me.root);
         me.horizon = Horizon.new(me.fpv.get_group());
 
-        # Horizon fixed group.
-        me.horizon_grp = me.horizon.get_roll_group().createChild("group");
-        # Heading scale group. Same as horizon_grp in landing mode, same as scales_grp otherwise.
-        me.hdg_scale_grp = me.horizon.get_roll_group().createChild("group");
         # Scales (altitude, speed, ...) group. In general, centered on FPV, roll stabilized.
-        me.scales_grp = me.hdg_scale_grp.createChild("group");
+        me.scales_grp = me.horizon.get_roll_group().createChild("group");
+        # Altitude bars. Horizon fixed.
+        me.alt_bars_grp = me.horizon.get_roll_group().createChild("group");
+        # Heading scale group. Same as scales_grp except in landing mode, where on the horizon.
+        me.hdg_scale_grp = me.horizon.get_roll_group().createChild("group");
 
         me.heading = Heading.new(me.hdg_scale_grp);
         me.speed = Speed.new(me.scales_grp);
@@ -1110,8 +1154,7 @@ var HUD = {
         me.text = TextMessage.new(me.scales_grp);
         me.dist = Distance.new(me.scales_grp);
         me.gpw = GPW.new(me.horizon.get_roll_group());
-
-        me.alt_bars = AltitudeBars.new(me.horizon_grp);
+        me.alt_bars = AltitudeBars.new(me.alt_bars_grp);
 
         me.fpv_pitch = 0;
     },
@@ -1209,17 +1252,18 @@ var HUD = {
         me.fpv.update();
         me.compute_fpv_pitch_hdg(me.fpv.get_pos());
 
-        me.horizon.update(me.roll * R2D, me.fpv_pitch);
+        me.horizon.update(me.roll * R2D, me.fpv_pitch, me.fpv_heading);
         var gs_pos = me.horizon.get_gs_pos();
 
         # Update positions of various groups.
-        me.horizon_grp.setTranslation(0, me.fpv_pitch * 100);
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            me.scales_grp.setTranslation(0, gs_pos);
+            me.scales_grp.setTranslation(gs_pos[0], me.fpv_pitch * 100 + gs_pos[1]);
             me.hdg_scale_grp.setTranslation(0, me.fpv_pitch * 100);
+            me.alt_bars_grp.setTranslation(gs_pos[0], me.fpv_pitch * 100);
         } else {
             me.scales_grp.setTranslation(0, 0);
             me.hdg_scale_grp.setTranslation(0, 0);
+            me.alt_bars_grp.setTranslation(0, me.fpv_pitch * 100);
         }
 
         me.heading.update(me.fpv_heading);
