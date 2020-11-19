@@ -35,6 +35,8 @@ var Horizon = {
         me.ref_point_group = me.horizon_group.createChild("group", "reference point");
         me.navigation = me.ref_point_group.createChild("group", "nav artificial horizon");
         me.landing = me.ref_point_group.createChild("group", "landing artificial horizon");
+        me.glideslope = me.landing.createChild("group", "glideslope")
+            .setTranslation(0, 286);
 
         make_path(me.navigation)
             .moveTo(-1000,0).horizTo(-100).moveTo(1000,0).horizTo(100)
@@ -48,11 +50,13 @@ var Horizon = {
 
         make_path(me.landing)
             .moveTo(-1000,0).horizTo(1000)
-            .moveTo(-1000,-500).horiz(630).moveTo(1000,-500).horiz(-630)
-            .moveTo(-470, 287).horizTo(-100).moveTo(470, 287).horizTo(100);
-        make_dot(me.landing, 0, 287, opts.line_width*2);
+            .moveTo(-1000,-500).horiz(630).moveTo(1000,-500).horiz(-630);
         make_label(me.landing, -500, -520, "+5");
         make_label(me.landing, 500, -520, "+5");
+
+        make_path(me.glideslope)
+            .moveTo(-470, 0).horizTo(-100).moveTo(470, 0).horizTo(100);
+        make_dot(me.glideslope, 0, 0, opts.line_width*2);
     },
 
     set_mode: func(mode) {
@@ -96,6 +100,23 @@ var Horizon = {
                 # No runway in route manager, or switch SLAV to on: locked on FPV.
                 me.ref_point_offset = fpv_rel_bearing;
             }
+
+            # Landing flare mode.
+            var gs_angle = 2.86;
+            if (me.mode == HUD.MODE_FINAL_OPT) {
+                # If sufficiently low, switch to landing flare mode. Threshold is lower if RHM is used.
+                if (input.rad_alt_ready.getBoolValue()) {
+                    var flare = input.rad_alt.getValue() < 15;
+                } else {
+                    var flare = input.alt.getValue() < 30;
+                }
+                # During flare, glideslope moves up to indicate maximal acceptable vertical speed (2.96m/s)
+                if (flare) {
+                    var groundspeed = input.groundspeed.getValue() * KT2MPS;
+                    gs_angle = math.min(math.atan2(2.96, groundspeed) * R2D * 1, 2.86);
+                }
+            }
+            me.glideslope.setTranslation(0, gs_angle * 100);
         } elsif (!input.rm_active.getBoolValue()) {
             # locked on FPV if no target is defined
             me.ref_point_offset = fpv_rel_bearing;
