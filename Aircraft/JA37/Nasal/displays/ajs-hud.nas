@@ -66,6 +66,16 @@ var Horizon = {
         }
     },
 
+    # Converts a bearing to a reference point offset (used to set position of ref_point_group).
+    # true_bearing: if bearing should be interpreted as true instead of magnetic.
+    # fpv_rel_bearing: clamp the resulting offset within 3.6 of this value.
+    bearing_to_offset: func(bearing, true_bearing, fpv_rel_bearing) {
+        var offset = bearing - (true_bearing ? input.head_true.getValue() : input.heading.getValue());
+        offset = geo.normdeg180(offset);
+        if (fpv_rel_bearing != nil) offset = math.clamp(offset, fpv_rel_bearing - 3.6, fpv_rel_bearing + 3.6);
+        return offset;
+    },
+
     update: func(fpv_rel_bearing) {
         me.roll_group.setRotation(-input.roll.getValue() * D2R);
         me.horizon_group.setTranslation(0, input.pitch.getValue() * 100);
@@ -74,14 +84,24 @@ var Horizon = {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
             # locked on forward axis at takeoff
             me.ref_point_offset = 0;
+        } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
+            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue()
+                and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))) {
+                # TILS command
+                var heading = input.nav_rdl.getValue() + input.nav_defl.getValue()*2;
+                me.ref_point_offset = me.bearing_to_offset(heading, TRUE, fpv_rel_bearing);
+            } elsif (!input.hud_slav.getBoolValue() and land.has_waypoint > 1) {
+                me.ref_point_offset = me.bearing_to_offset(land.head, TRUE, fpv_rel_bearing);
+            } else {
+                # No runway in route manager, or switch SLAV to on: locked on FPV.
+                me.ref_point_offset = fpv_rel_bearing;
+            }
         } elsif (!input.rm_active.getBoolValue()) {
             # locked on FPV if no target is defined
             me.ref_point_offset = fpv_rel_bearing;
         } else {
             # towards target heading, clamped around FPV
-            me.ref_point_offset = input.wp_bearing.getValue() - input.heading.getValue();
-            me.ref_point_offset = math.periodic(-180, 180, me.ref_point_offset);
-            me.ref_point_offset = math.clamp(me.ref_point_offset, fpv_rel_bearing - 3.6, fpv_rel_bearing + 3.6);
+            me.ref_point_offset = me.bearing_to_offset(input.wp_bearing.getValue(), FALSE, fpv_rel_bearing);
         }
 
         me.ref_point_group.setTranslation(me.ref_point_offset * 100, 0);
@@ -122,6 +142,7 @@ var AltitudeBars = {
     # pos=-1: bottom of the bars on the horizon (indicates alt=0)
     # pos=0: top of the bars on the horizon (indicates alt=commanded alt)
     set_bars_pos: func(pos) {
+        me.bars_pos = pos;
         for (var i=1; i<=3; i+=1) {
             me.bars[i-1].setTranslation(0, 100 * i * pos);
         }
@@ -133,11 +154,16 @@ var AltitudeBars = {
         if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) {
             me.group.hide();
         } elsif (me.mode == HUD.MODE_FINAL_NAV) {
-            me.group.show();
             me.group.setTranslation(0, 287);
-        } else {
             me.group.show();
+            # Should be displayed, but it would require altitude bars to display
+            # an actual commanded altitude, not just ILS glideslope deviation.
+            me.ref_bars.hide();
+            me.rhm_index.hide();
+            me.rhm_shown = FALSE;
+        } else {
             me.group.setTranslation(0, 0);
+            me.group.show();
         }
     },
 
@@ -198,6 +224,17 @@ var AltitudeBars = {
     update: func {
         if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) return;
 
+        if (me.mode == HUD.MODE_FINAL_NAV) {
+            if ((land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))
+                and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
+                me.set_bars_pos(math.clamp(-input.nav_gs_defl.getValue(), -0.5, 1));
+                me.group.show();
+            } else {
+                me.group.hide();
+            }
+            return;
+        }
+
         var alt = input.alt.getValue();
         var ref_alt = me.clamp_reference_altitude(input.ref_alt.getValue(), alt);
         # The outer altitude bars should be interpreted as an altitude scale
@@ -210,11 +247,11 @@ var AltitudeBars = {
         var scale = math.min(ref_alt, 500);
 
         # Store position of the bars. It is used to place other hud elements.
-        me.bars_pos = math.clamp((alt - ref_alt)/scale, -1, 1);
-        me.set_bars_pos(me.bars_pos);
+        var bars_pos = math.clamp((alt - ref_alt)/scale, -1, 1);
+        me.set_bars_pos(bars_pos);
 
         me.update_ref_bars(ref_alt);
-        me.update_rhm_index(scale, me.bars_pos);
+        me.update_rhm_index(scale, bars_pos);
     },
 
     # Get the vertical position of the bottom of the (largest) altitude bars,
@@ -574,7 +611,7 @@ var HUD = {
             # Initial landing phase, NAV display mode
             me.set_mode(HUD.MODE_NAV);
         } else { # Nav
-            if (input.declutter.getBoolValue() and input.alt.getValue() < 97.5) {
+            if (input.hud_slav.getBoolValue() and input.alt.getValue() < 97.5) {
                 me.set_mode(HUD.MODE_NAV_DECLUTTER);
             } else {
                 me.set_mode(HUD.MODE_NAV);
