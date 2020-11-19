@@ -74,7 +74,7 @@ var FPV = {
 
     update: func {
         if (input.wow.getBoolValue()) {
-            me.pos_x = 0;
+            me.pos_x = 0;   # Avoids FPV stability issue at low speed.
         } else {
             me.pos_x = 100 * input.fpv_right.getValue();
             me.pos_x = math.clamp(me.pos_x, -800, 800);
@@ -87,6 +87,37 @@ var FPV = {
             me.pos_y = math.clamp(me.pos_y, -800, 1600);
         }
         me.group.setTranslation(me.pos_x, me.pos_y);
+
+        # Commanded speed.
+        if (modes.landing) {
+            var dev = 0;
+            var blink = FALSE;
+            if (input.gear_pos.getValue() != 1) {
+                # Gear (partially) up, indicates speed deviation from 550km/h.
+                # Max deviation is 37km/h (from AJS, no JA source).
+                dev = (input.speed.getValue() - 550) / 37;
+            } else {
+                # Gear full down, indicates alpha deviation.
+                # Target alpha depends on weight and is capped to 12deg (15.5deg in high alpha mode).
+                # Maximum deviation is 3.3deg (from AJS, no JA source).
+                var weight = input.weight.getValue() * LB2KG;
+                var high_alpha = input.high_alpha.getBoolValue();
+                var target_alpha = extrapolate(weight, 15000, 16500, 15.5, 9.0);
+                target_alpha = math.clamp(target_alpha, 9, high_alpha ? 15.5 : 12);
+                dev = (target_alpha - input.alpha.getValue()) / 3.3;
+                # Critical alpha (indicator starts blinking).
+                # Values for 12deg and 15.5deg are from AJS again.
+                var critical_limit = extrapolate(target_alpha, 12, 15.5, -1, -0.75);
+                critical_limit = math.clamp(critical_limit, -1, -0.75);
+                blink = (dev <= critical_limit);
+            }
+            dev = math.clamp(dev, -1, 1);
+            me.tail.setTranslation(0, -50*dev);
+            me.tail.setVisible(!blink or input.fourHz.getBoolValue());
+        } else {
+            me.tail.setTranslation(0,0);
+            me.tail.show();
+        }
     },
 
     get_pos: func {

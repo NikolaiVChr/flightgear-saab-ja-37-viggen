@@ -459,7 +459,7 @@ var FPV = {
     # Display 'fin' (speed error indicator)
     # pos: normalised in [-1,1], 0: correct speed, -1: speed is too low
     set_fin: func(show, pos=0, blink=0) {
-        if (show and (!blink or input.four_hz.getBoolValue())) {
+        if (show and (!blink or input.fourHz.getBoolValue())) {
             me.tail.show();
             me.tail.setTranslation(0, -50*pos);
         } else {
