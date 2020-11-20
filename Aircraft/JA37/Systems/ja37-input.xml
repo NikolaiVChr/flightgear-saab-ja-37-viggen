@@ -256,14 +256,6 @@
                 <property>/ja37/hud/units-metric</property>
             </binding>
         </key>
-        <key n="104">
-            <name>h</name>
-            <desc>Disable FG default HUD</desc>
-            <binding>
-                <command>nasal</command>
-                <script></script>
-            </binding>
-        </key>
         <key n="101">
             <name>e</name>
             <desc>Trigger</desc>
