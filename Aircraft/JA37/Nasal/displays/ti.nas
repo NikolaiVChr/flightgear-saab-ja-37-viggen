@@ -1504,9 +1504,8 @@ var TI = {
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
-			radarEnabled:         "ja37/hud/tracks-enabled",
 			radarRange:           "instrumentation/radar/range",
-			radarServ:            "instrumentation/radar/serviceable",
+			radarActive:          "ja37/radar/active",
 			rmActive:             "autopilot/route-manager/active",
 			rmDist:               "autopilot/route-manager/wp/dist",
 			rmId:                 "autopilot/route-manager/wp/id",
@@ -1524,7 +1523,6 @@ var TI = {
 			pitch:             	  "orientation/pitch-deg",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
-			tracks_enabled:   	  "ja37/hud/tracks-enabled",
 			radar_serv:       	  "instrumentation/radar/serviceable",
 			tenHz:            	  "ja37/blink/four-Hz/state",
 			qfeActive:        	  "ja37/displays/qfe-active",
@@ -4627,7 +4625,7 @@ var TI = {
 	},
 
 	showRadarLimit: func {
-		if (me.input.tracks_enabled.getValue() == TRUE) {
+		if (me.input.radarActive.getBoolValue()) {
 			if (me.lastZ != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
 				me.radar_limit_grp.removeAllChildren();
 				me.rdrField = 61.5*D2R;
