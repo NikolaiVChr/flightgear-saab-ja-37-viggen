@@ -124,8 +124,9 @@ var radar_active = FALSE;
 var selection = nil;
 var selection_updated = FALSE;
 var tracks_index = 0;
-var tracks = [];
-var complete_list = [];
+var tracks = [];        # Contacts on radar
+var complete_list = []; # Anything that can be damaged
+var rb99_list = [];
 var callsign_struct = {};
 
 var lockLog  = events.LogBuffer.new(echo: 0);#compatible with older FG?
@@ -213,6 +214,7 @@ var RadarLogic = {
 
       tracks = [];
       complete_list = [];
+      rb99_list = [];
 
       #do the MP planes
       me.players = [];
@@ -331,6 +333,7 @@ var RadarLogic = {
 
       # Remember all tracks in this list, before we start filtering out hidden ones.
       if (!missile) append(complete_list, trackInfo);
+      if (trackInfo.type == "rb-99") append(rb99_list, trackInfo);
 
       # Line of sight
       if (mp or getprop("ja37/supported/picking")) {

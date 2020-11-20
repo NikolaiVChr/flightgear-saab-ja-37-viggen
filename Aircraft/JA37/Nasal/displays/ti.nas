@@ -4743,6 +4743,10 @@ var TI = {
 			foreach(hud_pos; radar_logic.complete_list) {
 				me.displayRadarTrack(hud_pos);
 			}
+			# Missiles are not included in complete_list
+			foreach(hud_pos; radar_logic.rb99_list) {
+				me.displayRadarTrack(hud_pos);
+			}
 			if(me.track_index != -1) {
 				#hide the the rest unused echoes
 				for(var i = me.track_index; i < maxTracks ; i+=1) {
