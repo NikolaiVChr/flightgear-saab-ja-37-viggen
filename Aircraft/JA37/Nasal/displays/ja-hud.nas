@@ -559,7 +559,7 @@ var Altitude = {
                     me.text.updateText(sprintf("%d", alt));
                 } else {
                     alt /= 100;
-                    me.text.updateText(sprintf("%d,%1d", math.floor(alt/10), math.mod(alt, 10)));
+                    me.text.updateText(sprintf("%d,%.1d", math.floor(alt/10), math.mod(alt, 10)));
                 }
                 me.text.show();
             }
@@ -832,7 +832,7 @@ var DigitalAltitude = {
         } else {
             alt = math.round(alt, 100);
             alt /= 100;
-            me.text.updateText(sprintf("%d,%1d", math.floor(alt/10), math.mod(alt, 10)));
+            me.text.updateText(sprintf("%d,%.1d", math.floor(alt/10), math.mod(alt, 10)));
         }
     },
 };
@@ -1041,52 +1041,22 @@ var Distance = {
         me.dist.enableUpdate();
     },
 
-    # Distance display mode: either distance line or digital distance.
-    MODE_OFF: 0,
-    MODE_LINE: 1,
-    MODE_DIG: 2,
-
-    set_dist_mode: func(dist_mode) {
-        if (me.dist_mode == dist_mode) return;
-        me.dist_mode = dist_mode;
-
-        if (me.dist_mode == Distance.MODE_LINE) {
-            me.line.show();
-            me.cursorL.show();
-            me.cursorM.show();
-            me.cursorR.show();
-        } else {
-            me.line.hide();
-            me.cursorL.hide();
-            me.cursorM.hide();
-            me.cursorR.hide();
-        }
-
-        if (me.dist_mode == Distance.MODE_DIG) {
-            me.dist.show();
-            me.index.setTranslation(300,0);
-        } else {
-            me.dist.hide();
-        }
-
-        if (me.dist_mode != Distance.MODE_OFF) {
-            me.index.show();
-        } else {
-            me.index.hide();
-        }
-    },
-
     set_mode: func(mode) {
         me.mode = mode;
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
-            me.set_dist_mode(Distance.MODE_LINE);
-            me.cursorL.setTranslation(200,0);
-            me.cursorM.setTranslation(200,0);
-            me.cursorR.setTranslation(200,0);
-        } elsif (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) {
-            me.set_dist_mode(Distance.MODE_DIG);
+            # Line indicates rotation speed
+            me.group.show();
+            me.line.show();
+            me.index.setTranslation(0,0).show();
+            me.cursorL.setTranslation(200,0).show();
+            me.cursorM.setTranslation(200,0).show();
+            me.cursorR.setTranslation(200,0).show();
+            me.dist.hide();
+        } elsif (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM or me.mode == HUD.MODE_FINAL_NAV) {
+            # Multiple functionalities.
+            me.group.show();
         } else {
-            me.set_dist_mode(Distance.MODE_OFF);
+            me.group.hide();
         }
     },
 
@@ -1100,20 +1070,59 @@ var Distance = {
             var pos = extrapolate(input.speed.getValue(), rotation_speed - 96, rotation_speed + 48, 0, 300);
             pos = math.clamp(pos, 0, 300);
             me.index.setTranslation(pos, 0);
-        } elsif (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) {
-            if (input.rm_active.getBoolValue()) {
-                var dist = metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
-                dist = math.round(dist);
+        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM) and radar_logic.selection != nil) {
+            # Display distance to target.
+            me.group.show();
+            me.line.show();
+            me.index.show();
+            me.cursorL.hide();
+            me.cursorM.setTranslation(0,0).show();
+            me.cursorR.hide();
+            me.dist.show();
 
-                if (dist < 1000) {
-                    me.set_dist_mode(Distance.MODE_DIG);
-                    me.dist.updateText(sprintf("%d", dist));
-                } else {
-                    me.set_dist_mode(Distance.MODE_OFF);
-                }
+            if (fire_control.selected != nil and fire_control.selected.get_weapon() != nil
+                and fire_control.selected.armed()
+                and (var dlz = fire_control.selected.get_weapon().getDLZ(TRUE)) != nil) {
+                # Cursors indicate missile dynamic launch zone.
+                var max_dist = dlz[0];
+                me.index.setTranslation(math.clamp(dlz[4] / max_dist * 300, 0, 300), 0);
+                me.cursorL.setTranslation(dlz[3] / max_dist * 300, 0).show();
+                me.cursorM.setTranslation(dlz[1] / max_dist * 300, 0);
+                me.cursorR.setTranslation(dlz[2] / max_dist * 300, 0).show();
+                # Convert scale to Km (or NM) for numerical display
+                if (metric) max_dist *= NM2M / 1000;
             } else {
-                me.set_dist_mode(Distance.MODE_OFF);
+                # Line length indicates radar range.
+                var max_dist = input.radar_range.getValue();
+                var range = math.clamp(radar_logic.selection.get_range()*NM2M, 0, max_dist);
+                me.index.setTranslation(range / max_dist * 300, 0);
+                # Convert scale to Km (or NM) for numerical display.
+                if (metric) max_dist /= 1000;
+                else max_dist *= M2NM;
             }
+
+            if (max_dist >= 10) {
+                me.dist.updateText(sprintf("%d", math.round(max_dist)));
+            } else {
+                me.dist.updateText(sprintf("%d,%.1d", math.floor(max_dist), math.mod(max_dist*10, 10)));
+            }
+        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and input.rm_active.getBoolValue()) {
+            var dist = metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
+            dist = math.round(dist);
+
+            if (dist < 1000) {
+                me.group.show();
+                me.index.setTranslation(340,0).show();
+                me.dist.updateText(sprintf("%d", dist)).show();
+                me.line.hide();
+                me.cursorL.hide();
+                me.cursorM.hide();
+                me.cursorR.hide();
+            } else {
+                me.group.hide();
+            }
+        } else {
+            me.group.hide();
         }
     },
 };
@@ -1207,16 +1216,15 @@ var Targets = {
 
     set_mode: func(mode) {
         me.mode = mode;
-    },
-
-    update: func(fpv_pos) {
-        if (modes.takeoff_30s_inhibit or (me.mode != HUD.MODE_NAV and me.mode != HUD.MODE_AIM)) {
+        if (me.mode != HUD.MODE_NAV and me.mode != HUD.MODE_AIM) {
             me.group.hide();
             return;
         } else {
             me.group.show();
         }
+    },
 
+    update: func(fpv_pos) {
         if (radar_logic.selection != nil) {
             var pos = radar_logic.selection.get_cartesian();
             me.tgt.update(pos[0]*100, pos[1]*100, fpv_pos);
@@ -1259,8 +1267,7 @@ var Reticle = {
     },
 
     update: func {
-        if (!modes.takeoff_30s_inhibit
-            and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
+        if ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
             and fire_control.selected != nil
             and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")
             and fire_control.selected.armed()) {
