@@ -1108,7 +1108,7 @@ var Distance = {
 
             if (dist < 1000) {
                 me.group.show();
-                me.index.setTranslation(340,0).show();
+                me.index.setTranslation(300,0).show();
                 me.dist.updateText(sprintf("%d", dist));
                 me.dist.show();
                 me.line.hide();
