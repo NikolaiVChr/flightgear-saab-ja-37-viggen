@@ -21,6 +21,7 @@ var input = {
     rb05_pitch: "/payload/armament/rb05-control-pitch",
     rb05_yaw:   "/payload/armament/rb05-control-yaw",
     speed_kt:   "/velocities/groundspeed-kt",
+    gear_pos:   "/gear/gear/position-norm",
 };
 
 foreach (var prop; keys(input)) {
@@ -66,6 +67,7 @@ var WeaponLogic = {
 
     # Called when the trigger safety changes position while this weapon type is selected.
     set_unsafe: func(unsafe) {
+        if (!firing_enabled()) unsafe = FALSE;
         me.unsafe = unsafe;
         if (!me.unsafe) me.set_trigger(FALSE);
     },
@@ -780,6 +782,19 @@ var unsafe_listener = func (node) {
 
 setlistener(input.trigger, trigger_listener, 0, 0);
 setlistener(input.unsafe, unsafe_listener, 0, 0);
+
+
+### Fire control inhibit.
+var firing_enabled = func {
+    return input.gear_pos.getValue() == 0 and power.prop.acSecond.getBoolValue();
+}
+
+var inhibit_callback = func {
+    if (selected != nil and selected.armed() and firing_enabled()) selected.set_unsafe(FALSE);
+}
+
+setlistener(input.gear_pos, inhibit_callback, 0, 0);
+setlistener(power.prop.acSecond, inhibit_callback, 0, 0);
 
 
 ### Reset fire control logic when reloading.
