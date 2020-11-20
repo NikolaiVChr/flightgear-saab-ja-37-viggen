@@ -11,7 +11,6 @@ var find_index = func(val, vec) {
 
 
 var input = {
-    combat:     "/ja37/mode/combat",
     trigger:    "/controls/armament/trigger-final",
     unsafe:     "/controls/armament/trigger-unsafe",
     trigger_m70:    "/controls/armament/trigger-m70",
@@ -42,7 +41,6 @@ var WeaponLogic = {
     new: func(type) {
         var m = { parents: [WeaponLogic] };
         m.type = type;
-        m.combat = FALSE;
         m.unsafe = FALSE;
         return m;
     },
@@ -66,25 +64,14 @@ var WeaponLogic = {
         die("Called unimplemented abstract class method");
     },
 
-    # Called when entering/leaving combat mode while this weapon type is selected.
-    set_combat: func(combat) {
-        me.combat = combat;
-        if (!combat) me.set_unsafe(FALSE);
-    },
-
-    update_combat: func {
-        me.set_combat(input.combat.getBoolValue());
-    },
-
     # Called when the trigger safety changes position while this weapon type is selected.
     set_unsafe: func(unsafe) {
-        if (!me.combat) unsafe = FALSE;
         me.unsafe = unsafe;
         if (!me.unsafe) me.set_trigger(FALSE);
     },
 
     armed: func {
-        return me.combat and me.unsafe;
+        return me.unsafe;
     },
 
     # Called when the trigger is pressed/released while this weapon type is selected.
@@ -157,13 +144,11 @@ var Missile = {
         me.fired = FALSE;
         setprop("controls/armament/station-select-custom", pylon);
 
-        me.update_combat();
         if (me.is_IR) me.IR_seeker_timer.start();
     },
 
     deselect: func {
         me.set_unsafe(FALSE);
-        me.set_combat(FALSE);
         me.selected = nil;
         me.station = nil;
         me.weapon = nil;
@@ -388,10 +373,11 @@ var SubModelWeapon = {
 
     # Argument ignored. Always select all weapons of this type.
     select: func (pylon=nil) {
-        me.selected = pylons.find_all_pylons_by_type(me.type);
+        me.deselect();
 
+        me.selected = pylons.find_all_pylons_by_type(me.type);
         if (size(me.selected) == 0) {
-            me.deselect();
+            me.selected = [];
             return FALSE;
         }
 
@@ -401,23 +387,20 @@ var SubModelWeapon = {
             me.stations[i] = pylons.station_by_id(me.selected[i]);
             me.weapons[i] = me.stations[i].getWeapons()[0];
         }
-
         if (!me.weapon_ready()) {
             # no ammo
-            me.deselect();
+            me.selected = [];
+            me.stations = [];
+            me.weapons = [];
             return FALSE;
         }
 
         setprop("controls/armament/station-select-custom", size(me.selected) > 0 ? me.selected[0] : -1);
-
-        me.update_combat();
-
         return TRUE;
     },
 
     deselect: func (pylon=nil) {
         me.set_unsafe(FALSE);
-        me.set_combat(FALSE);
         me.selected = [];
         me.stations = [];
         me.weapons = [];
@@ -495,25 +478,22 @@ var Bomb = {
     },
 
     select: func(pylon=nil) {
-        me.positions = [];
+        me.deselect();
+
         foreach(var pos; me.release_order) {
             if (me.is_pos_loaded(pos)) append(me.positions, pos);
         }
-
         if (size(me.positions) == 0) {
-            me.deselect();
             return FALSE;
         } else {
             me.next_pos = 0;
             me.next_weapon = me.get_bomb_pos(me.positions[0]);
-            me.update_combat();
             return TRUE;
         }
     },
 
     deselect: func {
         me.set_unsafe(FALSE);
-        me.set_combat(FALSE);
         me.positions = [];
         me.next_pos = 0;
         me.next_weapon = nil;
@@ -798,14 +778,8 @@ var unsafe_listener = func (node) {
     if (selected != nil) selected.set_unsafe(node.getBoolValue());
 }
 
-var combat_listener = func (node) {
-    if (selected != nil) selected.set_combat(node.getBoolValue());
-}
-
-setlistener(input.combat, combat_listener, 0, 0);
-setlistener(input.unsafe, unsafe_listener, 0, 0);
 setlistener(input.trigger, trigger_listener, 0, 0);
-
+setlistener(input.unsafe, unsafe_listener, 0, 0);
 
 
 ### Reset fire control logic when reloading.

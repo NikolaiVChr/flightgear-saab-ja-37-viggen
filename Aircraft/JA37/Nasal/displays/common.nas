@@ -128,7 +128,7 @@ var Common = {
 		}
 
 		# SI is on 40s after power and 'within 2s' of EP12 on.
-		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1);
+		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1); # TMP for dev
 		# MI/TI are on 'within 2s' of EP12 on.
 		me.mi_ti_on = (time - me.displays_on_time >= 1);
 	},
@@ -384,8 +384,8 @@ var Common = {
 	referenceAlt: func {
 		# Reference (target) altitude displayed on HUD and other displays.
 		# TAKEOFF mode: fixed, 500m
-		# NAV/COMBAT: can be modified with reference alt button, or ALT hold autopilot
-		# LANDING: defaults to 500m, but can be overriden as in NAV/COMBAT
+		# NAV: can be modified with reference alt button, or ALT hold autopilot
+		# LANDING: defaults to 500m, but can be overriden as in NAV
 		if (modes.takeoff) {
 			me.ref_alt = 500;
 			me.ref_alt_ldg_override = FALSE;
@@ -432,8 +432,9 @@ var Common = {
 
 	EP13: func {
 		# Rb 75 screen
+		var selected = fire_control.selected;
 		me.input.vid.setBoolValue(
-			modes.combat and fire_control.get_weapon() != nil and fire_control.get_weapon().type == "RB-75"
+			selected != nil and selected.type == "RB-75" and selected.weapon_ready() and selected.armed()
 		);
 	},
 

@@ -986,7 +986,7 @@ var AltitudeBars = {
 
             # Show/hide bars appropriately.
             # Altitude bars. On below 1000m, except on final or aiming mode (not sure about aiming mode).
-            if (alt <= 1000 and me.mode != HUD.MODE_FINAL_OPT and !modes.combat) {
+            if (alt <= 1000 and me.mode != HUD.MODE_FINAL_OPT and me.mode != HUD.MODE_AIM) {
                 me.alt_bars.show();
             } else {
                 me.alt_bars.hide();
@@ -1229,7 +1229,7 @@ var Targets = {
         var weapon = fire_control.get_weapon();
         var pos = nil;
         # Use ["is_IR"] instead of .is_IR because it is not always a member of fire_control.selected
-        if (selected != nil and selected["is_IR"] and selected.unsafe
+        if (selected != nil and selected["is_IR"] and selected.armed()
             and weapon != nil and (pos = weapon.getSeekerInfo()) != nil
             and (weapon.status == armament.MISSILE_LOCK or !weapon.isCaged() or !weapon.command_tgt)) {
             me.seeker.update(pos[0]*100, pos[1]*-100, fpv_pos);
@@ -1263,7 +1263,7 @@ var Reticle = {
             and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
             and fire_control.selected != nil
             and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")
-            and fire_control.selected.unsafe) {
+            and fire_control.selected.armed()) {
             me.reticle.show();
         } else {
             me.reticle.hide();
@@ -1375,8 +1375,8 @@ var HUD = {
         } elsif (modes.landing and (land.mode == 1 or land.mode == 2)) {
             # Initial landing phase, NAV display mode
             me.set_mode(HUD.MODE_NAV);
-        } elsif (modes.combat) {
-            me.set_mode(HUD.MODE_AIM);
+        #} elsif (modes.combat) {
+        #    me.set_mode(HUD.MODE_AIM); disabled for now
         } else {
             me.set_mode(HUD.MODE_NAV);
         }

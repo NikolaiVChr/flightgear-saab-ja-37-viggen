@@ -4,7 +4,6 @@ var TRUE = 1;
 
 var input = {
     selector_ajs:   "/ja37/mode/selector-ajs",
-    combat:         "/ja37/mode/combat",
     landing:        "/ja37/hud/landing-mode",
     approach:       "/ja37/avionics/approach",
     takeoff:        "/ja37/mode/takeoff",
@@ -12,7 +11,6 @@ var input = {
     mach:           "/instrumentation/airspeed-indicator/indicated-mach",
     gear_pos:       "/gear/gear/position-norm",
     wow_nose:       "/fdm/jsbsim/gear/unit[0]/WOW",
-    master_arm:     "/ja37/armament/master-arm",
     time_sec:       "/sim/time/elapsed-sec",
     rm_active:      "/autopilot/route-manager/active",
 };
@@ -28,8 +26,7 @@ if (getprop("/ja37/systems/variant") == 0) {
     # JA
     var TAKEOFF = 0;
     var NAV = 1;
-    var COMBAT = 2;
-    var LANDING = 3;
+    var LANDING = 2;
 
     var main_ja = TAKEOFF;
 } else {
@@ -47,7 +44,6 @@ if (getprop("/ja37/systems/variant") == 0) {
 
 
 ### These variables summarize common JA/AJS modes to support shared systems.
-var combat = FALSE;
 var takeoff = TRUE;
 var landing = FALSE;
 
@@ -105,7 +101,7 @@ var update_mode_ja = func {
         takeoff_30s_inhibit = TRUE;
     } elsif (main_ja == TAKEOFF and !takeoff_allowed) {
         # time to switch away from TAKEOFF mode.
-        main_ja = NAV; # Can be changed to COMBAT or LANDING below.
+        main_ja = NAV; # Can be changed to LANDING below.
 
         # If current waypoint is the starting base, select the next one.
         if (input.rm_active.getBoolValue()) {
@@ -119,19 +115,12 @@ var update_mode_ja = func {
         takeoff_30s_timer.start();
     }
 
-    if (main_ja == COMBAT or main_ja == NAV or main_ja == LANDING) {
-        if (input.landing.getBoolValue()) {
-            main_ja = LANDING;
-        } else {
-            main_ja = (input.master_arm.getBoolValue() and input.gear_pos.getValue() == 0) ? COMBAT : NAV;
-        }
+    if (main_ja == NAV or main_ja == LANDING) {
+        main_ja = input.landing.getBoolValue() ? LANDING : NAV;
     }
 
-    combat = (main_ja == COMBAT);
     takeoff = (main_ja == TAKEOFF);
     landing = (main_ja == LANDING);
-
-    input.combat.setValue(combat);
     input.takeoff.setValue(takeoff);
 };
 
@@ -142,8 +131,6 @@ var update_mode_ja = func {
 # The rest is done in the mode selector listener below.
 var update_mode_ajs = func {
     # Update combat mode
-    combat = (selector_ajs == COMBAT) and input.gear_pos.getValue() == 0;
-
     # Update takeoff submode
     if (selector_ajs != NAV) {
         takeoff = FALSE;
@@ -161,7 +148,6 @@ var update_mode_ajs = func {
         }
     }
 
-    input.combat.setValue(combat);
     input.takeoff.setValue(takeoff);
 };
 

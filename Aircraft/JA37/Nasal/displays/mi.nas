@@ -645,7 +645,7 @@ var MI = {
 	},
 
 	displayFPI: func {
-		if (modes.main_ja == modes.LANDING or modes.main_ja == modes.COMBAT) {
+		if (modes.main_ja == modes.LANDING) {
 			me.fpi_tail.hide();
 		} else {
 			me.fpi_tail.show();
@@ -914,59 +914,57 @@ var MI = {
 	},
 
 	displayArmCircle: func {
-		if (modes.main_ja == modes.COMBAT) {
-			me.armActive = displays.common.armActive();
-			if (me.armActive != nil) {
-				me.dlz = me.armActive.getDLZ();
-				if (me.dlz != nil and size(me.dlz) > 0) {
-					me.dlz_scale = 1;
-					me.dlz_full = FALSE;
+		me.armActive = displays.common.armActive();
+		if (me.armActive != nil) {
+			me.dlz = me.armActive.getDLZ();
+			if (me.dlz != nil and size(me.dlz) > 0) {
+				me.dlz_scale = 1;
+				me.dlz_full = FALSE;
+				me.dlz_circle = FALSE;
+				me.dlz_cross  = FALSE;
+				if (me.dlz[4] < me.dlz[3]) {
+					# MIN
+					me.dlz_circle = FALSE;
+					me.dlz_cross  = TRUE;
+				} elsif (me.dlz[4] < me.dlz[2]) {
+					# NEZ
+					me.dlz_full   = TRUE;
+					me.dlz_scale  = 1;
+					me.dlz_circle = TRUE;
+				} elsif (me.dlz[4] < me.dlz[1]) {
+					# OPT
+					me.dlz_full   = FALSE;
+					me.dlz_scale  = 1;
+					me.dlz_circle = TRUE;
+				} elsif (me.dlz[4] < me.dlz[0]) {
+					# MISS
+					me.dlz_full   = FALSE;
+					me.dlz_circle = TRUE;
+					me.dlz_scale  = extrapolate(me.dlz[4],me.dlz[1],me.dlz[0],1,0.01);
+				} else {
 					me.dlz_circle = FALSE;
 					me.dlz_cross  = FALSE;
-					if (me.dlz[4] < me.dlz[3]) {
-						# MIN
-						me.dlz_circle = FALSE;
-						me.dlz_cross  = TRUE;
-					} elsif (me.dlz[4] < me.dlz[2]) {
-						# NEZ
-						me.dlz_full   = TRUE;
-						me.dlz_scale  = 1;
-						me.dlz_circle = TRUE;
-					} elsif (me.dlz[4] < me.dlz[1]) {
-						# OPT
-						me.dlz_full   = FALSE;
-						me.dlz_scale  = 1;
-						me.dlz_circle = TRUE;
-					} elsif (me.dlz[4] < me.dlz[0]) {
-						# MISS
-						me.dlz_full   = FALSE;
-						me.dlz_circle = TRUE;
-						me.dlz_scale  = extrapolate(me.dlz[4],me.dlz[1],me.dlz[0],1,0.01);
+				}
+				me.a2a_circle.setScale(me.dlz_scale);
+				me.a2a_circle.setStrokeLineWidth(w/me.dlz_scale);
+				if (me.dlz_circle == TRUE) {
+					me.a2a_circle.show();
+					if (me.dlz_full == TRUE) {
+						me.a2a_circle_arc.show();
 					} else {
-						me.dlz_circle = FALSE;
-						me.dlz_cross  = FALSE;
-					}
-					me.a2a_circle.setScale(me.dlz_scale);
-					me.a2a_circle.setStrokeLineWidth(w/me.dlz_scale);
-					if (me.dlz_circle == TRUE) {
-						me.a2a_circle.show();
-						if (me.dlz_full == TRUE) {
-							me.a2a_circle_arc.show();
-						} else {
-							me.a2a_circle_arc.hide();
-						}
-					} else {
-						me.a2a_circle.hide();
 						me.a2a_circle_arc.hide();
 					}
-					if (me.dlz_cross == TRUE) {
-						# for now this wont happen, as the missile wont have lock below min dist and therefore wont return dlz info.
-						me.a2a_cross.show();
-					} else {
-						me.a2a_cross.hide();
-					}
-					return;
+				} else {
+					me.a2a_circle.hide();
+					me.a2a_circle_arc.hide();
 				}
+				if (me.dlz_cross == TRUE) {
+					# for now this wont happen, as the missile wont have lock below min dist and therefore wont return dlz info.
+					me.a2a_cross.show();
+				} else {
+					me.a2a_cross.hide();
+				}
+				return;
 			}
 		}
 		me.a2a_circle.hide();

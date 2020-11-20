@@ -256,30 +256,6 @@
                 <property>/ja37/hud/units-metric</property>
             </binding>
         </key>
-        <key n="104">
-            <name>h</name>
-            <desc>Toggle masterarm</desc>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>property-toggle</command>
-                <property>ja37/armament/master-arm</property>
-            </binding>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </key>
         <key n="101">
             <name>e</name>
             <desc>Trigger</desc>

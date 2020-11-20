@@ -582,7 +582,6 @@
         <mode>
           <selector-ajs type="int">1</selector-ajs>
           <takeoff type="bool">true</takeoff>
-          <combat type="bool">false</combat>
         </mode>
         <hud>
             <tracks-enabled type="bool">true</tracks-enabled>
