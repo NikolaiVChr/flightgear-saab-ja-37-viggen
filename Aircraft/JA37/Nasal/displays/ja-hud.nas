@@ -895,13 +895,9 @@ var TextMessage = {
     },
 
     update: func {
-        if (input.qfe_active.getBoolValue()) {
+        if (input.qfe_warning.getBoolValue()) {
             me.text.updateText("QFE");
-            if (input.qfe_shown.getBoolValue()) {
-                me.text.show();
-            } else {
-                me.text.hide();
-            }
+            me.text.setVisible(input.twoHz.getBoolValue());
         } elsif (modes.landing and (land.mode == 2 or land.mode == 3)
                  and (input.tils_steady.getBoolValue() or input.tils_blink.getBoolValue())) {
             me.text.updateText("TILS");

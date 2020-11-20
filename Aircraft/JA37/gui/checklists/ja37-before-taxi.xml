@@ -67,11 +67,22 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <property>ja37/avionics/altimeters-calibrated</property>
+            <and>
+                <not><property>instrumentation/altimeter/setting-std</property></not>
+                <less-than>
+                    <property>instrumentation/altimeter/indicated-altitude-meter</property>
+                    <value>10</value>
+                </less-than>
+                <greater-than>
+                    <property>instrumentation/altimeter/indicated-altitude-meter</property>
+                    <value>-10</value>
+                </greater-than>
+            </and>
         </condition>
         <binding>
             <command>nasal</command>
             <script>
+              setprop("/instrumentation/altimeter/setting-std", 0);
               setprop("/instrumentation/altimeter/setting-inhg",
                       getprop("/environment/pressure-inhg"));
             </script>

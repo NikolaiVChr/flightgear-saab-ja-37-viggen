@@ -630,7 +630,6 @@
             <sparkplug type="bool">true</sparkplug>
         </engine>
         <avionics>
-            <altimeters-calibrated type="bool">0</altimeters-calibrated>
             <primaryData type="bool">false</primaryData>
             <ins-cmd type="bool">true</ins-cmd>
             <ins-init type="bool">false</ins-init>

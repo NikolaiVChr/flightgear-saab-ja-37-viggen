@@ -1525,8 +1525,6 @@ var TI = {
 			callsign:             "ja37/hud/callsign",
 			radar_serv:       	  "instrumentation/radar/serviceable",
 			tenHz:            	  "ja37/blink/four-Hz/state",
-			qfeActive:        	  "ja37/displays/qfe-active",
-	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
 	        fullMenus:            "ja37/displays/show-full-menus",
 	        APLockHeading:    	  "autopilot/locks/heading",

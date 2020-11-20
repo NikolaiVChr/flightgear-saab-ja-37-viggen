@@ -153,9 +153,8 @@ var MI = {
 			terrain_warning:      "/instrumentation/terrain-warning",
 			gpws_time:            "fdm/jsbsim/systems/indicators/time-till-crash",
 			radar_serv:           "instrumentation/radar/serviceable",
-			tenHz:                "ja37/blink/four-Hz/state",
-			qfeActive:            "ja37/displays/qfe-active",
-			qfeShown:             "ja37/displays/qfe-shown",
+			twoHz:                "ja37/blink/two-Hz/state",
+			qfeWarning:           "ja37/displays/qfe-warning",
 			alphaJSB:             "fdm/jsbsim/aero/alpha-deg",
 			mach:                 "instrumentation/airspeed-indicator/indicated-mach",
 			wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
@@ -803,14 +802,10 @@ var MI = {
 		}
 
 		# Bottom left.
-		if (me.input.qfeActive.getBoolValue()) {
+		if (me.input.qfeWarning.getBoolValue()) {
 			me.qfe = TRUE;
 			me.botl_text.updateText("QFE");
-			if (me.input.qfeShown.getBoolValue()) {
-				me.botl_text.show();
-			} else {
-				me.botl_text.hide();
-			}
+			me.blinkQFE();
 		} elsif (fire_control.selected != nil and fire_control.selected.weapon_ready()) {
 			me.qfe = FALSE;
 			me.botl_text.updateText(displays.common.armNameShort());
@@ -869,12 +864,7 @@ var MI = {
 	# Separate function with higher refresh rate for blinking.
 	blinkQFE: func {
 		if (!me.qfe) return;
-
-		if (me.input.qfeShown.getBoolValue()) {
-			me.botl_text.show();
-		} else {
-			me.botl_text.hide();
-		}
+		me.botl_text.setVisible(me.input.twoHz.getBoolValue());
 	},
 
 	displayTargetInfo: func {

@@ -1027,7 +1027,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
         alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
         alt_ft_real:      "position/altitude-ft",
-        altCalibrated:    "ja37/avionics/altimeters-calibrated",
         APmode:           "fdm/jsbsim/autoflight/mode",
         beta:             "orientation/side-slip-deg",
         callsign:         "ja37/hud/callsign",

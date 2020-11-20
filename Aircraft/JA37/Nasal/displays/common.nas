@@ -22,11 +22,6 @@ var containsVector = func (vec, item) {
 	return FALSE;
 }
 
-# -100 - 0 : not blinking
-# 1 - 10   : blinking
-# 11 - 125 : steady on
-var countQFE = 0;
-
 var Common = {
 
 	new: func {
@@ -38,16 +33,13 @@ var Common = {
 			time:             "sim/time/elapsed-sec",
 			wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
 			nav0InRange:      "instrumentation/nav[0]/in-range",
-			qfeActive:        "ja37/displays/qfe-active",
-			qfeShown:         "ja37/displays/qfe-shown",
-			altCalibrated:    "ja37/avionics/altimeters-calibrated",
-			alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+			qfeWarning:       "ja37/displays/qfe-warning",
 			alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
+			altimeter_std:    "instrumentation/altimeter/setting-std",
 			ref_alt:          "ja37/displays/reference-altitude-m",
 			APmode:           "fdm/jsbsim/autoflight/mode",
 			AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
 			units:            "ja37/hud/units-metric",
-			fiveHz:           "ja37/blink/two-Hz/state",
 			rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:    "instrumentation/radar-altimeter/ready",
 			vid:              "ja37/avionics/vid",
@@ -86,6 +78,11 @@ var Common = {
       	co.timeGround = 0;
       	co.timeLand = 0;
       	co.ftime = 0;
+
+		# QFE warning triggers
+		co.qfe_warn_climb_armed = FALSE;
+		co.qfe_warn_land_armed = FALSE;
+		co.qfe_warn_descent_armed = FALSE;
 
       	return co;
 	},
@@ -298,87 +295,63 @@ var Common = {
 		else return me.arm_name_short[me.armamentp];
 	},
 
-    QFE: func {
-    	if (me.input.alt_ft.getValue() != nil) {
-	    	me.metric = me.input.units.getValue();
-	    	var alt = me.metric == METRIC ? me.input.alt_ft.getValue() * FT2M : me.input.alt_ft.getValue();
-	    	var radAlt = me.input.rad_alt_ready.getBoolValue() ? (me.metric == METRIC ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
+	QFE: func {
+		var time = me.input.time.getValue();
+		var alt = me.input.alt_m.getValue();
+		var std = me.input.altimeter_std.getBoolValue();
+		var high = (alt > 1500);    # STD should be selected.
 
-	    	me.radar_clamp = me.metric == METRIC ? 100 : 100/FT2M;
-		    me.alt_diff = me.metric == METRIC ? 7 : 7/FT2M;
-		    me.INT = FALSE;
+		if (me.input.wow1.getBoolValue()) {
+			# At takeoff, warning if in STD mode or altitude error is more than 10m
+			if (!std and math.abs(alt) <= 10) {
+				# Correctly set
+				me.qfe_warn_takeoff_time = nil;
+			} elsif (me.input.rpm.getValue() > 90) {
+				# Trigger warning.
+				# Note: unlike other warnings, takeoff warning remains on for all the takeoff roll, +10s.
+				me.qfe_warn_takeoff_time = time;
+			}
+			# Reset/prepare warnings for next phase.
+			me.qfe_warn_climb_armed = TRUE;
+			me.qfe_warn_time = nil;
+		} else {
+			# Otherwise, warning if not in STD mode above 1500m, or vice versa, under certain conditions.
 
-		    if (radAlt != nil and radAlt < me.radar_clamp) {
-		      # check for QFE warning
-		      me.diff = radAlt - alt;
-		      if (countQFE == 0 and (me.diff > me.alt_diff or me.diff < -me.alt_diff)) {
-		        #print("QFE warning " ~ countQFE);
-		        # is not calibrated, and is not blinking
-		        me.input.altCalibrated.setBoolValue(FALSE);
-		        countQFE = 1;     
-		        #print("QFE not calibrated, and is not blinking");     
-		      } elsif (me.diff > -me.alt_diff and me.diff < me.alt_diff) {
-		          #is calibrated
-		        if (me.input.altCalibrated.getValue() == FALSE and countQFE < 11) {
-		          # was not calibrated before, is now.
-		          #print("QFE was not calibrated before, is now. "~countQFE);
-		          countQFE = 11;
-		        }
-		        me.input.altCalibrated.setBoolValue(TRUE);
-		      } elsif (me.input.altCalibrated.getValue() == 1 and (me.diff > me.alt_diff or me.diff < -me.alt_diff)) {
-		        # was calibrated before, is not anymore.
-		        #print("QFE was calibrated before, is not anymore. "~countQFE);
-		        countQFE = 1;
-		        me.input.altCalibrated.setBoolValue(FALSE);
-		      }
-		    } else {
-		      # is above height for checking for calibration
-		      countQFE = 0;
-		      #QFE = 0;
-		      me.input.altCalibrated.setBoolValue(TRUE);
-		      #print("QFE not calibrated, and is not blinking");
-		    }
+			# Stop warning if correctly set
+			if (std == high) me.qfe_warn_time = nil;
+			# Note: still run the logic below even if (std == high), to update the triggers.
 
-		    if (countQFE > 0) {
-				# QFE is shown
-				me.input.qfeActive.setBoolValue(TRUE);
-				if(countQFE == 1) {
-					countQFE = 2;
+			# When passing 1500m, warning if not in STD mode.
+			# TODO: disable when outside of 40km
+			# if ("distance_to_departure" > 40km) me.qfe_warn_climb_armed = FALSE;
+			if (me.qfe_warn_climb_armed and high) {
+				me.qfe_warn_climb_armed = FALSE;
+				if (!std) me.qfe_warn_time = time;
+			}
+
+			# In landing mode. TODO: only within 40km of destination for mode L.
+			if (modes.landing or land.mode_L_active) {
+				if (me.qfe_warn_land_armed) {
+					me.qfe_warn_land_armed = FALSE;
+					# First warning when entering land mode if STD is not set properly.
+					if (std != high) me.qfe_warn_time = time;
+					# If above 1500m, arm second warning for when passing 1500m.
+					if (high) me.qfe_warn_descent_armed = TRUE;
 				}
-				if(countQFE < 10) {
-					# blink the QFE
-					if(me.input.fiveHz.getValue() == TRUE) {
-					  me.input.qfeShown.setBoolValue(TRUE);
-					} else {
-					  me.input.qfeShown.setBoolValue(FALSE);
-					}
-				} elsif (countQFE == 10) {
-					#if(me.input.ias.getValue() < 10) {
-					  # adjust the altimeter (commented out after placing altimeter in plane)
-					  # var inhg = getprop("systems/static/pressure-inhg");
-					  #setprop("instrumentation/altimeter/setting-inhg", inhg);
-					 # countQFE = 11;
-					  #print("QFE adjusted " ~ inhg);
-					#} else {
-					  countQFE = -100;
-					#}
-				} elsif (countQFE < 125) {
-					# QFE is steady
-					countQFE = countQFE + 1;
-					me.input.qfeShown.setBoolValue(TRUE);
-					#print("steady on");
-				} else {
-					countQFE = -100;
-					me.input.altCalibrated.setBoolValue(TRUE);
-					#print("off");
+
+				# Second warning when passing 1500m if in STD mode.
+				if (me.qfe_warn_descent_armed and !high) {
+					me.qfe_warn_descent_armed = FALSE;
+					if (std) me.qfe_warn_time = time;
 				}
-		    } else {
-		      me.input.qfeActive.setBoolValue(FALSE);
-		      countQFE = clamp(countQFE+1, -101, 0);
-		      #print("hide  off");
-		    }
-		    #print("QFE count " ~ countQFE);
+			} else {
+				me.qfe_warn_land_armed = TRUE;
+			}
 		}
+
+		me.qfe_warn = (me.qfe_warn_takeoff_time != nil and time - me.qfe_warn_takeoff_time <= 10)
+			or (me.qfe_warn_time != nil and time - me.qfe_warn_time <= 10);
+		me.input.qfeWarning.setValue(me.qfe_warn);
     },
 
 	referenceAlt: func {
