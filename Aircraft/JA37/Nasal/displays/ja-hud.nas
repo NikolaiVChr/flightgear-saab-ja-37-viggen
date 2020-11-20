@@ -1208,7 +1208,11 @@ var Targets = {
         me.group = me.parent.createChild("group");
         # Radar target: upper circle
         me.tgt = Targets.Target.new(me.group);
-        make_path(me.tgt.get_symbol_group()).moveTo(-50,0).arcSmallCWTo(50,50,0,50,0);
+        me.tgt_symbol = make_path(me.tgt.get_symbol_group())
+            .moveTo(-50,0).arcSmallCWTo(50,50,0,50,0);
+        me.tgt_iff = make_path(me.tgt.get_symbol_group())
+            .moveTo(-50,-50).lineTo(50,50)
+            .moveTo(-50,50).lineTo(50,-50);
         # IR seeker: lower circle
         me.seeker = Targets.Target.new(me.group);
         make_path(me.seeker.get_symbol_group()).moveTo(-50,0).arcSmallCCWTo(50,50,0,50,0);
@@ -1229,6 +1233,7 @@ var Targets = {
             var pos = radar_logic.selection.get_cartesian();
             me.tgt.update(pos[0]*100, pos[1]*100, fpv_pos);
             me.tgt.show();
+            me.tgt_iff.setVisible(radar_logic.selection.getIFF());
         } else {
             me.tgt.hide();
         }
