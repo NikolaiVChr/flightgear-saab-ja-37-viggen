@@ -175,6 +175,7 @@ var MI = {
 		mi.radar_range = mi.input.radarRange.getValue();
 		mi.head_true = mi.input.headTrue.getValue();
 		mi.qfe = FALSE;
+		mi.n_tracks = 0;
 
 		return mi;
 	},
@@ -632,6 +633,8 @@ var MI = {
 	},
 
 	loopFast: func {
+		if (!displays.common.mi_ti_on) return;
+
 		me.displayFPI();
 		me.displayHorizon();
 		me.displayAltLines();
