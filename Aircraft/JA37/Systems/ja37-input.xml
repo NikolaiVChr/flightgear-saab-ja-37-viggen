@@ -256,6 +256,14 @@
                 <property>/ja37/hud/units-metric</property>
             </binding>
         </key>
+        <key n="104">
+            <name>h</name>
+            <desc>Toggle aiming mode</desc>
+            <binding>
+                <command>nasal</command>
+                <script>modes.toggle_aiming_mode();</script>
+            </binding>
+        </key>
         <key n="101">
             <name>e</name>
             <desc>Trigger</desc>

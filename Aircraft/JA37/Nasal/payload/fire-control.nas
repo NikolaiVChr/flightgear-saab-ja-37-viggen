@@ -593,9 +593,6 @@ if (variant.JA) {
         SubModelWeapon.new(type:"M70 ARAK", fire_all:1),
     ];
 
-    # Indices in the previous array for IR missiles.
-    var IRRB = [0, 3];
-
     var internal_gun = SubModelWeapon.new("M75 AKAN");
 } else {
     var weapons = [
@@ -659,7 +656,7 @@ var cycle_weapon_type = func {
 
     # Cycle through weapons, starting from the previous one.
     var prev = selected_index;
-    if (prev < 0) prev = 0;
+    if (prev < 0) prev = -1;
     var i = prev;
     i += 1;
     if (i >= size(weapons)) i = 0;
@@ -681,12 +678,14 @@ var cycle_weapon_type = func {
     }
 }
 
+# For JA
 var select_cannon = func {
     _deselect_current();
     internal_gun.select();
     _set_selected_index(-1);
 }
 
+# For AJS
 var select_IRRB = func {
     _deselect_current();
     foreach(var i; IRRB) {
@@ -699,7 +698,8 @@ var select_IRRB = func {
     _set_selected_index(-2);
 }
 
-var cycle_weapon = func {
+# Next pylon of same type
+var cycle_pylon = func {
     if (selected != nil) selected.cycle_selection();
 }
 
