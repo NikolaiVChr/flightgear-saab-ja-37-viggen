@@ -26,7 +26,8 @@ if (getprop("/ja37/systems/variant") == 0) {
     # JA
     var TAKEOFF = 0;
     var NAV = 1;
-    var LANDING = 2;
+    var AIMING = 2;
+    var LANDING = 3;
 
     var main_ja = TAKEOFF;
 } else {
@@ -115,13 +116,28 @@ var update_mode_ja = func {
         takeoff_30s_timer.start();
     }
 
-    if (main_ja == NAV or main_ja == LANDING) {
-        main_ja = input.landing.getBoolValue() ? LANDING : NAV;
+    # Switch to/from LANDING mode
+    if (input.landing.getBoolValue()) {
+        main_ja = LANDING;
+    } else {
+        if (main_ja == LANDING) main_ja = NAV;
     }
 
     takeoff = (main_ja == TAKEOFF);
     landing = (main_ja == LANDING);
     input.takeoff.setValue(takeoff);
+};
+
+var set_aiming_mode = func(aim) {
+    if (aim) {
+        if (main_ja == NAV) main_ja = AIMING;
+    } else {
+        if (main_ja == AIMING) main_ja = NAV;
+    }
+};
+
+var toggle_aiming_mode = func {
+    set_aiming_mode(main_ja != AIMING);
 };
 
 

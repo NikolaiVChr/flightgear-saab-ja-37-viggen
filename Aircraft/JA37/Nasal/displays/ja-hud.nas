@@ -1384,8 +1384,8 @@ var HUD = {
         } elsif (modes.landing and (land.mode == 1 or land.mode == 2)) {
             # Initial landing phase, NAV display mode
             me.set_mode(HUD.MODE_NAV);
-        #} elsif (modes.combat) {
-        #    me.set_mode(HUD.MODE_AIM); disabled for now
+        } elsif (modes.main_ja == modes.AIMING) {
+            me.set_mode(HUD.MODE_AIM);
         } else {
             me.set_mode(HUD.MODE_NAV);
         }

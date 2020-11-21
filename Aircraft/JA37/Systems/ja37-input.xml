@@ -261,7 +261,7 @@
             <desc>Toggle aiming mode</desc>
             <binding>
                 <command>nasal</command>
-                <script>modes.toggle_aiming_mode();</script>
+                <script>modes.toggle_aiming_mode(); ja37.click();</script>
             </binding>
         </key>
         <key n="101">
@@ -294,7 +294,11 @@
             <desc>Cycle weapons.</desc>
             <binding>
                 <command>nasal</command>
-                <script>fire_control.cycle_weapon_type(); ja37.click();</script>
+                <script>
+                    fire_control.cycle_weapon_type();
+                    ja37.click();
+                    if (variant.JA) modes.set_aiming_mode(1);
+                </script>
             </binding>
         </key>
         <key n="117">
@@ -303,8 +307,12 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    if (variant.JA) fire_control.select_cannon();
-                    else fire_control.select_IRRB();
+                    if (variant.JA) {
+                        fire_control.select_cannon();
+                        modes.set_aiming_mode(1);
+                    } else {
+                        fire_control.select_IRRB();
+                    }
                     ja37.click();
                 </script>
             </binding>
