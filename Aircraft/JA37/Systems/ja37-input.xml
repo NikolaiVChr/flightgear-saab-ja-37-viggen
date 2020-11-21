@@ -186,19 +186,11 @@
             <name>H</name>
             <desc>Cycle HUD Brightness</desc>
             <binding>
-                <command>property-cycle</command>
+                <command>property-adjust</command>
                 <property>ja37/hud/brightness-si</property>
-                <value type="int">0.0</value>
-                <value type="int">0.1</value>
-                <value type="int">0.2</value>
-                <value type="int">0.3</value>
-                <value type="int">0.4</value>
-                <value type="int">0.5</value>
-                <value type="int">0.6</value>
-                <value type="int">0.7</value>
-                <value type="int">0.8</value>
-                <value type="int">0.9</value>
-                <value type="int">1.0</value>
+                <step>0.1</step>
+                <min>0.6</min>
+                <max>1.0</max>
                 <wrap>true</wrap>
             </binding>
         </key>
