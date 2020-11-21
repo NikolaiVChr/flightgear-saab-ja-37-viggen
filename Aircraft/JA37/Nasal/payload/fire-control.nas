@@ -22,6 +22,7 @@ var input = {
     rb05_yaw:   "/payload/armament/rb05-control-yaw",
     speed_kt:   "/velocities/groundspeed-kt",
     gear_pos:   "/gear/gear/position-norm",
+    time:       "/sim/time/elapsed-sec",
 };
 
 foreach (var prop; keys(input)) {
@@ -364,12 +365,19 @@ var Rb05 = {
 var SubModelWeapon = {
     parents: [WeaponLogic],
 
-    new: func(type, fire_all=0) {
+    new: func(type, fire_all=0, ammo_factor=1) {
         var w = { parents: [SubModelWeapon, WeaponLogic.new(type)], };
         w.fire_all = fire_all;
         w.selected = [];
         w.stations = [];
         w.weapons = [];
+
+        # Ammunition count is very important and a bit tricky, because it is used in 'weapon_ready()'.
+        # Cache the results for efficiency.
+        w.ammo = 0;
+        w.ammo_factor = ammo_factor;
+        w.ammo_update_timer = maketimer(0.05, w, w._update_ammo);
+        w.simulatedTime = 1;
         return w;
     },
 
@@ -389,6 +397,7 @@ var SubModelWeapon = {
             me.stations[i] = pylons.station_by_id(me.selected[i]);
             me.weapons[i] = me.stations[i].getWeapons()[0];
         }
+        me._update_ammo();
         if (!me.weapon_ready()) {
             # no ammo
             me.selected = [];
@@ -427,6 +436,9 @@ var SubModelWeapon = {
             if (me.unsafe) weapon.start(trigger_prop);
             else weapon.stop();
         }
+
+        if (me.unsafe) me.ammo_update_timer.start();
+        else me.ammo_update_timer.stop();
     },
 
     set_trigger: func(trigger) {
@@ -438,8 +450,16 @@ var SubModelWeapon = {
         if (me.armed() and trigger) input.trigger_m70.setBoolValue(TRUE);
     },
 
+    _update_ammo: func {
+        me.ammo = call(WeaponLogic.get_ammo, [], me);
+    },
+
+    get_ammo: func {
+        return math.ceil(me.ammo/me.ammo_factor);
+    },
+
     weapon_ready: func {
-        return me.get_ammo() > 0;
+        return me.ammo > 0;
     },
 
     get_selected_pylons: func {
@@ -590,10 +610,10 @@ if (variant.JA) {
         Missile.new(type:"RB-99", fire_delay:0.7),
         Missile.new(type:"RB-71", fire_delay:0.7),
         Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new(type:"M70 ARAK", fire_all:1),
+        SubModelWeapon.new(type:"M70 ARAK", fire_all:1, ammo_factor:6), # get_ammo gives number of pods
     ];
 
-    var internal_gun = SubModelWeapon.new("M75 AKAN");
+    var internal_gun = SubModelWeapon.new(type:"M75 AKAN", ammo_factor:22);  # get_ammo gives firing time
 } else {
     var weapons = [
         Missile.new(type:"RB-74", fire_delay:0.7),
