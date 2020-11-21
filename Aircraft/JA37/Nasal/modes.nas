@@ -123,6 +123,8 @@ var update_mode_ja = func {
         if (main_ja == LANDING) main_ja = NAV;
     }
 
+    if (main_ja == AIMING and !fire_control.firing_enabled()) main_ja = NAV;
+
     takeoff = (main_ja == TAKEOFF);
     landing = (main_ja == LANDING);
     input.takeoff.setValue(takeoff);
@@ -130,7 +132,7 @@ var update_mode_ja = func {
 
 var set_aiming_mode = func(aim) {
     if (aim) {
-        if (main_ja == NAV) main_ja = AIMING;
+        if (main_ja == NAV and fire_control.firing_enabled()) main_ja = AIMING;
     } else {
         if (main_ja == AIMING) main_ja = NAV;
     }
