@@ -1760,37 +1760,27 @@
 
         -->
         
-        <fcs_function name="systems/indicators/flashing-alt-bars">
-            <function>
-                <!-- authentic warnings -->
-                <and>
-                    <eq>
-                        <property>autoflight/mode</property>
-                        <value>1</value>
-                    </eq>
-                    <gt>
-                        <property>/ja37/avionics/lost-dc-sec</property>
-                        <value>6</value>
-                    </gt>
-                </and>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/indicators/flashing-mkv">
-            <function>
-                <!-- authentic warnings -->
-                <and>
-                    <gt>
-                        <property>autoflight/mode</property>
-                        <value>1</value>
-                    </gt>
-                    <gt>
-                        <property>/ja37/avionics/lost-dc-sec</property>
-                        <value>6</value>
-                    </gt>
-                </and>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/flashing-alt-bars">
+            <default value="0"/>
+            <!-- loss of DC power for 6 secs -->
+            <test logic="AND" value="1">
+                autoflight/mode ge 1
+                /ja37/avionics/lost-dc-sec gt 6
+            </test>
+            <!-- autopilot disengaged due to high pitch/roll -->
+            <test logic="AND" value="1">
+                autoflight/mode ge 2
+                autoflight/temp-mode-active eq 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/flashing-mkv">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                autoflight/mode ge 2
+                /ja37/avionics/lost-dc-sec gt 6
+            </test>
+        </switch>
 
         <switch name="/instrumentation/terrain-warning-secondary">
             <default value="0"/>
