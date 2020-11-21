@@ -656,7 +656,7 @@ var cycle_weapon_type = func {
 
     # Cycle through weapons, starting from the previous one.
     var prev = selected_index;
-    if (prev < 0) prev = -1;
+    if (prev < 0) prev = size(weapons)-1;
     var i = prev;
     i += 1;
     if (i >= size(weapons)) i = 0;
