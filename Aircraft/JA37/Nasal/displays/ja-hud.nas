@@ -944,7 +944,20 @@ var AltitudeBars = {
     },
 
     update: func(scale_factor, show_horizon) {
-        if (!show_horizon) {
+        if (me.mode == HUD.MODE_AIM) {
+            # Aiming mode is special in that alt hold boxes are displayed fixed,
+            # simply as an indication that altitude hold is on.
+            me.alt_bars.hide();
+            me.tils_bars_2.hide();
+            me.tils_bars_3.hide();
+            me.alt_boxes.setTranslation(0, 0);
+            if (input.APmode.getValue() == 3
+                and (!input.alt_bars_flash.getBoolValue() or input.twoHz.getBoolValue())) {
+                me.alt_boxes.show();
+            } else {
+                me.alt_boxes.hide();
+            }
+        } elsif (!show_horizon) {
             me.alt_bars.hide();
             me.alt_boxes.hide();
             me.tils_bars_2.hide();
@@ -981,7 +994,7 @@ var AltitudeBars = {
             var alt = input.alt.getValue();
 
             # Show/hide bars appropriately.
-            # Altitude bars. On below 1000m, except on final or aiming mode (not sure about aiming mode).
+            # Altitude bars. On below 1000m, except on final or aiming mode.
             if (alt <= 1000 and me.mode != HUD.MODE_FINAL_OPT and me.mode != HUD.MODE_AIM) {
                 me.alt_bars.show();
             } else {
@@ -1307,12 +1320,15 @@ var HUD = {
         me.fpv = FPV.new(me.root);
         me.horizon = Horizon.new(me.fpv.get_group());
 
+        # Roll stabilized group for alt/speed/heading scales.
+        # In AIM mode, it is no longer roll stabilized.
+        me.scales_roll_grp = me.fpv.get_group().createChild("group");
         # Scales (altitude, speed, ...) group. In general, centered on FPV, roll stabilized.
-        me.scales_grp = me.horizon.get_roll_group().createChild("group");
+        me.scales_grp = me.scales_roll_grp.createChild("group");
         # Altitude bars. Horizon fixed.
-        me.alt_bars_grp = me.horizon.get_roll_group().createChild("group");
+        me.alt_bars_grp = me.scales_roll_grp.createChild("group");
         # Heading scale group. Same as scales_grp except in landing mode, where on the horizon.
-        me.hdg_scale_grp = me.horizon.get_roll_group().createChild("group");
+        me.hdg_scale_grp = me.scales_roll_grp.createChild("group");
 
         me.heading = Heading.new(me.hdg_scale_grp);
         me.speed = Speed.new(me.scales_grp);
@@ -1429,6 +1445,11 @@ var HUD = {
         var gs_pos = me.horizon.get_gs_pos();
 
         # Update positions of various groups.
+        if (me.mode == HUD.MODE_AIM) {
+            me.scales_roll_grp.setRotation(0);
+        } else {
+            me.scales_roll_grp.setRotation(-me.roll);
+        }
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
             me.scales_grp.setTranslation(gs_pos[0], me.fpv_pitch * 100 + gs_pos[1]);
             me.hdg_scale_grp.setTranslation(0, me.fpv_pitch * 100);
@@ -1436,7 +1457,11 @@ var HUD = {
         } else {
             me.scales_grp.setTranslation(0, 0);
             me.hdg_scale_grp.setTranslation(0, 0);
-            me.alt_bars_grp.setTranslation(0, me.fpv_pitch * 100);
+            if (me.mode != HUD.MODE_AIM) {
+                me.alt_bars_grp.setTranslation(0, me.fpv_pitch * 100);
+            } else {
+                me.alt_bars_grp.setTranslation(0, 0);
+            }
         }
 
         me.heading.update(me.fpv_heading);
