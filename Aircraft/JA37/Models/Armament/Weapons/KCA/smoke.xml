@@ -30,4 +30,9 @@
   <min>0.1</min>
   <max>1</max>
  </animation>
+
+ <animation>
+   <type>noshadow</type>
+   <object-name>puff</object-name>
+ </animation>
 </PropertyList>

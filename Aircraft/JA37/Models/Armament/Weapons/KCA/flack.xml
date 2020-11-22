@@ -19,4 +19,8 @@
     <z-offset>2</z-offset>
   </animation>
 
+  <animation>
+    <type>noshadow</type>
+    <object-name>rect</object-name>
+  </animation>
 </PropertyList>

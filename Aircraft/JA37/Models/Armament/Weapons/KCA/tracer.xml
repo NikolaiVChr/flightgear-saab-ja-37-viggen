@@ -4,6 +4,11 @@
   <path>tracer.ac</path>
 
   <animation>
+    <type>noshadow</type>
+    <object-name>trace</object-name>
+  </animation>
+
+  <animation>
     <type>dist-scale</type>
     <name>30mm tracer cannon</name>
     <object-name>trace</object-name>
