@@ -1,0 +1,1389 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<system name="lead computer">
+  <property value="0">instruments/gunsight[0]/GA</property>       <!-- cannon down angle, rad -->
+  <property value="3383.3">instruments/gunsight[0]/VM</property>  <!-- cannon muzzle velocity, ft/s -->
+  <property value="0.8">instruments/gunsight[0]/GAIN</property>   <!-- sensitivity parameter, default 0.8 -->
+  <property value="0">instruments/gunsight[0]/HUDY</property>     <!-- Y (lateral) offset from gun to hud, ft -->
+  <property value="5.3">instruments/gunsight[0]/HUDZ</property>   <!-- Z (vertical) offset from gun to hud, ft -->
+  <property value="0.00614">instruments/gunsight[0]/KB</property> <!-- Some kind of drag coefficient -->
+
+  <property value="0">instruments/gunsight[1]/GA</property>
+  <property value="3383.3">instruments/gunsight[1]/VM</property>
+  <property value="0.8">instruments/gunsight[1]/GAIN</property>
+  <property value="0">instruments/gunsight[1]/HUDY</property>
+  <property value="5.3">instruments/gunsight[1]/HUDZ</property>
+  <property value="0.00614">instruments/gunsight[1]/KB</property>
+
+  <!-- American Fighter Academy Lead Computing Optical Sight algorithm, A.L. Leatham et. al. -->
+
+  <!-- Input: distance to target, and derivative -->
+  <channel execrate="1" name="AFALCOS Input">
+    <pure_gain name="instruments/gunsight[0]/distance">
+      <input>/instrumentation/gunsight[0]/distance-m</input>
+      <gain>3.28084</gain><!-- m to ft -->
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[0]/target-distance">
+      <input>/instrumentation/gunsight[0]/target-distance-m</input>
+      <gain>3.28084</gain><!-- m to ft -->
+    </pure_gain>
+
+    <pid name="instruments/gunsight[0]/target-closure-raw">
+      <input>instruments/gunsight[0]/target-distance</input>
+      <kd>1</kd>
+    </pid>
+
+    <!-- target-distance is expected to be updated from nasal,
+         with a low (compared to JSBSim) refresh rate.
+         Thus the derivative needs some serious smoothing. -->
+    <lag_filter name="instruments/gunsight[0]/target-closure">
+      <input>instruments/gunsight[0]/target-closure-raw</input>
+      <c1>1</c1>
+      <clipto>
+        <max>3000</max>
+        <min>-3000</min>
+      </clipto>
+    </lag_filter>
+
+    <switch name="instruments/gunsight[0]/D">
+      <default value="instruments/gunsight[0]/distance"/>
+      <test value="instruments/gunsight[0]/target-distance">
+        /instrumentation/gunsight[0]/use-target-distance ne 0
+      </test>
+      <clipto>
+        <min>1000</min><!-- 300m -->
+        <max>4000</max><!-- 1200m -->
+      </clipto>
+    </switch>
+
+    <fcs_function name="instruments/gunsight[1]/D">
+      <function>
+        <sum>
+          <property>instruments/gunsight[0]/D</property>
+          <value>300</value>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <switch name="instruments/gunsight[0]/DDOT">
+      <default value="0"/>
+      <test value="instruments/gunsight[0]/target-closure">
+        /instrumentation/gunsight[0]/use-target-distance ne 0
+      </test>
+      <output>instruments/gunsight[1]/DDOT</output>
+    </switch>
+  </channel>
+
+
+  <channel execrate="1" name="AFALCOS 1">
+    <!-- Inputs from JSBSim -->
+    <pure_gain name="instruments/gunsight[0]/VA">
+      <input>velocities/vtrue-fps</input>
+      <gain>1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[0]/P">
+      <input>velocities/p-rad_sec</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[0]/Q">
+      <input>velocities/q-rad_sec</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[0]/R">
+      <input>velocities/r-rad_sec</input>
+      <gain>1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[0]/AX">
+      <input>accelerations/a-pilot-x-ft_sec2</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[0]/AY">
+      <input>accelerations/a-pilot-y-ft_sec2</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[0]/AZ">
+      <input>accelerations/a-pilot-z-ft_sec2</input>
+      <gain>1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[0]/DRATIO">
+      <input>atmosphere/rho-slugs_ft3</input>
+      <gain>420.168</gain>  <!-- inverse of std air density: 1/0.00238 -->
+    </pure_gain>
+
+    <summer name="instruments/gunsight[0]/VP">
+      <input>instruments/gunsight[0]/VA</input>
+      <input>instruments/gunsight[0]/VM</input>
+    </summer>
+
+    <fcs_function name="instruments/gunsight[0]/VLS">
+      <function>
+        <product>
+          <property>instruments/gunsight[0]/D</property>
+          <property>instruments/gunsight[0]/KB</property>
+          <property>instruments/gunsight[0]/DRATIO</property>
+          <pow>
+            <property>instruments/gunsight[0]/VP</property>
+            <value>0.5</value>
+          </pow>
+        </product>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="instruments/gunsight[0]/VC">
+      <input>instruments/gunsight[0]/DDOT</input>
+      <gain>-1</gain>
+    </pure_gain>
+
+    <summer name="instruments/gunsight[0]/VOS">
+      <input>instruments/gunsight[0]/VM</input>
+      <input>instruments/gunsight[0]/VC</input>
+      <input>-instruments/gunsight[0]/VLS</input>
+    </summer>
+
+    <fcs_function name="instruments/gunsight[0]/VCMsub">
+      <function>
+        <difference>
+          <pow>
+            <property>instruments/gunsight[0]/VOS</property>
+            <value>2</value>
+          </pow>
+          <product>
+            <value>4</value>
+            <difference>
+              <property>instruments/gunsight[0]/VA</property>
+              <property>instruments/gunsight[0]/VC</property>
+            </difference>
+            <property>instruments/gunsight[0]/VLS</property>
+          </product>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/VCM">
+      <function>
+        <ifthen>
+          <gt>
+            <property>instruments/gunsight[0]/VCMsub</property>
+            <value>0</value>
+          </gt>
+          <!-- desired value -->
+          <pow>
+            <property>instruments/gunsight[0]/VCMsub</property>
+            <value>0.5</value>
+          </pow>
+          <!-- Input is negative. Probably means that bullet are estimated not to reach the target. -->
+          <value>0</value>
+        </ifthen>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/RTF">
+      <function>
+        <quotient>
+          <product>
+            <value>0.5</value>
+            <sum>
+              <property>instruments/gunsight[0]/VOS</property>
+              <property>instruments/gunsight[0]/VCM</property>
+            </sum>
+          </product>
+          <property>instruments/gunsight[0]/D</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/TF">
+      <function>
+        <quotient>
+          <value>1</value>
+          <property>instruments/gunsight[0]/RTF</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/VF">
+      <function>
+        <difference>
+          <quotient>
+            <property>instruments/gunsight[0]/D</property>
+            <property>instruments/gunsight[0]/TF</property>
+          </quotient>
+          <property>instruments/gunsight[0]/VC</property>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/JV">
+      <function>
+        <quotient>
+          <difference>
+            <property>instruments/gunsight[0]/VM</property>
+            <property>instruments/gunsight[0]/VF</property>
+          </difference>
+          <sum>
+            <property>instruments/gunsight[0]/VA</property>
+            <property>instruments/gunsight[0]/VM</property>
+          </sum>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/B1">
+      <function>
+        <cos><property>instruments/gunsight[0]/GA</property></cos>
+      </function>
+    </fcs_function>
+    <fcs_function name="instruments/gunsight[0]/B2">
+      <function>
+        <value>0</value>
+      </function>
+    </fcs_function>
+    <fcs_function name="instruments/gunsight[0]/B3">
+      <function>
+        <sin><property>instruments/gunsight[0]/GA</property></sin>
+      </function>
+    </fcs_function>
+
+    <summer name="instruments/gunsight[0]/GAL">
+      <input>aero/alpha-rad</input>
+      <input>-instruments/gunsight[0]/GA</input>
+    </summer>
+
+    <summer name="instruments/gunsight[0]/C6">
+      <input>instruments/gunsight[0]/D</input>
+      <input>instruments/gunsight[0]/DDOT</input>
+      <input>instruments/gunsight[0]/TF</input>
+    </summer>
+
+    <fcs_function name="instruments/gunsight[0]/C7">
+      <function>
+        <quotient>
+          <product>
+            <property>instruments/gunsight[0]/TF</property>
+            <property>instruments/gunsight[0]/D</property>
+            <property>instruments/gunsight[0]/P</property>
+            <value>0.5</value>
+          </product>
+          <property>instruments/gunsight[0]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/C1">
+      <function>
+        <quotient>
+          <property>instruments/gunsight[0]/VF</property>
+          <property>instruments/gunsight[0]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/C2">
+      <function>
+        <quotient>
+          <product>
+            <property>instruments/gunsight[0]/JV</property>
+            <property>instruments/gunsight[0]/VA</property>
+          </product>
+          <property>instruments/gunsight[0]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/C3">
+      <function>
+        <quotient>
+          <product>
+            <property>instruments/gunsight[0]/TF</property>
+            <value>0.5</value>
+          </product>
+          <property>instruments/gunsight[0]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/BXAN2">
+      <function>
+        <difference>
+          <product>
+            <property>instruments/gunsight[0]/AX</property>
+            <property>instruments/gunsight[0]/B3</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/AZ</property>
+            <property>instruments/gunsight[0]/B1</property>
+          </product>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/BXAN3">
+      <function>
+        <difference>
+          <product>
+            <property>instruments/gunsight[0]/AY</property>
+            <property>instruments/gunsight[0]/B1</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/AX</property>
+            <property>instruments/gunsight[0]/B2</property>
+          </product>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/SL1">
+      <function>
+        <sum>
+          <property>instruments/gunsight[0]/B1</property>
+          <product>
+            <property>instruments/gunsight[0]/B2</property>
+            <property>instruments/gunsight[0]/ALA</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/B3</property>
+            <property>instruments/gunsight[0]/ELA</property>
+            <value>-1</value>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/SL2">
+      <function>
+        <sum>
+          <property>instruments/gunsight[0]/B2</property>
+          <product>
+            <property>instruments/gunsight[0]/B1</property>
+            <property>instruments/gunsight[0]/ALA</property>
+            <value>-1</value>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/SL3">
+      <function>
+        <sum>
+          <property>instruments/gunsight[0]/B3</property>
+          <product>
+            <property>instruments/gunsight[0]/B1</property>
+            <property>instruments/gunsight[0]/ELA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <!-- Dot product (AX,AY,AZ).(B1,B2,B3) -->
+    <fcs_function name="instruments/gunsight[0]/ADOTB">
+      <function>
+        <sum>
+          <product>
+            <property>instruments/gunsight[0]/AX</property>
+            <property>instruments/gunsight[0]/B1</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/AY</property>
+            <property>instruments/gunsight[0]/B2</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/AZ</property>
+            <property>instruments/gunsight[0]/B3</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <!-- Dot product (AY,AZ).(ELA,ALA) -->
+    <fcs_function name="instruments/gunsight[0]/ADOTLA">
+      <function>
+        <sum>
+          <product>
+            <property>instruments/gunsight[0]/AY</property>
+            <property>instruments/gunsight[0]/ELA</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/AZ</property>
+            <property>instruments/gunsight[0]/ALA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+
+    <fcs_function name="instruments/gunsight[0]/W2">
+      <function>
+        <sum>
+          <!-- part 1 -->
+          <product>
+            <property>instruments/gunsight[0]/C1</property>
+            <property>instruments/gunsight[0]/ELA</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/C2</property>
+            <property>instruments/gunsight[0]/GAL</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/C3</property>
+            <sum>
+              <property>instruments/gunsight[0]/BXAN2</property>
+              <product>
+                <property>instruments/gunsight[0]/ADOTLA</property>
+                <property>instruments/gunsight[0]/B2</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[0]/ADOTB</property>
+                <property>instruments/gunsight[0]/ELA</property>
+              </product>
+            </sum>
+          </product>
+          <!-- part 2 -->
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[0]/SL1</property>
+                <property>instruments/gunsight[0]/SL2</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[0]/C7</property>
+                <property>instruments/gunsight[0]/SL3</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[0]/P</property>
+          </product>
+          <product>
+            <sum>
+              <value>1</value>
+              <product>
+                <property>instruments/gunsight[0]/SL2</property>
+                <property>instruments/gunsight[0]/SL2</property>
+                <value>-1</value>
+              </product>
+            </sum>
+            <property>instruments/gunsight[0]/Q</property>
+          </product>
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[0]/SL2</property>
+                <property>instruments/gunsight[0]/SL3</property>
+              </product>
+              <product>
+                <property>instruments/gunsight[0]/C7</property>
+                <property>instruments/gunsight[0]/SL1</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[0]/R</property>
+            <value>-1</value>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/W3">
+      <function>
+        <sum>
+          <!-- part 1 -->
+          <product>
+            <property>instruments/gunsight[0]/C1</property>
+            <property>instruments/gunsight[0]/ALA</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <property>instruments/gunsight[0]/C3</property>
+            <sum>
+              <property>instruments/gunsight[0]/BXAN3</property>
+              <product>
+                <property>instruments/gunsight[0]/ADOTLA</property>
+                <property>instruments/gunsight[0]/B3</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[0]/ADOTB</property>
+                <property>instruments/gunsight[0]/ALA</property>
+              </product>
+            </sum>
+          </product>
+          <!-- part 2 -->
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[0]/SL1</property>
+                <property>instruments/gunsight[0]/SL3</property>
+              </product>
+              <product>
+                <property>instruments/gunsight[0]/C7</property>
+                <property>instruments/gunsight[0]/SL2</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[0]/P</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[0]/SL2</property>
+                <property>instruments/gunsight[0]/SL3</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[0]/C7</property>
+                <property>instruments/gunsight[0]/SL1</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[0]/Q</property>
+          </product>
+          <product>
+            <sum>
+              <value>1</value>
+              <product>
+                <property>instruments/gunsight[0]/SL3</property>
+                <property>instruments/gunsight[0]/SL3</property>
+                <value>-1</value>
+              </product>
+            </sum>
+            <property>instruments/gunsight[0]/R</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/C5">
+      <function>
+        <product>
+          <property>instruments/gunsight[0]/C7</property>
+          <property>instruments/gunsight[0]/SL1</property>
+        </product>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/DET">
+      <function>
+        <difference>
+          <sum>
+            <value>1</value>
+            <pow>
+              <property>instruments/gunsight[0]/C5</property>
+              <value>2</value>
+            </pow>
+          </sum>
+          <pow>
+            <property>instruments/gunsight[0]/SL2</property>
+            <value>2</value>
+          </pow>
+          <pow>
+            <property>instruments/gunsight[0]/SL3</property>
+            <value>2</value>
+          </pow>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/AINVW2">
+      <function>
+        <quotient>
+          <sum>
+            <product>
+              <difference>
+                <value>1</value>
+                <pow>
+                  <property>instruments/gunsight[0]/SL3</property>
+                  <value>2</value>
+                </pow>
+              </difference>
+              <property>instruments/gunsight[0]/W2</property>
+            </product>
+            <product>
+              <sum>
+                <product>
+                  <property>instruments/gunsight[0]/SL2</property>
+                  <property>instruments/gunsight[0]/SL3</property>
+                </product>
+                <property>instruments/gunsight[0]/C5</property>
+              </sum>
+              <property>instruments/gunsight[0]/W3</property>
+            </product>
+          </sum>
+          <property>instruments/gunsight[0]/DET</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/AINVW3">
+      <function>
+        <quotient>
+          <sum>
+            <product>
+              <difference>
+                <product>
+                  <property>instruments/gunsight[0]/SL2</property>
+                  <property>instruments/gunsight[0]/SL3</property>
+                </product>
+                <property>instruments/gunsight[0]/C5</property>
+              </difference>
+              <property>instruments/gunsight[0]/W2</property>
+            </product>
+            <product>
+              <difference>
+                <value>1</value>
+                <pow>
+                  <property>instruments/gunsight[0]/SL2</property>
+                  <value>2</value>
+                </pow>
+              </difference>
+              <property>instruments/gunsight[0]/W3</property>
+            </product>
+          </sum>
+          <property>instruments/gunsight[0]/DET</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="instruments/gunsight[0]/DELA">
+      <input>instruments/gunsight[0]/AINVW2</input>
+      <gain>instruments/gunsight[0]/GAIN</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[0]/DALA">
+      <input>instruments/gunsight[0]/AINVW3</input>
+      <gain>instruments/gunsight[0]/GAIN</gain>
+    </pure_gain>
+
+    <fcs_function name="instruments/gunsight[0]/ELA">
+      <function>
+        <sum>
+          <property>instruments/gunsight[0]/ELA</property>
+          <product>
+            <property>simulation/channel-dt</property>
+            <property>instruments/gunsight[0]/DELA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/ALA">
+      <function>
+        <sum>
+          <property>instruments/gunsight[0]/ALA</property>
+          <product>
+            <property>simulation/channel-dt</property>
+            <property>instruments/gunsight[0]/DALA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="instruments/gunsight[0]/ELAB">
+      <input>instruments/gunsight[0]/ELA</input>
+      <gain>instruments/gunsight[0]/B1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[0]/ALAB">
+      <input>instruments/gunsight[0]/ALA</input>
+      <gain>instruments/gunsight[0]/B1</gain>
+    </pure_gain>
+
+    <fcs_function name="instruments/gunsight[0]/ELAH">
+      <function>
+        <product>
+          <sum>
+            <property>instruments/gunsight[0]/ELA</property>
+            <property>instruments/gunsight[0]/GA</property>
+            <quotient>
+              <property>-instruments/gunsight[0]/HUDZ</property>
+              <product>
+                <property>instruments/gunsight[0]/VF</property>
+                <property>instruments/gunsight[0]/TF</property>
+              </product>
+            </quotient>
+          </sum>
+          <value>-1000</value>
+        </product>
+      </function>
+      <output>/instrumentation/gunsight[0]/elevation-mil</output>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[0]/ALAH">
+      <function>
+        <product>
+          <sum>
+            <property>instruments/gunsight[0]/ALA</property>
+            <quotient>
+              <property>-instruments/gunsight[0]/HUDY</property>
+              <product>
+                <property>instruments/gunsight[0]/VF</property>
+                <property>instruments/gunsight[0]/TF</property>
+              </product>
+            </quotient>
+          </sum>
+          <value>-1000</value>
+        </product>
+      </function>
+      <output>/instrumentation/gunsight[0]/azimuth-mil</output>
+    </fcs_function>
+  </channel>
+
+
+  <channel execrate="1" name="AFALCOS 2">
+    <!-- Inputs from JSBSim -->
+    <pure_gain name="instruments/gunsight[1]/VA">
+      <input>velocities/vtrue-fps</input>
+      <gain>1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[1]/P">
+      <input>velocities/p-rad_sec</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[1]/Q">
+      <input>velocities/q-rad_sec</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[1]/R">
+      <input>velocities/r-rad_sec</input>
+      <gain>1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[1]/AX">
+      <input>accelerations/a-pilot-x-ft_sec2</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[1]/AY">
+      <input>accelerations/a-pilot-y-ft_sec2</input>
+      <gain>1</gain>
+    </pure_gain>
+    <pure_gain name="instruments/gunsight[1]/AZ">
+      <input>accelerations/a-pilot-z-ft_sec2</input>
+      <gain>1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[1]/DRATIO">
+      <input>atmosphere/rho-slugs_ft3</input>
+      <gain>420.168</gain>  <!-- inverse of std air density: 1/0.00238 -->
+    </pure_gain>
+
+    <summer name="instruments/gunsight[1]/VP">
+      <input>instruments/gunsight[1]/VA</input>
+      <input>instruments/gunsight[1]/VM</input>
+    </summer>
+
+    <fcs_function name="instruments/gunsight[1]/VLS">
+      <function>
+        <product>
+          <property>instruments/gunsight[1]/D</property>
+          <property>instruments/gunsight[1]/KB</property>
+          <property>instruments/gunsight[1]/DRATIO</property>
+          <pow>
+            <property>instruments/gunsight[1]/VP</property>
+            <value>0.5</value>
+          </pow>
+        </product>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="instruments/gunsight[1]/VC">
+      <input>instruments/gunsight[1]/DDOT</input>
+      <gain>-1</gain>
+    </pure_gain>
+
+    <summer name="instruments/gunsight[1]/VOS">
+      <input>instruments/gunsight[1]/VM</input>
+      <input>instruments/gunsight[1]/VC</input>
+      <input>-instruments/gunsight[1]/VLS</input>
+    </summer>
+
+    <fcs_function name="instruments/gunsight[1]/VCMsub">
+      <function>
+        <difference>
+          <pow>
+            <property>instruments/gunsight[1]/VOS</property>
+            <value>2</value>
+          </pow>
+          <product>
+            <value>4</value>
+            <difference>
+              <property>instruments/gunsight[1]/VA</property>
+              <property>instruments/gunsight[1]/VC</property>
+            </difference>
+            <property>instruments/gunsight[1]/VLS</property>
+          </product>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/VCM">
+      <function>
+        <ifthen>
+          <gt>
+            <property>instruments/gunsight[1]/VCMsub</property>
+            <value>0</value>
+          </gt>
+          <!-- desired value -->
+          <pow>
+            <property>instruments/gunsight[1]/VCMsub</property>
+            <value>0.5</value>
+          </pow>
+          <!-- Input is negative. Probably means that bullet are estimated not to reach the target. -->
+          <value>0</value>
+        </ifthen>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/RTF">
+      <function>
+        <quotient>
+          <product>
+            <value>0.5</value>
+            <sum>
+              <property>instruments/gunsight[1]/VOS</property>
+              <property>instruments/gunsight[1]/VCM</property>
+            </sum>
+          </product>
+          <property>instruments/gunsight[1]/D</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/TF">
+      <function>
+        <quotient>
+          <value>1</value>
+          <property>instruments/gunsight[1]/RTF</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/VF">
+      <function>
+        <difference>
+          <quotient>
+            <property>instruments/gunsight[1]/D</property>
+            <property>instruments/gunsight[1]/TF</property>
+          </quotient>
+          <property>instruments/gunsight[1]/VC</property>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/JV">
+      <function>
+        <quotient>
+          <difference>
+            <property>instruments/gunsight[1]/VM</property>
+            <property>instruments/gunsight[1]/VF</property>
+          </difference>
+          <sum>
+            <property>instruments/gunsight[1]/VA</property>
+            <property>instruments/gunsight[1]/VM</property>
+          </sum>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/B1">
+      <function>
+        <cos><property>instruments/gunsight[1]/GA</property></cos>
+      </function>
+    </fcs_function>
+    <fcs_function name="instruments/gunsight[1]/B2">
+      <function>
+        <value>0</value>
+      </function>
+    </fcs_function>
+    <fcs_function name="instruments/gunsight[1]/B3">
+      <function>
+        <sin><property>instruments/gunsight[1]/GA</property></sin>
+      </function>
+    </fcs_function>
+
+    <summer name="instruments/gunsight[1]/GAL">
+      <input>aero/alpha-rad</input>
+      <input>-instruments/gunsight[1]/GA</input>
+    </summer>
+
+    <summer name="instruments/gunsight[1]/C6">
+      <input>instruments/gunsight[1]/D</input>
+      <input>instruments/gunsight[1]/DDOT</input>
+      <input>instruments/gunsight[1]/TF</input>
+    </summer>
+
+    <fcs_function name="instruments/gunsight[1]/C7">
+      <function>
+        <quotient>
+          <product>
+            <property>instruments/gunsight[1]/TF</property>
+            <property>instruments/gunsight[1]/D</property>
+            <property>instruments/gunsight[1]/P</property>
+            <value>0.5</value>
+          </product>
+          <property>instruments/gunsight[1]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/C1">
+      <function>
+        <quotient>
+          <property>instruments/gunsight[1]/VF</property>
+          <property>instruments/gunsight[1]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/C2">
+      <function>
+        <quotient>
+          <product>
+            <property>instruments/gunsight[1]/JV</property>
+            <property>instruments/gunsight[1]/VA</property>
+          </product>
+          <property>instruments/gunsight[1]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/C3">
+      <function>
+        <quotient>
+          <product>
+            <property>instruments/gunsight[1]/TF</property>
+            <value>0.5</value>
+          </product>
+          <property>instruments/gunsight[1]/C6</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/BXAN2">
+      <function>
+        <difference>
+          <product>
+            <property>instruments/gunsight[1]/AX</property>
+            <property>instruments/gunsight[1]/B3</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/AZ</property>
+            <property>instruments/gunsight[1]/B1</property>
+          </product>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/BXAN3">
+      <function>
+        <difference>
+          <product>
+            <property>instruments/gunsight[1]/AY</property>
+            <property>instruments/gunsight[1]/B1</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/AX</property>
+            <property>instruments/gunsight[1]/B2</property>
+          </product>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/SL1">
+      <function>
+        <sum>
+          <property>instruments/gunsight[1]/B1</property>
+          <product>
+            <property>instruments/gunsight[1]/B2</property>
+            <property>instruments/gunsight[1]/ALA</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/B3</property>
+            <property>instruments/gunsight[1]/ELA</property>
+            <value>-1</value>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/SL2">
+      <function>
+        <sum>
+          <property>instruments/gunsight[1]/B2</property>
+          <product>
+            <property>instruments/gunsight[1]/B1</property>
+            <property>instruments/gunsight[1]/ALA</property>
+            <value>-1</value>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/SL3">
+      <function>
+        <sum>
+          <property>instruments/gunsight[1]/B3</property>
+          <product>
+            <property>instruments/gunsight[1]/B1</property>
+            <property>instruments/gunsight[1]/ELA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <!-- Dot product (AX,AY,AZ).(B1,B2,B3) -->
+    <fcs_function name="instruments/gunsight[1]/ADOTB">
+      <function>
+        <sum>
+          <product>
+            <property>instruments/gunsight[1]/AX</property>
+            <property>instruments/gunsight[1]/B1</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/AY</property>
+            <property>instruments/gunsight[1]/B2</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/AZ</property>
+            <property>instruments/gunsight[1]/B3</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <!-- Dot product (AY,AZ).(ELA,ALA) -->
+    <fcs_function name="instruments/gunsight[1]/ADOTLA">
+      <function>
+        <sum>
+          <product>
+            <property>instruments/gunsight[1]/AY</property>
+            <property>instruments/gunsight[1]/ELA</property>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/AZ</property>
+            <property>instruments/gunsight[1]/ALA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+
+    <fcs_function name="instruments/gunsight[1]/W2">
+      <function>
+        <sum>
+          <!-- part 1 -->
+          <product>
+            <property>instruments/gunsight[1]/C1</property>
+            <property>instruments/gunsight[1]/ELA</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/C2</property>
+            <property>instruments/gunsight[1]/GAL</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/C3</property>
+            <sum>
+              <property>instruments/gunsight[1]/BXAN2</property>
+              <product>
+                <property>instruments/gunsight[1]/ADOTLA</property>
+                <property>instruments/gunsight[1]/B2</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[1]/ADOTB</property>
+                <property>instruments/gunsight[1]/ELA</property>
+              </product>
+            </sum>
+          </product>
+          <!-- part 2 -->
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[1]/SL1</property>
+                <property>instruments/gunsight[1]/SL2</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[1]/C7</property>
+                <property>instruments/gunsight[1]/SL3</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[1]/P</property>
+          </product>
+          <product>
+            <sum>
+              <value>1</value>
+              <product>
+                <property>instruments/gunsight[1]/SL2</property>
+                <property>instruments/gunsight[1]/SL2</property>
+                <value>-1</value>
+              </product>
+            </sum>
+            <property>instruments/gunsight[1]/Q</property>
+          </product>
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[1]/SL2</property>
+                <property>instruments/gunsight[1]/SL3</property>
+              </product>
+              <product>
+                <property>instruments/gunsight[1]/C7</property>
+                <property>instruments/gunsight[1]/SL1</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[1]/R</property>
+            <value>-1</value>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/W3">
+      <function>
+        <sum>
+          <!-- part 1 -->
+          <product>
+            <property>instruments/gunsight[1]/C1</property>
+            <property>instruments/gunsight[1]/ALA</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <property>instruments/gunsight[1]/C3</property>
+            <sum>
+              <property>instruments/gunsight[1]/BXAN3</property>
+              <product>
+                <property>instruments/gunsight[1]/ADOTLA</property>
+                <property>instruments/gunsight[1]/B3</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[1]/ADOTB</property>
+                <property>instruments/gunsight[1]/ALA</property>
+              </product>
+            </sum>
+          </product>
+          <!-- part 2 -->
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[1]/SL1</property>
+                <property>instruments/gunsight[1]/SL3</property>
+              </product>
+              <product>
+                <property>instruments/gunsight[1]/C7</property>
+                <property>instruments/gunsight[1]/SL2</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[1]/P</property>
+            <value>-1</value>
+          </product>
+          <product>
+            <sum>
+              <product>
+                <property>instruments/gunsight[1]/SL2</property>
+                <property>instruments/gunsight[1]/SL3</property>
+                <value>-1</value>
+              </product>
+              <product>
+                <property>instruments/gunsight[1]/C7</property>
+                <property>instruments/gunsight[1]/SL1</property>
+              </product>
+            </sum>
+            <property>instruments/gunsight[1]/Q</property>
+          </product>
+          <product>
+            <sum>
+              <value>1</value>
+              <product>
+                <property>instruments/gunsight[1]/SL3</property>
+                <property>instruments/gunsight[1]/SL3</property>
+                <value>-1</value>
+              </product>
+            </sum>
+            <property>instruments/gunsight[1]/R</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/C5">
+      <function>
+        <product>
+          <property>instruments/gunsight[1]/C7</property>
+          <property>instruments/gunsight[1]/SL1</property>
+        </product>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/DET">
+      <function>
+        <difference>
+          <sum>
+            <value>1</value>
+            <pow>
+              <property>instruments/gunsight[1]/C5</property>
+              <value>2</value>
+            </pow>
+          </sum>
+          <pow>
+            <property>instruments/gunsight[1]/SL2</property>
+            <value>2</value>
+          </pow>
+          <pow>
+            <property>instruments/gunsight[1]/SL3</property>
+            <value>2</value>
+          </pow>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/AINVW2">
+      <function>
+        <quotient>
+          <sum>
+            <product>
+              <difference>
+                <value>1</value>
+                <pow>
+                  <property>instruments/gunsight[1]/SL3</property>
+                  <value>2</value>
+                </pow>
+              </difference>
+              <property>instruments/gunsight[1]/W2</property>
+            </product>
+            <product>
+              <sum>
+                <product>
+                  <property>instruments/gunsight[1]/SL2</property>
+                  <property>instruments/gunsight[1]/SL3</property>
+                </product>
+                <property>instruments/gunsight[1]/C5</property>
+              </sum>
+              <property>instruments/gunsight[1]/W3</property>
+            </product>
+          </sum>
+          <property>instruments/gunsight[1]/DET</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/AINVW3">
+      <function>
+        <quotient>
+          <sum>
+            <product>
+              <difference>
+                <product>
+                  <property>instruments/gunsight[1]/SL2</property>
+                  <property>instruments/gunsight[1]/SL3</property>
+                </product>
+                <property>instruments/gunsight[1]/C5</property>
+              </difference>
+              <property>instruments/gunsight[1]/W2</property>
+            </product>
+            <product>
+              <difference>
+                <value>1</value>
+                <pow>
+                  <property>instruments/gunsight[1]/SL2</property>
+                  <value>2</value>
+                </pow>
+              </difference>
+              <property>instruments/gunsight[1]/W3</property>
+            </product>
+          </sum>
+          <property>instruments/gunsight[1]/DET</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="instruments/gunsight[1]/DELA">
+      <input>instruments/gunsight[1]/AINVW2</input>
+      <gain>instruments/gunsight[1]/GAIN</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[1]/DALA">
+      <input>instruments/gunsight[1]/AINVW3</input>
+      <gain>instruments/gunsight[1]/GAIN</gain>
+    </pure_gain>
+
+    <fcs_function name="instruments/gunsight[1]/ELA">
+      <function>
+        <sum>
+          <property>instruments/gunsight[1]/ELA</property>
+          <product>
+            <property>simulation/channel-dt</property>
+            <property>instruments/gunsight[1]/DELA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/ALA">
+      <function>
+        <sum>
+          <property>instruments/gunsight[1]/ALA</property>
+          <product>
+            <property>simulation/channel-dt</property>
+            <property>instruments/gunsight[1]/DALA</property>
+          </product>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="instruments/gunsight[1]/ELAB">
+      <input>instruments/gunsight[1]/ELA</input>
+      <gain>instruments/gunsight[1]/B1</gain>
+    </pure_gain>
+
+    <pure_gain name="instruments/gunsight[1]/ALAB">
+      <input>instruments/gunsight[1]/ALA</input>
+      <gain>instruments/gunsight[1]/B1</gain>
+    </pure_gain>
+
+    <fcs_function name="instruments/gunsight[1]/ELAH">
+      <function>
+        <product>
+          <sum>
+            <property>instruments/gunsight[1]/ELA</property>
+            <property>instruments/gunsight[1]/GA</property>
+            <quotient>
+              <property>-instruments/gunsight[1]/HUDZ</property>
+              <product>
+                <property>instruments/gunsight[1]/VF</property>
+                <property>instruments/gunsight[1]/TF</property>
+              </product>
+            </quotient>
+          </sum>
+          <value>-1000</value>
+        </product>
+      </function>
+      <output>/instrumentation/gunsight[0]/secondary-elevation-mil</output>
+    </fcs_function>
+
+    <fcs_function name="instruments/gunsight[1]/ALAH">
+      <function>
+        <product>
+          <sum>
+            <property>instruments/gunsight[1]/ALA</property>
+            <quotient>
+              <property>-instruments/gunsight[1]/HUDY</property>
+              <product>
+                <property>instruments/gunsight[1]/VF</property>
+                <property>instruments/gunsight[1]/TF</property>
+              </product>
+            </quotient>
+          </sum>
+          <value>-1000</value>
+        </product>
+      </function>
+      <output>/instrumentation/gunsight[0]/secondary-azimuth-mil</output>
+    </fcs_function>
+  </channel>
+</system>

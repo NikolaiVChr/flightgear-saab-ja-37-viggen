@@ -954,6 +954,10 @@ var Saab37 = {
     hud.initialize();
     me.loop_hud = maketimer(0.05, hud.update);
     me.loop_hud.start();
+    if (variant.JA) {
+        me.loop_gunsight = maketimer(0.05, gunsight.loop);
+        me.loop_gunsight.start();
+    }
 
     if (variant.JA) {
       # data-panel
@@ -1064,6 +1068,10 @@ var Saab37 = {
     hud.initialize();
     me.loop_hud = maketimer(0.05, func {timer.timeLoop("HUD", hud.update, nil);});
     me.loop_hud.start();
+    if (variant.JA) {
+        me.loop_gunsight = maketimer(0.05, func{timer.timeLoop("gunsight", gunsight.loop, nil);});
+        me.loop_gunsight.start();
+    }
 
     if (variant.JA) {
       # data-panel

@@ -59,6 +59,7 @@ var input = {
     APmode:         "/fdm/jsbsim/autoflight/mode",
     alt_bars_flash: "/fdm/jsbsim/systems/indicators/flashing-alt-bars",
     gpw:            "/instrumentation/terrain-warning",
+    trigger:        "/controls/armament/trigger-final",
     twoHz:          "/ja37/blink/two-Hz/state",
     fourHz:         "/ja37/blink/four-Hz/state",
     bright:         "/ja37/hud/brightness",

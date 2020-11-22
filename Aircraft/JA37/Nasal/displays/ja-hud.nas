@@ -49,8 +49,49 @@ var FPV = {
             .moveTo(25,0).horiz(75).moveTo(125,0).horiz(50);
 
         me.aim = me.group.createChild("group");
-        make_path(me.aim)
+        me.aim_empty = make_path(me.aim)
             .moveTo(-100,0).lineTo(-25,0).lineTo(0,25).lineTo(25,0).lineTo(100,0);
+        me.aim_missile = make_path(me.aim)
+            .moveTo(-20,0).horizTo(80).moveTo(0,-20).vertTo(20);
+
+        # Cannon/rockets aiming reticle. With submodes
+        me.aim_reticle = me.aim.createChild("group");
+        make_dot(me.aim_reticle, 0, 0, opts.line_width*2);
+
+        me.trace_line_rot = me.aim_reticle.createChild("group");
+        me.trace_line = make_path(me.trace_line_rot).horiz(300).hide();
+        me.fire_mark = make_path(me.aim_reticle).moveTo(-30,0).horizTo(30).moveTo(0,-30).vertTo(30).hide();
+
+        # A/G reticle
+        me.aim_ground = me.aim_reticle.createChild("group");
+
+        # A/A without target lock reticle
+        me.aim_gun_free = me.aim_reticle.createChild("group");
+        make_path(me.aim_gun_free).moveTo(-250,250).lineTo(-250,300).lineTo(-200,300);   # L in bottom left
+        # Vertical lines indicating wingspan of target.
+        me.wingspan_l = make_path(me.aim_gun_free).moveTo(0,-50).vert(250);
+        me.wingspan_r = make_path(me.aim_gun_free).moveTo(0,-50).vert(250);
+        me.wingspan_txt = make_text(me.aim_gun_free).setAlignment("left-bottom");
+        me.wingspan_txt.enableUpdate();
+        me.dist_txt = make_text(me.aim_gun_free).setAlignment("left-bottom");
+        me.dist_txt.enableUpdate();
+
+        # A/A with target lock reticle
+        me.aim_gun_tgt = me.aim_reticle.createChild("group");
+        make_path(me.aim_gun_tgt)
+            .moveTo(-200,0).horizTo(-100).moveTo(200,0).horizTo(100)
+            .moveTo(0,-125).vertTo(-175)
+            .moveTo(-60,60).lineTo(-90,90).lineTo(-75,105);
+        make_dot(me.aim_gun_tgt, 0, 100, opts.line_width);
+        make_dot(me.aim_gun_tgt, 0, -100, opts.line_width);
+        me.dist_index = me.aim_gun_tgt.createChild("group");
+        me.dist_index_norm = make_path(me.dist_index)
+            .moveTo(-100,0).line(25,25).line(25,-25).line(-25,-25).line(-25,25);
+        me.dist_index_fire = make_path(me.dist_index)
+            .moveTo(-100,0).line(35,25).moveTo(-100,0).line(35,-25);
+        me.dist_arc = make_path(me.aim_gun_tgt);
+        me.dist_tgt = make_text(me.aim_gun_tgt).setAlignment("left-bottom").setTranslation(120,190);
+        me.dist_tgt.enableUpdate();
 
         me.pos_x = me.pos_y = 0;
     },
@@ -72,19 +113,125 @@ var FPV = {
         }
     },
 
-    update: func {
-        if (input.wow.getBoolValue()) {
-            me.pos_x = 0;   # Avoids FPV stability issue at low speed.
+    # Cannon/rocket reticle mode.
+    update_reticle: func {
+        me.aim_ground.hide();
+
+        var pos = gunsight.get_position();
+        # gunsight uses mils
+        me.pos_x = math.clamp(pos[0]/10*R2D, -800, 800);
+        me.pos_y = math.clamp(pos[1]/10*R2D, -400, 1300);
+
+        if (radar_logic.selection != nil) {
+            me.aim_gun_tgt.show();
+            me.aim_gun_free.hide();
+
+            # Target distance
+            var dist = radar_logic.selection.get_range()*NM2M/1000;
+            me.dist_tgt.updateText(sprintf("%d,%.1d", math.floor(dist), math.mod(dist*10,10)));
+            # Circular target index/line
+            var index_angle = math.min(dist/1.6*math.pi, 2*math.pi);
+            if (dist <= 3.2) {
+                me.dist_index.setRotation(-index_angle);
+                me.dist_index.show();
+                if (dist >= 0.3 and dist <= 1.2) {
+                    me.dist_index_fire.show();
+                    me.dist_index_norm.hide();
+                } else {
+                    me.dist_index_fire.hide();
+                    me.dist_index_norm.show();
+                }
+            } else {
+                me.dist_index.hide();
+            }
+            var arc_end_x = -math.cos(index_angle)*100;
+            var arc_end_y = math.sin(index_angle)*100;
+            me.dist_arc.reset();
+            me.dist_arc.moveTo(-100,0);
+            if (index_angle <= math.pi) me.dist_arc.arcSmallCCWTo(100, 100, 0, arc_end_x, arc_end_y);
+            else me.dist_arc.arcLargeCCWTo(100, 100, 0, arc_end_x, arc_end_y);
         } else {
-            me.pos_x = 100 * input.fpv_right.getValue();
-            me.pos_x = math.clamp(me.pos_x, -800, 800);
+            me.aim_gun_tgt.hide();
+            me.aim_gun_free.show();
+
+            var wingspan = 15;  # m
+            var dist = 0.6;     # km
+
+            # Angle from center to wingspan indication lines
+            # Small angle, tan = angle is good enough
+            # Constant 20 is /2 (half wingspan) /1000 (km to m) *100 (deg to HUD units)
+            var offset = wingspan/dist/20 * R2D;
+
+            me.wingspan_l.setTranslation(-offset, 0);
+            me.wingspan_r.setTranslation(offset, 0);
+            me.wingspan_txt.updateText(sprintf("%d", wingspan));
+            me.dist_txt.updateText(sprintf("%d,%.1d", math.floor(dist), math.mod(dist*10,10)));
+            me.wingspan_txt.setTranslation(offset + 30, 0);
+            me.dist_txt.setTranslation(offset + 60, 250);
         }
 
-        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
-            me.pos_y = 1000;
+        if (fire_control.selected.armed()) {
+            var mark_pos = gunsight.get_secondary_position();
+            mark_pos[0] = mark_pos[0]/10*R2D - me.pos_x;
+            mark_pos[1] = mark_pos[1]/10*R2D - me.pos_y;
+            var angle = math.atan2(mark_pos[1], mark_pos[0]);
+            var length = math.sqrt(mark_pos[0]*mark_pos[0] + mark_pos[1]*mark_pos[1]);
+            var capped_length = math.min(length, 300);
+            me.trace_line_rot.setRotation(angle);
+            me.trace_line.setScale(capped_length/300, 1);
+            me.trace_line.show();
+
+            if (input.trigger.getBoolValue()) {
+                me.fire_mark.setTranslation(mark_pos[0]/length*capped_length, mark_pos[1]/length*capped_length);
+                me.fire_mark.show();
+            } else {
+                me.fire_mark.hide();
+            }
         } else {
-            me.pos_y = -100 * input.fpv_up.getValue();
-            me.pos_y = math.clamp(me.pos_y, -800, 1600);
+            me.trace_line.hide();
+            me.fire_mark.hide();
+        }
+    },
+
+    # Update function for aiming mode.
+    update_aim: func {
+        me.pos_x = 0;
+        me.pos_y = 0;
+
+        # Aiming mode. Reticle display depends on selected weapon.
+        if (fire_control.selected == nil or !fire_control.selected.weapon_ready()) {
+            # No weapon. Normal FPV, with a special symbol.
+            me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -800, 800);
+            me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
+            me.aim_empty.show();
+            me.aim_missile.hide();
+            me.aim_reticle.hide();
+        } elsif (fire_control.selected.type == "M70 ARAK" or fire_control.selected.type == "M75 AKAN") {
+            me.aim_empty.hide();
+            me.aim_missile.hide();
+            me.aim_reticle.show();
+            me.update_reticle();
+        } else {
+            # Small reticle for missiles.
+            me.aim_empty.hide();
+            me.aim_missile.show();
+            me.aim_reticle.hide();
+        }
+
+        me.group.setTranslation(me.pos_x, me.pos_y);
+    },
+
+    update: func {
+        if (me.mode == HUD.MODE_AIM) return me.update_aim();
+
+        # Default position (for actual FPV).
+        me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -800, 800);
+        me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
+
+        # Special cases, depending on HUD mode.
+        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
+            if (input.wow.getBoolValue()) me.pos_x = 0; # Avoids FPV stability issue at low speed.
+            me.pos_y = 1000;                            # Fixed 10deg below forward axis.
         }
         me.group.setTranslation(me.pos_x, me.pos_y);
 
@@ -472,11 +619,16 @@ var Speed = {
 
         if (me.mode != HUD.MODE_FINAL_NAV and me.mode != HUD.MODE_FINAL_OPT) {
             me.group.setTranslation(0, 0);
-            me.move_up(FALSE);
+            me.move_up_landing(FALSE);
+        }
+        if (me.mode == HUD.MODE_AIM) {
+            me.text.setTranslation(0, 400);
+        } else {
+            me.text.setTranslation(0, 490);
         }
     },
 
-    move_up: func(up) {
+    move_up_landing: func(up) {
         if (up == me.moved_up) return;
 
         me.moved_up = up;
@@ -487,8 +639,8 @@ var Speed = {
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
             # At landing, move airspeed up when alpha is 8.5deg.
             var alpha = -input.fpv_up.getValue();
-            if (alpha >= 8.5) me.move_up(TRUE);
-            elsif (alpha <= 5.5) me.move_up(FALSE);
+            if (alpha >= 8.5) me.move_up_landing(TRUE);
+            elsif (alpha <= 5.5) me.move_up_landing(FALSE);
         }
 
         var mach = input.mach.getValue();
@@ -807,7 +959,7 @@ var DigitalAltitude = {
     initialize: func {
         me.shown = FALSE;
         me.text = make_text(me.parent)
-            .setTranslation(400, 0)
+            .setTranslation(500, 0)
             .setAlignment("left-bottom");
         me.text.enableUpdate();
         me.text.hide();
@@ -892,6 +1044,11 @@ var TextMessage = {
 
     set_mode: func(mode) {
         me.mode = mode;
+        if (me.mode == HUD.MODE_AIM) {
+            me.text.setTranslation(-300, 200);
+        } else {
+            me.text.setTranslation(-300, 300);
+        }
     },
 
     update: func {
@@ -906,8 +1063,10 @@ var TextMessage = {
             } else {
                 me.text.show();
             }
-        } elsif (!modes.takeoff_30s_inhibit and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
-                 and fire_control.selected != nil and fire_control.selected.weapon_ready()) {
+        } elsif (!modes.takeoff_30s_inhibit
+                 and fire_control.selected != nil and fire_control.selected.weapon_ready()
+                 and (me.mode == HUD.MODE_NAV
+                      or (me.mode == HUD.MODE_AIM and fire_control.selected.type != "M75 AKAN"))) {
             me.text.updateText(displays.common.currArmNameMedium);
             me.text.show();
         } else {
@@ -1064,6 +1223,9 @@ var Distance = {
         } elsif (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM or me.mode == HUD.MODE_FINAL_NAV) {
             # Multiple functionalities.
             me.group.show();
+
+            if (me.mode == HUD.MODE_AIM) me.group.setTranslation(-150, 200);
+            else me.group.setTranslation(-150, 300);
         } else {
             me.group.hide();
         }
@@ -1079,6 +1241,9 @@ var Distance = {
             var pos = extrapolate(input.speed.getValue(), rotation_speed - 96, rotation_speed + 48, 0, 300);
             pos = math.clamp(pos, 0, 300);
             me.index.setTranslation(pos, 0);
+        } elsif (me.mode == HUD.MODE_AIM and fire_control.selected != nil and fire_control.selected.weapon_ready()
+                 and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")) {
+            me.group.hide();
         } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM) and radar_logic.selection != nil) {
             # Display distance to target.
             me.group.show();
@@ -1264,6 +1429,7 @@ var Targets = {
 };
 
 
+# Simple fixed reticle for gun/rocket in nav mode.
 var Reticle = {
     new: func(parent) {
         var m = { parents: [Reticle], parent: parent, mode: -1, };
@@ -1282,7 +1448,7 @@ var Reticle = {
     },
 
     update: func {
-        if ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
+        if ((me.mode == HUD.MODE_NAV)
             and fire_control.selected != nil
             and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")
             and fire_control.selected.armed()) {

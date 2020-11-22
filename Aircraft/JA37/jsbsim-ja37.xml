@@ -297,6 +297,7 @@
   <system file="jsb-electric"/>
   <system file="jsb-instruments"/>
   <system file="jsb-indicators"/>
+  <system file="jsb-lead-computer"/>
   <system file="jsb-cannon_recoil"/>
   <system file="jsb-fuel"/>
   <external_reactions file="Systems/jsb-external-reactions"/>
