@@ -620,14 +620,18 @@ var Bomb = {
 ### List of weapon types.
 if (variant.JA) {
     var weapons = [
+        SubModelWeapon.new(type:"M75 AKAN", ammo_factor:22), # get_ammo gives firing time
         Missile.new(type:"RB-74", fire_delay:0.7),
         Missile.new(type:"RB-99", fire_delay:0.7),
         Missile.new(type:"RB-71", fire_delay:0.7),
         Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new(type:"M70 ARAK", ammo_factor:6), # get_ammo gives number of pods
+        SubModelWeapon.new(type:"M70 ARAK", ammo_factor:6),  # get_ammo gives number of pods
     ];
 
-    var internal_gun = SubModelWeapon.new(type:"M75 AKAN", ammo_factor:22);  # get_ammo gives firing time
+    # Set of indices considered for quick_select_missile() (A/A missiles)
+    var quick_select = {1:1, 2:1, 3:1, 4:1,};
+
+    var internal_gun = weapons[0];
 } else {
     var weapons = [
         Missile.new(type:"RB-74", fire_delay:0.7),
@@ -644,19 +648,18 @@ if (variant.JA) {
         Bomb.new("M71R"),
     ];
 
-    # Indices in the previous array for IR missiles.
-    var IRRB = [0, 1, 2];
+    # Set of indices considered for quick_select_missile() (IR missiles)
+    var quick_select = {0:1, 1:1, 2:1,};
 }
 
 # Selected weapon type.
-var selected_index = -2;
+var selected_index = -1;
 var selected = nil;
 
 # Internal selection function.
 var _set_selected_index = func(index) {
     selected_index = index;
     if (index >= 0) selected = weapons[index];
-    elsif (index == -1 and variant.JA) selected = internal_gun;
     else selected = nil;
 }
 
@@ -685,7 +688,10 @@ var _deselect_current = func {
     if (selected != nil) selected.deselect();
 }
 
-var cycle_weapon_type = func {
+# Select next weapon type in the list.
+#
+# If the argument 'subset' is given, only weapons whose index is in 'subset' are considered.
+var cycle_weapon_type = func(subset=nil) {
     _deselect_current();
 
     # Cycle through weapons, starting from the previous one.
@@ -696,7 +702,7 @@ var cycle_weapon_type = func {
     if (i >= size(weapons)) i = 0;
 
     while (i != prev) {
-        if (weapons[i].select()) {
+        if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
             _set_selected_index(i);
             return
         }
@@ -704,44 +710,49 @@ var cycle_weapon_type = func {
         if (i >= size(weapons)) i = 0;
     }
     # We are back to the first weapon. Last try
-    if (weapons[i].select()) {
+    if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
         _set_selected_index(i);
     } else {
         # Nothing found
-        _set_selected_index(-2);
+        _set_selected_index(-1);
     }
 }
 
-# For JA
-var select_cannon = func {
-    _deselect_current();
-    internal_gun.select();
-    _set_selected_index(-1);
-}
+# Throttle quick select buttons.
 
-# For AJS
-var select_IRRB = func {
+var quick_select_cannon = func {
+    # Switch to A/A aiming mode
+    modes.set_aiming_mode(TRUE);
+    TI.ti.ModeAttack = FALSE;
+    # Select cannon
     _deselect_current();
-    foreach(var i; IRRB) {
-        if (weapons[i].select()) {
-            _set_selected_index(i);
-            return;
-        }
+    if(internal_gun.select()) {
+        _set_selected_index(0);
+    } else {
+        _set_selected_index(-1);
     }
-    # Not found
-    _set_selected_index(-2);
 }
 
-# Next pylon of same type
+var quick_select_missile = func {
+    if (variant.JA) {
+        # Switch to A/A aiming mode
+        modes.set_aiming_mode(TRUE);
+        TI.ti.ModeAttack = FALSE;
+    }
+    cycle_weapon_type(quick_select);
+}
+
+# Next pylon of same type (left wall button)
 var cycle_pylon = func {
     if (selected != nil) selected.cycle_selection();
 }
 
 var deselect_weapon = func {
     _deselect_current();
-    _set_selected_index(-2);
+    _set_selected_index(-1);
 }
 
+# Direct pylon selection through JA TI.
 var select_pylon = func(pylon) {
     _deselect_current();
 
@@ -753,7 +764,7 @@ var select_pylon = func(pylon) {
             if (weapons[i].select(pylon)) {
                 _set_selected_index(i);
             } else {
-                _set_selected_index(-2);
+                _set_selected_index(-1);
             }
             return;
         }

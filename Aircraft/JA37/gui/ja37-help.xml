@@ -23,15 +23,19 @@
     </key>
     <key>
         <name>h</name>
-        <desc>Toggle masterarm</desc>
+        <desc>Toggle aiming mode</desc>
     </key>
     <key>
         <name>c</name>
         <desc>Cycle weapons</desc>
     </key>
     <key>
+        <name>C</name>
+        <desc>Quick select A/A missile</desc>
+    </key>
+    <key>
         <name>u</name>
-        <desc>Select cannon</desc>
+        <desc>Quick select cannon</desc>
     </key>
     <key>
         <name>E</name>

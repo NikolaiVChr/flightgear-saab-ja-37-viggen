@@ -289,22 +289,33 @@
                 <script>
                     fire_control.cycle_weapon_type();
                     ja37.click();
-                    if (variant.JA) modes.set_aiming_mode(1);
+                </script>
+            </binding>
+        </key>
+        <key n="67">
+            <name>C</name>
+            <desc>Quick select cannon.</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    fire_control.quick_select_cannon();
+                    ja37.click();
                 </script>
             </binding>
         </key>
         <key n="117">
             <name>u</name>
-            <desc>Select internal cannon (JA) / Select IR missile (AJS)</desc>
+            <desc>Quick select missile</desc>
             <binding>
                 <command>nasal</command>
                 <script>
-                    if (variant.JA) {
-                        fire_control.select_cannon();
-                        modes.set_aiming_mode(1);
-                    } else {
-                        fire_control.select_IRRB();
-                    }
+                    fire_control.quick_select_missile();
                     ja37.click();
                 </script>
             </binding>
