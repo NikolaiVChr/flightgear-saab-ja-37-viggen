@@ -6,14 +6,35 @@
         <name>If engine started on battery only (no external power), check:</name>
     </item>
     <item>
-        <name>TI display</name>
-        <value>ON, BRIGHTNESS AND CONTRAST SET</value>
+        <name>Displays (HUD: 40s after AC power)</name>
+        <value>ON</value>
+        <marker>
+            <x-m>-4.0300</x-m>
+            <y-m>0.1200</y-m>
+            <z-m>0.3600</z-m>
+            <scale>2.0</scale>
+        </marker>
+        <condition>
+            <property>/ja37/displays/on</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>displays.common.toggleJAdisplays(1);</script>
+        </binding>
+    </item>
+    <item>
+        <name>TI, brightness and initial position</name>
+        <value>CHECK</value>
         <marker>
             <x-m>-4.0300</x-m>
             <y-m>0.1800</y-m>
             <z-m>0.3400</z-m>
             <scale>8.0</scale>
         </marker>
+    </item>
+    <item>
+        <name>Set Displays Units (Shift-I)</name>
+        <value>METRIC or IMPERIAL</value>
     </item>
     <item>
         <name>Backup altimeter</name>

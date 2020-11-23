@@ -668,6 +668,7 @@
             <collision-warning type="bool">true</collision-warning>
         </avionics>
         <displays>
+            <on type="bool">false</on>  <!-- nasal controlled -->
             <show-full-menus type="bool">true</show-full-menus>
             <live-map type="bool">true</live-map>
             <ti-contrast type="double">1.25</ti-contrast>

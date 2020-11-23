@@ -87,6 +87,7 @@ var Common = {
 			rmDist:           "autopilot/route-manager/wp/dist",
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
+			displays_on:      "ja37/displays/on",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -166,6 +167,9 @@ var Common = {
 		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1); # TMP for dev
 		# MI/TI are on 'within 2s' of EP12 on.
 		me.mi_ti_on = (time - me.displays_on_time >= 1);
+
+		# This property is used for checklists.
+		me.input.displays_on.setValue(me.hud_on);
 	},
 
 	powerAJS: func {
