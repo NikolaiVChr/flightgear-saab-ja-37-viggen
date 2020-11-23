@@ -1726,8 +1726,7 @@ var TI = {
 
 
 	loop: func {
-		me.interoperability = me.input.units.getValue();
-		me.swedishMode = me.interoperability == displays.METRIC;
+		me.swedishMode = displays.metric;
 
 		if (me.brightness < 0.25) {
 			me.brightness = 0.25;

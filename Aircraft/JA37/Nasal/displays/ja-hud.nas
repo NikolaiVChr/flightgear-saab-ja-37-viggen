@@ -13,8 +13,6 @@ var opts = {
 };
 
 
-var metric = nil;
-
 
 ### HUD elements classes
 
@@ -139,7 +137,7 @@ var FPV = {
 
             # Target distance
             var dist = radar_logic.selection.get_range()*NM2M/1000;
-            me.dist_tgt.updateText(sprintf("%d,%.1d", math.floor(dist), math.mod(dist*10,10)));
+            me.dist_tgt.updateText(displays.sprintdist(dist, 1));
             # Circular target index/line
             var index_angle = math.min(dist/1.6*math.pi, 2*math.pi);
             if (dist <= 3.2) {
@@ -176,7 +174,7 @@ var FPV = {
             me.wingspan_l.setTranslation(-offset, 0);
             me.wingspan_r.setTranslation(offset, 0);
             me.wingspan_txt.updateText(sprintf("%d", wingspan));
-            me.dist_txt.updateText(sprintf("%d,%.1d", math.floor(dist), math.mod(dist*10,10)));
+            me.dist_txt.updateText(displays.sprintdist(dist, 1));
             me.wingspan_txt.setTranslation(offset + 30, 0);
             me.dist_txt.setTranslation(offset + 60, 250);
         }
@@ -692,10 +690,9 @@ var Speed = {
 
         var mach = input.mach.getValue();
         if (mach >= 0.5) {
-            mach = math.round(mach * 100);
-            me.text.updateText(sprintf("%d,%.2d", math.floor(mach/100), math.mod(mach, 100)));
+            me.text.updateText(displays.sprintdec(mach, 2));
             me.text.show();
-        } elsif (metric) {
+        } elsif (displays.metric) {
             var speed = math.round(input.speed.getValue(), 5);
             if (speed >= 75) {
                 me.text.updateText(sprintf("%d", speed));
@@ -754,12 +751,7 @@ var Altitude = {
             if (!show_text) {
                 me.text.hide();
             } else {
-                if (alt < 1000) {
-                    me.text.updateText(sprintf("%d", alt));
-                } else {
-                    alt /= 100;
-                    me.text.updateText(sprintf("%d,%.1d", math.floor(alt/10), math.mod(alt, 10)));
-                }
+                me.text.updateText(displays.sprintalt(alt, TRUE));  # second arg disables conversion
                 me.text.show();
             }
         },
@@ -831,7 +823,7 @@ var Altitude = {
         # - lin_limit: within this distance of ac_alt, the altitude scale is linear.
         # - lin_limit_0: below this altitude, the altitude scale is linear (relative to 0 marker).
 
-        if (metric) {
+        if (displays.metric) {
             # In m
             me.scale_low_limit = 50;
             me.scale_high_limit = 300;
@@ -884,12 +876,12 @@ var Altitude = {
             me.group.setTranslation(380, 0);
         }
 
-        me.set_ac_alt(metric ? input.alt.getValue() : input.alt_ft.getValue());
+        me.set_ac_alt(displays.metric ? input.alt.getValue() : input.alt_ft.getValue());
 
         # Markers for the linear part of the scale.
-        var spacing = metric ? 50 : 100;
+        var spacing = displays.metric ? 50 : 100;
         var center_mark = math.round(me.ac_alt, spacing);
-        var mark_limit = metric ? 200 : 500;
+        var mark_limit = displays.metric ? 200 : 500;
 
         var i = 0;
         for (var alt = center_mark - mark_limit; alt <= center_mark + mark_limit; alt += spacing) {
@@ -898,7 +890,7 @@ var Altitude = {
             if (alt <= 0 or pos < me.upper_limit) {
                 me.lin_markers[i].hide();
             } else {
-                if (metric) {
+                if (displays.metric) {
                     # Long mark for every 100m, plus 50m when below 100m.
                     var long_mark = math.mod(alt, 100) == 0 or (me.ac_alt <= 100 and alt == 50);
                     # Text for every 200m, plus 100m when below 225m, plus 50m when below 100m.
@@ -927,8 +919,8 @@ var Altitude = {
 
         # 10m markers at low altitude, plus one at 75m.
         # Imperial: 50ft markers.
-        if (me.ac_alt <= (metric ? 100 : 200)) {
-            var spacing = metric ? 10 : 20;
+        if (me.ac_alt <= (displays.metric ? 100 : 200)) {
+            var spacing = displays.metric ? 10 : 20;
             var alt = spacing;
             forindex (var i; me.low_markers) {
                 var pos = me.lin_alt2pos(alt);
@@ -941,7 +933,7 @@ var Altitude = {
                 alt += spacing;
             }
 
-            var pos = me.lin_alt2pos(metric ? 75 : 150);
+            var pos = me.lin_alt2pos(displays.metric ? 75 : 150);
             if (pos < me.upper_limit) {
                 me.marker_75.hide();
             } else {
@@ -975,7 +967,7 @@ var Altitude = {
         }
 
         if (input.rad_alt_ready.getBoolValue()) {
-            var rad_alt = metric ? input.rad_alt.getValue() : input.rad_alt_ft.getValue();
+            var rad_alt = displays.metric ? input.rad_alt.getValue() : input.rad_alt_ft.getValue();
             var pos = me.alt2pos(me.ac_alt - rad_alt);
             if (pos <= 500) {
                 me.rhm_index.setTranslation(0, pos);
@@ -989,7 +981,7 @@ var Altitude = {
     },
 
     get_scale_factor: func {
-        if (metric) return me.scale_factor;
+        if (displays.metric) return me.scale_factor;
         else return me.scale_factor * FT2M;
     },
 };
@@ -1006,8 +998,8 @@ var DigitalAltitude = {
     initialize: func {
         me.shown = FALSE;
         me.text = make_text(me.parent)
-            .setTranslation(500, 0)
-            .setAlignment("left-bottom");
+            .setTranslation(600, 0)
+            .setAlignment("right-bottom");
         me.text.enableUpdate();
         me.text.hide();
     },
@@ -1024,21 +1016,13 @@ var DigitalAltitude = {
     update: func(fpv_mode) {
         if (me.mode != HUD.MODE_AIM) return;
 
-        var alt = metric ? input.alt.getValue() : input.alt_ft.getValue();
-        alt = math.round(alt, 10);
-        if (alt < 1000) {
-            me.text.updateText(sprintf("%3d", alt));
-        } else {
-            alt = math.round(alt, 100);
-            alt /= 100;
-            me.text.updateText(sprintf("%d,%.1d", math.floor(alt/10), math.mod(alt, 10)));
-        }
+        me.text.updateText(displays.sprintalt(input.alt.getValue()));
 
         if (fpv_mode == FPV.MODE_AG and fire_control.selected.is_firing()) {
             # Manual: in A/G mode, altitude moves to the right when firing.
-            me.text.setTranslation(-600,0);
+            me.text.setTranslation(-500,0);
         } else {
-            me.text.setTranslation(500,0);
+            me.text.setTranslation(600,0);
         }
     },
 };
@@ -1066,10 +1050,10 @@ var RadarAltitude = {
         if (modes.takeoff_30s_inhibit or modes.landing or !input.rad_alt_ready.getValue()) {
             me.shown = FALSE;
         } else {
-            var alt = metric ? input.rad_alt.getValue() : input.rad_alt_ft.getValue();
+            var alt = displays.metric ? input.rad_alt.getValue() : input.rad_alt_ft.getValue();
             alt = math.round(alt);
-            if (alt < (metric ? 100 : 300)) me.shown = TRUE;
-            elsif (alt >= (metric ? 110 : 350)) me.shown = FALSE;
+            if (alt < (displays.metric ? 100 : 300)) me.shown = TRUE;
+            elsif (alt >= (displays.metric ? 110 : 350)) me.shown = FALSE;
         }
 
         if (me.shown) {
@@ -1330,7 +1314,7 @@ var Distance = {
                 me.cursorL.setTranslation(min_dist / scale_dist * 300, 0);
                 me.cursorR.setTranslation(max_dist / scale_dist * 300, 0);
                 me.index.setTranslation(dist / scale_dist * 300, 0);
-                me.dist.updateText(sprintf("%d,%.1d", math.floor(dist/1000), math.mod(dist/100,10)));
+                me.dist.updateText(displays.sprintdist(dist/1000, 1));
 
                 if (dist >= min_dist and dist <= max_dist) {
                     me.index_norm.hide();
@@ -1371,7 +1355,7 @@ var Distance = {
                 }
 
                 # Convert scale to Km (or NM) for numerical display
-                if (metric) max_dist *= NM2M / 1000;
+                if (displays.metric) max_dist *= NM2M / 1000;
             } else {
                 # Line length indicates radar range.
                 var max_dist = input.radar_range.getValue();
@@ -1381,17 +1365,14 @@ var Distance = {
                 me.index_fire.hide();
 
                 # Convert scale to Km (or NM) for numerical display.
-                if (metric) max_dist /= 1000;
+                if (displays.metric) max_dist /= 1000;
                 else max_dist *= M2NM;
             }
 
-            if (max_dist >= 10) {
-                me.dist.updateText(sprintf("%d", math.round(max_dist)));
-            } else {
-                me.dist.updateText(sprintf("%d,%.1d", math.floor(max_dist), math.mod(max_dist*10, 10)));
-            }
+            # Print with 0 or 1 decimal places. Disable conversion, it is already done.
+            me.dist.updateText(displays.sprintdist(max_dist, max_dist>=10 ? 0 : 1, TRUE));
         } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and input.rm_active.getBoolValue()) {
-            var dist = metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
+            var dist = displays.metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
             dist = math.round(dist);
 
             if (dist < 1000) {
@@ -1712,8 +1693,6 @@ var HUD = {
     update: func {
         me.update_mode();
         if (me.mode == HUD.MODE_STBY) return;
-
-        metric = input.units_metric.getBoolValue();
 
         me.fpv.update();
         me.compute_fpv_pitch_hdg(me.fpv.get_pos());

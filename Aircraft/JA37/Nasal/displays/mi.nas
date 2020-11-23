@@ -147,7 +147,6 @@ var MI = {
 			fpv_up:               "instrumentation/fpv/angle-up-stab-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-stab-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
-			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
 			hdgReal:              "orientation/heading-deg",
 			terrain_warning:      "/instrumentation/terrain-warning",
@@ -170,7 +169,6 @@ var MI = {
 		mi.helpTime = -5;
 		mi.cursor_pos = [0,-radar_area_width/2];
 		mi.cursorTriggerPrev = FALSE;
-		mi.interoperability = mi.input.units.getValue();
 		mi.radar_range = mi.input.radarRange.getValue();
 		mi.head_true = mi.input.headTrue.getValue();
 		mi.qfe = FALSE;
@@ -547,7 +545,7 @@ var MI = {
 		# QFE, or selected weapon, or Mach
 		me.botl_text = me.rootCenter.createChild("text");
 		me.botl_text.enableUpdate();
-		me.botl_text.setText("QFE")
+		me.botl_text.updateText("QFE")
 			.setColor(r,g,b,a)
 			.setAlignment("left-top")
 			.setTranslation(-radar_area_width/2 + 5, radar_area_width/2 + 5)
@@ -619,7 +617,6 @@ var MI = {
 			setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 
-		me.interoperability = me.input.units.getValue();
 		me.radar_range = me.input.radarRange.getValue();
 		me.head_true = me.input.headTrue.getValue();
 
@@ -706,15 +703,7 @@ var MI = {
 	},
 
 	displayDigitalAlt: func {
-		me.alt = me.input.alt_m.getValue();
-		if (me.interoperability == displays.IMPERIAL) me.alt *= M2FT;
-		if (me.alt < 995) {
-			me.text = sprintf("%.3d", math.round(me.alt, 10));
-		} else {
-			me.alt = math.round(me.alt, 100);
-			me.text = sprintf("%d,%.1d", math.floor(me.alt/1000), math.mod(me.alt, 1000)/100);
-		}
-		me.horizon_alt.setText(me.text);
+		me.horizon_alt.updateText(displays.sprintalt(me.input.alt_m.getValue()));
 	},
 
 	displayGround: func () {
@@ -743,7 +732,7 @@ var MI = {
 		me.alt = me.input.alt_m.getValue();
 		me.alt_cursor.setTranslation(0, -me.alt/20000*radar_area_width);
 
-		if (me.interoperability == displays.METRIC) {
+		if (displays.metric) {
 			for(var i=1; i<=4; i+=1) {
 				me.alt_scale_texts[i-1].updateText(sprintf("%d", 5*i));
 			}
@@ -755,25 +744,20 @@ var MI = {
 	},
 
 	imperial_range_text: func(dist) {
-		if (dist >= 10) {
-			return sprintf("%d", math.round(dist));
-		} else {
-			dist = math.round(dist, 0.1);
-			return sprintf("%d,%.1d", math.floor(dist), math.mod(dist, 1)*10);
-		}
+		return displays.sprintdec(dist, dist>=10 ? 0 : 1);
 	},
 
 	displayDistScale: func {
-		if (me.interoperability == displays.IMPERIAL) {
-			me.radar_displayed_range = me.radar_range * M2NM;
-			me.dist_scale_text_1.updateText(me.imperial_range_text(me.radar_displayed_range/3));
-			me.dist_scale_text_2.updateText(me.imperial_range_text(me.radar_displayed_range*2/3));
-			me.dist_scale_text_3.updateText(me.imperial_range_text(me.radar_displayed_range));
-		} else {
+		if (displays.metric) {
 			me.radar_displayed_range = me.radar_range * 0.001;
 			me.dist_scale_text_1.updateText(sprintf("%d", me.radar_displayed_range/3));
 			me.dist_scale_text_2.updateText(sprintf("%d", me.radar_displayed_range*2/3));
 			me.dist_scale_text_3.updateText(sprintf("%d", me.radar_displayed_range));
+		} else {
+			me.radar_displayed_range = me.radar_range * M2NM;
+			me.dist_scale_text_1.updateText(me.imperial_range_text(me.radar_displayed_range/3));
+			me.dist_scale_text_2.updateText(me.imperial_range_text(me.radar_displayed_range*2/3));
+			me.dist_scale_text_3.updateText(me.imperial_range_text(me.radar_displayed_range));
 		}
 	},
 
@@ -796,7 +780,7 @@ var MI = {
 		if (!me.input.radar_active.getBoolValue()) {
 			# radar is off, so silent mode
 			me.text_silent.show();
-			me.text_silent.updateText(me.interoperability == displays.METRIC?"TYST":"SILENT");
+			me.text_silent.updateText(displays.metric ? "TYST" : "SILENT");
 		} else {
 			me.text_silent.hide();
 		}
@@ -812,8 +796,7 @@ var MI = {
 			me.botl_text.show();
 		} elsif ((me.mach = me.input.mach.getValue()) > 0.4) {
 			me.qfe = FALSE;
-			me.mach = math.round(me.mach * 100);
-			me.botl_text.updateText(sprintf("M%d,%.2d", math.floor(me.mach/100), math.mod(me.mach, 100)));
+			me.botl_text.updateText("M"~displays.sprintdec(me.mach, 2));
 			me.botl_text.show();
 		} else {
 			me.qfe = FALSE;
@@ -826,19 +809,19 @@ var MI = {
 			me.ti_msg.updateText("MREG");
 		} elsif (TI.ti.newFails == TRUE) {
 			me.ti_msg.show();
-			me.ti_msg.updateText(me.interoperability == displays.METRIC?"FÖ":"FAIL");
+			me.ti_msg.updateText(displays.metric ? "FÖ" : "FAIL");
 		} else {
 			me.ti_msg.hide();
 		}
 
 		# Bottom text. Buttons help or Rb 99 telemetry.
 		if (helpOn or me.input.timeElapsed.getValue() - me.helpTime < 5) {
-			if (me.interoperability == displays.METRIC) {
-				me.help_text_1.setText(" D   -   -  SVY  -   -  BIT LNK");
-				me.help_text_2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
+			if (displays.metric) {
+				me.help_text_1.updateText(" D   -   -  SVY  -   -  BIT LNK");
+				me.help_text_2.updateText(" -   -   -  VMI  -  TNF HÄN  - ");
 			} else {
-				me.help_text_1.setText(" D   -   -  SDV  -   -  BIT LNK");
-				me.help_text_2.setText(" -   -   -  ECM  -  INN EVN  - ");
+				me.help_text_1.updateText(" D   -   -  SDV  -   -  BIT LNK");
+				me.help_text_2.updateText(" -   -   -  ECM  -  INN EVN  - ");
 			}
 			me.help_text.show();
 			me.lnk99_grp.hide();
@@ -875,15 +858,15 @@ var MI = {
 		me.target_info.show();
 
 		me.tgt_dist = radar_logic.selection.get_range();
-		if (me.interoperability == displays.METRIC) {
-			me.tgt_dist *= NM2M * 0.001;
+		if (displays.metric) {
+			me.tgt_dist *= NM2M / 1000;
 			me.distT.updateText(sprintf("A%3d", me.tgt_dist));
 		} else {
 			me.distT.updateText(sprintf("D%3d", me.tgt_dist));
 		}
 
 		me.tgt_alt = radar_logic.selection.get_indicated_altitude();
-		if (me.interoperability == displays.METRIC) {
+		if (displays.metric) {
 			me.tgt_alt *= FT2M;
 			me.tgt_alt = math.round(me.tgt_alt, 100);
 			me.altT.updateText(sprintf("H%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
@@ -896,8 +879,7 @@ var MI = {
 		me.rs = armament.AIM.rho_sndspeed(radar_logic.selection.get_altitude());
 		me.sound_fps = me.rs[1];
 		me.tgt_mach = me.tgt_speed * KT2FPS / me.sound_fps;
-		me.tgt_mach = math.round(me.tgt_mach*100, 1);
-		me.machT.updateText(sprintf("M%d,%.2d", math.floor(me.tgt_mach/100), math.mod(me.tgt_mach, 100)));
+		me.machT.updateText("M"~displays.sprintdec(me.tgt_mach, 2));
 
 		if (me.input.callsign.getBoolValue()) {
 			me.nameT.updateText(radar_logic.selection.get_Callsign());

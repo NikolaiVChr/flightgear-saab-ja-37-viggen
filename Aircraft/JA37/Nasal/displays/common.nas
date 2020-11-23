@@ -5,8 +5,8 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var METRIC = 1;
-var IMPERIAL = 0;
+var metric = 0;
+setlistener("ja37/hud/units-metric", func (node) { metric = node.getBoolValue(); }, 1, 0);
 
 var MI = 0;
 var TI = 1;
@@ -21,6 +21,44 @@ var containsVector = func (vec, item) {
 	}
 	return FALSE;
 }
+
+### Numbers formatting functions.
+
+# Print in decimal with a _comma_, 'places' is the number of decimal places.
+# Applies rounding.
+var sprintdec = func(x, places) {
+    if (places == 0) {
+        return sprintf("%d", math.round(x));
+    } else {
+        factor = math.pow(10, places);
+        x *= factor;
+        x = math.round(x);
+        return sprintf("%d,%."~places~"d", math.floor(x/factor), math.mod(x, factor));
+    }
+}
+
+# Print a distance with 'places' decimal places.
+# Input is km, it is converted to NM if in interoperability mode, unless no_convert is set.
+var sprintdist = func(dist, places, no_convert=0) {
+    if (!metric and !no_convert) dist *= 1000*M2NM;
+    return sprintdec(dist, places);
+}
+
+# Print an altitude in 'standard format':
+# - below 1000, 3 digits rounded to 10
+# - above 1000, divide by 1000, one decimal place
+# Input is m, it is converted to ft if in interoperablity mode, unless no_convert is set.
+var sprintalt = func(alt, no_convert=0) {
+    if (!metric and !no_convert) alt *= M2FT;
+    if (alt <= 995) {
+        alt = math.round(alt, 10);
+        return sprintdec(alt, 0);
+    } else {
+        alt = math.round(alt, 100)/1000;
+        return sprintdec(alt, 1);
+    }
+}
+
 
 var Common = {
 
