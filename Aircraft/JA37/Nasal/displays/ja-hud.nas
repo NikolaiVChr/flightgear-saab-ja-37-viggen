@@ -58,15 +58,15 @@ var FPV = {
         me.aim_reticle = me.aim.createChild("group");
         make_dot(me.aim_reticle, 0, 0, opts.line_width*2);
 
-        me.trace_line_rot = me.aim_reticle.createChild("group");
-        me.trace_line = make_path(me.trace_line_rot).horiz(300).hide();
-        me.fire_mark = make_path(me.aim_reticle).moveTo(-30,0).horizTo(30).moveTo(0,-30).vertTo(30).hide();
+        # A/A mode
+        me.aim_AA_reticle = me.aim_reticle.createChild("group");
 
-        # A/G reticle
-        me.aim_ground = me.aim_reticle.createChild("group");
+        me.trace_line_rot = me.aim_AA_reticle.createChild("group");
+        me.trace_line = make_path(me.trace_line_rot).horiz(300).hide();
+        me.fire_mark = make_path(me.aim_AA_reticle).moveTo(-30,0).horizTo(30).moveTo(0,-30).vertTo(30).hide();
 
         # A/A without target lock reticle
-        me.aim_gun_free = me.aim_reticle.createChild("group");
+        me.aim_gun_free = me.aim_AA_reticle.createChild("group");
         make_path(me.aim_gun_free).moveTo(-250,250).lineTo(-250,300).lineTo(-200,300);   # L in bottom left
         # Vertical lines indicating wingspan of target.
         me.wingspan_l = make_path(me.aim_gun_free).moveTo(0,-50).vert(250);
@@ -77,7 +77,7 @@ var FPV = {
         me.dist_txt.enableUpdate();
 
         # A/A with target lock reticle
-        me.aim_gun_tgt = me.aim_reticle.createChild("group");
+        me.aim_gun_tgt = me.aim_AA_reticle.createChild("group");
         make_path(me.aim_gun_tgt)
             .moveTo(-200,0).horizTo(-100).moveTo(200,0).horizTo(100)
             .moveTo(0,-125).vertTo(-175)
@@ -92,6 +92,14 @@ var FPV = {
         me.dist_arc = make_path(me.aim_gun_tgt);
         me.dist_tgt = make_text(me.aim_gun_tgt).setAlignment("left-bottom").setTranslation(120,190);
         me.dist_tgt.enableUpdate();
+
+        # A/G reticle
+        me.aim_AG_reticle = me.aim_reticle.createChild("group");
+        make_path(me.aim_AG_reticle)
+            .moveTo(-70,0).horizTo(-30).moveTo(70,0).horizTo(30)
+            .moveTo(0,-70).vertTo(-30).moveTo(0,70).vertTo(30);
+        me.dist_gnd = make_text(me.aim_AG_reticle).setAlignment("left-bottom").setTranslation(120,100);
+        me.dist_gnd.enableUpdate();
 
         me.pos_x = me.pos_y = 0;
     },
@@ -113,11 +121,8 @@ var FPV = {
         }
     },
 
-    # Cannon/rocket reticle mode.
-    update_reticle: func {
-        me.aim_ground.hide();
-
-        var pos = gunsight.get_position();
+    update_AA_reticle: func {
+        var pos = gunsight.AAsight.get_pos();
         # gunsight uses mils
         me.pos_x = math.clamp(pos[0]/10*R2D, -800, 800);
         me.pos_y = math.clamp(pos[1]/10*R2D, -400, 1300);
@@ -171,7 +176,7 @@ var FPV = {
         }
 
         if (fire_control.selected.armed()) {
-            var mark_pos = gunsight.get_secondary_position();
+            var mark_pos = gunsight.AAsight.get_pos_sec();
             mark_pos[0] = mark_pos[0]/10*R2D - me.pos_x;
             mark_pos[1] = mark_pos[1]/10*R2D - me.pos_y;
             var angle = math.atan2(mark_pos[1], mark_pos[0]);
@@ -190,6 +195,41 @@ var FPV = {
         } else {
             me.trace_line.hide();
             me.fire_mark.hide();
+        }
+    },
+
+    update_AG_reticle: func {
+        if (fire_control.selected.type == "M70 ARAK") {
+            var pos = gunsight.M70sight.get_pos();
+            var dist = gunsight.M70sight.get_dist();
+        } else { # cannon
+            var pos = gunsight.M75AGsight.get_pos();
+            var dist = gunsight.M75AGsight.get_dist();
+        }
+        # gunsight uses mils
+        me.pos_x = math.clamp(pos[0]/10*R2D, -800, 800);
+        me.pos_y = math.clamp(pos[1]/10*R2D, -400, 1300);
+
+        if (dist != nil) {
+            dist /= 1000;
+            me.dist_gnd.updateText(sprintf("%d,%.1d", math.floor(dist), math.mod(dist*10,10)));
+            me.dist_gnd.show();
+        } else {
+            me.dist_gnd.hide();
+        }
+    },
+
+    update_reticle: func {
+        if (TI.ti.ModeAttack or fire_control.selected.type == "M70 ARAK") {
+            # A/G mode
+            me.aim_AA_reticle.hide();
+            me.aim_AG_reticle.show();
+            me.update_AG_reticle();
+        } else {
+            # A/A mode
+            me.aim_AA_reticle.show();
+            me.aim_AG_reticle.hide();
+            me.update_AA_reticle();
         }
     },
 
@@ -1065,8 +1105,9 @@ var TextMessage = {
             }
         } elsif (!modes.takeoff_30s_inhibit
                  and fire_control.selected != nil and fire_control.selected.weapon_ready()
-                 and (me.mode == HUD.MODE_NAV
-                      or (me.mode == HUD.MODE_AIM and fire_control.selected.type != "M75 AKAN"))) {
+                 and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
+                 # Exception: hide AKAN in A/A gunsight mode (there is no ambiguity in this mode anyway).
+                 and !(me.mode == HUD.MODE_AIM and !TI.ti.ModeAttack and fire_control.selected.type == "M75 AKAN")) {
             me.text.updateText(displays.common.currArmNameMedium);
             me.text.show();
         } else {
@@ -1448,8 +1489,7 @@ var Reticle = {
     },
 
     update: func {
-        if ((me.mode == HUD.MODE_NAV)
-            and fire_control.selected != nil
+        if (me.mode == HUD.MODE_NAV and fire_control.selected != nil
             and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")
             and fire_control.selected.armed()) {
             me.reticle.show();
