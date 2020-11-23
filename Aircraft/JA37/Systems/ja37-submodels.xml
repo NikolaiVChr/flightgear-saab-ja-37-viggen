@@ -58,13 +58,18 @@
         <y-offset>  -0.6667</y-offset>
         <z-offset> -2.9936</z-offset>
         <pitch-offset>0</pitch-offset>
-        <life>2.42</life>
+        <life>3</life>
         <wind>true</wind>
         <weight>0.79</weight>        <!-- pound, 360g -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
-        <random>false</random>
-        <randomness>1.0</randomness>
+        <random>true</random>
+        <randomness>
+          <azimuth>0.10</azimuth>     <!-- deg, ~1.7mil -->
+          <elevation>0.10</elevation> <!-- deg, ~1.7mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>0.8</life>            <!-- min proportion of default life time -->
+        </randomness>
         <collision>false</collision>
         <impact>false</impact>
         <expiry>false</expiry>
@@ -81,13 +86,18 @@
         <y-offset>  -0.6667</y-offset>
         <z-offset> -2.9936</z-offset>
         <pitch-offset>0</pitch-offset>
-        <life>5.0</life>
+        <life>6.0</life>
         <wind>true</wind>
         <weight>0.79</weight>        <!-- pound, 360g -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
-        <random>false</random>
-        <randomness>1.0</randomness>
+        <random>true</random>
+        <randomness>
+          <azimuth>0.10</azimuth>     <!-- deg, ~1.7mil -->
+          <elevation>0.10</elevation> <!-- deg, ~1.7mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>
         <impact>true</impact>
         <expiry>false</expiry>
@@ -138,6 +148,13 @@
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
         <eda>0.0541</eda>
         <weight>100</weight><!-- as per source -->
+        <random>true</random>
+        <randomness>
+          <azimuth>0.05</azimuth>     <!-- deg, ~1mil -->
+          <elevation>0.05</elevation> <!-- deg, ~1mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
@@ -167,6 +184,13 @@
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
         <eda>0.0541</eda>
         <weight>100</weight><!-- as per source -->
+        <random>true</random>
+        <randomness>
+          <azimuth>0.05</azimuth>     <!-- deg, ~1mil -->
+          <elevation>0.05</elevation> <!-- deg, ~1mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
@@ -196,6 +220,13 @@
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
         <eda>0.0541</eda>
         <weight>100</weight><!-- as per source -->
+        <random>true</random>
+        <randomness>
+          <azimuth>0.05</azimuth>     <!-- deg, ~1mil -->
+          <elevation>0.05</elevation> <!-- deg, ~1mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
@@ -225,6 +256,13 @@
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
         <eda>0.0541</eda>
         <weight>100</weight><!-- as per source -->
+        <random>true</random>
+        <randomness>
+          <azimuth>0.05</azimuth>     <!-- deg, ~1mil -->
+          <elevation>0.05</elevation> <!-- deg, ~1mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
@@ -248,13 +286,18 @@
         <z-offset>  -2.8447</z-offset>
         <pitch-offset>0</pitch-offset>
         <yaw-offset>0</yaw-offset>
-        <life>2.42</life>
+        <life>3</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
-        <random>false</random>
-        <randomness>1.0</randomness>
+        <random>true</random>
+        <randomness>
+          <azimuth>0.17</azimuth>     <!-- deg, ~3mil -->
+          <elevation>0.17</elevation> <!-- deg, ~3mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>0.8</life>            <!-- min proportion of default life time -->
+        </randomness>
         <collision>false</collision>
         <impact>false</impact>
         <expiry>false</expiry>
@@ -277,8 +320,13 @@
         <weight>0.485</weight>        <!-- pound - 220 grams -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
-        <random>false</random>
-        <randomness>1.0</randomness>
+        <random>true</random>
+        <randomness>
+          <azimuth>0.17</azimuth>     <!-- deg, ~3mil -->
+          <elevation>0.17</elevation> <!-- deg, ~3mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>
         <impact>true</impact>
         <expiry>false</expiry>
@@ -301,13 +349,18 @@
         <z-offset>  -2.8447</z-offset>
         <pitch-offset>0</pitch-offset>
         <yaw-offset>0</yaw-offset>
-        <life>2.42</life>
+        <life>3</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
-        <random>false</random>
-        <randomness>1.0</randomness>
+        <random>true</random>
+        <randomness>
+          <azimuth>0.17</azimuth>     <!-- deg, ~3mil -->
+          <elevation>0.17</elevation> <!-- deg, ~3mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>0.8</life>            <!-- min proportion of default life time -->
+        </randomness>
         <collision>false</collision>
         <impact>false</impact>
         <expiry>false</expiry>
@@ -330,8 +383,13 @@
         <weight>0.485</weight>        <!-- pound - 220 grams -->
         <cd>0.193</cd>
         <eda>0.00136354</eda>
-        <random>false</random>
-        <randomness>1.0</randomness>
+        <random>true</random>
+        <randomness>
+          <azimuth>0.17</azimuth>     <!-- deg, ~3mil -->
+          <elevation>0.17</elevation> <!-- deg, ~3mil -->
+          <cd>0.1</cd>                <!-- proportion of default cd -->
+          <life>1</life>              <!-- no randomness -->
+        </randomness>
         <collision>true</collision>
         <impact>true</impact>
         <expiry>false</expiry>

@@ -246,8 +246,8 @@ var AG_computer = {
     },
 };
 
-var M75AGsight = AG_computer.new(0.36, 1030, 0.193, 0.000126677, 0, 6000);
-var M70sight = AG_computer.new(45.4, 600, 0.0001, 0.005, 0, 4000);
+var M75AGsight = AG_computer.new(0.36, 1030, 0.193, 0.000126677, 0, 5000);
+var M70sight = AG_computer.new(45.4, 600, 0.0001, 0.005, 0, 6000);
 
 
 # Main loop. Runs whatever sight is currently relevant.
