@@ -1648,7 +1648,11 @@ var final_engine = func () {
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     setprop("/controls/electric/battery", TRUE);
-    if (!variant.JA) setprop("/ja37/mode/selector-ajs", 2); # NAV
+    if (variant.JA) {
+        displays.common.toggleJAdisplays(TRUE);
+    } else {
+        setprop("/ja37/mode/selector-ajs", 2); # NAV
+    }
     autostarting = FALSE;
   } else {
     settimer(final_engine, 0.5, 1);
