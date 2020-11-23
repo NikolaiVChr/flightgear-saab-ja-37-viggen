@@ -365,12 +365,13 @@ var Rb05 = {
 var SubModelWeapon = {
     parents: [WeaponLogic],
 
-    new: func(type, fire_all=0, ammo_factor=1) {
+    new: func(type, ammo_factor=1) {
         var w = { parents: [SubModelWeapon, WeaponLogic.new(type)], };
-        w.fire_all = fire_all;
         w.selected = [];
         w.stations = [];
         w.weapons = [];
+
+        w.firing = FALSE;
 
         # Ammunition count is very important and a bit tricky, because it is used in 'weapon_ready()'.
         # Cache the results for efficiency.
@@ -426,7 +427,7 @@ var SubModelWeapon = {
 
         var trigger_prop = input.trigger;
 
-        if (me.fire_all) {
+        if (me.type == "M70 ARAK") {
             # For rockets, trigger logic is a bit different because all rockets must be fired.
             trigger_prop = input.trigger_m70;
             input.trigger_m70.setBoolValue(FALSE);
@@ -439,19 +440,27 @@ var SubModelWeapon = {
 
         if (me.unsafe) me.ammo_update_timer.start();
         else me.ammo_update_timer.stop();
+
+        if (!me.unsafe) me.firing = FALSE;
     },
 
     set_trigger: func(trigger) {
-        # For guns, submodel triggers are linked to the main trigger by set_unsafe,
-        # so there is nothing to do.
-        if (!me.fire_all) return;
+        if (!me.armed() or !me.weapon_ready()) return;
 
-        # For rockets, set the trigger ON as required, but do not set it OFF, so that all rockets get fired.
-        if (me.armed() and trigger) input.trigger_m70.setBoolValue(TRUE);
+        if (me.type == "M70 ARAK") {
+            # For rockets, set the trigger ON as required, but do not set it OFF, so that all rockets get fired.
+            if (trigger) input.trigger_m70.setBoolValue(TRUE);
+            me.firing = TRUE;
+        } else {
+            # For other weapons, there is nothing to do. Just remember that we are firing.
+            me.firing = trigger;
+        }
     },
 
     _update_ammo: func {
         me.ammo = call(WeaponLogic.get_ammo, [], me);
+        # Update the 'firing' status if ammo is depleted.
+        if (!me.weapon_ready()) me.firing = FALSE;
     },
 
     get_ammo: func {
@@ -464,6 +473,11 @@ var SubModelWeapon = {
 
     get_selected_pylons: func {
         return me.selected;
+    },
+
+    # Method specific to gun/rockets, used by HUD.
+    is_firing: func {
+        return me.firing;
     },
 };
 
@@ -610,7 +624,7 @@ if (variant.JA) {
         Missile.new(type:"RB-99", fire_delay:0.7),
         Missile.new(type:"RB-71", fire_delay:0.7),
         Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new(type:"M70 ARAK", fire_all:1, ammo_factor:6), # get_ammo gives number of pods
+        SubModelWeapon.new(type:"M70 ARAK", ammo_factor:6), # get_ammo gives number of pods
     ];
 
     var internal_gun = SubModelWeapon.new(type:"M75 AKAN", ammo_factor:22);  # get_ammo gives firing time
@@ -620,7 +634,7 @@ if (variant.JA) {
         Missile.new(type:"RB-24J", fire_delay:0.7),
         Missile.new(type:"RB-24", fire_delay:0.7),
         SubModelWeapon.new("M55 AKAN"),
-        SubModelWeapon.new(type:"M70 ARAK", fire_all:1),
+        SubModelWeapon.new(type:"M70 ARAK"),
         Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
         Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1),
         Missile.new(type:"RB-75", fire_delay:1),

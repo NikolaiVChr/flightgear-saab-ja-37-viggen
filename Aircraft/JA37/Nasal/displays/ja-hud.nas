@@ -28,8 +28,13 @@ var metric = nil;
 # Flight path vector, or aiming reticle in aiming mode.
 # Most of the HUD is centered on it.
 var FPV = {
+    # FPV reticle mode. Some other elements depend on it.
+    MODE_OTHER: 0,
+    MODE_AA_GUN: 1, # A/A cannon sight
+    MODE_AG: 2,     # A/G cannon/rocket sight
+
     new: func(parent) {
-        var m = { parents: [FPV], parent: parent, mode: -1, };
+        var m = { parents: [FPV], parent: parent, mode: -1, reticle_mode: 0, };
         m.initialize();
         return m;
     },
@@ -96,10 +101,9 @@ var FPV = {
         # A/G reticle
         me.aim_AG_reticle = me.aim_reticle.createChild("group");
         make_path(me.aim_AG_reticle)
-            .moveTo(-70,0).horizTo(-30).moveTo(70,0).horizTo(30)
-            .moveTo(0,-70).vertTo(-30).moveTo(0,70).vertTo(30);
-        me.dist_gnd = make_text(me.aim_AG_reticle).setAlignment("left-bottom").setTranslation(120,100);
-        me.dist_gnd.enableUpdate();
+            .moveTo(-100,0).horizTo(-30).moveTo(100,0).horizTo(30);
+        me.aim_AG_reticle_vert = make_path(me.aim_AG_reticle)
+            .moveTo(0,-100).vertTo(-30).moveTo(0,100).vertTo(30);
 
         me.pos_x = me.pos_y = 0;
     },
@@ -110,6 +114,7 @@ var FPV = {
             me.nav.hide();
             me.takeoff.show();
             me.aim.hide();
+            me.reticle_mode = FPV.MODE_OTHER;
         } elsif (me.mode == HUD.MODE_AIM) {
             me.nav.hide();
             me.takeoff.hide();
@@ -118,6 +123,7 @@ var FPV = {
             me.nav.show();
             me.takeoff.hide();
             me.aim.hide();
+            me.reticle_mode = FPV.MODE_OTHER;
         }
     },
 
@@ -186,7 +192,7 @@ var FPV = {
             me.trace_line.setScale(capped_length/300, 1);
             me.trace_line.show();
 
-            if (input.trigger.getBoolValue()) {
+            if (fire_control.selected.is_firing()) {
                 me.fire_mark.setTranslation(mark_pos[0]/length*capped_length, mark_pos[1]/length*capped_length);
                 me.fire_mark.show();
             } else {
@@ -201,22 +207,14 @@ var FPV = {
     update_AG_reticle: func {
         if (fire_control.selected.type == "M70 ARAK") {
             var pos = gunsight.M70sight.get_pos();
-            var dist = gunsight.M70sight.get_dist();
         } else { # cannon
             var pos = gunsight.M75AGsight.get_pos();
-            var dist = gunsight.M75AGsight.get_dist();
         }
+        # Hide vertical bar of crosshair once armed.
+        me.aim_AG_reticle_vert.setVisible(!fire_control.selected.armed());
         # gunsight uses mils
         me.pos_x = math.clamp(pos[0]/10*R2D, -800, 800);
         me.pos_y = math.clamp(pos[1]/10*R2D, -400, 1300);
-
-        if (dist != nil) {
-            dist /= 1000;
-            me.dist_gnd.updateText(sprintf("%d,%.1d", math.floor(dist), math.mod(dist*10,10)));
-            me.dist_gnd.show();
-        } else {
-            me.dist_gnd.hide();
-        }
     },
 
     update_reticle: func {
@@ -225,11 +223,13 @@ var FPV = {
             me.aim_AA_reticle.hide();
             me.aim_AG_reticle.show();
             me.update_AG_reticle();
+            me.reticle_mode = FPV.MODE_AG;
         } else {
             # A/A mode
             me.aim_AA_reticle.show();
             me.aim_AG_reticle.hide();
             me.update_AA_reticle();
+            me.reticle_mode = FPV.MODE_AA_GUN;
         }
     },
 
@@ -246,16 +246,19 @@ var FPV = {
             me.aim_empty.show();
             me.aim_missile.hide();
             me.aim_reticle.hide();
+            me.reticle_mode = FPV.MODE_OTHER;
         } elsif (fire_control.selected.type == "M70 ARAK" or fire_control.selected.type == "M75 AKAN") {
             me.aim_empty.hide();
             me.aim_missile.hide();
             me.aim_reticle.show();
+
             me.update_reticle();
         } else {
             # Small reticle for missiles.
             me.aim_empty.hide();
             me.aim_missile.show();
             me.aim_reticle.hide();
+            me.reticle_mode = FPV.MODE_OTHER;
         }
 
         me.group.setTranslation(me.pos_x, me.pos_y);
@@ -313,6 +316,10 @@ var FPV = {
 
     get_group: func {
         return me.group;
+    },
+
+    get_fpv_mode: func {
+        return me.reticle_mode;
     },
 };
 
@@ -1014,7 +1021,7 @@ var DigitalAltitude = {
         }
     },
 
-    update: func {
+    update: func(fpv_mode) {
         if (me.mode != HUD.MODE_AIM) return;
 
         var alt = metric ? input.alt.getValue() : input.alt_ft.getValue();
@@ -1025,6 +1032,13 @@ var DigitalAltitude = {
             alt = math.round(alt, 100);
             alt /= 100;
             me.text.updateText(sprintf("%d,%.1d", math.floor(alt/10), math.mod(alt, 10)));
+        }
+
+        if (fpv_mode == FPV.MODE_AG and fire_control.selected.is_firing()) {
+            # Manual: in A/G mode, altitude moves to the right when firing.
+            me.text.setTranslation(-600,0);
+        } else {
+            me.text.setTranslation(500,0);
         }
     },
 };
@@ -1091,7 +1105,7 @@ var TextMessage = {
         }
     },
 
-    update: func {
+    update: func(fpv_mode) {
         if (input.qfe_warning.getBoolValue()) {
             me.text.updateText("QFE");
             me.text.setVisible(input.twoHz.getBoolValue());
@@ -1107,7 +1121,7 @@ var TextMessage = {
                  and fire_control.selected != nil and fire_control.selected.weapon_ready()
                  and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
                  # Exception: hide AKAN in A/A gunsight mode (there is no ambiguity in this mode anyway).
-                 and !(me.mode == HUD.MODE_AIM and !TI.ti.ModeAttack and fire_control.selected.type == "M75 AKAN")) {
+                 and fpv_mode != FPV.MODE_AA_GUN) {
             me.text.updateText(displays.common.currArmNameMedium);
             me.text.show();
         } else {
@@ -1236,8 +1250,9 @@ var Distance = {
         # Distance scale
         me.line = make_path(me.group).horiz(300);
         # Index (diamond above the scale)
-        me.index = make_path(me.group)
-            .lineTo(25,-25).lineTo(0,-50).lineTo(-25,-25).lineTo(0,0);
+        me.index = me.group.createChild("group");
+        me.index_norm = make_path(me.index).lineTo(25,-25).lineTo(0,-50).lineTo(-25,-25).lineTo(0,0);
+        me.index_fire = make_path(me.index).lineTo(25,-35).moveTo(0,0).lineTo(-25,-35);
         # Cursors (below the scale)
         me.cursorL = make_path(me.group).vert(30).horiz(25);
         me.cursorM = make_path(me.group).vert(30);
@@ -1257,6 +1272,8 @@ var Distance = {
             me.group.show();
             me.line.show();
             me.index.setTranslation(0,0).show();
+            me.index_norm.show();
+            me.index_fire.hide();
             me.cursorL.setTranslation(200,0).show();
             me.cursorM.setTranslation(200,0).show();
             me.cursorR.setTranslation(200,0).show();
@@ -1272,7 +1289,7 @@ var Distance = {
         }
     },
 
-    update: func {
+    update: func(fpv_mode) {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
             var weight = input.weight.getValue();
             var rotation_speed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
@@ -1282,9 +1299,49 @@ var Distance = {
             var pos = extrapolate(input.speed.getValue(), rotation_speed - 96, rotation_speed + 48, 0, 300);
             pos = math.clamp(pos, 0, 300);
             me.index.setTranslation(pos, 0);
-        } elsif (me.mode == HUD.MODE_AIM and fire_control.selected != nil and fire_control.selected.weapon_ready()
-                 and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")) {
+        } elsif (me.mode == HUD.MODE_AIM and fpv_mode == FPV.MODE_AA_GUN) {
+            # A/A cannon sight has a special distance scale.
             me.group.hide();
+        } elsif (me.mode == HUD.MODE_AIM and fpv_mode == FPV.MODE_AG) {
+            # Show distance to ground.
+            if (fire_control.selected.type == "M70 ARAK") {
+                # Maximum displayed distance
+                var scale_dist = gunsight.M70sight.max_dist;
+                # Recommanded firing range
+                var max_dist = 5000;
+                var min_dist = 500;
+                var dist = gunsight.M70sight.get_dist();
+            } else { # M75 AKAN
+                # Maximum displayed distance
+                var scale_dist = gunsight.M75AGsight.max_dist;
+                # Recommanded firing range
+                var max_dist = 4000;
+                var min_dist = 300;
+                var dist = gunsight.M75AGsight.get_dist();
+            }
+            if (dist != nil) {
+                me.group.show();
+                me.line.show();
+                me.index.show();
+                me.cursorL.show();
+                me.cursorM.hide();
+                me.cursorR.show();
+                me.dist.show();
+                me.cursorL.setTranslation(min_dist / scale_dist * 300, 0);
+                me.cursorR.setTranslation(max_dist / scale_dist * 300, 0);
+                me.index.setTranslation(dist / scale_dist * 300, 0);
+                me.dist.updateText(sprintf("%d,%.1d", math.floor(dist/1000), math.mod(dist/100,10)));
+
+                if (dist >= min_dist and dist <= max_dist) {
+                    me.index_norm.hide();
+                    me.index_fire.show();
+                } else {
+                    me.index_norm.show();
+                    me.index_fire.hide();
+                }
+            } else {
+                me.group.hide();
+            }
         } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM) and radar_logic.selection != nil) {
             # Display distance to target.
             me.group.show();
@@ -1304,6 +1361,15 @@ var Distance = {
                 me.cursorL.setTranslation(dlz[3] / max_dist * 300, 0).show();
                 me.cursorM.setTranslation(dlz[1] / max_dist * 300, 0);
                 me.cursorR.setTranslation(dlz[2] / max_dist * 300, 0).show();
+
+                if (dlz[4] >= dlz[3] and dlz[4] <= dlz[2]) {
+                    me.index_norm.hide();
+                    me.index_fire.show();
+                } else {
+                    me.index_norm.show();
+                    me.index_fire.hide();
+                }
+
                 # Convert scale to Km (or NM) for numerical display
                 if (metric) max_dist *= NM2M / 1000;
             } else {
@@ -1311,6 +1377,9 @@ var Distance = {
                 var max_dist = input.radar_range.getValue();
                 var range = math.clamp(radar_logic.selection.get_range()*NM2M, 0, max_dist);
                 me.index.setTranslation(range / max_dist * 300, 0);
+                me.index_norm.show();
+                me.index_fire.hide();
+
                 # Convert scale to Km (or NM) for numerical display.
                 if (metric) max_dist /= 1000;
                 else max_dist *= M2NM;
@@ -1328,6 +1397,8 @@ var Distance = {
             if (dist < 1000) {
                 me.group.show();
                 me.index.setTranslation(300,0).show();
+                me.index_norm.show();
+                me.index_fire.hide();
                 me.dist.updateText(sprintf("%d", dist));
                 me.dist.show();
                 me.line.hide();
@@ -1673,10 +1744,10 @@ var HUD = {
         me.heading.update(me.fpv_heading);
         me.speed.update();
         me.alt_scale.update(me.fpv_pitch);
-        me.dig_alt.update();
+        me.dig_alt.update(me.fpv.get_fpv_mode());
         me.rad_alt.update();
-        me.text.update();
-        me.dist.update();
+        me.text.update(me.fpv.get_fpv_mode());
+        me.dist.update(me.fpv.get_fpv_mode());
         me.alt_bars.update(me.alt_scale.get_scale_factor(), me.show_horizon);
         me.gpw.update();
         me.targets.update(me.fpv.get_pos());
