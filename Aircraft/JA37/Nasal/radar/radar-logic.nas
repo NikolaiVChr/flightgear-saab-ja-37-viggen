@@ -129,8 +129,8 @@ var complete_list = []; # Anything that can be damaged
 var rb99_list = [];
 var callsign_struct = {};
 
-var lockLog  = events.LogBuffer.new(echo: 0);#compatible with older FG?
-var lockLast = nil;
+var lockLog  = events.LogBuffer.new(echo: 0);
+var ecmLog = events.LogBuffer.new(echo: 0);
 
 var AIR = 0;
 var MARINE = 1;

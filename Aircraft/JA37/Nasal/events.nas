@@ -125,7 +125,3 @@ var combineBuffers = func (buffers) {
 	}
 	return sort(combined, sorter);
 }
-
-
-var fireLog = LogBuffer.new(echo: 0);
-var ecmLog = LogBuffer.new(echo: 0);

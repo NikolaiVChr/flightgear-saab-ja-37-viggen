@@ -408,7 +408,7 @@ var missile_launch_callback = func {
     if (input.MLW_count.getValue() == MLW_count + 1) {
         var bearing = geo.normdeg(input.MLW_bearing.getValue() - input.heading.getValue());
         signal(rand(), RWR_LAUNCH, bearing);
-        events.ecmLog.push("Missile launch warning from %03d deg.", bearing);
+        radar_logic.ecmLog.push("Missile launch warning from %03d deg.", bearing);
     }
     MLW_count = input.MLW_count.getValue();
 }

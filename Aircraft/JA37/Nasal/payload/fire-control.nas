@@ -30,6 +30,8 @@ foreach (var prop; keys(input)) {
 }
 
 
+var fireLog = events.LogBuffer.new(echo: 0);
+
 
 ### Pylon names
 var STATIONS = pylons.STATIONS;
@@ -253,7 +255,7 @@ var Missile = {
         if (me.weapon.status == armament.MISSILE_LOCK) {
             phrase = phrase~" at: "~me.weapon.callsign;
         }
-        events.fireLog.push("Self: "~phrase);
+        fireLog.push("Self: "~phrase);
 
         me.station.fireWeapon(0, me.at_everything ? radar_logic.complete_list : nil);
 
@@ -350,7 +352,7 @@ var Rb05 = {
         me.active_rb05 = me.selected;
         me.weapon.mfFunction = me.makeMidFlightFunction(me.selected);
 
-        events.fireLog.push("Self: "~me.weapon.brevity);
+        fireLog.push("Self: "~me.weapon.brevity);
 
         me.station.fireWeapon(0, radar_logic.complete_list);
 
@@ -594,7 +596,7 @@ var Bomb = {
         if (!me.armed() or !me.weapon_ready()) trigger = FALSE;
 
         if (trigger) {
-            events.fireLog.push("Self: "~me.next_weapon.brevity);
+            fireLog.push("Self: "~me.next_weapon.brevity);
             me.start_drop_sequence();
         } else {
             me.stop_drop_sequence();
