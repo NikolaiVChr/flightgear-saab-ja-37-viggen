@@ -252,6 +252,12 @@
             <name>h</name>
             <desc>Toggle aiming mode</desc>
             <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
                 <command>nasal</command>
                 <script>modes.toggle_aiming_mode(); ja37.click();</script>
             </binding>
