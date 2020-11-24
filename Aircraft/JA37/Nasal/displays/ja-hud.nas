@@ -13,6 +13,10 @@ var opts = {
 };
 
 
+# Milliradians to HUD units (1/100 deg)
+var MIL2HUD = R2D/10;
+
+
 
 ### HUD elements classes
 
@@ -128,8 +132,8 @@ var FPV = {
     update_AA_reticle: func {
         var pos = gunsight.AAsight.get_pos();
         # gunsight uses mils
-        me.pos_x = math.clamp(pos[0]/10*R2D, -800, 800);
-        me.pos_y = math.clamp(pos[1]/10*R2D, -400, 1300);
+        me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
+        me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
 
         if (radar_logic.selection != nil) {
             me.aim_gun_tgt.show();
@@ -167,9 +171,7 @@ var FPV = {
             var dist = 0.6;     # km
 
             # Angle from center to wingspan indication lines
-            # Small angle, tan = angle is good enough
-            # Constant 20 is /2 (half wingspan) /1000 (km to m) *100 (deg to HUD units)
-            var offset = wingspan/dist/20 * R2D;
+            var offset = wingspan/2/dist * MIL2HUD;
 
             me.wingspan_l.setTranslation(-offset, 0);
             me.wingspan_r.setTranslation(offset, 0);
@@ -181,8 +183,8 @@ var FPV = {
 
         if (fire_control.selected.armed()) {
             var mark_pos = gunsight.AAsight.get_pos_sec();
-            mark_pos[0] = mark_pos[0]/10*R2D - me.pos_x;
-            mark_pos[1] = mark_pos[1]/10*R2D - me.pos_y;
+            mark_pos[0] = mark_pos[0] * MIL2HUD - me.pos_x;
+            mark_pos[1] = mark_pos[1] * MIL2HUD - me.pos_y;
             var angle = math.atan2(mark_pos[1], mark_pos[0]);
             var length = math.sqrt(mark_pos[0]*mark_pos[0] + mark_pos[1]*mark_pos[1]);
             var capped_length = math.min(length, 300);
@@ -211,8 +213,8 @@ var FPV = {
         # Hide vertical bar of crosshair once armed.
         me.aim_AG_reticle_vert.setVisible(!fire_control.selected.armed());
         # gunsight uses mils
-        me.pos_x = math.clamp(pos[0]/10*R2D, -800, 800);
-        me.pos_y = math.clamp(pos[1]/10*R2D, -400, 1300);
+        me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
+        me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
     },
 
     update_reticle: func {
@@ -1731,5 +1733,56 @@ var HUD = {
         me.gpw.update();
         me.targets.update(me.fpv.get_pos());
         me.reticle.update();
+    },
+};
+
+
+
+### Backup sight (orange).
+#
+# Manual says it is a 'fixed illuminated pattern [...] activated by the knob RES'.
+# Pattern itself is completely made up.
+var BackupSight = {
+    new: func(root) {
+        var m = { parents: [BackupSight], };
+        m.initialize(root);
+        return m;
+    },
+
+    initialize: func(root) {
+        var group = root.createChild("group");
+
+        make_dot(group, 0, 0, opts.line_width*2);
+        make_path(group).moveTo(-100,0).horizTo(-25).moveTo(100,0).horizTo(25);
+
+        var line_start = 40*MIL2HUD;
+        var line_end = 80*MIL2HUD;
+        var grad = 10*MIL2HUD;
+        var grad_w = 3*MIL2HUD;
+        var line_bot_angle = math.pi/6;
+        var arc_angle = line_bot_angle+0.1;
+        var arc1_rad = 75*MIL2HUD;
+        var arc2_rad = 100*MIL2HUD;
+
+        var path = make_path(group)
+            .moveTo(-line_start, 0).horizTo(-line_end)
+            .moveTo(line_start, 0).horizTo(line_end)
+            .moveTo(0, -line_start).vertTo(-line_end)
+            .moveTo(-line_start, 0).arcSmallCWTo(line_start, line_start, 0, line_start, 0);
+
+        for (var i=1; i<= 5; i+=1) {
+            path.moveTo(-grad_w*i, grad*i).horizTo(grad_w*i);
+        }
+        path.moveTo(0, grad).vertTo(arc2_rad+grad);
+
+        path.moveTo(arc1_rad*math.sin(arc_angle), arc1_rad*math.cos(arc_angle))
+            .arcSmallCWTo(arc1_rad, arc1_rad, 0, -arc1_rad*math.sin(arc_angle), arc1_rad*math.cos(arc_angle));
+        path.moveTo(arc2_rad*math.sin(arc_angle), arc2_rad*math.cos(arc_angle))
+            .arcSmallCWTo(arc2_rad, arc2_rad, 0, -arc2_rad*math.sin(arc_angle), arc2_rad*math.cos(arc_angle));
+
+        path.moveTo(line_start*math.sin(line_bot_angle), line_start*math.cos(line_bot_angle))
+            .lineTo(arc2_rad*math.sin(line_bot_angle), arc2_rad*math.cos(line_bot_angle));
+        path.moveTo(-line_start*math.sin(line_bot_angle), line_start*math.cos(line_bot_angle))
+            .lineTo(-arc2_rad*math.sin(line_bot_angle), arc2_rad*math.cos(line_bot_angle));
     },
 };

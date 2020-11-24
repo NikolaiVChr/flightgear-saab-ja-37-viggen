@@ -241,11 +241,15 @@ var HUDCanvas = {
 
 var hud_canvas = nil;
 var hud = nil;
+var backup_sight = nil;
 
 var initialize = func {
     hud_canvas = HUDCanvas.new();
     hud_canvas.add_placement({"node": "hud", "texture": "hud.png"});
     hud = HUD.new(hud_canvas.get_group_hud());
+    if (variant.JA) {
+        backup_sight = BackupSight.new(hud_canvas.get_group_backup());
+    }
     hud_canvas.update_brightness();
 
     setlistener(input.bright_hud, func { hud_canvas.update_brightness(); });
@@ -255,4 +259,11 @@ var initialize = func {
 var update = func {
     hud_canvas.update_parallax();
     hud.update();
+    if (variant.JA) {
+        if (hud_canvas.bright_bck > 0 and power.prop.dcMainBool.getBoolValue()) {
+            hud_canvas.get_group_backup().show();
+        } else {
+            hud_canvas.get_group_backup().hide();
+        }
+    }
 }
