@@ -51,6 +51,7 @@ var setSelection = func (s) {
   if (s != nil) {
     radarLogic.paint(selection.getNode(), TRUE);
     lookatSelection();
+    lockLog.push(sprintf("Radar lock on to %s", s.get_Callsign()));
   }
 }
 

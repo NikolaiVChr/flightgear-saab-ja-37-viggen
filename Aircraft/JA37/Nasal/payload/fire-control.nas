@@ -131,6 +131,7 @@ var Missile = {
         if (type == "RB-24" or type == "RB-24J" or type == "RB-74") {
             w.is_IR = TRUE;
             w.IR_seeker_timer = maketimer(0.5, w, w.IR_seeker_loop);
+            w.last_IR_lock = nil;
         } else {
             w.is_IR = FALSE;
         }
@@ -148,8 +149,6 @@ var Missile = {
         me.weapon = me.station.getWeapons()[0];
         me.fired = FALSE;
         setprop("controls/armament/station-select-custom", pylon);
-
-        if (me.is_IR) me.IR_seeker_timer.start();
     },
 
     deselect: func {
@@ -158,7 +157,6 @@ var Missile = {
         me.station = nil;
         me.weapon = nil;
         me.fired = FALSE;
-        if (me.is_IR) me.IR_seeker_timer.stop();
         setprop("controls/armament/station-select-custom", -1);
     },
 
@@ -228,8 +226,10 @@ var Missile = {
                     } else {
                         me.weapon.setUncagedPattern(3, 2.5, -12);
                     }
+                    me.IR_seeker_timer.start();
                 }
             } else {
+                if (me.is_IR) me.IR_seeker_timer.stop();
                 me.weapon.stop();
             }
         }
@@ -294,7 +294,10 @@ var Missile = {
     },
 
     IR_seeker_loop: func {
-        if (!me.weapon_ready()) return;
+        if (!me.weapon_ready()) {
+            me.IR_seeker_timer.stop();
+            return;
+        }
 
         # For JA, switch between bore sight and radar command automatically.
         # Note: not using 'setBore()' for bore sight. Instead keeping 'setSlave()'
@@ -316,6 +319,16 @@ var Missile = {
                 # Send list of all contacts to allow searching.
                 me.weapon.setContacts(radar_logic.complete_list);
             }
+        }
+
+        # Log lock event
+        if (me.weapon.status == armament.MISSILE_LOCK) {
+            if (me.last_IR_lock != me.weapon.callsign) {
+                radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)", me.weapon.callsign, me.weapon.type));
+                me.last_IR_lock = me.weapon.callsign;
+            }
+        } else {
+            me.last_IR_lock = nil;
         }
     },
 
