@@ -506,6 +506,15 @@ var MI = {
 			.setTranslation(0, radar_area_width/2)
 			.setFontSize(13, 1);
 
+		# SIKT (aiming mode), top of radar area.
+		me.text_aim = me.rootCenter.createChild("text");
+		me.text_aim.enableUpdate();
+		me.text_aim.updateText("")
+			.setColor(r,g,b,a)
+			.setAlignment("center-bottom")
+			.setTranslation(0, -radar_area_width/4)
+			.setFontSize(13, 1);
+
 		# Target speed/distance/altitude (top text)
 		me.target_info = me.rootCenter.createChild("group")
 			.setTranslation(0, -radar_area_width/2 - 42);
@@ -783,6 +792,14 @@ var MI = {
 			me.text_silent.updateText(displays.metric ? "TYST" : "SILENT");
 		} else {
 			me.text_silent.hide();
+		}
+
+		# SIKT/AIM
+		if (modes.main_ja == modes.AIMING) {
+			me.text_aim.updateText(displays.metric ? "SIKT" : "AIM");
+			me.text_aim.show();
+		} else {
+			me.text_aim.hide();
 		}
 
 		# Bottom left.
