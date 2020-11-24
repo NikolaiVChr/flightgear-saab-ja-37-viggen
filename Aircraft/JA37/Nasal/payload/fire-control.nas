@@ -719,6 +719,7 @@ var cycle_weapon_type = func(subset=nil) {
     while (i != prev) {
         if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
             _set_selected_index(i);
+            if (!variant.JA) ja37.notice("Selected "~selected.type);
             return
         }
         i += 1;
@@ -727,9 +728,11 @@ var cycle_weapon_type = func(subset=nil) {
     # We are back to the first weapon. Last try
     if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
         _set_selected_index(i);
+        if (!variant.JA) ja37.notice("Selected "~selected.type);
     } else {
         # Nothing found
         _set_selected_index(-1);
+        if (!variant.JA) ja37.notice("No weapon selected");
     }
 }
 
@@ -765,6 +768,7 @@ var cycle_pylon = func {
 var deselect_weapon = func {
     _deselect_current();
     _set_selected_index(-1);
+    if (!variant.JA) ja37.notice("No weapon selected");
 }
 
 # Direct pylon selection through JA TI.
@@ -860,7 +864,8 @@ setlistener(power.prop.acSecond, inhibit_callback, 0, 0);
 ### Reset fire control logic when reloading.
 var ReloadCallback = {
     updateAll: func {
-        deselect_weapon();
+        _deselect_current();
+        _set_selected_index(-1);
     },
 
     init: func {
