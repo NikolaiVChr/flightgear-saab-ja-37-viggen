@@ -611,7 +611,7 @@ var Bomb = {
         if (!me.unsafe) {
             # 'FALLD LAST' off when securing the trigger.
             input.release.setBoolValue(FALSE);
-            me.is_firing = FALSE;
+            me.firing = FALSE;
         }
     },
 
