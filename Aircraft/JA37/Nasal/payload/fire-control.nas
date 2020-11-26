@@ -84,6 +84,9 @@ var WeaponLogic = {
         die("Called unimplemented abstract class method");
     },
 
+    # Used by the HUD. Only bombs, guns, and rockets use it.
+    is_firing: func { return FALSE; },
+
     weapon_ready: func { return FALSE; },
 
     # Return ammo count for this type of weapon.
@@ -464,8 +467,10 @@ var SubModelWeapon = {
 
         if (me.type == "M70 ARAK") {
             # For rockets, set the trigger ON as required, but do not set it OFF, so that all rockets get fired.
-            if (trigger) input.trigger_m70.setBoolValue(TRUE);
-            me.firing = TRUE;
+            if (trigger) {
+                input.trigger_m70.setBoolValue(TRUE);
+                me.firing = TRUE;
+            }
         } else {
             # For other weapons, there is nothing to do. Just remember that we are firing.
             me.firing = trigger;
@@ -490,7 +495,6 @@ var SubModelWeapon = {
         return me.selected;
     },
 
-    # Method specific to gun/rockets, used by HUD.
     is_firing: func {
         return me.firing;
     },
@@ -523,8 +527,11 @@ var Bomb = {
         }
 
         w.drop_bomb_timer = maketimer(0, w, w.drop_next_bomb);
-        w.simulatedTime = TRUE;
-        w.singleShot = FALSE;
+        w.drop_bomb_timer.simulatedTime = TRUE;
+        w.drop_bomb_timer.singleShot = FALSE;
+
+        w.firing = FALSE;
+
         return w;
     },
 
@@ -587,11 +594,13 @@ var Bomb = {
     },
 
     start_drop_sequence: func {
+        me.firing = TRUE;
         me.drop_next_bomb();
         me.drop_bomb_timer.restart(me.release_interval(me.release_distance));
     },
 
     stop_drop_sequence: func {
+        me.firing = FALSE;
         me.drop_bomb_timer.stop();
     },
 
@@ -602,6 +611,7 @@ var Bomb = {
         if (!me.unsafe) {
             # 'FALLD LAST' off when securing the trigger.
             input.release.setBoolValue(FALSE);
+            me.is_firing = FALSE;
         }
     },
 
@@ -618,6 +628,10 @@ var Bomb = {
 
     weapon_ready: func {
         return me.next_weapon != nil;
+    },
+
+    is_firing: func {
+        return me.firing;
     },
 
     # Return the active weapon (object from missile.nas), when it makes sense.
@@ -680,6 +694,11 @@ var _set_selected_index = func(index) {
 
 
 ### Access functions.
+var get_type = func {
+    if (selected == nil) return nil;
+    else return selected.type;
+}
+
 var get_weapon = func {
     if (selected == nil) return nil;
     else return selected.get_weapon();
@@ -695,6 +714,20 @@ var get_selected_pylons = func {
     else return selected.get_selected_pylons();
 }
 
+var weapon_ready = func {
+    if (selected == nil) return FALSE;
+    else return selected.weapon_ready();
+}
+
+var is_armed = func {
+    if (selected == nil) return FALSE;
+    else return selected.armed();
+}
+
+var is_firing = func {
+    if (selected == nil) return FALSE;
+    else return selected.is_firing();
+}
 
 ### Controls
 
