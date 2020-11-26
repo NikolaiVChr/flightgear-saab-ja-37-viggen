@@ -505,7 +505,8 @@
     </channel>
 
     <channel name="flight path vector">
-        <fcs_function name="instruments/fpv/angle-up-deg">
+        <!-- Position relative to aircraft axis (for HUD indicator) -->
+        <fcs_function name="instruments/fpv/angle-up-deg-raw">
             <function>
                 <todegrees>
                     <atan2>
@@ -514,10 +515,9 @@
                     </atan2>
                 </todegrees>
             </function>
-            <output>/instrumentation/fpv/angle-up-deg</output>
         </fcs_function>
 
-        <fcs_function name="instruments/fpv/angle-right-deg">
+        <fcs_function name="instruments/fpv/angle-right-deg-raw">
             <function>
                 <todegrees>
                     <atan2>
@@ -526,35 +526,10 @@
                     </atan2>
                 </todegrees>
             </function>
-            <output>/instrumentation/fpv/angle-right-deg</output>
         </fcs_function>
 
-        <!-- Stabilized version for displays (fixed forward when velocity is too low) -->
-        <scheduled_gain name="instruments/fpv/angle-up-stab-deg">
-            <input>instruments/fpv/angle-up-deg</input>
-            <table>
-                <independentVar>velocities/vg-fps</independentVar>
-                <tableData>
-                    15  0
-                    20  1
-                </tableData>
-            </table>
-            <output>/instrumentation/fpv/angle-up-stab-deg</output>
-        </scheduled_gain>
-
-        <scheduled_gain name="instruments/fpv/angle-right-stab-deg">
-            <input>instruments/fpv/angle-right-deg</input>
-            <table>
-                <independentVar>velocities/vg-fps</independentVar>
-                <tableData>
-                    15  0
-                    20  1
-                </tableData>
-            </table>
-            <output>/instrumentation/fpv/angle-right-stab-deg</output>
-        </scheduled_gain>
-
-        <fcs_function name="instruments/fpv/pitch-deg">
+        <!-- Flight path angle -->
+        <fcs_function name="instruments/fpv/pitch-deg-raw">
             <function>
                 <todegrees>
                     <atan2>
@@ -575,22 +550,9 @@
                     </atan2>
                 </todegrees>
             </function>
-            <output>/instrumentation/fpv/pitch-deg</output>
         </fcs_function>
 
-        <scheduled_gain name="instruments/fpv/pitch-stab-deg">
-            <input>instruments/fpv/pitch-deg</input>
-            <table>
-                <independentVar>velocities/vg-fps</independentVar>
-                <tableData>
-                    15  0
-                    20  1
-                </tableData>
-            </table>
-            <output>/instrumentation/fpv/pitch-stab-deg</output>
-        </scheduled_gain>
-
-        <fcs_function name="instruments/fpv/heading-true">
+        <fcs_function name="instruments/fpv/track-true-deg-raw">
             <function>
                 <todegrees>
                     <atan2>
@@ -599,8 +561,44 @@
                     </atan2>
                 </todegrees>
             </function>
-            <output>/instrumentation/fpv/heading-true</output>
         </fcs_function>
+
+        <!-- Lock to 0 at low speed on the ground (avoids jittering). -->
+        <switch name="instruments/fpv/angle-up-deg">
+            <default value="instruments/fpv/angle-up-deg-raw"/>
+            <test logic="AND" value="0">
+                gear/unit[0]/WOW eq 1
+                velocities/u-fps le 10
+            </test>
+            <output>/instrumentation/fpv/angle-up-deg</output>
+        </switch>
+
+        <switch name="instruments/fpv/angle-right-deg">
+            <default value="instruments/fpv/angle-right-deg-raw"/>
+            <test logic="AND" value="0">
+                gear/unit[0]/WOW eq 1
+                velocities/u-fps le 10
+            </test>
+            <output>/instrumentation/fpv/angle-right-deg</output>
+        </switch>
+
+        <switch name="instruments/fpv/pitch-deg">
+            <default value="instruments/fpv/pitch-deg-raw"/>
+            <test logic="AND" value="/orientation/pitch-deg">
+                gear/unit[0]/WOW eq 1
+                velocities/u-fps le 10
+            </test>
+            <output>/instrumentation/fpv/pitch-deg</output>
+        </switch>
+
+        <switch name="instruments/fpv/track-true-deg">
+            <default value="instruments/fpv/track-true-deg-raw"/>
+            <test logic="AND" value="/orientation/heading-deg">
+                gear/unit[0]/WOW eq 1
+                velocities/u-fps le 10
+            </test>
+            <output>/instrumentation/fpv/track-true-deg</output>
+        </switch>
     </channel>
 
     <channel execrate="4" name="instruments">

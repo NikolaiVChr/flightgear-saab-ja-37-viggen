@@ -267,14 +267,12 @@ var FPV = {
     update: func {
         if (me.mode == HUD.MODE_AIM) return me.update_aim();
 
-        # Default position (for actual FPV).
+        # Update FPV position.
         me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -800, 800);
-        me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
-
-        # Special cases, depending on HUD mode.
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
-            if (input.wow.getBoolValue()) me.pos_x = 0; # Avoids FPV stability issue at low speed.
-            me.pos_y = 1000;                            # Fixed 10deg below forward axis.
+            me.pos_y = 1000;    # Fixed 10deg below forward axis for takeoff.
+        } else {
+            me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
         }
         me.group.setTranslation(me.pos_x, me.pos_y);
 
@@ -606,17 +604,13 @@ var Heading = {
         if (me.mode == HUD.MODE_FINAL_HIGH_PITCH or me.mode == HUD.MODE_AIM) return;
 
         # Track angle. The way it is computed depends on the mode.
-        if (input.wow.getBoolValue()) {
-            # On the ground, heading and track are the same,
-            # and heading is well defined when stopped, so use heading.
-            var track = input.heading.getValue();
-        } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            # 1:1 heading scale presentation. Use heading of FPV marker (and not actual track angle)
+        if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
+            # 1:1 heading scale presentation. Use heading of FPV marker (which is clamped).
             # so that the heading scale matches the real world.
             var track = fpv_heading;
         } else {
-            # Otherwise use track angle.
-            var track = input.fpv_head_true.getValue() - input.head_true.getValue() + input.heading.getValue();
+            # Otherwise use real track angle.
+            var track = input.fpv_track.getValue() - input.head_true.getValue() + input.heading.getValue();
         }
 
         var center_mark = math.round(track, 5);

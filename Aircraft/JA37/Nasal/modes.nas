@@ -7,7 +7,7 @@ var input = {
     landing:        "/ja37/hud/landing-mode",
     approach:       "/ja37/avionics/approach",
     takeoff:        "/ja37/mode/takeoff",
-    fpv_up:         "/instrumentation/fpv/angle-up-stab-deg",
+    fpv_up:         "/instrumentation/fpv/angle-up-deg",
     mach:           "/instrumentation/airspeed-indicator/indicated-mach",
     gear_pos:       "/gear/gear/position-norm",
     wow_nose:       "/fdm/jsbsim/gear/unit[0]/WOW",

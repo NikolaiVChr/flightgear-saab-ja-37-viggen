@@ -1479,16 +1479,14 @@
         <head-up-display>
             <serviceable type="bool">true</serviceable>
         </head-up-display>
-        <!-- Flight path vector (relative to ground) -->
         <fpv>
+            <!-- Flight path vector (relative to ground). Includes stabilization on the ground at low speed. -->
             <!-- Angle from aircraft forward axis -->
             <angle-up-deg type="double">0</angle-up-deg>
             <angle-right-deg type="double">0</angle-right-deg>
-              <!-- stabilized version -->
-            <angle-up-stab-deg type="double">0</angle-up-stab-deg>
-            <angle-right-stab-deg type="double">0</angle-right-stab-deg>
-            <!-- Flight path true heading -->
-            <true-heading type="double">0</true-heading>
+            <!-- Flight track (true heading) and flight path angle -->
+            <track-true-deg type="double">0</track-true-deg>
+            <pitch-deg type="double">0</pitch-deg>
         </fpv>
         <dme>
             <switch-position type="int">0</switch-position>

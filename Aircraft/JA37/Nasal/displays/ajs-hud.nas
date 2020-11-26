@@ -548,7 +548,7 @@ var FPV = {
     update: func {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) return;
 
-        me.group.setTranslation(100 * input.fpv_right_stab.getValue(), -100 * input.fpv_up_stab.getValue());
+        me.group.setTranslation(100 * input.fpv_right.getValue(), -100 * input.fpv_up.getValue());
 
         if (modes.landing) {
             me.update_landing_speed_error();
@@ -645,7 +645,7 @@ var HUD = {
         if (me.mode == HUD.MODE_STBY) return;
 
         me.fpv.update();
-        var fpv_rel_bearing = input.fpv_head_true.getValue() - input.head_true.getValue();
+        var fpv_rel_bearing = input.fpv_track.getValue() - input.head_true.getValue();
         fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
         me.horizon.update(fpv_rel_bearing);
         var rel_bearing = me.horizon.get_ref_point_offset();
