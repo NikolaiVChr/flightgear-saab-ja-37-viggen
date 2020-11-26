@@ -181,7 +181,7 @@ var FPV = {
             me.dist_txt.setTranslation(offset + 60, 250);
         }
 
-        if (fire_control.selected.armed()) {
+        if (fire_control.is_armed()) {
             var mark_pos = gunsight.AAsight.get_pos_sec();
             mark_pos[0] = mark_pos[0] * MIL2HUD - me.pos_x;
             mark_pos[1] = mark_pos[1] * MIL2HUD - me.pos_y;
@@ -192,7 +192,7 @@ var FPV = {
             me.trace_line.setScale(capped_length/300, 1);
             me.trace_line.show();
 
-            if (fire_control.selected.is_firing()) {
+            if (fire_control.is_firing()) {
                 me.fire_mark.setTranslation(mark_pos[0]/length*capped_length, mark_pos[1]/length*capped_length);
                 me.fire_mark.show();
             } else {
@@ -205,20 +205,20 @@ var FPV = {
     },
 
     update_AG_reticle: func {
-        if (fire_control.selected.type == "M70 ARAK") {
+        if (fire_control.get_type() == "M70 ARAK") {
             var pos = gunsight.M70sight.get_pos();
         } else { # cannon
             var pos = gunsight.M75AGsight.get_pos();
         }
         # Hide vertical bar of crosshair once armed.
-        me.aim_AG_reticle_vert.setVisible(!fire_control.selected.armed());
+        me.aim_AG_reticle_vert.setVisible(!fire_control.is_armed());
         # gunsight uses mils
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
         me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
     },
 
     update_reticle: func {
-        if (TI.ti.ModeAttack or fire_control.selected.type == "M70 ARAK") {
+        if (TI.ti.ModeAttack or fire_control.get_type() == "M70 ARAK") {
             # A/G mode
             me.aim_AA_reticle.hide();
             me.aim_AG_reticle.show();
@@ -239,7 +239,7 @@ var FPV = {
         me.pos_y = 0;
 
         # Aiming mode. Reticle display depends on selected weapon.
-        if (fire_control.selected == nil or !fire_control.selected.weapon_ready()) {
+        if (!fire_control.weapon_ready()) {
             # No weapon. Normal FPV, with a special symbol.
             me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -800, 800);
             me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
@@ -247,7 +247,7 @@ var FPV = {
             me.aim_missile.hide();
             me.aim_reticle.hide();
             me.reticle_mode = FPV.MODE_OTHER;
-        } elsif (fire_control.selected.type == "M70 ARAK" or fire_control.selected.type == "M75 AKAN") {
+        } elsif (fire_control.get_type() == "M70 ARAK" or fire_control.get_type() == "M75 AKAN") {
             me.aim_empty.hide();
             me.aim_missile.hide();
             me.aim_reticle.show();
@@ -1020,7 +1020,7 @@ var DigitalAltitude = {
 
         me.text.updateText(displays.sprintalt(input.alt.getValue()));
 
-        if (fpv_mode == FPV.MODE_AG and fire_control.selected.is_firing()) {
+        if (fpv_mode == FPV.MODE_AG and fire_control.is_firing()) {
             # Manual: in A/G mode, altitude moves to the right when firing.
             me.text.setTranslation(-500,0);
         } else {
@@ -1103,8 +1103,7 @@ var TextMessage = {
             } else {
                 me.text.show();
             }
-        } elsif (!modes.takeoff_30s_inhibit
-                 and fire_control.selected != nil and fire_control.selected.weapon_ready()
+        } elsif (!modes.takeoff_30s_inhibit and fire_control.weapon_ready()
                  and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
                  # Exception: hide AKAN in A/A gunsight mode (there is no ambiguity in this mode anyway).
                  and fpv_mode != FPV.MODE_AA_GUN) {
@@ -1290,7 +1289,7 @@ var Distance = {
             me.group.hide();
         } elsif (me.mode == HUD.MODE_AIM and fpv_mode == FPV.MODE_AG) {
             # Show distance to ground.
-            if (fire_control.selected.type == "M70 ARAK") {
+            if (fire_control.get_type() == "M70 ARAK") {
                 # Maximum displayed distance
                 var scale_dist = gunsight.M70sight.max_dist;
                 # Recommanded firing range
@@ -1338,9 +1337,8 @@ var Distance = {
             me.cursorR.hide();
             me.dist.show();
 
-            if (fire_control.selected != nil and fire_control.selected.get_weapon() != nil
-                and fire_control.selected.armed()
-                and (var dlz = fire_control.selected.get_weapon().getDLZ(TRUE)) != nil) {
+            if (fire_control.is_armed() and fire_control.get_weapon() != nil
+                and (var dlz = fire_control.get_weapon().getDLZ(TRUE)) != nil) {
                 # Cursors indicate missile dynamic launch zone.
                 var max_dist = dlz[0];
                 me.index.setTranslation(math.clamp(dlz[4] / max_dist * 300, 0, 300), 0);
@@ -1508,12 +1506,11 @@ var Targets = {
             me.tgt.hide();
         }
 
-        var selected = fire_control.selected;
-        var weapon = fire_control.get_weapon();
-        var pos = nil;
-        # Use ["is_IR"] instead of .is_IR because it is not always a member of fire_control.selected
-        if (selected != nil and selected["is_IR"] and selected.armed()
-            and weapon != nil and (pos = weapon.getSeekerInfo()) != nil
+        # Use ["is_IR"] instead of .is_IR because it is not always a member of fire_control.selected.
+        # And yes I'm defining variables in the condition, you can't stop me.
+        if (fire_control.is_armed() and fire_control.selected["is_IR"]
+            and (var weapon = fire_control.get_weapon()) != nil
+            and (var pos = weapon.getSeekerInfo()) != nil
             and (weapon.status == armament.MISSILE_LOCK or !weapon.isCaged() or !weapon.command_tgt)) {
             me.seeker.update(pos[0]*100, pos[1]*-100, fpv_pos);
             me.seeker.show();
@@ -1543,9 +1540,8 @@ var Reticle = {
     },
 
     update: func {
-        if (me.mode == HUD.MODE_NAV and fire_control.selected != nil
-            and (fire_control.selected.type == "M75 AKAN" or fire_control.selected.type == "M70 ARAK")
-            and fire_control.selected.armed()) {
+        if (me.mode == HUD.MODE_NAV and fire_control.is_armed()
+            and (fire_control.get_type() == "M75 AKAN" or fire_control.get_type() == "M70 ARAK")) {
             me.reticle.show();
         } else {
             me.reticle.hide();

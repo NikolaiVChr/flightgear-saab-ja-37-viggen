@@ -807,7 +807,7 @@ var MI = {
 			me.qfe = TRUE;
 			me.botl_text.updateText("QFE");
 			me.blinkQFE();
-		} elsif (fire_control.selected != nil and fire_control.selected.weapon_ready()) {
+		} elsif (fire_control.weapon_ready()) {
 			me.qfe = FALSE;
 			me.botl_text.updateText(displays.common.armNameShort());
 			me.botl_text.show();
