@@ -308,7 +308,6 @@
         <navigation type="string">APN</navigation>
         <all-aspect type="bool">true</all-aspect>
         <max-fire-range-nm type="double">38</max-fire-range-nm>           <!-- source (70km) -->
-        <detect-range-nm type="double">5</detect-range-nm>
         <FCS-field-deg type="int">0</FCS-field-deg>
         <seeker-field-deg type="int">70</seeker-field-deg>                <!-- manual -->
         <detect-range-nm type="double">12.96</detect-range-nm>            <!-- manual (24km) -->
@@ -437,12 +436,14 @@
         <vol-search type="double">0.00</vol-search>
         <vol-track type="double">0.15</vol-track>
         <vol-track-weak type="double">0.1</vol-track-weak>
-        <guidance type="string">inertial</guidance> 
+        <guidance type="string">inertial</guidance>
+        <prowl-flight type="string">terrain-follow</prowl-flight>
         <navigation type="string">APN</navigation>
         <all-aspect type="bool">true</all-aspect>
         <max-fire-range-nm type="double">8</max-fire-range-nm>               <!-- source -->
         <FCS-field-deg type="int">25</FCS-field-deg>
-        <seeker-field-deg type="int">220</seeker-field-deg>
+        <seeker-field-deg type="int">70</seeker-field-deg>
+        <detect-range-nm type="double">5</detect-range-nm>
         <max-g type="int">5</max-g>
         <max-launch-g type="int">7</max-launch-g>
         <thrust-lbf-stage-1 type="double">0</thrust-lbf-stage-1>
@@ -464,6 +465,8 @@
         <class type="string">GM</class>
         <fire-msg type="string">Bombs away</fire-msg>
         <hit-everything-nearby type="bool">true</hit-everything-nearby>
+        <lock-on-after-launch type="bool">true</lock-on-after-launch>
+        <auto-switch-target-allowed type="bool">true</auto-switch-target-allowed>
     </m90>
     <m71>
         <!-- Swedish bomblet M71 Virgo -->

@@ -672,7 +672,7 @@ if (variant.JA) {
         Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1),
         Missile.new(type:"RB-75", fire_delay:1),
         Rb05,
-        Missile.new(type:"M90", at_everything:1),
+        Missile.new(type:"M90", at_everything:1, no_lock:1),
         Bomb.new("M71"),
         Bomb.new("M71R"),
     ];
