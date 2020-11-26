@@ -61,12 +61,22 @@ var Horizon = {
 
     set_mode: func(mode) {
         me.mode = mode;
-        if (mode == HUD.MODE_FINAL_NAV or mode == HUD.MODE_FINAL_OPT) {
+        if (mode == HUD.MODE_AIM) {
+            # In aiming mode, the horizon doesn't actually display anything,
+            # it just provides a parent group.
+            me.navigation.hide();
+            me.landing.hide();
+            # Reset as aiming mode only uses roll_group.
+            me.horizon_group.setTranslation(0,0);
+            me.ref_point_group.setTranslation(0,0);
+        } elsif (mode == HUD.MODE_FINAL_NAV or mode == HUD.MODE_FINAL_OPT) {
             me.navigation.hide();
             me.landing.show();
+            me.roll_group.setTranslation(0,0);  # Reset after aiming mode.
         } else {
             me.navigation.show();
             me.landing.hide();
+            me.roll_group.setTranslation(0,0);  # Reset after aiming mode.
         }
     },
 
@@ -128,11 +138,21 @@ var Horizon = {
         me.ref_point_group.setTranslation(me.ref_point_offset * 100, 0);
     },
 
+    # Special update function for aiming mode.
+    #
+    # Takes reticle position as input.
+    update_aim: func(pos) {
+        me.roll_group.setTranslation(pos[0], pos[1]);
+        me.roll_group.setRotation(-input.roll.getValue() * D2R);
+        me.ref_point_offset = 0;
+    },
+
     get_horizon_group: func { return me.horizon_group; },
     get_ref_point_group: func { return me.ref_point_group; },
     get_ref_point_offset: func { return me.ref_point_offset; },
 };
 
+# Altitude bars, indicate altitude relative to commanded altitude.
 var AltitudeBars = {
     new: func(parent) {
         var m = { parents: [AltitudeBars], parent: parent, mode: -1 };
@@ -172,7 +192,7 @@ var AltitudeBars = {
 
     set_mode: func(mode) {
         me.mode = mode;
-        if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) {
+        if (me.mode == HUD.MODE_AIM or me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) {
             me.group.hide();
         } elsif (me.mode == HUD.MODE_FINAL_NAV) {
             me.group.setTranslation(0, 287);
@@ -283,6 +303,7 @@ var AltitudeBars = {
     },
 };
 
+# Digital altitude indicator
 var DigitalAltitude = {
     new: func(parent) {
         var m = { parents: [DigitalAltitude], parent: parent, mode: -1 , side: 1, x: -430, y: -20 };
@@ -306,8 +327,7 @@ var DigitalAltitude = {
         }
     },
 
-    # Altitude in meters
-    update: func(ref_point_offset) {
+    update_text: func {
         var altitude = input.alt.getValue();
         var str = "";
         if (altitude < 995) {
@@ -334,14 +354,24 @@ var DigitalAltitude = {
             str = sprintf("%.1d,%.1d", math.mod(math.floor(altitude), 10), math.mod(altitude*10, 10));
         }
         me.text.updateText(str);
+    },
+
+    update: func(ref_point_offset) {
+        me.update_text();
 
         # update position
-        if (ref_point_offset < -2) me.side = -1; # switch to right side
-        elsif (ref_point_offset > 0) me.side = 1;
+        if (me.mode == HUD.MODE_AIM) {
+            # Moves to the right when firing.
+            me.side = fire_control.is_firing() ? -1 : 1;
+        } else {
+            if (ref_point_offset < -2) me.side = -1; # switch to right side
+            elsif (ref_point_offset > 0) me.side = 1;
+        }
         me.text.setTranslation(me.x * me.side, me.y);
     },
 };
 
+# Time/Distance line (time/distance/... to waypoint or event)
 var DistanceLine = {
     new: func(parent) {
         var m = { parents: [DistanceLine], parent: parent, mode: -1 };
@@ -424,6 +454,7 @@ var DistanceLine = {
     },
 };
 
+# Heading indicator
 var HeadingScale = {
     new: func(parent) {
         var m = { parents: [HeadingScale], parent: parent, mode: -1 };
@@ -449,7 +480,9 @@ var HeadingScale = {
 
     set_mode: func(mode) {
         me.mode = mode;
-        if (me.mode == HUD.MODE_NAV_DECLUTTER) {
+        if (me.mode == HUD.MODE_AIM) {
+            me.group.hide();
+        } elsif (me.mode == HUD.MODE_NAV_DECLUTTER) {
             me.declutter_visible = FALSE;
             me.group.hide();
         } else {
@@ -489,6 +522,7 @@ var HeadingScale = {
     },
 };
 
+# Flight path vector marker
 var FPV = {
     new: func(parent) {
         var m = { parents: [FPV], parent: parent, mode: -1 };
@@ -506,10 +540,14 @@ var FPV = {
 
     set_mode: func(mode) {
         me.mode = mode;
-        if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
+        if (me.mode == HUD.MODE_AIM) {
+            me.group.hide();
+        } elsif (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
+            me.group.show();
             me.group.setTranslation(0, 1000);
             me.set_fin(FALSE);
         } else {
+            me.group.show();
             me.set_fin(TRUE);
         }
     },
@@ -559,6 +597,88 @@ var FPV = {
 };
 
 
+### Aiming mode HUD
+# All aiming mode symbols, except for the aiming dot (part of the horizon),
+# the time/distance line, and the digital altitude.
+var AimingMode = {
+    new: func(parent) {
+        var m = { parents: [AimingMode], parent: parent, mode: -1, };
+        m.initialize();
+        return m;
+    },
+
+    initialize: func {
+        me.group = me.parent.createChild("group");
+        # Aiming reticle
+        me.reticle = make_dot(me.group, 0, 0, 2*opts.line_width);
+        # Fixed bars, on except for A/A mode before radar lock.
+        me.bars = make_path(me.group).moveTo(-300,-150).vert(300).moveTo(300,-150).vert(300);
+        # Wingspan indicator, for A/A mode before radar lock.
+        me.wing = me.group.createChild("group");
+        me.wing_L = make_path(me.wing).moveTo(0,-15).vert(30).setTranslation(-120,0);
+        me.wing_R = make_path(me.wing).moveTo(0,-15).vert(30).setTranslation(120,0);
+        # Secondary reticle (target position, and some other functions).
+        #me.target = make_circle(me.group, 0, 0, 50);
+        # Small vertical bar, indicates that radar ranging is active.
+        #me.range_mark = make_path(me.group).moveTo(0,-150).vert(-50);
+        # Small horiontal bars around reticle, indicate firing window.
+        #me.firing_mark = make_path(me.group).moveTo(-25,0).horiz(-75).moveTo(25,0).horiz(75);
+        # Vertical bars, flash to indicate distance below safe minimum.
+        #me.break_bars = make_path(me.group).moveTo(-200,-100).vert(200).moveTo(200,-100).vert(200);
+        me.reticle_pos = [0,0];
+    },
+
+    set_mode: func(mode) {
+        me.group.setVisible(mode == HUD.MODE_AIM);
+    },
+
+    set_wingspan: func(span, dist) {
+        var pos = span/2/dist*R2D*100;
+        me.wing_L.setTranslation(-pos,0);
+        me.wing_R.setTranslation(pos,0);
+    },
+
+    update: func {
+        var type = fire_control.get_type();
+        if (type == "RB-24" or type == "RB-24J" or type == "RB-74") {
+            me.reticle.hide();
+            me.bars.hide();
+            me.wing.show();
+            me.set_wingspan(15, 2000);
+            me.reticle_pos = [0,0];
+        } elsif (type == "M55 AKAN" or type == "M70 ARAK") {
+            me.reticle.show();
+            me.bars.show();
+            me.wing.hide();
+            me.reticle_pos = [0,0];
+        } elsif (type == "M71" or type == "M71R") {
+            me.reticle.show();
+            me.bars.show();
+            me.wing.hide();
+            var bomb = fire_control.get_weapon();
+            var ccip = nil;
+            if (bomb != nil) ccip = bomb.getCCIPadv(16, 0.2);
+            if (ccip != nil) {
+                var pos = radar_logic.ContactGPS.new("CCIP", ccip[0]).get_cartesian();
+                me.reticle_pos[0] = pos[0]*100;
+                me.reticle_pos[1] = pos[1]*100;
+            } else {
+                me.reticle_pos = [0,0];
+            }
+        } elsif (type == "RB-75") {
+            me.reticle.show();
+            me.bars.show();
+            me.wing.hide();
+            me.reticle_pos = [0,0];
+        }
+    },
+
+    get_reticle_pos: func {
+        return me.reticle_pos;
+    },
+};
+
+
 
 ### Main HUD class
 var HUD = {
@@ -567,8 +687,9 @@ var HUD = {
     MODE_TAKEOFF_ROTATE: 2,
     MODE_NAV: 3,
     MODE_NAV_DECLUTTER: 4,
-    MODE_FINAL_NAV: 5,
-    MODE_FINAL_OPT: 6,
+    MODE_AIM: 5,
+    MODE_FINAL_NAV: 6,
+    MODE_FINAL_OPT: 7,
 
     new: func(root) {
         var m = { parents: [HUD], mode: -1 };
@@ -591,9 +712,10 @@ var HUD = {
         # Other HUD elements
         me.alt_bars = AltitudeBars.new(me.groups.ref_point);
         me.dig_alt = DigitalAltitude.new(me.groups.ref_point);
-        me.heading = HeadingScale.new(me.groups.horizon); # rooted on horizon, not ref_point: do not apply lateral offset
+        me.heading = HeadingScale.new(me.groups.horizon); # rooted on horizon, not ref_point: not lateral offset
         me.distance = DistanceLine.new(me.groups.ref_point);
         me.fpv = FPV.new(me.root);
+        me.aiming = AimingMode.new(me.groups.ref_point);
     },
 
     set_mode: func(mode) {
@@ -610,7 +732,20 @@ var HUD = {
             me.heading.set_mode(mode);
             me.distance.set_mode(mode);
             me.fpv.set_mode(mode);
+            me.aiming.set_mode(mode);
         }
+    },
+
+    # Separate function because it is _slightly_ complicated.
+    aiming_mode_condition: func {
+        if (fire_control.selected == nil) return FALSE;
+        if (modes.selector_ajs != modes.COMBAT and !fire_control.is_armed()) return FALSE;
+
+        var type = fire_control.get_type();
+        # Firing presentation is the same as navigation mode for these weapons.
+        if (type == "RB-05A" or type == "RB-04E" or type == "RB-15F" or type == "M90") return FALSE;
+
+        return TRUE;
     },
 
     update_mode: func {
@@ -631,18 +766,26 @@ var HUD = {
         } elsif (modes.landing and (land.mode == 1 or land.mode == 2)) {
             # Initial landing phase, NAV display mode
             me.set_mode(HUD.MODE_NAV);
-        } else { # Nav
-            if (input.hud_slav.getBoolValue() and input.alt.getValue() < 97.5) {
-                me.set_mode(HUD.MODE_NAV_DECLUTTER);
-            } else {
-                me.set_mode(HUD.MODE_NAV);
-            }
+        } elsif (me.aiming_mode_condition()) {
+            me.set_mode(HUD.MODE_AIM);
+        } elsif (input.hud_slav.getBoolValue() and input.alt.getValue() < 97.5) {
+            me.set_mode(HUD.MODE_NAV_DECLUTTER);
+        } else {
+            me.set_mode(HUD.MODE_NAV);
         }
     },
 
     update: func {
         me.update_mode();
         if (me.mode == HUD.MODE_STBY) return;
+
+        if (me.mode == HUD.MODE_AIM) {
+            # First update this, as it computes reticle position.
+            me.aiming.update();
+            me.horizon.update_aim(me.aiming.get_reticle_pos());
+            me.dig_alt.update(0);
+            return;
+        }
 
         me.fpv.update();
         var fpv_rel_bearing = input.fpv_track.getValue() - input.head_true.getValue();
