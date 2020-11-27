@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-	<path>aj37.ac</path>
+  <path>aj37.ac</path>
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
@@ -3181,17 +3181,6 @@
   </offsets>
  </model>
 
-<!-- old internal flame -->
-<!--<model>
-  <name>InternalFlame</name>
-  <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
-  <offsets>
-   <x-m>0.0</x-m>
-   <y-m>0.0</y-m>
-   <z-m>0.0</z-m>
-  </offsets>
- </model>-->
- 
 <!--******************************************* Pinto's edits *******************************************-->
 
 <!-- Air Intake --> 
@@ -3689,26 +3678,6 @@
  </model>
 
 <!--         transsonic-vapor-cones               -->
-
-<!-- <model>
-  <name>transsonic-canard-vapor-cone</name>
-  <path>Aircraft/JA37/Models/Effects/transsonic-canard-vapor-cone.xml</path>
-  <offsets>
-   <x-m>0</x-m>
-   <y-m>0</y-m>
-   <z-m>0.50</z-m>
-  </offsets>
- </model>-->
- 
-  <!--<model>
-  <name>transsonic-deltawing-vapor-cone</name>
-  <path>Aircraft/JA37/Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
-  <offsets>
-   <x-m>-2</x-m>
-   <y-m>0</y-m>
-   <z-m>0.25</z-m>
-  </offsets>
- </model> -->
 
  <model>
     <path>Aircraft/JA37/Models/Effects/mach-cone.xml</path>

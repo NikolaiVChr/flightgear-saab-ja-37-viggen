@@ -1,8 +1,14 @@
- <PropertyList>
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Modified version of FGData thrust-flame.eff, using thrustflame-ALS-detailed.frag
+  for 3D noise (2D noise looks really weird for heat blur). -->
+
+<PropertyList>
   <name>heatDistortion</name>
+
   <parameters>
     <texture n="0">
-        <type>white</type>
+      <type>white</type>
     </texture>
 
     <flame_radius_fraction type="float"><use>ja37/effect/heatblur/radius</use></flame_radius_fraction>
@@ -26,9 +32,8 @@
     <deflection_coeff type="float">0.0</deflection_coeff>
     <use_shocks type="int">0</use_shocks>
     <use_noise type="int"><use>ja37/effect/heatblur/noise</use></use_noise>
-
   </parameters>
-  
+
 <technique n="4">
     <predicate>
       <and>
@@ -74,7 +79,7 @@
         <!-- The texture unit is always active because the shaders expect
              that. -->
         <unit>0</unit>
-    <active><use>texture[0]/active</use></active>
+	<active><use>texture[0]/active</use></active>
         <type><use>texture[0]/type</use></type>
         <image><use>texture[0]/image</use></image>
         <filter><use>texture[0]/filter</use></filter>
@@ -87,8 +92,8 @@
       </depth>
       <vertex-program-two-side>false</vertex-program-two-side>
       <program>
-        <vertex-shader>thrustheat-ALS.vert</vertex-shader>
-        <fragment-shader>thrustheat-ALS.frag</fragment-shader>
+        <vertex-shader>Shaders/thrustflame-ALS.vert</vertex-shader>
+        <fragment-shader>Shaders/thrustflame-ALS-detailed.frag</fragment-shader>
         <fragment-shader>Shaders/noise.frag</fragment-shader>
       </program>
 
@@ -126,6 +131,11 @@
         <name>noise_scale</name>
         <type>float</type>
         <value><use>noise_scale</use></value>
+      </uniform>
+     <uniform>
+        <name>random_seed</name>
+        <type>float</type>
+        <value><use>random_seed</use></value>
       </uniform>
       <uniform>
         <name>flame_color_low_r</name>
@@ -202,5 +212,6 @@
         <value><use>material/color-mode-uniform</use></value>
       </uniform>
     </pass>
-  </technique>  
+  </technique>
+
 </PropertyList>

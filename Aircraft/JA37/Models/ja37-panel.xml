@@ -31,14 +31,6 @@
     </offsets>
   </model>
 
-  <animation>
-    <type>scale</type>
-    <object-name>Augmentation Indicator</object-name>
-    <x-offset>4.00</x-offset>
-    <y-offset>1.00</y-offset>
-    <z-offset>1.00</z-offset>
-  </animation>
-
   <model>
     <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
     <name>handleRight</name>
