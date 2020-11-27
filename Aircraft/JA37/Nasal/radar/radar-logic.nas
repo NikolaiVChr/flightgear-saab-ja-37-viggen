@@ -122,7 +122,6 @@ var radar_active = FALSE;
 
 var selection = nil;
 var selection_updated = FALSE;
-var tracks_index = 0;
 var tracks = [];        # Contacts on radar
 var complete_list = []; # Anything that can be damaged
 var rb99_list = [];
@@ -741,22 +740,6 @@ var RadarLogic = {
 
 };
 
-var nextTarget = func () {
-  if (getprop("ja37/avionics/cursor-on") != FALSE and getprop("ja37/radar/active") == TRUE) {
-  var max_index = size(tracks)-1;
-  if(max_index > -1) {
-    if(tracks_index < max_index) {
-      tracks_index += 1;
-    } else {
-      tracks_index = 0;
-    }
-    setSelection(tracks[tracks_index]);
-  } else {
-    tracks_index = -1;
-    unlockSelection();
-  }
-}
-};
 
 # Distance from a target from the center of the HUD, for finding the centermost target.
 var track_hud_dist = func(track) {
@@ -782,46 +765,9 @@ var centerTarget = func () {
       }
     }
     setSelection(centerMost);
-    tracks_index = centerIndex;
   }
 };
 
-
-var jumper = nil;
-
-var jumpTo = func (c) {
-  jumper = c;
-};
-
-var jumpExecute = func {
-  if (jumper != nil) {
-    var index = containsVectorIndex(tracks, jumper);
-    if (index != -1) {
-      setSelection(jumper);
-      tracks_index = index;
-      steerOrder = TRUE;
-      land.RR();
-    }
-    jumper = nil;
-  }
-};
-
-var jumper2 = nil;
-
-var jump2To = func (c) {
-  jumper2 = c;
-};
-
-var jump2Execute = func {
-  if (jumper2 != nil) {
-    var index = containsVectorIndex(tracks, jumper2);
-    if (index != -1) {
-      setSelection(jumper2);
-      tracks_index = index;
-    }
-    jumper2 = nil;
-  }
-};
 
 var lookatSelection = func () {
   props.globals.getNode("/ja37/radar/selection-heading-deg", 1).unalias();
