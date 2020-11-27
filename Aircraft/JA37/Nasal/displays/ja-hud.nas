@@ -130,7 +130,7 @@ var FPV = {
     },
 
     update_AA_reticle: func {
-        var pos = gunsight.AAsight.get_pos();
+        var pos = sight.AAsight.get_pos();
         # gunsight uses mils
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
         me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
@@ -182,7 +182,7 @@ var FPV = {
         }
 
         if (fire_control.is_armed()) {
-            var mark_pos = gunsight.AAsight.get_pos_sec();
+            var mark_pos = sight.AAsight.get_pos_sec();
             mark_pos[0] = mark_pos[0] * MIL2HUD - me.pos_x;
             mark_pos[1] = mark_pos[1] * MIL2HUD - me.pos_y;
             var angle = math.atan2(mark_pos[1], mark_pos[0]);
@@ -206,13 +206,13 @@ var FPV = {
 
     update_AG_reticle: func {
         if (fire_control.get_type() == "M70 ARAK") {
-            var pos = gunsight.M70sight.get_pos();
+            var pos = sight.M70sight.get_pos();
         } else { # cannon
-            var pos = gunsight.M75AGsight.get_pos();
+            var pos = sight.M75AGsight.get_pos();
         }
         # Hide vertical bar of crosshair once armed.
         me.aim_AG_reticle_vert.setVisible(!fire_control.is_armed());
-        # gunsight uses mils
+        # sight uses mils
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
         me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
     },
@@ -1285,18 +1285,18 @@ var Distance = {
             # Show distance to ground.
             if (fire_control.get_type() == "M70 ARAK") {
                 # Maximum displayed distance
-                var scale_dist = gunsight.M70sight.max_dist;
+                var scale_dist = sight.M70sight.max_dist;
                 # Recommanded firing range
                 var max_dist = 5000;
                 var min_dist = 500;
-                var dist = gunsight.M70sight.get_dist();
+                var dist = sight.M70sight.get_dist();
             } else { # M75 AKAN
                 # Maximum displayed distance
-                var scale_dist = gunsight.M75AGsight.max_dist;
+                var scale_dist = sight.M75AGsight.max_dist;
                 # Recommanded firing range
                 var max_dist = 4000;
                 var min_dist = 300;
-                var dist = gunsight.M75AGsight.get_dist();
+                var dist = sight.M75AGsight.get_dist();
             }
             if (dist != nil) {
                 me.group.show();

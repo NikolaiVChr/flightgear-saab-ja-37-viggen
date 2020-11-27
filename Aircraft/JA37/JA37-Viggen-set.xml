@@ -319,14 +319,6 @@
         <radar-altimeter>
             <max-usable-altitude-m type="double">1375</max-usable-altitude-m>
         </radar-altimeter>
-        <gunsight>
-            <distance-m type="double">600</distance-m>
-            <target-distance-m type="double">1000</target-distance-m>
-            <!-- If false, gunsight algorithm uses distance-m as input, and assumes closure rate=0
-                If true, gunsight algorithm uses target-distance-m as input,
-                and derivates the latter (with smoothing) to obtain closure rate. -->
-            <use-target-distance type="bool">false</use-target-distance>
-        </gunsight>
     </instrumentation>
 
     <nasal>
@@ -346,8 +338,5 @@
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>
         </hud>
-        <gunsight>
-            <file>Aircraft/JA37/Nasal/displays/gunsight.nas</file>
-        </gunsight>
     </nasal>
 </PropertyList>

@@ -1567,6 +1567,14 @@
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
             <power type="bool">true</power>
         </datalink>
+        <gunsight>
+            <distance-m type="double">600</distance-m>
+            <target-distance-m type="double">1000</target-distance-m>
+            <!-- If false, gunsight algorithm uses distance-m as input, and assumes closure rate=0
+                If true, gunsight algorithm uses target-distance-m as input,
+                and derivates the latter (with smoothing) to obtain closure rate. -->
+            <use-target-distance type="bool">false</use-target-distance>
+        </gunsight>
     </instrumentation>
 
     <payload>
@@ -1685,6 +1693,9 @@
         <displays>
             <file>Aircraft/JA37/Nasal/displays/common.nas</file>
         </displays>
+        <sight>
+            <file>Aircraft/JA37/Nasal/displays/sight.nas</file>
+        </sight>
         <monitor>
             <file>Aircraft/JA37/Nasal/monitor/dialog-perf.nas</file>
             <file>Aircraft/JA37/Nasal/monitor/performance.nas</file>
