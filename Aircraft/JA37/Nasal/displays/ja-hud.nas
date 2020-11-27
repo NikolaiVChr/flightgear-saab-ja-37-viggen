@@ -1332,7 +1332,7 @@ var Distance = {
             me.dist.show();
 
             if (fire_control.is_armed() and fire_control.get_weapon() != nil
-                and (var dlz = fire_control.get_weapon().getDLZ(TRUE)) != nil) {
+                and (var dlz = fire_control.get_weapon().getDLZ(TRUE)) != nil and size(dlz) > 0) {
                 # Cursors indicate missile dynamic launch zone.
                 var max_dist = dlz[0];
                 me.index.setTranslation(math.clamp(dlz[4] / max_dist * 300, 0, 300), 0);
