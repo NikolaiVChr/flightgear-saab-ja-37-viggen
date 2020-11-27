@@ -239,7 +239,12 @@ var Missile = {
                             me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
                             me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
                         } else {
-                            me.weapon.commandDir(0,0);      # Straight forward, not sure about this.
+                            # 0.8 deg down, except for outer pylons (AJS SFI part 3);
+                            if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
+                                me.weapon.commandDir(0,0);
+                            } else {
+                                me.weapon.commandDir(0,-0.8);
+                            }
                         }
                     } else {
                         me.weapon.setUncagedPattern(3, 2.5, -12);
@@ -337,7 +342,8 @@ var Missile = {
         # and using 'commandDir()' to allow to adjust bore position, if we want to.
         if (me.is_IR and variant.JA and me.weapon.isCaged()) {
             if (radar_logic.selection == nil or TI.ti.rb74_force_bore) {
-                if (me.weapon.command_tgt) me.weapon.commandDir(0,0);
+                # 0.8 deg down is from AJS
+                if (me.weapon.command_tgt) me.weapon.commandDir(0,-0.8);
             } else {
                 if (!me.weapon.command_tgt) me.weapon.commandRadar();
             }

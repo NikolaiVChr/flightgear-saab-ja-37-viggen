@@ -645,12 +645,18 @@ var AimingMode = {
             me.bars.hide();
             me.wing.show();
             me.set_wingspan(15, 2000);
-            me.reticle_pos = [0,0];
+            # Boresight position is 0.8deg down, except for outer pylons.
+            var pylon = fire_control.get_selected_pylons();
+            if (size(pylon) > 0 and (pylon[0] == pylons.STATIONS.R7V or pylon[0] == pylons.STATIONS.R7H)) {
+              me.reticle_pos = [0,0];
+            } else {
+              me.reticle_pos = [0,80];
+            }
         } elsif (type == "M55 AKAN" or type == "M70 ARAK") {
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
-            me.reticle_pos = [0,0];
+            me.reticle_pos = type == "M55 AKAN" ? [0,152] : [0,0];
         } elsif (type == "M71" or type == "M71R") {
             me.reticle.show();
             me.bars.show();
@@ -661,7 +667,7 @@ var AimingMode = {
                 me.reticle_pos[0] = pos[0]*100;
                 me.reticle_pos[1] = pos[1]*100;
             } else {
-                me.reticle_pos = [0,0];
+                me.reticle_pos = [0,300];
             }
         } elsif (type == "RB-75") {
             me.reticle.show();

@@ -10,11 +10,13 @@
         <repeat>true</repeat>
         <delay>0.50</delay>
         <count>60</count>        <!-- was 40 -->
-        <x-offset>14.3578</x-offset><!-- in feet -->
-        <y-offset>2.56</y-offset>
-        <z-offset>-1.619</z-offset>
-        <yaw-offset>90.0</yaw-offset>
-        <pitch-offset>-10.0</pitch-offset>
+        <offsets>
+          <x-m>4.3763</x-m>
+          <y-m>0.7803</y-m>
+          <z-m>-0.4935</z-m>
+          <heading-deg>90</heading-deg>
+          <pitch-deg>-10</pitch-deg>
+        </offsets>
         <life>5</life>
         <buoyancy>0</buoyancy>
         <weight>2.5</weight>
@@ -32,11 +34,13 @@
         <repeat>true</repeat>
         <delay>0.50</delay>
         <count>60</count>        <!-- was 40 -->
-        <x-offset>14.3578</x-offset><!-- in feet -->
-        <y-offset>-2.56</y-offset>
-        <z-offset>-1.619</z-offset>
-        <yaw-offset>-90.0</yaw-offset>
-        <pitch-offset>-10.0</pitch-offset>
+        <offsets>
+          <x-m>4.3763</x-m>
+          <y-m>-0.7803</y-m>
+          <z-m>-0.4935</z-m>
+          <heading-deg>-90</heading-deg>
+          <pitch-deg>-10</pitch-deg>
+        </offsets>
         <life>5</life>
         <buoyancy>0</buoyancy>
         <weight>2.5</weight>
@@ -54,10 +58,12 @@
         <repeat>true</repeat>
         <delay>0.22</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>  -3.474</x-offset><!-- in feet -->
-        <y-offset>  -0.6667</y-offset>
-        <z-offset> -2.9936</z-offset>
-        <pitch-offset>0</pitch-offset>
+        <offsets>
+          <x-m>-1.0589</x-m>
+          <y-m>-0.2032</y-m>
+          <z-m>-0.9124</z-m>
+          <pitch-deg>0</pitch-deg>
+        </offsets>
         <life>3</life>
         <wind>true</wind>
         <weight>0.79</weight>        <!-- pound, 360g -->
@@ -82,10 +88,12 @@
         <repeat>true</repeat>
         <delay>0.044</delay>
         <count>146</count>
-        <x-offset>  -3.474</x-offset><!-- in feet -->
-        <y-offset>  -0.6667</y-offset>
-        <z-offset> -2.9936</z-offset>
-        <pitch-offset>0</pitch-offset>
+        <offsets>
+          <x-m>-1.0589</x-m>
+          <y-m>-0.2032</y-m>
+          <z-m>-0.9124</z-m>
+          <pitch-deg>0</pitch-deg>
+        </offsets>
         <life>6.0</life>
         <wind>true</wind>
         <weight>0.79</weight>        <!-- pound, 360g -->
@@ -115,11 +123,12 @@
         <repeat>true</repeat>
         <delay>0.044</delay>
         <count>146</count>
-        <x-offset>  -3.474</x-offset><!-- in feet -->
-        <y-offset>  -0.6667</y-offset>
-        <z-offset> -2.9936</z-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>-1.0589</x-m>
+          <y-m>-0.2032</y-m>
+          <z-m>-0.9124</z-m>
+          <pitch-deg>0</pitch-deg>
+        </offsets>
         <eda>10</eda>
         <wind>true</wind>
         <buoyancy>33</buoyancy>
@@ -138,11 +147,12 @@
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
-        <x-offset>  7.2178</x-offset><!-- in feet -->
-        <y-offset>  -9.0223</y-offset>
-        <z-offset> -4.5588</z-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>2.12</x-m>
+          <y-m>-2.75</y-m>
+          <z-m>-1.39</z-m>
+          <pitch-deg>3.88</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
@@ -174,11 +184,12 @@
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
-        <x-offset> -2.9184</x-offset><!-- in feet -->
-        <y-offset> -3.11679</y-offset>
-        <z-offset> -5.82349</z-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>-0.89</x-m>
+          <y-m>-0.95</y-m>
+          <z-m>-1.775</z-m>
+          <pitch-deg>3.88</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
@@ -210,11 +221,12 @@
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
-        <x-offset>  7.2178</x-offset><!-- in feet -->
-        <y-offset>  9.0223</y-offset>
-        <z-offset> -4.5588</z-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>2.12</x-m>
+          <y-m>2.75</y-m>
+          <z-m>-1.39</z-m>
+          <pitch-deg>3.88</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
@@ -246,11 +258,12 @@
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
-        <x-offset> -2.9184</x-offset><!-- in feet -->
-        <y-offset>  3.11679</y-offset>
-        <z-offset> -5.82349</z-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>-0.89</x-m>
+          <y-m>-0.95</y-m>
+          <z-m>-1.775</z-m>
+          <pitch-deg>3.88</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
@@ -281,11 +294,12 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>   4.313</x-offset><!-- in feet -->
-        <y-offset>  -8.8536</y-offset>
-        <z-offset>  -2.8447</z-offset>
-        <pitch-offset>0</pitch-offset>
-        <yaw-offset>0</yaw-offset>
+        <offsets>
+          <x-m>1.3146</x-m>
+          <y-m>-2.6986</y-m>
+          <z-m>-0.8670</z-m>
+          <pitch-deg>-1.52</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <life>3</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
@@ -311,10 +325,12 @@
         <repeat>true</repeat>
         <delay>0.0443</delay><!-- 23 shots/s AJS37 manual -->
         <count>0</count>
-        <x-offset>   4.313</x-offset><!-- in feet -->
-        <y-offset>  -8.8536</y-offset>
-        <z-offset>  -2.8447</z-offset>
-        <pitch-offset>0</pitch-offset>
+        <offsets>
+          <x-m>1.3146</x-m>
+          <y-m>-2.6986</y-m>
+          <z-m>-0.8670</z-m>
+          <pitch-deg>-1.52</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <life>5.0</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
@@ -344,11 +360,12 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>   4.313</x-offset><!-- in feet -->
-        <y-offset>   8.8536</y-offset>
-        <z-offset>  -2.8447</z-offset>
-        <pitch-offset>0</pitch-offset>
-        <yaw-offset>0</yaw-offset>
+        <offsets>
+          <x-m>1.3146</x-m>
+          <y-m>2.6986</y-m>
+          <z-m>-0.8670</z-m>
+          <pitch-deg>-1.52</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <life>3</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
@@ -374,10 +391,12 @@
         <repeat>true</repeat>
         <delay>0.0443</delay>
         <count>0</count>
-        <x-offset>   4.313</x-offset><!-- in feet -->
-        <y-offset>   8.8536</y-offset>
-        <z-offset>  -2.8447</z-offset>
-        <pitch-offset>0</pitch-offset>
+        <offsets>
+          <x-m>1.3146</x-m>
+          <y-m>2.6986</y-m>
+          <z-m>-0.8670</z-m>
+          <pitch-deg>-1.52</pitch-deg><!-- AJS SFI part 3, sight computation -->
+        </offsets>
         <life>5.0</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
@@ -407,11 +426,11 @@
         <repeat>true</repeat>
         <delay>1.0</delay>
         <count>-1</count>
-        <x-offset>23</x-offset><!-- in feet -->
-        <y-offset>0</y-offset>
-        <z-offset>0</z-offset>
-        <yaw-offset>0</yaw-offset>
-        <pitch-offset>0</pitch-offset>
+        <offsets>
+          <x-m>7</x-m>
+          <y-m>0</y-m>
+          <z-m>0</z-m>
+        </offsets>
         <eda>10</eda>
         <wind>true</wind>
         <aero-stabilised>false</aero-stabilised>
@@ -430,11 +449,11 @@
         <repeat>true</repeat>
         <delay>0</delay>
         <count>0</count>
-        <y-offset> -9.02</y-offset><!-- in feet -->
-        <z-offset> -4.92</z-offset>
-        <x-offset> -7.22</x-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>2.20</x-m>
+          <y-m>-2.75</y-m>
+          <z-m>-1.50</z-m>
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.5</cd>
@@ -454,11 +473,11 @@
         <repeat>true</repeat>
         <delay>0</delay>
         <count>0</count>
-        <y-offset> -3.12</y-offset>
-        <z-offset> -5.82</z-offset>
-        <x-offset> -3.28</x-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>-1.00</x-m>
+          <y-m>-0.95</y-m>
+          <z-m>-1.774</z-m>
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.5</cd>
@@ -478,11 +497,11 @@
         <repeat>true</repeat>
         <delay>0</delay>
         <count>0</count>
-        <y-offset>  9.02</y-offset><!-- in feet -->
-        <z-offset> -4.92</z-offset>
-        <x-offset> -7.22</x-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>2.20</x-m>
+          <y-m>2.75</y-m>
+          <z-m>-1.50</z-m>
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.5</cd>
@@ -502,11 +521,11 @@
         <repeat>true</repeat>
         <delay>0</delay>
         <count>0</count>
-        <y-offset>  3.12</y-offset>
-        <z-offset> -5.82</z-offset>
-        <x-offset> -3.28</x-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>-1.00</x-m>
+          <y-m>0.95</y-m>
+          <z-m>-1.774</z-m>
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.5</cd>
@@ -526,11 +545,11 @@
         <repeat>true</repeat>
         <delay>0</delay>
         <count>0</count>
-        <y-offset> -9.02</y-offset><!-- in feet -->
-        <z-offset> -4.92</z-offset>
-        <x-offset> -7.22</x-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>2.20</x-m>
+          <y-m>-2.75</y-m>
+          <z-m>-1.50</z-m>
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.5</cd>
@@ -550,11 +569,11 @@
         <repeat>true</repeat>
         <delay>0</delay>
         <count>0</count>
-        <y-offset>  9.02</y-offset><!-- in feet -->
-        <z-offset> -4.92</z-offset>
-        <x-offset> -7.22</x-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
+        <offsets>
+          <x-m>2.20</x-m>
+          <y-m>2.75</y-m>
+          <z-m>-1.50</z-m>
+        </offsets>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
         <cd>0.5</cd>
@@ -565,5 +584,4 @@
         <life>30</life>
         <impact>true</impact>
     </submodel>
-
 </PropertyList>
