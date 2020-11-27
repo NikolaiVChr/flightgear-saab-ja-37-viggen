@@ -184,7 +184,7 @@ var Common = {
 		}
 
 		# SI is on 30s after power and 'within 2s' of switching to NAV.
-		me.hud_on = TRUE or (time - me.power_time >= 30) and (time - me.displays_on_time >= 1);
+		me.hud_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 1);
 		# CI is on 30s after power + switching to NAV.
 		me.ci_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 30);
 	},
