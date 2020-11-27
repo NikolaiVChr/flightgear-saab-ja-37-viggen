@@ -955,7 +955,7 @@ var Saab37 = {
     me.loop_hud = maketimer(0.05, hud.update);
     me.loop_hud.start();
     if (variant.JA) {
-        me.loop_sight = maketimer(0.03, sight.loop);
+        me.loop_sight = maketimer(0.3, sight.loop);
         me.loop_sight.start();
     }
 
@@ -1069,7 +1069,7 @@ var Saab37 = {
     me.loop_hud = maketimer(0.05, func {timer.timeLoop("HUD", hud.update, nil);});
     me.loop_hud.start();
     if (variant.JA) {
-        me.loop_sight = maketimer(0.03, func{timer.timeLoop("sight", sight.loop, nil);});
+        me.loop_sight = maketimer(0.3, func{timer.timeLoop("sight", sight.loop, nil);});
         me.loop_sight.start();
     }
 

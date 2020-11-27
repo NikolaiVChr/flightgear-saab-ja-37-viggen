@@ -130,6 +130,8 @@ var FPV = {
     },
 
     update_AA_reticle: func {
+        # Run A/A sight update loop when we are using it.
+        sight.AAsight.update();
         var pos = sight.AAsight.get_pos();
         # gunsight uses mils
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
@@ -205,11 +207,9 @@ var FPV = {
     },
 
     update_AG_reticle: func {
-        if (fire_control.get_type() == "M70 ARAK") {
-            var pos = sight.M70sight.get_pos();
-        } else { # cannon
-            var pos = sight.M75AGsight.get_pos();
-        }
+        # Run A/G sight update loop when we are using it.
+        sight.AGsightJA.update();
+        var pos = sight.AGsightJA.get_pos();
         # Hide vertical bar of crosshair once armed.
         me.aim_AG_reticle_vert.setVisible(!fire_control.is_armed());
         # sight uses mils
@@ -1283,22 +1283,20 @@ var Distance = {
             me.group.hide();
         } elsif (me.mode == HUD.MODE_AIM and fpv_mode == FPV.MODE_AG) {
             # Show distance to ground.
+            var res = sight.AGsightJA.get_dist();
+            var dist = res[0];
+
             if (fire_control.get_type() == "M70 ARAK") {
-                # Maximum displayed distance
-                var scale_dist = sight.M70sight.max_dist;
-                # Recommanded firing range
-                var max_dist = 5000;
+                var scale_dist = 8000; # Maximum displayed distance
+                var max_dist = 5000;   # Recommanded firing range
                 var min_dist = 500;
-                var dist = sight.M70sight.get_dist();
             } else { # M75 AKAN
-                # Maximum displayed distance
-                var scale_dist = sight.M75AGsight.max_dist;
-                # Recommanded firing range
-                var max_dist = 4000;
+                var scale_dist = 8000; # Maximum displayed distance
+                var max_dist = 4000;   # Recommanded firing range
                 var min_dist = 300;
-                var dist = sight.M75AGsight.get_dist();
             }
-            if (dist != nil) {
+
+            if (res[1] and dist <= scale_dist) { # res[1]: range was obtained
                 me.group.show();
                 me.line.show();
                 me.index.show();
