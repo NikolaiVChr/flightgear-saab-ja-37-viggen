@@ -655,10 +655,8 @@ var AimingMode = {
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
-            var bomb = fire_control.get_weapon();
-            var ccip = nil;
-            if (bomb != nil) ccip = bomb.getCCIPadv(16, 0.2);
-            if (ccip != nil) {
+            if ((var bomb = fire_control.get_weapon()) != nil
+                and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
                 var pos = radar_logic.ContactGPS.new("CCIP", ccip[0]).get_cartesian();
                 me.reticle_pos[0] = pos[0]*100;
                 me.reticle_pos[1] = pos[1]*100;
@@ -669,7 +667,14 @@ var AimingMode = {
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
-            me.reticle_pos = [0,0];
+            if ((var rb75 = fire_control.get_weapon()) != nil
+                and (var pos = rb75.getSeekerInfo()) != nil) {
+                me.reticle_pos[0] = pos[0]*100;
+                me.reticle_pos[1] = pos[1]*-100;
+            } else {
+                # Default position for Rb 75
+                me.reticle_pos = [0,130];
+            }
         }
     },
 

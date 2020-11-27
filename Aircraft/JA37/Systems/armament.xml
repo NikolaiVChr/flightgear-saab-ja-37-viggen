@@ -45,6 +45,7 @@
         <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>        <!-- source -->
         <drag-coeff type="double">1.35</drag-coeff>                   <!-- guesstimate -->
         <cross-section-sqft type="double">0.143</cross-section-sqft>  <!-- sq ft (0.2133 ft radius) authentic -->
+        <seeker-beam-width type="double">2.0</seeker-beam-width>
         <arming-time-sec type="double">2.2</arming-time-sec>          <!-- authentic -->
         <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
         <self-destruct-time-sec type="double">26</self-destruct-time-sec>         <!-- authentic -->
@@ -86,7 +87,7 @@
         <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>        <!-- source -->
         <drag-coeff type="double">0.9</drag-coeff>                    <!-- guesstimate -->
         <cross-section-sqft type="double">0.143</cross-section-sqft>  <!-- sq ft (0.2133 ft radius) authentic -->
-        <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- authentic -->
+        <seeker-beam-width type="double">2.0</seeker-beam-width>      <!-- authentic -->
         <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
         <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
         <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
@@ -108,7 +109,6 @@
         <cool-duration type="int">360000</cool-duration><!-- electrical, is why the number is so high -->
         <warm-detect-range-nm type="double">6.5</warm-detect-range-nm>
         <detect-range-nm type="double">7.83</detect-range-nm>
-        <seeker-beam-width-deg type="double">2</seeker-beam-width-deg>
         <ready-time type="double">0.5</ready-time>
     </rb-24j>
     <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 2.5 -->
@@ -402,9 +402,10 @@
         <navigation type="string">direct</navigation>
         <all-aspect type="bool">true</all-aspect>
         <max-fire-range-nm type="double">12</max-fire-range-nm>              <!-- source -->
-        <FCS-field-deg type="int">25</FCS-field-deg>
-        <seeker-field-deg type="int">180</seeker-field-deg>
+        <FCS-field-deg type="int">60</FCS-field-deg>                         <!-- manual: +-30, but restricted to +-15 for firing  -->
+        <seeker-field-deg type="int">60</seeker-field-deg>                   <!-- manual -->
         <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
+        <seeker-beam-width type="double">1.0</seeker-beam-width>
         <max-g type="int">25</max-g>
         <max-launch-g type="int">7</max-launch-g>
         <thrust-lbf-stage-1 type="double">1200</thrust-lbf-stage-1>

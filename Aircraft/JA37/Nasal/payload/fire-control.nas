@@ -131,12 +131,18 @@ var Missile = {
             w.release_timer.singleShot = TRUE;
         }
 
-        if (type == "RB-24" or type == "RB-24J" or type == "RB-74") {
-            w.is_IR = TRUE;
-            w.IR_seeker_timer = maketimer(0.5, w, w.IR_seeker_loop);
-            w.last_IR_lock = nil;
-        } else {
-            w.is_IR = FALSE;
+        w.seeker_timer = maketimer(0.5, w, w.seeker_loop);
+
+        w.is_IR = (type == "RB-24" or type == "RB-24J" or type == "RB-74");
+        w.is_rb75 = type == "RB-75";
+        if (w.is_IR and variant.JA) w.last_IR_lock = nil;
+        if (w.is_rb75) {
+            w.rb75_timer = maketimer(0.05, w, w.rb75_loop);
+            w.last_click = FALSE;
+            w.rb75_lock = FALSE;
+            # Seeker position in degrees
+            w.rb75_pos_x = 0;
+            w.rb75_pos_y = -1.3;
         }
 
         return w;
@@ -217,22 +223,36 @@ var Missile = {
             if (me.unsafe) {
                 # Setup weapon
                 me.weapon.start();
+                me.seeker_timer.start();
 
                 # IR weapons parameters.
-                if (me.is_IR) {
+                if (me.is_IR or me.is_rb75) {
                     if (!variant.JA) {
                         # For AJS, locked on bore.
                         me.weapon.setAutoUncage(FALSE);
                         me.weapon.setCaged(TRUE);
                         me.weapon.setSlave(TRUE);
-                        me.weapon.commandDir(0,0);
+                        # Boresight position
+                        if (me.is_rb75) {
+                            me.rb75_lock = FALSE;
+                            me.rb75_pos_x = 0;
+                            me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
+                            me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
+                        } else {
+                            me.weapon.commandDir(0,0);      # Straight forward, not sure about this.
+                        }
                     } else {
                         me.weapon.setUncagedPattern(3, 2.5, -12);
                     }
-                    me.IR_seeker_timer.start();
+                }
+                # Loop for Rb 75 seeker slewing.
+                if (me.is_rb75) {
+                    displays.common.resetCursorDelta();
+                    me.rb75_timer.start();
                 }
             } else {
-                if (me.is_IR) me.IR_seeker_timer.stop();
+                if (me.is_rb75) me.rb75_timer.stop();
+                me.seeker_timer.stop();
                 me.weapon.stop();
             }
         }
@@ -269,43 +289,53 @@ var Missile = {
 
     set_trigger: func(trigger) {
         if (!me.armed() or !trigger or me.weapon == nil
-            or (!me.no_lock and me.weapon.status != armament.MISSILE_LOCK)) return;
+            or (!me.no_lock and me.weapon.status != armament.MISSILE_LOCK)
+            or (me.is_rb75 and !me.rb75_can_fire())) return;
 
         if (me.fire_delay > 0) me.release_timer.start();
         else me.release_weapon();
+    },
+
+    # Allows the seeker to follow a target it is locked on.
+    _uncage_seeker: func {
+        # With these specific parameters, the seeker is free to follow the target,
+        # but will become non-functioning and require reset if it looses lock.
+        # (alternative is it coming back to boresight or uncaged pattern after loosing lock...)
+        me.weapon.setAutoUncage(TRUE);
+        me.weapon.setSlave(FALSE);
+    },
+
+    # Reset seeker after calling _uncage_seeker()
+    _reset_seeker: func {
+        me.weapon.setAutoUncage(FALSE);
+        me.weapon.setCaged(TRUE);
+        me.weapon.setSlave(TRUE);
     },
 
     # IR seeker manipulation
     uncage_IR_seeker: func {
         if (variant.JA or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
-
-        me.weapon.setAutoUncage(TRUE);
-        me.weapon.setSlave(FALSE);
+        me._uncage_seeker();
     },
 
     reset_IR_seeker: func {
         if (variant.JA or me.weapon == nil
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
-
-        me.weapon.stop();
-        me.weapon.start();
-        me.weapon.setAutoUncage(FALSE);
-        me.weapon.setCaged(TRUE);
-        me.weapon.setSlave(TRUE);
+        me._reset_seeker();
         me.weapon.commandDir(0,0);
     },
 
-    IR_seeker_loop: func {
+    seeker_loop: func {
         if (!me.weapon_ready()) {
-            me.IR_seeker_timer.stop();
+            me.seeker_timer.stop();
             return;
         }
 
-        # For JA, switch between bore sight and radar command automatically.
+        # For JA IR, switch between bore sight and radar command automatically.
         # Note: not using 'setBore()' for bore sight. Instead keeping 'setSlave()'
         # and using 'commandDir()' to allow to adjust bore position, if we want to.
-        if (variant.JA and me.weapon.isCaged()) {
+        if (me.is_IR and variant.JA and me.weapon.isCaged()) {
             if (radar_logic.selection == nil or TI.ti.rb74_force_bore) {
                 if (me.weapon.command_tgt) me.weapon.commandDir(0,0);
             } else {
@@ -313,26 +343,73 @@ var Missile = {
             }
         }
 
-        if (me.weapon.status != armament.MISSILE_LOCK) {
-            # Don't do anything if the missile has already locked. It would mess with the lock.
-            if (me.weapon.isCaged() and me.weapon.command_tgt) {
-                # Slave onto radar target.
-                me.weapon.setContacts([]);
-            } else {
+        # Update list of contacts on which to lock on.
+        # For IR/Rb 75, don't do anything if the missile has already locked. It would mess with the lock.
+        if ((!me.is_IR and !me.is_rb75) or me.weapon.status != armament.MISSILE_LOCK) {
+            # IR missiles and Rb 75 can lock without radar command.
+            if ((me.is_IR or me.is_rb75) and (!me.weapon.isCaged() or !me.weapon.command_tgt)) {
                 # Send list of all contacts to allow searching.
                 me.weapon.setContacts(radar_logic.complete_list);
+                armament.contact = nil;
+            } else {
+                # Slave onto radar target.
+                me.weapon.setContacts([]);
+                armament.contact = radar_logic.selection;
             }
         }
 
         # Log lock event
-        if (me.weapon.status == armament.MISSILE_LOCK) {
-            if (me.last_IR_lock != me.weapon.callsign) {
-                radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)", me.weapon.callsign, me.weapon.type));
-                me.last_IR_lock = me.weapon.callsign;
+        if (me.is_IR and variant.JA) {
+            if (me.weapon.status == armament.MISSILE_LOCK) {
+                if (me.last_IR_lock != me.weapon.callsign) {
+                    radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)", me.weapon.callsign, me.weapon.type));
+                    me.last_IR_lock = me.weapon.callsign;
+                }
+            } else {
+                me.last_IR_lock = nil;
             }
-        } else {
-            me.last_IR_lock = nil;
         }
+    },
+
+    rb75_loop: func {
+        if (!me.weapon_ready()) {
+            me.rb75_timer.stop();
+            return;
+        }
+
+        var cursor = displays.common.getCursorDelta();
+        displays.common.resetCursorDelta();
+
+        if (cursor[2] and !me.last_click) {
+            # Clicked
+            if (me.rb75_lock) {
+                # Unlock and reset position
+                me.rb75_lock = FALSE;
+                me.rb75_pos_x = 0;
+                me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
+                me._reset_seeker();
+                me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
+            } elsif (me.weapon.status == armament.MISSILE_LOCK) {
+                # Lock
+                me.rb75_lock = TRUE;
+                me._uncage_seeker();
+            }
+        }
+        if (!me.rb75_lock) {
+            # Slew cursor
+            me.rb75_pos_x = math.clamp(me.rb75_pos_x + cursor[0]*5, -15, 15);
+            me.rb75_pos_y = math.clamp(me.rb75_pos_y - cursor[1]*5, -15, 15);
+            me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
+        }
+        me.last_click = cursor[2];
+    },
+
+    rb75_can_fire: func {
+        if (!me.rb75_lock) return FALSE;
+        var seeker_pos = me.weapon.getSeekerInfo();
+        return seeker_pos != nil
+            and seeker_pos[0] >= -15 and seeker_pos[0] <= 15
+            and seeker_pos[1] >= -15 and seeker_pos[1] <= 15;
     },
 
     get_weapon: func { return me.weapon; },
