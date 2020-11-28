@@ -41,8 +41,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-callsign</tooltip-id>
-                <label>HUD selection indication</label>
-                <property>ja37/hud/callsign</property>
+                <label>Use radar altitude for displays</label>
             </binding>
         </hovered>
     </animation>
@@ -54,7 +53,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/hud/callsign</property>
+                <property>ja37/hud/switch-hojd</property>
                 <value>1</value>
             </binding>
             <binding>
@@ -71,7 +70,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/hud/callsign</property>
+                <property>ja37/hud/switch-hojd</property>
                 <value>0</value>
             </binding>
             <binding>
@@ -84,7 +83,7 @@
     <animation>
         <type>rotate</type>
         <object-name>Switch</object-name>
-        <property>ja37/hud/callsign</property>
+        <property>ja37/hud/switch-hojd</property>
         <factor>70</factor>
         <offset-deg>-35</offset-deg>
         <center>
