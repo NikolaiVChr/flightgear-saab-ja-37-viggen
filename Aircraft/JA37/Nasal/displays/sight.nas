@@ -19,13 +19,13 @@ var input = {
     pitch_rad:  "/fdm/jsbsim/attitude/pitch-rad",
     roll_rad:   "/fdm/jsbsim/attitude/roll-rad",
     alt:        "/instrumentation/altimeter/indicated-altitude-meter",
-    roll:       "/instrumentation/attitude-indicator/roll-deg",
+    roll:       "/instrumentation/attitude-indicator/indicated-roll-deg",
     grd_speed:  "/velocities/groundspeed-kt",
     fpv_pitch:  "/instrumentation/fpv/pitch-deg",
 };
 
 foreach (var prop; keys(input)) {
-    input[prop] = props.globals.getNode(input[prop]);
+    input[prop] = props.globals.getNode(input[prop], 1);
 }
 
 
@@ -314,7 +314,7 @@ var DistanceComputer = {
         var trg_dist = me.triang_dist(pitch);
         var roll = input.roll.getValue();
         # AJS uses radar when range is <7km. Additionally, roll must be <45, or trigger unsafe.
-        if (dist <= 7000 and (fire_control.is_armed() or (roll <= 45 and roll >= -45))) {
+        if (trg_dist <= 7000 and (fire_control.is_armed() or (roll <= 45 and roll >= -45))) {
             var rdr_dist = me.radar_dist(traj);
             if (rdr_dist != nil) return [rdr_dist, TRUE, TRUE];
         }
@@ -406,8 +406,8 @@ var FiringDistanceComputer = {
 
 
 
-# Main A/G sight loop for JA
-var AGsightJA = {
+# Main A/G sight loop
+var AGsight = {
     # Previous results, for feedback.
     traj: nil,
     dist: nil,
@@ -420,6 +420,7 @@ var AGsightJA = {
     # Computed firing distance (minimum distance for safe evasion).
     min_dist: 0,
     opt_dist: 0,
+    has_radar_range: FALSE,
 
     reset: func {
         me.traj = nil;
@@ -435,7 +436,13 @@ var AGsightJA = {
     reset_loop: func {
         if (!me.active) return;
         var type = fire_control.get_type();
-        if (modes.main_ja != modes.AIMING or (type != "M70 ARAK" and type != "M75 AKAN")) {
+        if (variant.JA) {
+            var aiming = (modes.main_ja == modes.AIMING);
+        } else {
+            var aiming = (modes.selector_ajs == modes.COMBAT or fire_control.is_armed());
+        }
+
+        if (!aiming or (type != "M70 ARAK" and type != "M75 AKAN" and type != "M55 AKAN")) {
             me.reset();
             me.active = FALSE;
         }
@@ -445,11 +452,9 @@ var AGsightJA = {
         me.active = TRUE;
 
         var type = fire_control.get_type();
-        if (type == "M70 ARAK") {
-            var sight = M70sight;
-        } else {
-            var sight = M75AGsight;
-        }
+        if (type == "M75 AKAN") var sight = M75AGsight;
+        elsif (type == "M55 AKAN") var sight = M55sight;
+        else var sight = M70sight;
 
         if (type != me.last_type) {
             me.reset();
@@ -466,17 +471,27 @@ var AGsightJA = {
         var res = DistanceComputer.update(me.traj);
         me.dist = res[0];
         me.has_range = res[1];
-        # Compute trajectory.
-        res = sight.get_traj(me.dist, me.time, me.drop_dist);
-        me.traj = res[0];
-        me.time = res[1];
-        me.drop_dist = res[2];
+        me.has_radar_range = res[2];
+        # Distance used for sight computation.
+        var sight_dist = me.dist;
+
         # Compute firing distance.
         if (me.has_range) {
             res = FiringDistanceComputer.firing_distance(type, me.traj, TRUE);
             me.min_dist = res[0];
             me.opt_dist = res[1];
+
+            if (!variant.JA) {
+                # For AJS, sight is computed for 3s before firing time.
+                sight_dist = math.min(sight_dist, me.opt_dist + 3*input.grd_speed.getValue()*KT2MPS);
+            }
         }
+
+        # Compute trajectory.
+        res = sight.get_traj(sight_dist, me.time, me.drop_dist);
+        me.traj = res[0];
+        me.time = res[1];
+        me.drop_dist = res[2];
     },
 
     # Returns reticle position in mils [right,down].
@@ -484,21 +499,16 @@ var AGsightJA = {
         return [math.atan2(me.traj[1], me.traj[0])*1000, math.atan2(me.traj[2], me.traj[0])*1000];
     },
 
-    # Returns [target distance, minimum evasion distance, minimum firing distance]
+    # Returns [target distance, minimum evasion distance, minimum firing distance, radar used]
     # or 'nil' if the target distance could not be obtained (too shallow pitch angle).
     get_dist: func {
         if (!me.has_range) return nil;
-        return [me.dist, me.min_dist, me.opt_dist];
+        return [me.dist, me.min_dist, me.opt_dist, me.has_radar_range];
     },
 };
 
 
 
-var loopJA = func {
-    AGsightJA.reset_loop();
+var loop = func {
+    AGsight.reset_loop();
 }
-
-var loopAJS = func {
-}
-
-var loop = variant.JA ? loopJA : loopAJS;

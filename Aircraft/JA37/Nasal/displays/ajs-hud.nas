@@ -397,6 +397,9 @@ var DistanceLine = {
         } elsif (mode == HUD.MODE_NAV) {
             me.set_mid_mark(TRUE);
             me.set_side_marks(0);
+        } elsif (mode == HUD.MODE_AIM) {
+            me.set_mid_mark(TRUE);
+            me.group.setTranslation(0, 150);
         } else {
             me.group.hide();
         }
@@ -450,6 +453,29 @@ var DistanceLine = {
             } else {
                 me.group.hide();
             }
+        }
+    },
+
+    update_aim: func {
+        var type = fire_control.get_type();
+        if (type == "M55 AKAN" or type == "M70 ARAK") {
+            var dist = sight.AGsight.get_dist();
+            if (dist == nil or dist[0] >= 8000) {
+                me.group.hide();
+            } else {
+                me.set_line(dist[0] / 8000);
+                me.set_side_marks(dist[2] / 8000);
+
+                var speed = input.groundspeed.getValue() * KT2MPS;
+                # Blink 2s before firing
+                if (dist[0] >= dist[2] and dist[0] <= dist[2] + speed*2) {
+                    me.group.setVisible(input.fourHz.getBoolValue());
+                } else {
+                    me.group.show();
+                }
+            }
+        } else {
+            me.group.hide();
         }
     },
 };
@@ -620,11 +646,12 @@ var AimingMode = {
         # Secondary reticle (target position, and some other functions).
         #me.target = make_circle(me.group, 0, 0, 50);
         # Small vertical bar, indicates that radar ranging is active.
-        #me.range_mark = make_path(me.group).moveTo(0,-150).vert(-50);
+        me.range_mark = make_path(me.group).moveTo(0,-150).vert(-50);
         # Small horiontal bars around reticle, indicate firing window.
-        #me.firing_mark = make_path(me.group).moveTo(-25,0).horiz(-75).moveTo(25,0).horiz(75);
+        me.firing_mark = make_path(me.group).moveTo(-25,0).horiz(-75).moveTo(25,0).horiz(75);
         # Vertical bars, flash to indicate distance below safe minimum.
-        #me.break_bars = make_path(me.group).moveTo(-200,-100).vert(200).moveTo(200,-100).vert(200);
+        me.break_bars = make_path(me.group).moveTo(-200,-100).vert(200).moveTo(200,-100).vert(200);
+
         me.reticle_pos = [0,0];
     },
 
@@ -644,6 +671,9 @@ var AimingMode = {
             me.reticle.hide();
             me.bars.hide();
             me.wing.show();
+            me.range_mark.hide();
+            me.firing_mark.hide();
+            me.break_bars.hide();
             me.set_wingspan(15, 2000);
             # Boresight position is 0.8deg down, except for outer pylons.
             var pylon = fire_control.get_selected_pylons();
@@ -653,14 +683,31 @@ var AimingMode = {
               me.reticle_pos = [0,80];
             }
         } elsif (type == "M55 AKAN" or type == "M70 ARAK") {
+            sight.AGsight.update();
+            var pos = sight.AGsight.get_pos();
+            # Vector [target dist, evade dist, firing dist, radar range used]
+            var dist = sight.AGsight.get_dist();
+            var speed = input.groundspeed.getValue() * KT2MPS;
+
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
-            me.reticle_pos = type == "M55 AKAN" ? [0,152] : [0,0];
+            # Ranging mark if radar ranging is used.
+            me.range_mark.setVisible(dist != nil and dist[3]);
+            # Firing mark 0.5s before firing.
+            me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
+            # Pull up bars flashing after evade distance.
+            me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fourHz.getBoolValue());
+
+            me.reticle_pos[0] = pos[0] * MIL2HUD;
+            me.reticle_pos[1] = pos[1] * MIL2HUD;
         } elsif (type == "M71" or type == "M71R") {
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
+            me.range_mark.hide();
+            me.firing_mark.hide();
+            me.break_bars.hide();
             if ((var bomb = fire_control.get_weapon()) != nil
                 and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
                 var pos = radar_logic.ContactGPS.new("CCIP", ccip[0]).get_cartesian();
@@ -673,6 +720,9 @@ var AimingMode = {
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
+            me.range_mark.hide();
+            me.firing_mark.hide();
+            me.break_bars.hide();
             if ((var rb75 = fire_control.get_weapon()) != nil
                 and (var pos = rb75.getSeekerInfo()) != nil) {
                 me.reticle_pos[0] = pos[0]*100;
@@ -795,6 +845,7 @@ var HUD = {
             me.aiming.update();
             me.horizon.update_aim(me.aiming.get_reticle_pos());
             me.dig_alt.update(0);
+            me.distance.update_aim();
             return;
         }
 

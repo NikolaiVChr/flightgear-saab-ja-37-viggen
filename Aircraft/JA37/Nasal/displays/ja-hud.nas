@@ -13,11 +13,6 @@ var opts = {
 };
 
 
-# Milliradians to HUD units (1/100 deg)
-var MIL2HUD = R2D/10;
-
-
-
 ### HUD elements classes
 
 # General conventions/methods for HUD elements classes:
@@ -208,8 +203,8 @@ var FPV = {
 
     update_AG_reticle: func {
         # Run A/G sight update loop when we are using it.
-        sight.AGsightJA.update();
-        var pos = sight.AGsightJA.get_pos();
+        sight.AGsight.update();
+        var pos = sight.AGsight.get_pos();
         # Hide vertical bar of crosshair once armed.
         me.aim_AG_reticle_vert.setVisible(!fire_control.is_armed());
         # sight uses mils
@@ -1285,7 +1280,7 @@ var Distance = {
             # Show distance to ground.
 
             # dist is a vector [target dist, minimum dist, optimal dist], or nil
-            var dist = sight.AGsightJA.get_dist();
+            var dist = sight.AGsight.get_dist();
 
             if (fire_control.get_type() == "M70 ARAK") {
                 var scale_dist = 8000; # Maximum displayed distance
@@ -1309,7 +1304,7 @@ var Distance = {
                 me.index.setTranslation(dist[0] / scale_dist * 300, 0);
                 me.dist.updateText(displays.sprintdist(dist[0]/1000, 1));
 
-                if (dist[0] >= dist[2] and dist[0] <= max_dist) {
+                if (dist[0] >= dist[1] and dist[0] <= max_dist) {
                     me.index_norm.hide();
                     me.index_fire.show();
                 } else {

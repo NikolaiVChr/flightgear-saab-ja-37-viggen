@@ -9,6 +9,10 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 };
 
 
+# Milliradians to HUD units (1/100 deg)
+var MIL2HUD = R2D/10;
+
+
 var input = {
     heading:        "/instrumentation/heading-indicator/indicated-heading-deg",
     pitch:          "/instrumentation/attitude-indicator/indicated-pitch-deg",
