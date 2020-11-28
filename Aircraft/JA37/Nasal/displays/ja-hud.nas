@@ -1283,33 +1283,33 @@ var Distance = {
             me.group.hide();
         } elsif (me.mode == HUD.MODE_AIM and fpv_mode == FPV.MODE_AG) {
             # Show distance to ground.
-            var res = sight.AGsightJA.get_dist();
-            var dist = res[0];
+
+            # dist is a vector [target dist, minimum dist, optimal dist], or nil
+            var dist = sight.AGsightJA.get_dist();
 
             if (fire_control.get_type() == "M70 ARAK") {
                 var scale_dist = 8000; # Maximum displayed distance
-                var max_dist = 5000;   # Recommanded firing range
-                var min_dist = 500;
+                var max_dist = 6000;   # Maximum firing range (made up)
             } else { # M75 AKAN
                 var scale_dist = 8000; # Maximum displayed distance
-                var max_dist = 4000;   # Recommanded firing range
-                var min_dist = 300;
+                var max_dist = 5000;   # Maximum firing range (made up)
             }
 
-            if (res[1] and dist <= scale_dist) { # res[1]: range was obtained
+            if (dist != nil and dist[0] <= scale_dist) {
                 me.group.show();
                 me.line.show();
                 me.index.show();
                 me.cursorL.show();
-                me.cursorM.hide();
+                me.cursorM.show();
                 me.cursorR.show();
                 me.dist.show();
-                me.cursorL.setTranslation(min_dist / scale_dist * 300, 0);
+                me.cursorL.setTranslation(dist[1] / scale_dist * 300, 0);
+                me.cursorM.setTranslation(dist[2] / scale_dist * 300, 0);
                 me.cursorR.setTranslation(max_dist / scale_dist * 300, 0);
-                me.index.setTranslation(dist / scale_dist * 300, 0);
-                me.dist.updateText(displays.sprintdist(dist/1000, 1));
+                me.index.setTranslation(dist[0] / scale_dist * 300, 0);
+                me.dist.updateText(displays.sprintdist(dist[0]/1000, 1));
 
-                if (dist >= min_dist and dist <= max_dist) {
+                if (dist[0] >= dist[2] and dist[0] <= max_dist) {
                     me.index_norm.hide();
                     me.index_fire.show();
                 } else {

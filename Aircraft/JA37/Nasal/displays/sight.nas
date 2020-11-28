@@ -20,6 +20,8 @@ var input = {
     roll_rad:   "/fdm/jsbsim/attitude/roll-rad",
     alt:        "/instrumentation/altimeter/indicated-altitude-meter",
     roll:       "/instrumentation/attitude-indicator/roll-deg",
+    grd_speed:  "/velocities/groundspeed-kt",
+    fpv_pitch:  "/instrumentation/fpv/pitch-deg",
 };
 
 foreach (var prop; keys(input)) {
@@ -49,6 +51,32 @@ var AAsight = {
         return [input.azi_sec.getValue(), -input.elev_sec.getValue()];
     },
 };
+
+
+
+# Return pitch angle (in world frame) of vector traj (given in body frame).
+traj_pitch = func(traj) {
+    var pitch = input.pitch_rad.getValue();
+    var roll = input.roll_rad.getValue();
+    # Apply roll
+    traj = [
+        traj[0],
+        traj[1]*math.cos(roll) - traj[2]*math.sin(roll),
+        traj[1]*math.sin(roll) + traj[2]*math.cos(roll),
+    ];
+    # Apply pitch
+    traj = [
+        traj[0]*math.cos(pitch) + traj[2]*math.sin(pitch),
+        traj[1],
+        -traj[0]*math.sin(pitch) + traj[2]*math.cos(pitch),
+    ];
+    # Project on vertical plane
+    traj = [
+        math.sqrt(traj[0]*traj[0] + traj[1]*traj[1]),
+        traj[2],
+    ];
+    return math.atan2(-traj[1], traj[0])*R2D;
+}
 
 
 ### A/G ballistic computer.
@@ -238,30 +266,6 @@ var DistanceComputer = {
     ranging_enabled: FALSE,
     default_dist: 1400,     # AJS SFI part 3
 
-    # Return pitch angle (in world frame) of vector traj (given in body frame).
-    traj_pitch: func(traj) {
-        var pitch = input.pitch_rad.getValue();
-        var roll = input.roll_rad.getValue();
-        # Apply roll
-        traj = [
-            traj[0],
-            traj[1]*math.cos(roll) - traj[2]*math.sin(roll),
-            traj[1]*math.sin(roll) + traj[2]*math.cos(roll),
-        ];
-        # Apply pitch
-        traj = [
-            traj[0]*math.cos(pitch) + traj[2]*math.sin(pitch),
-            traj[1],
-            -traj[0]*math.sin(pitch) + traj[2]*math.cos(pitch),
-        ];
-        # Project on vertical plane
-        traj = [
-            math.sqrt(traj[0]*traj[0] + traj[1]*traj[1]),
-            traj[2],
-        ];
-        return math.atan2(-traj[1], traj[0])*R2D;
-    },
-
     # Triangulated distance
     # Assumes that 'pitch' is the pitch angle to the target, and altimeter # is calibrated to target QFE.
     triang_dist: func(pitch) {
@@ -293,7 +297,7 @@ var DistanceComputer = {
     # - ranging_used is false when ranging was not performed, and a fixed distance was returned.
     # - radar_used is true if radar was used to compute range.
     update: func(traj) {
-        var pitch = me.traj_pitch(traj);
+        var pitch = traj_pitch(traj);
 
         # AJS SFI part 3: triangulation ranging enabled at 5deg down, disabled at 3deg (hysteresis).
         if (pitch < -5) me.ranging_enabled = TRUE;
@@ -322,6 +326,86 @@ var DistanceComputer = {
 
 
 
+# Computes minimum firing distance.
+var FiringDistanceComputer = {
+    # Safety distance is the radius around the target which we do not want to enter
+    # (to avoid explosion/fragments...). Weapon dependent.
+    # Values from AJS SFI part 3 sec 3.
+    # Should also depend on the safety distance switch (ground crew weapon panel).
+    safety_dist: {
+        "M75 AKAN": 200,
+        "M55 AKAN": 200,
+        "M70 ARAK": 440,
+    },
+
+    # Load factor for evading. Should be 4g for bombs.
+    pull_up_factor: {
+        "M75 AKAN": 5,
+        "M55 AKAN": 5,
+        "M70 ARAK": 5,
+    },
+
+    # Time before the desired load factor is reached. Should be 1.9s for bombs.
+    pull_up_time: {
+        "M75 AKAN": 2.5,
+        "M55 AKAN": 2.5,
+        "M70 ARAK": 2.5,
+    },
+
+    # Planned salvo length.
+    firing_time: {
+        "M75 AKAN": 2.15,
+        "M55 AKAN": 2.15,
+        "M70 ARAK": 1.65,
+    },
+
+    # Solves the following geometric problem:
+    # T is the target position
+    # A is the aircraft position
+    # Consider a circle of radius safety_radius around T
+    # Consider a circle of radius pull_up_radius above A, intersecting A,
+    # and such that its tangent at A has an angle flight_path_angle to the line A T.
+    # (This tangent represents the aircraft flight path vector.
+    #   Angle is positive when it is above the aiming line A T.)
+    #
+    # For which distance A T are these circles tangent?
+    #
+    # Distances in m, angle in deg.
+    pull_up_dist: func(safety_radius, pull_up_radius, flight_path_angle) {
+        flight_path_angle *= D2R;
+        # Distance between centers of the two circles.
+        var centers_dist = safety_radius + pull_up_radius;
+        # Distance from second circle center to aiming line A T.
+        var center_height = math.cos(flight_path_angle)*pull_up_radius;
+
+        # Distance from T to center of circle 2 projected on line A T (Pytharogas)
+        return math.sqrt(centers_dist*centers_dist - center_height*center_height)
+            # Distance from A to center of circle 2 projected on line A T
+            - math.sin(flight_path_angle)*pull_up_radius;
+    },
+
+    # [minimum pull up distance, minimum firing distance]
+    firing_distance: func(type, traj, radar_dist) {
+        var speed = input.grd_speed.getValue() * KT2MPS;
+        # Turn radius for the G-load specified by pull_up_factor.
+        # (correct for the bottom of the circle, which is the worse case).
+        var pull_up_rad = speed*speed/(me.pull_up_factor[type]-1)/9.81;
+
+        var aiming_pitch = traj_pitch(traj);
+        var fpv_pitch = input.fpv_pitch.getValue();
+
+        var pull_up_dist = me.pull_up_dist(me.safety_dist[type], pull_up_rad, fpv_pitch-aiming_pitch);
+
+        var tolerance = radar_dist ? 75 : 43 / math.sin(-aiming_pitch*D2R);
+
+        var safe_pull_up_dist = pull_up_dist + me.pull_up_time[type]*speed + tolerance;
+
+        return [safe_pull_up_dist, safe_pull_up_dist + me.firing_time[type]*speed];
+    },
+};
+
+
+
 # Main A/G sight loop for JA
 var AGsightJA = {
     # Previous results, for feedback.
@@ -333,6 +417,9 @@ var AGsightJA = {
     # Previous weapon type, to reset state appropriately.
     last_type: nil,
     active: FALSE,
+    # Computed firing distance (minimum distance for safe evasion).
+    min_dist: 0,
+    opt_dist: 0,
 
     reset: func {
         me.traj = nil;
@@ -384,13 +471,25 @@ var AGsightJA = {
         me.traj = res[0];
         me.time = res[1];
         me.drop_dist = res[2];
+        # Compute firing distance.
+        if (me.has_range) {
+            res = FiringDistanceComputer.firing_distance(type, me.traj, TRUE);
+            me.min_dist = res[0];
+            me.opt_dist = res[1];
+        }
     },
 
+    # Returns reticle position in mils [right,down].
     get_pos: func {
         return [math.atan2(me.traj[1], me.traj[0])*1000, math.atan2(me.traj[2], me.traj[0])*1000];
     },
 
-    get_dist: func { return [me.dist, me.has_range]; },
+    # Returns [target distance, minimum evasion distance, minimum firing distance]
+    # or 'nil' if the target distance could not be obtained (too shallow pitch angle).
+    get_dist: func {
+        if (!me.has_range) return nil;
+        return [me.dist, me.min_dist, me.opt_dist];
+    },
 };
 
 
