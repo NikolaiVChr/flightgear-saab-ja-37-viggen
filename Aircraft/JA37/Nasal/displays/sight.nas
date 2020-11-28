@@ -18,7 +18,7 @@ var input = {
     vel_aero_z: "/fdm/jsbsim/velocities/w-aero-fps",
     pitch_rad:  "/fdm/jsbsim/attitude/pitch-rad",
     roll_rad:   "/fdm/jsbsim/attitude/roll-rad",
-    alt:        "/instrumentation/altimeter/indicated-altitude-meter",
+    alt:        "/instrumentation/altimeter/displays-altitude-meter",
     roll:       "/instrumentation/attitude-indicator/indicated-roll-deg",
     grd_speed:  "/velocities/groundspeed-kt",
     fpv_pitch:  "/instrumentation/fpv/pitch-deg",

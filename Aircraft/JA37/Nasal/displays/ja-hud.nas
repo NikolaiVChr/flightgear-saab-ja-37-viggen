@@ -867,7 +867,9 @@ var Altitude = {
             me.group.setTranslation(380, 0);
         }
 
-        me.set_ac_alt(displays.metric ? input.alt.getValue() : input.alt_ft.getValue());
+        var ac_alt = input.alt.getValue();
+        if (!displays.metric) ac_alt *= M2FT;
+        me.set_ac_alt(ac_alt);
 
         # Markers for the linear part of the scale.
         var spacing = displays.metric ? 50 : 100;
@@ -958,7 +960,8 @@ var Altitude = {
         }
 
         if (input.rad_alt_ready.getBoolValue()) {
-            var rad_alt = displays.metric ? input.rad_alt.getValue() : input.rad_alt_ft.getValue();
+            var rad_alt = input.rad_alt.getValue();
+            if (!displays.metric) rad_alt *= M2FT;
             var pos = me.alt2pos(me.ac_alt - rad_alt);
             if (pos <= 500) {
                 me.rhm_index.setTranslation(0, pos);
@@ -1041,7 +1044,8 @@ var RadarAltitude = {
         if (modes.takeoff_30s_inhibit or modes.landing or !input.rad_alt_ready.getValue()) {
             me.shown = FALSE;
         } else {
-            var alt = displays.metric ? input.rad_alt.getValue() : input.rad_alt_ft.getValue();
+            var alt = input.rad_alt.getValue();
+            if (!displays.metric) alt *= M2FT;
             alt = math.round(alt);
             if (alt < (displays.metric ? 100 : 300)) me.shown = TRUE;
             elsif (alt >= (displays.metric ? 110 : 350)) me.shown = FALSE;

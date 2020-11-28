@@ -225,9 +225,12 @@
             <gain>0.3048</gain>
             <output>/instrumentation/altimeter[1]/indicated-altitude-meter</output>
         </pure_gain>
-    </channel>
 
-    <channel execrate="4" name="radar-altimeter">
+        <pure_gain name="instruments/altimeter/standard-altitude-m">
+            <input>/instrumentation/altimeter/pressure-alt-ft</input>
+            <gain>0.3048</gain>
+        </pure_gain>
+
         <switch name="instruments/radar-altimeter/enabled">
             <default value="1"/>
             <test logic="OR" value="0">
@@ -262,6 +265,45 @@
                 /instrumentation/attitude-indicator/indicated-roll-deg lt -40
             </test>
             <output>/instrumentation/radar-altimeter/ready</output>
+        </switch>
+
+        <!-- Compute ground corrected altitude: If switch HÖJD CISI is in position RHM,
+            radar altitude is used to correct displayed altitude. -->
+
+        <!-- difference between radar and barometric altitude -->
+        <summer name="instruments/altimeter/ground-delta-raw-m">
+            <input>instruments/altimeter/standard-altitude-m</input>
+            <input>-instruments/radar-altimeter/radar-altitude-m</input>
+        </summer>
+
+        <switch name="instruments/altimeter/ground-delta-switched-m">
+            <!-- Use correction from radar altitude if radar altimeter is usable and switch is on RHM -->
+            <test logic="AND" value="instruments/altimeter/ground-delta-raw-m">
+                /ja37/hud/switch-hojd eq 1
+                instruments/radar-altimeter/ready eq 1
+            </test>
+            <!-- Otherwise keep previous value -->
+            <default value="instruments/altimeter/ground-delta-filtered-m"/>
+        </switch>
+
+        <lag_filter name="instruments/altimeter/ground-delta-filtered-m">
+            <input>instruments/altimeter/ground-delta-switched-m</input>
+            <c1>2</c1>
+        </lag_filter>
+
+        <!-- RHM corrected altitude -->
+        <summer name="instruments/altimeter/ground-corrected-altitude-m">
+            <input>instruments/altimeter/standard-altitude-m</input>
+            <input>-instruments/altimeter/ground-delta-filtered-m</input>
+        </summer>
+
+        <!-- Final ground corrected altitude for displays. -->
+        <switch name="instruments/altimeter/displays-altitude-m">
+            <default value="instruments/altimeter/altitude-m"/>
+            <test value="instruments/altimeter/ground-corrected-altitude-m">
+                /ja37/hud/switch-hojd eq 1
+            </test>
+            <output>/instrumentation/altimeter/displays-altitude-meter</output>
         </switch>
     </channel>
 

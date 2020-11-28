@@ -72,9 +72,11 @@ var Common = {
 			wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
 			nav0InRange:      "instrumentation/nav[0]/in-range",
 			qfeWarning:       "ja37/displays/qfe-warning",
-			alt_m:            "instrumentation/altimeter/indicated-altitude-meter",
+			alt_m:            "instrumentation/altimeter/displays-altitude-meter",
+			alt_bar_m:        "instrumentation/altimeter/indicated-altitude-meter",
 			altimeter_std:    "instrumentation/altimeter/setting-std",
 			ref_alt:          "ja37/displays/reference-altitude-m",
+			switch_hojd:      "ja37/hud/switch-hojd",
 			APmode:           "fdm/jsbsim/autoflight/mode",
 			AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
 			units:            "ja37/hud/units-metric",
@@ -136,6 +138,7 @@ var Common = {
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
+		me.groundCorrectedAltitude();
 		me.EP13();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
@@ -404,20 +407,20 @@ var Common = {
 		if (modes.takeoff) {
 			me.ref_alt = 500;
 			me.ref_alt_ldg_override = FALSE;
-		} elsif (modes.landing) {
+		} elsif (me.input.APmode.getValue() == 3) {
+			me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
+			if (!variant.JA) {
+				# For AJS, autopilot uses barometric altitude, but displays use ground corrected altitude.
+				me.ref_alt += me.input.alt_m.getValue() - me.input.alt_bar_m.getValue();
+			}
+			me.ref_alt_ldg_override = FALSE;
+		} elsif (modes.landing and !me.ref_alt_ldg_override) {
 			# me.ref_alt_ldg_override indicates that the altitude was manually selected
 			# with the reference altitude button while in LANDING mode.
 			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
-			if (me.input.APmode.getValue() == 3) {
-				me.ref_alt_ldg_override = FALSE;
-				me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
-			} elsif (!me.ref_alt_ldg_override) {
-				me.ref_alt = 500;
-			}
+			me.ref_alt = 500;
 		} else {
-			if (me.input.APmode.getValue() == 3) {
-				me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
-			}
+			# navigation mode
 			me.ref_alt_ldg_override = FALSE;
 		}
 		me.input.ref_alt.setValue(me.ref_alt);
@@ -425,7 +428,7 @@ var Common = {
 
 	refAltButton: func {
 		# For AJS, different functionality in LOW NAV (declutter) mode
-		if (getprop("/ja37/systems/variant") != 0 and hud.hud.mode == hud.hud.MODE_NAV_DECLUTTER) {
+		if (!variant.JA and hud.hud.mode == hud.hud.MODE_NAV_DECLUTTER) {
 			hud.hud.declutter_heading_toggle();
 			return;
 		}
@@ -453,6 +456,18 @@ var Common = {
 		);
 	},
 
+	# Logic for AJS switch HÖJD CI/SI (radar altitude correction mode).
+	# The ground corrected altitude is computed in JSBSim.
+	groundCorrectedAltitude: func {
+		if (me.input.switch_hojd.getBoolValue()
+			# Should be standard pressure altitude, but it would make it unusable in high terrain.
+			and (me.input.alt_bar_m.getValue() > 2450
+				or (modes.landing and land.mode >= 2 and land.mode <= 3))) {
+			me.input.switch_hojd.setValue(FALSE);
+			ja37.click();
+		}
+	},
+
 	setCursorDisplay: func (display) {
 		me.cursor = display;
 		me.resetCursorDelta();
@@ -473,6 +488,7 @@ var Common = {
 		me.input.cursor_dy.setValue(0);
 		me.input.cursor_clicked.setBoolValue(0);
 	},
+
 };
 
 var common = Common.new();
