@@ -45,7 +45,7 @@
         <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>        <!-- source -->
         <drag-coeff type="double">1.35</drag-coeff>                   <!-- guesstimate -->
         <cross-section-sqft type="double">0.143</cross-section-sqft>  <!-- sq ft (0.2133 ft radius) authentic -->
-        <seeker-beam-width type="double">2.0</seeker-beam-width>
+        <seeker-beam-width-deg type="double">2.0</seeker-beam-width-deg>
         <arming-time-sec type="double">2.2</arming-time-sec>          <!-- authentic -->
         <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
         <self-destruct-time-sec type="double">26</self-destruct-time-sec>         <!-- authentic -->
@@ -87,7 +87,7 @@
         <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>        <!-- source -->
         <drag-coeff type="double">0.9</drag-coeff>                    <!-- guesstimate -->
         <cross-section-sqft type="double">0.143</cross-section-sqft>  <!-- sq ft (0.2133 ft radius) authentic -->
-        <seeker-beam-width type="double">2.0</seeker-beam-width>      <!-- authentic -->
+        <seeker-beam-width-deg type="double">2.0</seeker-beam-width-deg>      <!-- authentic -->
         <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
         <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
         <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
@@ -405,7 +405,7 @@
         <FCS-field-deg type="int">60</FCS-field-deg>                         <!-- manual: +-30, but restricted to +-15 for firing  -->
         <seeker-field-deg type="int">60</seeker-field-deg>                   <!-- manual -->
         <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-        <seeker-beam-width type="double">1.0</seeker-beam-width>
+        <seeker-beam-width-deg type="double">1.0</seeker-beam-width-deg>
         <max-g type="int">25</max-g>
         <max-launch-g type="int">7</max-launch-g>
         <thrust-lbf-stage-1 type="double">1200</thrust-lbf-stage-1>
