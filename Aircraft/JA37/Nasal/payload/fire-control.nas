@@ -852,19 +852,22 @@ var cycle_weapon_type = func(subset=nil) {
     }
 }
 
-# Throttle quick select buttons.
-
-var quick_select_cannon = func {
-    # Switch to A/A aiming mode
-    modes.set_aiming_mode(TRUE);
-    TI.ti.ModeAttack = FALSE;
-    # Select cannon
+# For JA TI
+var select_cannon = func {
     _deselect_current();
     if(internal_gun.select()) {
         _set_selected_index(0);
     } else {
         _set_selected_index(-1);
     }
+}
+
+# Throttle quick select buttons. Automatically engage aiming mode for JA.
+var quick_select_cannon = func {
+    # Switch to A/A aiming mode
+    modes.set_aiming_mode(TRUE);
+    TI.ti.ModeAttack = FALSE;
+    select_cannon();
 }
 
 var quick_select_missile = func {
