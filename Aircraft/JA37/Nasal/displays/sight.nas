@@ -315,7 +315,7 @@ var DistanceComputer = {
         var roll = input.roll.getValue();
         # AJS uses radar when range is <7km, and only in combat mode.
         # Additionally, roll must be <45, or trigger unsafe.
-        if (trg_dist <= 7000 and modes.selector_AJS == modes.COMBAT
+        if (trg_dist <= 7000 and modes.selector_ajs == modes.COMBAT
             and (fire_control.is_armed() or (roll <= 45 and roll >= -45))) {
             var rdr_dist = me.radar_dist(traj);
             if (rdr_dist != nil) return [rdr_dist, TRUE, TRUE];
