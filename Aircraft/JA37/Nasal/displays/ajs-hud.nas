@@ -627,8 +627,8 @@ var FPV = {
 # All aiming mode symbols, except for the aiming dot (part of the horizon),
 # the time/distance line, and the digital altitude.
 var AimingMode = {
-    new: func(parent) {
-        var m = { parents: [AimingMode], parent: parent, mode: -1, };
+    new: func(parent, hud_group) {
+        var m = { parents: [AimingMode], parent: parent, hud_grp: hud_group, mode: -1, };
         m.initialize();
         return m;
     },
@@ -643,8 +643,6 @@ var AimingMode = {
         me.wing = me.group.createChild("group");
         me.wing_L = make_path(me.wing).moveTo(0,-15).vert(30).setTranslation(-120,0);
         me.wing_R = make_path(me.wing).moveTo(0,-15).vert(30).setTranslation(120,0);
-        # Secondary reticle (target position, and some other functions).
-        #me.target = make_circle(me.group, 0, 0, 50);
         # Small vertical bar, indicates that radar ranging is active.
         me.range_mark = make_path(me.group).moveTo(0,-150).vert(-50);
         # Small horiontal bars around reticle, indicate firing window.
@@ -653,10 +651,20 @@ var AimingMode = {
         me.break_bars = make_path(me.group).moveTo(-200,-100).vert(200).moveTo(200,-100).vert(200);
 
         me.reticle_pos = [0,0];
+
+        # Secondary reticle (target position, and some other functions).
+        # In a separate group, so that its position is given in HUD coordinates.
+        me.target = make_circle(me.hud_grp, 0, 0, 50);
+
     },
 
     set_mode: func(mode) {
-        me.group.setVisible(mode == HUD.MODE_AIM);
+        if (mode == HUD.MODE_AIM) {
+            me.group.show();
+        } else {
+            me.group.hide();
+            me.target.hide();
+        }
     },
 
     set_wingspan: func(span, dist) {
@@ -674,6 +682,7 @@ var AimingMode = {
             me.range_mark.hide();
             me.firing_mark.hide();
             me.break_bars.hide();
+            me.target.hide();
             me.set_wingspan(15, 2000);
             # Boresight position is 0.8deg down, except for outer pylons.
             var pylon = fire_control.get_selected_pylons();
@@ -698,6 +707,7 @@ var AimingMode = {
             me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
             # Pull up bars flashing after evade distance.
             me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fourHz.getBoolValue());
+            me.target.hide();
 
             me.reticle_pos[0] = pos[0] * MIL2HUD;
             me.reticle_pos[1] = pos[1] * MIL2HUD;
@@ -708,6 +718,7 @@ var AimingMode = {
             me.range_mark.hide();
             me.firing_mark.hide();
             me.break_bars.hide();
+            me.target.hide();
             if ((var bomb = fire_control.get_weapon()) != nil
                 and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
                 var pos = radar_logic.ContactGPS.new("CCIP", ccip[0]).get_cartesian();
@@ -723,13 +734,16 @@ var AimingMode = {
             me.range_mark.hide();
             me.firing_mark.hide();
             me.break_bars.hide();
-            if ((var rb75 = fire_control.get_weapon()) != nil
+            # Default position of Rb 75 seeker
+            me.reticle_pos = [0,130];
+            # Display seeker position with secondary reticle, to compensate for the lack of EP13.
+            if (fire_control.is_armed()
+                and (var rb75 = fire_control.get_weapon()) != nil
                 and (var pos = rb75.getSeekerInfo()) != nil) {
-                me.reticle_pos[0] = pos[0]*100;
-                me.reticle_pos[1] = pos[1]*-100;
+                me.target.setTranslation(pos[0]*100, pos[1]*-100);
+                me.target.show();
             } else {
-                # Default position for Rb 75
-                me.reticle_pos = [0,130];
+                me.target.hide();
             }
         }
     },
@@ -776,7 +790,7 @@ var HUD = {
         me.heading = HeadingScale.new(me.groups.horizon); # rooted on horizon, not ref_point: not lateral offset
         me.distance = DistanceLine.new(me.groups.ref_point);
         me.fpv = FPV.new(me.root);
-        me.aiming = AimingMode.new(me.groups.ref_point);
+        me.aiming = AimingMode.new(me.groups.ref_point, me.root);
     },
 
     set_mode: func(mode) {
