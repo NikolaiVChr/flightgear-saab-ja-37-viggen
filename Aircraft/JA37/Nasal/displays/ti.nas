@@ -5473,7 +5473,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (me.menuMain == MAIN_WEAPONS) {
-				fire_control.select_cannon();
+				fire_control.quick_select_cannon();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
