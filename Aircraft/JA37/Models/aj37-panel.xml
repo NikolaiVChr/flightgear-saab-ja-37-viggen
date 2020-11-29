@@ -12,21 +12,11 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-units.xml</path>
-    <name>SwitchHudUnits</name>
+    <path>Aircraft/JA37/Models/Cockpit/hud-switches/hud-switches.xml</path>
+    <name>HUDswitches</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>0.11</y-m>
-      <z-m>0.245</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-callsign.xml</path>
-    <name>SwitchHudCallsign</name>
-    <offsets>
-      <x-m>0</x-m>
-      <y-m>0.145</y-m>
+      <y-m>0.13</y-m>
       <z-m>0.245</z-m>
     </offsets>
   </model>

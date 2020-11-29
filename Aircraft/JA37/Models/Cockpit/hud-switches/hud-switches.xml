@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>hud-switches.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>switch_base</object-name>
+    <object-name>switch_alt</object-name>
+    <object-name>switch_slav</object-name>
+    <object-name>labels</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>labels</object-name>
+    <emission>
+      <red-prop>instrumentation/instrumentation-light/r</red-prop>
+      <green-prop>instrumentation/instrumentation-light/g</green-prop>
+      <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+      <factor-prop>controls/lighting/instruments-norm</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>labels</object-name>
+    <condition><property>/ja37/effect/swedish-labels</property></condition>
+    <texture>labels-se.png</texture>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>alt_pick_left</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-assign</command>
+        <property>/ja37/hud/switch-hojd</property>
+        <value>1</value>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>hud-switch-alt</tooltip-id>
+        <label>Use radar altitude in HUD</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>alt_pick_right</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-assign</command>
+        <property>/ja37/hud/switch-hojd</property>
+        <value>0</value>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>hud-switch-alt</tooltip-id>
+        <label>Use radar altitude in HUD</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch_alt</object-name>
+    <property>/ja37/hud/switch-hojd</property>
+    <factor>-60</factor>
+    <offset-deg>30</offset-deg>
+    <center>
+      <x-m>0.002</x-m>
+      <y-m>0.01266</y-m>
+      <z-m>-0.00372</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>slav_pick_left</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-assign</command>
+        <property>/ja37/hud/switch-slav</property>
+        <value>0</value>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>hud-switch-slav</tooltip-id>
+        <label>Enable low altitude HUD declutter</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>slav_pick_right</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-assign</command>
+        <property>/ja37/hud/switch-slav</property>
+        <value>1</value>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>hud-switch-slav</tooltip-id>
+        <label>Enable low altitude HUD declutter</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switch_slav</object-name>
+    <property>/ja37/hud/switch-slav</property>
+    <factor>60</factor>
+    <offset-deg>-30</offset-deg>
+    <center>
+      <x-m>0.003</x-m>
+      <y-m>-0.02373</y-m>
+      <z-m>-0.00214</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
+</PropertyList>
