@@ -1,6 +1,6 @@
 AC3Db
 MATERIAL "base" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 50 trans 0.000
-MATERIAL "switch" rgb 0.800 0.800 0.800  amb 0.800 0.800 0.800  emis 0.000 0.000 0.000  spec 1.000 1.000 1.000  shi 256 trans 0.000
+MATERIAL "switch" rgb 0.650 0.650 0.650  amb 0.350 0.350 0.350  emis 0.000 0.000 0.000  spec 0.700 0.700 0.700  shi 70 trans 0.000
 OBJECT world
 name "Blender_exporter_v3.3__radar-panel.ac"
 kids 8
