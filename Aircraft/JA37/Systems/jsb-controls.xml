@@ -1269,28 +1269,6 @@
         </test>
       </switch>
 
-      <!-- For now only the JA uses trigger for cursor select.
-      On the AJS, it does nothing, and disabling it allows to fire Rb05 while using FC for Rb05 steering -->
-      <switch name="names/cursor/cursor-trigger-from-flight-controls">
-        <description>Cursor control component from flight controls</description>
-        <default value="0"/>
-        <test logic="AND" value="/controls/armament/trigger">
-            /controls/displays/stick-controls-cursor == 1
-            /ja37/systems/variant == 0
-        </test>
-      </switch>
-      <switch name="names/trigger-final">
-        <default value="/controls/armament/trigger"/>
-        <test logic="AND" value="0">
-            /controls/displays/stick-controls-cursor == 1
-            /ja37/systems/variant == 0
-        </test>
-        <test value="0">
-            /controls/armament/trigger-unsafe == 0
-        </test>
-        <output>/controls/armament/trigger-final</output>
-      </switch>
-
       <summer name="names/cursor/cursor-slew-x">
         <description>Combined cursor control</description>
         <input>names/cursor/cursor-x-from-flight-controls</input>
@@ -1312,16 +1290,6 @@
         </clipto>
         <output>/controls/displays/cursor-total-slew-y</output>
       </summer>
-
-      <switch name="names/cursor/cursor-click">
-        <description>Combined cursor control</description>
-        <default value="0"/>
-        <test logic="OR" value="1">
-          names/cursor/cursor-trigger-from-flight-controls == 1
-          /controls/displays/cursor-click == 1
-        </test>
-        <output>/controls/displays/cursor-total-click</output>
-      </switch>
 
       <!-- Integrates cursor control, and allow the integrator to be reset from outside.
           Displays can know how much the cursor moved between two updates by
@@ -1356,7 +1324,7 @@
       <switch name="names/cursor/cursor-was-clicked">
         <default value="/controls/displays/cursor-was-clicked"/>
         <test value="1">
-          /controls/displays/cursor-total-click == 1
+          /controls/displays/cursor-click == 1
         </test>
         <output>/controls/displays/cursor-was-clicked</output>
       </switch>

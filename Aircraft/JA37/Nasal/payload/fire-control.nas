@@ -11,7 +11,7 @@ var find_index = func(val, vec) {
 
 
 var input = {
-    trigger:    "/controls/armament/trigger-final",
+    trigger:    "/controls/armament/trigger",
     unsafe:     "/controls/armament/trigger-unsafe",
     trigger_m70:    "/controls/armament/trigger-m70",
     release:    "/instrumentation/indicators/release-complete",

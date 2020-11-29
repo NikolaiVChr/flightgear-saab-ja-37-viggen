@@ -64,6 +64,22 @@
 				<script>ja37.fovZoom(-1);</script>
 			</binding>
 		</key>
+        <key n="110">
+            <name>n</name>
+            <desc>Radar cursor click/select</desc>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/displays/cursor-was-clicked</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/displays/cursor-was-clicked</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
         <key n="78">
             <name>N</name>
             <desc>Select centermost</desc>
