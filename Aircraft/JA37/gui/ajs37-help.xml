@@ -79,31 +79,7 @@
     </key>
     <key>
         <name>n</name>
-        <desc>Cycle next radar track selection</desc>
-    </key>
-    <key>
-        <name>N</name>
-        <desc>Select radar track center most in HUD</desc>
-    </key>
-    <key>
-        <name>F</name>
-        <desc>Unlock selected radar track</desc>
-    </key>
-    <key>
-        <name>Ctrl n</name>
-        <desc>Target next route-manager waypoint</desc>
-    </key>
-    <key>
-        <name>f</name>
-        <desc>Toggle radar steer order on current selection</desc>
-    </key>
-    <key>
-        <name>I</name>
-        <desc>Toggle HUD units. Metric/imperial.</desc>
-    </key>
-    <key>
-        <name>i</name>
-        <desc>Toggle HUD to show type or callsign on radar tracks</desc>
+        <desc>Radar cursor click / select</desc>
     </key>
     <key>
         <name>H</name>

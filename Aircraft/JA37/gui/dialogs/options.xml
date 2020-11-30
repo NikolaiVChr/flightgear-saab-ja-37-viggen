@@ -240,7 +240,7 @@
       <row>8</row>
       <col>1</col>
       <halign>left</halign>
-      <label>Arrow keys control radar cursor, Enter selects</label>
+      <label>Arrow keys control radar cursor, Enter clicks / selects</label>
     </text>
 
     <text>
@@ -296,7 +296,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label> - Press 'y' to temporarily control the cursor with the main flight controls.</label>
+      <label> - Press 'y' to control the cursor with the main flight controls. 'n' clicks.</label>
     </text>
 
     <hrule>
