@@ -308,8 +308,12 @@
             <desc>Toggle trigger safety</desc>
             <repeatable>false</repeatable>
             <binding>
+                <command>property-toggle</command>
+                <property>/controls/armament/trigger-unsafe</property>
+            </binding>
+            <binding>
                 <command>nasal</command>
-                <script>fire_control.toggle_trigger_safe(); ja37.click();</script>
+                <script>ja37.click();</script>
             </binding>
         </key>
         <key n="99">

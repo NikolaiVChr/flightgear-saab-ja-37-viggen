@@ -69,13 +69,13 @@
                 <not><property>/controls/armament/trigger-unsafe</property></not>
             </condition>
             <binding>
+                <command>property-assign</command>
+                <property>/controls/armament/trigger-unsafe</property>
+                <value>0</value>
+            </binding>
+            <binding>
                 <command>nasal</command>
-                <script>
-                    if (getprop("/controls/armament/trigger-unsafe")) {
-                        fire_control.toggle_trigger_safe();
-                        ja37.click();
-                    }
-                </script>
+                <script>ja37.click();</script>
             </binding>
         </item>
         <item>

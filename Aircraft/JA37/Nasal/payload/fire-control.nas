@@ -912,20 +912,6 @@ var select_pylon = func(pylon) {
 
 ## Other controls.
 
-# Trigger safety.
-# Note: toggling /controls/armament/trigger-unsafe also works, this is just for the nice message.
-var toggle_trigger_safe = func {
-    var unsafe = !input.unsafe.getBoolValue();
-    input.unsafe.setBoolValue(unsafe);
-
-    if (unsafe) {
-        screen.log.write("Trigger unsafed", 1, 0, 0);
-    } else {
-        screen.log.write("Trigger safed", 0, 0, 1);
-    }
-}
-
-
 # IR seeker release button
 var uncageIR = func {
     if (selected != nil and (selected.type == "RB-24J" or selected.type == "RB-74")) {
@@ -959,8 +945,24 @@ var trigger_listener = func (node) {
     if (selected != nil) selected.set_trigger(node.getBoolValue());
 }
 
+# Small window to display 'trigger unsafe' message.
+var safety_window = screen.window.new(x:nil, y:-15, maxlines:1, autoscroll:0);
+
+var safety_window_clear_timer = maketimer(3, func { safety_window.clear(); });
+safety_window_clear_timer.singleShot = TRUE;
+
 var unsafe_listener = func (node) {
-    if (selected != nil) selected.set_unsafe(node.getBoolValue());
+    var unsafe = node.getBoolValue();
+    if (selected != nil) selected.set_unsafe(unsafe);
+
+    # Reminder message
+    if (unsafe) {
+        safety_window.write("Trigger unsafe", 1, 0, 0);
+        safety_window_clear_timer.stop();
+    } else {
+        safety_window.write("Trigger safe", 0, 0, 1);
+        safety_window_clear_timer.start();
+    }
 }
 
 setlistener(input.trigger, trigger_listener, 0, 0);
