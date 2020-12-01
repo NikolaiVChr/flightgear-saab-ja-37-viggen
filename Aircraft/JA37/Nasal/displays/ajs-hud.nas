@@ -446,7 +446,7 @@ var DistanceLine = {
             me.set_line(input.speed.getValue() * 0.667 / rotation_speed);
         } elsif (me.mode == HUD.MODE_NAV) {
             var eta = input.eta.getValue();
-            if (eta != nil and eta <= 60) {
+            if (eta != nil and eta > 0 and eta <= 60) {
                 me.group.show();
                 me.set_line(eta / 60);
                 me.group.setTranslation(0, alt_bars_pos);

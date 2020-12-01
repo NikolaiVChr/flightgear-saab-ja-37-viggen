@@ -442,6 +442,29 @@
             <rate_limit>10</rate_limit>
             <output>/instrumentation/waypoint-indicator/distance-unit-flag</output>
         </actuator>
+
+        <fcs_function name="instruments/waypoint/eta">
+            <function>
+                <quotient>
+                    <product>
+                        <property>/autopilot/route-manager/wp/dist</property>
+                        <value>3600</value>
+                    </product>
+                    <product>
+                        <property>/velocities/groundspeed-kt</property>
+                        <cos>
+                            <toradians>
+                                <difference>
+                                    <property>/autopilot/route-manager/wp/true-bearing-deg</property>
+                                    <property>instruments/fpv/track-true-deg-raw</property>
+                                </difference>
+                            </toradians>
+                        </cos>
+                    </product>
+                </quotient>
+            </function>
+            <output>/instrumentation/waypoint-indicator/eta-s</output>
+        </fcs_function>
     </channel>
 
 

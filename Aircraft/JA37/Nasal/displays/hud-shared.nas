@@ -36,7 +36,7 @@ var input = {
     wp_bearing:     "/autopilot/route-manager/wp/bearing-deg",
     wp_dist:        "/autopilot/route-manager/wp/dist-km",
     wp_dist_nm:     "/autopilot/route-manager/wp/dist",
-    eta:            "/autopilot/route-manager/wp/eta-seconds",
+    eta:            "/instrumentation/waypoint-indicator/eta-s",
     hud_slav:       "/ja37/hud/switch-slav",
     gear_pos:       "/gear/gear/position-norm",
     use_ALS:        "/sim/rendering/shaders/skydome",
