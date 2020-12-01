@@ -24,6 +24,7 @@ var input = {
     fpv_up:         "/instrumentation/fpv/angle-up-deg",
     fpv_right:      "/instrumentation/fpv/angle-right-deg",
     fpv_track:      "/instrumentation/fpv/track-true-deg",
+    fpv_pitch:      "/instrumentation/fpv/pitch-deg",
     head_true:      "/orientation/heading-deg",
     alpha:          "/orientation/alpha-deg",
     high_alpha:     "/fdm/jsbsim/autoflight/high-alpha",

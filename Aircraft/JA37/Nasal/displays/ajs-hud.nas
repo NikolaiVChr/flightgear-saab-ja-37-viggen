@@ -791,6 +791,9 @@ var HUD = {
         me.distance = DistanceLine.new(me.groups.ref_point);
         me.fpv = FPV.new(me.root);
         me.aiming = AimingMode.new(me.groups.ref_point, me.root);
+
+        # Disable at >15deg flight path angle. Re-enable at <12deg.
+        me.high_angle_off = FALSE;
     },
 
     set_mode: func(mode) {
@@ -813,7 +816,9 @@ var HUD = {
 
     # Separate function because it is _slightly_ complicated.
     aiming_mode_condition: func {
+        if (input.gear_pos.getValue() > 0) return FALSE;
         if (fire_control.selected == nil) return FALSE;
+        if (modes.selector_ajs < modes.NAV or modes.selector_ajs > modes.RECO) return FALSE;
         if (modes.selector_ajs != modes.COMBAT and !fire_control.is_armed()) return FALSE;
 
         var type = fire_control.get_type();
@@ -824,6 +829,10 @@ var HUD = {
     },
 
     update_mode: func {
+        var fpv_pitch = input.fpv_pitch.getValue();
+        if (fpv_pitch < 12 and fpv_pitch > -12) me.high_angle_off = FALSE;
+        elsif (fpv_pitch > 15 or fpv_pitch < -15) me.high_angle_off = TRUE;
+
         if (!displays.common.hud_on) {
             me.set_mode(HUD.MODE_STBY);
         } elsif (modes.takeoff) {
@@ -834,6 +843,10 @@ var HUD = {
             } elsif (input.pitch.getValue() < 3) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             }
+        } elsif (me.aiming_mode_condition()) {
+            me.set_mode(HUD.MODE_AIM);
+        } elsif (me.high_angle_off) {
+            me.set_mode(HUD.MODE_STBY);
         } elsif (modes.landing and (land.mode < 1 or land.mode == 4)) {
             me.set_mode(HUD.MODE_FINAL_OPT);
         } elsif (modes.landing and land.mode == 3) {
@@ -841,8 +854,6 @@ var HUD = {
         } elsif (modes.landing and (land.mode == 1 or land.mode == 2)) {
             # Initial landing phase, NAV display mode
             me.set_mode(HUD.MODE_NAV);
-        } elsif (me.aiming_mode_condition()) {
-            me.set_mode(HUD.MODE_AIM);
         } elsif (input.hud_slav.getBoolValue() and input.alt.getValue() < 97.5) {
             me.set_mode(HUD.MODE_NAV_DECLUTTER);
         } else {
