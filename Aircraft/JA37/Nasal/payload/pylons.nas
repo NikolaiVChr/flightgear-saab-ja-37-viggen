@@ -127,13 +127,6 @@ if (variant.JA) {
     sets[STATIONS.S7H] = ["none", "rb24j", "rb74", "rb99", "m70"];
     sets[STATIONS.R7V] = ["none", "rb24j", "rb74"];
     sets[STATIONS.R7H] = ["none", "rb24j", "rb74"];
-} elsif (variant.AJ) {
-    sets[STATIONS.V7V] = ["none", "rb04", "m55", "m70", "m71", "m71r"];
-    sets[STATIONS.V7H] = ["none", "rb04", "m55", "m70", "m71", "m71r"];
-    sets[STATIONS.S7V] = ["none", "rb24", "rb24j", "rb05", "rb75", "m70", "m71", "m71r"];
-    sets[STATIONS.S7H] = ["none", "rb24", "rb24j", "rb05", "rb75", "m70", "m71", "m71r"];
-    sets[STATIONS.R7V] = ["none"];
-    sets[STATIONS.R7H] = ["none"];
 } else {
     sets[STATIONS.V7V] = ["none", "rb24j", "rb74", "rb04", "rb15", "rb75", "m55", "m70", "m71", "m71r", "m90"];
     sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb04", "rb15", "rb75", "m55", "m70", "m71", "m71r", "m90"];
