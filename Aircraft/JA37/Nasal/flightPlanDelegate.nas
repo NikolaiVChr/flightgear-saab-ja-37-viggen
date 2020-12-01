@@ -93,6 +93,12 @@ var Delegate = {
         if (!me.flightplan.active)
             return;
 
+        # AJS waypoint sequencing inhibit.
+        if (!variant.JA) {
+            # Disabled in modes ANF and SPA
+            if (modes.selector_ajs == modes.COMBAT or modes.selector_ajs == modes.RECO) return;
+        }
+
         if (me._modeProp.getValue() == 'leg') {
             var nextIndex = me.flightplan.current + 1;
             if (nextIndex >= me.flightplan.getPlanSize()) {
