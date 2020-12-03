@@ -5906,8 +5906,9 @@ var TI = {
 		lastDay = me.day;
 		}
 
-		#me.mapRot.setRotation(-me.input.heading.getValue()*D2R);
-		me.mapCenter.setRotation(-me.input.heading.getValue()*D2R);#switched to direct rotation to try and solve issue with approach line not updating fast.
+		# Map is oriented towards magnetic north
+		me.mapCenter.setRotation(-me.input.headTrue.getValue()*D2R);
+		#switched to direct rotation to try and solve issue with approach line not updating fast.
 		me.mapCenter.update();
 	},
 };
