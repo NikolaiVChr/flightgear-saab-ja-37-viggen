@@ -78,8 +78,6 @@
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
             <path>ja37/effect/swedish-labels</path>
-            <path>ai/submodels/submodel[2]/random</path>
-            <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
             <path>controls/displays/arrows-controls-cursor</path>
             <!--<path>sim/model/livery/file</path>-->
@@ -793,12 +791,6 @@
                 <flare-release type="bool">false</flare-release>
                 <flare-release-snd type="bool">false</flare-release-snd>
                 <flare-release-out-snd type="bool">false</flare-release-out-snd>
-            </submodel>
-            <submodel n="2">
-                <random type="bool">false</random>
-            </submodel>
-            <submodel n="3">
-                <random type="bool">false</random>
             </submodel>
         </submodels>
     </ai>

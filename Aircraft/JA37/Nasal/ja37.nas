@@ -1307,9 +1307,7 @@ var main_init = func {
 
 #  aircraft.data.add("ja37/hud/units-metric",
 #                    "ja37/autoReverseThrust",
-#                    "ja37/hud/stroke-linewidth",
-#                    "ai/submodels/submodel[2]/random",
-#                    "ai/submodels/submodel[3]/random");
+#                    "ja37/hud/stroke-linewidth");
   #aircraft.data.save();
   aircraft.data.save(0.5);#every 30 seconds
 
