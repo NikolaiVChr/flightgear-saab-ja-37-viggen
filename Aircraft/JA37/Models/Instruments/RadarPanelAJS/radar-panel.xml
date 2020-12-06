@@ -184,8 +184,8 @@
     <type>knob</type>
     <object-name>switch_passive</object-name>
     <property>ja37/radar/panel/passive</property>
-    <factor>60</factor>
-    <offset-deg>-30</offset-deg>
+    <factor>-60</factor>
+    <offset-deg>30</offset-deg>
     <drag-direction>vertical</drag-direction>
     <center>
       <x-m>0.023597</x-m>
@@ -203,7 +203,7 @@
         <property>ja37/radar/panel/passive</property>
         <min>0</min>
         <max>1</max>
-        <factor>-1</factor>
+        <factor>1</factor>
         <wrap>false</wrap>
       </binding>
     </action>

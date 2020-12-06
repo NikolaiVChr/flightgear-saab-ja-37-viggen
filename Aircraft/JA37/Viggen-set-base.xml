@@ -533,6 +533,9 @@
             <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
             <time-till-crash type="double">15</time-till-crash>
             <active type="bool">false</active>
+            <panel>
+                <passive type="bool">false</passive>
+            </panel>
         </radar>
         <effect>
             <landing-light type="bool">0</landing-light>

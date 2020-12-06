@@ -346,13 +346,14 @@ var radar = {
       append(m.stroke_dir, 0);
     }
 
+    m.stroke_grp = g.createChild("group");
     m.stroke = [];
     m.tfstroke=[];
     for(var i=0; i < m.no_stroke; i = i+1) {
         # var grn = 0.2 + (0.8 / m.no_stroke)*(i+1);
         var grn = 0.15+((m.no_stroke / ((m.no_stroke+0.0001)-(i)))/m.no_stroke)*0.85;
         append(m.stroke,
-         g.createChild("path")
+         m.stroke_grp.createChild("path")
          #.setStrokeLineCap("butt")
          .moveTo(0, 0)
          .lineTo(0, -(m.strokeOriginY-m.strokeTopY))
@@ -365,12 +366,13 @@ var radar = {
        m.stroke[i].hide();
      }
 
+    m.blip_grp = g.createChild("group");
     m.blip = [];
     m.blip_alpha=[];
     m.tfblip=[];
     for(var i=0; i < m.no_blip; i = i+1) {
         append(m.blip,
-         g.createChild("path")
+         m.blip_grp.createChild("path")
          .moveTo(12/1024*pixels_max, 0)
          .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0, -24/1024*pixels_max, 0)
          .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0,  24/1024*pixels_max, 0)
@@ -399,10 +401,9 @@ var radar = {
       APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
       rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
       rad_alt_ready:        "instrumentation/radar-altimeter/ready",
-      radarEnabled:         "ja37/hud/tracks-enabled",
       radarActive:          "ja37/radar/active",
+      radarPassive:         "ja37/radar/panel/passive",
       radarRange:           "instrumentation/radar/range",
-      radarServ:            "instrumentation/radar/serviceable",
       rmActive:             "autopilot/route-manager/active",
       rmDist:               "autopilot/route-manager/wp/dist",
       rmId:                 "autopilot/route-manager/wp/id",
@@ -423,63 +424,54 @@ var radar = {
     return m;
   },
 
-
   update: func()
   {
-    if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13)
-        and me.input.radarServ.getBoolValue() and me.input.radarEnabled.getBoolValue() and me.input.radarActive.getBoolValue()
-        and displays.common.ci_on) {
+    if (displays.common.ci_on and
+        (me.input.radarActive.getBoolValue() or modes.landing or me.input.radarPassive.getBoolValue())) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.rangeText.setText(sprintf("%3d",me.radarRange/1000));
       me.dt = me.input.timeElapsed.getValue();
-      
-      #Stroke animation
-      if (me.dt == nil) {
-        me.dt = 5;
-      }            
-      # compute new stroke angle if has hydr pressure
-      if(power.prop.hyd1Bool.getValue()) {
-        # AJ37 manual: 110 degrees per second: 1.0733775 x 1radian= 123 degrees. 123deg = 2.14675498 rad for full scan.
-        me.stroke_angle = math.sin(me.dt*2.14675498)*1.0733775;
-        forindex (i; me.stroke) me.stroke[i].show();
+
+
+      if (me.input.radarActive.getBoolValue()) {
+        #Stroke animation
+        if (me.dt == nil) {
+          me.dt = 5;
+        }
+        # compute new stroke angle if has hydr pressure
+        if(power.prop.hyd1Bool.getValue()) {
+          # AJ37 manual: 110 degrees per second: 1.0733775 x 1radian= 123 degrees. 123deg = 2.14675498 rad for full scan.
+          me.stroke_angle = math.sin(me.dt*2.14675498)*1.0733775;
+          forindex (i; me.stroke) me.stroke[i].show();
+        } else {
+          forindex (i; me.stroke) me.stroke[i].hide();
+        }
+        #convert to radians
+        me.curr_angle = me.stroke_angle;# * 0.0175;
+        # animate fading stroke angles
+        for(var i=0; i < me.no_stroke-1; i = i+1) {
+          me.tfstroke[i].setRotation(me.stroke_dir[i+1]);
+          #print("dir "~i~" = "~me.stroke_dir[i+1]);
+          me.stroke_dir[i] = me.stroke_dir[i+1];
+        }
+        #animate the stroke
+        me.tfstroke[me.no_stroke-1].setRotation(me.curr_angle);
+        #print("dir 5 = "~curr_angle);
+        me.prev_angle = me.stroke_dir[me.no_stroke-1];
+        me.stroke_dir[me.no_stroke-1] = me.curr_angle;
+
+        #Update blips
+        me.update_blip(me.curr_angle, me.prev_angle);
+
+        me.stroke_grp.show();
+        me.blip_grp.show();
       } else {
-        forindex (i; me.stroke) me.stroke[i].hide();
+        me.clear_blips();
+        me.stroke_grp.hide();
+        me.blip_grp.hide();
       }
-      #convert to radians
-      me.curr_angle = me.stroke_angle;# * 0.0175; 
-      # animate fading stroke angles
-      for(var i=0; i < me.no_stroke-1; i = i+1) {
-        me.tfstroke[i].setRotation(me.stroke_dir[i+1]);
-        #print("dir "~i~" = "~me.stroke_dir[i+1]);
-        me.stroke_dir[i] = me.stroke_dir[i+1];
-      }
-      #animate the stroke
-      me.tfstroke[me.no_stroke-1].setRotation(me.curr_angle);
-      #print("dir 5 = "~curr_angle);
-      me.prev_angle = me.stroke_dir[me.no_stroke-1];
-      me.stroke_dir[me.no_stroke-1] = me.curr_angle;
 
-      #Update blips
-      me.update_blip(me.curr_angle, me.prev_angle);
-
-      # draw destination
-      #var freq = getprop("instrumentation/nav/frequencies/selected-mhz");
-      #if (freq != nil) {
-      #  var navaid = findNavaidByFrequency(freq);
-      #  if(navaid != nil) print(navaid.type);
-      #  if(navaid != nil and navaid.type == "runway") {
-      #    print("id "~navaid.id);
-      #    print("name "~navaid.name);
-      #    var icao = navaid.id;
-          #var airport = airportinfo(icao);
-          #if (airport != nil) {
-
-          #}
-      #  }
-      #}
-
-      
       if (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE) {
           me.x = math.cos(-(land.runway_bug-90) * D2R) * (land.runway_dist/(me.radarRange * M2NM)) * me.strokeHeight;
           me.y = math.sin(-(land.runway_bug-90) * D2R) * (land.runway_dist/(me.radarRange * M2NM)) * me.strokeHeight;
@@ -663,6 +655,13 @@ var radar = {
           me.lock.show();
         }
         for (var i = me.b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
+    },
+
+    clear_blips: func {
+      forindex (var i; me.blip) {
+        me.blip_alpha[i] = 0;
+        me.blip[i].hide();
+      }
     },
 };
 
