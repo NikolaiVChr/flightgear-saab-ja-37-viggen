@@ -1550,6 +1550,7 @@ var TI = {
 			bullseyeOn:           "ja37/navigation/bulls-eye-defined",
 			bullseyeLat:          "ja37/navigation/bulls-eye-lat",
 			bullseyeLon:          "ja37/navigation/bulls-eye-lon",
+			datalink:             "/instrumentation/datalink/on",
       	};
 
       	foreach(var name; keys(ti.input)) {
@@ -1635,8 +1636,7 @@ var TI = {
 		# system stuff
 		ti.ModeAttack = FALSE;
 		ti.fr28Top    = FALSE;
-		ti.dataLink   = FALSE;
-		
+
 		# Base overlay
 		ti.basesNear  = [];
 		ti.basesEnabled = FALSE;
@@ -2128,7 +2128,7 @@ var TI = {
 					}
 					me.menuButton[1].setText(me.vertStr("RR"));
 				}
-				if (me.dataLink == TRUE) {
+				if (me.input.datalink.getBoolValue()) {
 					me.menuButtonBox[2].show();
 				}
 				if (land.mode_B_active == TRUE or land.mode_LA_active == TRUE) {
@@ -4610,7 +4610,7 @@ var TI = {
 			me.textBerrorFrame1.hide();
 			me.textBerrorFrame2.show();
 		}
-		if (me.dataLink == FALSE) {
+		if (!me.input.datalink.getBoolValue()) {
 			me.textBlink.setColor(COLOR_GREY);
 			me.textBLinkFrame2.hide();
 			me.textBLinkFrame1.show();
@@ -5131,7 +5131,7 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				# datalink / STRILL
 				dap.syst();
-				me.dataLink = !me.dataLink;
+				me.input.datalink.setValue(!me.input.datalink.getBoolValue());
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact lock report
