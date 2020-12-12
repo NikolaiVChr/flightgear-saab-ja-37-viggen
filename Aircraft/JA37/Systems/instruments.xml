@@ -94,6 +94,10 @@
   </slip-skid-ball>
 
   <transponder>
+    <name>transponder</name>
+    <number>0</number>
+    <mode>1</mode><!-- 0: A, 1: C, 2: S -->
+    <encoder-path>/instrumentation/altimeter</encoder-path>
   </transponder>
 
   <vertical-speed-indicator>

@@ -666,6 +666,35 @@
         </switch>
     </channel>
 
+    <channel execrate="4" name="transponder">
+        <switch name="instruments/transponder/time-power">
+            <default value="sim-time-sec"/>
+            <test value="instruments/transponder/time-power">
+                /ja37/elec/ac-bus-main-bool eq 1
+            </test>
+        </switch>
+
+        <summer name="instruments/transponder/time-on">
+            <input>instruments/transponder/time-power</input>
+            <bias>75</bias>
+        </summer>
+
+        <switch name="instruments/transponder/mode">
+            <test value="0"><!-- off -->
+                /ja37/elec/ac-bus-main-bool eq 0
+            </test>
+            <test logic="OR" value="1"><!-- stby -->
+                /instrumentation/transponder/switch-power eq 0
+                sim-time-sec lt instruments/transponder/time-on
+            </test>
+            <test value="5">    <!-- ALT -->
+                /instrumentation/transponder/switch-mode eq 1
+            </test>
+            <default value="4"/><!-- ON -->
+            <output>/instrumentation/transponder/inputs/knob-mode</output>
+        </switch>
+    </channel>
+
     <channel execrate="4" name="instruments">
 
         <switch name="systems/ins/time-steady">

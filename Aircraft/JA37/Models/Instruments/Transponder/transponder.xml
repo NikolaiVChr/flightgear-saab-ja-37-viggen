@@ -59,10 +59,7 @@
         <object-name>Dial100</object-name>
         <object-name>Dial1000</object-name>
         <condition>
-            <equals>
-                <property>/instrumentation/transponder/inputs/knob-mode</property>
-                <value>5</value>
-            </equals>
+            <property>/instrumentation/transponder/switch-power</property>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
@@ -307,8 +304,8 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>/instrumentation/transponder/inputs/knob-mode</property>
-                <value>5</value>
+                <property>/instrumentation/transponder/switch-power</property>
+                <value>1</value>
             </binding>
         </action>
         <hovered>
@@ -326,7 +323,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <property>/instrumentation/transponder/switch-power</property>
                 <value>0</value>
             </binding>
         </action>
@@ -342,18 +339,9 @@
     <animation>
         <type>rotate</type>
         <object-name>switchEnable</object-name>
-        <property>/instrumentation/transponder/inputs/knob-mode</property>
-        <factor>1</factor>
-        <interpolation>
-            <entry>
-                <ind>5</ind>
-                <dep>-45</dep>
-            </entry>
-            <entry>
-                <ind>0</ind>
-                <dep>45</dep>
-            </entry>
-        </interpolation>
+        <property>/instrumentation/transponder/switch-power</property>
+        <factor>90</factor>
+        <offset-deg>-45</offset-deg>
         <center>
             <z-m>  0.007028 </z-m>
             <y-m> -0.038577 </y-m>
@@ -361,7 +349,7 @@
         </center>
         <axis>
             <x>  0 </x>
-            <y>  1 </y>
+            <y> -1 </y>
             <z>  0 </z>
         </axis>
     </animation>
@@ -373,7 +361,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>/instrumentation/transponder/mode</property>
+                <property>/instrumentation/transponder/switch-mode</property>
                 <value>1</value>
             </binding>
         </action>
@@ -392,7 +380,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>/instrumentation/transponder/mode</property>
+                <property>/instrumentation/transponder/switch-mode</property>
                 <value>0</value>
             </binding>
         </action>
@@ -408,18 +396,9 @@
     <animation>
         <type>rotate</type>
         <object-name>switchMode</object-name>
-        <property>/instrumentation/transponder/mode</property>
-        <factor>1</factor>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>-45</dep>
-            </entry>
-            <entry>
-                <ind>1</ind>
-                <dep>45</dep>
-            </entry>
-        </interpolation>
+        <property>/instrumentation/transponder/switch-mode</property>
+        <factor>90</factor>
+        <offset-deg>-45</offset-deg>
         <center>
             <z-m>  0.007028 </z-m>
             <y-m>  0.062832 </y-m>
