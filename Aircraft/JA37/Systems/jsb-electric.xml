@@ -787,53 +787,6 @@
 
 
     <channel execrate="4" name="Instruments">
-
-        <switch name="/instrumentation/comm[0]/power-good">
-            <description>
-                      Comm 1 / nav 1 power
-            </description>
-            <default value="0"/>
-            <test logic="AND" value="1">
-              /ja37/elec/ac-bus-main-volt gt 180
-              /instrumentation/comm[0]/serviceable == 1
-          </test>
-        </switch>
-
-        <switch name="/instrumentation/comm[1]/power-good">
-            <description>
-                      Comm 2 / nav 2 power
-            </description>
-            <default value="0"/>
-            <test logic="AND" value="1">
-              /ja37/elec/dc-bus-battery-3-volt gt 20
-              /instrumentation/comm[1]/serviceable == 1
-          </test>
-        </switch>
-
-        <pure_gain name="/systems/electrical/outputs/nav">
-            <description>
-                      Nav 1 power
-            </description>
-            <input>/ja37/elec/ac-bus-main-volt</input>
-            <gain>1</gain>
-        </pure_gain>
-
-        <pure_gain name="/systems/electrical/outputs/transponder">
-            <description>
-                      Transponder power
-            </description>
-            <input>/ja37/elec/ac-bus-main-volt</input>
-            <gain>1</gain>
-        </pure_gain>
-
-        <pure_gain name="/systems/electrical/outputs/adf">
-            <description>
-                      ADF power
-            </description>
-            <input>/ja37/elec/ac-bus-main-volt</input>
-            <gain>1</gain>
-        </pure_gain>
-
         <switch name="/instrumentation/iff/power">
             <default value="0"/>
             <test logic="AND" value="1">

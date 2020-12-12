@@ -1401,10 +1401,6 @@
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
-		<adf n="1">
-			<volume type="double">0</volume>
-			<volume-norm type="double">0</volume-norm>
-		</adf>
         <instrumentation-light>
             <serviceable type="bool">true</serviceable>
         </instrumentation-light>

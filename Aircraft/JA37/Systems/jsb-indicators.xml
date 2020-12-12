@@ -1276,13 +1276,7 @@
         
         <fcs_function name="systems/indicators/transponder">
             <function>
-                <or>
-                    <lt>
-                        <property>/systems/electrical/outputs/transponder</property>
-                        <value>20</value>
-                    </lt>
-                    <property>/controls/lighting/test-indicator-panels</property>
-                </or>
+                <property>/controls/lighting/test-indicator-panels</property>
             </function>
         </fcs_function>
 

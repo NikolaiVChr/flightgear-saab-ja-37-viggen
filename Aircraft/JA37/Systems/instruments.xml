@@ -1,59 +1,70 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-    <airspeed-indicator>
-        <name>airspeed-indicator</name>
-        <number>0</number>
-        <total-pressure>/systems/pitot[0]/total-pressure-inhg</total-pressure>
-        <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
-    </airspeed-indicator>
+  <airspeed-indicator>
+    <name>airspeed-indicator</name>
+    <number>0</number>
+    <total-pressure>/systems/pitot[0]/total-pressure-inhg</total-pressure>
+    <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
+  </airspeed-indicator>
 
-    <airspeed-indicator>
-        <name>airspeed-indicator</name>
-        <number>1</number>
-        <total-pressure>/systems/pitot[1]/total-pressure-inhg</total-pressure>
-        <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
-    </airspeed-indicator>
+  <airspeed-indicator>
+    <name>airspeed-indicator</name>
+    <number>1</number>
+    <total-pressure>/systems/pitot[1]/total-pressure-inhg</total-pressure>
+    <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
+  </airspeed-indicator>
 
-    <altimeter>
-        <name>altimeter</name>
-        <number>0</number>
-        <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
-        <quantum>0</quantum>
-        <tau>0.1</tau>
-    </altimeter>
+  <altimeter>
+    <name>altimeter</name>
+    <number>0</number>
+    <static-pressure>/systems/static[0]/pressure-inhg</static-pressure>
+    <quantum>0</quantum>
+    <tau>0.1</tau>
+  </altimeter>
 
-    <altimeter>
-        <name>altimeter</name>
-        <number>1</number>
-        <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
-        <quantum>0</quantum>
-        <tau>0.1</tau>
-    </altimeter>
+  <altimeter>
+    <name>altimeter</name>
+    <number>1</number>
+    <static-pressure>/systems/static[1]/pressure-inhg</static-pressure>
+    <quantum>0</quantum>
+    <tau>0.1</tau>
+  </altimeter>
 
-    <radar-altimeter>
-        <name>radar-altimeter</name>
-        <number>0</number>
-        <update-interval-sec>0.1</update-interval-sec>
-    </radar-altimeter>
+  <radar-altimeter>
+    <name>radar-altimeter</name>
+    <number>0</number>
+    <update-interval-sec>0.1</update-interval-sec>
+  </radar-altimeter>
 
-    <heading-indicator>
-        <name>heading-indicator</name>
-        <number>1</number>
-        <suction>/instrumentation/heading-indicator[1]/power</suction>
-    </heading-indicator>
+  <heading-indicator>
+    <name>heading-indicator</name>
+    <number>1</number>
+    <suction>/instrumentation/heading-indicator[1]/power</suction>
+  </heading-indicator>
 
-    <attitude-indicator>
-        <name>attitude-indicator</name>
-        <number>1</number>
-        <suction>/instrumentation/attitude-indicator[1]/power</suction>
-    </attitude-indicator>
+  <attitude-indicator>
+    <name>attitude-indicator</name>
+    <number>1</number>
+    <suction>/instrumentation/attitude-indicator[1]/power</suction>
+  </attitude-indicator>
+
+  <transponder>
+    <name>transponder</name>
+    <number>0</number>
+    <mode>1</mode><!-- 0: A, 1: C, 2: S -->
+    <encoder-path>/instrumentation/altimeter</encoder-path>
+    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
+  </transponder>
 
   <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
 
   <adf>
     <name>adf</name>
     <number>0</number>
+    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
   </adf>
 
   <attitude-indicator>
@@ -76,24 +87,21 @@
   <comm-radio>
     <name>comm</name>
     <number>0</number>
+    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
   </comm-radio>
 
   <nav-radio>
     <name>nav</name>
     <number>0</number>
+    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
   </nav-radio>
 
   <slip-skid-ball>
     <name>slip-skid-ball</name>
     <number>0</number>
   </slip-skid-ball>
-
-  <transponder>
-    <name>transponder</name>
-    <number>0</number>
-    <mode>1</mode><!-- 0: A, 1: C, 2: S -->
-    <encoder-path>/instrumentation/altimeter</encoder-path>
-  </transponder>
 
   <vertical-speed-indicator>
     <name>vertical-speed-indicator</name>
