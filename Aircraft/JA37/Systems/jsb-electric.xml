@@ -834,14 +834,6 @@
             <gain>1</gain>
         </pure_gain>
 
-        <pure_gain name="/systems/electrical/outputs/dme">
-            <description>
-                      DME power
-            </description>
-            <input>/ja37/elec/ac-bus-main-volt</input>
-            <gain>/instrumentation/dme/switch-position</gain>
-        </pure_gain>
-
         <switch name="/instrumentation/iff/power">
             <default value="0"/>
             <test logic="AND" value="1">

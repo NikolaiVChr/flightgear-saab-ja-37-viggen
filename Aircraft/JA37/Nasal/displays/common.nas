@@ -83,8 +83,6 @@ var Common = {
 			rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:    "instrumentation/radar-altimeter/ready",
 			vid:              "ja37/avionics/vid",
-			dme:              "instrumentation/dme/KDI572-574/nm",
-			dmeDist:          "instrumentation/dme/indicated-distance-nm",
 			RMActive:         "autopilot/route-manager/active",
 			rmDist:           "autopilot/route-manager/wp/dist",
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",

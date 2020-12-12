@@ -1204,19 +1204,6 @@
             </binding>
           </mod-ctrl>
          </key>
-         
-         <key n="92">
-            <name>\</name>
-            <desc>DME</desc>
-             <binding>
-                <command>property-toggle</command>
-                <property>instrumentation/dme/switch-position</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-         </key>
 
          <key n="81">
             <name>Q</name>
