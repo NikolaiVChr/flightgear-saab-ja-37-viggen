@@ -154,13 +154,13 @@
         <value>OFF</value>
         <condition>
             <equals>
-                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <property>/instrumentation/transponder/switch-power</property>
                 <value>0</value>
             </equals>
         </condition>
         <binding>
             <command>property-assign</command>
-            <property>/instrumentation/transponder/inputs/knob-mode</property>
+            <property>/instrumentation/transponder/switch-power</property>
             <value>0</value>
         </binding>
         <marker>

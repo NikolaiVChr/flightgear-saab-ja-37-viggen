@@ -7,13 +7,13 @@
         <value>ON</value>
         <condition>
             <equals>
-                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <property>/instrumentation/transponder/switch-power</property>
                 <value>5</value>
             </equals>
         </condition>
         <binding>
             <command>property-assign</command>
-            <property>/instrumentation/transponder/inputs/knob-mode</property>
+            <property>/instrumentation/transponder/switch-power</property>
             <value>5</value>
         </binding>
         <marker>
