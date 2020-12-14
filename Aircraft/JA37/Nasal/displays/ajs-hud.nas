@@ -167,7 +167,7 @@ var AltitudeBars = {
             me.bars[i-1] = make_path(me.group)
                 .moveTo(-100*i,0).vert(100*i).moveTo(100*i,0).vert(100*i);
         }
-        me.base_pos = 0;
+        me.bars_pos = -1;
         # Group centered on the top of the outer altitude bars.
         me.outer_bars_group = me.group.createChild("group");
 
