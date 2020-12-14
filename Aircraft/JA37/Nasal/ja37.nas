@@ -1284,6 +1284,70 @@ var test_support = func {
   print();
 }
 
+############################# random cockpit state for cold start ######
+
+var rand_bool = func (p=0.5) {
+  return rand() < p;
+}
+var rand_int = func (min, max) {
+  return min + math.floor(rand() * (max - min + 1));
+}
+var rand_double = func (min, max) {
+  return min + rand() * (max - min);
+}
+
+# Random switches in the cockpit. Value is probability that it is on.
+var random_switches = {
+  "controls/ventilation/airconditioning-enabled": 0.5,
+  "controls/electric/lights-ext-beacon": 0.5,
+  "controls/electric/lights-ext-form": 0.5,
+  "controls/altimeter-radar": 0.5,
+  "ja37/avionics/collision-warning": 0.5,
+  "controls/electric/engine[0]/generator": 0.5,
+  "ja37/hud/tracks-enabled": 0.5,
+  "controls/gear/brake-parking": 0.5,
+  "controls/engines/engine/reverser-cmd": 0.5,
+  "instrumentation/transponder/switch-power": 0.5,
+  "instrumentation/transponder/switch-mode": 0.5,
+  "ja37/hud/switch-hojd": 0.5,
+  "ja37/hud/switch-slav": 0.5,
+  # Not used under normal operation: usual position with high probability.
+  "controls/engines/engine[0]/cutoff-augmentation": 0.8,
+  "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
+  "controls/electric/reserve": 0.2,
+  "controls/fuel/auto": 0.8,
+};
+
+var random_multipos = {
+  "controls/electric/lights-ext-nav": [-1,1],
+  "controls/electric/lights-land-switch": [-1,1],
+  "controls/electric/lights-ext-form-bright": [0,3],
+  "instrumentation/iff/power-knob": [0,2],
+  "instrumentation/iff/channel": [1,11],
+};
+
+var random_continuous = {
+  "ja37/hud/brightness-si": [0.55,1],
+  "controls/lighting/flood-knob": [0,1],
+  "controls/lighting/instruments-knob": [0,1],
+  "controls/ventilation/airconditioning-temperature": [12,26],
+  "controls/ventilation/windshield-hot-air-knob": [0,1],
+  "instrumentation/altimeter/setting-hpa": [990,1030],
+  "instrumentation/altimeter[1]/setting-hpa": [990,1030],
+};
+
+var random_cockpit_state = func {
+  foreach (var prop; keys(random_switches)) {
+    setprop(prop, rand_bool(random_switches[prop]));
+  }
+  foreach (var prop; keys(random_multipos)) {
+    setprop(prop, rand_int(random_multipos[prop][0], random_multipos[prop][1]));
+  }
+  foreach (var prop; keys(random_continuous)) {
+    setprop(prop, rand_double(random_continuous[prop][0], random_continuous[prop][1]));
+  }
+}
+
 ############################# main init ###############
 
 
@@ -1354,14 +1418,7 @@ var main_init = func {
   var state = getprop("ja37/systems/state");
 
   if(state == "parked") {
-    setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
-    setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-form", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-beacon", rand()>0.5?TRUE:FALSE);
-    setprop("controls/electric/lights-ext-nav", math.floor(rand()*3) - 1);     # between -1 and 1
-    setprop("controls/electric/lights-land-switch", math.floor(rand()*3) - 1); # between -1 and 1
-    setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
+    random_cockpit_state();
   }
 
   # start the main loop
