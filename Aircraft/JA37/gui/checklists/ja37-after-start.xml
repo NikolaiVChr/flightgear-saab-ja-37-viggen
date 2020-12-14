@@ -9,10 +9,10 @@
         <name>Displays (HUD: 40s after AC power)</name>
         <value>ON</value>
         <marker>
-            <x-m>-4.0300</x-m>
-            <y-m>0.1200</y-m>
-            <z-m>0.3600</z-m>
-            <scale>2.0</scale>
+            <x-m>-4.0400</x-m>
+            <y-m>0.1100</y-m>
+            <z-m>0.4200</z-m>
+            <scale>1.2</scale>
         </marker>
         <condition>
             <property>/ja37/displays/on</property>
@@ -99,7 +99,7 @@
             <x-m>-3.9504</x-m>
             <y-m>0.3256</y-m>
             <z-m>0.2405</z-m>
-            <scale>2.1074</scale>
+            <scale>4</scale>
         </marker>
     </item>
     <item>

@@ -662,7 +662,6 @@
             <xtank type="bool">false</xtank>
             <fun type="bool">false</fun>
             <welcome type="bool">false</welcome>
-            <roll-trim-centered type="bool">true</roll-trim-centered>
             <annunciator>
                 <serviceable type="bool">true</serviceable>
             </annunciator>

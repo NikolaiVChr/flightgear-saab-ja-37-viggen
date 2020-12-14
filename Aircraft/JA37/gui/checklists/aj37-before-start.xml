@@ -438,7 +438,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <property>/ja37/avionics/roll-trim-centered</property>
+                <property>/instrumentation/indicators/roll-trim-centered</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -478,7 +478,7 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <property>/ja37/avionics/yaw-trim-centered</property>
+                <property>/instrumentation/indicators/yaw-trim-centered</property>
             </condition>
             <binding>
                 <command>property-assign</command>
@@ -660,7 +660,7 @@
                 <x-m>-3.9504</x-m>
                 <y-m>0.2400</y-m>
                 <z-m>0.2900</z-m>
-                <scale>2.1074</scale>
+                <scale>4</scale>
             </marker>
         </item>
         <item>
