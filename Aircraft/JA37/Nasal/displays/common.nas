@@ -122,6 +122,8 @@ var Common = {
 		co.qfe_warn_climb_armed = FALSE;
 		co.qfe_warn_land_armed = FALSE;
 		co.qfe_warn_descent_armed = FALSE;
+		co.qfe_warn_takeoff_time = nil;
+		co.qfe_warn_time = nil;
 
       	return co;
 	},
