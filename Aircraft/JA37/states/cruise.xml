@@ -9,29 +9,20 @@
           <presets>
             <speed-set type="string">knots</speed-set>
             <airspeed-kt type="int">300</airspeed-kt>
-            <pitch-deg type="double">0.0</pitch-deg>
-            <roll-deg type="double">0</roll-deg>
-            <uBody-fps type="double">263</uBody-fps>
-            <vBody-fps type="double">0</vBody-fps>
-            <wBody-fps type="double">0</wBody-fps>
-            <glideslope-deg type="double">0</glideslope-deg>
             <trim type="bool">true</trim>
             <onground type="bool">false</onground>
+            <running type="bool">true</running>
           </presets>
         </sim>
         <fdm>
             <jsbsim>
-                <names>
-                    <canopy>
-                        <pos-norm type="double">0</pos-norm>
-                    </canopy>
-                    <gear-pos-norm type="double">0</gear-pos-norm>
-                </names>
                 <gear>
-                    <gear-cmd-norm type="bool">true</gear-cmd-norm>
+                    <gear-lever-norm type="double">0</gear-lever-norm>
+                    <gear-pos-norm type="double">0</gear-pos-norm>
                 </gear>
                 <fcs>
                     <canopy>
+                        <pos-norm type="double">0</pos-norm>
                         <engage type="bool">false</engage>
                     </canopy>
                 </fcs>
@@ -42,7 +33,6 @@
                 </propulsion>
                 <systems>
                     <external>
-                        <switch type="bool">false</switch>
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
                     <electrical>
@@ -63,6 +53,7 @@
                     <cutoff type="bool">false</cutoff>
                     <reverser-cmd type="bool">false</reverser-cmd>
                     <throttle-cutoff type="bool">false</throttle-cutoff>
+                    <throttle type="double">0.3</throttle>
                 </engine>
             </engines>
             <electric>
@@ -70,19 +61,18 @@
                     <generator type="bool">true</generator>
                 </engine>
                 <main type="bool">true</main>
-                <battery type="bool">false</battery>
                 <reserve type="bool">false</reserve>
                 <lights-ext-beacon type="bool">true</lights-ext-beacon>
                 <lights-ext-nav type="int">1</lights-ext-nav>
                 <lights-ext-form type="int">1</lights-ext-form>
                 <lights-land-switch type="int">1</lights-land-switch>
-                <main type="bool">true</main>
             </electric>
             <fuel>
                 <auto type="bool">true</auto>
             </fuel>
             <gear>
                 <gear-down type="bool">false</gear-down>
+                <brake-parking type="bool">false</brake-parking>
             </gear>
         </controls>
         <engines>
@@ -100,11 +90,9 @@
             <systems>
                 <state type="string">cruise</state>
             </systems>
-            <hud>
-                <units-metric type="bool">false</units-metric>
-            </hud>
             <avionics>
-                <!--<master-warning-button type="bool">true</master-warning-button>-->
+                <!-- immediately initialize INS / ADC -->
+                <init-done type="bool">true</init-done>
             </avionics>
         </ja37>
     </overlay>

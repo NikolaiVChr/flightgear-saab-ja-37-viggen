@@ -5,6 +5,11 @@
     <name type="string" n="0">take-off</name>
 
     <overlay>
+        <sim>
+          <presets>
+            <running type="bool">true</running>
+          </presets>
+        </sim>
         <fdm>
             <jsbsim>
                 <fcs>

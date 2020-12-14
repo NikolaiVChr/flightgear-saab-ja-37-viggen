@@ -202,3 +202,25 @@ var initialize = func {
         setlistener(input.selector_ajs, selector_callback, 1, 0);
     }
 };
+
+# Initialization when starting the simulator in the air.
+var nav_init = func {
+    if (variant.JA) {
+        main_ja = NAV;
+        takeoff_30s_inhibit = FALSE;
+    } else {
+        takeoff = FALSE;
+    }
+}
+
+var landing_init = func {
+    if (variant.JA) {
+        takeoff_30s_inhibit = FALSE;
+        main_ja = LANDING;
+        land.LF();
+    } else {
+        takeoff = FALSE;
+        landing = TRUE;
+        land.LND_PO();
+    }
+}

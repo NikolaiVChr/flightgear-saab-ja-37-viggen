@@ -51,7 +51,8 @@
 
         <state n="0" include="states/cold-and-dark.xml"/>
         <state n="1" include="states/ready-for-takeoff.xml"/>
-        <!--<state n="2" include="states/cruise.xml"/>-->
+        <state n="2" include="states/cruise.xml"/>
+        <state n="3" include="states/approach.xml"/>
 
         <submodels>
             <serviceable type="bool">1</serviceable>
@@ -1406,8 +1407,8 @@
         </instrumentation-light>
         <transponder>
             <id-code type="int">0000</id-code>  <!-- military code -->
-            <switch-power type="bool">0</switch-power>
-            <switch-mode type="bool">0</switch-mode>
+            <switch-power type="bool">true</switch-power>
+            <switch-mode type="bool">true</switch-mode>
         </transponder>
         <radar>
             <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->

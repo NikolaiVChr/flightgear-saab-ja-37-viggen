@@ -1351,7 +1351,9 @@ var main_init = func {
   # Setup lightning listener
   setlistener("/environment/lightning/lightning-pos-y", thunder_listener);
 
-  if(getprop("ja37/systems/state") == "parked") {
+  var state = getprop("ja37/systems/state");
+
+  if(state == "parked") {
     setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
     setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
     setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
@@ -1365,18 +1367,25 @@ var main_init = func {
   # start the main loop
   saab37.loopSystem();
 
-  if (getprop("ja37/systems/state") == "cruise") {
-      #setprop("position/altitude-ft", 20000);
-      #setprop("velocities/mach", 0.65);
-      setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
-      setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
-      setprop("controls/gear/gear-down", 0);
-      autoflight.System.engageMode(3);
-      settimer(cruise, 1.5);
-  } else {
-    setprop("fdm/jsbsim/gear/gear-filtered-norm", 1);
-    setprop("fdm/jsbsim/gear/gear-pos-norm", 1);
+  # Starting with all systems on.
+  if (getprop("/ja37/avionics/init-done")) {
+    mainTimer = -100;
+    mainOn = TRUE;
   }
+
+  # Initialize state of nasal systems when starting in the air.
+  if (state == "cruise") {
+    modes.nav_init();
+    autoflight.System.engageMode(2);
+    # JSBSim autopilot needs a bit of time before selecting altitude hold.
+    # Otherwise target altitude is 0.
+    settimer(func {autoflight.System.engageMode(3);}, 0);
+  }
+  if (state == "approach") {
+    modes.landing_init();
+    autoflight.System.engageMode(2);
+  }
+
   recharge_battery();
   setup_custom_stick_bindings();
   settimer(func{setprop("fdm/jsbsim/systems/electrical/generator-takeoff",0);},10);

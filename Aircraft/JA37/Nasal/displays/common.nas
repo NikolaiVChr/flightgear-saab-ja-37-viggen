@@ -102,6 +102,12 @@ var Common = {
 		co.ci_on = FALSE;
 		co.mi_ti_on = FALSE;
 
+		# Starting with all systems on.
+		if (getprop("/ja37/avionics/init-done")) {
+			co.power_time = -100;
+			co.ep12_on = TRUE;
+		}
+
       	co.currArmName = "None";
       	co.currArmNameMedium = "";
       	co.currArmNameSh = "--";
@@ -167,7 +173,7 @@ var Common = {
 		}
 
 		# SI is on 40s after power and 'within 2s' of EP12 on.
-		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1); # TMP for dev
+		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1);
 		# MI/TI are on 'within 2s' of EP12 on.
 		me.mi_ti_on = (time - me.displays_on_time >= 1);
 
@@ -492,13 +498,3 @@ var Common = {
 };
 
 var common = Common.new();
-
-
-
-var init = func {
-	removelistener(idl); # only call once
-	common.loop();
-	common.loopFast();
-}	
-
-#idl = setlistener("ja37/supported/initialized", init, 0, 0);
