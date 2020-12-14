@@ -10,6 +10,7 @@
                 <fcs>
                     <canopy>
                         <engage type="bool">false</engage>
+                        <pos-norm type="double">0</pos-norm>
                     </canopy>
                 </fcs>
                 <propulsion>
@@ -19,7 +20,6 @@
                 </propulsion>
                 <systems>
                     <external>
-                        <switch type="bool">false</switch>
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
                     <electrical>
@@ -47,13 +47,11 @@
                     <generator type="bool">true</generator>
                 </engine>
                 <main type="bool">true</main>
-                <battery type="bool">false</battery>
                 <reserve type="bool">false</reserve>
                 <lights-ext-beacon type="bool">true</lights-ext-beacon>
                 <lights-ext-nav type="int">1</lights-ext-nav>
                 <lights-ext-form type="int">1</lights-ext-form>
                 <lights-land-switch type="int">1</lights-land-switch>
-                <main type="bool">true</main>
             </electric>
             <fuel>
                 <auto type="bool">true</auto>
@@ -75,7 +73,7 @@
                 <state type="string">ready</state>
             </systems>
             <avionics>
-                <!--<master-warning-button type="bool">true</master-warning-button>-->
+                <!-- immediately initialize INS / ADC -->
                 <init-done type="bool">true</init-done>
             </avionics>
         </ja37>

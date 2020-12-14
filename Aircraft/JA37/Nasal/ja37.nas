@@ -1156,8 +1156,6 @@ var battery_listener = func {
 }
 
 #setlistener("controls/electric/main", battery_listener, 0, 0);
-#setlistener("controls/electric/battery", battery_listener, 0, 0);
-#setlistener("fdm/jsbsim/systems/electrical/external/switch", battery_listener, 0, 0);
 #setlistener("fdm/jsbsim/systems/electrical/external/enable-cmd", battery_listener, 0, 0);
 
 
@@ -1299,10 +1297,6 @@ var main_init = func {
   test_support();
 
   hack.init();
-  if (getprop("ja37/systems/state") != "parked") {
-    # to prevent battery from starting drained when choosing state with engine on we have to delay turning it on.
-    setprop("controls/electric/battery", TRUE);
-  }
   #setprop("ja37/avionics/master-warning-button", 0);# for when starting up with engines running, to prevent master warning.
 
 #  aircraft.data.add("ja37/hud/units-metric",
@@ -1398,13 +1392,6 @@ var setup_custom_stick_bindings = func {
   var dlg = gui.Dialog.new("/sim/gui/dialogs/button-config/dialog", "Aircraft/JA37/gui/dialogs/button-config.xml", "button-config");
 }
 
-
-
-var cruise = func {
-  setprop("controls/gear/gear-down", 0);
-  setprop("fdm/jsbsim/gear/gear-filtered-norm", 0);
-  setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
-}
 
 # re init
 var re_init = func {
@@ -1503,7 +1490,6 @@ var autostarttimer = func {
 var stopAutostart = func {
   if (!variant.JA) setprop("/ja37/mode/selector-ajs", 1); # STBY
   setprop("/controls/electric/main", FALSE);
-  setprop("/controls/electric/battery", FALSE);
   setprop("/controls/engines/engine/throttle", 0);
   settimer(stopFinal, 5, 1);#allow time for ram air and flaps to retract
 }
@@ -1515,7 +1501,6 @@ stopFinal = func {
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
-  setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
   setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
   autostarting = FALSE;
 }
@@ -1526,7 +1511,6 @@ var startSupply = func {
   if (getprop("fdm/jsbsim/systems/electrical/external/available") == TRUE) {
     # using ext. power
     click();
-    setprop("fdm/jsbsim/systems/electrical/external/switch", TRUE);
     setprop("/controls/electric/main", TRUE);
     setprop("controls/electric/reserve", FALSE);
     notice("Enabling power using external supply.");
@@ -1534,7 +1518,6 @@ var startSupply = func {
   } elsif (getprop("ja37/elec/dc-bus-battery-3-volt") > 20) {
     # using battery
     click();
-    setprop("/controls/electric/battery", TRUE);
     setprop("/controls/electric/main", TRUE);
     setprop("controls/electric/reserve", FALSE);
     notice("Enabling power using battery.");
@@ -1643,9 +1626,7 @@ var final_engine = func () {
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     notice("Engine ready.");
-    setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
-    setprop("/controls/electric/battery", TRUE);
     if (variant.JA) {
         displays.common.toggleJAdisplays(TRUE);
     } else {
