@@ -983,6 +983,12 @@
             </aero>
             <inertia>
                 <asymmetric-wing-load type="int">0</asymmetric-wing-load>
+                <pointmass-dragarea-sqft n="1" type="double">0</pointmass-dragarea-sqft>
+                <pointmass-dragarea-sqft n="2" type="double">0</pointmass-dragarea-sqft>
+                <pointmass-dragarea-sqft n="3" type="double">0</pointmass-dragarea-sqft>
+                <pointmass-dragarea-sqft n="4" type="double">0</pointmass-dragarea-sqft>
+                <pointmass-dragarea-sqft n="5" type="double">0</pointmass-dragarea-sqft>
+                <pointmass-dragarea-sqft n="6" type="double">0</pointmass-dragarea-sqft>
             </inertia>
             <propulsion>
                 <starter_cmd_copy type="bool">false</starter_cmd_copy>
@@ -1218,6 +1224,7 @@
                 <!-- Initialization required for JSBSim -->
                 <dist type="double">0</dist>
                 <bearing-deg type="double">0</bearing-deg>
+                <true-bearing-deg type="double">0</true-bearing-deg>
             </wp>
             <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
             <disable-fms type="bool">true</disable-fms>
