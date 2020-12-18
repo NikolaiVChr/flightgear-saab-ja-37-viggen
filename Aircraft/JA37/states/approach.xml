@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <name type="string" n="0">approach</name>
+
+    <overlay>
+        <sim>
+          <presets>
+            <speed-set type="string">knots</speed-set>
+            <airspeed-kt type="int">200</airspeed-kt>
+            <trim type="bool">true</trim>
+            <onground type="bool">false</onground>
+            <running type="bool">true</running>
+          </presets>
+        </sim>
+        <fdm>
+            <jsbsim>
+                <names>
+                    <canopy>
+                        <pos-norm type="double">0</pos-norm>
+                    </canopy>
+                </names>
+                <fcs>
+                    <canopy>
+                        <engage type="bool">false</engage>
+                    </canopy>
+                </fcs>
+                <propulsion>
+                    <engine>
+                        <cutoff-commanded type="bool">false</cutoff-commanded>
+                    </engine>
+                </propulsion>
+                <systems>
+                    <external>
+                        <enable-cmd type="bool">false</enable-cmd>
+                    </external>
+                    <electrical>
+                        <generator-takeoff type="bool">true</generator-takeoff>
+                    </electrical>
+                </systems>
+            </jsbsim>
+        </fdm>
+        <controls>
+            <oxygen type="bool">true</oxygen>
+            <altimeter-radar type="bool">true</altimeter-radar>
+            <ventilation>
+                <airconditioning-enabled type="bool">true</airconditioning-enabled>
+            </ventilation>
+            <engines>
+                <engine n="0">
+                    <starter-cmd type="bool">true</starter-cmd>
+                    <cutoff type="bool">false</cutoff>
+                    <reverser-cmd type="bool">false</reverser-cmd>
+                    <throttle-cutoff type="bool">false</throttle-cutoff>
+                    <throttle type="double">0.3</throttle>
+                </engine>
+            </engines>
+            <electric>
+                <engine n="0">
+                    <generator type="bool">true</generator>
+                </engine>
+                <main type="bool">true</main>
+                <reserve type="bool">false</reserve>
+                <lights-ext-beacon type="bool">true</lights-ext-beacon>
+                <lights-ext-nav type="int">1</lights-ext-nav>
+                <lights-ext-form type="int">1</lights-ext-form>
+                <lights-land-switch type="int">1</lights-land-switch>
+            </electric>
+            <fuel>
+                <auto type="bool">true</auto>
+            </fuel>
+            <gear>
+                <brake-parking type="bool">false</brake-parking>
+            </gear>
+        </controls>
+        <engines>
+            <engine n="0">
+                <running type="bool">true</running>
+            </engine>
+        </engines>
+        <ja37>
+            <mode>
+                <selector-ajs type="int">6</selector-ajs><!-- LANDING OPT -->
+            </mode>
+            <radar>
+                <enabled type="bool">true</enabled>
+            </radar>
+            <systems>
+                <state type="string">approach</state>
+            </systems>
+            <avionics>
+                <!-- immediately initialize INS / ADC -->
+                <init-done type="bool">true</init-done>
+            </avionics>
+        </ja37>
+    </overlay>
+
+</PropertyList>
