@@ -148,9 +148,8 @@ var toggle_aiming_mode = func {
 # This function handles submodes (i.e. anything that does not only depend on the selector position).
 # The rest is done in the mode selector listener below.
 var update_mode_ajs = func {
-    # Update combat mode
     # Update takeoff submode
-    if (selector_ajs != NAV) {
+    if (selector_ajs < NAV or selector_ajs > RECO) {
         takeoff = FALSE;
     } elsif (input.wow_nose.getBoolValue()) {
         takeoff = TRUE;
