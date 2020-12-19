@@ -3943,3 +3943,105 @@ RWR: {Colin} Rework AJS RWR lights
 RWR: {Colin} Add sounds (off by default, controlled by the volume knob on the RWR panel)
 Radar: {J Maverick 16} Update RCS database
 Input: {Colin} Fix left/right arrow keys being non-repeatable
+
+
+v5.0.0 - 2020 December ??
+===
+Minimum supported version is 2020.3.1.
+2020.1.* should work, except for multiplayer damage.
+2018.* should be mostly usable, with some bugs.
+Anything before that may be largely broken.
+
+Major changes:
+- Removed AJ-37 variant (almost no differences with AJS-37).
+- Added a flight manual.
+- Front panel instruments rework (3D models and logic)
+- Rework JA HUD.
+  For navigation HUD: visual changes, minor logic fixes, remove some inacurrate indicators.
+  Significant rework of combat mode (renamed to aiming mode).
+  Completely new A/A and A/G cannon and rocket sights.
+- Rework JA MI (radar displays).
+  Changed to a B-scope display. Better refresh rate.
+  More accurate symbols (from pictures/videos of the real MI).
+- New AJS radar panel, with the main mode selector knob.
+- Completely new AJS HUD.
+- Add IFF system
+- Add JA datalink. More realistic display of radar contacts on TI.
+- Major rework of fire control systems.
+  * Removed master arm, added trigger safety / weapon arming (keybinding shift-E).
+  * Weapons can be fired of navigation mode.
+    Combat/aiming mode provides additional aiming information.
+  * For AJS: radar lock is no longer possible.
+    All weapons have been adapted to be fired without radar lock.
+  * New weapon selection keybindings: 'u' selects A/A missiles, 'C' selects cannon (JA only)
+- New multiplayer damage system, using the emesary notification framework.
+  * Removed all MP chat damage messages
+  * Missiles/flares are shown over MP
+  * Added missile launch / missile radar warning
+
+Other changes:
+Sim: Trim switches require DC power
+Nav: Allow waypoint selection using AJS navpanel
+Sim: Fixes in FG/Viggen flightplans interface
+Remove dead code for FG default HUD
+Keybindings: Remove some confusings/dubious shortcuts
+Sim: Rework airbrakes
+FDM: Rework landing gear steering and brakes
+Model: Fix AJS heading indicator movements logic
+Sim: Implement proper radar altimeter
+Nasal: Remove support code for FG versions < 2016
+Nasal: Remove some files duplicated from FGData
+TI: Make zoom controls non-cyclic
+RWR: Adapt RWR sound volumes depending on frequency
+Sim: Select next waypoint when TAKEOFF mode stops
+Displays: Fix several true/magnetic heading issues
+RWR: Desynchronise beeps periods
+Model: Remove inaccurate AJS landing mode switches
+Model: Remove many dead 3D model/texture files
+Help: Shortuen and update help menu text
+Model: Work around lights LOD issue
+Stores: Complete rework of stores system (backend code cleanup)
+States: Remove ready-for-long-range-combat state
+Arm: Hide RB05 flare / M71 chute when jettisoning
+Model: Show external stores during replay
+Sim: Remove several deprecated MP properties
+Arms: Use drag-coeff-deploy for M71R.
+Arms: Stable uncontrolled trajectory for Rb05
+Input: Rework cursor controls
+Radar: Update RCS database
+Arms: Update some A/A missiles parameters
+Missile: Add terrain follow standby guidance
+Missile: Fix G-load being overestimated by 1
+Missile: Stop terrain follow hysteresis over sea
+Missile: Do min speed check for all guidance modes
+Arms: More realistic Rb 04 and Rb 15
+Arms: Fire all m/70 together, with 100ms interval
+Displays: Compute cursor position with JSBSim
+Arms: Improve and update IR seeker logic
+TI: IR seeker cage button disables auto-uncage
+Model: Increase size of AJS navpanel
+Missile: Fix hit report on ground collision
+Effects: Remove duplicate engine exhaush shaders
+Displays: Simulate power/pre-heating logic
+Radar: Restrict search angle for centerTarget()
+Displays: Rework QFE warning logic
+Keybindings: Fix HUD brightness keybinding
+Displays: Change ammo count display for cannon/rockets
+Model: Smaller gun splash model
+Model: Add 'noshadow' to cannon shell models
+Submodels: Add randomness to shells and rockets
+Checklists: Update checklists to follow changes to displays
+Checklists: Fix several incorrect markers, bindings, conditions
+Missile: Fix caged and locked seeker behaviour
+Arms: Allow M90 to lock on target after launch
+Arms: Rework Rb 75, implement manual seeker controls
+Sounds: Remove AJS non-IR missile lock sounds
+Arms: Adjust firing axis of cannons/rockets
+Nav: Disable AJS waypoint change in modes ANF/SPA
+CI: Turn on in landing mode, and with PASSIV SPAN
+Sim: Transponder fixes and improvements
+Sim: Remove DME
+Sim: Simplify code for instruments power supply
+Sim: Fix initial view when starting in pause
+Sim: Rework in-air start states
+View: Do not force FOV on startup
