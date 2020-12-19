@@ -170,7 +170,7 @@ var HUDCanvas = {
             .set("blend-source-alpha","zero")
             .set("blend-destination-rgb","one")
             .set("blend-destination-alpha","one-minus-src-alpha")
-            .set("src", "Aircraft/JA37/gui/canvas-blend-mask/hud-global-mask.png");
+            .set("src", "Aircraft/JA37/Nasal/displays/hud-mask.png");
 
         # Group centered on the aircraft forward axis.
         me.forward_axis = me.optical_axis.createChild("group", "forward axis")
