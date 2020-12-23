@@ -553,27 +553,6 @@
             </binding>
         </item>
         <item>
-            <name>Radar frequency</name>
-            <value>B</value>
-            <marker>
-                <x-m>-3.6413</x-m>
-                <y-m>-0.2917</y-m>
-                <z-m>0.0917</z-m>
-                <scale>1.5124</scale>
-            </marker>
-            <condition>
-                <equals>
-                    <property>ja37/radar/panel/knob-1</property>
-                    <value>2</value>
-                </equals>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>ja37/radar/panel/knob-1</property>
-                <value>2</value>
-            </binding>
-        </item>
-        <item>
             <name>Radio</name>
             <value>SET</value>
             <marker>
