@@ -420,11 +420,11 @@ var Common = {
 				me.ref_alt += me.input.alt_m.getValue() - me.input.alt_bar_m.getValue();
 			}
 			me.ref_alt_ldg_override = FALSE;
-		} elsif (modes.landing and !me.ref_alt_ldg_override) {
+		} elsif (modes.landing) {
 			# me.ref_alt_ldg_override indicates that the altitude was manually selected
 			# with the reference altitude button while in LANDING mode.
 			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
-			me.ref_alt = 500;
+			if (!me.ref_alt_ldg_override) me.ref_alt = 500;
 		} else {
 			# navigation mode
 			me.ref_alt_ldg_override = FALSE;
