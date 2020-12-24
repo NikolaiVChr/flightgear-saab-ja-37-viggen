@@ -1238,48 +1238,42 @@ var play_thunder = func (name, timeout=0.1, delay=0) {
 };
                 
 ###############  Test which system the flightgear version support.  ###########
+var lexi_compare = func (v1, v2) {
+  var s1 = size(v1);
+  var s2 = size(v2);
+  var s = math.min(s1, s2);
+  for (var i=0; i<s; i+=1) {
+    if (v1[i] < v2[i]) return -1;
+    elsif (v1[i] > v2[i]) return 1;
+  }
+
+  if (s1 < s2) return -1;
+  elsif (s1 > s2) return 1;
+  else return 0;
+}
 
 var test_support = func {
  
   var versionString = getprop("sim/version/flightgear");
+  var minVersionString = getprop("sim/minimum-fg-version");
   var version = split(".", versionString);
-  var major = num(version[0]);
-  var minor = num(version[1]);
-  var detail = num(version[2]);
-  if (major < 2016) {
-    notice("Saab 37 is only supported in Flightgear version 2016.1.1 and upwards. Sorry.");
-    setprop("ja37/supported/picking", FALSE);
-    setprop("ja37/supported/multiple-flightplans", FALSE);
-  } elsif (major == 2016) {
-    setprop("ja37/supported/picking", FALSE);
-    setprop("ja37/supported/multiple-flightplans", FALSE);
-  } elsif (major == 2017) {
-    setprop("ja37/supported/picking", FALSE);
-    setprop("ja37/supported/multiple-flightplans", FALSE);
-    if (minor == 2) {
-      setprop("ja37/supported/picking", TRUE);
-    }
-    if (minor == 3) {
-      setprop("ja37/supported/picking", TRUE);
-      if (detail > 0) {
-        setprop("ja37/supported/multiple-flightplans", TRUE);
-      }
-    }
-    if (minor == 4) {
-      setprop("ja37/supported/picking", TRUE);
-      setprop("ja37/supported/multiple-flightplans", TRUE);
-    }
-  } else {
-    # future proof
-    setprop("ja37/supported/picking", TRUE);
-    setprop("ja37/supported/multiple-flightplans", TRUE);
+  var minVersion = split(".", minVersionString);
+
+  setprop("ja37/supported/picking", lexi_compare(version, [2017,2]) >= 0);
+  setprop("ja37/supported/multiple-flightplans", lexi_compare(version, [2017,3,1]) >= 0);
+  setprop("ja37/supported/compositor", lexi_compare(version, [2020,4,0]) >= 0);
+
+  if (lexi_compare(version, minVersion) < 0) {
+    notice("Minimum supported Flightgear version for Saab 37 is "~minVersion);
+    notice("Some functionalities will not work as expected");
   }
+
   setprop("ja37/supported/initialized", TRUE);
 
   print();
   print("***************************************************************");
-  print("         Initializing "~getprop("sim/description")~" systems.           ");
-  print("           Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]~"            ");
+  print("         Initializing "~getprop("sim/description")~" systems.");
+  print("           Version "~getprop("sim/aircraft-version")~" on Flightgear "~versionString);
   print("***************************************************************");
   print();
 }
