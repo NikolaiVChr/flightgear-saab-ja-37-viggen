@@ -6,6 +6,7 @@ var maxModeTemp = 0;
 var mode = props.globals.getNode("/fdm/jsbsim/autoflight/mode"); # 0 GSA, 1 STICK, 2 ATT, 3 ALT
 var highAlpha = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha"); # 0 OFF, 1 ON
 var highAlphaAllowed = props.globals.getNode("/fdm/jsbsim/autoflight/high-alpha-can-engage-out");
+var athrDisengage = props.globals.getNode("/fdm/jsbsim/autoflight/athr-quick-disengage");
 var apSoftWarn = props.globals.getNode("/ja37/avionics/autopilot-soft-warn");
 var wow = props.globals.getNode("/fdm/jsbsim/position/wow");
 var downgradeWarning = [ # 0: off, 1: steady, 2: blinking
@@ -32,6 +33,10 @@ var System = {
 	},
 	apQuickDisengage: func() {
 		mode.setValue(0);
+	},
+	athrQuickDisengage: func() {
+		athrDisengage.setValue(1);
+		settimer(func { athrDisengage.setValue(0); }, 0.1);
 	},
 };
 

@@ -1781,6 +1781,16 @@ var cycleSmoke = func() {
     }
 }
 
+# Button on AJS throttle. Gear up: IR quick select, gear down: A/T disengage.
+var selectIR_disengageAT = func() {
+  if (input.gearsPos.getValue() > 0) {
+    autoflight.System.athrQuickDisengage();
+  } else {
+    fire_control.quick_select_missile();
+  }
+}
+
+
 var popupTip = func(label, y = 25, delay = nil) {
     gui.popupTip(label, delay, nil, {"y": y});
 }

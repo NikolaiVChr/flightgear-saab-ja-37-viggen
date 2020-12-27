@@ -350,7 +350,11 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    fire_control.quick_select_missile();
+                    if (variant.JA) {
+                        fire_control.quick_select_missile();
+                    } else {
+                        ja37.selectIR_disengageAT();
+                    }
                     ja37.click();
                 </script>
             </binding>
@@ -1571,7 +1575,7 @@
 
         <key n="19">
           <name>Ctrl-S</name>
-          <desc>Toggle auto-throttle lock</desc>
+          <desc>Toggle auto-throttle</desc>
           <binding>
             <command>property-toggle</command>
             <property>/fdm/jsbsim/autoflight/athr-cmd</property>
@@ -1581,20 +1585,11 @@
           <name>Ctrl-G</name>
           <desc>Autothrottle quick-disengage</desc>
           <binding>
-            <command>property-assign</command>
-            <property>/fdm/jsbsim/autoflight/athr-quick-disengage</property>
-            <value>1</value>
-          </binding>
-          <mod-up>
-            <binding>
-              <command>property-assign</command>
-              <property>/fdm/jsbsim/autoflight/athr-quick-disengage</property>
-              <value>0</value>
-            </binding>
-          </mod-up>
-          <binding>
             <command>nasal</command>
-            <script>ja37.click();</script>
+            <script>
+              autoflight.System.athrQuickDisengage();
+              ja37.click();
+            </script>
           </binding>
         </key>
 
