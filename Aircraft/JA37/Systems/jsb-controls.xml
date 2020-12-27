@@ -1339,7 +1339,7 @@
 
       <pure_gain name="names/cursor/rb05-control-pitch">
         <input>names/cursor/cursor-slew-y</input>
-        <gain>10</gain>
+        <gain>-10</gain>
         <output>/payload/armament/rb05-control-pitch</output>
       </pure_gain>
     </channel>
