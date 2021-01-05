@@ -611,6 +611,10 @@ var Heading = {
         var center_mark = math.round(track, 5);
 
         me.marker_grp.setTranslation((center_mark - track) * me.scale_factor, 0);
+        # update() required: otherwise show()/hide() applies immediately,
+        # while other changes wait for the next frame.
+        me.marker_grp.update();
+
         forindex (var i; me.markers) {
             var hdg = geo.normdeg(center_mark + (i-2) * 5);
             var long = math.mod(hdg, 10) == 0;
@@ -726,9 +730,10 @@ var Altitude = {
 
         hide: func { me.group.hide(); },
         show: func { me.group.show(); },
-        set_pos: func(pos) { me.group.setTranslation(0, pos); },
 
-        update: func(alt, long, show_text) {
+        update: func(pos, alt, long, show_text) {
+            me.group.setTranslation(0, pos);
+
             # Marker length
             if (long and !me.long) {
                 me.long = TRUE;
@@ -745,6 +750,10 @@ var Altitude = {
                 me.text.updateText(displays.sprintalt(alt, TRUE));  # second arg disables conversion
                 me.text.show();
             }
+
+            # update() required: otherwise show()/hide() applies immediately,
+            # while other changes wait for the next frame.
+            me.group.update();
         },
     },
 
@@ -899,8 +908,7 @@ var Altitude = {
                     var show_text = long_mark;
                 }
 
-                me.lin_markers[i].set_pos(pos);
-                me.lin_markers[i].update(alt, long_mark, show_text);
+                me.lin_markers[i].update(pos, alt, long_mark, show_text);
                 me.lin_markers[i].show();
             }
             i += 1;
