@@ -7,7 +7,7 @@ var input = {
     landing:        "/ja37/hud/landing-mode",
     approach:       "/ja37/avionics/approach",
     takeoff:        "/ja37/mode/takeoff",
-    fpv_up:         "/instrumentation/fpv/angle-up-deg",
+    fpv_pitch:      "/instrumentation/fpv/pitch-deg",
     mach:           "/instrumentation/airspeed-indicator/indicated-mach",
     gear_pos:       "/gear/gear/position-norm",
     wow_nose:       "/fdm/jsbsim/gear/unit[0]/WOW",
@@ -65,7 +65,7 @@ var takeoff_allowed = TRUE;
 
 var update_takeoff_allowed = func {
     takeoff_allowed = (input.gear_pos.getValue() == 1
-                       and (input.fpv_up.getValue() < 3 or input.mach.getValue() < 0.1) # rotated
+                       and (input.fpv_pitch.getValue() < 3 or input.mach.getValue() < 0.1) # rotated
                        and (input.mach.getValue() < 0.35 or !takeoff_timer.elapsed()));
 
     if (takeoff and !input.wow_nose.getBoolValue()) {
