@@ -30,6 +30,8 @@ var FPV = {
     MODE_AA_GUN: 1, # A/A cannon sight
     MODE_AG: 2,     # A/G cannon/rocket sight
 
+    lateral_clamp: 750,     # 7.5 degs laterally. Not sure what the source was for that.
+
     new: func(parent) {
         var m = { parents: [FPV], parent: parent, mode: -1, reticle_mode: 0, };
         m.initialize();
@@ -129,7 +131,7 @@ var FPV = {
         sight.AAsight.update();
         var pos = sight.AAsight.get_pos();
         # gunsight uses mils
-        me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
+        me.pos_x = math.clamp(pos[0] * MIL2HUD, -me.lateral_clamp, me.lateral_clamp);
         me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
 
         if (radar_logic.selection != nil) {
@@ -208,7 +210,7 @@ var FPV = {
         # Hide vertical bar of crosshair once armed.
         me.aim_AG_reticle_vert.setVisible(!fire_control.is_armed());
         # sight uses mils
-        me.pos_x = math.clamp(pos[0] * MIL2HUD, -800, 800);
+        me.pos_x = math.clamp(pos[0] * MIL2HUD, -me.lateral_clamp, me.lateral_clamp);
         me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
     },
 
@@ -236,7 +238,7 @@ var FPV = {
         # Aiming mode. Reticle display depends on selected weapon.
         if (!fire_control.weapon_ready()) {
             # No weapon. Normal FPV, with a special symbol.
-            me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -800, 800);
+            me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -me.lateral_clamp, me.lateral_clamp);
             me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
             me.aim_empty.show();
             me.aim_missile.hide();
@@ -263,7 +265,7 @@ var FPV = {
         if (me.mode == HUD.MODE_AIM) return me.update_aim();
 
         # Update FPV position.
-        me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -800, 800);
+        me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -me.lateral_clamp, me.lateral_clamp);
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
             me.pos_y = 1000;    # Fixed 10deg below forward axis for takeoff.
         } else {
