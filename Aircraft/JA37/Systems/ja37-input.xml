@@ -64,18 +64,18 @@
 				<script>ja37.fovZoom(-1);</script>
 			</binding>
 		</key>
-        <key n="110">
-            <name>n</name>
+        <key n="108">
+            <name>l</name>
             <desc>Radar cursor click/select</desc>
             <binding>
                 <command>property-assign</command>
-                <property>/controls/displays/cursor-was-clicked</property>
+                <property>/controls/displays/cursor-click</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>/controls/displays/cursor-was-clicked</property>
+                    <property>/controls/displays/cursor-click</property>
                     <value>0</value>
                 </binding>
             </mod-up>

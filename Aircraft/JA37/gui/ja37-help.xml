@@ -78,8 +78,8 @@
         <desc>Cursor control, if option is enabled (JA-37Di > Options)</desc>
     </key>
     <key>
-        <name>n</name>
-        <desc>Display cursor click / select</desc>
+        <name>l</name>
+        <desc>Cursor click / select</desc>
     </key>
     <key>
         <name>N</name>

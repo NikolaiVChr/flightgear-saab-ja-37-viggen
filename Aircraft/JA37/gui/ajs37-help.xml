@@ -78,8 +78,8 @@
         <desc>Radar range decrease / increase</desc>
     </key>
     <key>
-        <name>n</name>
-        <desc>Radar cursor click / select</desc>
+        <name>l</name>
+        <desc>Cursor click / select</desc>
     </key>
     <key>
         <name>H</name>
