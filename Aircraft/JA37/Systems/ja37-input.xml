@@ -165,20 +165,6 @@
                 </binding>
             </mod-up>
         </key>
-        <key n="105">
-            <name>i</name>
-            <desc>Toggle type/callsign</desc>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>property-toggle</command>
-                <property>/ja37/hud/callsign</property>
-            </binding>
-        </key>
         <key n="83">
             <name>S</name>
             <desc>Cycle smoke</desc>
@@ -259,9 +245,43 @@
                 </binding>
             </mod-up>
         </key>
+        <key n="105">
+            <name>i</name>
+            <desc>Toggle type/callsign / SLAV SI</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>/ja37/hud/callsign</property>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>/ja37/hud/switch-slav</property>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </key>
         <key n="73">
             <name>I</name>
-            <desc>Switch HUD units.</desc>
+            <desc>Switch HUD units / HOJD CI/SI</desc>
             <binding>
                 <condition>
                     <equals>
@@ -271,6 +291,26 @@
                 </condition>
                 <command>property-toggle</command>
                 <property>/ja37/hud/units-metric</property>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>/ja37/hud/switch-hojd</property>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </key>
         <key n="104">

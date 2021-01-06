@@ -34,6 +34,14 @@
         <desc>Main mode selector clockwise/counter-clockwise</desc>
     </key>
     <key>
+        <name>i</name>
+        <desc>Toggle HUD low altitude declutter</desc>
+    </key>
+    <key>
+        <name>I</name>
+        <desc>Toggle radar/barometric altitude for HUD</desc>
+    </key>
+    <key>
         <name>c</name>
         <desc>Cycle weapons</desc>
     </key>
