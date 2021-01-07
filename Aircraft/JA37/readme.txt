@@ -14,7 +14,6 @@ Help
 * Flight manual:
     The flight manual is located under JA37/Doc/.
     There is also a shortcut to open in the simulator (JA 37 > Manual (opens in browser)).
-    It is the most complete and up to date reference.
 * In simulator:
     Help > Aircraft Help    contains a summary of keybindings, and some additional information.
     Help > Checklists       contains historical checklists, including the startup procedures.

@@ -3945,12 +3945,12 @@ Radar: {J Maverick 16} Update RCS database
 Input: {Colin} Fix left/right arrow keys being non-repeatable
 
 
-v5.0.0 - 2020 December ??
-===
+5.0.0 - 2021 January 07
+=====
 Minimum supported version is 2020.3.1.
 2020.1.* should work, except for multiplayer damage.
 2018.* should be mostly usable, with some bugs.
-Anything before that may be largely broken.
+Anything before that may be completely broken.
 
 Major changes:
 - Removed AJ-37 variant (almost no differences with AJS-37).
