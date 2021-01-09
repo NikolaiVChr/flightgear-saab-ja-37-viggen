@@ -130,6 +130,9 @@ vec3 filter_combined (in vec3 color) ;
 vec3 moonlight_perception (in vec3 light) ;
 vec3 addLights(in vec3 color1, in vec3 color2);
 
+float getShadowing();
+vec3 getClusteredLightsContribution(vec3 p, vec3 n, vec3 texel);
+
 
 float light_func (in float x, in float a, in float b, in float c, in float d, in float e)
 {
@@ -334,6 +337,9 @@ void main (void)
     
     // try specular reflection of sky irradiance
 
+   float shadowmap = getShadowing();
+   light_diffuse *= shadowmap;
+
     if (cloud_shadow_flag == 1) 
 	{
 		float cloud_shadow_factor = shadow_func(relPos.x, relPos.y, 1.0, dist);
@@ -496,6 +502,8 @@ void main (void)
     vec4 fragColor = vec4(color.rgb * mixedcolor.rgb, color.a);//CombineMe  + ambient_Correction.rgb
 
     fragColor += Specular * nmap.a;
+
+    fragColor.rgb += getClusteredLightsContribution(vertVec, N, texel.rgb);
 
     //////////////////////////////////////////////////////////////////////
     // BEGIN lightmap

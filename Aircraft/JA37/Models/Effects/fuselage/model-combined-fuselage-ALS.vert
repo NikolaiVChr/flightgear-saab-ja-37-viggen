@@ -37,6 +37,8 @@ uniform mat4 osg_ViewMatrix;
 // void	fog_Func(int type);
 ////////////////////////////
 
+void setupShadows(vec4 eyeSpacePos);
+
 mat3 rotY(in float angle)
 {
     mat3 rotmat = mat3(
@@ -160,4 +162,6 @@ void	main(void)
 		
 		gl_Position = ftransform();
 		gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+
+        setupShadows(ecPosition);
 }
