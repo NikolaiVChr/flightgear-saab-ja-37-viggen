@@ -1538,6 +1538,8 @@ var autostarttimer = func {
       setprop("controls/gear/brake-parking", TRUE);
       setprop("fdm/jsbsim/fcs/canopy/engage", FALSE);
       setprop("controls/ventilation/airconditioning-enabled", TRUE);
+      setprop("controls/ventilation/airconditioning-temperature", 18);
+      setprop("controls/ventilation/windshield-hot-air-knob", 0);
   	  settimer(startSupply, 1.5, 1);
     }
   }
@@ -1592,6 +1594,8 @@ var endSupply = func {
   setprop("controls/engines/engine/reverser-cmd", FALSE);
   setprop("controls/fuel/auto", TRUE);
   setprop("controls/altimeter-radar", TRUE);
+  setprop("ja37/avionics/collision-warning", TRUE);
+  setprop("fdm/jsbsim/fcs/elevator/gearing-enable", TRUE);
   if (power.prop.dcSecondBool.getValue()) {
     # have power to start
     settimer(autostart, 1.5, 1);
@@ -1609,6 +1613,18 @@ var autostart = func {
   setprop("controls/electric/lights-ext-beacon", TRUE);
   setprop("controls/electric/lights-ext-nav", 1);
   setprop("controls/electric/lights-land-switch", 1);
+  setprop("controls/electric/lights-ext-form-bright", 3);
+  setprop("controls/lighting/flood-knob", 0.5);
+  setprop("controls/lighting/instruments-knob", 0.5);
+  setprop("instrumentation/transponder/switch-power", TRUE);
+  setprop("instrumentation/transponder/switch-mode", TRUE);
+  setprop("instrumentation/iff/power-knob", 1);
+  setprop("ja37/hud/switch-hojd", FALSE);
+  setprop("ja37/hud/switch-slav", FALSE);
+  setprop("ja37/hud/brightness-si", 1);
+  setprop("/instrumentation/altimeter/setting-std", 0);
+  setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-inhg"));
+  setprop("/instrumentation/altimeter[1]/setting-inhg", getprop("/environment/pressure-inhg"));
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   notice("Starting engine..");
@@ -1616,6 +1632,7 @@ var autostart = func {
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   setprop("/controls/engines/engine/throttle-cutoff", TRUE);
   setprop("/controls/engines/engine/throttle", 0);
+  setprop("/controls/engines/engine/cutoff-augmentation", TRUE);
   #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
@@ -1683,6 +1700,7 @@ var final_engine = func () {
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     notice("Engine ready.");
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+    setprop("ja37/hud/tracks-enabled", FALSE);
     if (variant.JA) {
         displays.common.toggleJAdisplays(TRUE);
     } else {

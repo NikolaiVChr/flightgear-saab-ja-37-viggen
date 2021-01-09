@@ -586,7 +586,7 @@
           <takeoff type="bool">true</takeoff>
         </mode>
         <hud>
-            <tracks-enabled type="bool">true</tracks-enabled>
+            <tracks-enabled type="bool">false</tracks-enabled>
             <units-metric type="bool">false</units-metric>
             <callsign type="bool">true</callsign>
             <stroke-linewidth type="double">5.0</stroke-linewidth>
@@ -1139,7 +1139,7 @@
         <ventilation>
             <airconditioning-type type="int">0</airconditioning-type><!-- cold for 12s: -1 auto: 0 warm for 12s: 1 -->
             <airconditioning-enabled type="bool">false</airconditioning-enabled>
-            <airconditioning-temperature type="double">16.0</airconditioning-temperature><!-- used for auto -->
+            <airconditioning-temperature type="double">18.0</airconditioning-temperature><!-- used for auto -->
             <windshield-hot-air-knob type="double">0.0</windshield-hot-air-knob>
         </ventilation>
         <flight>
