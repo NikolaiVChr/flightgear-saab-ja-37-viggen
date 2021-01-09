@@ -10,7 +10,7 @@
     <sim>
         <aircraft-version>5.4.0</aircraft-version>
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Josh Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Colin Geniet, Nikolai V. Chr.</author>
-        <minimum-fg-version>2020.3.1</minimum-fg-version>
+        <minimum-fg-version>2024.1.1</minimum-fg-version>
         <expected-aircraft-dir-name>JA37</expected-aircraft-dir-name>
 
         <authors>
