@@ -266,12 +266,15 @@ Modifications author: Nikolai V. Chr.
 			   
 			   <program>
 				<vertex-shader n="0">Aircraft/JA37/Models/Effects/fuselage/model-combined-fuselage-ALS.vert</vertex-shader>
+				<vertex-shader n="1">Shaders/shadows-include.vert</vertex-shader>
 			 	<fragment-shader n="0">Aircraft/JA37/Models/Effects/fuselage/model-combined-fuselage-ALS.frag</fragment-shader>
 				<fragment-shader n="1">Shaders/cloud-shadowfunc.frag</fragment-shader>
 				<fragment-shader n="2">Shaders/hazes.frag</fragment-shader>
 				<fragment-shader n="3">Shaders/secondary_lights.frag</fragment-shader>
 				<fragment-shader n="4">Shaders/noise.frag</fragment-shader>
 				<fragment-shader n="5">Shaders/filters-ALS.frag</fragment-shader>
+                <fragment-shader n="6">Shaders/shadows-include.frag</fragment-shader>
+                <fragment-shader n="7">Shaders/clustered-include.frag</fragment-shader>
 			   </program>
 			   
 			   <uniform>
@@ -1126,26 +1129,8 @@ Modifications author: Nikolai V. Chr.
 		  	</uniform>
 
 		  <!-- 			END fog include -->
-		  <!--<uniform>
-			<name>rembrandt_enabled</name>
-			<type>int</type>
-			<value>
-			  <use>rembrandt</use>
-			</value>
-		  </uniform>-->
 		  </pass>
 	</technique>
-
-	<!-- normal map should not be enabled in rembrandt, but this method dont work.
-	<technique n="7">
-		<pass n="0">
-			<uniform>
-				<name>nmap_enabled</name>
-				<type>int</type>
-				<value>0</value>
-			</uniform>
-		</pass>
-	</technique>-->
 
 	<!-- Default rendering -->
 	<technique n="9">
@@ -1739,13 +1724,6 @@ Modifications author: Nikolai V. Chr.
 				</value>
 		  	</uniform>
 		  <!-- 			END fog include -->
-		  <!--<uniform>
-			<name>rembrandt_enabled</name>
-			<type>int</type>
-			<value>
-			  <use>rembrandt</use>
-			</value>
-		  </uniform>-->
 		  </pass>
 		</technique>
 
