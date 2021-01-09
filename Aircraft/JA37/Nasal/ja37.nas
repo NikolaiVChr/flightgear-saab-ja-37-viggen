@@ -1302,7 +1302,6 @@ var random_switches = {
   "controls/electric/lights-ext-beacon": 0.5,
   "controls/electric/lights-ext-form": 0.5,
   "controls/altimeter-radar": 0.5,
-  "ja37/avionics/collision-warning": 0.5,
   "controls/electric/engine[0]/generator": 0.5,
   "ja37/hud/tracks-enabled": 0.5,
   "controls/gear/brake-parking": 0.5,
@@ -1317,6 +1316,11 @@ var random_switches = {
   "controls/electric/reserve": 0.2,
   "controls/fuel/auto": 0.8,
 };
+
+# Only for the JA. AJS is missing this switch.
+if (variant.JA) {
+  random_switches["ja37/avionics/collision-warning"] = 0.5;
+}
 
 var random_multipos = {
   "controls/electric/lights-ext-nav": [-1,1],
