@@ -1298,10 +1298,22 @@ var rand_double = func (min, max) {
 
 # Random switches in the cockpit. Value is probability that it is on.
 var random_switches = {
+  "controls/ventilation/airconditioning-enabled": 0.5,
   "controls/electric/lights-ext-beacon": 0.5,
   "controls/electric/lights-ext-form": 0.5,
+  "controls/altimeter-radar": 0.5,
+  "ja37/avionics/collision-warning": 0.5,
+  "controls/electric/engine[0]/generator": 0.5,
+  "ja37/hud/tracks-enabled": 0.5,
   "controls/gear/brake-parking": 0.5,
   "controls/engines/engine/reverser-cmd": 0.5,
+  "instrumentation/transponder/switch-power": 0.5,
+  "instrumentation/transponder/switch-mode": 0.5,
+  "ja37/hud/switch-hojd": 0.5,
+  "ja37/hud/switch-slav": 0.5,
+  # Not used under normal operation: usual position with high probability.
+  "controls/engines/engine[0]/cutoff-augmentation": 0.8,
+  "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
   "controls/electric/reserve": 0.2,
   "controls/fuel/auto": 0.8,
 };
@@ -1309,9 +1321,19 @@ var random_switches = {
 var random_multipos = {
   "controls/electric/lights-ext-nav": [-1,1],
   "controls/electric/lights-land-switch": [-1,1],
+  "controls/electric/lights-ext-form-bright": [0,3],
+  "instrumentation/iff/power-knob": [0,2],
+  "instrumentation/iff/channel": [1,11],
 };
 
 var random_continuous = {
+  "ja37/hud/brightness-si": [0.55,1],
+  "controls/lighting/flood-knob": [0,1],
+  "controls/lighting/instruments-knob": [0,1],
+  "controls/ventilation/airconditioning-temperature": [12,26],
+  "controls/ventilation/windshield-hot-air-knob": [0,1],
+  "instrumentation/altimeter/setting-hpa": [990,1030],
+  "instrumentation/altimeter[1]/setting-hpa": [990,1030],
 };
 
 var random_cockpit_state = func {
