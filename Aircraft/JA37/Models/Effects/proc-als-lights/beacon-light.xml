@@ -7,7 +7,59 @@
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
     <object-name>procedural_light</object-name>
   </effect>
-  
+
+  <light>
+    <name>beacon_light</name>
+    <type>spot</type>
+    <position>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </position>
+    <direction>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </direction>
+    <ambient>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1</a>
+    </ambient>
+    <diffuse>
+      <r>1.0</r>
+      <g>0.32</g>
+      <b>0.32</b>
+      <a>1</a>
+    </diffuse>
+    <specular>
+      <r>1.0</r>
+      <g>0.32</g>
+      <b>0.32</b>
+      <a>1</a>
+    </specular>
+    <attenuation>
+      <c>0.5</c>
+      <l>0.1</l>
+      <q>0.1</q>
+    </attenuation>
+    <spot-cutoff>40</spot-cutoff>
+    <spot-exponent>15</spot-exponent>
+    <range-m>10</range-m>
+  </light>
+
+  <!-- Hide in internal view, otherwise it illuminates the dashboard,
+    which is unrealistic (should be shadowed by fuselage) and anoying AF. -->
+  <animation>
+    <type>select</type>
+    <object-name>beacon_light</object-name>
+    <condition>
+      <!-- Since this is a relative path, it should hide it for our aircraft, but not MP models. -->
+      <not><property>sim/current-view/internal</property></not>
+    </condition>
+  </animation>
+
   <!-- dist-scale causes issues with some FG LOD mechanism: high dist-scale factors
     cause the object to become invisible when it should not be.
     Split between a scale and a dist-scale to work around the issue. -->
@@ -31,28 +83,35 @@
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
+    <object-name>beacon_light</object-name>
     <condition>
       <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
     </condition>
   </animation>
 
   <animation>
-    <type>spin</type>
+    <type>rotate</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
-    <factor>60</factor>
+    <object-name>beacon_light</object-name>
+    <expression>
+      <product>
+        <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+        <property>/sim/time/elapsed-sec</property>
+        <value>360</value>
+      </product>
+    </expression>
     <center>
-        <x-m>0</x-m>
-        <y-m>0.0</y-m>
-        <z-m>0</z-m>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
     </center>
     <axis>
-        <x>0</x>
-        <y>0</y>
-        <z>1</z>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
     </axis>
   </animation>
-  
+
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>

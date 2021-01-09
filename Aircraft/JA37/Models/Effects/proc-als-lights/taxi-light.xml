@@ -8,9 +8,51 @@
     <object-name>procedural_light</object-name>
   </effect>
 
+  <light>
+    <name>taxi_light</name>
+    <type>spot</type>
+    <position>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </position>
+    <direction>
+      <x>-1</x>
+      <y>0</y>
+      <z>-0.02</z>
+    </direction>
+    <ambient>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1</a>
+    </ambient>
+    <diffuse>
+      <r>0.9</r>
+      <g>0.9</g>
+      <b>0.9</b>
+      <a>1</a>
+    </diffuse>
+    <specular>
+      <r>0.9</r>
+      <g>0.9</g>
+      <b>0.9</b>
+      <a>1</a>
+    </specular>
+    <attenuation>
+      <c>0.1</c>
+      <l>0.007</l>
+      <q>0.0017</q>
+    </attenuation>
+    <spot-cutoff>40</spot-cutoff>
+    <spot-exponent>10</spot-exponent>
+    <range-m>50</range-m>
+  </light>
+
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
+    <object-name>taxi_light</object-name>
     <condition>
       <property>sim/multiplay/generic/bool[1]</property> <!-- ja37/effect/taxi-light  -->
     </condition>
@@ -32,7 +74,7 @@
       <entry><ind>2000</ind><dep>2.0</dep></entry>
     </interpolation>
   </animation>
-  
+
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>

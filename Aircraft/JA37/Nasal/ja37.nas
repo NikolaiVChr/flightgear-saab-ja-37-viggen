@@ -978,6 +978,9 @@ var Saab37 = {
 
     me.loop_test  = maketimer(0.25, me, func testing.loop());
     me.loop_test.start();
+
+    # Old ALS landing/taxi lights
+    if (!getprop("/ja37/supported/compositor")) lm.light_manager.init();
   },
   
   loopSystem2: func {
@@ -1091,6 +1094,9 @@ var Saab37 = {
 
     me.loop_test  = maketimer(0.25, me, func {timer.timeLoop("Test", testing.loop,me);});
     me.loop_test.start();
+
+    # Old ALS landing/taxi lights
+    if (!getprop("/ja37/supported/compositor")) lm.light_manager.init();
   },
 };
 

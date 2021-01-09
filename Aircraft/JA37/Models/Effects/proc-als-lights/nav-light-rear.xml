@@ -8,9 +8,60 @@
     <object-name>procedural_light</object-name>
   </effect>
 
+  <light>
+    <name>nav_light</name>
+    <type>spot</type>
+    <position>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </position>
+    <direction>
+      <x>1.0</x>
+      <y>0</y>
+      <z>0</z>
+    </direction>
+    <ambient>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1</a>
+    </ambient>
+    <diffuse>
+      <r>1.0</r>
+      <g>1.0</g>
+      <b>1.0</b>
+      <a>1</a>
+    </diffuse>
+    <specular>
+      <r>1.0</r>
+      <g>1.0</g>
+      <b>1.0</b>
+      <a>1</a>
+    </specular>
+    <attenuation>
+      <c>0.4</c>
+      <l>0.15</l>
+      <q>0.2</q>
+    </attenuation>
+    <spot-cutoff>60</spot-cutoff>
+    <spot-exponent>2</spot-exponent>
+    <range-m>5</range-m>
+    <dim-factor>
+      <expression>
+        <product>
+          <!-- /ja37/effect/navigation-light (0-100 scale) -->
+          <property>sim/multiplay/generic/short[2]</property>
+          <value>0.01</value>
+        </product>
+      </expression>
+    </dim-factor>
+  </light>
+
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
+    <object-name>nav_light</object-name>
     <condition>
       <or>
         <!-- fdm/jsbsim/fcs/wings/serviceable -->
