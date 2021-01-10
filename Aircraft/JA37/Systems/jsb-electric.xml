@@ -19,17 +19,19 @@
                 2 undercurrent relays
         -->
         
-        <switch name="names/electrical/external/available">
+        <switch name="names/electrical/external-power">
             <description>
                       External AC available
             </description>
-            <default value="0"/>
-            <test logic="AND" value="1">
-                systems/electrical/external/enable-cmd == 1
-                velocities/vg-fps lt 0.05
-                gear/unit[0]/WOW == 1
-                gear/unit[1]/WOW == 1
-                gear/unit[2]/WOW == 1
+            <default value="systems/electrical/external/available"/>
+            <test logic="OR" value="0">
+                gear/gear-pos-norm ne 1
+                gear/unit[0]/WOW ne 1
+                gear/unit[1]/WOW ne 1
+                gear/unit[2]/WOW ne 1
+                gear/unit[0]/wheel-speed-fps gt 0.1
+                gear/unit[1]/wheel-speed-fps gt 0.1
+                gear/unit[2]/wheel-speed-fps gt 0.1
             </test>
             <output>systems/electrical/external/available</output>
         </switch>

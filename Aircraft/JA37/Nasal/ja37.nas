@@ -1155,9 +1155,6 @@ var battery_listener = func {
     settimer(battery_listener, 0.5);
 }
 
-#setlistener("controls/electric/main", battery_listener, 0, 0);
-#setlistener("fdm/jsbsim/systems/electrical/external/enable-cmd", battery_listener, 0, 0);
-
 
 
 ########### Thunder sounds (from c172p) ###################
@@ -1539,7 +1536,8 @@ var autostarttimer = func {
      stopAutostart();
     } else {
       #print("autostarting");
-      setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", TRUE);
+      setprop("/controls/gear/chocks", TRUE);
+      setprop("fdm/jsbsim/systems/electrical/external/available", TRUE);
       notice("Autostarting..");
       setParkingBrake(1);
       setprop("fdm/jsbsim/fcs/canopy/engage", FALSE);
@@ -1565,7 +1563,7 @@ stopFinal = func {
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
-  setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+  setprop("fdm/jsbsim/systems/electrical/external/available", FALSE);
   autostarting = FALSE;
 }
 
@@ -1705,7 +1703,8 @@ var final_engine = func () {
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     notice("Engine ready.");
-    setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+    setprop("/controls/gear/chocks", FALSE);
+    setprop("fdm/jsbsim/systems/electrical/external/available", FALSE);
     setprop("ja37/hud/tracks-enabled", FALSE);
     if (variant.JA) {
         displays.common.toggleJAdisplays(TRUE);
@@ -1826,6 +1825,19 @@ var setParkingBrake = func(v) {
   setprop("/controls/gear/brake-parking", 0);
   # Set internal state of parking brake logic. See jsb-controls.xml for details.
   setprop("/fdm/jsbsim/fcs/brake/parking-brake-state", v ? 2 : 0);
+}
+
+
+var toggleChocks = func {
+  var c = !getprop("/controls/gear/chocks");
+  setprop("/controls/gear/chocks", c);
+  notice("Chocks "~(c ? "placed" : "removed"));
+}
+
+var toggleExternalPower = func {
+  var p = !getprop("fdm/jsbsim/systems/electrical/external/available");
+  setprop("fdm/jsbsim/systems/electrical/external/available", p);
+  notice("External power "~(p ? "connected" : "disconnected"));
 }
 
 

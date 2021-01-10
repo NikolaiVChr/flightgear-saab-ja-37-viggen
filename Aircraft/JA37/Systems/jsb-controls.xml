@@ -881,8 +881,9 @@
                 gear/unit[0]/nose-wheel-steering/serviceable == 0
             </test>
             <!-- JA37 manual: when the nose gear unloads, the steering is disabled and the nosewheel is centered -->
-            <test value="0">
+            <test logic="OR" value="0">
                 gear/unit[0]/WOW == 0
+                fcs/brake/chocks eq 1
             </test>
             <output>gear/unit[0]/nose-wheel-steering/cmd-norm</output>
         </switch>
@@ -1112,7 +1113,26 @@
         <output>/controls/gear/brake-parking-handle</output>
       </switch>
 
+      <!-- Chocks -->
+      <switch name="fcs/brake/chocks">
+        <default value="/controls/gear/chocks"/>
+        <test logic="AND" value="0">
+          /sim/signals/fdm-initialized eq 1 <!-- Otherwise chocks are removed on start -->
+          <test logic="OR">
+            gear/gear-pos-norm ne 1
+            gear/unit[0]/WOW ne 1
+            gear/unit[1]/WOW ne 1
+            gear/unit[2]/WOW ne 1
+            gear/unit[0]/wheel-speed-fps gt 1
+            gear/unit[1]/wheel-speed-fps gt 1
+            gear/unit[2]/wheel-speed-fps gt 1
+          </test>
+        </test>
+        <output>/controls/gear/chocks</output>
+      </switch>
+
       <!-- Brake command, with parking brake -->
+
       <fcs_function name="fcs/brake/left-cmd-norm">
         <function>
           <max>
@@ -1125,7 +1145,6 @@
         </function>
       </fcs_function>
 
-      <!-- Brake command, with parking brake -->
       <fcs_function name="fcs/brake/right-cmd-norm">
         <function>
           <max>
@@ -1138,15 +1157,35 @@
         </function>
       </fcs_function>
 
-      <!-- Output values, with pressure factor -->
-      <pure_gain name="fcs/left-brake-cmd-norm">
-        <input>fcs/brake/left-cmd-norm</input>
-        <gain>systems/hydraulics/brakes/pressure-efficiency-norm</gain>
-      </pure_gain>
+      <!-- Output values, with pressure factor and chocks -->
+      <fcs_function name="fcs/left-brake-cmd-norm">
+        <function>
+          <max>
+            <product>
+              <property>fcs/brake/left-cmd-norm</property>
+              <property>systems/hydraulics/brakes/pressure-efficiency-norm</property>
+            </product>
+            <property>fcs/brake/chocks</property>
+          </max>
+        </function>
+      </fcs_function>
 
-      <pure_gain name="fcs/right-brake-cmd-norm">
-        <input>fcs/brake/right-cmd-norm</input>
-        <gain>systems/hydraulics/brakes/pressure-efficiency-norm</gain>
+      <fcs_function name="fcs/right-brake-cmd-norm">
+        <function>
+          <max>
+            <product>
+              <property>fcs/brake/right-cmd-norm</property>
+              <property>systems/hydraulics/brakes/pressure-efficiency-norm</property>
+            </product>
+            <property>fcs/brake/chocks</property>
+          </max>
+        </function>
+      </fcs_function>
+
+      <!-- chocks only for front gear -->
+      <pure_gain name="fcs/center-brake-cmd-norm">
+        <input>fcs/brake/chocks</input>
+        <gain>1</gain>
       </pure_gain>
     </channel>
 

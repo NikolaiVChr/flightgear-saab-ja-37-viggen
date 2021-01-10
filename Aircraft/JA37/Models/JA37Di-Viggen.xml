@@ -714,45 +714,14 @@
       </center>
   </animation>
 
-  <!--<animation>
-  <type>select</type>
-  <object-name>ext-power</object-name>
-  <condition>
-    <property>fdm/jsbsim/systems/electrical/external/available</property>
-  </condition>
- </animation>-->
-
- <animation>
-  <type>scale</type>
-  <object-name>ext-power</object-name>
-  <property>fdm/jsbsim/systems/electrical/external/available</property>
-  <interpolation>
-   <entry>
-    <ind> 0.00 </ind>
-    <dep> 0.00 </dep>
-   </entry>
-   <entry>
-    <ind> 0.01 </ind>
-    <dep> 1.00 </dep>
-   </entry>
-  </interpolation>
-  <center>
-   <x-m>  0 </x-m>
-   <y-m>  0 </y-m>
-   <z-m>  0 </z-m>
-  </center>
-  <x-min>0.0</x-min>
-  <y-min>0.0</y-min>
-  <z-min>0.0</z-min>
-  <x-max>1.0</x-max>
-  <y-max>1.0</y-max>
-  <z-max>1.0</z-max>  
-  <axis>
-   <x>1.0</x>
-   <y>1.0</y>
-   <z>1.0</z>
-  </axis>
- </animation>
+  <animation>
+    <type>select</type>
+    <object-name>ext-power</object-name>
+    <condition>
+      <!-- fdm/jsbsim/systems/electrical/external/available -->
+      <property>sim/multiplay/generic/bool[16]</property>
+    </condition>
+  </animation>
 
 <animation>
   <type>rotate</type>
@@ -1220,6 +1189,27 @@
 
 <!-- front  -->
 
+  <model>
+    <name>chockFrontF</name>
+    <path>chock.ac</path>
+    <offsets>
+      <x-m>-3.4694</x-m>
+      <y-m>0.0</y-m>
+      <z-m>-2.1</z-m>
+      <heading-deg>0</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <name>chockFrontB</name>
+    <path>chock.ac</path>
+    <offsets>
+      <x-m>-3.2694</x-m>
+      <y-m>0.0</y-m>
+      <z-m>-2.1</z-m>
+      <heading-deg>180</heading-deg>
+    </offsets>
+  </model>
 
 <!--<animation>
   <type>select</type>
@@ -1442,6 +1432,8 @@
    <object-name>gearFrontWheel</object-name>
    <object-name>tyre-smoke-nose</object-name>
    <object-name>tyre-rain-nose</object-name>
+   <object-name>chockFrontF</object-name>
+   <object-name>chockFrontB</object-name>
    <property>gear/gear[0]/compression-norm</property><!-- auto MP transmit -->
    <factor>0.3048</factor>
    <axis>
@@ -1520,6 +1512,28 @@
 
 
 <!-- left  -->
+
+  <model>
+    <name>chockLeftF</name>
+    <path>chock.ac</path>
+    <offsets>
+      <x-m>1.8114</x-m>
+      <y-m>-2.1500</y-m>
+      <z-m>-2.0856</z-m>
+      <heading-deg>0</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <name>chockLeftB</name>
+    <path>chock.ac</path>
+    <offsets>
+      <x-m>2.8215</x-m>
+      <y-m>-2.1500</y-m>
+      <z-m>-2.0856</z-m>
+      <heading-deg>180</heading-deg>
+    </offsets>
+  </model>
 
 <animation>
   <type>select</type>
@@ -1689,6 +1703,8 @@
    <object-name>gearLeftWheel2</object-name>
    <object-name>tyre-smoke-left</object-name>
    <object-name>tyre-rain-left</object-name>
+   <object-name>chockLeftF</object-name>
+   <object-name>chockLeftB</object-name>
    <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
@@ -1838,6 +1854,28 @@
 
 
 <!--      right       -->
+
+  <model>
+    <name>chockRightF</name>
+    <path>chock.ac</path>
+    <offsets>
+      <x-m>1.8114</x-m>
+      <y-m>2.1500</y-m>
+      <z-m>-2.0856</z-m>
+      <heading-deg>0</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <name>chockRightB</name>
+    <path>chock.ac</path>
+    <offsets>
+      <x-m>2.8215</x-m>
+      <y-m>2.1500</y-m>
+      <z-m>-2.0856</z-m>
+      <heading-deg>180</heading-deg>
+    </offsets>
+  </model>
 
  <animation>
   <type>select</type>
@@ -2007,6 +2045,8 @@
    <object-name>gearRightWheel2</object-name>
    <object-name>tyre-smoke-right</object-name>
    <object-name>tyre-rain-right</object-name>
+   <object-name>chockRightF</object-name>
+   <object-name>chockRightB</object-name>
    <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
@@ -2152,6 +2192,31 @@
         <z>0</z>
     </axis>
 </animation>
+
+  <!-- Chocks -->
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+    <object-name>chockFrontF</object-name>
+    <object-name>chockFrontB</object-name>
+    <object-name>chockLeftF</object-name>
+    <object-name>chockLeftB</object-name>
+    <object-name>chockRightF</object-name>
+    <object-name>chockRightB</object-name>
+  </effect>
+
+  <animation>
+    <type>select</type>
+    <object-name>chockFrontF</object-name>
+    <object-name>chockFrontB</object-name>
+    <object-name>chockLeftF</object-name>
+    <object-name>chockLeftB</object-name>
+    <object-name>chockRightF</object-name>
+    <object-name>chockRightB</object-name>
+    <condition>
+      <!-- /controls/gear/chocks -->
+      <property>sim/multiplay/generic/bool[15]</property>
+    </condition>
+  </animation>
 
 <!-- ==================================== Start effects ======================= -->
 

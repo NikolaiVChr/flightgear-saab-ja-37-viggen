@@ -24,9 +24,6 @@
                     </engine>
                 </propulsion>
                 <systems>
-                    <external>
-                        <enable-cmd type="bool">false</enable-cmd>
-                    </external>
                     <electrical>
                         <generator-takeoff type="bool">true</generator-takeoff>
                     </electrical>

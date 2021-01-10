@@ -196,11 +196,11 @@
         <value>OFF</value>
         <binding>
             <command>property-assign</command>
-            <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+            <property>fdm/jsbsim/systems/electrical/external/available</property>
             <value>0</value>
         </binding>
         <condition>
-            <not><property>fdm/jsbsim/systems/electrical/external/enable-cmd</property></not>
+            <not><property>fdm/jsbsim/systems/electrical/external/available</property></not>
         </condition>
     </item>
 </PropertyList>

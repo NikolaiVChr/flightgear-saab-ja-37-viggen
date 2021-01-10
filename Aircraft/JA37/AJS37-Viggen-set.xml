@@ -171,10 +171,17 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Toggle chocks</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.toggleChocks();</script>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Toggle external power</label>
                         <binding>
-                            <command>property-toggle</command>
-                            <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+                            <command>nasal</command>
+                            <script>ja37.toggleExternalPower();</script>
                         </binding>
                     </item>
                     <item>

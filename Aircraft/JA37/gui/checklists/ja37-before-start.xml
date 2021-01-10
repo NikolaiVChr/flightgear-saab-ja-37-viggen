@@ -8,7 +8,7 @@
             <value>ON</value>
             <binding>
                 <command>property-assign</command>
-                <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+                <property>fdm/jsbsim/systems/electrical/external/available</property>
                 <value>1</value>
             </binding>
             <condition>
