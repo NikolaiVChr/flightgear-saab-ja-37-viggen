@@ -23,8 +23,8 @@
 
     <animation>
         <type>pick</type>
-        <object-name>handleTop</object-name>
-        <object-name>baseTop</object-name>
+        <object-name>handleBottom</object-name>
+        <object-name>baseBottom</object-name>
         <action>
             <button>0</button>
             <binding>
@@ -53,7 +53,7 @@
 
     <animation>
         <type>translate</type>
-        <object-name>handleTop</object-name>
+        <object-name>handleBottom</object-name>
         <property>controls/gear/brake-parking</property>
         <factor>0.015</factor>
         <axis>
@@ -65,32 +65,44 @@
 
     <animation>
         <type>pick</type>
-        <object-name>handleBottom</object-name>
-        <object-name>baseBottom</object-name>
+        <object-name>handleTop</object-name>
+        <object-name>baseTop</object-name>
         <action>
             <button>0</button>
             <binding>
-                <command>property-toggle</command>
-                <property>/controls/flight/pedal-mode</property>
+                <command>property-assign</command>
+                <property>/controls/flight/adjust-pedals</property>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>ja37.click();</script>
             </binding>
+            <mod-up>
+              <binding>
+                  <command>property-assign</command>
+                  <property>/controls/flight/adjust-pedals</property>
+                  <value>0</value>
+              </binding>
+              <binding>
+                  <command>nasal</command>
+                  <script>ja37.click();</script>
+              </binding>
+            </mod-up>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>switch-pedalmode</tooltip-id>
-                <label>Pedal mode</label>
+                <tooltip-id>switch-pedal</tooltip-id>
+                <label>Adjust pedals position (no functionality)</label>
             </binding>
         </hovered>
     </animation>
 
     <animation>
         <type>translate</type>
-        <object-name>handleBottom</object-name>
-        <property>/controls/flight/pedal-mode</property>
+        <object-name>handleTop</object-name>
+        <property>/controls/flight/adjust-pedals</property>
         <factor>0.015</factor>
         <axis>
             <x> 1.0 </x>
