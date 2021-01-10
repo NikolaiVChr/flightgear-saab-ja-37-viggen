@@ -31,15 +31,11 @@
                <command>nasal</command>
                <script>controls.applyParkingBrake(1)</script>
             </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
             <mod-up>
-               <binding>
-                <command>nasal</command>
-                <script>controls.applyParkingBrake(0)</script>
-               </binding>
+                <binding>
+                   <command>nasal</command>
+                   <script>controls.applyParkingBrake(0)</script>
+                </binding>
             </mod-up>
         </action>
         <hovered>
@@ -54,7 +50,7 @@
     <animation>
         <type>translate</type>
         <object-name>handleBottom</object-name>
-        <property>controls/gear/brake-parking</property>
+        <property>controls/gear/brake-parking-handle</property>
         <factor>0.015</factor>
         <axis>
             <x> 1.0 </x>

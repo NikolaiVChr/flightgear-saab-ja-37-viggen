@@ -27,14 +27,6 @@
 	            systems/hydraulics/system1/main/psi ge 1131.2944
 	      	</test>
         </switch>
-
-        <switch name="systems/hydraulics/system1/pressure-brakes">
-            <default value="0"/>
-            <test logic="AND" value="1">
-	            systems/hydraulics/system1/main/psi ge 783.2038
-	      	</test>
-        </switch>
-
     </channel>
 
     <channel execrate="8" name="System 2">
@@ -98,6 +90,76 @@
 	      	</test>
         </switch>
 
+    </channel>
+
+    <channel execrate="8" name="Brakes pressure">
+        <!-- Drop of pressure in accumulator due to use of brakes (if not supplied by main hydraulics).
+            Pressure drops when the brakes are pressed.
+
+            20 brakes application will reduce pressure from ~210kp/cm^2 to ~75kp/cm^2
+            (from manual. 210kp/cm^2 is normal working pressure.
+            100kp/cm^2 is minimum pressure for almost normal brake efficiency)
+
+            Each full brake application reduces pressure by 5%
+        -->
+        <pid name="systems/hydraulics/brakes/use-drop-left-norm">
+            <input>fcs/brake/left-cmd-norm</input>
+            <kd>0.025</kd>
+            <clipto>
+                <min>0</min>
+                <max>10</max>
+            </clipto>
+        </pid>
+
+        <pid name="systems/hydraulics/brakes/use-drop-right-norm">
+            <input>fcs/brake/right-cmd-norm</input>
+            <kd>0.025</kd>
+            <clipto>
+                <min>0</min>
+                <max>10</max>
+            </clipto>
+        </pid>
+
+        <summer name="systems/hydraulics/brakes/use-drop-norm">
+            <input>systems/hydraulics/brakes/use-drop-left-norm</input>
+            <input>systems/hydraulics/brakes/use-drop-right-norm</input>
+        </summer>
+
+        <pure_gain name="systems/hydraulics/brakes/use-drop-psi_s">
+            <input>systems/hydraulics/brakes/use-drop-norm</input>
+            <gain>systems/hydraulics/brakes/psi</gain>
+        </pure_gain>
+
+        <fcs_function name="systems/hydraulics/brakes/psi">
+            <function>
+                <max>
+                    <property>systems/hydraulics/system1/main/psi</property>
+                    <difference>
+                        <property>systems/hydraulics/brakes/psi</property>
+                        <product>
+                            <property>systems/hydraulics/brakes/use-drop-psi_s</property>
+                            <property>simulation/channel-dt</property>
+                        </product>
+                    </difference>
+                </max>
+            </function>
+        </fcs_function>
+
+        <!-- Brake efficiency factor, from hydraulics pressure. -->
+        <fcs_function name="systems/hydraulics/brakes/pressure-efficiency-norm">
+            <function>
+                <table>
+                    <independentVar lookup="row">systems/hydraulics/brakes/psi</independentVar>
+                    <!-- From manual: normal=210kp/cm^2 (2987psi), deteriorate starting at 100kp/cm^2 (1422psi), lost at 55kp/cm^2 (782psi) -->
+                    <tableData>
+                        0       0
+                        782     0
+                        1422    0.8
+                        2987    1
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
     </channel>
 
     <channel execrate="8" name="Overall">

@@ -1800,15 +1800,23 @@ var toggleTracks = func {
   }
 }
 
-var applyParkingBrake = func(v) {
-    controls.applyParkingBrake(v);
-    if(!v) return;
+# Override default function
+controls.applyParkingBrake = func(v) {
+  # /controls/gear/brake-parking indicates that the pilot is pulling the handle.
+  # /controls/gear/brake-parking-handle is the actual position of the handle
+  setprop("/controls/gear/brake-parking", v);
+  if (!v) return;
+
+  if (!getprop("/controls/gear/brake-parking-handle")) {
+    # Parking brake currently not set
     ja37.click();
-    if (getprop("/controls/gear/brake-parking") == TRUE) {
-      notice("Parking brakes: ON");
-    } else {
-      notice("Parking brakes: OFF");
+    if (getprop("/controls/gear/brake-left") < 0.6 or getprop("/controls/gear/brake-left") < 0.6) {
+      notice("Press brakes then pull the handle to set parking brake");
     }
+  } else {
+    # Parking brake currently set
+    notice("Press brakes to release parking brake");
+  }
 }
 
 var cycleSmoke = func() {

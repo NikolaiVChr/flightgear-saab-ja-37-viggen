@@ -173,20 +173,6 @@
                 <script>ja37.cycleSmoke()</script>
             </binding>
         </key>
-        <key n="66">
-            <name>B</name>
-            <desc>Toggle parking brake on or off</desc>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.applyParkingBrake(1)</script>
-            </binding>
-            <mod-up>
-                <binding>
-                    <command>nasal</command>
-                    <script>ja37.applyParkingBrake(0)</script>
-                </binding>
-            </mod-up>
-        </key>
         <key n="72">
             <name>H</name>
             <desc>Cycle HUD Brightness</desc>

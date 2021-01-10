@@ -1051,6 +1051,105 @@
 
     </channel>
 
+    <channel execrate="1" name="Brakes">
+      <!-- State machine for parking brake logic:
+        0: parking brake not set, brakes released
+        1: parking brake not set, brakes pressed  (parking brake can be set here)
+        2: parking brake set, brakes pressed
+        3: parking brake set, brakes released (pressing again releases parking brake)
+        -->
+      <switch name="fcs/brake/parking-brake-state">
+        <default value="fcs/brake/parking-brake-state"/>
+        <!-- Parking brake unset. Brakes are considered pressed if both sides are at >= 0.6 -->
+        <test logic="AND" value="0">
+          fcs/brake/parking-brake-state eq 1
+          <test logic="OR">
+            /controls/gear/brake-left lt 0.6
+            /controls/gear/brake-right lt 0.6
+          </test>
+        </test>
+        <test logic="AND" value="1">
+          fcs/brake/parking-brake-state eq 0
+          /controls/gear/brake-left ge 0.6
+          /controls/gear/brake-right ge 0.6
+        </test>
+        <!-- If brakes are pressed and the handle is pulled, set parking brake -->
+        <test logic="AND" value="2">
+          fcs/brake/parking-brake-state eq 1
+          /controls/gear/brake-parking eq 1
+        </test>
+        <!-- Parking brake set. Brakes are considered released if both sides are at <0.4 -->
+        <test logic="AND" value="3">
+          fcs/brake/parking-brake-state eq 2
+          /controls/gear/brake-left lt 0.4
+          /controls/gear/brake-right lt 0.4
+        </test>
+        <!-- Pressing again goes back to initial state -->
+        <test logic="AND" value="0">
+          fcs/brake/parking-brake-state eq 3
+          /controls/gear/brake-left ge 0.6
+          /controls/gear/brake-right ge 0.6
+        </test>
+      </switch>
+
+      <!-- Parking brake is applied -->
+      <switch name="fcs/brake/parking-brake">
+        <default value="0"/>
+        <test logic="OR" value="1">
+          fcs/brake/parking-brake-state eq 2
+          fcs/brake/parking-brake-state eq 3
+        </test>
+      </switch>
+
+      <!-- Position of parking brake handle (visual only) -->
+      <switch name="fcs/brake/parking-brake-handle">
+        <!-- Handle is physically pulled. -->
+        <default value="/controls/gear/brake-parking"/>
+        <!-- Handle is locked (parking brake set) -->
+        <test value="1">
+          fcs/brake/parking-brake eq 1
+        </test>
+        <output>/controls/gear/brake-parking-handle</output>
+      </switch>
+
+      <!-- Brake command, with parking brake -->
+      <fcs_function name="fcs/brake/left-cmd-norm">
+        <function>
+          <max>
+            <property>/controls/gear/brake-left</property>
+            <product>
+              <property>fcs/brake/parking-brake</property>
+              <value>0.5</value>
+            </product>
+          </max>
+        </function>
+      </fcs_function>
+
+      <!-- Brake command, with parking brake -->
+      <fcs_function name="fcs/brake/right-cmd-norm">
+        <function>
+          <max>
+            <property>/controls/gear/brake-right</property>
+            <product>
+              <property>fcs/brake/parking-brake</property>
+              <value>0.5</value>
+            </product>
+          </max>
+        </function>
+      </fcs_function>
+
+      <!-- Output values, with pressure factor -->
+      <pure_gain name="fcs/left-brake-cmd-norm">
+        <input>fcs/brake/left-cmd-norm</input>
+        <gain>systems/hydraulics/brakes/pressure-efficiency-norm</gain>
+      </pure_gain>
+
+      <pure_gain name="fcs/right-brake-cmd-norm">
+        <input>fcs/brake/right-cmd-norm</input>
+        <gain>systems/hydraulics/brakes/pressure-efficiency-norm</gain>
+      </pure_gain>
+    </channel>
+
     <channel execrate="1" name="Throttle"><!-- execrate must be 1, else wont overwrite fcs/throttle-pos-norm properly -->
 
         <!-- from AJS-37 Description part 4
