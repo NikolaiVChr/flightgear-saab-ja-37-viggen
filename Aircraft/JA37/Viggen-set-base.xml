@@ -838,6 +838,10 @@
                 </wings>
             </structural>
             <fcs>
+                <brake>
+                    <!-- Start with parking brake set -->
+                    <parking-brake-state type="int">2</parking-brake-state>
+                </brake>
                 <canopy>
                     <engage type="bool">true</engage>
                     <has-power/>
@@ -910,6 +914,10 @@
                         </reserve>
                         <pressure type="bool">false</pressure>
                     </system2>
+                    <brakes>
+                        <!-- Start with sufficient pressure in accumulator for parking brakes to work -->
+                        <psi type="double">2500</psi>
+                    </brakes>
                 </hydraulics>
                 <electrical>
                     <battery-charge-norm type="double">1.0</battery-charge-norm>
@@ -1103,7 +1111,7 @@
             </engine>
         </engines>
         <gear>
-            <brake-parking type="bool">true</brake-parking>
+            <brake-parking type="bool">false</brake-parking>
             <launchbar>
                 <state type="string">Disengaged</state>
             </launchbar>

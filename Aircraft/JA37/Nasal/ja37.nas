@@ -1304,7 +1304,6 @@ var random_switches = {
   "controls/altimeter-radar": 0.5,
   "controls/electric/engine[0]/generator": 0.5,
   "ja37/hud/tracks-enabled": 0.5,
-  "controls/gear/brake-parking": 0.5,
   "controls/engines/engine/reverser-cmd": 0.5,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
@@ -1350,6 +1349,9 @@ var random_cockpit_state = func {
   foreach (var prop; keys(random_continuous)) {
     setprop(prop, rand_double(random_continuous[prop][0], random_continuous[prop][1]));
   }
+
+  # Parking brake needs special code to release.
+  if (rand_bool()) setParkingBrake(0);
 }
 
 ############################# main init ###############
@@ -1478,7 +1480,7 @@ var re_init = func {
   repair(FALSE);
   autoflight.System.engageMode(0);
   setprop("/controls/gear/gear-down", 1);
-  setprop("/controls/gear/brake-parking", 1);
+  setParkingBrake(1);
   setprop("ja37/done",0);
   setprop("sim/view[0]/enabled",1);
   setprop("/sim/current-view/view-number", 0);
@@ -1539,7 +1541,7 @@ var autostarttimer = func {
       #print("autostarting");
       setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", TRUE);
       notice("Autostarting..");
-      setprop("controls/gear/brake-parking", TRUE);
+      setParkingBrake(1);
       setprop("fdm/jsbsim/fcs/canopy/engage", FALSE);
       setprop("controls/ventilation/airconditioning-enabled", TRUE);
       setprop("controls/ventilation/airconditioning-temperature", 18);
@@ -1818,6 +1820,14 @@ controls.applyParkingBrake = func(v) {
     notice("Press brakes to release parking brake");
   }
 }
+
+# Function to magically set/unset parking brake in scripts.
+var setParkingBrake = func(v) {
+  setprop("/controls/gear/brake-parking", 0);
+  # Set internal state of parking brake logic. See jsb-controls.xml for details.
+  setprop("/fdm/jsbsim/fcs/brake/parking-brake-state", v ? 2 : 0);
+}
+
 
 var cycleSmoke = func() {
     ja37.click();
