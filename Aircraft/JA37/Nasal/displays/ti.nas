@@ -789,14 +789,13 @@ var TI = {
 	                .setStrokeLineWidth(w)
 	                .setColor(COLOR_TYRK);
 
-		# bulls eye info box
-
+		# own bullseye info box
 		me.beTextField     = root.createChild("group")
 			.set("z-index", 11);
 
 		var beW      = 0.35;
 		var beH      = 0.03;
-		var beStartx = width-(width*0.060-3.125+6.25*2+w*2) - width*beW;
+		var beStartx = width*0.060-3.125+6.25*2+w*2;
 		var beStarty = height-height*0.1-height*0.025-w*2;
 
 		me.beTextFrame     = me.beTextField.createChild("path")
@@ -818,6 +817,41 @@ var TI = {
     		.setTranslation(beStartx+width*beW*0.1, beStarty-w)
     		.setFontSize(15, 1);
     	me.beText = me.beTextField.createChild("text")
+    		.setText("190  A132")
+    		.setColor(COLOR_WHITE)
+    		.setAlignment("center-bottom")
+    		.setTranslation(beStartx+width*beW*0.6, beStarty-w)
+    		.setFontSize(15, 1);
+
+        # target/cursor bullseye info box
+		me.tgtBeTextField     = root.createChild("group")
+			.set("z-index", 11);
+
+		var beW      = 0.35;
+		var beH      = 0.03;
+		var beStartx = width-(width*0.060-3.125+6.25*2+w*2) - width*beW;
+		var beStarty = height-height*0.1-height*0.025-w*2;
+
+		me.tgtBeTextFrame     = me.tgtBeTextField.createChild("path")
+			.moveTo(beStartx, beStarty)#above bottom text field and next to fast menu sub boxes
+		      .vert(            -height*beH)
+		      .horiz(            width*beW)
+		      .vert(             height*beH)
+		      .horiz(           -width*beW)
+
+		      .moveTo(beStartx+width*beW*0.2, beStarty)
+		      .vert(            -height*beH)
+		      .setColor(COLOR_WHITE)
+		      .setStrokeLineWidth(w);
+
+		me.tgtBeTextDesc = me.tgtBeTextField.createChild("text")
+    		.setColor(COLOR_WHITE)
+    		.setAlignment("center-bottom")
+    		.setTranslation(beStartx+width*beW*0.1, beStarty-w)
+    		.setFontSize(15, 1);
+		me.tgtBeTextDesc.enableUpdate();
+		me.tgtBeTextDesc.updateText("TGT");
+    	me.tgtBeText = me.tgtBeTextField.createChild("text")
     		.setText("190  A132")
     		.setColor(COLOR_WHITE)
     		.setAlignment("center-bottom")
@@ -889,7 +923,7 @@ var TI = {
 		me.wpTextField     = root.createChild("group")
 			.set("z-index", 11);
 		me.wpStartx = width*0.060-3.125+6.25*2+w*2;
-		me.wpStarty = height-height*0.1-height*0.025-w*2;
+		me.wpStarty = height-height*0.14-height*0.025-w*2;
 		me.wpW      = 0.29;
 		me.wpH      = 0.15;
 		me.wpTextFrame     = me.wpTextField.createChild("path")
@@ -4167,16 +4201,32 @@ var TI = {
   	},
 
   	showBullsEye: func {
-  		if (getprop("ja37/navigation/bulls-eye-defined")) {
-  			me.beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
+  		if (me.input.bullseyeOn.getBoolValue()) {
+  			me.beLaLo = [me.input.bullseyeLat.getValue(), me.input.bullseyeLon.getValue()];
   			me.bePos = me.laloToTexel(me.beLaLo[0], me.beLaLo[1]);
+  			me.be.set_latlon(me.beLaLo[0], me.beLaLo[1], 0);
   			me.bullsEye.setTranslation(me.bePos[0], me.bePos[1]);
   			me.bullsEye.setRotation(-me.input.heading.getValue()*D2R);
+  			me.bullsEye.show();
+
+			# Own bullseye
+			me.bear = geo.normdeg(me.be.course_to(geo.aircraft_position()));
+			me.beDist = me.be.distance_to(geo.aircraft_position());
+			me.beDist = me.swedishMode?0.001*me.beDist:M2NM*me.beDist;
+			me.beDistTxt = sprintf("%d",me.beDist);
+			if (me.beDist > 10000) {
+				me.beDistTxt = sprintf("%dK",me.beDist*0.001);
+			} elsif (me.beDist > 1000) {
+				me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
+			}
+			me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
+			me.beTextField.show();
+
+			me.tgtBeTextDesc.updateText(me.swedishMode ? "M\xC3\x85L" : "TGT");
   			if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
   				# bearing and distance from Bulls-Eye to cursor
 				#
   				me.cursorLaLo = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
-  				me.be.set_latlon(me.beLaLo[0], me.beLaLo[1], 0);
   				me.cs.set_latlon(me.cursorLaLo[0], me.cursorLaLo[1],0);
   				me.bear = geo.normdeg(me.be.course_to(me.cs));
   				me.beDist = me.be.distance_to(me.cs);
@@ -4188,16 +4238,15 @@ var TI = {
   					me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
   				}
   				if (!me.isCursorOnMap()) {
-  					me.beText.setText("");
+  					me.tgtBeText.setText("");
   				} else {
-  					me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
+  					me.tgtBeText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
   				}
-  				me.beTextField.show();
+  				me.tgtBeTextField.show();
   			} elsif (radar_logic.selection != nil) {
   				# bearing and distance from Bulls-Eye to selected radar echo
 				#
   				me.lck = radar_logic.selection.get_Coord();
-  				me.be.set_latlon(me.beLaLo[0], me.beLaLo[1], 0);
   				me.cs.set_latlon(me.lck.lat(), me.lck.lon(),0);
   				me.bear = geo.normdeg(me.be.course_to(me.cs));
   				me.beDist = me.be.distance_to(me.cs);
@@ -4208,14 +4257,14 @@ var TI = {
   				} elsif (me.beDist > 1000) {
   					me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
   				}
-  				me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
-  				me.beTextField.show();
+  				me.tgtBeText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
+  				me.tgtBeTextField.show();
   			} else {
-  				me.beTextField.hide();
+  				me.tgtBeTextField.hide();
   			}
-  			me.bullsEye.show();
 		} else {
 			me.beTextField.hide();
+			me.tgtBeTextField.hide();
 			me.bullsEye.hide();
 		}
   	},
