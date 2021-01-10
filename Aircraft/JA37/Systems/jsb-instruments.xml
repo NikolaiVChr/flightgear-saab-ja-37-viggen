@@ -695,6 +695,18 @@
         </switch>
     </channel>
 
+    <channel execrate="4" name="brake pressure">
+        <pure_gain name="instruments/brake-pressure/pressure-kp_cm2">
+            <input>systems/hydraulics/brakes/psi</input>
+            <gain>0.0703</gain>
+        </pure_gain>
+
+        <lag_filter name="instruments/brake-pressure/indicated-pressure-kp_cm2">
+            <input>instruments/brake-pressure/pressure-kp_cm2</input>
+            <c1>10</c1>
+        </lag_filter>
+    </channel>
+
     <channel execrate="4" name="instruments">
 
         <switch name="systems/ins/time-steady">
@@ -1095,34 +1107,6 @@
                 </difference>
             </function>
         </fcs_function>
-
-        <fcs_function name="systems/flight/brake-pressure-tmp-kpm2">
-            <function>
-                <product>
-                    <or>
-                        <property>/controls/gear/brake-left</property>
-                        <property>/controls/gear/brake-parking</property>
-                    </or>
-                    <property>gear/unit[1]/WOW</property>
-                    <table>
-                        <independentVar lookup="row">forces/fbx-gear-lbs</independentVar>
-                        <tableData>
-                            -40000         400
-                            -30000         300
-                                 0         0.0
-                             30000         300
-                             40000         400
-                        </tableData>
-                    </table>
-                </product>
-            </function>
-        </fcs_function>
-
-        <lag_filter name="systems/flight/brake-pressure-kpm2">
-            <input> systems/flight/brake-pressure-tmp-kpm2 </input>
-            <c1> 10 </c1>
-        </lag_filter>
-
 
         <!-- AJS-37 manual part 2, page 173 -->
         <fcs_function name="systems/flight/rotation-speed">

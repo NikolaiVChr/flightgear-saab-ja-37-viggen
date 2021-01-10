@@ -214,7 +214,7 @@
         </item>
         <item>
             <name>Parking Brakes</name>
-            <value>SET (shift-B)</value>
+            <value>SET</value>
             <marker>
                 <x-m>-3.9554</x-m>
                 <y-m>-0.0595</y-m>
@@ -222,16 +222,15 @@
                 <scale>2.4711</scale>
             </marker>
             <condition>
-                <property>/controls/gear/brake-parking</property>
+                <property>/fdm/jsbsim/fcs/brake/parking-brake</property>
             </condition>
             <binding>
-                <command>property-assign</command>
-                <property>/controls/gear/brake-parking</property>
-                <value>1</value>
-            </binding>
-            <binding>
                 <command>nasal</command>
-                <script>ja37.click();</script>
+                <script>
+                    controls.applyBrakes(1);
+                    settimer(func { controls.applyParkingBrake(1); }, 0.5);
+                    settimer(func { controls.applyParkingBrake(0); controls.applyBrakes(0)}, 0.8);
+                </script>
             </binding>
         </item>
         <item>

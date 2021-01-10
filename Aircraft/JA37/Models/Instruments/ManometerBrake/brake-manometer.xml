@@ -23,10 +23,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
-        <condition>
-            <property>ja37/elec/ac-bus-main-bool</property>
-        </condition>
-        <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
+        <property>fdm/jsbsim/instruments/brake-pressure/indicated-pressure-kp_cm2</property>
         <interpolation>
             <entry>
                 <ind>0</ind>
@@ -50,13 +47,10 @@
         <object-name>glass</object-name>
         <hovered>
             <binding>
-                <condition>
-                    <property>ja37/elec/ac-bus-main-bool</property>
-                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>brakemano</tooltip-id>
-                <label>Brake manometer</label><!-- %0.1f kp/cm2 -->
-                <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
+                <label>Brakes acculumalor pressure: %d kp/cm2</label>
+                <property>fdm/jsbsim/instruments/brake-pressure/indicated-pressure-kp_cm2</property>
             </binding>
         </hovered>
     </animation>

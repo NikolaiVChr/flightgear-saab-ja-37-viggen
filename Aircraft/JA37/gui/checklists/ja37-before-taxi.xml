@@ -42,20 +42,18 @@
             <z-m>0.1752</z-m>
             <scale>2.0000</scale>
         </marker>
-        <!-- NOT WORKING
         <condition>
             <and>
                 <greater-than-equals>
-                    <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
+                    <property>fdm/jsbsim/instruments/brake-pressure/indicated-pressure-kp_cm2</property>
                     <value>200</value>
                 </greater-than-equals>
                 <less-than-equals>
-                    <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
+                    <property>fdm/jsbsim/instruments/brake-pressure/indicated-pressure-kp_cm2</property>
                     <value>270</value>
                 </less-than-equals>
             </and>
         </condition>
-        -->
     </item>
     <item>
         <name>Calibrate altimeters</name>
