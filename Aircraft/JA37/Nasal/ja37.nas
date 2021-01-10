@@ -1311,7 +1311,7 @@ var random_switches = {
   "ja37/hud/switch-hojd": 0.5,
   "ja37/hud/switch-slav": 0.5,
   # Not used under normal operation: usual position with high probability.
-  "controls/engines/engine[0]/cutoff-augmentation": 0.8,
+  "controls/engines/engine[0]/cutoff-augmentation": 0.2,
   "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
   "controls/electric/reserve": 0.2,
   "controls/fuel/auto": 0.8,
@@ -1636,7 +1636,7 @@ var autostart = func {
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   setprop("/controls/engines/engine/throttle-cutoff", TRUE);
   setprop("/controls/engines/engine/throttle", 0);
-  setprop("/controls/engines/engine/cutoff-augmentation", TRUE);
+  setprop("/controls/engines/engine/cutoff-augmentation", FALSE);
   #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
