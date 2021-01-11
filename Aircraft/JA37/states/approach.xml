@@ -22,6 +22,10 @@
                     </canopy>
                 </names>
                 <fcs>
+                    <brake>
+                        <!-- Parking brake unset -->
+                        <parking-brake-state type="int">0</parking-brake-state>
+                    </brake>
                     <canopy>
                         <engage type="bool">false</engage>
                     </canopy>
@@ -68,7 +72,7 @@
                 <auto type="bool">true</auto>
             </fuel>
             <gear>
-                <brake-parking type="bool">false</brake-parking>
+                <chocks type="bool">false</chocks>
             </gear>
         </controls>
         <engines>

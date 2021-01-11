@@ -21,6 +21,10 @@
                     <gear-pos-norm type="double">0</gear-pos-norm>
                 </gear>
                 <fcs>
+                    <brake>
+                        <!-- Parking brake unset -->
+                        <parking-brake-state type="int">0</parking-brake-state>
+                    </brake>
                     <canopy>
                         <pos-norm type="double">0</pos-norm>
                         <engage type="bool">false</engage>
@@ -69,7 +73,7 @@
             </fuel>
             <gear>
                 <gear-down type="bool">false</gear-down>
-                <brake-parking type="bool">false</brake-parking>
+                <chocks type="bool">false</chocks>
             </gear>
         </controls>
         <engines>

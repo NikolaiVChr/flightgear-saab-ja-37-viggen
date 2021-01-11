@@ -58,6 +58,9 @@
             <fuel>
                 <auto type="bool">true</auto>
             </fuel>
+            <gear>
+                <chocks type="bool">false</chocks>
+            </gear>
         </controls>
         <engines>
             <engine n="0">
