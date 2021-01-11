@@ -25,21 +25,21 @@
     <diffuse>
       <r>1.0</r>
       <g>1.0</g>
-      <b>1.0</b>
+      <b>0.8</b>
       <a>1</a>
     </diffuse>
     <specular>
       <r>1.0</r>
       <g>1.0</g>
-      <b>1.0</b>
+      <b>0.8</b>
       <a>1</a>
     </specular>
     <attenuation>
-      <c>10</c>
-      <l>7</l>
-      <q>18</q>
+      <c>2.0</c>
+      <l>3.0</l>
+      <q>15.0</q>
     </attenuation>
-    <range-m>5</range-m>
+    <range-m>7</range-m>
     <dim-factor>
       <expression>
         <product>

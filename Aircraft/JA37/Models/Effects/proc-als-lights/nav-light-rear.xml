@@ -30,23 +30,23 @@
     <diffuse>
       <r>1.0</r>
       <g>1.0</g>
-      <b>1.0</b>
+      <b>0.8</b>
       <a>1</a>
     </diffuse>
     <specular>
       <r>1.0</r>
       <g>1.0</g>
-      <b>1.0</b>
+      <b>0.8</b>
       <a>1</a>
     </specular>
     <attenuation>
-      <c>0.4</c>
-      <l>0.15</l>
-      <q>0.2</q>
+      <c>1.0</c>
+      <l>0.7</l>
+      <q>1.8</q>
     </attenuation>
     <spot-cutoff>60</spot-cutoff>
-    <spot-exponent>2</spot-exponent>
-    <range-m>5</range-m>
+    <spot-exponent>1</spot-exponent><!-- Lose half intensity at 60deg (edge of cone) -->
+    <range-m>7</range-m>
     <dim-factor>
       <expression>
         <product>

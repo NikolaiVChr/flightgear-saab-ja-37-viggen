@@ -19,7 +19,7 @@
     <direction>
       <x>-1</x>
       <y>0</y>
-      <z>0</z>
+      <z>0.0</z>
     </direction>
     <ambient>
       <r>0.0</r>
@@ -40,13 +40,13 @@
       <a>1</a>
     </specular>
     <attenuation>
-      <c>0.5</c>
-      <l>0.1</l>
-      <q>0.1</q>
+      <c>0.2</c>
+      <l>0.2</l>
+      <q>0.2</q>
     </attenuation>
-    <spot-cutoff>40</spot-cutoff>
-    <spot-exponent>15</spot-exponent>
-    <range-m>10</range-m>
+    <spot-cutoff>30</spot-cutoff>
+    <spot-exponent>30</spot-exponent><!-- Lose half intensity at 12deg -->
+    <range-m>30</range-m>
   </light>
 
   <!-- Hide in internal view, otherwise it illuminates the dashboard,
@@ -96,7 +96,7 @@
     <expression>
       <product>
         <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
-        <property>/sim/time/elapsed-sec</property>
+        <property>sim/time/elapsed-sec</property>
         <value>360</value>
       </product>
     </expression>
