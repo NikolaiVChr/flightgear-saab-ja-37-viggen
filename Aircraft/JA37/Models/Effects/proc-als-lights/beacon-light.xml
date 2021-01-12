@@ -96,7 +96,7 @@
     <expression>
       <product>
         <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
-        <property>sim/time/elapsed-sec</property>
+        <property>/sim/time/elapsed-sec</property>
         <value>360</value>
       </product>
     </expression>
