@@ -1304,8 +1304,6 @@ var random_switches = {
   "controls/engines/engine/reverser-cmd": 0.5,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
-  "ja37/hud/switch-hojd": 0.5,
-  "ja37/hud/switch-slav": 0.5,
   # Not used under normal operation: usual position with high probability.
   "controls/engines/engine[0]/cutoff-augmentation": 0.2,
   "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
@@ -1313,9 +1311,12 @@ var random_switches = {
   "controls/fuel/auto": 0.8,
 };
 
-# Only for the JA. AJS is missing this switch.
+# Variant specific switches
 if (variant.JA) {
   random_switches["ja37/avionics/collision-warning"] = 0.5;
+} else {
+  random_switches["ja37/hud/switch-hojd"] = 0.5;
+  random_switches["ja37/hud/switch-slav"] = 0.5;
 }
 
 var random_multipos = {
