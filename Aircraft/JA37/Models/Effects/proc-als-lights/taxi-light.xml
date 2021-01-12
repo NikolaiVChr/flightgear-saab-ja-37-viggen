@@ -49,6 +49,22 @@
     <range-m>80</range-m>
   </light>
 
+  <!-- Hide in internal view when retracting, otherwise it illuminates the dashboard -->
+  <animation>
+    <type>select</type>
+    <object-name>taxi_light</object-name>
+    <condition>
+      <or>
+        <!-- Since this is a relative path, it should hide it for our aircraft, but not MP models. -->
+        <not><property>sim/current-view/internal</property></not>
+        <equals>
+          <property>gear/gear[0]/position-norm</property>
+          <value>1</value>
+        </equals>
+      </or>
+    </condition>
+  </animation>
+
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
