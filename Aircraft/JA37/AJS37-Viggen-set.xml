@@ -214,6 +214,9 @@
                 <checklist include="gui/checklists/aj37-in-air-start.xml"/>
                 <checklist include="gui/checklists/generator-failure.xml"/>
             </group>
+            <!-- Disable tutorials generated from checklists.
+                 They are broken due to parts of the checklists that are only done under some circumstances. -->
+            <auto-tutorials type="bool">false</auto-tutorials>
         </checklists>
     </sim>
     <!--**********************************************************************
