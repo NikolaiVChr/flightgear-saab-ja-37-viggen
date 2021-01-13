@@ -90,16 +90,11 @@
   </animation>
 
   <animation>
-    <type>rotate</type>
+    <type>spin</type>
     <object-name>procedural_light</object-name>
     <object-name>beacon_light</object-name>
-    <expression>
-      <product>
-        <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
-        <property>/sim/time/elapsed-sec</property>
-        <value>360</value>
-      </product>
-    </expression>
+    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    <factor>60</factor>
     <center>
       <x-m>0</x-m>
       <y-m>0</y-m>
