@@ -45,7 +45,7 @@ input = {
   reload_allowed:   "/ja37/reload-allowed",
   cutoff:           "fdm/jsbsim/propulsion/engine/cutoff-commanded",
   damage:           "environment/damage",
-  damageSmoke:      "environment/damage-smoke",
+  damageSmoke:      "ja37/effect/damage-smoke",
   dens:             "fdm/jsbsim/atmosphere/density-altitude",
   downFps:          "/velocities/down-relground-fps",
   elapsed:          "sim/time/elapsed-sec",

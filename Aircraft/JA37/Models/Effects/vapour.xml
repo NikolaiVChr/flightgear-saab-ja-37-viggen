@@ -13,7 +13,7 @@
     <condition>
       <and>
         <greater-than>
-          <property>rotors/tail/rpm</property><!-- alias: orientation/alpha-deg -->
+          <property>orientation/alpha-deg</property>
           <value>17.0</value>
         </greater-than>
         <or>

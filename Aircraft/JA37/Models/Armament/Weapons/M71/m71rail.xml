@@ -21,7 +21,7 @@
     <type>select</type>
     <condition>
       <greater-than-equals>
-        <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>fdm/jsbsim/structural/wings/serviceable</property>
         <value alias="../../../../params/on-wings"/>
       </greater-than-equals>
       <or>
@@ -110,7 +110,7 @@
     <type>select</type>
     <condition>
       <greater-than-equals>
-        <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>fdm/jsbsim/structural/wings/serviceable</property>
         <value alias="../../../../params/on-wings"/>
       </greater-than-equals>
       <equals>
@@ -193,7 +193,7 @@
     <type>select</type>
     <condition>
       <greater-than-equals>
-        <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <property>fdm/jsbsim/structural/wings/serviceable</property>
         <value alias="../../../../params/on-wings"/>
       </greater-than-equals>
       <equals>

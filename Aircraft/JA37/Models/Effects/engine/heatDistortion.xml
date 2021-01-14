@@ -34,7 +34,7 @@
      </greater-than>
      <property>/sim/rendering/shaders/skydome</property>
      <not>
-       <property>sim/multiplay/generic/bool[11]</property><!-- engines/engine/is-reversed -->
+       <property>engines/engine/is-reversed</property>
      </not>
     </condition>
   </animation>

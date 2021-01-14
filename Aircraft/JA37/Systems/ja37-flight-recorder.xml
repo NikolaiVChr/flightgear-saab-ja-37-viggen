@@ -247,7 +247,7 @@
         </signal>
         <signal>
             <type>bool</type>
-            <property type="string">environment/damage-smoke</property>
+            <property type="string">ja37/effect/damage-smoke</property>
         </signal>
         <signal>
             <type>bool</type>

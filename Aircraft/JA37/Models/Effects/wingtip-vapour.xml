@@ -7,7 +7,7 @@
    <lighting type="bool">false</lighting><!-- sadly have to be false, since the polygons are not double sided -->
    
    <condition>
-     <property>sim/multiplay/generic/bool[5]</property> <!-- fdm/jsbsim/effects/wingtip-vapour -->
+     <property>fdm/jsbsim/effects/wingtip-vapour</property>
    </condition>
  
    <attach>local</attach>

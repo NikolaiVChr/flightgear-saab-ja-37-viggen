@@ -10,12 +10,7 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-     <or>
-       <!-- damage/sounds/explode-on -->
-       <property>sim/multiplay/generic/bool[14]</property>
-       <!-- backward compatibility -->
-       <property>sim/multiplay/generic/int[7]</property>
-     </or>
+     <property>damage/sounds/explode-on</property>
    </condition>
 
    <attach>world</attach>
@@ -101,12 +96,7 @@
    <lighting type="bool">false</lighting>
 
    <condition>
-     <or>
-       <!-- damage/sounds/explode-on -->
-       <property>sim/multiplay/generic/bool[14]</property>
-       <!-- backward compatibility -->
-       <property>sim/multiplay/generic/int[7]</property>
-     </or>
+     <property>damage/sounds/explode-on</property>
    </condition>
 
    <attach>world</attach>

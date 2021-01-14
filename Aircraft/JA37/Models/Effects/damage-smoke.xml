@@ -12,7 +12,7 @@
 		</offsets>
 		<texture>smoke.png</texture>
 		<condition>
-			<property>sim/multiplay/generic/bool[3]</property><!-- /environment/damage-smoke -->
+			<property>ja37/effect/damage-smoke</property>
 		</condition>
 		<emissive>false</emissive>
 		<lighting>false</lighting>

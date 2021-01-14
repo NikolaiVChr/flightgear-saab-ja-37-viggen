@@ -15,62 +15,62 @@
      <roll-deg>90</roll-deg>
     </offsets>
 
-   <condition>
-     <or>
-       <less-than>
-         <property>/sim/rendering/shaders/model</property>
-         <value>1</value>
-       </less-than>
-       <not>
-        <property>/sim/rendering/shaders/skydome</property>
-       </not>
-     </or>
-     <and>
-      <less-than-equals>   
-       <property>sim/multiplay/generic/float[17]</property><!--  velocities/airspeed-kt -->
-       <value>40</value>
-      </less-than-equals>
-      <property>sim/multiplay/generic/bool[9]</property><!-- engines/engine/running -->
-      <not>
-        <property>sim/multiplay/generic/bool[11]</property><!-- engines/engine/is-reversed -->
-      </not>
-     </and>
-   </condition>
-     
+    <condition>
+      <or>
+        <less-than>
+          <property>/sim/rendering/shaders/model</property>
+          <value>1</value>
+        </less-than>
+        <not>
+          <property>/sim/rendering/shaders/skydome</property>
+        </not>
+      </or>
+      <and>
+        <less-than-equals>
+          <property>velocities/airspeed-kt</property>
+          <value>40</value>
+        </less-than-equals>
+        <property>engines/engine/running</property>
+        <not>
+          <property>engines/engine/is-reversed</property>
+        </not>
+      </and>
+    </condition>
+
     <attach>world</attach>
 
     <placer>
-     <type>point</type>
+      <type>point</type>
     </placer>
-    
+
     <shooter>
-     <theta-min-deg>-15</theta-min-deg>
-     <theta-max-deg>15</theta-max-deg>
-     <phi-min-deg>-15</phi-min-deg>
-     <phi-max-deg>15</phi-max-deg>
-     <speed-mps>
-      <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb -->
-      <spread>20</spread>
-     </speed-mps>
-     <rotation-speed>
-      <x-min-deg-sec>5</x-min-deg-sec>
-      <y-min-deg-sec>5</y-min-deg-sec>
-      <z-min-deg-sec>5</z-min-deg-sec>
-      <x-max-deg-sec>100</x-max-deg-sec>
-      <y-max-deg-sec>100</y-max-deg-sec>
-      <z-max-deg-sec>100</z-max-deg-sec>
-     </rotation-speed>
+      <theta-min-deg>-15</theta-min-deg>
+      <theta-max-deg>15</theta-max-deg>
+      <phi-min-deg>-15</phi-min-deg>
+      <phi-max-deg>15</phi-max-deg>
+      <speed-mps>
+        <property>engines/engine/thrust-lb</property>
+        <spread>20</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>5</x-min-deg-sec>
+        <y-min-deg-sec>5</y-min-deg-sec>
+        <z-min-deg-sec>5</z-min-deg-sec>
+        <x-max-deg-sec>100</x-max-deg-sec>
+        <y-max-deg-sec>100</y-max-deg-sec>
+        <z-max-deg-sec>100</z-max-deg-sec>
+      </rotation-speed>
     </shooter>
-    
+
     <counter>
-     <particles-per-sec>
-      <value>8</value>
-      <spread>5</spread>
-     </particles-per-sec>
+      <particles-per-sec>
+        <value>8</value>
+        <spread>5</spread>
+      </particles-per-sec>
     </counter>
-    
+
     <align>billboard</align>
-    
+
     <particle>
      <start>
       <color>

@@ -12,7 +12,7 @@
 
     <condition>
       <equals>
-        <property>sim/multiplay/generic/short[3]</property><!-- ja37/effect/smoke -->
+        <property>ja37/effect/smoke</property>
         <value>3</value>
       </equals>
     </condition>

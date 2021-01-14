@@ -13,8 +13,7 @@
     <object-name>procedural_light</object-name>
     <condition>
       <or>
-        <!-- fdm/jsbsim/fcs/wings/serviceable -->
-        <property>sim/multiplay/generic/bool[12]</property>
+        <property>fdm/jsbsim/structural/wings/serviceable</property>
         <!-- backward compatibility -->
         <property>sim/hitches/aerotow/is-slave</property>
       </or>
@@ -29,7 +28,7 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/short[2]</property> <!-- /ja37/effect/rear-navigation-light (0-100 scale) -->
+    <property>ja37/effect/rear-navigation-light</property>
     <x-factor>0.01</x-factor>
     <y-factor>0.01</y-factor>
     <z-factor>0.01</z-factor>

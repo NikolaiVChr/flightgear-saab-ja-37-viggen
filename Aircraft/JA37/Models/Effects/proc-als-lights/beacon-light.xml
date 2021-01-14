@@ -32,14 +32,14 @@
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
-      <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+      <property>ja37/effect/beacon-light</property>
     </condition>
   </animation>
 
   <animation>
     <type>spin</type>
     <object-name>procedural_light</object-name>
-    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    <property>ja37/effect/beacon-light</property>
     <factor>60</factor>
     <center>
         <x-m>0</x-m>
@@ -52,7 +52,7 @@
         <z>1</z>
     </axis>
   </animation>
-  
+
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>

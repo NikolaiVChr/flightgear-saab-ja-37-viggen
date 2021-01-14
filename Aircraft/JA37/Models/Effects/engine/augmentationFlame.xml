@@ -29,10 +29,8 @@
     <nopreview/>
     <condition>
      <property>/sim/rendering/shaders/skydome</property><!-- als -->
-     <property>sim/multiplay/generic/bool[10]</property><!-- engines/engine/augmentation -->
-     <not>
-       <property>sim/multiplay/generic/bool[11]</property><!-- engines/engine/is-reversed -->
-     </not>
+     <property>engines/engine/augmentation</property>
+     <not><property>engines/engine/is-reversed</property></not>
     </condition>
   </animation>
 

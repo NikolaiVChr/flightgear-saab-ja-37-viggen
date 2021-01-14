@@ -348,8 +348,8 @@
 
 *************************************************************************-->
         <multiplay>
-          <!-- int 2, int 17, int 18, int 19, float 2, float 3, float 9, 
-                string[4], string[6], string[7], string[8], are controlled from nasal or JSB
+          <!--  int 2, float 2, float 3, float 9, string[4], string[6], string[7], string[8],
+                are controlled from nasal or JSB
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
@@ -370,19 +370,20 @@
                 rotors/main/blade[1]/flap-deg      = MP missiles lon
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
+                rotors/tail/rpm                    = alpha
 
                 used up to:
                 int[2], short[11], bool[22], float[19]
 
                 unused:
-                int[1]
+                int[0-1]
                 float[1], float[4], float[6], float[8], float[10-15], float[18]
                 bool[17-19]
              -->
             <generic>
                 <!-- effects -->
                 <short n="3" alias="/ja37/effect/smoke"/>                       <!-- airshow smoke -->
-                <bool n="3" alias="/environment/damage-smoke"/>                 <!-- crash smoke -->
+                <bool n="3" alias="/ja37/effect/damage-smoke"/>                 <!-- crash smoke -->
                 <bool n="4"/>                                                   <!-- contrail - nasal -->
                 <bool n="5" alias="/fdm/jsbsim/effects/wingtip-vapour"/>        <!-- vapour trail -->
                 <bool n="14" alias="/damage/sounds/explode-on"/>                <!-- aircraft explosion -->
@@ -1317,13 +1318,6 @@
         </main>
         <tail>
             <rpm alias="/orientation/alpha-deg"/>
-            <!-- for future MP transmit
-            <blade n="0">
-                <position-deg type="double">0</position-deg>
-            </blade>
-            <blade n="1">
-                <position-deg type="double">0</position-deg>
-            </blade>-->
         </tail>
     </rotors>
 

@@ -12,7 +12,7 @@
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
-      <property>sim/multiplay/generic/bool[1]</property> <!-- ja37/effect/taxi-light  -->
+      <property>ja37/effect/taxi-light</property>
     </condition>
   </animation>
 
@@ -32,7 +32,7 @@
       <entry><ind>2000</ind><dep>2.0</dep></entry>
     </interpolation>
   </animation>
-  
+
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>

@@ -72,11 +72,11 @@
     <condition>
       <and>
         <greater-than>
-          <property>sim/multiplay/generic/float[7]</property><!-- /velocities/mach -->
+          <property>velocities/mach</property>
           <value>0.97</value>
         </greater-than>
         <less-than>
-          <property>sim/multiplay/generic/float[7]</property><!-- /velocities/mach -->
+          <property>velocities/mach</property>
           <value>1.05</value>
         </less-than>
         <less-than>

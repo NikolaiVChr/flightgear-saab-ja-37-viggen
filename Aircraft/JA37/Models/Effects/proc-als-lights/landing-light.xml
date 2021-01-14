@@ -12,7 +12,7 @@
     <type>select</type>
     <object-name>procedural_light</object-name>
     <condition>
-      <property>sim/multiplay/generic/bool[0]</property> <!-- ja37/effect/landing-light  -->
+      <property>ja37/effect/landing-light</property>
     </condition>
   </animation>
 
