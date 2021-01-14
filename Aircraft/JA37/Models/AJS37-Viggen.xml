@@ -624,7 +624,6 @@
           "sim/multiplay/generic/bool[13]":   "fdm/jsbsim/fcs/canopy/hinges/serviceable",
           "sim/multiplay/generic/bool[14]":   "damage/sounds/explode-on",
           "sim/multiplay/generic/bool[15]":   "controls/gear/chocks",
-          "sim/multiplay/generic/bool[16]":   "fdm/jsbsim/systems/electrical/external/available",
           "rotors/main/blade[0]/position-deg":  "gear/gear[0]/rollspeed-ms",
           "rotors/main/blade[1]/position-deg":  "gear/gear[2]/rollspeed-ms",
           "rotors/main/blade[2]/position-deg":  "gear/gear[1]/rollspeed-ms",

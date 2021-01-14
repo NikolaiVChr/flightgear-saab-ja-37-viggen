@@ -378,7 +378,7 @@
                 unused:
                 int[0-1]
                 float[1], float[8], float[10-15], float[18]
-                bool[17-19]
+                bool[16-19]
              -->
             <generic>
                 <!-- effects -->
@@ -391,7 +391,6 @@
                 <bool n="13" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/><!-- detached canopy -->
                 <int n="2" type="int">0</int>                                   <!-- radar - nasal -->
                 <bool n="15" alias="/controls/gear/chocks"/>
-                <bool n="16" alias="/fdm/jsbsim/systems/electrical/external/available"/>
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
                 <float n="2"/>                                                  <!-- afterburner flame translucency - nasal -->
