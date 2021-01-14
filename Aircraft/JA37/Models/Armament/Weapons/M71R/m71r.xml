@@ -1,25 +1,36 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <path>m71r.ac</path>
 
-	<path>m71r.ac</path>
+  <params>
+    <count-prop></count-prop><!-- payload/armament/station/id-*-count -->
+    <sequence>0</sequence>
+  </params>
 
-	<nopreview/>
+  <nopreview/>
 
-	<effect>
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
-	  <object-name>m71</object-name>
-	</effect>
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+    <object-name>m71</object-name>
+  </effect>
 
-	<animation>
-		<type>select</type>
-		<object-name>parachute</object-name>
-		<condition>
-			<equals>
-				<value>1</value>
-				<value>0</value>
-			</equals>
-		</condition>
-	</animation>
+  <animation>
+    <type>select</type>
+    <object-name>parachute</object-name>
+    <condition>
+      <or/>
+    </condition>
+  </animation>
 
+  <animation>
+    <object-name>m71</object-name>
+    <type>select</type>
+    <condition>
+      <greater-than>
+        <property alias="../../../../params/count-prop"/>
+        <value alias="../../../../params/sequence"/>
+      </greater-than>
+    </condition>
+  </animation>
 </PropertyList>

@@ -1,14 +1,206 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <path>m71rail.ac</path>
 
-	<path>m71rail.ac</path>
+  <params>
+    <on-wings>0</on-wings>
+    <type-id-prop></type-id-prop><!-- payload/armament/station/id-*-type-id -->
+    <count-prop></count-prop><!-- payload/armament/station/id-*-count -->
+  </params>
 
-	<nopreview/>
+  <nopreview/>
 
-	<effect>
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
-	  <object-name>m71rail</object-name>
-	</effect>
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+    <object-name>m71rail</object-name>
+  </effect>
+
+  <animation>
+    <object-name>m71rail</object-name>
+    <type>select</type>
+    <condition>
+      <greater-than-equals>
+        <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <value alias="../../../../params/on-wings"/>
+      </greater-than-equals>
+      <or>
+        <equals>
+          <property alias="../../../../../params/type-id-prop"/>
+          <value>9</value>
+        </equals>
+        <equals>
+          <property alias="../../../../../params/type-id-prop"/>
+          <value>10</value>
+        </equals>
+      </or>
+    </condition>
+  </animation>
+
+  <!-- Low drag bombs -->
+  <model>
+    <path>m71.xml</path>
+    <name>m710</name>
+    <offsets>
+      <x-m>-1.0968</x-m>
+      <y-m>-0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>1</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <model>
+    <path>m71.xml</path>
+    <name>m711</name>
+    <offsets>
+      <x-m>-1.0968</x-m>
+      <y-m>0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>0</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <model>
+    <path>m71.xml</path>
+    <name>m712</name>
+    <offsets>
+      <x-m>1.1380</x-m>
+      <y-m>-0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>3</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <model>
+    <path>m71.xml</path>
+    <name>m713</name>
+    <offsets>
+      <x-m>1.1380</x-m>
+      <y-m>0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>2</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <animation>
+    <object-name>m710</object-name>
+    <object-name>m711</object-name>
+    <object-name>m712</object-name>
+    <object-name>m713</object-name>
+    <type>select</type>
+    <condition>
+      <greater-than-equals>
+        <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <value alias="../../../../params/on-wings"/>
+      </greater-than-equals>
+      <equals>
+        <property alias="../../../../params/type-id-prop"/>
+        <value>9</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <!-- High drag bombs -->
+  <model>
+    <path>../M71R/m71r.xml</path>
+    <name>m71r0</name>
+    <offsets>
+      <x-m>-1.0968</x-m>
+      <y-m>-0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>1</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <model>
+    <path>../M71R/m71r.xml</path>
+    <name>m71r1</name>
+    <offsets>
+      <x-m>-1.0968</x-m>
+      <y-m>0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>0</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <model>
+    <path>../M71R/m71r.xml</path>
+    <name>m71r2</name>
+    <offsets>
+      <x-m>1.1380</x-m>
+      <y-m>-0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>3</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <model>
+    <path>../M71R/m71r.xml</path>
+    <name>m71r3</name>
+    <offsets>
+      <x-m>1.1380</x-m>
+      <y-m>0.1813</y-m>
+      <z-m>-0.2225</z-m>
+    </offsets>
+    <overlay>
+      <params>
+        <count-prop alias="../../../../params/count-prop"/>
+        <sequence>2</sequence>
+      </params>
+    </overlay>
+  </model>
+
+  <animation>
+    <object-name>m71r0</object-name>
+    <object-name>m71r1</object-name>
+    <object-name>m71r2</object-name>
+    <object-name>m71r3</object-name>
+    <type>select</type>
+    <condition>
+      <greater-than-equals>
+        <property>sim/multiplay/generic/bool[12]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+        <value alias="../../../../params/on-wings"/>
+      </greater-than-equals>
+      <equals>
+        <property alias="../../../../params/type-id-prop"/>
+        <value>10</value>
+      </equals>
+    </condition>
+  </animation>
 
 </PropertyList>
