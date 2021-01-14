@@ -70,7 +70,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-1-type-id</property>
+        <property>payload/armament/station/id-1-type-id</property>
         <value>5</value>
       </equals>
     </condition>
@@ -92,7 +92,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-3-type-id</property>
+        <property>payload/armament/station/id-3-type-id</property>
         <value>5</value>
       </equals>
     </condition>
@@ -116,7 +116,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-1-type-id</property>
+        <property>payload/armament/station/id-1-type-id</property>
         <value>12</value>
       </equals>
     </condition>
@@ -139,7 +139,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-3-type-id</property>
+        <property>payload/armament/station/id-3-type-id</property>
         <value>12</value>
       </equals>
     </condition>
@@ -232,7 +232,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-1-type-id</property>
+        <property>payload/armament/station/id-1-type-id</property>
         <value>8</value>
       </equals>
     </condition>
@@ -255,7 +255,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-3-type-id</property>
+        <property>payload/armament/station/id-3-type-id</property>
         <value>8</value>
       </equals>
     </condition>
@@ -279,7 +279,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-1-type-id</property>
+        <property>payload/armament/station/id-1-type-id</property>
         <value>4</value>
       </equals>
     </condition>
@@ -302,7 +302,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-3-type-id</property>
+        <property>payload/armament/station/id-3-type-id</property>
         <value>4</value>
       </equals>
     </condition>
@@ -325,7 +325,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>payload/armament/station-id-2-type-id</property>
+        <property>payload/armament/station/id-2-type-id</property>
         <value>6</value>
       </equals>
     </condition>
@@ -347,7 +347,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>payload/armament/station-id-4-type-id</property>
+        <property>payload/armament/station/id-4-type-id</property>
         <value>6</value>
       </equals>
     </condition>
@@ -372,7 +372,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-1-type-id</property>
+        <property>payload/armament/station/id-1-type-id</property>
         <value>7</value>
       </equals>
     </condition>
@@ -394,7 +394,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>payload/armament/station-id-2-type-id</property>
+        <property>payload/armament/station/id-2-type-id</property>
         <value>7</value>
       </equals>
     </condition>
@@ -417,7 +417,7 @@
     <condition>
       <property>fdm/jsbsim/structural/wings/serviceable</property>
       <equals>
-        <property>payload/armament/station-id-3-type-id</property>
+        <property>payload/armament/station/id-3-type-id</property>
         <value>7</value>
       </equals>
     </condition>
@@ -439,7 +439,7 @@
     <type>select</type>
     <condition>
       <equals>
-        <property>payload/armament/station-id-4-type-id</property>
+        <property>payload/armament/station/id-4-type-id</property>
         <value>7</value>
       </equals>
     </condition>
