@@ -3,6 +3,14 @@
 <PropertyList>
   <path>Models/Effects/procedural_light.ac</path>
 
+  <params>
+    <direction>
+      <x>-1</x>
+      <y>0</y>
+      <z>0.2</z>
+    </direction>
+  </params>
+
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
     <object-name>procedural_light</object-name>
@@ -17,9 +25,9 @@
       <z-m>0</z-m>
     </position>
     <direction>
-      <x>-1</x>
-      <y>0</y>
-      <z>0.0</z>
+      <x alias="../../../params/direction/x"/>
+      <y alias="../../../params/direction/y"/>
+      <z alias="../../../params/direction/z"/>
     </direction>
     <ambient>
       <r>0.0</r>
