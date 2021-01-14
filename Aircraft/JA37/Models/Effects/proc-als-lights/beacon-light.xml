@@ -3,14 +3,6 @@
 <PropertyList>
   <path>Models/Effects/procedural_light.ac</path>
 
-  <params>
-    <direction>
-      <x>-1</x>
-      <y>0</y>
-      <z>0.2</z>
-    </direction>
-  </params>
-
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/beacon-light</inherits-from>
     <object-name>procedural_light</object-name>
@@ -25,9 +17,9 @@
       <z-m>0</z-m>
     </position>
     <direction>
-      <x alias="../../../params/direction/x"/>
-      <y alias="../../../params/direction/y"/>
-      <z alias="../../../params/direction/z"/>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
     </direction>
     <ambient>
       <r>0.0</r>
@@ -95,24 +87,6 @@
     <condition>
       <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
     </condition>
-  </animation>
-
-  <animation>
-    <type>spin</type>
-    <object-name>procedural_light</object-name>
-    <object-name>beacon_light</object-name>
-    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
-    <factor>60</factor>
-    <center>
-      <x-m>0</x-m>
-      <y-m>0</y-m>
-      <z-m>0</z-m>
-    </center>
-    <axis>
-      <x>0</x>
-      <y>0</y>
-      <z>1</z>
-    </axis>
   </animation>
 
   <animation>
