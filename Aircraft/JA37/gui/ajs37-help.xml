@@ -59,7 +59,7 @@
     </key>
     <key>
         <name>U</name>
-        <desc>Uncage IR seeker after lock (held: cage/reset seeker)</desc>
+        <desc>Uncage IR seeker after lock (hold for 1s: cage/reset seeker)</desc>
     </key>
     <key>
         <name>q</name>
