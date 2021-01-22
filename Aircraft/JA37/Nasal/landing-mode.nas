@@ -6,9 +6,9 @@ input = {
 	rmActive:             "autopilot/route-manager/active",
 	rmDist:               "autopilot/route-manager/wp/dist",
 	rmId:                 "autopilot/route-manager/wp/id",
-	rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
+	rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
 	rmCurrWaypoint:       "autopilot/route-manager/current-wp",
-	headTrue:             "orientation/heading-deg",
+	heading:              "instrumentation/heading-indicator/indicated-heading-deg",
     nav0GSInRange:    	  "instrumentation/nav[0]/gs-in-range",
     nav0HasGS:        	  "instrumentation/nav[0]/has-gs",
     nav0InRange:       	  "instrumentation/nav[0]/in-range",
@@ -346,11 +346,12 @@ var Landing = {
         has_waypoint = -1;
         runway_rw = nil;
         ils = 0;
+
+        me.heading = input.heading.getValue();#true
     	if (route.Polygon.isPrimaryActive() == TRUE) {
             has_waypoint = 0;
             runway_dist = input.rmDist.getValue();        
-            me.heading = input.headTrue.getValue();#true
-            me.bearing = input.rmTrueBearing.getValue();#true
+            me.bearing = input.rmBearing.getValue();#true
             if (runway_dist != nil and me.bearing != nil and me.heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
                 has_waypoint = 1;
               	runway_bug = me.bearing - me.heading;
@@ -369,8 +370,7 @@ var Landing = {
                         runway = me.wp[0].id;
                         runway_rw = me.wp[0];
                         if (!radar_logic.steerOrder) {
-                            me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-                            setprop("ja37/avionics/heading-indicator-target", geo.normdeg(getprop("orientation/heading-magnetic-deg")-(runway_rw.heading + me.mag_offset)));
+                            setprop("ja37/avionics/heading-indicator-target", runway_rw.heading);
                         }
                         if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
                             ils = runway_rw.ils.frequency/100;
@@ -385,7 +385,7 @@ var Landing = {
         }
         if (has_waypoint != 2) {
             if (!radar_logic.steerOrder) {
-                setprop("ja37/avionics/heading-indicator-target", getprop("orientation/heading-magnetic-deg"));
+                setprop("ja37/avionics/heading-indicator-target", 0);
             }
         }
         me.alt             = input.alt_ft.getValue()*FT2M;

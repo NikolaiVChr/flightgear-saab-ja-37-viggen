@@ -351,6 +351,14 @@
             <gain>5</gain>
             <output>/instrumentation/heading-indicator[1]/power</output>
         </pure_gain>
+
+        <switch name="instruments/heading/ja-indicated-heading">
+            <default value="/instrumentation/heading-indicator/indicated-heading-deg"/>
+            <test value="/instrumentation/heading-indicator[1]/indicated-heading-deg">
+                /ja37/avionics/reservkurs eq 1
+            </test>
+            <output>/instrumentation/heading-indicator/ja-indicated-heading-deg</output>
+        </switch>
     </channel>
 
 
@@ -372,7 +380,7 @@
     <channel execrate="4" name="waypoint-indicators">
         <!-- waypoint bearing indicator -->
         <switch name="instruments/waypoint/bearing-index-goal">
-            <default value="/autopilot/route-manager/wp/bearing-deg"/>
+            <default value="/autopilot/route-manager/wp/true-bearing-deg"/>
             <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
                 /ja37/elec/ac-bus-main-bool == 0
                 /instrumentation/heading-indicator/serviceable == 0

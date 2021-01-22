@@ -65,7 +65,7 @@ input = {
   gearsPos:         "gear/gear/position-norm",
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
-  headingMagn:      "/orientation/heading-magnetic-deg",
+  heading:          "/instrumentation/heading-indicator/indicated-heading-deg",
   hz05:             "ja37/blink/five-Hz/state",
   hz10:             "ja37/blink/four-Hz/state",
   hzThird:          "ja37/blink/third-Hz/state",
@@ -105,7 +105,7 @@ input = {
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
   rmActive:         "/autopilot/route-manager/active",
-  RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
+  rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   servFire:         "engines/engine[0]/fire/serviceable",
@@ -850,19 +850,18 @@ var Saab37 = {
   
   headingBug: func () {
     # for the heading indicator
-    me.desired_mag_heading = nil;
-    if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
-        me.desired_mag_heading = radar_logic.selection.getMagInterceptBearing();
+    me.desired_heading = nil;
+    if (radar_logic.steerOrder and radar_logic.selection != nil) {
+        me.desired_heading = radar_logic.selection.getInterceptBearing();
         me.itsHead = radar_logic.selection.get_heading();
-        me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-        setprop("ja37/avionics/heading-indicator-target", geo.normdeg(input.headingMagn.getValue()-(me.itsHead + me.mag_offset)));
-    } elsif( input.rmActive.getValue() == TRUE) {
-      me.desired_mag_heading = input.RMWaypointBearing.getValue();
+        setprop("ja37/avionics/heading-indicator-target", me.itsHead);
+    } elsif(input.rmActive.getBoolValue()) {
+      me.desired_heading = input.rmBearing.getValue();
     }
-    if(me.desired_mag_heading != nil) {
-      setprop("ja37/avionics/heading-indicator-bug", geo.normdeg(input.headingMagn.getValue()-me.desired_mag_heading));
+    if(me.desired_heading != nil) {
+      setprop("ja37/avionics/heading-indicator-bug", me.desired_heading);
     } else {
-      setprop("ja37/avionics/heading-indicator-bug", input.headingMagn.getValue());
+      setprop("ja37/avionics/heading-indicator-bug", 0);
     }
   },
 
@@ -892,13 +891,11 @@ var Saab37 = {
     me.loop_commonF.start();
 
     me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
-    me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
 
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_land.start();
-    me.loop_nav.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
@@ -1006,13 +1003,11 @@ var Saab37 = {
     me.loop_commonF.start();
 
     me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
-    me.loop_nav      = maketimer(0.28, me, func {timer.timeLoop("heading-indicator", navigation.heading_indicator,me);});
 
     me.loop_saab37.start();
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_land.start();
-    me.loop_nav.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();

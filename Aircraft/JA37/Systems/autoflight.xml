@@ -434,7 +434,7 @@
 								<value>1</value>
 							</eq>
 							<property>autoflight/roll/hdg-hold-target</property>
-							<property>/orientation/heading-magnetic-deg</property>
+							<property>/instrumentation/heading-indicator/indicated-heading-deg</property>
 						</ifthen>
 						<value>0.5</value> <!-- Make the integer rounded correctly -->
 					</sum>

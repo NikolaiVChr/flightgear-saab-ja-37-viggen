@@ -458,7 +458,7 @@ var Horizon = {
             if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue()
                 and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))) {
                 # TILS. Extremely basic 'flight director' (proportional command)
-                var ils_rdl = input.nav_rdl.getValue() - input.head_true.getValue() + input.heading.getValue();
+                var ils_rdl = input.nav_rdl.getValue();
                 me.gs_pos[0] = ils_rdl + input.nav_defl.getValue()*2 - fpv_heading;
                 me.gs_pos[0] = geo.normdeg180(me.gs_pos[0]);
                 me.gs_pos[0] = math.clamp(me.gs_pos[0], -6, 6);

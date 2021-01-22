@@ -142,7 +142,6 @@ var MI = {
 			timeElapsed:          "sim/time/elapsed-sec",
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
-			headMagn:             "orientation/heading-magnetic-deg",
 			fpv_pitch:            "instrumentation/fpv/pitch-deg",
 			fpv_up:               "instrumentation/fpv/angle-up-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-deg",

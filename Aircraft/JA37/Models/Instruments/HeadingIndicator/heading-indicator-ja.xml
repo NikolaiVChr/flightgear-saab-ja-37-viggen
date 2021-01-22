@@ -35,132 +35,69 @@
     <animation>
         <type>rotate</type>
         <object-name>dial</object-name>
-        <property>orientation/heading-magnetic-deg</property>
+        <object-name>needle</object-name>
+        <object-name>needle_target</object-name>
+        <property>instrumentation/heading-indicator/ja-indicated-heading-deg</property>
         <condition>
-            <or>
-                <and>
-                    <not><property>ja37/avionics/reservkurs</property></not>
-                    <property>ja37/elec/dc-bus-main-bool</property>
-                </and>
-                <and>
-                    <property>ja37/avionics/reservkurs</property>
-                    <property>ja37/elec/ac-bus-main-bool</property>
-                </and>
-            </or>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>360</ind>
-                <dep>360</dep>
-            </entry>
-        </interpolation>
+        <factor>-1</factor>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0</z-m>
         </center>
         <axis>
-            <x>1</x>
+            <x>-1</x>
             <y>0</y>
             <z>0</z>
         </axis>
     </animation>
-    
-        <animation>
+
+    <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
         <property>ja37/avionics/heading-indicator-bug</property>
         <condition>
-            <or>
-                <and>
-                    <not><property>ja37/avionics/reservkurs</property></not>
-                    <property>ja37/elec/dc-bus-main-bool</property>
-                </and>
-                <and>
-                    <property>ja37/avionics/reservkurs</property>
-                    <property>ja37/elec/ac-bus-main-bool</property>
-                </and>
-            </or>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>360</ind>
-                <dep>360</dep>
-            </entry>
-        </interpolation>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0</z-m>
         </center>
         <axis>
-            <x>1</x>
+            <x>-1</x>
             <y>0</y>
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>rotate</type>
         <object-name>needle_target</object-name>
         <property>ja37/avionics/heading-indicator-target</property>
         <condition>
-            <or>
-                <and>
-                    <not><property>ja37/avionics/reservkurs</property></not>
-                    <property>ja37/elec/dc-bus-main-bool</property>
-                </and>
-                <and>
-                    <property>ja37/avionics/reservkurs</property>
-                    <property>ja37/elec/ac-bus-main-bool</property>
-                </and>
-            </or>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>360</ind>
-                <dep>360</dep>
-            </entry>
-        </interpolation>
         <center>
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0</z-m>
         </center>
         <axis>
-            <x>1</x>
+            <x>-1</x>
             <y>0</y>
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>select</type>
         <object-name>off</object-name>
         <condition>
             <not>
-                <or>
-                    <and>
-                        <not><property>ja37/avionics/reservkurs</property></not>
-                        <property>ja37/elec/dc-bus-main-bool</property>
-                    </and>
-                    <and>
-                        <property>ja37/avionics/reservkurs</property>
-                        <property>ja37/elec/ac-bus-main-bool</property>
-                    </and>
-                </or>
+                <property>ja37/elec/ac-bus-main-bool</property>
             </not>
         </condition>
     </animation>
@@ -173,8 +110,8 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>ADI</tooltip-id>
-                <label>Magnetic heading: %3d</label>
-                <property>/orientation/heading-magnetic-deg</property>
+                <label>Heading: %3d</label>
+                <property>instrumentation/heading-indicator/ja-indicated-heading-deg</property>
             </binding>
         </hovered>
     </animation>

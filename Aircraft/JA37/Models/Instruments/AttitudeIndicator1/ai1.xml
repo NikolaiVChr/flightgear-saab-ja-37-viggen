@@ -102,7 +102,7 @@
         <condition>
             <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
-        <property>orientation/heading-magnetic-deg</property><!--instrumentation/heading-indicator/indicated-heading-deg-->
+        <property>instrumentation/heading-indicator/indicated-heading-deg</property>
         <factor>-1</factor>
         <center>
             <x-m>-0.02692</x-m>

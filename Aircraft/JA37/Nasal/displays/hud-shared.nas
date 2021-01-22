@@ -34,7 +34,7 @@ var input = {
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
     ref_alt:        "/ja37/displays/reference-altitude-m",
     rm_active:      "/autopilot/route-manager/active",
-    wp_bearing:     "/autopilot/route-manager/wp/bearing-deg",
+    wp_bearing:     "/autopilot/route-manager/wp/true-bearing-deg",
     wp_dist:        "/autopilot/route-manager/wp/dist-km",
     wp_dist_nm:     "/autopilot/route-manager/wp/dist",
     eta:            "/instrumentation/waypoint-indicator/eta-s",

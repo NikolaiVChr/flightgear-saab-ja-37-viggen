@@ -1231,7 +1231,6 @@
             <wp>
                 <!-- Initialization required for JSBSim -->
                 <dist type="double">0</dist>
-                <bearing-deg type="double">0</bearing-deg>
                 <true-bearing-deg type="double">0</true-bearing-deg>
             </wp>
             <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
@@ -1502,6 +1501,7 @@
         </radar-altimeter>
         <heading-indicator n="0">
             <indicator-pos-deg type="double">0</indicator-pos-deg>
+            <offset-deg type="double">0</offset-deg><!-- Viggen shows true heading -->
         </heading-indicator>
         <heading-indicator n="1">
             <fast-reset-button type="int">0</fast-reset-button>

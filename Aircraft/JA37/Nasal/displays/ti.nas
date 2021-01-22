@@ -1543,13 +1543,12 @@ var TI = {
 			rmActive:             "autopilot/route-manager/active",
 			rmDist:               "autopilot/route-manager/wp/dist",
 			rmId:                 "autopilot/route-manager/wp/id",
-			rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
+			rmBearing:            "autopilot/route-manager/wp/true-bearing-deg",
 			RMCurrWaypoint:       "autopilot/route-manager/current-wp",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
 			timeElapsed:          "sim/time/elapsed-sec",
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
-			headMagn:             "orientation/heading-magnetic-deg",
 			fpv_up:               "instrumentation/fpv/angle-up-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-deg",
 #			twoHz:                "ja37/blink/two-Hz/state",
@@ -1565,7 +1564,6 @@ var TI = {
 	        APTrueHeadingErr: 	  "autopilot/internal/true-heading-error-deg",
 	        APnav0HeadingErr: 	  "autopilot/internal/nav1-heading-error-deg",
 	        APHeadingBug:     	  "autopilot/settings/heading-bug-deg",
-	        RMWaypointBearing:	  "autopilot/route-manager/wp/bearing-deg",
 	        RMActive:             "autopilot/route-manager/active",
 	        nav0Heading:          "instrumentation/nav[0]/heading-deg",
 	        ias:                  "instrumentation/airspeed-indicator/indicated-speed-kt",
@@ -2609,9 +2607,9 @@ var TI = {
 			me.tgtA = sprintf("%d",radar_logic.selection.get_indicated_altitude());
 			me.tgtLO = ja37.convertDegreeToStringLon(radar_logic.selection.get_Longitude());
 			me.tgtLA = ja37.convertDegreeToStringLat(radar_logic.selection.get_Latitude());
-			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Mag. Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: %s\n      Radar tgt. spd: %s kt\n      Radar tgt. alt: %s ft\n      Radar tgt. Lon: %s\n      Radar tgt. Lat: %s",
+			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: %s\n      Radar tgt. spd: %s kt\n      Radar tgt. alt: %s ft\n      Radar tgt. Lon: %s\n      Radar tgt. Lat: %s",
 				getprop("velocities/mach"),
-				me.input.headMagn.getValue(),
+				me.input.heading.getValue(),
 				me.input.alt_ft.getValue(),
 				ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
 				ja37.convertDegreeToStringLat(me.input.latitude.getValue()),
@@ -2622,9 +2620,9 @@ var TI = {
 				me.tgtLA
 				);
 		} else {
-			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Mag. Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: No selection.",
+			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: No selection.",
 				getprop("velocities/mach"),
-				me.input.headMagn.getValue(),
+				me.input.heading.getValue(),
 				me.input.alt_ft.getValue(),
 				ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
 				ja37.convertDegreeToStringLat(me.input.latitude.getValue())
@@ -4159,7 +4157,7 @@ var TI = {
   		me.coord.set_latlon(la, lo);
   		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
   		me.coordSelf.set_latlon(me.lat_own, me.lon_own);
-  		me.angle = (me.coordSelf.course_to(me.coord)-me.input.headTrue.getValue())*D2R;
+  		me.angle = (me.coordSelf.course_to(me.coord)-me.input.heading.getValue())*D2R;
 		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
 		me.pos_yy		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.sin(me.angle + math.pi/2);
   		return [me.pos_xx, me.pos_yy];#relative to rootCenter
@@ -4191,7 +4189,7 @@ var TI = {
   		}
   		#printf("%d degs %0.1f NM", me.texAngle*R2D, me.mDist*M2NM);
   		me.texAngle  = -me.texAngle*R2D+90;#convert from unit circle to heading circle, 0=up on display
-  		me.headAngle = me.input.headTrue.getValue()+me.texAngle;#bearing
+  		me.headAngle = me.input.heading.getValue()+me.texAngle;#bearing
   		#printf("%d bearing   %d rel bearing", me.headAngle, me.texAngle);
   		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
   		me.coordSelf.set_latlon(me.lat, me.lon);
@@ -4717,7 +4715,7 @@ var TI = {
 		    me.runway_l = land.line*1000;
 		    me.scale = clamp(me.runway_l*M2TEX,10*MM2TEX,1000);#in the real they are always 10mm, cheated abit.
 		    me.approach_line.setScale(1, me.scale);
-		    me.heading = me.input.headTrue.getValue();#true
+		    me.heading = me.input.heading.getValue();#true
 		    me.dest.setRotation((180+land.head-me.heading)*D2R);
 		    me.runway_name.setText(land.runway);
 		    me.runway_name.setRotation(-(180+land.head)*D2R);
@@ -5026,25 +5024,15 @@ var TI = {
 	},
 
 	showHeadingBug: func {
-		me.desired_mag_heading = nil;
-	    #if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
-	    #	me.desired_mag_heading = me.input.APHeadingBug.getValue();
-	    #} elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
-	    #	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.headMagn.getValue();#getprop("autopilot/settings/true-heading-deg")+
-	    #} elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
-	    #	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.headMagn.getValue();
-	    #} els
+		me.desired_heading = nil;
 	    if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
-	    	me.desired_mag_heading = radar_logic.selection.getMagInterceptBearing();
+	    	me.desired_heading = radar_logic.selection.getInterceptBearing();
 	    } elsif (me.input.RMActive.getValue() == TRUE) {
-	    	me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
-#	    } elsif (me.input.nav0InRange.getValue() == TRUE) {
-	    	# bug to VOR, ADF or ILS
-#	    	me.desired_mag_heading = me.input.nav0Heading.getValue();# TODO: is this really mag?
+	    	me.desired_heading = me.input.rmBearing.getValue();
 	    }
-	    if (me.desired_mag_heading != nil) {
-	    	me.myMaghdg  = me.input.headMagn.getValue();
-	    	me.bugOffset = geo.normdeg180(me.desired_mag_heading-me.myMaghdg);
+	    if (me.desired_heading != nil) {
+	    	me.myHdg  = me.input.heading.getValue();
+	    	me.bugOffset = geo.normdeg180(me.desired_heading-me.myHdg);
 	    	if (math.abs(me.bugOffset) < 90) {
 	    		me.xxx       = math.tan(me.bugOffset*D2R)*(height*0.875-(height*0.875)*me.ownPosition)+width/2;
 	    		me.yyy       = 0;
@@ -5955,8 +5943,7 @@ var TI = {
 		lastDay = me.day;
 		}
 
-		# Map is oriented towards magnetic north
-		me.mapCenter.setRotation(-me.input.headTrue.getValue()*D2R);
+		me.mapCenter.setRotation(-me.input.heading.getValue()*D2R);
 		#switched to direct rotation to try and solve issue with approach line not updating fast.
 		me.mapCenter.update();
 	},

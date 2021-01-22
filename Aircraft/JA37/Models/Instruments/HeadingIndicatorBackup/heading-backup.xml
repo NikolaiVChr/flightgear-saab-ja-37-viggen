@@ -45,7 +45,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>heading-backup</tooltip-id>
                 <label>Magnetic heading: %3d</label>
-                <property>/orientation/heading-magnetic-deg</property>
+                <property>instrumentation/heading-indicator[1]/indicated-heading-deg</property>
             </binding>
         </hovered>
     </animation>

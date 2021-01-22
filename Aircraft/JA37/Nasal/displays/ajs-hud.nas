@@ -81,10 +81,9 @@ var Horizon = {
     },
 
     # Converts a bearing to a reference point offset (used to set position of ref_point_group).
-    # true_bearing: if bearing should be interpreted as true instead of magnetic.
     # fpv_rel_bearing: clamp the resulting offset within 3.6 of this value.
-    bearing_to_offset: func(bearing, true_bearing, fpv_rel_bearing) {
-        var offset = bearing - (true_bearing ? input.head_true.getValue() : input.heading.getValue());
+    bearing_to_offset: func(bearing, fpv_rel_bearing) {
+        var offset = bearing - input.heading.getValue();
         offset = geo.normdeg180(offset);
         if (fpv_rel_bearing != nil) offset = math.clamp(offset, fpv_rel_bearing - 3.6, fpv_rel_bearing + 3.6);
         return offset;
@@ -103,9 +102,9 @@ var Horizon = {
                 and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))) {
                 # TILS command
                 var heading = input.nav_rdl.getValue() + input.nav_defl.getValue()*2;
-                me.ref_point_offset = me.bearing_to_offset(heading, TRUE, fpv_rel_bearing);
+                me.ref_point_offset = me.bearing_to_offset(heading, fpv_rel_bearing);
             } elsif (!input.hud_slav.getBoolValue() and land.has_waypoint > 1) {
-                me.ref_point_offset = me.bearing_to_offset(land.head, TRUE, fpv_rel_bearing);
+                me.ref_point_offset = me.bearing_to_offset(land.head, fpv_rel_bearing);
             } else {
                 # No runway in route manager, or switch SLAV to on: locked on FPV.
                 me.ref_point_offset = fpv_rel_bearing;
@@ -132,7 +131,7 @@ var Horizon = {
             me.ref_point_offset = fpv_rel_bearing;
         } else {
             # towards target heading, clamped around FPV
-            me.ref_point_offset = me.bearing_to_offset(input.wp_bearing.getValue(), FALSE, fpv_rel_bearing);
+            me.ref_point_offset = me.bearing_to_offset(input.wp_bearing.getValue(), fpv_rel_bearing);
         }
 
         me.ref_point_group.setTranslation(me.ref_point_offset * 100, 0);

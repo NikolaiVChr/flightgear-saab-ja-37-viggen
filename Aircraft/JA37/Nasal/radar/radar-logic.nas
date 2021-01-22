@@ -1097,22 +1097,13 @@ var Contact = {
         return myBearing;
     },
 
-    getMagBearing: func() {
-      #not super tested
-      me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-      return geo.normdeg(me.get_bearing() + me.mag_offset);
-    },
-    
-    getMagInterceptBearing: func() {
+    getInterceptBearing: func() {
       # intercept vector to radar echo
-      me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
       var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, ja37.horiSpeed()*KT2MPS);
       if (ic == nil) {
-        #printf("no intercept, return %d", me.getMagBearing());
-        return nil;#me.getMagBearing();
+        return nil;
       }
-      #printf("intercept! return %d - %d",ic[1], getprop("instrumentation/gps/magnetic-bug-error-deg"));
-      return geo.normdeg(ic[1] + me.mag_offset);
+      return geo.normdeg(ic[1]);
     },
 
     get_reciprocal_bearing: func(){
@@ -1408,14 +1399,8 @@ var ContactGPS = {
       return geo.normdeg(me.get_bearing() + 180);
   },
 
-  getMagBearing: func() {
-    #not super tested
-    me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-    return geo.normdeg(me.get_bearing() + me.mag_offset);
-  },
-  
-  getMagInterceptBearing: func {
-    return me.getMagBearing();
+  getInterceptBearing: func {
+    return me.get_bearing();
   },
 
   get_deviation: func(true_heading_ref, coord){
@@ -1718,20 +1703,13 @@ var ContactGhost = {
       return geo.normdeg(me.get_bearing() + 180);
   },
 
-  getMagBearing: func() {
-    #not super tested
-    me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
-    return geo.normdeg(me.get_bearing() + me.mag_offset);
-  },
-  
-  getMagInterceptBearing: func() {
+  getInterceptBearing: func() {
     # intercept vector to radar echo
-    me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
     var ic = get_intercept(me.get_bearing(), me.get_Coord().distance_to(geo.aircraft_position()), me.get_heading(), me.get_Speed()*KT2MPS, ja37.horiSpeed()*KT2MPS);
     if (ic == nil) {
-      return nil;#me.getMagBearing();
+      return nil;
     }
-    return geo.normdeg(ic[1]+me.mag_offset);
+    return geo.normdeg(ic[1]);
   },
 
   get_deviation: func(true_heading_ref, coord){

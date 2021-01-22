@@ -51,34 +51,6 @@ setlistener("instrumentation/adf/frequencies/selected-khz",display_freq);
 setlistener("instrumentation/nav/frequencies/selected-mhz",display_freq);
 setlistener("instrumentation/comm/frequencies/selected-mhz",display_freq);
 
-######## heading indicator code.
-
-var heading_indicator = func {
-	if ( input.radioMhzKhz.getValue() == 1 ) {
-		#locate afds - it's +/- 60* from an ndb, and the needle will start moving.
-		var adf_bearing = input.AdfBearing.getValue();
-		if ( adf_bearing > 360 ) {
-			adf_bearing = 0;
-		} elsif ( adf_bearing > 60 and adf_bearing < 180 ) {
-			adf_bearing = 1;
-		} elsif (adf_bearing >= 180 and adf_bearing < 300 ) {
-			adf_bearing = -1;
-		} elsif (adf_bearing < 360 and adf_bearing > 300 ) {
-			adf_bearing = ( adf_bearing - 360 ) / 60;
-		} else {
-			adf_bearing = adf_bearing / 60;
-		}
-		input.radioHeadNorm.setDoubleValue(adf_bearing);
-	} elsif (input.navNeedle.getValue() != nil) {
-		#vor navving
-		input.radioHeadNorm.setDoubleValue(input.navNeedle.getValue()); #just use the regular ol' nav heading indicator.
-	}
-
-	#settimer(heading_indicator, 0);
-}
-
-#heading_indicator();
-
 
 ### Waypoint name display for AJ(S)
 
