@@ -6,10 +6,12 @@ var opts = {
                             # Adds a small margin due to border clipping issues.
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
-    # HUD physical dimensions
-    hud_center_y: 0.7,
-    hud_center_z: -4.06203,
-    hud_width: 0.15,
+    # HUD physical dimensions. This is the object on which the Canvas is applied.
+    # This values are only used for Nasal parallax correction (ALS off).
+    hud_center_y: 0.69,
+    hud_center_z: -4.07,
+    # Maximum of width/height (actually, the size to which the texture is mapped).
+    hud_size: 0.16,
 };
 
 
