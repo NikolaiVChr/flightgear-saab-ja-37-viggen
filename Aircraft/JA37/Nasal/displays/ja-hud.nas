@@ -12,6 +12,8 @@ var opts = {
     hud_center_z: -4.07,
     # Maximum of width/height (actually, the size to which the texture is mapped).
     hud_size: 0.16,
+
+    placement: {"node": "ja37hud", "texture": "hud.png"},
 };
 
 

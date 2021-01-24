@@ -578,6 +578,8 @@
           <takeoff type="bool">true</takeoff>
         </mode>
         <hud>
+            <!-- Move HUD glass up (AJS only) -->
+            <position type="bool">false</position>
             <tracks-enabled type="bool">false</tracks-enabled>
             <units-metric type="bool">false</units-metric>
             <callsign type="bool">true</callsign>

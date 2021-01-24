@@ -246,7 +246,7 @@ var backup_sight = nil;
 
 var initialize = func {
     hud_canvas = HUDCanvas.new();
-    hud_canvas.add_placement({"node": "hud", "texture": "hud.png"});
+    hud_canvas.add_placement(opts.placement);
     hud = HUD.new(hud_canvas.get_group_hud());
     if (variant.JA) {
         backup_sight = BackupSight.new(hud_canvas.get_group_backup());

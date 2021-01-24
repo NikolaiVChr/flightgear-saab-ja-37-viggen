@@ -813,33 +813,9 @@
     </emission>
   </animation>
 
-  <!--<effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
-    <parameters>
-      <splash-x>0</splash-x>
-      <splash-y>0</splash-y>
-      <splash-z>0</splash-z>
-      <rnorm>0</rnorm>
-      <gsnorm>0</gsnorm>
-      <frost-level>0</frost-level>
-      <surface-mapping-scheme type="int">1</surface-mapping-scheme>
-      <fog-level>0</fog-level>
-      <use-wipers>0</use-wipers>
-      <use-overlay>0</use-overlay>
-      <overlay-alpha>0</overlay-alpha>
-      <overlay-glare type="float">0</overlay-glare>
-      <use-reflection type="int">0</use-reflection>
-      <reflection-strength type="float">0.0</reflection-strength>
-      <use-mask type="int">0</use-mask>
-      <use-reflection-lightmap type="int">0</use-reflection-lightmap>
-      <lightmap-multi type="int">0</lightmap-multi>
-    </parameters>
-    <object-name>hud</object-name>
-  </effect>-->
-
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/hud</inherits-from>
-    <object-name>hud</object-name>
+    <object-name>aj37hud</object-name>
     <parameters>
       <use-parallax>true</use-parallax>
       <hud-width-deg>20</hud-width-deg>
@@ -847,6 +823,50 @@
       <optical-offset-pitch>-7.3</optical-offset-pitch>
     </parameters>
   </effect>
+
+  <animation>
+    <type>pick</type>
+    <object-name>aj37hudGlass</object-name>
+    <object-name>aj37hudStruts</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+          var up = !getprop("ja37/hud/position");
+          setprop("ja37/hud/position", up);
+          hud.opts.hud_center_y = up ? 0.71 : 0.66;
+          hud.opts.hud_center_z = up ? -4.07 : -4.11;
+        </script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>aj37hudGlass</object-name>
+    <object-name>aj37hudStruts</object-name>
+    <property>ja37/hud/position</property>
+    <factor>0.05</factor>
+    <axis>
+      <x>-0.038</x>
+      <y>0</y>
+      <z>0.032</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>aj37hud</object-name>
+    <property>ja37/hud/position</property>
+    <factor>0.064</factor>
+    <axis>
+      <x>-0.04</x>
+      <y>0</y>
+      <z>0.05</z>
+    </axis>
+  </animation>
+
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-mirror</inherits-from>
@@ -1126,7 +1146,7 @@
 
  <animation>
   <type>material</type> 
-  <object-name>hud</object-name>
+  <object-name>aj37hud</object-name>
   <emission>
    <red>1.0</red> 
    <green>1.0</green> 
