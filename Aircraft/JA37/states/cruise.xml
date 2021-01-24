@@ -95,6 +95,11 @@
                 <!-- immediately initialize INS / ADC -->
                 <init-done type="bool">true</init-done>
             </avionics>
+            <hud>
+                <!-- HUD up position for AJS -->
+                <position-cmd type="bool">false</position-cmd>
+                <position type="double">0.0</position>
+            </hud>
         </ja37>
     </overlay>
 

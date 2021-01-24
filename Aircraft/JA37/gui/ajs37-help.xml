@@ -34,6 +34,10 @@
         <desc>Main mode selector clockwise/counter-clockwise</desc>
     </key>
     <key>
+        <name>h</name>
+        <desc>Toggle HUD position</desc>
+    </key>
+    <key>
         <name>i</name>
         <desc>Toggle HUD low altitude declutter</desc>
     </key>

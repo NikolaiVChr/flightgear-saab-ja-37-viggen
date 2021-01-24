@@ -819,6 +819,31 @@
             </volume>
         </controls>
 
+        <hud>
+            <name>HUD position</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <condition>
+                <less-than>
+                    <property>ja37/hud/position</property>
+                    <value>1</value>
+                </less-than>
+                <greater-than>
+                    <property>ja37/hud/position</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x-m>-4.0450</x-m>
+                <y-m>0</y-m>
+                <z-m>0.5200</z-m>
+            </position>
+            <volume>
+                <factor>0.5</factor>
+            </volume>
+        </hud>
+
         <knobs>
             <name>knob even</name>
             <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>

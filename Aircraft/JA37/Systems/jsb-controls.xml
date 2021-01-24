@@ -1409,6 +1409,14 @@
         </aerosurface_scale>
     </channel>
 
+    <channel execrate="2" name="HUD">
+      <actuator name="names/hud/position">
+        <input>/ja37/hud/position-cmd</input>
+        <rate_limit>5</rate_limit>
+        <output>/ja37/hud/position</output>
+      </actuator>
+    </channel>
+
     <channel execrate="4" name="Cursor">
       <switch name="names/cursor/cursor-x-from-flight-controls">
         <description>Cursor control component from flight controls</description>

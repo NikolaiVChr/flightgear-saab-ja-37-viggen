@@ -8,13 +8,26 @@ var opts = {
     line_width: 10,
     # HUD physical dimensions. This is the object on which the Canvas is applied.
     # This values are only used for Nasal parallax correction (ALS off).
-    hud_center_y: 0.66,
-    hud_center_z: -4.07,
+    hud_center_y: nil,  # see update_hud_position below
+    hud_center_z: nil,  # see update_hud_position below
     # Maximum of width/height (actually, the size to which the texture is mapped).
     hud_size: 0.14,
 
     placement: {"node": "aj37hud", "texture": "hud.png"},
 };
+
+
+# AJS HUD movement.
+# This function updates opts.hud_center_{y,z} when the HUD is moving.
+# It is only used for nasal parallax correction (ALS off).
+var update_hud_position = func (node) {
+    # Matches translate animation for 'aj37hud' in Models/AJS37-Viggen.xml
+    var pos = node.getValue();
+    opts.hud_center_y = 0.71 - 0.05*pos;
+    opts.hud_center_z = -4.11 + 0.04*pos;
+}
+
+setlistener("ja37/hud/position", update_hud_position, 1, 0);
 
 
 ### HUD elements classes

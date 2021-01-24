@@ -778,13 +778,12 @@
     <object-name>dashPanelTap</object-name>
     <object-name>sidepanelLeft</object-name>
     <object-name>sidepanelRight</object-name>
-    <object-name>hudRestBack</object-name>
-    <!--<object-name>hudStruts</object-name>-->
+    <object-name>aj37hudRestBack</object-name>
+    <object-name>aj37hudStruts</object-name>
+    <object-name>hudRestPlaque</object-name>
     <object-name>plaqueLeftMount</object-name>
     <object-name>plaqueRightMount</object-name>
     <object-name>radarMount</object-name>
-    <object-name>hudRestBack</object-name>
-    <object-name>hudRestPlaque</object-name>
     <object-name>plaqueLeft</object-name>
     <object-name>plaqueRight</object-name>
     <!--<object-name>radarScreen</object-name>-->
@@ -824,35 +823,79 @@
     </parameters>
   </effect>
 
+  <!-- HUD up/down animation -->
   <animation>
     <type>pick</type>
-    <object-name>aj37hudGlass</object-name>
-    <object-name>aj37hudStruts</object-name>
+    <object-name>aj37hudPivotSwitch</object-name>
     <action>
       <button>0</button>
       <binding>
-        <command>nasal</command>
-        <script>
-          var up = !getprop("ja37/hud/position");
-          setprop("ja37/hud/position", up);
-          hud.opts.hud_center_y = up ? 0.71 : 0.66;
-          hud.opts.hud_center_z = up ? -4.07 : -4.11;
-        </script>
+        <command>property-toggle</command>
+        <property>/ja37/hud/position-cmd</property>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>hud-position</tooltip-id>
+        <label>Toggle HUD position</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
-    <type>translate</type>
+    <type>rotate</type>
+    <object-name>aj37hudPivotTop</object-name>
     <object-name>aj37hudGlass</object-name>
     <object-name>aj37hudStruts</object-name>
     <property>ja37/hud/position</property>
-    <factor>0.05</factor>
+    <factor>50</factor>
     <axis>
-      <x>-0.038</x>
-      <y>0</y>
-      <z>0.032</z>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
     </axis>
+    <center>
+      <x-m>-4.1150</x-m>
+      <y-m>0</y-m>
+      <z-m>0.5800</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>aj37hudPivotBottom</object-name>
+    <object-name>aj37hudPivotSwitch</object-name>
+    <property>ja37/hud/position</property>
+    <factor>50</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-4.0450</x-m>
+      <y-m>0</y-m>
+      <z-m>0.5200</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>aj37hudGlass</object-name>
+    <object-name>aj37hudStruts</object-name>
+    <property>ja37/hud/position</property>
+    <factor>-50</factor>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+    <center>
+      <x-m>-4.1150</x-m>
+      <y-m>0</y-m>
+      <z-m>0.6300</z-m>
+    </center>
   </animation>
 
   <animation>
@@ -861,9 +904,9 @@
     <property>ja37/hud/position</property>
     <factor>0.064</factor>
     <axis>
-      <x>-0.04</x>
+      <x>0.04</x>
       <y>0</y>
-      <z>0.05</z>
+      <z>-0.05</z>
     </axis>
   </animation>
 

@@ -301,7 +301,7 @@
         </key>
         <key n="104">
             <name>h</name>
-            <desc>Toggle aiming mode</desc>
+            <desc>Toggle aiming mode / Toggle HUD position</desc>
             <binding>
                 <condition>
                     <equals>
@@ -311,6 +311,16 @@
                 </condition>
                 <command>nasal</command>
                 <script>modes.toggle_aiming_mode(); ja37.click();</script>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>/ja37/hud/position-cmd</property>
             </binding>
         </key>
         <key n="101">
