@@ -209,11 +209,11 @@ var HUDCanvas = {
 
         # Scaling
         var distance = input.view_z.getValue() - opts.hud_center_z;
-        var scale = distance * 2 * math.tan(opts.canvas_ang_width/2*D2R) / opts.hud_width;
+        var scale = distance * 2 * math.tan(opts.canvas_ang_width/2*D2R) / opts.hud_size;
         me.optical_axis.setScale(scale);
 
         # Translation
-        var m_to_hud_units = opts.canvas_ang_width * 100 / opts.hud_width;
+        var m_to_hud_units = opts.canvas_ang_width * 100 / opts.hud_size;
         var x_offset = input.view_x.getValue() * m_to_hud_units;
         var y_offset = (opts.hud_center_y - input.view_y.getValue()) * m_to_hud_units;
         # This group must not be centered in front of the pilot eyes, but 7.3deg below.

@@ -9,7 +9,7 @@ var opts = {
     # HUD physical dimensions
     hud_center_y: 0.7,
     hud_center_z: -4.06203,
-    hud_width: 0.15,
+    hud_size: 0.15,
 };
 
 
