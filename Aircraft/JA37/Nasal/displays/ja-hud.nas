@@ -33,6 +33,8 @@ var FPV = {
     MODE_AG: 2,     # A/G cannon/rocket sight
 
     lateral_clamp: 750,     # 7.5 degs laterally. Not sure what the source was for that.
+    top_clamp: -600,        # 6 degs up (guess)
+    bottom_clamp: 1600,     # 16 degs down (guess, just enough for 15.5 AoA)
 
     new: func(parent) {
         var m = { parents: [FPV], parent: parent, mode: -1, reticle_mode: 0, };
@@ -134,7 +136,7 @@ var FPV = {
         var pos = sight.AAsight.get_pos();
         # gunsight uses mils
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -me.lateral_clamp, me.lateral_clamp);
-        me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
+        me.pos_y = math.clamp(pos[1] * MIL2HUD, me.top_clamp, me.bottom_clamp);
 
         if (radar_logic.selection != nil) {
             me.aim_gun_tgt.show();
@@ -213,7 +215,7 @@ var FPV = {
         me.aim_AG_reticle_vert.setVisible(!fire_control.is_armed());
         # sight uses mils
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -me.lateral_clamp, me.lateral_clamp);
-        me.pos_y = math.clamp(pos[1] * MIL2HUD, -400, 1300);
+        me.pos_y = math.clamp(pos[1] * MIL2HUD, me.top_clamp, me.bottom_clamp);
     },
 
     update_reticle: func {
@@ -241,7 +243,7 @@ var FPV = {
         if (!fire_control.weapon_ready()) {
             # No weapon. Normal FPV, with a special symbol.
             me.pos_x = math.clamp(100 * input.fpv_right.getValue(), -me.lateral_clamp, me.lateral_clamp);
-            me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
+            me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), me.top_clamp, me.bottom_clamp);
             me.aim_empty.show();
             me.aim_missile.hide();
             me.aim_reticle.hide();
@@ -271,7 +273,7 @@ var FPV = {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL or me.mode == HUD.MODE_TAKEOFF_ROTATE) {
             me.pos_y = 1000;    # Fixed 10deg below forward axis for takeoff.
         } else {
-            me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), -400, 1300);
+            me.pos_y = math.clamp(-100 * input.fpv_up.getValue(), me.top_clamp, me.bottom_clamp);
         }
         me.group.setTranslation(me.pos_x, me.pos_y);
 
