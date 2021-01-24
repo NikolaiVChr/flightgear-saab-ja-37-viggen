@@ -1933,13 +1933,13 @@ var resetView = func () {
 var HDDView = func () {
   if (getprop("sim/current-view/view-number") == 0) {
     var hd = getprop("sim/current-view/heading-offset-deg");
-    var hd_t = 340;
-    if (hd < 180) {
-      hd_t = hd_t - 360;
+    var hd_t = getprop("sim/current-view/config/heading-offset-deg");
+    if (hd > 180) {
+      hd_t = hd_t + 360;
     }
-    interpolate("sim/current-view/field-of-view", 60, 0.66);
+    interpolate("sim/current-view/field-of-view", 55, 0.66);
     interpolate("sim/current-view/heading-offset-deg", hd_t,0.66);
-    interpolate("sim/current-view/pitch-offset-deg", -46,0.66);
+    interpolate("sim/current-view/pitch-offset-deg", -36,0.66);
     interpolate("sim/current-view/roll-offset-deg", getprop("sim/current-view/config/roll-offset-deg"),0.66);
     interpolate("sim/current-view/x-offset-m", 0, 1); 
   }
