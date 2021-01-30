@@ -202,11 +202,11 @@
 	-->
 
 	<animation>
-        <type>knob</type>
-        <object-name>A2_disc_UV_mapped_TILS</object-name>
+		<type>knob</type>
+		<object-name>A2_disc_UV_mapped_TILS</object-name>
 		<object-name>A2_handle</object-name>
 		<object-name>A2_screw</object-name>
-		<property>/sim/ja37/navigation/tils-knob</property>
+		<property>ja37/navigation/tils-channel-knob</property>
 		<factor>30</factor>
 		<center>
 			<x-m>  0.04897 </x-m>
@@ -218,15 +218,21 @@
 			<y>0</y>
 			<z>-1</z>
 		</axis>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <property>/sim/ja37/navigation/tils-knob</property>
+		<action>
+			<binding>
+				<command>property-adjust</command>
+				<property>ja37/navigation/tils-channel-knob</property>
 				<min>0</min>
-				<max>10</max>        
-                <wrap>false</wrap>
-           </binding>
-        </action>
-    </animation>
-	
+				<max>10</max>
+				<wrap>false</wrap>
+			</binding>
+		</action>
+		<hovered>
+			<binding>
+				<command>set-tooltip</command>
+				<tooltip-id>tils-channel</tooltip-id>
+				<label>TILS channel (non functional)</label>
+			</binding>
+		</hovered>
+	</animation>
 </PropertyList>

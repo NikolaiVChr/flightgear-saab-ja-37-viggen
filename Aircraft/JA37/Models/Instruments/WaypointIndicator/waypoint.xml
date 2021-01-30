@@ -22,6 +22,18 @@
     <texture>symbols-se.png</texture>
   </animation>
 
+  <animation>
+    <type>pick</type>
+    <object-name>mount</object-name>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>distance</tooltip-id>
+        <label>Next waypoint</label>
+      </binding>
+    </hovered>
+  </animation>
+
   <!-- symbols -->
   <animation>
     <type>textranslate</type>

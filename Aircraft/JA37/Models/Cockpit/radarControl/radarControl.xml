@@ -33,7 +33,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>handle-radar</tooltip-id>
-                <label>Radar control</label>
+                <label>Radar control stick</label>
             </binding>
         </hovered>
     </animation>

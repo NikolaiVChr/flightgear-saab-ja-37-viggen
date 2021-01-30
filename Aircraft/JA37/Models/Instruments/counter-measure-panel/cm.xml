@@ -25,7 +25,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>me799</tooltip-id>
-                <label>Counter-measure panel</label>
+                <label>Counter-measure panel (non functional)</label>
             </binding>
         </hovered>
     </animation>
@@ -39,7 +39,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>cp</tooltip-id>
-                <label>Chaff program</label>
+                <label>Chaff program (non functional)</label>
             </binding>
         </hovered>
     </animation>
@@ -53,7 +53,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fp</tooltip-id>
-                <label>Flare program</label>
+                <label>Flare program (non functional)</label>
             </binding>
         </hovered>
     </animation>

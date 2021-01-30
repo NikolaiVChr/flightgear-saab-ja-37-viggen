@@ -51,7 +51,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>knob-sel-weap</tooltip-id>
-                <label>Weapon select</label>
+                <label>Weapon select (non functional)</label>
             </binding>
         </hovered>
     </animation>

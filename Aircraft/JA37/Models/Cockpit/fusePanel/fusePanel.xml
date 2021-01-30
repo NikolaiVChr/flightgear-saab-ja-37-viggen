@@ -46,19 +46,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fusePanel</tooltip-id>
-                <label>Circuit breaker panel (not functional yet)</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>Switch</object-name>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>fuse0</tooltip-id>
-                <label>Switch for certain electronic circuits</label>
+                <label>Circuit breaker panel</label>
             </binding>
         </hovered>
     </animation>
@@ -77,11 +65,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fuse1</tooltip-id>
-                <label>Breaker for Canopy jettison circuit</label>
+                <label>Canopy jettison breaker</label>
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
        <type>translate</type>
        <object-name>fuse1</object-name>
@@ -107,11 +95,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fuse2</tooltip-id>
-                <label>Circuit breaker for autopilot DC</label>
+                <label>Autopilot breaker</label>
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
        <type>translate</type>
        <object-name>fuse2</object-name>
@@ -137,11 +125,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fuse3</tooltip-id>
-                <label>Circuit breaker for trim and flight control system DC</label>
+                <label>Trim system breaker (non functional)</label>
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
        <type>translate</type>
        <object-name>fuse3</object-name>
@@ -167,11 +155,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fuse</tooltip-id>
-                <label>Circuit breaker for limit warning system</label>
+                <label>Limit warning system breaker</label>
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
        <type>translate</type>
        <object-name>fuse4</object-name>
@@ -197,11 +185,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fuse</tooltip-id>
-                <label>Circuit breaker for engine starting system</label>
+                <label>Engine starter breaker</label>
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
        <type>translate</type>
        <object-name>fuse5</object-name>
@@ -212,5 +200,4 @@
          <z>1</z>
        </axis>
     </animation>
-
 </PropertyList>

@@ -91,6 +91,13 @@
         <wrap>false</wrap>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>radar-filter</tooltip-id>
+        <label>Radar filter mode (non functional)</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
@@ -120,6 +127,13 @@
         <wrap>false</wrap>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>radar-sea</tooltip-id>
+        <label>Doppler radar sea mode (non functional)</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
@@ -149,6 +163,13 @@
         <wrap>false</wrap>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>radar-lin</tooltip-id>
+        <label>Linear radar amplification (non functional)</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
@@ -178,6 +199,13 @@
         <wrap>false</wrap>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>radar-pulse</tooltip-id>
+        <label>Radar pulse length (non functional)</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
@@ -207,6 +235,13 @@
         <wrap>false</wrap>
       </binding>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>radar-passive</tooltip-id>
+        <label>Passive radar mode</label>
+      </binding>
+    </hovered>
   </animation>
 
   <animation>
@@ -227,7 +262,15 @@
         </binding>
       </mod-up>
     </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>radar-on</tooltip-id>
+        <label>Restart radar (non functional)</label>
+      </binding>
+    </hovered>
   </animation>
+
   <animation>
     <type>translate</type>
     <object-name>button_rr</object-name>

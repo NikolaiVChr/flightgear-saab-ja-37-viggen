@@ -48,9 +48,26 @@
         <object-name>mount</object-name>
         <hovered>
             <binding>
+                <condition>
+                    <equals>
+                        <property>ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>dp</tooltip-id>
                 <label>Data panel</label>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>dp</tooltip-id>
+                <label>Data panel (non functional)</label>
             </binding>
         </hovered>
     </animation>
