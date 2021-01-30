@@ -585,7 +585,6 @@
             <units-metric type="bool">false</units-metric>
             <callsign type="bool">true</callsign>
             <stroke-linewidth type="double">5.0</stroke-linewidth>
-            <TILS type="bool">true</TILS>
             <TILS-on type="bool">false</TILS-on>
             <landing-mode type="bool">false</landing-mode>
             <brightness type="double">1.0</brightness>

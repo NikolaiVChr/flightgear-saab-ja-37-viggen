@@ -4552,7 +4552,7 @@ var TI = {
 				me.textBTactType3.setText("T");
 			}
 		}
-		me.icao = land.icao~((land.ils != 0 and getprop("ja37/hud/TILS") == TRUE)?" T":"  ");
+		me.icao = land.icao~((land.ils != 0) ?" T":"  ");
 		me.textBBase.setText(me.icao);
 
 		me.mode = "";

@@ -116,7 +116,7 @@ var Horizon = {
             me.ref_point_offset = 0;
         } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
             if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue()
-                and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))) {
+                and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils))) {
                 # TILS command
                 var heading = input.nav_rdl.getValue() + input.nav_defl.getValue()*2;
                 me.ref_point_offset = me.bearing_to_offset(heading, fpv_rel_bearing);
@@ -282,7 +282,7 @@ var AltitudeBars = {
         if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) return;
 
         if (me.mode == HUD.MODE_FINAL_NAV) {
-            if ((land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils and input.tils.getBoolValue()))
+            if ((land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils))
                 and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
                 me.set_bars_pos(math.clamp(-input.nav_gs_defl.getValue(), -0.5, 1));
                 me.group.show();

@@ -372,7 +372,7 @@ var Landing = {
                         if (!radar_logic.steerOrder) {
                             setprop("ja37/avionics/heading-indicator-target", runway_rw.heading);
                         }
-                        if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
+                        if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
                             ils = runway_rw.ils.frequency/100;
                         }
                         head = me.wp[0].heading;
@@ -542,7 +542,7 @@ var Landing = {
                     show_waypoint_circle = TRUE;
                     printDA("steer active");
                 }
-                if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE and getprop("ja37/hud/TILS") == TRUE) {
+                if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE) {
                     setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
                     if (mode > 1) {
                         setprop("ja37/hud/TILS-on", TRUE);

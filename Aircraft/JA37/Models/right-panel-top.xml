@@ -52,14 +52,4 @@
             <z-m>  0</z-m>
         </offsets>
     </model>
-
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/tils.xml</path>
-        <name>switch-tils</name>
-        <offsets>
-            <x-m> -0.715</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
 </PropertyList>

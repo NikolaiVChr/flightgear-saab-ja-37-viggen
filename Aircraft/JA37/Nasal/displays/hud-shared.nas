@@ -47,7 +47,6 @@ var input = {
     wow:            "/fdm/jsbsim/gear/unit[0]/WOW",
     units_metric:   "/ja37/hud/units-metric",
     qfe_warning:    "ja37/displays/qfe-warning",
-    tils:           "ja37/hud/TILS",
     nav_lock:       "/instrumentation/nav[0]/in-range",
     nav_defl:       "/instrumentation/nav[0]/heading-needle-deflection",
     nav_rdl:        "/instrumentation/nav[0]/radials/target-radial-deg",
