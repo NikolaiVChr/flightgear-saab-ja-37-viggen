@@ -54,19 +54,6 @@
             </volume>
         </canopy>
 
-        <welcome>
-            <name>welcome</name>
-            <path>Aircraft/JA37/Sounds/welcome.wav</path>
-            <mode>once</mode>
-            <type>avionics</type>
-            <condition>
-                <equals>
-                    <property>ja37/avionics/welcome</property>
-                    <value>1.0</value>
-                </equals>
-            </condition>
-        </welcome>
-
         <!--                                          battery                                   -->
 
         <battery>
@@ -1870,62 +1857,6 @@
             </pitch>
         </rwr>
 
-
-        <!-- old stall warnings:-->
-
-        <!--<stall>
-   <name>stall</name>
-   <path>Sounds/stall.wav</path>
-   <mode>looped</mode>
-   <type>avionics</type>
-   <condition>
-    <and>
-     <property>sim/alarms/stall-warning</property>
-     <less-than>
-      <property>velocities/airspeed-kt</property>
-      <value>250.0</value>
-     </less-than>
-     <not>
-      <property>gear/gear[1]/wow</property>
-      <property>gear/gear[2]/wow</property>
-     </not>
-    </and>
-   </condition>
-  </stall>-->
-        <!--<stallw>
-   <name>stallwarning</name>
-   <path>Sounds/stallwarning.wav</path>
-   <mode>once</mode>
-   <type>avionics</type>
-   <condition>
-    <and>
-     <property>sim/alarms/stall-warning</property>
-     <less-than>
-      <property>velocities/airspeed-kt</property>
-      <value>270.0</value>
-     </less-than>
-     <not>
-      <property>gear/gear[1]/wow</property>
-      <property>gear/gear[2]/wow</property>
-     </not>
-    </and>
-   </condition>
-  </stallw>-->
-        <!--
-    <terrain>
-     <name>terrain</name>
-      <reference-dist>1.0</reference-dist>
-      <max-dist>2.0</max-dist>
-     <mode>once</mode>
-     <type>avionics</type>
-     <path>Aircraft/JA37/Sounds/lowterrain.wav</path>
-     <condition>
-      <property>instrumentation/annunciators/gpws/terrain-alert</property>
-     </condition>
-     <volume>
-      <property>instrumentation/annunciators/gpws/volume</property>
-     </volume>
-    </terrain>  -->
 
         <!--                                                                          environment                                   -->
 
