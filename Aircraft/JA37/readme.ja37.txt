@@ -6,8 +6,10 @@
 #
 #
 
-
-This manual describes systems when aircraft is in English/imperial mode.
+This is a description of some of the more advanced systems on the JA-37Di.
+It targets advanced users, who are already familiar with basic systems.
+Less advanced users should first refer to the flight manual Doc/JA_manual.pdf
+The systems are described assuming the aircraft is in English/imperial mode.
 The menu item names and units etc. is different in Swedish/metric mode, maybe in future will make manual for that also.
 
 
@@ -16,7 +18,6 @@ Flightplans
 ===========
 The aircraft has 12 plans. 4 mission (1-4) and 8 return to base plans (A & B for each landing base). Additionally it can have 6 map-areas defined.
 Notice since clicking key 'Y' is the same as LS on TI display, this will also switch plan if you are already on a mission plan.
-
 
 
 
@@ -43,7 +44,7 @@ CONF - Configuration
 
 WEAP
 ----
-CLR  - Not implemented.
+CLR  - Deselect weapon.
 AKAN - Cannon.
 x7x  - Various pylons. W=wing, T=wingtip, F=fuselage, L=left, R=right.
 STA
@@ -65,11 +66,6 @@ SEEK
 MODE
   BORE - When caged it will look straight ahead looking for something within range to lock on (and for RB24J it prefers to have view of a hot engine).
          This is another mode that is handy for dogfight with radar off when the enemy can be seen and manouvred onto bore.
-MODE
-  SLAV - Seeker slaved to either radar or cursor on MI/HUD. To use cursor make sure to have the seeker caged.
-         Then make sure you haven't transfered the cursor to the TI display and that PEK is lit up. See cursor section in this document for details on how to control it.
-         Then make sure the radar haven't selected anything (click to deselect).
-         Then use cursor to tell the seeker where to look. You will see the seeker head position both in MI and in HUD (when inside its view).
 
 SYST
 ----
@@ -78,7 +74,7 @@ L      - Navigate direct for landing base or switch runway. Will switch to RTB p
 LT     - Nav. for touchdown point or short approach. Will switch to RTB plan landing base. Notice if this is done on runway, OPT will engage.
 LS     - Nav. for approach circle (long approach). Will switch to RTB plan landing base. Notice if this is done on runway, OPT will engage.
 OPT    - Optical landing mode. Can only be engaged with gears down or in landing mode (LS or LT). Will auto engage at low alt in those modes.
-DL     - STRIL data-link  (not implemented)
+DL     - STRIL data-link
 LR     - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL   - Select which mission polygon.
 RPOL   - Select which RTB polygon.
@@ -86,8 +82,7 @@ RR     - Only shown when airborne. Steer order from radar on selected radar echo
          If an intercept course at present speed cannot be computed it will show pure pursuit vector.
 OFF/EP - Option only shown on ground. Turn off EP12 Electronic presentations (MI+TI displays).
 ACRV   - Attack curve (not implemented)
-FGHT   - Fighter mode. HUD shows IAS
-ATCK   - Attack mode. HUD shows groundspeed (at low alt)
+FGT/ATT - Fighter/ground attack mode. Changes cannon sight in aiming mode.
 
 TRAP
 ----
@@ -155,30 +150,29 @@ AMAX - Max altitude shown.
 
 
 
-
-
 Cursor on TI/MI
 ===============
-The cursor can be slewed: Pressing key 'y' will toggle slaving flight-controls to the cursor instead.
-Terrain impact warning will switch the slaving off, so you get immediate control of the aircraft to avoid terrain impact.
+There are several options for cursor controls (see also Doc/JA_manual.pdf):
+- Pressing key 'y' will toggle slaving flight-controls to the cursor instead.
+  Terrain impact warning will switch the slaving off, so you get immediate control of the aircraft to avoid terrain impact.
+  Pressing key 'l' will click.
+- Enable the option 'Arrow keys control radar cursor' in the 'Options' dialog.
+  The cursor can then be controlled with directional arrows, and 'enter' can be used to click.
+- Joystick bindings for the cursor can be added.
+  In the 'Joystick Configuration' dialog, they are called 'Cursor Horizontal',
+  'Cursor Vertical', and 'Cursor Click'.
+  For joystick configuration files, the corresponding properties are
+    controls/displays/cursor-slew-x
+    controls/displays/cursor-slew-y
+    controls/displays/cursor-click
+
 Per default the cursor is located on the MI display. See the DISP menu on the TI on how to transfer it between displays.
-Use trigger to click on something (the click will have to last up till half a second on the TI sometimes).
 On the TI you can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, map will be moved instead of cursor.
-When clicking on a radar echo in MI, it get selected/locked. Same for TI, but on the TI it will also set steer order on that echo.
+When clicking on a radar echo in MI, it get selected/locked.
 In MSDA/UDAT menu LV/FF points can be dragged when no polygon is being edited. To grab them hold trigger on center of symbol.
 When a polygon is being edited and a steerpoint/aera-point has been selected, pressing |X| button on nav panel will delete it. (cannot delete landing bases or take-off base, use route-manager for that)
-
-In Flightgear joystick settings you can bind cursor control to your stick/hotas.
-
-If you are skilled with editing stick/hotas input files, you can manually bind these properties:
-
-controls/displays/cursor-slew-x
-controls/displays/cursor-slew-y
-controls/displays/cursor-click
-
-
 
 
 
@@ -205,7 +199,7 @@ TNF - Inertial navigation. Blink=init. Steady=on.
 
 
 
-Concise overview of Datapanel (DAP) and Navpanel 
+Concise overview of Datapanel (DAP) and Navpanel
 ================================================
 
 DAP is located on right panel, has keypad and display, Navpanel is next to it
@@ -276,6 +270,39 @@ note2: LV stands for airdefense area, and FF for pilot point.
 When inputting, pay notice to the switch +/-, as that is the sign of what you input. For some inputs its ignored though and hence not shown when you input.
 
 
+
+IFF
+===
+See the flight manual Doc/JA_manual.pdf
+
+
+
+Fighter Link
+============
+Fighter link allows several JA-37 to share their position, and the position of any aircraft tracked on radar.
+The positions of these aircrafts is then displayed on the TI, just like regular radar contacts.
+- Aircrafts considered friendly are displayed in green.
+  An aircraft is considered as friendly if
+  * it is on fighter link
+  * or it has been identified as friedly (IFF) by you or another aircraft on fighter link.
+- Other aircrafts are considered potentially hostile, and are displayed in red.
+In order to work, all JA-37 must enable fighter link, and tune it to the same channel.
+
+Enabling Fighter Link
+---------------------
+Fighter Link is turned on/off with the SYST>DL menu on the TI.
+When on, the DL menu is highlighted by a box, and a small 'DL' symbol on the lower left of the TI becomes green.
+
+Channel Selection
+-----------------
+Fighter link channel is selected with the KV3 channel selector
+(front left side, between the KV1 comm radio channel selector and the left warning panel).
+To enter a new channel, press the 'DEL' button to clear the input field,
+then enter the channel with the numpad on the KV1 comm radio channel selector just behind.
+
+
+
+
 Aural warning tones
 ===================
 There is different warning tones for the following: (ordered in priority, notice pre-warnings has lowest priority)
@@ -303,6 +330,8 @@ Aural information tones
 - Sidewinder growl
 
 Volume can be adjusted on left vertical panel.
+
+
 
 Testing
 =======
@@ -359,7 +388,6 @@ Test programs
 
 
 
-
 Landing
 =======
 Rules
@@ -409,7 +437,7 @@ Example 3: AJ37 landing with waypoint  (TODO: update and move to aj37 readme, an
 In no particular order do these:
 1: get the barometer QFE from the ATC tower and set it.
 2: be sure the active waypoint in the Route manager is set to the correct airport and runway.
-3: use the switch LANDING MODE, or hit 'Y'
+3: select landing mode with the main mode selector knob (radar panel).
 4: Tune into ILS. [optional]
 5: Engage reverse thrust if you want it to engage auto when you land.
 6: Adjust the approach length on the left panel with the switch APPROACH. 5.4 or 10.8 Nmiles.
