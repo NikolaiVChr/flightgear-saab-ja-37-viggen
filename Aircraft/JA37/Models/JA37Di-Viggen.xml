@@ -404,27 +404,6 @@
     <path>Aircraft/JA37/Models/ja37-interior.xml</path>
   </model>
 
-  <animation>
-      <object-name>radarMountAltWarnIndicator</object-name>
-      <object-name>radarMount</object-name>
-      <object-name>radarScreen</object-name>
-      <object-name>radarHeading</object-name>
-      <object-name>glassRadar</object-name>
-      <object-name>TWR1</object-name>
-      <object-name>TWR3</object-name>
-      <object-name>TWR5</object-name>
-      <object-name>TWR7</object-name>
-      <object-name>TWR9</object-name>
-      <object-name>TWR11</object-name>
-      <type>select</type>
-      <condition>
-       <greater-than>
-        <property>ja37/systems/variant</property>
-        <value>0</value>
-       </greater-than>
-      </condition>
-    </animation>
-
   <model>
     <name>pilot</name>
     <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>
@@ -612,7 +591,6 @@
     <object-name>hudRestPlaque</object-name>
     <object-name>plaqueLeftMount</object-name>
     <object-name>plaqueRightMount</object-name>
-    <object-name>radarMount</object-name>
     <object-name>plaqueLeft</object-name>
     <object-name>plaqueRight</object-name>
     <object-name>seat</object-name>
@@ -787,24 +765,8 @@
    </condition>
  </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>radarHeading</object-name>
-  <property>/instrumentation/heading-indicator/indicator-pos-deg</property>
-  <factor>-1.0</factor>
-  <axis>
-   <x1-m> -3.9817 </x1-m>
-   <y1-m>  0 </y1-m>
-   <z1-m>  0.3464 </z1-m>
-   <x2-m> -3.9869 </x2-m>
-   <y2-m>  0 </y2-m>
-   <z2-m>  0.3445 </z2-m>
-  </axis>
- </animation>
-
  <!--<animation>
   <type>material</type> 
-  <object-name>radarHeading</object-name>
   <object-name>plaqueLeft</object-name>
   <object-name>plaqueRight</object-name>
   <object-name>hudRestPlaque</object-name>
@@ -815,163 +777,6 @@
    <factor-prop>controls/lighting/instruments-norm</factor-prop>
   </emission>
  </animation>-->
-
- <animation>
-  <type>material</type> 
-  <object-name>radarScreen</object-name>
-  <emission>
-      <red>1</red>
-      <green>1</green>
-      <blue>1</blue>
-      <factor-prop>controls/lighting/instruments-norm</factor-prop>
-  </emission>
- </animation>
-
-<!--   Threat warning Radar indicators -->
-
-<animation>
-  <type>material</type> 
-  <object-name>TWR1</object-name>
-  <condition>
-    <equals>
-      <property>ja37/blink/four-Hz/state</property>
-      <value>1</value>
-    </equals>
-    <or>
-      <equals>
-        <property>instrumentation/radar/twr1</property>
-        <value>1</value>
-      </equals>
-      <property>/controls/lighting/test-indicator-panels</property>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red> 
-   <green>0.0</green> 
-   <blue>0.0</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
-
-<animation>
-  <type>material</type> 
-  <object-name>TWR3</object-name>
-  <condition>
-    <equals>
-      <property>ja37/blink/four-Hz/state</property>
-      <value>1</value>
-    </equals>
-    <or>
-    <equals>
-      <property>instrumentation/radar/twr3</property>
-      <value>1</value>
-   </equals>
-   <property>/controls/lighting/test-indicator-panels</property>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red> 
-   <green>0.0</green> 
-   <blue>0.0</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
-
- <animation>
-  <type>material</type> 
-  <object-name>TWR5</object-name>
-  <condition>
-    <equals>
-      <property>ja37/blink/four-Hz/state</property>
-      <value>1</value>
-    </equals>
-    <or>
-    <equals>
-      <property>instrumentation/radar/twr5</property>
-      <value>1</value>
-   </equals>
-   <property>/controls/lighting/test-indicator-panels</property>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red> 
-   <green>0.0</green> 
-   <blue>0.0</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
-
- <animation>
-  <type>material</type> 
-  <object-name>TWR7</object-name>
-  <condition>
-    <equals>
-      <property>ja37/blink/four-Hz/state</property>
-      <value>1</value>
-    </equals>
-    <or>
-    <equals>
-      <property>instrumentation/radar/twr7</property>
-      <value>1</value>
-   </equals>
-   <property>/controls/lighting/test-indicator-panels</property>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red> 
-   <green>0.0</green> 
-   <blue>0.0</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
-
- <animation>
-  <type>material</type> 
-  <object-name>TWR9</object-name>
-  <condition>
-    <equals>
-      <property>ja37/blink/four-Hz/state</property>
-      <value>1</value>
-    </equals>
-    <or>
-    <equals>
-      <property>instrumentation/radar/twr9</property>
-      <value>1</value>
-   </equals>
-   <property>/controls/lighting/test-indicator-panels</property>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red> 
-   <green>0.0</green> 
-   <blue>0.0</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
-
- <animation>
-  <type>material</type> 
-  <object-name>TWR11</object-name>
-  <condition>
-    <equals>
-      <property>ja37/blink/four-Hz/state</property>
-      <value>1</value>
-    </equals>
-    <or>
-    <equals>
-      <property>instrumentation/radar/twr11</property>
-      <value>1</value>
-   </equals>
-   <property>/controls/lighting/test-indicator-panels</property>
-    </or>
-  </condition>
-  <emission>
-   <red>1.0</red> 
-   <green>0.0</green> 
-   <blue>0.0</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
 
   <animation>
   <type>material</type> 
