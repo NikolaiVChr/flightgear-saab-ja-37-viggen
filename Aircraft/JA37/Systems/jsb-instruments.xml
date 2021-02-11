@@ -214,6 +214,14 @@
 
 
     <channel execrate="4" name="altimeters">
+        <switch name="instruments/altimeter/setting-hpa">
+            <default value="/instrumentation/altimeter/setting-manual-hpa"/>
+            <test value="1013.2">
+                /instrumentation/altimeter/setting-std eq 1
+            </test>
+            <output>/instrumentation/altimeter/setting-hpa</output>
+        </switch>
+
         <pure_gain name="instruments/altimeter/altitude-m">
             <input>/instrumentation/altimeter/indicated-altitude-ft</input>
             <gain>0.3048</gain>
@@ -1116,12 +1124,12 @@
             </function>
         </fcs_function>
 
-        <!-- AJS-37 manual part 2, page 173 -->
         <pure_gain name="inertia/weight-kg">
             <input>inertia/weight-lbs</input>
             <gain>0.45359237</gain>
         </pure_gain>
 
+        <!-- AJS-37 manual part 2, page 173 -->
         <fcs_function name="systems/flight/rotation-speed-kmh">
             <function>
                 <table>
