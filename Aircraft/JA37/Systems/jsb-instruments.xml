@@ -1117,23 +1117,51 @@
         </fcs_function>
 
         <!-- AJS-37 manual part 2, page 173 -->
-        <fcs_function name="systems/flight/rotation-speed">
+        <pure_gain name="inertia/weight-kg">
+            <input>inertia/weight-lbs</input>
+            <gain>0.45359237</gain>
+        </pure_gain>
+
+        <fcs_function name="systems/flight/rotation-speed-kmh">
             <function>
                 <table>
-                    <independentVar lookup="row">inertia/weight-lbs</independentVar>
+                    <independentVar lookup="row">inertia/weight-kg</independentVar>
                     <independentVar lookup="column">/environment/temperature-degc</independentVar>
-                    <tableData>
-                        <!-- rotation speed in Km/h at max afterburner -->
-                                    -15.0    0.0   15.0   30.0
-                        28660.09    122.5  133.0  150.0  167.5
-                        33069.34    155.0  165.0  177.5  194.0
-                        37478.58    180.0  190.0  202.5  216.0
-                        41887.83    200.0  210.0  220.0  232.5
-                        <!-- This output is at present not used as it gives about 75% of a sane value.
-                             Not sure why. -->
+                    <independentVar lookup="table">propulsion/engine/zone-scaled</independentVar>
+                    <tableData breakPoint="0"><!-- MIL power -->
+                                -15.0   0.0     15.0    30.0
+                        13000   247     254     265     280
+                        14000   258     265     274     289
+                        15000   267     274     282     296
+                        16000   275     281     289     302
+                        17000   280     285     293     305
+                    </tableData>
+                    <tableData breakPoint="0.56"><!-- max zone 2 -->
+                                -15.0   0.0     15.0    30.0
+                        13000   192     195     201     217
+                        14000   205     207     212     229
+                        15000   216     218     223     240
+                        16000   226     228     232     250
+                        17000   235     237     240     257
+                        18000   244     245     249     265
+                        19000   251     252     255     270
+                    </tableData>
+                    <tableData breakPoint="1"><!-- max zone 3 -->
+                                -15.0   0.0     15.0    30.0
+                        13000   122     133     149     167
+                        14000   139     150     163     181
+                        15000   154     165     177     194
+                        16000   168     178     190     206
+                        17000   181     191     202     216
+                        18000   192     201     212     225
+                        19000   201     209     220     233
                     </tableData>
                 </table>
             </function>
+            <clipto>
+                <min>250</min>
+                <max>320</max>
+            </clipto>
         </fcs_function>
     </channel>
 </system>

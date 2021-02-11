@@ -452,14 +452,7 @@ var DistanceLine = {
 
     update: func(alt_bars_pos) {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
-            # rotation speeds:
-            #28725 lbm -> 250 km/h
-            #40350 lbm -> 280 km/h
-            var weight = input.weight.getValue();
-            var rotation_speed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
-            rotation_speed = math.clamp(rotation_speed, 250, 300);
-
-            me.set_line(input.speed.getValue() * 0.667 / rotation_speed);
+            me.set_line(input.speed.getValue() * 0.667 / input.rotation_speed.getValue());
         } elsif (me.mode == HUD.MODE_NAV) {
             var eta = input.eta.getValue();
             if (eta != nil and eta > 0 and eta <= 60) {

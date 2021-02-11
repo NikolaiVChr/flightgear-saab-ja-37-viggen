@@ -1285,10 +1285,7 @@ var Distance = {
 
     update: func(fpv_mode) {
         if (me.mode == HUD.MODE_TAKEOFF_ROLL) {
-            var weight = input.weight.getValue();
-            var rotation_speed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
-            rotation_speed = math.clamp(rotation_speed, 250, 300);
-
+            var rotation_speed = input.rotation_speed.getValue();
             # The length of the distance scale corresponds to 144kph (manual) (96 before cursor, 48 after).
             var pos = extrapolate(input.speed.getValue(), rotation_speed - 96, rotation_speed + 48, 0, 300);
             pos = math.clamp(pos, 0, 300);

@@ -64,6 +64,7 @@ var input = {
     bright:         "/ja37/hud/brightness",
     bright_hud:     "/ja37/hud/brightness-si",
     bright_bck:     "/ja37/hud/brightness-res",
+    rotation_speed: "/fdm/jsbsim/systems/flight/rotation-speed-kmh",
 };
 
 foreach(var name; keys(input)) {
