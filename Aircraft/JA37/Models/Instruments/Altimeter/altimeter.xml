@@ -228,12 +228,20 @@
     <!--             Altimeter setting       -->
     <animation>
         <type>knob</type>
-        <condition>
-            <not><property>/instrumentation/altimeter/setting-std</property></not>
-        </condition>
         <object-name>knobPick</object-name>
         <action>
             <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/altimeter/setting-wheel</property>
+                <factor>2</factor>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <not><property>/instrumentation/altimeter/setting-std</property></not>
+                </condition>
                 <command>property-adjust</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
                 <factor>0.5</factor>
@@ -254,12 +262,8 @@
 
     <animation>
         <type>rotate</type>
-        <condition>
-            <not><property>/instrumentation/altimeter/setting-std</property></not>
-        </condition>
         <object-name>knob</object-name>
-        <property>/instrumentation/altimeter/setting-hpa</property>
-        <factor>4</factor>
+        <property>/instrumentation/altimeter/setting-wheel</property>
         <center>
           <x-m>0.0</x-m>
           <y-m>-0.03966</y-m>
@@ -269,6 +273,19 @@
           <x>-1</x>
           <y>0</y>
           <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>knob</object-name>
+        <object-name>knobPick</object-name>
+        <property>/instrumentation/altimeter/setting-std</property>
+        <factor>0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
         </axis>
     </animation>
 
