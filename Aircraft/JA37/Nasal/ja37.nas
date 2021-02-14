@@ -1298,7 +1298,6 @@ var random_switches = {
   "controls/engines/engine/reverser-cmd": 0.5,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
-  "instrumentation/altimeter/setting-std": 0.5,
   # Not used under normal operation: usual position with high probability.
   "controls/engines/engine[0]/cutoff-augmentation": 0.2,
   "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
@@ -1328,7 +1327,7 @@ var random_continuous = {
   "controls/lighting/instruments-knob": [0,1],
   "controls/ventilation/airconditioning-temperature": [12,26],
   "controls/ventilation/windshield-hot-air-knob": [0,1],
-  "instrumentation/altimeter/setting-manual-hpa": [990,1030],
+  "instrumentation/altimeter/setting-hpa": [990,1030],
   "instrumentation/altimeter[1]/setting-hpa": [990,1030],
 };
 

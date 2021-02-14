@@ -163,7 +163,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Dig1000</object-name>
-        <property>/instrumentation/altimeter/setting-manual-hpa</property>
+        <property>/instrumentation/altimeter/setting-hpa</property>
         <factor>0.0001</factor>
         <step>1000</step>
         <axis>
@@ -176,7 +176,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Dig100</object-name>
-        <property>/instrumentation/altimeter/setting-manual-hpa</property>
+        <property>/instrumentation/altimeter/setting-hpa</property>
         <factor>0.001</factor>
         <step>100</step>
         <axis>
@@ -189,7 +189,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Dig10</object-name>
-        <property>/instrumentation/altimeter/setting-manual-hpa</property>
+        <property>/instrumentation/altimeter/setting-hpa</property>
         <factor>0.01</factor>
         <step>10</step>
         <axis>
@@ -202,7 +202,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Dig1</object-name>
-        <property>/instrumentation/altimeter/setting-manual-hpa</property>
+        <property>/instrumentation/altimeter/setting-hpa</property>
         <factor>0.1</factor>
         <step>1</step>
         <axis>
@@ -215,7 +215,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Dig0.1</object-name>
-        <property>/instrumentation/altimeter/setting-manual-hpa</property>
+        <property>/instrumentation/altimeter/setting-hpa</property>
         <factor>1</factor>
         <step>0.1</step>
         <axis>
@@ -228,22 +228,14 @@
     <!--             Altimeter setting       -->
     <animation>
         <type>knob</type>
+        <condition>
+            <not><property>/instrumentation/altimeter/setting-std</property></not>
+        </condition>
         <object-name>knobPick</object-name>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-wheel</property>
-                <factor>2</factor>
-                <min>0</min>
-                <max>360</max>
-                <wrap>true</wrap>
-           </binding>
-            <binding>
-                <condition>
-                    <not><property>/instrumentation/altimeter/setting-std</property></not>
-                </condition>
-                <command>property-adjust</command>
-                <property>/instrumentation/altimeter/setting-manual-hpa</property>
+                <property>/instrumentation/altimeter/setting-hpa</property>
                 <factor>0.5</factor>
                 <min>500.0</min>
                 <max>1130.0</max>
@@ -262,8 +254,12 @@
 
     <animation>
         <type>rotate</type>
+        <condition>
+            <not><property>/instrumentation/altimeter/setting-std</property></not>
+        </condition>
         <object-name>knob</object-name>
-        <property>/instrumentation/altimeter/setting-wheel</property>
+        <property>/instrumentation/altimeter/setting-hpa</property>
+        <factor>4</factor>
         <center>
           <x-m>0.0</x-m>
           <y-m>-0.03966</y-m>
@@ -288,6 +284,30 @@
                 <property>/instrumentation/altimeter/setting-std</property>
             </binding>
             <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/instrumentation/altimeter/setting-std</property>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+                <value>1013</value>
+            </binding>
+            <binding>
+                <condition>
+                    <not><property>/instrumentation/altimeter/setting-std</property></not>
+                </condition>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+                <property>/instrumentation/altimeter/setting-hpa-saved</property>
+            </binding>
+            <binding>
                 <command>nasal</command>
                 <script>ja37.click()</script>
             </binding>
@@ -299,18 +319,5 @@
                 <label>Toggle STD pressure</label>
             </binding>
         </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>knob</object-name>
-        <object-name>knobPick</object-name>
-        <property>/instrumentation/altimeter/setting-std</property>
-        <factor>0.004</factor>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
     </animation>
 </PropertyList>
