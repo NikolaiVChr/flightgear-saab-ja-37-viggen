@@ -14,9 +14,7 @@
     <path>Aircraft/JA37/Models/Cockpit/marker.xml</path>
   </model>
 
-
-
- <model>
+  <model>
     <path>Aircraft/JA37/Models/ja37-panel.xml</path>
     <name>Panel</name>
     <offsets>
@@ -52,7 +50,7 @@
     <name>canopyswitch</name>
   </model>
 
- <model>
+  <model>
     <path>Aircraft/JA37/Models/right-panel.xml</path>
     <name>rightPanel</name>
     <offsets><!-- order: yxz pitch 17.996 roll 8.117 heading 4.027 -->
@@ -65,7 +63,7 @@
     </offsets>
   </model>
 
-<model>
+  <model>
     <path>Aircraft/JA37/Models/left-panel.xml</path>
     <name>leftPanel</name>
     <offsets>
@@ -78,7 +76,7 @@
     </offsets>
   </model>
 
-   <model>
+  <model>
     <path>Aircraft/JA37/Models/right-panel-top.xml</path>
     <name>rightPanelTop</name>
     <offsets><!-- order: yxz pitch 8 roll 68 heading 5 -->
@@ -145,6 +143,20 @@
       <z-m>0</z-m>
     </offsets>
   </model>
+
+  <!-- Disable shadows for all small objects -->
+  <animation>
+    <type>noshadow</type>
+    <object-name>Panel</object-name>
+    <object-name>PanelSub</object-name>
+    <object-name>sb</object-name>
+    <object-name>rightPanel</object-name>
+    <object-name>leftPanel</object-name>
+    <object-name>rightPanelTop</object-name>
+    <object-name>rightPanelBottom</object-name>
+    <object-name>leftPanelMid</object-name>
+    <object-name>leftPanelForward</object-name>
+  </animation>
   
   <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
