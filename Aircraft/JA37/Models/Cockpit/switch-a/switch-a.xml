@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>switch-a.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>switchMount</object-name>
+    <object-name>switchRed</object-name>
+    <object-name>switchLever</object-name>
+  </effect>
+
+  <params>
+    <prop/>           <!-- 0/1 property corresponding to switch position -->
+    <invert>0</invert>  <!-- to change switch direction -->
+    <texture/>        <!-- Texture file name (inside this directory -->
+    <tooltip-text/>   <!-- text for mouse-over tooltip -->
+    <tooltip-id/>     <!-- some unique ID for the tooltip -->
+  </params>
+
+  <animation>
+    <type>pick</type>
+    <object-name>switchMount</object-name>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id alias="../../../../params/tooltip-id"/>
+        <label alias="../../../../params/tooltip-text"/>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>pickTop</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <prop alias="../../../../params/prop"/>
+        <invert alias="../../../../params/invert"/>
+        <script>
+          setprop(cmdarg().getValue("prop"), cmdarg().getValue("invert") ? 0 : 1);
+          ja37.click();
+        </script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>pickBottom</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <prop alias="../../../../params/prop"/>
+        <invert alias="../../../../params/invert"/>
+        <script>
+          setprop(cmdarg().getValue("prop"), cmdarg().getValue("invert") ? 1 : 0);
+          ja37.click();
+        </script>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>switchLever</object-name>
+    <expression>
+      <product>
+        <dif>
+          <property alias="../../../../../params/prop"/>
+          <value>0.5</value>
+        </dif>
+        <dif>
+          <value alias="../../../../../params/invert"/>
+          <value>0.5</value>
+        </dif>
+        <value>80</value><!-- 20deg on each side -->
+      </product>
+    </expression>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>-0.00608</z-m>
+    </center>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>switchMount</object-name>
+    <texture alias="../../params/texture"/>
+  </animation>
+</PropertyList>

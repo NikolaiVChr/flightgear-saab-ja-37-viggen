@@ -1,9 +1,16 @@
 <?xml version="1.0"?>
 <PropertyList>
-    
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/sparkplug.xml</path>
-        <name>switch-fuel-plug</name>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+        <name>switch-ignition-plug</name>
+        <overlay>
+            <params>
+                <prop>ja37/engine/sparkplug</prop>
+                <texture>SPARKPLUG.png</texture>
+                <tooltip-text>Ignition plug</tooltip-text>
+                <tooltip-id>switch-sparkplug</tooltip-id>
+            </params>
+        </overlay>
         <offsets>
             <x-m>  0.800</x-m>
             <y-m>  0.02</y-m>
@@ -11,8 +18,16 @@
         </offsets>
     </model>
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-pneu-pump.xml</path>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
         <name>switch-fuel-pneu</name>
+        <overlay>
+            <params>
+                <prop>controls/fuel/pneumatic-flow</prop>
+                <texture>PNEU-FUEL-FLOW.png</texture>
+                <tooltip-text>Pneumatic fuel flow</tooltip-text>
+                <tooltip-id>switch-fuel-pneu</tooltip-id>
+            </params>
+        </overlay>
         <offsets>
             <x-m>  0.625</x-m>
             <y-m>  0.02</y-m>
@@ -20,8 +35,16 @@
         </offsets>
     </model>
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-elec-pump.xml</path>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
         <name>switch-fuel-elec</name>
+        <overlay>
+            <params>
+                <prop>controls/fuel/electric-pump</prop>
+                <texture>ELEC-FUELPUMP.png</texture>
+                <tooltip-text>Electric fuel pump</tooltip-text>
+                <tooltip-id>switch-fuel-elec</tooltip-id>
+            </params>
+        </overlay>
         <offsets>
             <x-m>  0.590</x-m>
             <y-m>  0.02</y-m>
@@ -29,8 +52,16 @@
         </offsets>
     </model>
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-drop-tank.xml</path>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
         <name>switch-fuel-xtank</name>
+        <overlay>
+            <params>
+                <prop>controls/fuel/xtank</prop>
+                <texture>DROP-TANK.png</texture>
+                <tooltip-text>Drop tank fuel flow</tooltip-text>
+                <tooltip-id>switch-fuel-xtank</tooltip-id>
+            </params>
+        </overlay>
         <offsets>
             <x-m>  0.555</x-m>
             <y-m>  0.02</y-m>

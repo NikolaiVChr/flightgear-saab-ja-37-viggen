@@ -151,8 +151,16 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/dme.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
     <name>switch-dme</name>
+    <overlay>
+      <params>
+        <prop>instrumentation/dme/switch-position</prop>
+        <texture>DME.png</texture>
+        <tooltip-text>No function (legacy from older variants)</tooltip-text>
+        <tooltip-id>switch-dme</tooltip-id>
+      </params>
+    </overlay>
     <offsets>
       <heading-deg>90</heading-deg>
       <x-m>  0.245</x-m>
@@ -162,8 +170,16 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/radar-altimeter.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
     <name>switch-radar-alt</name>
+    <overlay>
+      <params>
+        <prop>controls/altimeter-radar</prop>
+        <texture>RADAR-ALTIMETER.png</texture>
+        <tooltip-text>Radar altimeter</tooltip-text>
+        <tooltip-id>switch-rhm</tooltip-id>
+      </params>
+    </overlay>
     <offsets>
       <heading-deg>90</heading-deg>
       <x-m>  0.245</x-m>
@@ -234,35 +250,51 @@
     </offsets>
   </model>
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-formation.xml</path>
-        <name>switch-form</name>
-        <offsets>
-            <heading-deg>90</heading-deg>
-            <x-m>  0.7125</x-m>
-            <y-m> -0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model> 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-navigation.xml</path>
-        <name>switch-nav</name>
-        <offsets>
-            <heading-deg>90</heading-deg>
-            <x-m>  0.7125</x-m>
-            <y-m> -0.08</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-beacon.xml</path>
-        <name>switch-beac</name>
-        <offsets>
-            <heading-deg>90</heading-deg>
-            <x-m>  0.7125</x-m>
-            <y-m> -0.110</y-m>
-            <z-m>  0</z-m>
-        </offsets>
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-form-light</name>
+    <overlay>
+      <params>
+        <prop>controls/electric/lights-ext-form</prop>
+        <texture>FORMATION-LIGHT.png</texture>
+        <tooltip-text>Exterior formation lights</tooltip-text>
+        <tooltip-id>switch-lights-form</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.7125</x-m>
+      <y-m> -0.02</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/light-navigation.xml</path>
+    <name>switch-nav-light</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.7125</x-m>
+      <y-m> -0.08</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-beacon</name>
+    <overlay>
+      <params>
+        <prop>controls/electric/lights-ext-beacon</prop>
+        <texture>BEACON-LIGHT.png</texture>
+        <tooltip-text>Exterior beacon lights</tooltip-text>
+        <tooltip-id>switch-lights-flash</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.7125</x-m>
+      <y-m> -0.110</y-m>
+      <z-m>  0</z-m>
+    </offsets>
   </model>
 
   <model>
@@ -295,17 +327,25 @@
       <z-m> -0.00</z-m>
     </offsets>
   </model>
-  
+
   <model>
-     <path>Aircraft/JA37/Models/Cockpit/switch-a/tils-group.xml</path>
-     <name>tilsG</name>
-     <offsets>
-       <x-m>  0.520</x-m>
-       <y-m> 0.06</y-m>
-       <z-m>  0.00</z-m>
-     </offsets>
-   </model>
-   
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>tilsG</name>
+    <overlay>
+      <params>
+        <prop>ja37/navigation/tils-channel-group</prop>
+        <texture>TILS-GROUP.png</texture>
+        <tooltip-text>TILS channel group (non functional)</tooltip-text>
+        <tooltip-id>tils-channel-group</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m>  0.520</x-m>
+      <y-m> 0.06</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
    <model>
      <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel.xml</path>
      <name>Navpanel</name>

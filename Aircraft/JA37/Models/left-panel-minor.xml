@@ -3,8 +3,16 @@
 
 
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/air-conditioner.xml</path>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
         <name>switch-air-cond</name>
+        <overlay>
+          <params>
+            <prop>controls/ventilation/airconditioning-enabled</prop>
+            <texture>AIR-CONDITIONER.png</texture>
+            <tooltip-text>Air conditioner</tooltip-text>
+            <tooltip-id>switch-air-conditioning</tooltip-id>
+          </params>
+        </overlay>
         <offsets>
             <heading-deg>180</heading-deg>
             <x-m> -0.285</x-m>

@@ -90,8 +90,16 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/generator.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
     <name>generator</name>
+    <overlay>
+      <params>
+        <prop>controls/electric/engine[0]/generator</prop>
+        <texture>GENERATOR.png</texture>
+        <tooltip-text>Generator</tooltip-text>
+        <tooltip-id>switch-generator</tooltip-id>
+      </params>
+    </overlay>
     <offsets>
       <heading-deg>180</heading-deg>
       <x-m>  0.35</x-m>
@@ -111,8 +119,17 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/electric-main.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
     <name>elec main</name>
+    <overlay>
+      <params>
+        <prop>controls/electric/main</prop>
+        <invert>1</invert>
+        <texture>MAIN-ELECTRICITY.png</texture>
+        <tooltip-text>Main power</tooltip-text>
+        <tooltip-id>switch-main-elec</tooltip-id>
+      </params>
+    </overlay>
     <offsets>
       <heading-deg>-90</heading-deg>
       <x-m>  0.300</x-m>
@@ -122,8 +139,16 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/cutoff.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
     <name>cutoff</name>
+    <overlay>
+      <params>
+        <prop>fdm/jsbsim/propulsion/engine/cutoff-commanded</prop>
+        <texture>CUTOFF.png</texture>
+        <tooltip-text>Cutoff</tooltip-text>
+        <tooltip-id>switch-cutoff</tooltip-id>
+      </params>
+    </overlay>
     <offsets>
       <heading-deg>-90</heading-deg>
       <x-m>  0.300</x-m>

@@ -1,55 +1,88 @@
 <?xml version="1.0"?>
+
 <PropertyList>
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-fuel-reg</name>
+    <overlay>
+      <params>
+        <prop>controls/fuel/auto</prop>
+        <texture>FUEL-REGULATION.png</texture>
+        <tooltip-text>Manual fuel regulation</tooltip-text>
+        <tooltip-id>switch-fuel-reg</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m> -1.105</x-m>
+      <y-m>  0.02</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-regulation.xml</path>
-        <name>switch-fuel-reg</name>
-        <offsets>
-            <heading-deg>180</heading-deg>
-            <x-m> -1.105</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-cutoff-afterburner</name>
+    <overlay>
+      <params>
+        <prop>controls/engines/engine[0]/cutoff-augmentation</prop>
+        <invert>1</invert>
+        <texture>AFTERBURNER-CUTOFF.png</texture>
+        <tooltip-text>Afterburner cutoff</tooltip-text>
+        <tooltip-id>switch-ab-cutoff</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m> -1.075</x-m>
+      <y-m>  0.02</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/cutoff-afterburner.xml</path>
-        <name>switch-cutoff-afterburner</name>
-        <offsets>
-            <heading-deg>180</heading-deg>
-            <x-m> -1.075</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-reserve</name>
+    <overlay>
+      <params>
+        <prop>controls/electric/reserve</prop>
+        <texture>ELECTRIC-RESERVE.png</texture>
+        <tooltip-text>Reserve generator (ram air turbine)</tooltip-text>
+        <tooltip-id>switch-RAT</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m> -1.045</x-m>
+      <y-m>  0.02</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/electric-reserve.xml</path>
-        <name>switch-reserve</name>
-        <offsets>
-            <x-m> -1.045</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-pitch-gearing</name>
+    <overlay>
+      <params>
+        <prop>fdm/jsbsim/fcs/elevator/gearing-enable</prop>
+        <texture>PITCH-LIMITER.png</texture>
+        <tooltip-text>Pitch gearing</tooltip-text>
+        <tooltip-id>switch-pitch-gearing</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m> -1.015</x-m>
+      <y-m>  0.02</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/limiter-pitch.xml</path>
-        <name>switch-pitch-gearing</name>
-        <offsets>
-            <x-m> -1.015</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/fusePanel/fusePanel.xml</path>
-        <name>fuses</name>
-        <offsets>
-            <x-m> -0.980</x-m>
-            <y-m>  0.03</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/fusePanel/fusePanel.xml</path>
+    <name>fuses</name>
+    <offsets>
+      <x-m> -0.980</x-m>
+      <y-m>  0.03</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
 </PropertyList>
