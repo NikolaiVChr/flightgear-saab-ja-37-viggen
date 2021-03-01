@@ -592,7 +592,6 @@
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/speedbrake-wind.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <greater-than>
                     <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
                     <value>0.1</value>
@@ -619,7 +618,6 @@
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/roll.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <or>
                     <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                     <property>fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -631,6 +629,8 @@
                 <y>0.01</y>
                 <z>-2.1</z>
             </position>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
             <volume>
                 <property>velocities/groundspeed-kt</property>
                 <type>log</type>
@@ -1291,12 +1291,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </floor>
-        
+
         <ts>
             <name>ts</name>
             <mode>once</mode>
@@ -1309,12 +1305,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </ts>
-        
+
         <!--<lock>  is in manual but not enabled yet. is it every radar lock, or missile radar lock?
             <name>radar-lock</name>
             <mode>once</mode>
@@ -1336,12 +1328,8 @@
                 <property>ja37/sound/helmet</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </lock>-->
-        
+
         <vne>
             <name>vne</name>
             <mode>looped</mode>
@@ -1354,12 +1342,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </vne>
-        
+
         <gvv>
             <name>load-factor-pre-warning-1</name>
             <mode>looped</mode>
@@ -1372,12 +1356,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </gvv>
-        
+
         <gvv>
             <name>load-factor-pre-warning-2</name>
             <mode>looped</mode>
@@ -1388,10 +1368,6 @@
             </condition>
             <volume>
                 <property>ja37/radio/fr29/knob-vol</property>
-                <factor>1</factor>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
                 <factor>1</factor>
             </volume>
         </gvv>
@@ -1409,10 +1385,6 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </gvv>
 
         <gvv>
@@ -1427,12 +1399,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </gvv>
-        
+
         <gvv>
             <name>alpha pre warning 1</name>
             <mode>looped</mode>
@@ -1445,12 +1413,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </gvv>
-        
+
         <mkv>
             <name>pull-up</name>
             <mode>looped</mode>
@@ -1464,7 +1428,6 @@
                 <factor>1</factor>
             </volume>-->
             <volume>
-                <property>sim/current-view/internal</property>
                 <factor>0.25</factor>
             </volume>
         </mkv>
@@ -1483,12 +1446,8 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
-            </volume>
         </master>
-        
+
         <flare>
             <name>flare</name>
             <mode>once</mode>
@@ -1501,10 +1460,6 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
                 <max>1</max>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
             </volume>
         </flare>
 
@@ -1520,10 +1475,6 @@
                 <property>ja37/radio/fr29/knob-vol</property>
                 <factor>1</factor>
                 <max>1</max>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-                <factor>1</factor>
             </volume>
         </flare>
 
@@ -1541,9 +1492,6 @@
                 <!-- NOT rwr/sound/volume, this is technically not part of the RWR -->
                 <property>ja37/radio/fr29/knob-vol</property>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
         </incoming>
 
         <rwr>
@@ -1558,9 +1506,6 @@
             </condition>
             <volume>
                 <property>instrumentation/rwr/sound/volume</property>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
             </volume>
         </rwr>
 
@@ -1579,9 +1524,6 @@
             </volume>
             <volume>
                 <property>instrumentation/rwr/sound/vol[0]</property>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
             </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[0]</property>
@@ -1605,9 +1547,6 @@
             <volume>
                 <property>instrumentation/rwr/sound/vol[1]</property>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[1]</property>
                 <factor>0.0004</factor>
@@ -1629,9 +1568,6 @@
             </volume>
             <volume>
                 <property>instrumentation/rwr/sound/vol[2]</property>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
             </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[2]</property>
@@ -1655,9 +1591,6 @@
             <volume>
                 <property>instrumentation/rwr/sound/vol[3]</property>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[3]</property>
                 <factor>0.0004</factor>
@@ -1679,9 +1612,6 @@
             </volume>
             <volume>
                 <property>instrumentation/rwr/sound/vol[4]</property>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
             </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[4]</property>
@@ -1705,9 +1635,6 @@
             <volume>
                 <property>instrumentation/rwr/sound/vol[5]</property>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[5]</property>
                 <factor>0.0004</factor>
@@ -1729,9 +1656,6 @@
             </volume>
             <volume>
                 <property>instrumentation/rwr/sound/vol[6]</property>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
             </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[6]</property>
@@ -1755,9 +1679,6 @@
             <volume>
                 <property>instrumentation/rwr/sound/vol[7]</property>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[7]</property>
                 <factor>0.0004</factor>
@@ -1780,9 +1701,6 @@
             <volume>
                 <property>instrumentation/rwr/sound/vol[8]</property>
             </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
-            </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[8]</property>
                 <factor>0.0004</factor>
@@ -1804,9 +1722,6 @@
             </volume>
             <volume>
                 <property>instrumentation/rwr/sound/vol[9]</property>
-            </volume>
-            <volume>
-                <property>sim/current-view/internal</property>
             </volume>
             <pitch>
                 <property>instrumentation/rwr/sound/freq[9]</property>
@@ -2246,7 +2161,6 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-24/sound-on-off</property>
             </condition>
             <pitch>
@@ -2271,7 +2185,6 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-24j/sound-on-off</property>
             </condition>
             <pitch>
@@ -2296,7 +2209,6 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-74/sound-on-off</property>
             </condition>
             <pitch>
@@ -2321,7 +2233,6 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-71/sound-on-off</property>
             </condition>
             <!--<pitch>
@@ -2343,7 +2254,6 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
             <condition>
-                <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-99/sound-on-off</property>
             </condition>
             <!--<pitch>
