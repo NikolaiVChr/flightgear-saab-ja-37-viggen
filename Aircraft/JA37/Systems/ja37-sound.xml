@@ -8,15 +8,14 @@
             <name>canopy</name>
             <path>Aircraft/JA37/Sounds/canopy.wav</path>
             <mode>in-transit</mode>
-            <type>avionics</type>
             <property>canopy/position-norm</property>
             <!-- auto transmit -->
             <reference-dist>2</reference-dist>
             <max-dist>4</max-dist>
             <position>
                 <x>-1.0</x>
-                <y>0.01</y>
-                <z>0.195</z>
+                <y>0.00</y>
+                <z>0.3</z>
             </position>
             <pitch>
                 <internal>dt_start</internal>
@@ -33,7 +32,6 @@
             <name>canopy_lock</name>
             <path>Aircraft/JA37/Sounds/canopy_lock.wav</path>
             <mode>once</mode>
-            <type>avionics</type>
             <condition>
                 <equals>
                     <property>canopy/position-norm</property>
@@ -45,8 +43,8 @@
             <max-dist>4</max-dist>
             <position>
                 <x>-1.0</x>
-                <y>0.01</y>
-                <z>0.195</z>
+                <y>0.00</y>
+                <z>0.3</z>
             </position>
             <volume>
                 <property>sim/time/full-init</property>
@@ -60,7 +58,6 @@
             <name>battery_start</name>
             <path>Aircraft/JA37/Sounds/BatteryStart.wav</path>
             <mode>once</mode>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <equals>
@@ -72,8 +69,8 @@
             <max-dist>5</max-dist>
             <position>
                 <x>-1.0</x>
-                <y>0.01</y>
-                <z>0.195</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <volume>
                 <factor>0.5</factor>
@@ -103,8 +100,8 @@
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <orientation>
                 <x>-1.0</x>
@@ -181,8 +178,8 @@
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <orientation>
                 <x>1.0</x>
@@ -231,8 +228,8 @@
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <orientation>
                 <x>1.0</x>
@@ -259,7 +256,6 @@
             <name>internal fan</name>
             <path>Sounds/whine.wav</path>
             <mode>looped</mode>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <greater-than>
@@ -275,8 +271,8 @@
             <max-dist>100</max-dist>
             <position>
                 <x>-0.6</x>
-                <y>0.01</y>
-                <z>-0.37</z>
+                <y>0.00</y>
+                <z>0.20</z>
             </position>
             <orientation>
                 <x>-0.98</x>
@@ -301,25 +297,21 @@
             <name>internal turbine</name>
             <path>Aircraft/JA37/Sounds/thrust-interior.wav</path>
             <mode>looped</mode>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <property>engines/engine/running</property>
             </condition>
-            <reference-dist>2000</reference-dist>
-            <max-dist>10000</max-dist>
+            <reference-dist>30</reference-dist>
+            <max-dist>100</max-dist>
             <position>
-                <x>4.6</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <x>-0.6</x>
+                <y>0.00</y>
+                <z>0.20</z>
             </position>
             <orientation>
-                <x>1.0</x>
+                <x>-0.98</x>
                 <y>0.0</y>
                 <z>0.0</z>
-                <inner-angle>200.0</inner-angle>
-                <outer-angle>360.0</outer-angle>
-                <outer-gain>0.2</outer-gain>
             </orientation>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
@@ -336,25 +328,21 @@
             <name>internal afterburner</name>
             <path>Aircraft/JA37/Sounds/afterburner-interior.wav</path>
             <mode>looped</mode>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <property>engines/engine/augmentation</property>
             </condition>
-            <reference-dist>5000</reference-dist>
-            <max-dist>30000</max-dist>
+            <reference-dist>30</reference-dist>
+            <max-dist>100</max-dist>
             <position>
-                <x>4.6</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <x>-0.6</x>
+                <y>0.00</y>
+                <z>0.20</z>
             </position>
             <orientation>
-                <x>1.0</x>
+                <x>-0.98</x>
                 <y>0.0</y>
                 <z>0.0</z>
-                <inner-angle>200.0</inner-angle>
-                <outer-angle>360.0</outer-angle>
-                <outer-gain>0.2</outer-gain>
             </orientation>
             <volume>
                 <property>fdm/jsbsim/propulsion/engine/zone-scaled</property>
@@ -400,8 +388,8 @@
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <orientation>
                 <x>-0.98</x>
@@ -469,8 +457,8 @@
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <orientation>
                 <x>1.0</x>
@@ -498,7 +486,6 @@
             <name>external afterburner</name>
             <path>Aircraft/JA37/Sounds/engine-afterburner-exterior.wav</path>
             <mode>looped</mode>
-            <type>fx</type>
             <condition>
                 <property>engines/engine/augmentation</property>
                 <or>
@@ -528,8 +515,8 @@
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <orientation>
                 <x>1.0</x>
@@ -563,7 +550,7 @@
             <max-dist>10</max-dist>
             <position>
                 <x>1.2</x>
-                <y>0.01</y>
+                <y>0.00</y>
                 <z>-0.6</z>
             </position>
             <pitch>
@@ -585,9 +572,9 @@
             <reference-dist>3</reference-dist>
             <max-dist>10</max-dist>
             <position>
-                <x>0.01</x>
-                <y>0.01</y>
-                <z>0.01</z>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
             </position>
             <pitch>
                 <factor>1</factor>
@@ -596,7 +583,7 @@
                 <max>2</max>
             </pitch>
             <volume>
-                <max>0.40</max>
+                <max>0.10</max>
             </volume>
         </brake>
 
@@ -604,17 +591,26 @@
             <name>wind</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/speedbrake-wind.wav</path>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <greater-than>
                     <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
-                    <value>0.5</value>
+                    <value>0.1</value>
                 </greater-than>
             </condition>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
+            <position>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
+            </position>
+            <volume>
+                <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+            </volume>
             <volume>
                 <property>velocities/airspeed-kt</property>
-                <factor>0.001</factor>
+                <factor>0.0012</factor>
             </volume>
         </brake-wind>
 
@@ -629,10 +625,6 @@
                     <property>fdm/jsbsim/gear/unit[1]/WOW</property>
                     <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </or>
-                <!--<greater-than>
-                    <property>velocities/groundspeed-kt</property>
-                    <value>25</value>
-    </greater-than>-->
             </condition>
             <position>
                 <x>0.01</x>
@@ -649,21 +641,6 @@
         <squeal>
             <name>touchdown squeal</name>
             <path>Sounds/squeal.wav</path>
-            <!--<condition>
-    <or>
-      <not>
-        <property>sim/current-view/internal</property>
-      </not>
-      <greater-than>
-        <property>fdm/jsbsim/fcs/canopy/pos-norm</property>
-        <value>0.0</value>
-      </greater-than>
-    </or>
-    <or>
-     <property>gear/gear[1]/wow</property>
-     <property>gear/gear[2]/wow</property>
-    </or>
-   </condition>-->
             <condition>
                 <and>
                     <or>
@@ -785,7 +762,6 @@
             <name>click</name>
             <path>Aircraft/JA37/Sounds/click.wav</path>
             <mode>once</mode>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <or>
@@ -796,11 +772,6 @@
                     <property>ja37/avionics/master-warning-button</property>
                 </or>
             </condition>
-            <position>
-                <x>-3.80</x>
-                <y>0.01</y>
-                <z>0.25</z>
-            </position>
             <volume>
                 <factor>0.50</factor>
             </volume>
@@ -810,7 +781,6 @@
             <name>HUD position</name>
             <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <condition>
                 <less-than>
                     <property>ja37/hud/position</property>
@@ -835,7 +805,6 @@
             <name>knob even</name>
             <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -872,7 +841,6 @@
             <name>knob uneven</name>
             <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -905,7 +873,6 @@
             <name>AJS mode selector even</name>
             <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -942,7 +909,6 @@
             <name>AJS mode selector odd</name>
             <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -975,7 +941,6 @@
             <name>gearlever0</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1000,7 +965,6 @@
             <name>gearlever1</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1025,7 +989,6 @@
             <name>atlever0</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1054,7 +1017,6 @@
             <name>atlever1</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1083,7 +1045,6 @@
             <name>bplever0</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1114,7 +1075,6 @@
             <name>bplever1</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1145,7 +1105,6 @@
             <name>Throttle cutoff on</name>
             <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1168,7 +1127,6 @@
             <name>Throttle cutoff off</name>
             <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>
             <mode>once</mode>
-            <type>fx</type>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
@@ -1865,7 +1823,6 @@
             <name>wind</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/wind.wav</path>
-            <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
                 <greater-than>
@@ -1875,7 +1832,8 @@
             </condition>
             <volume>
                 <property>velocities/airspeed-kt</property>
-                <factor>0.001</factor>
+                <factor>0.003</factor>
+                <max>1.0</max>
             </volume>
         </wind>
 
@@ -1883,7 +1841,6 @@
             <name>thunder1</name>
             <mode>once</mode>
             <path>Aircraft/JA37/Sounds/thunder1.wav</path>
-            <type>avionics</type>
             <property>ja37/sound/thunder1</property>
             <pitch>
                 <property>ja37/sound/dist-thunder1</property>
@@ -1900,7 +1857,6 @@
             <name>thunder2</name>
             <mode>once</mode>
             <path>Aircraft/JA37/Sounds/thunder2.wav</path>
-            <type>avionics</type>
             <property>ja37/sound/thunder2</property>
             <pitch>
                 <property>ja37/sound/dist-thunder2</property>
@@ -1917,7 +1873,6 @@
             <name>thunder3</name>
             <mode>once</mode>
             <path>Aircraft/JA37/Sounds/thunder3.wav</path>
-            <type>avionics</type>
             <property>ja37/sound/thunder3</property>
             <pitch>
                 <property>ja37/sound/dist-thunder3</property>
@@ -1935,7 +1890,6 @@
             <name>rain</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/rain.wav</path>
-            <type>avionics</type>
             <condition>
                 <greater-than>
                     <property>/environment/rain-norm</property>
@@ -1944,6 +1898,7 @@
             </condition>
             <volume>
                 <property>ja37/sound/rain-volume</property>
+                <factor>0.5</factor>
             </volume>
         </rain>
 
@@ -1951,7 +1906,6 @@
             <name>rain-windshield</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/rain-windshield.wav</path>
-            <type>avionics</type>
             <condition>
                 <and>
                     <property>/sim/current-view/internal</property>
@@ -1972,45 +1926,82 @@
                 <min>0.03</min>
                 <max>0.40</max>
             </volume>
+            <volume>
+                <property>ja37/sound/rain-volume</property>
+            </volume>
         </rain-windshield>
 
         <!--                                                                          weapons                                   -->
 
 
         <cannon>
-            <name>cannon</name>
+            <name>KCA cannon</name>
             <path>Aircraft/JA37/Sounds/KCA.wav</path>
             <condition>
-                <or>
-                    <and>
-                        <property>controls/armament/station[0]/trigger</property>
-                        <greater-than>
-                            <property>ai/submodels/submodel[3]/count</property>
-                            <value>0</value>
-                        </greater-than>
-                    </and>
-                    <and>
-                        <property>controls/armament/station[1]/trigger-m55</property>
-                        <greater-than>
-                            <property>ai/submodels/submodel[10]/count</property>
-                            <value>0</value>
-                        </greater-than>
-                    </and>
-                    <and>
-                        <property>controls/armament/station[3]/trigger-m55</property>
-                        <greater-than>
-                            <property>ai/submodels/submodel[12]/count</property>
-                            <value>0</value>
-                        </greater-than>
-                    </and>
-                </or>
+                <and>
+                    <property>controls/armament/station[0]/trigger</property>
+                    <greater-than>
+                        <property>ai/submodels/submodel[3]/count</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
             </condition>
             <mode>looped</mode>
             <position>
-                <x>0.01</x>
-                <y>0.01</y>
-                <z>-1.2</z>
+                <x-m>-1.0589</x-m>
+                <y-m>0.2032</y-m>
+                <z-m>-0.9124</z-m>
             </position>
+            <reference-dist>100</reference-dist>
+            <max-dist>3000</max-dist>
+            <volume>
+                <factor>0.4</factor>
+            </volume>
+        </cannon>
+        <cannon>
+            <name>left M55 cannon</name>
+            <path>Aircraft/JA37/Sounds/KCA.wav</path>
+            <condition>
+                <and>
+                    <property>controls/armament/station[1]/trigger-m55</property>
+                    <greater-than>
+                        <property>ai/submodels/submodel[10]/count</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <mode>looped</mode>
+            <position>
+                <x-m>1.3146</x-m>
+                <y-m>2.6986</y-m>
+                <z-m>-0.8670</z-m>
+            </position>
+            <reference-dist>100</reference-dist>
+            <max-dist>3000</max-dist>
+            <volume>
+                <factor>0.4</factor>
+            </volume>
+        </cannon>
+        <cannon>
+            <name>right M55 cannon</name>
+            <path>Aircraft/JA37/Sounds/KCA.wav</path>
+            <condition>
+                <and>
+                    <property>controls/armament/station[3]/trigger-m55</property>
+                    <greater-than>
+                        <property>ai/submodels/submodel[12]/count</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <mode>looped</mode>
+            <position>
+                <x-m>1.3146</x-m>
+                <y-m>-2.6986</y-m>
+                <z-m>-0.8670</z-m>
+            </position>
+            <reference-dist>100</reference-dist>
+            <max-dist>3000</max-dist>
             <volume>
                 <factor>0.4</factor>
             </volume>
@@ -2211,7 +2202,6 @@
             <name>m70</name>
             <path>Aircraft/JA37/Sounds/M70-release-all.wav</path>
             <mode>once</mode>
-            <type>avionics</type>
             <condition>
                 <or>
                     <and>
