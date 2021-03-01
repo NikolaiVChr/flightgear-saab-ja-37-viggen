@@ -11,6 +11,7 @@
   <light>
     <name>taxi_light</name>
     <type>spot</type>
+    <priority>high</priority>
     <position>
       <x-m>0</x-m>
       <y-m>0</y-m>
