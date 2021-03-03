@@ -1583,6 +1583,8 @@ var TI = {
 			bullseyeLat:          "ja37/navigation/bulls-eye-lat",
 			bullseyeLon:          "ja37/navigation/bulls-eye-lon",
 			datalink:             "/instrumentation/datalink/on",
+			weight:               "fdm/jsbsim/inertia/weight-lbs",
+			max_approach_alpha:   "fdm/jsbsim/systems/flight/approach-alpha-base",
       	};
 
       	foreach(var name; keys(ti.input)) {
@@ -4609,13 +4611,9 @@ var TI = {
 		if (modes.main_ja == modes.LANDING and me.input.gearsPos.getValue() == 1) {
 			me.alphaT  = me.swedishMode?"ALFA":"ALPH";
 			me.weightT = me.swedishMode?"VIKT":"WEIG";
-			if (me.swedishMode) {
-				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG*0.001;
-			} else {
-				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.001;
-			}
-			me.weightKG = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG;
-			me.alpha   = clamp(extrapolate(me.weightKG, 15000, 16500, 15.5, 9.0), 9, 20.5);#9 + ((me.weightLBM - 28000) / (38000 - 28000)) * (12 - 9);
+			me.weight = me.input.weight.getValue() * 0.001;
+			if (me.swedishMode) me.weight *= LB2KG;
+			me.alpha   = me.input.max_approach_alpha.getValue();
 			me.weightT = me.weightT~sprintf(" %.1f", me.weight);
 			me.alphaT  = me.alphaT~sprintf(" %.1f", me.alpha);
 			me.textBWeight.setText(me.weightT);

@@ -28,7 +28,7 @@ var input = {
     head_true:      "/orientation/heading-deg",
     alpha:          "/orientation/alpha-deg",
     high_alpha:     "/fdm/jsbsim/autoflight/high-alpha",
-    weight:         "/fdm/jsbsim/inertia/weight-lbs",
+    approach_alpha: "/fdm/jsbsim/systems/flight/approach-alpha",
     alt:            "/instrumentation/altimeter/displays-altitude-meter",
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",

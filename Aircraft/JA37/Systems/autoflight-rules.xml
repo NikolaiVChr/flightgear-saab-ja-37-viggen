@@ -244,27 +244,7 @@
 			</condition>
 		</enable>
 		<input>/fdm/jsbsim/aero/alpha-deg-ahead</input>
-		<reference>
-			<condition>
-				<equals>
-					<property>/fdm/jsbsim/autoflight/high-alpha</property>
-					<value>1</value>
-				</equals>
-			</condition>
-			<value>15.5</value>
-		</reference>
-		<reference>
-			<expression>
-				<table> <!-- According to Necolatis, 9deg at 15000kg, 15.5deg at 16500kg, I interpolated linearly -->
-					<product>
-						<property>/fdm/jsbsim/inertia/weight-lbs</property>
-						<value>0.453592</value> <!-- LB2KG -->
-					</product>
-					<entry><ind>15000.00</ind><dep> 9</dep></entry>
-					<entry><ind>15692.31</ind><dep>12</dep></entry>
-				</table>
-			</expression>
-		</reference>
+		<reference>/fdm/jsbsim/systems/flight/approach-alpha</reference>
 		<output>/controls/engines/engine[0]/throttle-pid</output>
 		<config>
 			<Kp>-0.15</Kp>

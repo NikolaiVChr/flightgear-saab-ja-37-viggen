@@ -289,12 +289,8 @@ var FPV = {
                 dev = (input.speed.getValue() - 550) / 37;
             } else {
                 # Gear full down, indicates alpha deviation.
-                # Target alpha depends on weight and is capped to 12deg (15.5deg in high alpha mode).
+                var target_alpha = input.approach_alpha.getValue();
                 # Maximum deviation is 3.3deg (from AJS, no JA source).
-                var weight = input.weight.getValue() * LB2KG;
-                var high_alpha = input.high_alpha.getBoolValue();
-                var target_alpha = extrapolate(weight, 15000, 16500, 15.5, 9.0);
-                target_alpha = math.clamp(target_alpha, 9, high_alpha ? 15.5 : 12);
                 dev = (target_alpha - input.alpha.getValue()) / 3.3;
                 # Critical alpha (indicator starts blinking).
                 # Values for 12deg and 15.5deg are from AJS again.

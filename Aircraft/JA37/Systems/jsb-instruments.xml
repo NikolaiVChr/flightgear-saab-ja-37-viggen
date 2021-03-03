@@ -1115,13 +1115,21 @@
                 </difference>
             </function>
         </fcs_function>
+    </channel>
 
-        <!-- AJS-37 manual part 2, page 173 -->
+    <!-- Rotation speed and approach alpha -->
+    <channel execrate="8">
         <pure_gain name="inertia/weight-kg">
             <input>inertia/weight-lbs</input>
             <gain>0.45359237</gain>
         </pure_gain>
 
+        <pure_gain name="/environment/pressure-hpa">
+            <input>/environment/pressure-inhg</input>
+            <gain>33.863886</gain>
+        </pure_gain>
+
+        <!-- AJS-37 manual part 2, page 173 -->
         <fcs_function name="systems/flight/rotation-speed-kmh">
             <function>
                 <table>
@@ -1163,5 +1171,98 @@
                 <max>320</max>
             </clipto>
         </fcs_function>
+
+        <!-- Max weight for a 1m/s^2 acceleration for go around at MIL, 12deg and 15.5deg alpha respectively.
+             (AJS-37 manual part 2, page 179) -->
+        <fcs_function name="systems/flight/approach-max-weight-kg">
+            <function>
+                <table>
+                    <independentVar lookup="row">/environment/temperature-degc</independentVar>
+                    <independentVar lookup="column">/environment/pressure-hpa</independentVar>
+                    <tableData>
+                                950     980     1013
+                        -30     15300   15800   16300
+                        -15     15000   15500   15800
+                        0       14500   14900   15300
+                        15      13800   14200   14500
+                        30      12500   12900   13200
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/approach-high-alpha-max-weight-kg">
+            <function>
+                <table>
+                    <independentVar lookup="row">/environment/temperature-degc</independentVar>
+                    <independentVar lookup="column">/environment/pressure-hpa</independentVar>
+                    <tableData>
+                                950     980     1013
+                        -30     14100   14550   15000
+                        -15     13800   14250   14700
+                        0       13300   13750   14200
+                        15      12700   13000   13400
+                        30      11550   11850   12150
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <!-- Max alpha giving 1m/s^2 acceleration for go around at MIL, with minimum of 9deg.
+            (JA SFI part 1 chap 17 sec 4.4.3.1)
+            -->
+        <fcs_function name="systems/flight/approach-alpha-base">
+            <!-- Interpolate the between the previous two values, because I don't have any other data. -->
+            <!-- 12 + (w - w1) / (w2 - w1) * (15.5 - 12) -->
+            <function>
+                <sum>
+                    <value>12</value>
+                    <product>
+                        <quotient>
+                            <difference>
+                                <property>inertia/weight-kg</property>
+                                <property>systems/flight/approach-max-weight-kg</property>
+                            </difference>
+                            <difference>
+                                <property>systems/flight/approach-high-alpha-max-weight-kg</property>
+                                <property>systems/flight/approach-max-weight-kg</property>
+                            </difference>
+                        </quotient>
+                        <value>3.5</value>
+                    </product>
+                </sum>
+            </function>
+            <clipto>
+                <min>9</min>
+                <max>20</max>
+            </clipto>
+        </fcs_function>
+
+        <!-- Limit depending on α15.5° button -->
+        <switch name="systems/flight/approach-alpha-cap">
+            <default value="12"/>
+            <test value="15.5">
+                autoflight/high-alpha eq 1
+            </test>
+        </switch>
+
+        <pure_gain name="systems/flight/approach-alpha-capped">
+            <input>systems/flight/approach-alpha-base</input>
+            <gain>1</gain>
+            <clipto>
+                <min>9</min>
+                <max>systems/flight/approach-alpha-cap</max>
+            </clipto>
+        </pure_gain>
+
+        <!-- Approach alpha used for HUD speed deviation indication and autothrottle -->
+        <switch name="systems/flight/approach-alpha">
+            <default value="systems/flight/approach-alpha-capped"/>
+            <!-- AJS only uses the default 12 / 15.5 values 
+                 (AJS SFI part 1 chap 17 sec 4.3.8 and chap 10 sec 2) -->
+            <test value="systems/flight/approach-alpha-cap">
+                /ja37/systems/variant ne 0
+            </test>
+        </switch>
     </channel>
 </system>
