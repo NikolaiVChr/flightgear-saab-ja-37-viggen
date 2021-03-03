@@ -219,14 +219,6 @@
 		</config>
 	</pid-controller>
 	
-	<predict-simple>
-		<name>Alpha Predict</name>
-		<input>/fdm/jsbsim/aero/alpha-deg</input> <!-- Really should be indicated -->
-		<output>/fdm/jsbsim/aero/alpha-deg-ahead</output>
-		<seconds>1.0</seconds>
-		<filter-gain>0.0</filter-gain>
-	</predict-simple>
-	
 	<pid-controller>
 		<name>Alpha Hold</name>
 		<enable>
@@ -243,7 +235,18 @@
 				</and>
 			</condition>
 		</enable>
-		<input>/fdm/jsbsim/aero/alpha-deg-ahead</input>
+		<input>
+			<expression>
+			<!-- Autothrottle compensates alpha information for g-load, so as to maintain 
+				the airspeed corresponding to the target alpha at g-load=1 (JA SFI chap 1 sec 11.5.1-2).
+				As first approximation, g-load and alpha are proportional at fixed airspeed,
+				so maintaining their ratio is roughly the same as maintaining airspeed. -->
+				<div>
+					<property>/fdm/jsbsim/aero/alpha-deg</property> <!-- Really should be indicated -->
+					<property>/fdm/jsbsim/instruments/g-force</property>
+				</div>
+			</expression>
+		</input>
 		<reference>/fdm/jsbsim/systems/flight/approach-alpha</reference>
 		<output>/controls/engines/engine[0]/throttle-pid</output>
 		<config>
