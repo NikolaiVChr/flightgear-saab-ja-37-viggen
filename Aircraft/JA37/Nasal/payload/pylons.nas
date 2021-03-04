@@ -64,7 +64,7 @@ var make_M70 = func(pylon) {
         "M70 ARAK", 100, 6, [4+pylon], [],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
         TRUE, operable, FALSE,
-        [pylon+13], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
+        [pylon+12], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var make_M55 = func(pylon) {
@@ -72,7 +72,7 @@ var make_M55 = func(pylon) {
         "M55 AKAN", 0.5, 150, [9+pylon], [8+pylon],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m55"),
         TRUE, operable, FALSE,
-        [(pylon == STATIONS.V7V) ? 18 : 19], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
+        [(pylon == STATIONS.V7V) ? 17 : 18], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var M75 = stations.SubModelWeapon.new(

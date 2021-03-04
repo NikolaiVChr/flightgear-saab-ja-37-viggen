@@ -418,30 +418,7 @@
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
     </submodel>
 
-    <submodel>
-        <name>contrail-dummy</name>
-        <model>Aircraft/JA37/Models/Effects/engine/contrails/contrail_dummy.xml</model>
-        <trigger>environment/contrail</trigger>
-        <speed>-100</speed>
-        <repeat>true</repeat>
-        <delay>1.0</delay>
-        <count>-1</count>
-        <offsets>
-          <x-m>7</x-m>
-          <y-m>0</y-m>
-          <z-m>0</z-m>
-        </offsets>
-        <eda>10</eda>
-        <wind>true</wind>
-        <aero-stabilised>false</aero-stabilised>
-        <buoyancy>32.1740485564</buoyancy>
-        <random>false</random>
-        <life>8.0</life>
-        <submodel-path>Aircraft/JA37/Systems/ja37-subsubmodels.xml</submodel-path>
-        <expiry>true</expiry>
-    </submodel>
-
-    <submodel><!-- submodel 14 -->
+    <submodel><!-- submodel 13 -->
         <name>M70 rocket pod1</name>        <!-- left wing -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
         <trigger>controls/armament/station[1]/jettison-pod</trigger>
@@ -537,7 +514,7 @@
         <impact>true</impact>
     </submodel>
 
-    <submodel><!-- submodel 18 -->
+    <submodel><!-- submodel 17 -->
         <name>M55 pod1</name>        <!-- left wing -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M55/m55.xml</model>
         <trigger>controls/armament/station[1]/jettison-pod</trigger>
