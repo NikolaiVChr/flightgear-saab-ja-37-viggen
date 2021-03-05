@@ -1547,7 +1547,6 @@ var TI = {
 			RMCurrWaypoint:       "autopilot/route-manager/current-wp",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
 			timeElapsed:          "sim/time/elapsed-sec",
-			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
 			fpv_up:               "instrumentation/fpv/angle-up-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-deg",

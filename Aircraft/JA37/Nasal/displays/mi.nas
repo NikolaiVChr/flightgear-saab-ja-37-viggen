@@ -140,7 +140,6 @@ var MI = {
 			rmActive:             "autopilot/route-manager/active",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
 			timeElapsed:          "sim/time/elapsed-sec",
-			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
 			fpv_pitch:            "instrumentation/fpv/pitch-deg",
 			fpv_up:               "instrumentation/fpv/angle-up-deg",

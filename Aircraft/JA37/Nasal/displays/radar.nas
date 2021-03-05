@@ -411,7 +411,6 @@ var radar = {
       RMCurrWaypoint:       "autopilot/route-manager/current-wp",
       roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
       timeElapsed:          "sim/time/elapsed-sec",
-      viewNumber:           "sim/current-view/view-number",
       heading:              "instrumentation/heading-indicator/indicated-heading-deg",
       twoHz:                "ja37/blink/two-Hz/state",
     };

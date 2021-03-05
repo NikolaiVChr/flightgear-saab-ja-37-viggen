@@ -1380,7 +1380,7 @@ var main_init = func {
   print("Loading exterior, wait...");
   # return to cabin to next cycle
   settimer(load_interior, 0, 1);
-  setprop("/sim/current-view/view-number", 1);
+  view.setViewByIndex(1);
   setprop("/sim/gui/tooltips-enabled", TRUE);
   
   # inst. light
@@ -1474,8 +1474,6 @@ var re_init = func {
   setprop("/controls/gear/gear-down", 1);
   setParkingBrake(1);
   setprop("ja37/done",0);
-  setprop("sim/view[0]/enabled",1);
-  setprop("/sim/current-view/view-number", 0);
   #test_support();
   recharge_battery();
 }
@@ -1501,7 +1499,7 @@ var asymVortex = func () {
 }
 
 var load_interior = func {
-    setprop("/sim/current-view/view-number", 0);
+    view.setViewByIndex(0);
     print("..Done!");
 }
 
@@ -1885,9 +1883,7 @@ var _popupTip = func(label, y, delay) {
 var on_damage_enabled = func() {
     var internal = view.current.getNode("internal");
     if (internal == nil or !internal.getBoolValue()) {
-        #view.setView(0); added only in FG 2019
-        setprop("/sim/current-view/view-number", 0);
-        setprop("/sim/current-view/view-number-raw", view.views[0].getIndex());
+        view.setViewByIndex(0);
         screen.log.write("External views are disabled with damage on");
     }
 }
@@ -1911,8 +1907,6 @@ var repair = func {
     failureSys.armAllTriggers();
     setprop("environment/damage", FALSE);
     setprop("ja37/done",0);
-    setprop("sim/view[0]/enabled",1);
-    setprop("/sim/current-view/view-number", 0);
 }
 
 
@@ -1930,7 +1924,7 @@ var resetView = func () {
 }
 
 var HDDView = func () {
-  if (getprop("sim/current-view/view-number") == 0) {
+  if (getprop("sim/current-view/view-number-raw") == 0) {
     var hd = getprop("sim/current-view/heading-offset-deg");
     var hd_t = getprop("sim/current-view/config/heading-offset-deg");
     if (hd > 180) {
@@ -1945,7 +1939,7 @@ var HDDView = func () {
 }
 
 var HUDView = func () {
-  if (getprop("sim/current-view/view-number") == 0) {
+  if (getprop("sim/current-view/view-number-raw") == 0) {
     var hd = getprop("sim/current-view/heading-offset-deg");
     var hd_t = getprop("sim/current-view/config/heading-offset-deg");
     if (hd > 180) {
@@ -2093,9 +2087,7 @@ view.stepView = func(step, force = 0) {
             and ((internal != nil and internal.getBoolValue()) or !getprop("/payload/armament/msg")))
             break;
     }
-    #view.setView(n); added only in FG 2019
-    setprop("/sim/current-view/view-number", n);
-    setprop("/sim/current-view/view-number-raw", view.views[n].getIndex());
+    view.setView(n);
 
     # And pop up a nice reminder
     var popup=getprop("/sim/view-name-popup");
