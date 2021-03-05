@@ -267,14 +267,17 @@
                 </limits>
             </config>
         </view>
-        <!-- 13 in hud.nas -->
+        <!-- Update Nasal/missile-view.nas when changing the name or index. -->
         <view n="111">
-          <name>The Sad View</name>
+            <name>Ejection view</name>
             <type>lookat</type>
             <enabled type="bool">false</enabled>
-            <heading-offset-deg>180</heading-offset-deg>
-            <pitch-offset-deg>10</pitch-offset-deg>
-          </view>
+            <config>
+              <heading-offset-deg>180</heading-offset-deg>
+              <pitch-offset-deg>10</pitch-offset-deg>
+              <z-offset-m alias="/sim/chase-distance-m"/>
+            </config>
+        </view>
         <!--<view n="120">
             <name>HUD view</name>
             <type>lookfrom</type>
@@ -1743,9 +1746,9 @@
         <ai>
           <file>Aircraft/JA37/Nasal/AI_list.nas</file>
         </ai>
-        <view>
-          <file>Aircraft/JA37/Nasal/gamma.nas</file>
-        </view>
+        <missile_view>
+          <file>Aircraft/JA37/Nasal/missile-view.nas</file>
+        </missile_view>
         <gci>
           <file>Aircraft/JA37/Nasal/gci-listener.nas</file>
         </gci>

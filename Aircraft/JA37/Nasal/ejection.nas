@@ -6,7 +6,7 @@ var eject = func () {
     var es = armament.AIM.new(10, "es", "gamma");
     setprop("fdm/jsbsim/fcs/canopy/hinges/serviceable", 0);
     es.releaseAtNothing();
-    view.view_firing_missile(es);
+    missile_view.view_firing_missile(es);
     #setprop("sim/view[0]/enabled",0);
     settimer(func {crash.exp();},3.5);
 }
