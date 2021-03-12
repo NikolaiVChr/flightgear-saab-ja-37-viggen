@@ -1469,11 +1469,12 @@ var re_init = func {
   #print("Reinit: Oxygen replenished.");
   # asymmetric vortex detachment
   asymVortex();
-  repair(FALSE);
+  repair();
   autoflight.System.engageMode(0);
   setprop("/controls/gear/gear-down", 1);
   setParkingBrake(1);
   setprop("ja37/done",0);
+  view.setViewByIndex(0);
   #test_support();
   recharge_battery();
 }
@@ -1907,6 +1908,7 @@ var repair = func {
     failureSys.armAllTriggers();
     setprop("environment/damage", FALSE);
     setprop("ja37/done",0);
+    view.setViewByIndex(0);
 }
 
 
