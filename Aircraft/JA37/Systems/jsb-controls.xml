@@ -1135,7 +1135,7 @@
       <switch name="fcs/brake/chocks">
         <default value="/controls/gear/chocks"/>
         <test logic="AND" value="0">
-          /sim/signals/fdm-initialized eq 1 <!-- Otherwise chocks are removed on start -->
+          sim-time-sec gt 1 <!-- Otherwise chocks are removed on start -->
           <test logic="OR">
             gear/gear-pos-norm ne 1
             gear/unit[0]/WOW ne 1
