@@ -275,7 +275,7 @@
             <config>
               <heading-offset-deg>180</heading-offset-deg>
               <pitch-offset-deg>10</pitch-offset-deg>
-              <z-offset-m alias="/sim/chase-distance-m"/>
+              <z-offset-m>-25</z-offset-m>
             </config>
         </view>
         <!--<view n="120">
