@@ -141,7 +141,7 @@
     <counter>
       <particles-per-sec>
         <property>velocities/airspeed-kt</property>
-        <factor>50</factor>
+        <factor>20</factor>
         <spread>0</spread>
       </particles-per-sec>
     </counter>
@@ -170,14 +170,14 @@
         </size>
       </end>
       <life-sec>
-        <value>0.00001</value>
+        <value>0.001</value>
       </life-sec>
       <mass-kg>1.0025</mass-kg>
       <radius-m>0</radius-m>
     </particle>
     <program>
       <fluid>air</fluid>
-      <gravity type="bool">true</gravity>
+      <gravity type="bool">false</gravity>
       <wind type="bool">false</wind>
     </program>
   </particlesystem>

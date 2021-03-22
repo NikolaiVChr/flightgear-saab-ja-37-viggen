@@ -126,7 +126,7 @@
 
    <counter>
      <particles-per-sec>
-       <value>150</value>
+       <value>100</value>
        <spread>10</spread>
      </particles-per-sec>
    </counter>

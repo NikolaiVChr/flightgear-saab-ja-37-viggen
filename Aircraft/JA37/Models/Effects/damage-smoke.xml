@@ -41,7 +41,7 @@
 		</shooter>
 		<counter>
 			<particles-per-sec>
-				<value>50</value>
+				<value>30</value>
 				<spread>10</spread>
 			</particles-per-sec>
 		</counter>

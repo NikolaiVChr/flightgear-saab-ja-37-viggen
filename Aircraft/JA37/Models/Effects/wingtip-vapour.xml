@@ -70,7 +70,7 @@
      </end>
  
      <life-sec>
-       <value>1</value>
+       <value>0.001</value>
      </life-sec>
  
      <mass-kg>  0.5 </mass-kg>
@@ -79,7 +79,7 @@
  
    <program>
      <fluid>               air  </fluid>
-     <gravity type="bool"> true </gravity>
+     <gravity type="bool"> false </gravity>
      <wind typ="bool">     true </wind>
    </program>
  
