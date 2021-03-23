@@ -270,6 +270,10 @@
         <radar-altimeter>
             <max-usable-altitude-m type="double">600</max-usable-altitude-m>
         </radar-altimeter>
+        <comm n="1">
+            <!-- Used for JA FR31 radio, disabled in AJS -->
+            <power-btn type="bool">false</power-btn>
+        </comm>
     </instrumentation>
 
     <nasal>

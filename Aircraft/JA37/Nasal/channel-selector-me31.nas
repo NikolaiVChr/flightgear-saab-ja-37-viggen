@@ -26,11 +26,11 @@ var resetDisplays = func {
 
 var updateToRadio = func {
 	var number = num(bottom)/100;
-	setprop("instrumentation/nav/frequencies/selected-mhz", number);
+	setprop("instrumentation/comm[1]/frequencies/selected-mhz", number);
 };
 
 var updateFromRadio = func {
-	var freq = roundabout(getprop("instrumentation/nav/frequencies/selected-mhz")*100);
+	var freq = roundabout(getprop("instrumentation/comm[1]/frequencies/selected-mhz")*100);
 	bottom = sprintf("%05d", freq);
 	digit = 1;
 	mode = STANDBY;
@@ -107,4 +107,4 @@ var cl3 = func {
 
 updateFromRadio();
 resetDisplays();
-setlistener("instrumentation/nav/frequencies/selected-mhz", updateFromRadio);
+setlistener("instrumentation/comm[1]/frequencies/selected-mhz", updateFromRadio);

@@ -42,7 +42,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>nav</tooltip-id>
-                <label>ME31 Nav panel</label>
+                <label>ME31 Comm panel</label>
             </binding>
         </hovered>
     </animation>
@@ -766,5 +766,40 @@
             <z> 0.0 </z>
         </axis>
     </animation>-->
+
+  <animation>
+    <type>knob</type>
+    <object-name>vol</object-name>
+    <property>instrumentation/comm[1]/volume</property>
+    <factor>90</factor>
+    <offset-deg>-45</offset-deg>
+    <center>
+      <x-m>0.00639</x-m>
+      <y-m>0.04576</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>-1</z>
+    </axis>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/comm[1]/volume</property>
+        <factor>0.1</factor>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>me31-volume</tooltip-id>
+        <label>Volume</label>
+      </binding>
+    </hovered>
+  </animation>
 
 </PropertyList>
