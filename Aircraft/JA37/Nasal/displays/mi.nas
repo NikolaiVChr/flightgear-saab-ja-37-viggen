@@ -137,7 +137,8 @@ var MI = {
 			radarRange:           "instrumentation/radar/range",
 			radarServ:            "instrumentation/radar/serviceable",
 			ref_alt:              "ja37/displays/reference-altitude-m",
-			rmActive:             "autopilot/route-manager/active",
+			rm_active:            "autopilot/route-manager/active",
+			wp_bearing:           "/autopilot/route-manager/wp/true-bearing-deg",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
 			timeElapsed:          "sim/time/elapsed-sec",
 			headTrue:             "orientation/heading-deg",
@@ -392,6 +393,11 @@ var MI = {
 			me.heading_scale_small_marks.moveTo(i*10*heading_deg_to_mm, 0)
 				.vert(-ticksMed);
 		}
+
+		me.heading_index = me.heading_scale.createChild("path")
+			.setStrokeLineWidth(ticksMed)
+			.moveTo(0,-ticksMed).vert(2*ticksMed)
+			.setColor(r,g,b,a);
 
 		# Center Marker at the bottom of the screen.
 		me.rootCenter.createChild("path")
@@ -779,6 +785,16 @@ var MI = {
 		for (var i=-1; i<=2; i+=1) {
 			# offset of 1 for this array
 			me.heading_scale_texts[i+1].updateText(sprintf("%.2d", math.mod(me.center_mark_text + 3*i, 36)));
+		}
+
+		if (me.input.rm_active.getBoolValue()) {
+			var pos = geo.normdeg180(me.input.wp_bearing.getValue() - me.heading);
+			pos = math.clamp(pos, -60, 60);
+			pos *= heading_deg_to_mm;
+			me.heading_index.setTranslation(pos, 0);
+			me.heading_index.show();
+		} else {
+			me.heading_index.hide();
 		}
 	},
 
