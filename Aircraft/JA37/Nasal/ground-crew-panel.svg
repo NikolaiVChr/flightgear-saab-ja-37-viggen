@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="640"
+   height="512"
+   viewBox="0 0 639.99997 511.99998"
+   version="1.1"
+   id="SVGRoot">
+  <defs
+     id="defs926" />
+  <metadata
+     id="metadata238">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     id="lines"
+     style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 552,296 V 488 M 472,400 H 616 M 152,440 H 472 M 304,488 V 296 m 88,0 V 488 M 472,296 V 488 M 152,296 H 616 M 152,24 H 616 V 488 H 152 Z" />
+  <g
+     id="text_SE"
+     transform="translate(128)">
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;text-anchor:start;fill:#ffffff"
+       id="text1492"
+       x="-112"
+       y="60"><tspan
+         id="tspan1490">INSTÄLLN KLAFF</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;text-anchor:start;fill:#ffffff"
+       x="-100"
+       y="402"
+       id="text1048"><tspan
+         id="tspan1046">ÖVRIGA</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="181.61713"
+       y="55.111969"
+       id="vapenantal"><tspan
+         x="134.43016"
+         y="55.111969"
+         id="tspan1137"
+         style="text-align:center;text-anchor:middle">VAPENANTAL</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="414.46619"
+       y="55.107292"
+       id="vapenvaljare"><tspan
+         id="tspan1141"
+         x="357.82965"
+         y="55.107292"
+         style="text-align:center;text-anchor:middle">VAPENVÄLJARE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="133.41817"
+       y="318.20828"
+       id="operativ"><tspan
+         id="tspan4450"
+         x="97.238403"
+         y="318.20828"
+         style="text-align:center;text-anchor:middle">OPERATIV</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff"
+       x="125.90117"
+       y="362.61633"
+       id="blind"><tspan
+         id="tspan4454"
+         x="125.90117"
+         y="362.61633">BLIND</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="124.22357"
+       y="412.43378"
+       id="ovning"><tspan
+         id="tspan4458"
+         x="96.182816"
+         y="412.43378"
+         style="text-align:center;text-anchor:middle">ÖVNING</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="148.4023"
+       y="469.22348"
+       id="lastvaljare"><tspan
+         id="tspan4462"
+         x="98.322098"
+         y="469.22348"
+         style="text-align:center;text-anchor:middle">LASTVÄLJARE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="234.10194"
+       y="318.44766"
+       id="stort"><tspan
+         id="tspan4466"
+         x="210"
+         y="318.44766"
+         style="text-align:center;text-anchor:middle">STORT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="227.66949"
+       y="412.33789"
+       id="litet"><tspan
+         id="tspan4470"
+         x="208.46242"
+         y="412.33789"
+         style="text-align:center;text-anchor:middle">LITET</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="382.133"
+       y="-244.43117"
+       id="medel"
+       transform="rotate(90)"><tspan
+         id="tspan4474"
+         x="357.68732"
+         y="-244.43117"
+         style="text-align:center;text-anchor:middle">MEDEL</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="208.4689"
+       y="457.67123"
+       id="sak_avst"><tspan
+         id="tspan4486"
+         x="208.4689"
+         y="457.67123">SÄK</tspan><tspan
+         x="208.4689"
+         y="473.8046"
+         id="tspan4490">AVST</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="298.64697"
+       y="318.63516"
+       id="hangt"><tspan
+         id="tspan4496"
+         x="298.64697"
+         y="318.63516">HÄNGT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="301.83286"
+       y="414.33432"
+       id="ej_hangt"><tspan
+         id="tspan4500"
+         x="301.83286"
+         y="414.33432">EJ</tspan><tspan
+         x="301.83286"
+         y="430.46768"
+         id="tspan4504">HÄNGT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="302.94794"
+       y="458.737"
+       id="yttre_motm"><tspan
+         id="tspan4506"
+         x="302.94794"
+         y="458.737">YTTRE</tspan><tspan
+         x="302.94794"
+         y="474.87036"
+         id="tspan4510">MOTM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="384.24448"
+       y="318.67389"
+       id="med"><tspan
+         id="tspan4516"
+         x="384.24448"
+         y="318.67389">MED</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="385.23264"
+       y="397.11484"
+       id="utan"><tspan
+         id="tspan4520"
+         x="385.23264"
+         y="397.11484">UTAN</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.05;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff"
+       x="346.99438"
+       y="418.87982"
+       id="rb15"><tspan
+         id="tspan4524"
+         x="346.99438"
+         y="418.87982">RB15/75</tspan><tspan
+         x="346.99438"
+         y="434.27985"
+         id="tspan4528">BFASK</tspan><tspan
+         x="346.99438"
+         y="449.6799"
+         id="tspan4530">CCIP</tspan><tspan
+         x="346.99438"
+         y="465.07993"
+         id="tspan4532">ARAKZON</tspan><tspan
+         x="346.99438"
+         y="480.47995"
+         id="tspan4534">ÖRAK 6.3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="451.04144"
+       y="318.84677"
+       id="va"><tspan
+         id="tspan4536"
+         x="451.04144"
+         y="318.84677">VÄ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="455.39566"
+       y="397.69449"
+       id="le"><tspan
+         id="tspan4540"
+         x="455.39566"
+         y="397.69449">HÖ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="453.97476"
+       y="419.32486"
+       id="1A_val"><tspan
+         id="tspan4544"
+         x="453.97476"
+         y="419.32486">1:A VAL</tspan></text>
+  </g>
+  <g
+     id="text_EN"
+     transform="translate(128)">
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;text-anchor:start;fill:#ffffff"
+       x="-112"
+       y="60"
+       id="text1498"><tspan
+         id="tspan1496">FLAPS SETTING</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:start;text-anchor:start;fill:#ffffff"
+       x="-100"
+       y="402"
+       id="text1486"><tspan
+         id="tspan1484">OTHER</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="181.61713"
+       y="55.111969"
+       id="text558"><tspan
+         x="134.43016"
+         y="55.111969"
+         id="tspan556"
+         style="text-align:center;text-anchor:middle">WPN COUNT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="414.46619"
+       y="55.107292"
+       id="text562"><tspan
+         id="tspan560"
+         x="357.82965"
+         y="55.107292"
+         style="text-align:center;text-anchor:middle">WPN SELECTOR</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="133.41817"
+       y="318.20828"
+       id="text566"><tspan
+         id="tspan564"
+         x="97.238403"
+         y="318.20828"
+         style="text-align:center;text-anchor:middle">OPERATIONAL</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff"
+       x="125.90117"
+       y="362.61633"
+       id="text570"><tspan
+         id="tspan568"
+         x="125.90117"
+         y="362.61633">INERT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="124.22357"
+       y="412.43378"
+       id="text574"><tspan
+         id="tspan572"
+         x="96.182816"
+         y="412.43378"
+         style="text-align:center;text-anchor:middle">PRACTICE</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="148.4023"
+       y="469.22348"
+       id="text578"><tspan
+         id="tspan576"
+         x="98.322098"
+         y="469.22348"
+         style="text-align:center;text-anchor:middle">LOAD SELECTOR</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="234.10194"
+       y="318.44766"
+       id="text582"><tspan
+         id="tspan580"
+         x="210"
+         y="318.44766"
+         style="text-align:center;text-anchor:middle">LONG</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="227.66949"
+       y="412.33789"
+       id="text586"><tspan
+         id="tspan584"
+         x="208.46242"
+         y="412.33789"
+         style="text-align:center;text-anchor:middle">SHORT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="382.133"
+       y="-244.43117"
+       id="text590"
+       transform="rotate(90)"><tspan
+         id="tspan588"
+         x="357.68732"
+         y="-244.43117"
+         style="text-align:center;text-anchor:middle">MEDIUM</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="208.4689"
+       y="457.67123"
+       id="text596"><tspan
+         id="tspan592"
+         x="208.4689"
+         y="457.67123">SAFETY</tspan><tspan
+         x="208.4689"
+         y="473.8046"
+         id="tspan594">DIST</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="298.64697"
+       y="318.63516"
+       id="text600"><tspan
+         id="tspan598"
+         x="298.64697"
+         y="318.63516">WITH</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="301.83286"
+       y="414.33432"
+       id="text606"><tspan
+         id="tspan602"
+         x="301.83286"
+         y="414.33432">WITHOUT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="302.94794"
+       y="466.737"
+       id="text612"><tspan
+         id="tspan608"
+         x="302.94794"
+         y="466.737">CM POD</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="384.24448"
+       y="318.67389"
+       id="text616"><tspan
+         id="tspan614"
+         x="384.24448"
+         y="318.67389">WITH</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="385.23264"
+       y="397.11484"
+       id="text620"><tspan
+         id="tspan618"
+         x="385.23264"
+         y="397.11484">WITHOUT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.05;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff"
+       x="346.99438"
+       y="418.87982"
+       id="text632"><tspan
+         id="tspan622"
+         x="346.99438"
+         y="418.87982">RB15/75</tspan><tspan
+         x="346.99438"
+         y="434.27985"
+         id="tspan624">BPRCHT</tspan><tspan
+         x="346.99438"
+         y="449.6799"
+         id="tspan626">CCIP</tspan><tspan
+         x="346.99438"
+         y="465.07993"
+         id="tspan628">ARAKPRX</tspan><tspan
+         x="346.99438"
+         y="480.47995"
+         id="tspan630">ÖRAK 6.3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="451.04144"
+       y="318.84677"
+       id="text636"><tspan
+         id="tspan634"
+         x="451.04144"
+         y="318.84677">LEFT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="455.39566"
+       y="397.69449"
+       id="text640"><tspan
+         id="tspan638"
+         x="455.39566"
+         y="397.69449">RIGHT</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+       x="453.97476"
+       y="419.32486"
+       id="text644"><tspan
+         id="tspan642"
+         x="453.97476"
+         y="419.32486">1:F SEL</tspan></text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:1.05;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="584"
+     y="449.82703"
+     id="rb05"><tspan
+       id="tspan4548"
+       x="584"
+       y="449.82703">RB05</tspan><tspan
+       x="584"
+       y="465.22705"
+       id="tspan4552">RB15</tspan><tspan
+       x="584"
+       y="480.62711"
+       id="tspan4554">RB75</tspan></text>
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5395"
+     r="23"
+     cy="356"
+     cx="226" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5397"
+     d="m 236.00785,373.3341 h -20.0157 L 205.98431,356 215.99215,338.6659 h 20.0157 L 246.01569,356 Z" />
+  <circle
+     style="fill:#e53939;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5399"
+     cx="226"
+     cy="356"
+     r="11" />
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="switch_op_center"
+     cx="226"
+     cy="356"
+     r="7" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 222,356 c 0,5 8,5 8,0 l 3,-32.67767 c 0,-8 -14,-8 -14,0 z"
+     id="switch_op" />
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5473"
+     r="23"
+     cy="356"
+     cx="340" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5475"
+     d="m 350.00785,373.3341 h -20.0157 L 319.98431,356 329.99215,338.6659 h 20.0157 L 360.01569,356 Z" />
+  <circle
+     style="fill:#e53939;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5477"
+     cx="340"
+     cy="356"
+     r="11" />
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="switch_dist_center"
+     cx="340"
+     cy="356"
+     r="7" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 336,356 c 0,5 8,5 8,0 l 3,-32.67767 c 0,-8 -14,-8 -14,0 z"
+     id="switch_dist" />
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5483"
+     r="23"
+     cy="356"
+     cx="428" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5485"
+     d="m 438.00785,373.3341 h -20.0157 L 407.98431,356 417.99215,338.6659 h 20.0157 L 448.01569,356 Z" />
+  <circle
+     style="fill:#e53939;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5487"
+     cx="428"
+     cy="356"
+     r="11" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 424,356 c 0,5 8,5 8,0 l 3,-32.67767 c 0,-8 -14,-8 -14,0 z"
+     id="switch_cm" />
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5493"
+     r="23"
+     cy="356"
+     cx="512" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5495"
+     d="m 522.00785,373.3341 h -20.0157 L 491.98431,356 501.99215,338.6659 h 20.0157 L 532.01569,356 Z" />
+  <circle
+     style="fill:#e53939;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5497"
+     cx="512"
+     cy="356"
+     r="11" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 508,356 c 0,5 8,5 8,0 l 3,-32.67767 c 0,-8 -14,-8 -14,0 z"
+     id="switch_sel" />
+  <circle
+     style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5503"
+     r="23"
+     cy="356"
+     cx="582" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path5505"
+     d="m 592.00785,373.3341 h -20.0157 L 561.98431,356 571.99215,338.6659 h 20.0157 L 602.01569,356 Z" />
+  <circle
+     style="fill:#e53939;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="circle5507"
+     cx="582"
+     cy="356"
+     r="11" />
+  <path
+     style="fill:#999999;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 578,356 c 0,5 8,5 8,0 l 3,-32.67767 c 0,-8 -14,-8 -14,0 z"
+     id="switch_side" />
+  <path
+     id="path1196"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 355.86087,125.5 258,182 M 314.5,84.139132 258,182 V 69 M 371,182 H 258 L 201.5,84.13913" />
+  <g
+     id="knob_number"
+     transform="translate(128)">
+    <path
+       style="fill:#0d0d0d;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1151"
+       d="m 209.40369,191.74955 a 80,80 0 1 1 0,-19.4991 L 130,182 Z" />
+    <circle
+       style="fill:#262626;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1153"
+       cx="130"
+       cy="182"
+       r="67" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1155"
+       cx="205"
+       cy="182"
+       r="4" />
+    <path
+       style="fill:#1a1a1a;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 197,174 c 0,0 -44.54511,-7 -67,-7 -22.45489,0 -67,7 -67,7 v 16 c 0,0 44.54511,7 67,7 22.45489,0 67,-7 67,-7 z"
+       id="path1157" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 194,182 H 152"
+       id="path1159" />
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     id="text_0"
+     x="202.10381"
+     y="152.57385"
+     transform="rotate(-15)"><tspan
+       id="tspan10645"
+       style="text-align:center;text-anchor:middle">0</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     id="text_1"
+     y="19.023113"
+     x="296.3139"
+     transform="rotate(15)"><tspan
+       id="tspan10641">1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     id="text_2"
+     y="-143.7401"
+     x="311.12698"
+     transform="rotate(45)"><tspan
+       id="tspan10649">2</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     id="text_3-4"
+     y="-292.10379"
+     x="242.57384"
+     transform="rotate(75)"><tspan
+       id="tspan10653">3-4</tspan></text>
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 201.5,84.13913 A 113,113 0 0 1 371,182"
+     id="path331" />
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 492,182 -99.593,57.5 a 115,115 0 1 1 199.1859,0 z"
+     id="path1156" />
+  <path
+     id="path1176"
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 492,182 -97.99998,-4e-5 M 492,182 407.12954,132.99998 M 492,182 443.00002,97.1295 M 492,182 l 2e-5,-97.999999 M 492,182 541.00002,97.12952 M 492,182 576.8705,133 M 492,182 h 98" />
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 407.12954,231.00002 A 98,98 0 1 1 576.8705,231"
+     id="path1164" />
+  <g
+     id="knob_sel"
+     transform="translate(128)">
+    <path
+       style="fill:#0d0d0d;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1132"
+       d="m 443.40369,191.74955 a 80,80 0 1 1 0,-19.4991 L 364,182 Z" />
+    <circle
+       style="fill:#262626;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle1134"
+       cx="364"
+       cy="182"
+       r="67" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle1136"
+       cx="439"
+       cy="182"
+       r="4" />
+    <path
+       style="fill:#1a1a1a;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 431,174 c 0,0 -44.54511,-7 -67,-7 -22.45489,0 -67,7 -67,7 v 16 c 0,0 44.54511,7 67,7 22.45489,0 67,-7 67,-7 z"
+       id="path1138" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 428,182 H 386"
+       id="path1140" />
+  </g>
+  <path
+     id="path1184"
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 378.55068,116.5 A 131,131 0 0 1 426.5,68.55068 M 392.40708,124.50002 378.55068,116.5 M 434.5,82.4071 l -8,-13.85642" />
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="492"
+     y="80.5"
+     id="text1191"><tspan
+       id="tspan1189">IR-RB</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="-303.13745"
+     y="344.1304"
+     id="text1195"
+     transform="rotate(-105)"><tspan
+       id="tspan1193">IR-RB</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="-48.459526"
+     y="438.34055"
+     id="text1199"
+     transform="rotate(-75)"><tspan
+       id="tspan1197">AKAN</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="219.20311"
+     y="392.58994"
+     id="text1203"
+     transform="rotate(-45)"><tspan
+       id="tspan1201">05/75</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="219.20311"
+     y="358.58997"
+     id="text1207"
+     transform="rotate(-45)"><tspan
+       id="tspan1205">AKAN</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="428.13043"
+     y="219.13745"
+     id="text1211"
+     transform="rotate(-15)"><tspan
+       id="tspan1209">05/75</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="522.34058"
+     y="-35.540474"
+     id="text1215"
+     transform="rotate(15)"><tspan
+       id="tspan1213">LYSB</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="476.58997"
+     y="-303.20316"
+     id="text1219"
+     transform="rotate(45)"><tspan
+       id="tspan1217">BOMB</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="303.13748"
+     y="-512.13049"
+     id="text1223"
+     transform="rotate(75)"><tspan
+       id="tspan1221">04/15</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:13.3333px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;text-anchor:middle;fill:#ffffff"
+     x="48.459511"
+     y="-606.34058"
+     id="text1227"
+     transform="rotate(105)"><tspan
+       id="tspan1225">ARAK</tspan></text>
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 514.14259,77.827281 A 106.5,106.5 0 0 1 594.8711,209.56422"
+     id="path1243" />
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 469.85741,77.827281 A 106.5,106.5 0 0 0 389.1289,209.56422"
+     id="path1249" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 594.8711,209.56422 5.79555,1.55291 -12.52589,17.99347 0.93478,-21.0993 z"
+     id="path1251" />
+  <path
+     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 389.1289,209.56422 -5.79555,1.55291 12.52589,17.99347 -0.93478,-21.0993 z"
+     id="path1253" />
+  <circle
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="knob_number_click"
+     cx="258"
+     cy="182"
+     r="80" />
+  <circle
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="knob_sel_click"
+     cx="492"
+     cy="182"
+     r="80" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_side_click_up"
+     width="64"
+     height="60"
+     x="552"
+     y="296" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_side_click_down"
+     width="64"
+     height="60"
+     x="552"
+     y="356" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_sel_click_up"
+     width="80"
+     height="60"
+     x="472"
+     y="296" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_sel_click_down"
+     width="80"
+     height="60"
+     x="472"
+     y="356" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_cm_click_up"
+     width="80"
+     height="60"
+     x="392"
+     y="296" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_cm_click_down"
+     width="80"
+     height="60"
+     x="392"
+     y="356" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_dist_click_up"
+     width="88"
+     height="60"
+     x="304"
+     y="296" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_dist_click_down"
+     width="88"
+     height="60"
+     x="304"
+     y="356" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_op_click_up"
+     width="88"
+     height="60"
+     x="182"
+     y="296" />
+  <rect
+     style="fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round"
+     id="switch_op_click_down"
+     width="88"
+     height="60"
+     x="182"
+     y="356" />
+  <rect
+     style="fill:#262626;stroke-linecap:round;stroke-linejoin:round;fill-opacity:1"
+     id="rect194"
+     width="10"
+     height="256"
+     x="110"
+     y="128" />
+  <g
+     id="flaps_lever">
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke-linecap:round;stroke-linejoin:round"
+       id="rect1024"
+       width="5"
+       height="64"
+       x="112.5"
+       y="176" />
+    <path
+       id="rect1021"
+       style="fill:#0d0d0d;fill-opacity:1;stroke-linecap:round;stroke-linejoin:round"
+       d="m 105,80 h 20 c 20,20 20,76 0,96 h -20 c -20,-20 -20,-76 0,-96 z" />
+  </g>
+  <rect
+     style="fill:none;fill-opacity:1;stroke-linecap:round;stroke-linejoin:round;stroke:#fdfdfd;stroke-opacity:1"
+     id="rect1030"
+     width="64"
+     height="68"
+     x="24"
+     y="98" />
+  <rect
+     style="fill:none;fill-opacity:1;stroke:#fdfdfd;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     id="rect1032"
+     width="64"
+     height="40"
+     x="24"
+     y="368" />
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';fill:#ffffff"
+     x="28"
+     y="142"
+     id="text1036"><tspan
+       id="tspan1034"
+       x="29.424473"
+       y="129.31104">AKAN</tspan><tspan
+       x="29.424473"
+       y="143.97772"
+       id="tspan1042">ARAK</tspan><tspan
+       x="29.424473"
+       y="158.64442"
+       id="tspan1044">KA/KB</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:end;text-anchor:end;fill:#ffffff;"
+     x="84"
+     y="114"
+     id="text1056"><tspan
+       id="tspan1054">-7°</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:14.6667px;line-height:1;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:end;text-anchor:end;fill:#ffffff"
+     x="84"
+     y="384"
+     id="text1052"><tspan
+       id="tspan1050">-4°</tspan></text>
+  <rect
+     style="fill:none;fill-opacity:1;stroke:#fdfdfd;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     id="rect1494"
+     width="128"
+     height="24"
+     x="12"
+     y="42" />
+  <rect
+     style="fill:none;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     id="flaps_lever_click_up"
+     width="128"
+     height="196"
+     x="12"
+     y="60" />
+  <rect
+     style="fill:none;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+     id="flaps_lever_click_down"
+     width="128"
+     height="196"
+     x="12"
+     y="256" />
+</svg>

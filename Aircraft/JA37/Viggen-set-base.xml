@@ -1012,6 +1012,16 @@
             <trigger type="bool">false</trigger>
             <trigger-final type="bool">false</trigger-final>
             <trigger-unsafe type="bool">false</trigger-unsafe>
+            <safety-distance type="int">1</safety-distance>
+            <ground-panel>
+                <!-- AJS Ground crew panel -->
+                <weapon-selector-knob type="int">0</weapon-selector-knob>
+                <weapon-selector-switch type="bool">false</weapon-selector-switch>
+                <weapon-count type="int">0</weapon-count>
+                <operational type="int">1</operational>
+                <cm-pod-loaded type="bool">false</cm-pod-loaded>
+                <start-left type="bool">true</start-left>
+            </ground-panel>
             <station n="1">
                 <offsets>
                     <x-m type="double">  4.15986</x-m>
@@ -1150,6 +1160,8 @@
             <aileron-ap type="double">0.0</aileron-ap>
             <!-- 3-positions: extend (1), neutral (0), retract (-1) -->
             <speedbrake-switch type="int">0</speedbrake-switch>
+            <!-- Adjust foreplane flaps up position (AJS only) false: -4deg (default), true: -7deg -->
+            <flaps-up-position type="bool">false</flaps-up-position>
         </flight>
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>

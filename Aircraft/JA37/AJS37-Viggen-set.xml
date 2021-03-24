@@ -145,6 +145,13 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Ground Crew Panel</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ground_panel.GroundCrewPanel.open_window();</script>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Performance Monitor</label>
                         <binding>
                             <command>nasal</command>
@@ -284,6 +291,10 @@
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ajs-hud.nas</file>
         </hud>
+        <ground_panel>
+          <file>Aircraft/JA37/Nasal/ground-crew-panel.nas</file>
+        </ground_panel>
+
     </nasal>
 
 </PropertyList>
