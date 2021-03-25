@@ -971,7 +971,15 @@
 
 
     <channel execrate="1" name="Flaps">
-        <!-- Can move 30 degrees down, and 4 degrees up -->
+        <!-- Can move 30 degrees down, and 4 degrees up.
+             7 degrees up selectable from ground crew panel (AJS only). -->
+
+        <switch name="fcs/flaps/up-position-deg">
+            <default value="-4"/>
+            <test value="-7">
+                /controls/flight/flaps-up-position eq 1
+            </test>
+        </switch>
 
         <switch name="names/flaps/cmd-active">
             <default value="0"/>
@@ -981,54 +989,54 @@
             <output>fcs/flaps/pos-cmd</output>
         </switch>
 
-        <kinematic name="names/flaps/pos-norm">
-            <input>fcs/flaps/tmp-norm</input>
-            <traverse>
-                <setting>
-                    <position>  0.0 </position>
-                    <time>      0.0 </time>
-                </setting>
-                <setting>
-                    <position>  1.0 </position>
-                    <time>     10.0 </time> <!-- from videos it looks to take 10-15 secs to retract flaps. -->
-                </setting>
-            </traverse>
-            <output>fcs/flaps/pos-normalized</output>
-        </kinematic>
-
-        <switch name="names/flaps/tmp-norm">
-            <default value="gear/gear-target-norm"/>
-            <!-- flaps controlled by gear-->
-            <test logic="OR" value="fcs/flaps/pos-normalized">
-                  systems/hydraulics/flight-surface-actuation == 0
-                  fcs/flaps/serviceable == 0
-            </test>
-            <test logic="OR" value="0.11765"><!-- default flaps position -->
-                fcs/flaps/pos-cmd == 0
-            </test>
-            <output>fcs/flaps/tmp-norm</output>
-        </switch>
-
-        <aerosurface_scale name="names/flaps/pos-deg">
-            <input>fcs/flaps/pos-normalized</input>
+        <aerosurface_scale name="names/flaps/target-gear-deg">
+            <input>gear/gear-target-norm</input>
             <zero_centered> false </zero_centered>
             <domain>
                 <min>  0.0 </min>
                 <max>  1.0 </max>
             </domain>
             <range>
-                <min> -4.0 </min>
+                <min> -7.0 </min>
                 <max> 30.0 </max>
             </range>
-            <output>fcs/flap-pos-deg</output>
+            <output>fcs/flaps/target-gear-deg</output>
         </aerosurface_scale>
 
-        <pure_gain name="names/flaps/pos-norm-MP">
+        <fcs_function name="names/flaps/target-clamped-deg">
+            <function>
+                <max>
+                    <property>fcs/flaps/target-gear-deg</property>
+                    <property>fcs/flaps/up-position-deg</property>
+                </max>
+            </function>
+            <output>fcs/flaps/target-clamped-deg</output>
+        </fcs_function>
+
+        <switch name="names/flaps/target-deg">
+            <default value="fcs/flaps/target-clamped-deg"/>
+            <test logic="OR" value="fcs/flap-pos-deg">
+                  systems/hydraulics/flight-surface-actuation == 0
+                  fcs/flaps/serviceable == 0
+            </test>
+            <test logic="OR" value="0"><!-- default flaps position -->
+                fcs/flaps/pos-cmd == 0
+            </test>
+            <output>fcs/flaps/target-deg</output>
+        </switch>
+
+        <actuator name="names/flaps/pos-deg">
+            <input>fcs/flaps/target-deg</input>
+            <rate_limit>3</rate_limit><!-- from videos it looks to take 10-15 secs to retract flaps. -->
+            <output>fcs/flap-pos-deg</output>
+        </actuator>
+
+        <!-- Normalised 0:0°, 1:30°, giving values in -0.2333 - 1 -->
+        <pure_gain name="names/flaps/pos-norm">
             <input>fcs/flap-pos-deg</input>
             <gain>0.03333</gain>
             <output>fcs/flap-pos-norm</output>
         </pure_gain>
-
     </channel>
 
     <channel execrate="1" name="Speedbrake">

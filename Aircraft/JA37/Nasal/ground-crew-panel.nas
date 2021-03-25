@@ -239,7 +239,7 @@ var GroundCrewPanel = {
         );
         CanvasSwitchAnim.new(
             me.flaps_lever_click_up, me.flaps_lever_click_down, input.flaps_setting, 0, 1,
-            "flaps_lever", "Flaps up position (not implemented)"
+            "flaps_lever", "Flaps position upper limit"
         );
         CanvasSwitchAnim.new(
             me.switch_op_click_up, me.switch_op_click_down, input.wpn_operational, -1, 1,

@@ -976,13 +976,13 @@
    <type>rotate</type>
    <object-name>flapsLeft</object-name>
    <property>surface-positions/flap-pos-norm</property>
-   <!-- This is just <factor>-30</factor> clamped to angles -4 to 30
+   <!-- This is just <factor>-30</factor> clamped to angles -7 to 30
         The clamping makes the animation somewhat less broken on older MP aircraft versions
         (which used flap-pos-norm as degree instead of normalised position).
         To be removed later.
    -->
    <interpolation>
-     <entry><ind>-0.13333</ind><dep>4.0</dep></entry>
+     <entry><ind>-0.23333</ind><dep>7.0</dep></entry>
      <entry><ind>1.0</ind><dep>-30.0</dep></entry>
    </interpolation>
    <axis>
@@ -999,13 +999,13 @@
    <type>rotate</type>
    <object-name>flapsRight</object-name>
    <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
-   <!-- This is just <factor>30</factor> clamped to angles -4 to 30
+   <!-- This is just <factor>30</factor> clamped to angles -7 to 30
         The clamping makes the animation somewhat less broken on older MP aircraft versions
         (which used flap-pos-norm as degree instead of normalised position).
         To be removed later.
    -->
    <interpolation>
-     <entry><ind>-0.13333</ind><dep>-4.0</dep></entry>
+     <entry><ind>-0.23333</ind><dep>-7.0</dep></entry>
      <entry><ind>1.0</ind><dep>30.0</dep></entry>
    </interpolation>
    <axis>

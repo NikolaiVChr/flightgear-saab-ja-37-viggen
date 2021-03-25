@@ -358,7 +358,7 @@
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <property>fcs/flaps/pos-normalized</property>
+                <property>fcs/flap-pos-norm</property>
                 <table name="aero/table/CN_flaps">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -488,27 +488,27 @@
                         <independentVar lookup="row"> aero/alpha-deg </independentVar>
                         <independentVar lookup="column"> fcs/flap-pos-deg </independentVar>
                         <tableData><!-- drag -->
-                                        -4.0000     .0000   15.0000   30.0000
-                             -2.0000     .0001     .0000     .0012     .0017
-                               .0000    -.0002     .0000     .0019     .0027
-                              2.0000    -.0004     .0000     .0027     .0036
-                              4.0000    -.0006     .0000     .0035     .0046
-                              8.0000    -.0010     .0000     .0050     .0065
-                             12.0000    -.0015     .0000     .0066     .0084
-                             16.0000    -.0019     .0000     .0081     .0103
-                             20.0000    -.0023     .0000     .0097     .0122
-                             24.0000    -.0028     .0000     .0112     .0141
-                             28.0000    -.0032     .0000     .0128     .0159
-                             32.0000    -.0037     .0000     .0143     .0178
-                             36.0000    -.0041     .0000     .0159     .0197
-                             40.0000    -.0045     .0000     .0174     .0216
-                             45.0000    -.0051     .0000     .0194     .0240
-                             50.0000    -.0056     .0000     .0213     .0264
-                             60.0000    -.0067     .0000     .0252     .0311
-                             70.0000    -.0078     .0000     .0291     .0359
-                             89.0000    -.0099     .0000     .0365     .0449
-                            120.0000    -.0133     .0000     .0485     .0596
-                            175.0000    -.0193     .0000     .0698     .0857
+                                       -7.0000   -4.0000     .0000   15.0000   30.0000
+                             -2.0000     .0001     .0001     .0000     .0012     .0017
+                               .0000    -.0003    -.0002     .0000     .0019     .0027
+                              2.0000    -.0006    -.0004     .0000     .0027     .0036
+                              4.0000    -.0010    -.0006     .0000     .0035     .0046
+                              8.0000    -.0018    -.0010     .0000     .0050     .0065
+                             12.0000    -.0026    -.0015     .0000     .0066     .0084
+                             16.0000    -.0034    -.0019     .0000     .0081     .0103
+                             20.0000    -.0042    -.0023     .0000     .0097     .0122
+                             24.0000    -.0049    -.0028     .0000     .0112     .0141
+                             28.0000    -.0057    -.0032     .0000     .0128     .0159
+                             32.0000    -.0065    -.0037     .0000     .0143     .0178
+                             36.0000    -.0073    -.0041     .0000     .0159     .0197
+                             40.0000    -.0081    -.0045     .0000     .0174     .0216
+                             45.0000    -.0090    -.0051     .0000     .0194     .0240
+                             50.0000    -.0100    -.0056     .0000     .0213     .0264
+                             60.0000    -.0120    -.0067     .0000     .0252     .0311
+                             70.0000    -.0139    -.0078     .0000     .0291     .0359
+                             89.0000    -.0176    -.0099     .0000     .0365     .0449
+                            120.0000    -.0237    -.0133     .0000     .0485     .0596
+                            175.0000    -.0344    -.0193     .0000     .0698     .0857
                         </tableData>
                     </table>
                     <cos>
@@ -519,6 +519,7 @@
                     <table name="aero/table/CL_flaps">
                         <independentVar lookup="row"> fcs/flap-pos-deg </independentVar>
                         <tableData><!-- lift -->
+                             -7.0000    -.0101
                              -4.0000    -.0058
                                .0000     .0000
                              15.0000     .0207
@@ -1808,11 +1809,15 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
                 <sum>
-                    <table name="aero/table/Cm_zero-gear">
-                        <independentVar lookup="row">gear/gear-pos-norm</independentVar>
+                    <table name="aero/table/Cm_zero-flaps">
+                      <independentVar lookup="row">fcs/flap-pos-deg</independentVar>
+                        <!-- 0.0 and 0.042 at -4 and 30 to match page 74.
+                             Match CL_flaps table for other points. -->
                         <tableData>
-                           0.0  0.000
-                           1.0  0.042
+                          -7.0 -0.006
+                          -4.0  0.000
+                          15.0  0.036
+                          30.0  0.042
                         </tableData>
                     </table>
                     <table name="aero/table/Cm_zero-mach">
@@ -2144,9 +2149,9 @@
                 <property>aero/beta-rad</property>
                 <table name="aero/table/Cn_beta">
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
+                    <independentVar lookup="column">fcs/flap-pos-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
-                                        0.0        1.0
+                                    -4.0         30.0
                         -98.1030     0.137652    0.137652  
                         -90.4097     0.137589    0.137589  
                         -85.4435     0.136279    0.136279  
