@@ -247,7 +247,7 @@ var GroundCrewPanel = {
         );
         CanvasSwitchAnim.new(
             me.switch_dist_click_up, me.switch_dist_click_down, input.safety_dist, 0, 2,
-            "switch_dist", "Safety distance (not implemented)"
+            "switch_dist", "Safety distance"
         );
         CanvasSwitchAnim.new(
             me.switch_cm_click_up, me.switch_cm_click_down, input.cm_loaded, 0, 1,

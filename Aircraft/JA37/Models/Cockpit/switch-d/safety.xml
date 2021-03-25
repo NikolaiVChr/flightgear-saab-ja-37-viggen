@@ -18,7 +18,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-safe</tooltip-id>
-                <label>Safety distance (non functional)</label>
+                <label>Safety distance</label>
             </binding>
         </hovered>
     </animation>

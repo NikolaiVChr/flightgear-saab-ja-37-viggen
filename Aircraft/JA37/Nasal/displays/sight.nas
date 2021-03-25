@@ -22,6 +22,7 @@ var input = {
     roll:       "/instrumentation/attitude-indicator/indicated-roll-deg",
     grd_speed:  "/velocities/groundspeed-kt",
     fpv_pitch:  "/instrumentation/fpv/pitch-deg",
+    safety_dist: "/controls/armament/safety-distance",
 };
 
 foreach (var prop; keys(input)) {
@@ -332,12 +333,12 @@ var DistanceComputer = {
 var FiringDistanceComputer = {
     # Safety distance is the radius around the target which we do not want to enter
     # (to avoid explosion/fragments...). Weapon dependent.
-    # Values from AJS SFI part 3 sec 3.
-    # Should also depend on the safety distance switch (ground crew weapon panel).
+    # Values from AJS SFI part 3 sec 3 and JA SFI part 1 sec 18.
+    # Each weapon has three values, depending on safety distance switch.
     safety_dist: {
-        "M75 AKAN": 200,
-        "M55 AKAN": 200,
-        "M70 ARAK": 440,
+        "M75 AKAN": [175, 230, 270],
+        "M55 AKAN": [120, 200, 200],
+        "M70 ARAK": [200, 440, 440],
     },
 
     # Load factor for evading. Should be 4g for bombs.
@@ -396,7 +397,8 @@ var FiringDistanceComputer = {
         var aiming_pitch = traj_pitch(traj);
         var fpv_pitch = input.fpv_pitch.getValue();
 
-        var pull_up_dist = me.pull_up_dist(me.safety_dist[type], pull_up_rad, fpv_pitch-aiming_pitch);
+        var safety_dist = me.safety_dist[type][input.safety_dist.getValue()];
+        var pull_up_dist = me.pull_up_dist(safety_dist, pull_up_rad, fpv_pitch-aiming_pitch);
 
         var tolerance = radar_dist ? 75 : 43 / math.sin(-aiming_pitch*D2R);
 
