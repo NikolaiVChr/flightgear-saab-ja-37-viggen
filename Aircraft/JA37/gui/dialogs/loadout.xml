@@ -4,56 +4,6 @@
   <name>loadout</name>
   <layout>vbox</layout>
 
-  <nasal>
-    <open>
-      # Note: The properties here are only updated while the dialog is active.
-      # Keep theme in the dialog property subtree, to discourage from using them
-      # at some other place, since it will break.
-      var base_node = props.globals.getNode("sim/gui/dialogs/loadout/dialog", 1);
-
-      ### Fuel
-      var fuel_request = base_node.getNode("fuel/request-percent", 1);
-      var fuel_current = props.globals.getNode("fdm/jsbsim/instruments/fuel/true-ratio", 1);
-
-      # To avoid continuously calling loadout.refuel() (which is a bit costly)
-      # when touching the refuel slider, the request is only sent after
-      # the slider is left in position for a small delay.
-      var fuel_request_delay = 0.2;
-
-      var fuel_request_timer = maketimer(fuel_request_delay, func {
-          var level = fuel_request.getValue() / 100;
-          level = loadout.refuel(level);
-          fuel_request.setDoubleValue(level * 100);
-          fuel_slider_timer.start();
-      });
-      fuel_request_timer.singleShot = 1;
-
-      # Fuel request slider follows actual fuel level
-      var update_fuel_slider = func {
-          if(fuel_request_timer.isRunning) return;
-          fuel_request.setDoubleValue(fuel_current.getValue() * 100);
-      }
-      update_fuel_slider();
-
-      var fuel_slider_timer = maketimer(1, update_fuel_slider);
-      fuel_slider_timer.simulatedTime = 1;
-      fuel_slider_timer.start();
-
-      var on_fuel_request = func {
-          fuel_slider_timer.stop(); # Temporarily disable slider updates
-          fuel_request_timer.restart(fuel_request_delay);
-      }
-
-      ### Drop tank
-      var on_droptank_request = func {
-          loadout.set_droptank(getprop("/consumables/fuel/tank[8]/mounted"));
-          settimer(update_fuel_slider, 0);
-      }
-    </open>
-    <close>
-      fuel_slider_timer.stop();
-    </close>
-  </nasal>
   <!-- Title bar -->
   <group>
     <layout>hbox</layout>
@@ -69,15 +19,11 @@
       <pref-width>16</pref-width>
       <pref-height>16</pref-height>
       <legend></legend>
-      <default>1</default>
       <keynum>27</keynum>
       <border>2</border>
       <binding>
         <command>nasal</command>
         <script>loadout.Dialog.close()</script>
-      </binding>
-      <binding>
-        <command>dialog-apply</command>
       </binding>
     </button>
   </group>
@@ -102,7 +48,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>on_fuel_request();</script>
+        <script>loadout.Dialog.fuel_slider_callback();</script>
       </binding>
     </slider>
 
@@ -125,7 +71,7 @@
       </binding>
       <binding>
         <command>nasal</command>
-        <script>on_droptank_request();</script>
+        <script>loadout.Dialog.droptank_callback();</script>
       </binding>
     </checkbox>
 
@@ -144,31 +90,102 @@
     <label>Payload</label>
   </text>
 
+  <canvas>
+    <name>loadout</name>
+    <pref-width>768</pref-width>
+    <pref-height>144</pref-height>
+    <view n="0">512</view>
+    <view n="1">96</view>
+  </canvas>
+
+  <group>
+    <!-- Table is filled based on a list of pylons -->
+    <name>pylons_table</name>
+    <layout>table</layout>
+  </group>
+
   <group>
     <layout>hbox</layout>
 
+    <empty><stretch>true</stretch></empty>
+
     <button>
-      <legend>Clean loadout</legend>
-      <enable>/ja37/reload-allowed</enable>
+      <legend>Remove payload</legend>
+      <pref-width>120</pref-width>
+      <enable>/ja37/reload/allowed</enable>
       <binding>
         <command>nasal</command>
         <script>loadout.load_clean();</script>
       </binding>
     </button>
 
+    <empty><stretch>true</stretch></empty>
+
     <button>
       <legend>Reload</legend>
-      <enable>/ja37/reload-allowed</enable>
+      <pref-width>120</pref-width>
+      <enable>/ja37/reload/allowed</enable>
       <binding>
         <command>nasal</command>
         <script>loadout.reload();</script>
       </binding>
     </button>
+
+    <empty><stretch>true</stretch></empty>
   </group>
 
-  <!-- This table is filled based on a list of loadouts, in Nasal/payload/loadout.nas -->
+  <hrule/>
+
+  <text>
+    <label>Loadout Presets</label>
+  </text>
+
   <group>
-    <name>procedural_table</name>
+    <!-- Table is filled based on a list of loadouts -->
+    <name>loadout_table</name>
     <layout>table</layout>
+  </group>
+
+  <text>
+    <ajs-only/>
+    <label>Options (effective after loading a preset)</label>
+  </text>
+
+  <group>
+    <ajs-only/>
+
+    <layout>hbox</layout>
+
+    <checkbox>
+      <label>Add RB 24J Sidewinders on outer pylons</label>
+      <property>/sim/gui/dialogs/loadout/dialog/loadout/load-outer-rb24j</property>
+      <live>true</live>
+      <enable>/ja37/reload-allowed</enable>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <empty><stretch>1</stretch></empty>
+
+    <combo>
+      <property>/sim/gui/dialogs/loadout/dialog/loadout/load-rb74</property>
+      <live>true</live>
+      <enable>/ja37/reload-allowed</enable>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <value>None</value>
+      <value>Right</value>
+      <value>Left</value>
+      <value>Both</value>
+    </combo>
+
+    <text>
+      <halign>left</halign>
+      <label>Add RB 74 Sidewinders on main pylons (replaces some primary weapon)</label>
+    </text>
+
+    <empty><stretch>1</stretch></empty>
   </group>
 </PropertyList>
