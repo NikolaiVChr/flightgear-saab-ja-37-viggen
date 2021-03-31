@@ -189,7 +189,7 @@ var GroundCrewPanel = {
         size: [960, 768],
         view: [640, 512],
     },
-    svg_file: "Aircraft/JA37/Nasal/ground-crew-panel.svg",
+    svg_file: "Aircraft/JA37/Nasal/payload/ground-crew-panel.svg",
     window: nil,
     listeners: {},
 
