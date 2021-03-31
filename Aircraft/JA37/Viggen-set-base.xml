@@ -518,6 +518,8 @@
             <picking type="bool">false</picking>
             <multiple-flightplans type="bool">false</multiple-flightplans>
             <compositor type="bool">false</compositor>
+            <!-- Nasal SVG parser bug https://sourceforge.net/p/flightgear/codetickets/2569/ -->
+            <canvas-arcs type="bool">false</canvas-arcs>
         </supported>
         <failures>
             <installed type="bool">false</installed>

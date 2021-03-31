@@ -16,6 +16,26 @@ foreach (var name; keys(input)) {
 }
 
 
+# Workaround bug in SVG parser (https://sourceforge.net/p/flightgear/codetickets/2569/ fixed as of 01/04/2021)
+# Invert clockwise/counter-clockwise flag in all arcs.
+var invert_arcs_dir = func (group) {
+    foreach(var path; group.getChildrenOfType([canvas.Path])) {
+        foreach(var cmd_node; path._node.getChildren("cmd")) {
+            var cmd = cmd_node.getValue();
+            if (cmd == canvas.Path.VG_SCWARC_TO_ABS)        cmd = canvas.Path.VG_SCCWARC_TO_ABS;
+            elsif (cmd == canvas.Path.VG_SCWARC_TO_REL)     cmd = canvas.Path.VG_SCCWARC_TO_REL;
+            elsif (cmd == canvas.Path.VG_SCCWARC_TO_ABS)    cmd = canvas.Path.VG_SCWARC_TO_ABS;
+            elsif (cmd == canvas.Path.VG_SCCWARC_TO_REL)    cmd = canvas.Path.VG_SCWARC_TO_REL;
+            elsif (cmd == canvas.Path.VG_LCWARC_TO_ABS)     cmd = canvas.Path.VG_LCCWARC_TO_ABS;
+            elsif (cmd == canvas.Path.VG_LCWARC_TO_REL)     cmd = canvas.Path.VG_LCCWARC_TO_REL;
+            elsif (cmd == canvas.Path.VG_LCCWARC_TO_ABS)    cmd = canvas.Path.VG_LCWARC_TO_ABS;
+            elsif (cmd == canvas.Path.VG_LCCWARC_TO_REL)    cmd = canvas.Path.VG_LCWARC_TO_REL;
+            cmd_node.setValue(cmd);
+        }
+    }
+}
+
+
 
 ### Interaction with canvas elements.
 
@@ -303,6 +323,9 @@ var GroundCrewPanel = {
         me.canvas.setColorBackground(0.25, 0.25, 0.25, 1);
         me.root = me.canvas.createGroup("root");
         canvas.parsesvg(me.root, me.svg_file);
+
+        # Work around SVG parser bug
+        if (!getprop("/ja37/supported/canvas-arcs")) invert_arcs_dir(me.root);
 
         me.lookup_elements();
         me.setup_listeners();
