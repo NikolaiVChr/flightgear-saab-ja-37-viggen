@@ -517,6 +517,7 @@
             <initialized type="bool">false</initialized>
             <picking type="bool">false</picking>
             <multiple-flightplans type="bool">false</multiple-flightplans>
+            <compositor type="bool">false</compositor>
         </supported>
         <failures>
             <installed type="bool">false</installed>

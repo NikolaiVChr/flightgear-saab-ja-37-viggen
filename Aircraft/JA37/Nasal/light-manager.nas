@@ -501,5 +501,3 @@ var SteerBeamRadar = {
 
 var landB = FixedBeamRadar.new();
 var taxiB = SteerBeamRadar.new();
-
-light_manager.init();

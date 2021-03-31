@@ -2669,8 +2669,26 @@
       <x-m> 0.45039</x-m>
       <y-m> 0</y-m>
       <z-m> 1.05</z-m>
+      <pitch-deg>10</pitch-deg>
     </offsets>
   </model>
+
+  <animation>
+    <type>spin</type>
+    <object-name>lightglowT</object-name>
+    <property>sim/multiplay/generic/bool[2]</property> <!-- /ja37/effect/beacon-light -->
+    <factor>60</factor>
+    <center>
+      <x-m> 0.45039</x-m>
+      <y-m> 0</y-m>
+      <z-m> 1.05</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>0</y>
+      <z>1</z>
+    </axis>
+  </animation>
 
   <animation>
     <type>material</type>

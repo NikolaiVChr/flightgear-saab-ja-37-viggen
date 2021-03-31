@@ -7,10 +7,53 @@
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light</inherits-from>
     <object-name>procedural_light</object-name>
   </effect>
-  
+
+  <light>
+    <name>landing_light</name>
+    <type>spot</type>
+    <priority>high</priority>
+    <position>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </position>
+    <direction>
+      <x>-1</x>
+      <y>0</y>
+      <z>-0.1</z>
+    </direction>
+    <ambient>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1</a>
+    </ambient>
+    <diffuse>
+      <r>1.0</r>
+      <g>1.0</g>
+      <b>0.8</b>
+      <a>1</a>
+    </diffuse>
+    <specular>
+      <r>1.0</r>
+      <g>1.0</g>
+      <b>0.8</b>
+      <a>1</a>
+    </specular>
+    <attenuation>
+      <c>0.05</c>
+      <l>0.022</l>
+      <q>0.0019</q>
+    </attenuation>
+    <spot-cutoff>25</spot-cutoff>
+    <spot-exponent>45</spot-exponent><!-- Lose half intensity at 10deg -->
+    <range-m>200</range-m>
+  </light>
+
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
+    <object-name>landing_light</object-name>
     <condition>
       <property>ja37/effect/landing-light</property>
     </condition>
@@ -35,7 +78,7 @@
       <entry><ind>3000</ind><dep>2.4</dep></entry>
     </interpolation>
   </animation>
-  
+
   <animation>
     <type>noshadow</type>
     <object-name>procedural_light</object-name>

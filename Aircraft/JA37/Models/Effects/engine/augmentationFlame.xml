@@ -12,6 +12,51 @@
     <z-m>0</z-m>
     <heading-deg>0</heading-deg>
    </offsets>
+
+  <light>
+    <name>augmentation_light</name>
+    <type>spot</type>
+    <priority>medium</priority>
+    <position>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </position>
+    <direction>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </direction>
+    <ambient>
+      <r>0.0</r>
+      <g>0.0</g>
+      <b>0.0</b>
+      <a>1</a>
+    </ambient>
+    <diffuse>
+      <r>1.0</r>
+      <g>1.0</g>
+      <b>1.0</b>
+      <a>1</a>
+    </diffuse>
+    <specular>
+      <r>1.0</r>
+      <g>1.0</g>
+      <b>1.0</b>
+      <a>1</a>
+    </specular>
+    <attenuation>
+      <c>0.05</c>
+      <l>0.027</l>
+      <q>0.0028</q>
+    </attenuation>
+    <spot-cutoff>60</spot-cutoff>
+    <spot-exponent>10</spot-exponent><!-- Lose half intensity at 20deg -->
+    <range-m>100</range-m>
+    <dim-factor>
+      <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
+    </dim-factor>
+  </light>
    
   <effect>
    <inherits-from>Aircraft/JA37/Models/Effects/engine/augmentationFlame</inherits-from>
@@ -26,6 +71,7 @@
   <animation>
     <type>select</type>
     <object-name>Bounding_box</object-name>
+    <object-name>augmentation_light</object-name>
     <nopreview/>
     <condition>
      <property>/sim/rendering/shaders/skydome</property><!-- als -->
