@@ -186,7 +186,7 @@ var CanvasSwitchAnim = {
 var GroundCrewPanel = {
     canvas_opts: {
         name: "ground crew panel",
-        size: [960, 768],
+        size: [1280, 1024],
         view: [640, 512],
     },
     svg_file: "Aircraft/JA37/Nasal/payload/ground-crew-panel.svg",
