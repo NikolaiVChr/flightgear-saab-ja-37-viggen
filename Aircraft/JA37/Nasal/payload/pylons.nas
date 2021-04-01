@@ -61,7 +61,7 @@ var can_jettison = func {
 ### Submodel based weapons
 var make_M70 = func(pylon) {
     return stations.SubModelWeapon.new(
-        "M70 ARAK", 100, 6, [4+pylon], [],
+        "M70", 100, 6, [4+pylon], [],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m70"),
         TRUE, operable, FALSE,
         [pylon+12], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
@@ -69,14 +69,14 @@ var make_M70 = func(pylon) {
 
 var make_M55 = func(pylon) {
     return stations.SubModelWeapon.new(
-        "M55 AKAN", 0.5, 150, [9+pylon], [8+pylon],
+        "M55", 0.5, 150, [9+pylon], [8+pylon],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m55"),
         TRUE, operable, FALSE,
         [(pylon == STATIONS.V7V) ? 17 : 18], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
 var M75 = stations.SubModelWeapon.new(
-    "M75 AKAN", 1, 146, [3], [2,4],
+    "M75", 1, 146, [3], [2,4],
     input.ctrl_arm.getNode("station[0]/trigger"),
     FALSE, operable);
 
@@ -84,35 +84,34 @@ var M75 = stations.SubModelWeapon.new(
 
 ### Pylon load options.
 var load_options = {
-    none: {name: "none", content: [], fireOrder: [], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m75: {name: "M75 AKAN", content: [M75], fireOrder: [0], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb24: {name: "RB 24 Sidewinder", content: ["RB-24"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb24j: {name: "RB 24J Sidewinder", content: ["RB-24J"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb74: {name: "RB 74 Sidewinder", content: ["RB-74"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb71: {name: "RB 71 Skyflash", content: ["RB-71"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb99: {name: "RB 99 AMRAAM", content: ["RB-99"], fireOrder: [0], launcherMass: 90, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb04: {name: "RB 04E Attackrobot", content: ["RB-04E"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb15: {name: "RB 15F Attackrobot", content: ["RB-15F"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb05: {name: "RB 05A Attackrobot", content: ["RB-05A"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    rb75: {name: "RB 75 Maverick", content: ["RB-75"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m90: {name: "M90 Bombkapsel", content: ["M90"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m71: {name: "M71 Bomblavett", content: ["M71","M71","M71","M71"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m71r: {name: "M71 Bomblavett (Retarded)", content: ["M71R","M71R","M71R","M71R"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showLongTypeInsteadOfCount: 1},
-    m70: func(pylon) {
-        return {name: "M70 ARAK", content: [make_M70(pylon)], fireOrder: [0], launcherMass: 230, launcherDragArea: 0.4, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1};
+    "none": {name: "none", content: [], fireOrder: [], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M75": {name: "m/75 AKAN", content: [M75], fireOrder: [0], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-24": {name: "RB 24 Sidewinder", content: ["RB-24"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-24J": {name: "RB 24J Sidewinder", content: ["RB-24J"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-74": {name: "RB 74 Sidewinder", content: ["RB-74"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-71": {name: "RB 71 Skyflash", content: ["RB-71"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-99": {name: "RB 99 AMRAAM", content: ["RB-99"], fireOrder: [0], launcherMass: 90, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-04E": {name: "RB 04E", content: ["RB-04E"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-15F": {name: "RB 15F", content: ["RB-15F"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-05A": {name: "RB 05A", content: ["RB-05A"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-75": {name: "RB 75 Maverick", content: ["RB-75"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M90": {name: "m/90", content: ["M90"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M71": {name: "m/71 x4", content: ["M71","M71","M71","M71"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M71R": {name: "m/71 x4 (high drag)", content: ["M71R","M71R","M71R","M71R"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M70": func(pylon) {
+        return {name: "m/70 ARAK", content: [make_M70(pylon)], fireOrder: [0], launcherMass: 230, launcherDragArea: 0.4, launcherJettisonable: 1, showNameInsteadOfCount: 1};
     },
-    m55: func(pylon) {
-        return {name: "M55 AKAN", content: [make_M55(pylon)], fireOrder: [0], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showLongTypeInsteadOfCount: 1};
+    "M55": func(pylon) {
+        return {name: "m/55 AKAN", content: [make_M55(pylon)], fireOrder: [0], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showNameInsteadOfCount: 1};
     },
 };
 
 # Function to resolve the special submodel weapons in the above table.
 var load_options_pylon = func(pylon, name) {
-    if (name == "m70" or name == "m55") {
-        return load_options[name](pylon);
-    } else {
-        return load_options[name];
-    }
+    var res = load_options[name];
+    # For some load options are factories instead of constants.
+    if (streq(typeof(res), "func")) res = res(pylon);
+    return res;
 }
 
 
@@ -121,19 +120,19 @@ var sets = {};
 
 # sets are defined using the indices in load_options (above)
 if (variant.JA) {
-    sets[STATIONS.V7V] = ["none", "rb24j", "rb74", "rb71", "rb99", "m70"];
-    sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb71", "rb99", "m70"];
-    sets[STATIONS.S7V] = ["none", "rb24j", "rb74", "rb99", "m70"];
-    sets[STATIONS.S7H] = ["none", "rb24j", "rb74", "rb99", "m70"];
-    sets[STATIONS.R7V] = ["none", "rb24j", "rb74"];
-    sets[STATIONS.R7H] = ["none", "rb24j", "rb74"];
+    sets[STATIONS.V7V] = ["none", "RB-24J", "RB-74", "RB-71", "RB-99", "M70"];
+    sets[STATIONS.V7H] = ["none", "RB-24J", "RB-74", "RB-71", "RB-99", "M70"];
+    sets[STATIONS.S7V] = ["none", "RB-24J", "RB-74", "RB-99", "M70"];
+    sets[STATIONS.S7H] = ["none", "RB-24J", "RB-74", "RB-99", "M70"];
+    sets[STATIONS.R7V] = ["none", "RB-24J", "RB-74"];
+    sets[STATIONS.R7H] = ["none", "RB-24J", "RB-74"];
 } else {
-    sets[STATIONS.V7V] = ["none", "rb24j", "rb74", "rb04", "rb15", "rb75", "m55", "m70", "m71", "m71r", "m90"];
-    sets[STATIONS.V7H] = ["none", "rb24j", "rb74", "rb04", "rb15", "rb75", "m55", "m70", "m71", "m71r", "m90"];
-    sets[STATIONS.S7V] = ["none", "rb24", "rb24j", "rb74", "rb05", "rb75", "m70", "m71", "m71r"];
-    sets[STATIONS.S7H] = ["none", "rb24", "rb24j", "rb74", "rb05", "rb75", "m70", "m71", "m71r"];
-    sets[STATIONS.R7V] = ["none", "rb24j"];
-    sets[STATIONS.R7H] = ["none", "rb24j"];
+    sets[STATIONS.V7V] = ["none", "RB-24J", "RB-74", "RB-04E", "RB-15F", "RB-75", "M55", "M70", "M71", "M71R", "M90"];
+    sets[STATIONS.V7H] = ["none", "RB-24J", "RB-74", "RB-04E", "RB-15F", "RB-75", "M55", "M70", "M71", "M71R", "M90"];
+    sets[STATIONS.S7V] = ["none", "RB-24", "RB-24J", "RB-74", "RB-05A", "RB-75", "M70", "M71", "M71R"];
+    sets[STATIONS.S7H] = ["none", "RB-24", "RB-24J", "RB-74", "RB-05A", "RB-75", "M70", "M71", "M71R"];
+    sets[STATIONS.R7V] = ["none", "RB-24J"];
+    sets[STATIONS.R7H] = ["none", "RB-24J"];
 }
 
 # Lookup actual values in load_options.
@@ -150,21 +149,13 @@ foreach(var pylon_name; keys(STATIONS)) {
 
 
 ### Pylon objects.
-var pylon_names = {};
-pylon_names[STATIONS.V7V] = "Left wing pylon";
-pylon_names[STATIONS.V7H] = "Right wing pylon";
-pylon_names[STATIONS.S7V] = "Left fuselage pylon";
-pylon_names[STATIONS.S7H] = "Right fuselage pylon";
-pylon_names[STATIONS.R7V] = "Left outer wing pylon";
-pylon_names[STATIONS.R7H] = "Right outer wing pylon";
-
 var pylons = {};
 
 foreach(var name; keys(STATIONS)) {
     var id = STATIONS[name];
 
     pylons[id] = stations.Pylon.new(
-        pylon_names[id], id,
+        name, id,
         [input.ctrl_arm.getChild("station", id).getValue("offsets/x-m"),
          input.ctrl_arm.getChild("station", id).getValue("offsets/y-m"),
          input.ctrl_arm.getChild("station", id).getValue("offsets/z-m")],
@@ -175,7 +166,7 @@ foreach(var name; keys(STATIONS)) {
 }
 
 if (variant.JA) {
-    var M75station = stations.InternalStation.new("M75 AKAN", 0, [load_options.m75],
+    var M75station = stations.InternalStation.new("M75", 0, [load_options["M75"]],
         input.inertia.getChild("pointmass-weight-lbs", 8, 1), operable);
 }
 
@@ -243,8 +234,8 @@ var weapon_id = {
     "M90": 8,
     "M71": 9,
     "M71R": 10,
-    "M70 ARAK": 11,
-    "M55 AKAN": 12,
+    "M70": 11,
+    "M55": 12,
 };
 
 var make_weapon_id_listener = func(pylon) {
@@ -254,9 +245,9 @@ var make_weapon_id_listener = func(pylon) {
 
         # Override to show the M71 mounting after jettison.
         var set = input.station.getValue("id-"~pylon~"-set");
-        if (set == load_options.m71.name) {
+        if (set == load_options["M71"].name) {
             id = weapon_id["M71"];
-        } elsif (set == load_options.m71r.name) {
+        } elsif (set == load_options["M71R"].name) {
             id = weapon_id["M71R"];
         }
 
@@ -291,9 +282,9 @@ var set_droptank = func (b) {
 var jettison_pylon = func (pylon) {
     pylon = pylons[pylon];
     if (pylon.currentSet != nil and
-        (pylon.currentSet.name == load_options.m71.name
-         or pylon.currentSet.name == load_options.m71r.name)) {
-        # M71 drop in two step, diagonally.
+        (pylon.currentSet.name == load_options["M71"].name
+         or pylon.currentSet.name == load_options["M71R"].name)) {
+        # m71 drop in two step, diagonally.
         foreach(var i; [0,2]) {
             if (pylon.weapons[i] != nil) {
                 pylon.weapons[i].eject();

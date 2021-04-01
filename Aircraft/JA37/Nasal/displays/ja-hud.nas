@@ -221,7 +221,7 @@ var FPV = {
     },
 
     update_reticle: func {
-        if (TI.ti.ModeAttack or fire_control.get_type() == "M70 ARAK") {
+        if (TI.ti.ModeAttack or fire_control.get_type() == "M70") {
             # A/G mode
             me.aim_AA_reticle.hide();
             me.aim_AG_reticle.show();
@@ -250,7 +250,7 @@ var FPV = {
             me.aim_missile.hide();
             me.aim_reticle.hide();
             me.reticle_mode = FPV.MODE_OTHER;
-        } elsif (fire_control.get_type() == "M70 ARAK" or fire_control.get_type() == "M75 AKAN") {
+        } elsif (fire_control.get_type() == "M70" or fire_control.get_type() == "M75") {
             me.aim_empty.hide();
             me.aim_missile.hide();
             me.aim_reticle.show();
@@ -1295,7 +1295,7 @@ var Distance = {
             # dist is a vector [target dist, minimum dist, optimal dist], or nil
             var dist = sight.AGsight.get_dist();
 
-            if (fire_control.get_type() == "M70 ARAK") {
+            if (fire_control.get_type() == "M70") {
                 var scale_dist = 8000; # Maximum displayed distance
                 var max_dist = 6000;   # Maximum firing range (made up)
             } else { # M75 AKAN
@@ -1541,7 +1541,7 @@ var Reticle = {
 
     update: func {
         if (me.mode == HUD.MODE_NAV and fire_control.is_armed()
-            and (fire_control.get_type() == "M75 AKAN" or fire_control.get_type() == "M70 ARAK")) {
+            and (fire_control.get_type() == "M75" or fire_control.get_type() == "M70")) {
             me.reticle.show();
         } else {
             me.reticle.hide();

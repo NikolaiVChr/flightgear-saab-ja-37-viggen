@@ -278,21 +278,12 @@ var Common = {
 	},
 
 	arm_name_medium: {
-		"RB-24": "24",
 		"RB-24J": "24J",
 		"RB-74": "74",
 		"RB-71": "71",
 		"RB-99": "99",
-		"RB-04E": "04",
-		"RB-15F": "15",
-		"RB-05A": "05",
-		"RB-75": "75",
-		"M70 ARAK": "ARAK",
-		"M55 AKAN": "AKAN",
-		"M75 AKAN": "AKAN",
-		"M71": "71",
-		"M71R": "71R",
-		"M90": "90",
+		"M70": "ARAK",
+		"M75": "AKAN",
 	},
 
 	armNameMedium: func {
@@ -311,8 +302,8 @@ var Common = {
 		"RB-74": "74",
 		"RB-71": "71",
 		"RB-99": "99",
-		"M70 ARAK": "70",
-		"M75 AKAN": "AK",
+		"M70": "AR",
+		"M75": "AK",
 	},
 
 	armNameShort: func {

@@ -2150,7 +2150,7 @@ var TI = {
 		}
 		if (me.menuMain == MAIN_WEAPONS and fire_control.selected == nil) {
 			me.menuButtonBox[15].show();
-		} elsif (me.menuMain == MAIN_WEAPONS and fire_control.selected.type == "M75 AKAN") {
+		} elsif (me.menuMain == MAIN_WEAPONS and fire_control.selected.type == "M75") {
 			me.menuButtonBox[14].show();
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {

@@ -1575,7 +1575,7 @@
     <payload>
         <armament include="Systems/armament.xml"/>
         <weight n="6">
-            <name type="string">Center fuselage pylon</name>
+            <name type="string">C7</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
             <selected>Drop tank</selected>
             <opt>

@@ -336,30 +336,30 @@ var FiringDistanceComputer = {
     # Values from AJS SFI part 3 sec 3 and JA SFI part 1 sec 18.
     # Each weapon has three values, depending on safety distance switch.
     safety_dist: {
-        "M75 AKAN": [175, 230, 270],
-        "M55 AKAN": [120, 200, 200],
-        "M70 ARAK": [200, 440, 440],
+        "M75": [175, 230, 270],
+        "M55": [120, 200, 200],
+        "M70": [200, 440, 440],
     },
 
     # Load factor for evading. Should be 4g for bombs.
     pull_up_factor: {
-        "M75 AKAN": 5,
-        "M55 AKAN": 5,
-        "M70 ARAK": 5,
+        "M75": 5,
+        "M55": 5,
+        "M70": 5,
     },
 
     # Time before the desired load factor is reached. Should be 1.9s for bombs.
     pull_up_time: {
-        "M75 AKAN": 2.5,
-        "M55 AKAN": 2.5,
-        "M70 ARAK": 2.5,
+        "M75": 2.5,
+        "M55": 2.5,
+        "M70": 2.5,
     },
 
     # Planned salvo length.
     firing_time: {
-        "M75 AKAN": 2.15,
-        "M55 AKAN": 2.15,
-        "M70 ARAK": 1.65,
+        "M75": 2.15,
+        "M55": 2.15,
+        "M70": 1.65,
     },
 
     # Solves the following geometric problem:
@@ -446,7 +446,7 @@ var AGsight = {
             var aiming = (modes.selector_ajs == modes.COMBAT or fire_control.is_armed());
         }
 
-        if (!aiming or (type != "M70 ARAK" and type != "M75 AKAN" and type != "M55 AKAN")) {
+        if (!aiming or (type != "M70" and type != "M75" and type != "M55")) {
             me.reset();
             me.active = FALSE;
         }
@@ -456,8 +456,8 @@ var AGsight = {
         me.active = TRUE;
 
         var type = fire_control.get_type();
-        if (type == "M75 AKAN") var sight = M75AGsight;
-        elsif (type == "M55 AKAN") var sight = M55sight;
+        if (type == "M75") var sight = M75AGsight;
+        elsif (type == "M55") var sight = M55sight;
         else var sight = M70sight;
 
         if (type != me.last_type) {

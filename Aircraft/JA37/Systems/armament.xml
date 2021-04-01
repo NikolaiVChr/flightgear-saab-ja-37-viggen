@@ -255,7 +255,7 @@
         <!-- Swedish antiship cruise-missile RB-04E subsonic -->
         <type-id type="int">37</type-id>
         <short-name type="string">rb04</short-name>
-        <long-name type="string">RB 04E Attackrobot</long-name>
+        <long-name type="string">RB 04E</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -296,7 +296,7 @@
         <!-- Swedish antiship cruise-missile RB-15F mach 0.8-->
         <type-id type="int">38</type-id>
         <short-name type="string">rb15</short-name>
-        <long-name type="string">RB 15F Attackrobot</long-name>
+        <long-name type="string">RB 15F</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0.0</sound-volume>
@@ -340,7 +340,7 @@
         <!-- Swedish attack-missile RB-05A supersonic -->
         <type-id type="int">85</type-id>
         <short-name type="string">rb05</short-name>
-        <long-name type="string">RB 05A Attackrobot</long-name>
+        <long-name type="string">RB 05A</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0</sound-volume>
@@ -430,7 +430,7 @@
         <!-- Swedish cluster glide-bomb M90 Mjölner subsonic -->
         <type-id type="int">31</type-id>
         <short-name type="string">m90</short-name>
-        <long-name type="string">M90 Bombkapsel</long-name>
+        <long-name type="string">m/90</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0</sound-volume>
@@ -473,7 +473,7 @@
         <!-- Swedish bomblet M71 Virgo -->
         <type-id type="int">29</type-id>
         <short-name type="string">m71</short-name>
-        <long-name type="string">M71 Bomblavett</long-name>
+        <long-name type="string">m/71</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0</sound-volume>
@@ -511,7 +511,7 @@
         <!-- Swedish bomblet M71 Virgo retarded with parachute -->
         <type-id type="int">30</type-id>
         <short-name type="string">m71r</short-name>
-        <long-name type="string">M71 Bomblavett (Retarded)</long-name>
+        <long-name type="string">m/71 (high drag)</long-name>
         <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
         <sound-volume type="double">0</sound-volume>

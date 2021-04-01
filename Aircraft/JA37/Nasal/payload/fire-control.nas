@@ -528,7 +528,7 @@ var SubModelWeapon = {
 
         var trigger_prop = input.trigger;
 
-        if (me.type == "M70 ARAK") {
+        if (me.type == "M70") {
             # For rockets, trigger logic is a bit different because all rockets must be fired.
             trigger_prop = input.trigger_m70;
             input.trigger_m70.setBoolValue(FALSE);
@@ -548,7 +548,7 @@ var SubModelWeapon = {
     set_trigger: func(trigger) {
         if (!me.armed() or !me.weapon_ready()) return;
 
-        if (me.type == "M70 ARAK") {
+        if (me.type == "M70") {
             # For rockets, set the trigger ON as required, but do not set it OFF, so that all rockets get fired.
             if (trigger) {
                 input.trigger_m70.setBoolValue(TRUE);
@@ -732,12 +732,12 @@ var Bomb = {
 ### List of weapon types.
 if (variant.JA) {
     var weapons = [
-        SubModelWeapon.new(type:"M75 AKAN", ammo_factor:22), # get_ammo gives firing time
+        SubModelWeapon.new(type:"M75", ammo_factor:22), # get_ammo gives firing time
         Missile.new(type:"RB-74", fire_delay:0.7),
         Missile.new(type:"RB-99", fire_delay:0.7),
         Missile.new(type:"RB-71", fire_delay:0.7),
         Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new(type:"M70 ARAK", ammo_factor:6),  # get_ammo gives number of pods
+        SubModelWeapon.new(type:"M70", ammo_factor:6),  # get_ammo gives number of pods
     ];
 
     # Set of indices considered for quick_select_missile() (A/A missiles)
@@ -749,8 +749,8 @@ if (variant.JA) {
         Missile.new(type:"RB-74", fire_delay:0.7),
         Missile.new(type:"RB-24J", fire_delay:0.7),
         Missile.new(type:"RB-24", fire_delay:0.7),
-        SubModelWeapon.new("M55 AKAN"),
-        SubModelWeapon.new(type:"M70 ARAK"),
+        SubModelWeapon.new("M55"),
+        SubModelWeapon.new(type:"M70"),
         Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
         Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1),
         Missile.new(type:"RB-75", fire_delay:1),

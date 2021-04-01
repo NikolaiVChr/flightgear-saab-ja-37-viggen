@@ -398,7 +398,15 @@ var Pylon = {
 
 	setGUI: func {
 		me.nameGUI = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet.showNameInsteadOfCount) {
+			# Only check that something is loaded
+			foreach(me.wapny;me.weapons) {
+				if (me.wapny != nil) {
+					me.nameGUI = me.currentSet.name;
+					break;
+				}
+			}
+		} elsif (me.currentSet.showLongTypeInsteadOfCount) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameGUI = me.wapny.typeLong;
@@ -452,7 +460,7 @@ var Pylon = {
 
 	getCurrentShortName: func {
 		me.nameS = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet.showNameInsteadOfCount or me.currentSet.showLongTypeInsteadOfCount) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameS = me.wapny.typeShort;
@@ -488,7 +496,7 @@ var Pylon = {
 	
 	getCurrentSMSName: func {
 		me.nameS = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet.showNameInsteadOfCount or me.currentSet.showLongTypeInsteadOfCount) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameS = me.wapny.typeShort;

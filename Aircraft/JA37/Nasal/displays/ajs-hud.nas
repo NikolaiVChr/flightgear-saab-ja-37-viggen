@@ -467,7 +467,7 @@ var DistanceLine = {
 
     update_aim: func {
         var type = fire_control.get_type();
-        if (type == "M55 AKAN" or type == "M70 ARAK") {
+        if (type == "M55" or type == "M70") {
             var dist = sight.AGsight.get_dist();
             if (dist == nil or dist[0] >= 8000) {
                 me.group.hide();
@@ -700,7 +700,7 @@ var AimingMode = {
             } else {
               me.reticle_pos = [0,80];
             }
-        } elsif (type == "M55 AKAN" or type == "M70 ARAK") {
+        } elsif (type == "M55" or type == "M70") {
             sight.AGsight.update();
             var pos = sight.AGsight.get_pos();
             # Vector [target dist, evade dist, firing dist, radar range used]
