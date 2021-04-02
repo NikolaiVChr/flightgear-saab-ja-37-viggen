@@ -301,6 +301,10 @@ var Dialog = {
         );
 
         CanvasTooltip.setup_canvas_tooltip_listener(me.canvas);
+
+        me.canvas.addEventListener("keydown", func (event) {
+            if (event.key == "Escape") Dialog.close();
+        });
     },
 
     ## Lookup Canvas elements from the SVG file
