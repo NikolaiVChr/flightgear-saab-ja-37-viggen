@@ -263,6 +263,14 @@ var print_reload_message = func {
 }
 
 
+### AJS ground crew panel check / automatic setting
+var check_AJS_panel = func {
+    if (variant.AJS) {
+        ground_panel.queue_settings_check();
+    }
+}
+
+
 ### Final reload functions, for the GUI
 
 var load_loadout = func(loadout) {
@@ -271,6 +279,8 @@ var load_loadout = func(loadout) {
     set_loadout(loadout);
     reload_internal();
     print_reload_message();
+
+    check_AJS_panel();
 }
 
 var reload = func {
@@ -279,10 +289,14 @@ var reload = func {
     reload_current();
     reload_internal();
     print_reload_message();
+
+    check_AJS_panel();
 }
 
 var load_clean = func() {
     load_loadout(loadouts["clean"]);
+
+    check_AJS_panel();
 }
 
 
@@ -447,7 +461,10 @@ var Dialog = {
                 "property": "/payload/weight["~weight_id~"]/selected",
                 "enable": "/ja37/reload-allowed",
                 "live": "true",
-                "binding": { "command": "dialog-apply", },
+                "binding": [
+                    { "command": "dialog-apply", },
+                    { "command": "nasal", "script": "loadout.check_AJS_panel();", },
+                ],
             });
             # Add values to load selector
             foreach (var opt; props.globals.getNode("payload").getChild("weight", weight_id).getChildren("opt")) {

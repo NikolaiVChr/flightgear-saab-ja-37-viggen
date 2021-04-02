@@ -95,7 +95,7 @@
       <label>Cockpit labels in Swedish (default: English)</label>
     </text>
 
-    <!-- Swedish HUD/TI -->
+    <!-- Swedish HUD/TI (JA only) -->
     <checkbox>
       <row>2</row>
       <col>0</col>
@@ -125,7 +125,38 @@
       </visible>
     </text>
 
-    <!-- TI menus -->
+    <!-- Automatic ground crew settings (AJS only) -->
+    <checkbox>
+      <row>2</row>
+      <col>0</col>
+      <property>/controls/armament/ground-panel/automatic-settings</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <visible>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
+      </visible>
+    </checkbox>
+
+    <text>
+      <row>2</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>Automatic ground crew weapon panel settings (AJS-37 > Ground Crew Panel)</label>
+      <visible>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
+      </visible>
+    </text>
+
+
+    <!-- TI menus (JA only) -->
     <checkbox>
       <row>3</row>
       <col>0</col>

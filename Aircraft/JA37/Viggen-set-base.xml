@@ -81,6 +81,7 @@
             <path>ja37/effect/swedish-labels</path>
             <path>ja37/displays/live-map</path>
             <path>controls/displays/arrows-controls-cursor</path>
+            <path>controls/armament/ground-panel/automatic-settings</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
@@ -1024,6 +1025,7 @@
                 <operational type="int">1</operational>
                 <cm-pod-loaded type="bool">false</cm-pod-loaded>
                 <start-left type="bool">true</start-left>
+                <automatic-settings type="bool">true</automatic-settings>
             </ground-panel>
             <station n="1">
                 <offsets>
