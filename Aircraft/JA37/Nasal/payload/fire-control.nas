@@ -894,7 +894,7 @@ var deselect_weapon = func {
 var select_pylon = func(pylon) {
     _deselect_current();
 
-    var type = pylons.station_by_id(pylon).singleName;
+    var type = pylons.get_pylon_load(pylon);
     forindex(var i; weapons) {
         # Find matching weapon type.
         if (weapons[i].type == type) {

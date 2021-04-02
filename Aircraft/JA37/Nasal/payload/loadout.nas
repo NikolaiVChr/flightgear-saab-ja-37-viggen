@@ -571,7 +571,7 @@ var Dialog = {
             }
 
             # Show selected
-            var type = pylons.station_by_id(pylons.STATIONS[pylon]).singleName;
+            var type = pylons.get_pylon_load(pylons.STATIONS[pylon]);
             if (contains(me.wpn_to_svg_name, type)) {
                 type = me.wpn_to_svg_name[type];
                 me.cvs_wpns[pylon][type].show();

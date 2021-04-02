@@ -177,8 +177,12 @@ var station_by_id = func(id) {
     else return pylons[id];
 }
 
+var get_pylon_load = func(pylon) {
+    return station_by_id(pylon).singleName;
+}
+
 var is_loaded_with = func(pylon, type) {
-    return station_by_id(pylon).singleName == type;
+    return get_pylon_load(pylon) == type;
 }
 
 var find_pylon_by_type = func(type, order, first=0) {

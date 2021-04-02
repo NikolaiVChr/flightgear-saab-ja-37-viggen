@@ -332,7 +332,7 @@ var Common = {
 	},
 
 	armNamePylon: func (station) {
-		me.armamentp = pylons.station_by_id(station).singleName;
+		me.armamentp = pylons.get_pylon_load(station);
 		if (!contains(me.arm_name_short, me.armamentp)) return nil;
 		else return me.arm_name_short[me.armamentp];
 	},
