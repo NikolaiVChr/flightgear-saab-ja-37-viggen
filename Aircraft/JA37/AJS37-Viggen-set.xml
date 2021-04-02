@@ -138,13 +138,6 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Fuel/Loadout</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>loadout.Dialog.toggle()</script>
-                        </binding>
-                    </item>
-                    <item>
                         <label>Ground Crew Panel</label>
                         <binding>
                             <command>nasal</command>

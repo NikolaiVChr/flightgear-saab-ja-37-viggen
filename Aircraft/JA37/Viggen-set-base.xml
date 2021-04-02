@@ -1347,31 +1347,31 @@
     <consumables>
         <fuel>
             <tank n="0">
-                <name>Fuselage Main Tank</name>
+                <name>Collector</name>
             </tank>
             <tank n="1">
-                <name>Fuselage Forward Tank</name>
+                <name>Fuselage Front</name>
             </tank>
             <tank n="2">
-                <name>Left Fuselage Minor Tank</name>
+                <name>Fuselage Left</name>
             </tank>
             <tank n="3">
-                <name>Right Fuselage Minor Tank</name>
+                <name>Fuselage Right</name>
             </tank>
             <tank n="4">
-                <name>Left Minor Wing Tank</name>
+                <name>Left Wing Front</name>
             </tank>
             <tank n="5">
-                <name>Right Minor Wing Tank</name>
+                <name>Right Wing Front</name>
             </tank>
             <tank n="6">
-                <name>Left wing tank</name>
+                <name>Left Wing</name>
             </tank>
             <tank n="7">
-                <name>Right wing tank</name>
+                <name>Right Wing</name>
             </tank>
             <tank n="8">
-                <name>Drop tank</name>
+                <name>External</name>
                 <jettisoned type="bool">false</jettisoned>
             </tank>
         </fuel>

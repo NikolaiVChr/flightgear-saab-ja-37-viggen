@@ -68,16 +68,16 @@ var loadout_list = variant.JA ? [
     "4x RB 99, 2x RB 74",
     "2x RB 99, 4x RB 74",
     "2x RB 99, 2x RB 74",
-
     "1x RB 99, 1x RB 74",
+
     "2x RB 71, 4x RB 74",
     "2x RB 71, 4x RB 24J",
-
     "24x ARAK, 2x RB 74",
-    "12x ARAK, 2x RB 74",
     "24x ARAK, 2x RB 24J",
 ] : [
     # AJS loadouts
+    "2x RB 04",
+    "2x RB 15",
     "2x AKAN",
     "2x RB 05",
     "2x RB 05, 2x AKAN",
@@ -91,9 +91,6 @@ var loadout_list = variant.JA ? [
     "16x m/71",
     "8x m/71 (high drag)",
     "16x m/71 (high drag)",
-
-    "2x RB 04",
-    "2x RB 15",
     "2x m/90",
     "4x RB 74",
 ];
@@ -290,6 +287,19 @@ var load_clean = func() {
 
 
 
+# Look for a descendent of 'group' with '<tag>value</tag>'.
+# If name != nil, only nodes with this name are considered.
+var find_node_with_tag = func(node, tag, value, name=nil) {
+    var val = node.getValue(tag);
+    if (val != nil and streq(val, value)) return node;
+
+    foreach (var n; node.getChildren(name)) {
+        var res = find_node_with_tag(n, tag, value, name);
+        if (res != nil) return res;
+    }
+    return nil;
+}
+
 ### Custom Fuel and Payload dialog
 #
 # Most of the dialog is defined in gui/dialog/loadout.xml,
@@ -313,27 +323,23 @@ var Dialog = {
         io.read_properties(me.path, me.prop);
         me.prop.setValue("dialog-name", "loadout");
 
-        # Some elements are to be removed for the JA 37.
-        # They are marked with <ajs-only/> (only recognised at dialog top-level)
         if (variant.JA) {
-            foreach (var node; me.prop.getChildren()) {
-                if (node.getChild("ajs-only") != nil) node.remove();
-            }
+            # Element to be removed for the JA 37.
+            var ajs_options = find_node_with_tag(me.prop, "name", "ajs_options", "group");
+            if (ajs_options != nil) ajs_options.remove();
         }
 
         # Look for the group used as pylons / loadout list.
-        me.pylons_table = nil;
-        me.loadout_table = nil;
-        foreach(var group; me.prop.getChildren("group")) {
-            if(group.getValue("name") == "pylons_table") me.pylons_table = group;
-            if(group.getValue("name") == "loadout_table") me.loadout_table = group;
-        }
-        if(me.loadout_table == nil or me.pylons_table == nil) {
+        me.pylons_table = find_node_with_tag(me.prop, "name", "pylons_table", "group");
+        me.fuel_table = find_node_with_tag(me.prop, "name", "fuel_table", "group");
+        me.loadout_table = find_node_with_tag(me.prop, "name", "loadout_table", "group");
+        if(me.pylons_table == nil or me.fuel_table == nil or me.loadout_table == nil) {
             printlog("warn", "Failed to initialize Saab 37 loadout dialog.");
             return;
         }
 
         # Fill the loadout list.
+        me.setup_fuel_table();
         me.setup_pylons_table();
         me.setup_loadout_table();
         me.setup_props();
@@ -341,6 +347,9 @@ var Dialog = {
 
         # Register the dialog.
         fgcommand("dialog-new", me.prop);
+
+        # Use this dialog instead of the default fuel and equipment one.
+        gui.menuBind("fuel-and-payload", "loadout.Dialog.open();");
 
         if(state) me.open();
     },
@@ -357,6 +366,62 @@ var Dialog = {
     },
 
     ### Nasal generated parts of the dialog.
+
+    ## List of fuel tanks
+    tanks_order: ["1", "2", "3V", "3H", "4V", "4H", "5V", "5H", "external"],
+
+    setup_fuel_table: func() {
+        forindex(var i; me.tanks_order) {
+            var name = me.tanks_order[i];
+            var idx = tank_names[name];
+            var tank_prop = input.fuel.getChild("tank", idx);
+            var external = streq(name, "external");
+
+            if (!external) {
+                me.fuel_table.addChild("text").setValues({
+                    "row": i,
+                    "col": 0,
+                    "halign": "left",
+                    "label": name,
+                });
+            }
+            me.fuel_table.addChild("text").setValues({
+                "row": i,
+                "col": 1,
+                "halign": "left",
+                "label": tank_prop.getValue("name"),
+            });
+            me.fuel_table.addChild("slider").setValues({
+                "row": i,
+                "col": 2,
+                "pref-width": 100,
+                "min": 0.0,
+                "max": 1.0,
+                "property": tank_prop.getNode("level-norm").getPath(),
+                "live": "true",
+                "enable": {
+                    "and": {
+                        "property": external ? [
+                            "/ja37/reload-allowed",
+                            tank_prop.getNode("mounted").getPath(),
+                        ] : [
+                            "/ja37/reload-allowed",
+                        ],
+                    },
+                },
+                "binding": { "command": "dialog-apply", },
+            });
+            me.fuel_table.addChild("text").setValues({
+                "row": i,
+                "col": 3,
+                "halign": "right",
+                "label": "1000 kg",
+                "format": "%.0f kg",
+                "property": tank_prop.getNode("level-kg").getPath(),
+                "live": "true",
+            });
+        }
+    },
 
     ## List of pylons
 
@@ -394,40 +459,37 @@ var Dialog = {
     ## List of loadout presets
 
     setup_loadout_table: func() {
-        var table_cols = 3;
+        var table_cols = 2;
         var table_lines = size(loadout_list) / table_cols;
 
         var col = 0;
         var line = 0;
         foreach(var name; loadout_list) {
-            me.add_loadout_entry(col, line, name);
+            me.loadout_table.addChild("button").setValues({
+                "row": line,
+                "col": 2*col,
+                "pref-width": 55,
+                "pref-height": 25,
+                "legend": "load",
+                "enable": "/ja37/reload-allowed",
+                "binding": {
+                    "command": "nasal",
+                    "script": "loadout.Dialog.apply_loadout(\"" ~ name ~ "\")",
+                },
+            });
+            me.loadout_table.addChild("text").setValues({
+                "row": line,
+                "col": 2*col+1,
+                "halign": "left",
+                "label": name,
+            });
+
             line += 1;
             if(line >= table_lines) {
                 line = 0;
                 col += 1;
             }
         }
-    },
-
-    add_loadout_entry: func(col, line, name) {
-        me.loadout_table.addChild("button").setValues({
-            "row": line,
-            "col": 2*col,
-            "pref-width": 55,
-            "pref-height": 25,
-            "legend": "load",
-            "enable": "/ja37/reload-allowed",
-            "binding": {
-                "command": "nasal",
-                "script": "loadout.Dialog.apply_loadout(\"" ~ name ~ "\")",
-            },
-        });
-        me.loadout_table.addChild("text").setValues({
-            "row": line,
-            "col": 2*col+1,
-            "halign": "left",
-            "label": name,
-        });
     },
 
     ### Canvas loadout preview

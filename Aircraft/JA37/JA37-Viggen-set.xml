@@ -189,13 +189,6 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Fuel/Loadout</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>loadout.Dialog.toggle();</script>
-                        </binding>
-                    </item>
-                    <item>
                         <label>Performance Monitor</label>
                         <binding>
                             <command>nasal</command>

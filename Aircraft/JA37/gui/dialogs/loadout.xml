@@ -10,7 +10,7 @@
     <empty><stretch>1</stretch></empty>
 
     <text>
-      <label>Fuel and Loadout Selection</label>
+      <label>Fuel and Payload</label>
     </text>
 
     <empty><stretch>1</stretch></empty>
@@ -27,61 +27,6 @@
       </binding>
     </button>
   </group>
-
-  <hrule/>
-
-  <!-- Fuel -->
-  <group>
-    <layout>hbox</layout>
-
-    <text><label>Fuel:</label></text>
-
-    <slider>
-      <pref-width>120</pref-width>
-      <min>0</min>
-      <max>136</max>
-      <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
-      <live>true</live>
-      <enable>/ja37/reload-allowed</enable>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>loadout.Dialog.fuel_slider_callback();</script>
-      </binding>
-    </slider>
-
-    <text>
-      <label>100%</label>
-      <format>%3.f%%</format>
-      <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
-      <live>true</live>
-    </text>
-
-    <empty><stretch>true</stretch></empty>
-
-    <checkbox>
-      <label>External fuel tank</label>
-      <property>/consumables/fuel/tank[8]/mounted</property>
-      <live>true</live>
-      <enable>/ja37/reload-allowed</enable>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>loadout.Dialog.droptank_callback();</script>
-      </binding>
-    </checkbox>
-
-    <empty><stretch>true</stretch></empty>
-  </group>
-
-  <text>
-    <halign>left</halign>
-    <label>Fuel % corresponds to the fuel gauge. 100% is slightly less than full internal tanks.</label>
-  </text>
 
   <hrule/>
 
@@ -136,56 +81,156 @@
 
   <hrule/>
 
-  <text>
-    <label>Loadout Presets</label>
-  </text>
-
   <group>
-    <!-- Table is filled based on a list of loadouts -->
-    <name>loadout_table</name>
-    <layout>table</layout>
-  </group>
-
-  <text>
-    <ajs-only/>
-    <label>Options (effective after loading a preset)</label>
-  </text>
-
-  <group>
-    <ajs-only/>
-
     <layout>hbox</layout>
 
-    <checkbox>
-      <label>Add RB 24J Sidewinders on outer pylons</label>
-      <property>/sim/gui/dialogs/loadout/dialog/loadout/load-outer-rb24j</property>
-      <live>true</live>
-      <enable>/ja37/reload-allowed</enable>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-    </checkbox>
+    <empty><width>1</width></empty>
 
-    <empty><stretch>1</stretch></empty>
+    <!-- Fuel -->
+    <group>
+      <layout>vbox</layout>
 
-    <combo>
-      <property>/sim/gui/dialogs/loadout/dialog/loadout/load-rb74</property>
-      <live>true</live>
-      <enable>/ja37/reload-allowed</enable>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <value>None</value>
-      <value>Right</value>
-      <value>Left</value>
-      <value>Both</value>
-    </combo>
+      <text><label>Fuel</label></text>
 
-    <text>
-      <halign>left</halign>
-      <label>Add RB 74 Sidewinders on main pylons (replaces some primary weapon)</label>
-    </text>
+      <group>
+        <layout>hbox</layout>
 
-    <empty><stretch>1</stretch></empty>
+        <text><label>Total:</label></text>
+
+        <slider>
+          <pref-width>120</pref-width>
+          <min>0</min>
+          <max>136</max>
+          <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
+          <live>true</live>
+          <enable>/ja37/reload-allowed</enable>
+          <binding>
+            <command>dialog-apply</command>
+          </binding>
+          <binding>
+            <command>nasal</command>
+            <script>loadout.Dialog.fuel_slider_callback();</script>
+          </binding>
+        </slider>
+
+        <text>
+          <label>100%</label>
+          <format>%3.f%%</format>
+          <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
+          <live>true</live>
+        </text>
+
+        <empty><stretch>true</stretch></empty>
+      </group>
+
+      <text>
+        <halign>left</halign>
+        <label>Fuel % corresponds to the fuel gauge.</label>
+      </text>
+      <text>
+        <halign>left</halign>
+        <label>100% is slightly less than full internal tanks.</label>
+      </text>
+
+      <checkbox>
+        <halign>left</halign>
+        <label>External fuel tank</label>
+        <property>/consumables/fuel/tank[8]/mounted</property>
+        <live>true</live>
+        <enable>/ja37/reload-allowed</enable>
+        <binding>
+          <command>dialog-apply</command>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>loadout.Dialog.droptank_callback();</script>
+        </binding>
+      </checkbox>
+
+      <empty><height>5</height></empty>
+
+      <group>
+        <name>fuel_table</name>
+        <layout>table</layout>
+      </group>
+    </group>
+
+    <vrule/>
+
+    <group>
+      <layout>vbox</layout>
+
+      <text>
+        <label>Loadout Presets</label>
+      </text>
+
+      <group>
+        <!-- Table is filled based on a list of loadouts -->
+        <name>loadout_table</name>
+        <layout>table</layout>
+      </group>
+
+      <group>
+        <name>ajs_options</name>
+        <layout>vbox</layout>
+
+        <empty>
+          <height>10</height>
+        </empty>
+
+        <text>
+          <label>Options (effective after loading a preset)</label>
+        </text>
+
+        <group>
+          <layout>table</layout>
+          <halign>left</halign>
+
+          <checkbox>
+            <row>0</row>
+            <col>0</col>
+            <property>/sim/gui/dialogs/loadout/dialog/loadout/load-outer-rb24j</property>
+            <live>true</live>
+            <enable>/ja37/reload-allowed</enable>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+          </checkbox>
+
+          <text>
+            <row>0</row>
+            <col>1</col>
+            <halign>left</halign>
+            <label>Add RB 24J on outer pylons</label>
+          </text>
+
+          <combo>
+            <row>1</row>
+            <col>0</col>
+            <property>/sim/gui/dialogs/loadout/dialog/loadout/load-rb74</property>
+            <live>true</live>
+            <enable>/ja37/reload-allowed</enable>
+            <binding>
+              <command>dialog-apply</command>
+            </binding>
+            <value>None</value>
+            <value>Right</value>
+            <value>Left</value>
+            <value>Both</value>
+          </combo>
+
+          <text>
+            <row>1</row>
+            <col>1</col>
+            <halign>left</halign>
+            <label>Add RB 74 on main pylons (replaces some primary weapon)</label>
+          </text>
+        </group>
+      </group>
+
+      <empty><stretch>1</stretch></empty>
+    </group>
+
+    <empty><width>1</width></empty>
   </group>
 </PropertyList>
