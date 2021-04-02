@@ -16,6 +16,10 @@ foreach (var name; keys(input)) {
 }
 
 
+
+#### Ground crew panel canvas dialog
+
+
 # Workaround bug in SVG parser (https://sourceforge.net/p/flightgear/codetickets/2569/ fixed as of 01/04/2021)
 # Invert clockwise/counter-clockwise flag in all arcs.
 var invert_arcs_dir = func (group) {
@@ -35,16 +39,14 @@ var invert_arcs_dir = func (group) {
     }
 }
 
+## Interaction with canvas elements.
 
-
-### Interaction with canvas elements.
-
-# This class is mainly shared code for tooltips in canvas windows.
-var CanvasAnim = {
+# This class implements tooltips in canvas windows.
+var CanvasTooltip = {
     # Initialisation of static members.
     init: func {
         me.tooltip_delay_sec_listener = setlistener(input.tooltip_delay_msec, func (n) {
-            CanvasAnim.tooltip_delay_sec = n.getValue() / 1000.0;
+            CanvasTooltip.tooltip_delay_sec = n.getValue() / 1000.0;
         }, 1, 0);
 
         # Timer for actually displaying the tooltip.
@@ -60,71 +62,66 @@ var CanvasAnim = {
         me.tooltip_timer.singleShot = 1;
     },
 
-    new: func(prop, min, max, tooltip_id=nil, tooltip="") {
+    # Add tooltips to a list of canvas elements.
+    # setup_root_tooltip_listener() must be called on the root element of this
+    # canvas for tooltips to work properly.
+    #
+    # args: elts: array of canvas elements
+    #       tooltip_id: unique identifier of the tooltip
+    #       tooltip: tooltip content
+    # returns an array of canvas event listeners, matching the argument 'elts'
+    # (same size, and the ith listener is for the ith element).
+    add_tooltip: func(elts, tooltip_id, tooltip) {
+        var tooltip_listeners = [];
+        setsize(tooltip_listeners, size(elts));
+
+        forindex(var i; elts) {
+            # Tooltip event listeners. This tries to replicate the behaviour of FG tooltips.
+            tooltip_listeners[i] = elts[i].addEventListener("mousemove", func (event) {
+                # Set the tooltip. This does not show it yet.
+                fgcommand("set-tooltip", {
+                    "tooltip-id": tooltip_id,
+                    "label": tooltip,
+                    "x": event.screenX,
+                    # Inverted for some reason. This property is what is used in tooltip.nas, so using it is correct.
+                    "y": getprop('/sim/startup/ysize') - event.screenY,
+                });
+
+                # Start the (global) timer to show the tooltip.
+                CanvasTooltip.tooltip_timer.restart(CanvasTooltip.tooltip_delay_sec);
+
+                # Stop event from going to the canvas root,
+                # which has a second listener to fadeout the tooltip.
+                event.stopPropagation();
+            });
+        }
+
+        return tooltip_listeners;
+    },
+
+    # Listener for the canvas, to clear tooltips appropriately.
+    setup_canvas_tooltip_listener: func(canvas) {
+        canvas.addEventListener("mousemove", func(e) {
+            fgcommand("update-hover");
+        });
+    },
+};
+
+CanvasTooltip.init();
+
+
+# Knob animation. Controls: LMB/MMB and wheel.
+# Unlike the SG knob animation, this does not take care of actually rotating the element.
+var CanvasKnobAnim = {
+    new: func(elt, prop, min, max, tooltip_id=nil, tooltip="") {
         var m = {
-            parents: [CanvasAnim],
+            parents: [CanvasKnobAnim],
+            elt: elt,
             prop: prop,
             min: min,
             max: max,
             tooltip_id: tooltip_id,
             tooltip: tooltip,
-        };
-        return m;
-    },
-
-    # Tooltip event listeners. This tries to replicate the behaviour of FG tooltips.
-    tooltip_callback: func(event) {
-        # Set the tooltip. This does not show it yet.
-        fgcommand("set-tooltip", {
-            "tooltip-id": me.tooltip_id,
-            "label": me.tooltip,
-            "x": event.screenX,
-            # Inverted for some reason. This property is what is used in tooltip.nas, so using it is correct.
-            "y": getprop('/sim/startup/ysize') - event.screenY,
-        });
-
-        me.tooltip_timer.restart(me.tooltip_delay_sec);
-
-        # So that the event does not go to the canvas root,
-        # which has a second listener to fadeout the tooltip.
-        event.stopPropagation();
-    },
-
-    setup_tooltip: func(elts) {
-        if (me.tooltip_id == nil or size(me.tooltip) == 0) return;
-
-        me.tooltip_listeners = [];
-        setsize(me.tooltip_listeners, size(elts));
-        forindex(var i; elts) {
-            me.tooltip_listeners[i] = elts[i].addEventListener("mousemove", func (e) {
-                me.tooltip_callback(e);
-            });
-        }
-    },
-
-    # Listener for the canvas root element, to clear tooltips appropriately.
-    # Independent of instances of this class, must be called by the canvas creator.
-    setup_root_tooltip_listener: func(root) {
-        root.addEventListener("mousemove", func(e) {
-            fgcommand("update-hover");
-        });
-    },
-
-    move: func(step) {
-        me.prop.setValue(math.clamp(me.prop.getValue() + step, me.min, me.max));
-    },
-};
-
-CanvasAnim.init();
-
-
-# Knob animation. Controls: LMB/MMB and wheel.
-# Unlike the SG knob animation, this does not take care of actually rotating the thing.
-var CanvasKnobAnim = {
-    new: func(elt, prop, min, max, tooltip_id=nil, tooltip="") {
-        var m = {
-            parents: [CanvasKnobAnim, CanvasAnim.new(prop, min, max, tooltip_id, tooltip)],
-            elt: elt,
         };
         m.init();
         return m;
@@ -153,7 +150,13 @@ var CanvasKnobAnim = {
             elsif (e.deltaY > 0) me.move(1);
         });
 
-        me.setup_tooltip([me.elt]);
+        if (me.tooltip_id != nil and size(me.tooltip) > 0) {
+            CanvasTooltip.add_tooltip([me.elt], me.tooltip_id, me.tooltip);
+        }
+    },
+
+    move: func(step) {
+        me.prop.setValue(math.clamp(me.prop.getValue() + step, me.min, me.max));
     },
 };
 
@@ -162,9 +165,14 @@ var CanvasKnobAnim = {
 var CanvasSwitchAnim = {
     new: func(elt_up, elt_down, prop, min, max, tooltip_id=nil, tooltip="") {
         var m = {
-            parents: [CanvasSwitchAnim, CanvasAnim.new(prop, min, max, tooltip_id, tooltip)],
+            parents: [CanvasSwitchAnim],
             elt_up: elt_up,
             elt_down: elt_down,
+            prop: prop,
+            min: min,
+            max: max,
+            tooltip_id: tooltip_id,
+            tooltip: tooltip,
         };
         m.init();
         return m;
@@ -178,7 +186,13 @@ var CanvasSwitchAnim = {
             if (e.button == 0) me.move(-1);
         });
 
-        me.setup_tooltip([me.elt_up, me.elt_down]);
+        if (me.tooltip_id != nil and size(me.tooltip) > 0) {
+            CanvasTooltip.add_tooltip([me.elt_up, me.elt_down], me.tooltip_id, me.tooltip);
+        }
+    },
+
+    move: func(step) {
+        me.prop.setValue(math.clamp(me.prop.getValue() + step, me.min, me.max));
     },
 };
 
@@ -186,12 +200,14 @@ var CanvasSwitchAnim = {
 var Dialog = {
     canvas_opts: {
         name: "ground crew panel",
-        size: [1280, 1024],
+        size: [1280, 1024], # 2x MSAA, otherwise the arcs and rotated text look really ugly.
         view: [640, 512],
     },
     svg_file: "Aircraft/JA37/Nasal/payload/ground-crew-panel.svg",
     window: nil,
     listeners: {},
+
+    ## Property listeners to animate canvas elements.
 
     make_knob_listener: func(elt, prop, factor, offset) {
         return setlistener(prop, func(node) {
@@ -248,6 +264,8 @@ var Dialog = {
         }
     },
 
+    ## Canvas event listeners, for interaction.
+
     setup_events_listeners: func {
         CanvasKnobAnim.new(
             me.knob_sel_click, input.wpn_sel_knob, 0, 7,
@@ -282,8 +300,10 @@ var Dialog = {
             "switch_side", "Firing sequence starting side (not implemented)"
         );
 
-        CanvasAnim.setup_root_tooltip_listener(me.root);
+        CanvasTooltip.setup_canvas_tooltip_listener(me.canvas);
     },
+
+    ## Lookup Canvas elements from the SVG file
 
     elt_keys: [
         "text_SE", "text_EN", "knob_number", "knob_number_click", "knob_sel", "knob_sel_click",

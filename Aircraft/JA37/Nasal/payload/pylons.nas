@@ -110,7 +110,7 @@ var load_options = {
 var load_options_pylon = func(pylon, name) {
     var res = load_options[name];
     # For some load options are factories instead of constants.
-    if (streq(typeof(res), "func")) res = res(pylon);
+    if (typeof(res) == "func") res = res(pylon);
     return res;
 }
 

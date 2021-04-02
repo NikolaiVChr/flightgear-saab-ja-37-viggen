@@ -291,7 +291,7 @@ var load_clean = func() {
 # If name != nil, only nodes with this name are considered.
 var find_node_with_tag = func(node, tag, value, name=nil) {
     var val = node.getValue(tag);
-    if (val != nil and streq(val, value)) return node;
+    if (val != nil and val == value) return node;
 
     foreach (var n; node.getChildren(name)) {
         var res = find_node_with_tag(n, tag, value, name);
@@ -375,7 +375,7 @@ var Dialog = {
             var name = me.tanks_order[i];
             var idx = tank_names[name];
             var tank_prop = input.fuel.getChild("tank", idx);
-            var external = streq(name, "external");
+            var external = (name == "external");
 
             if (!external) {
                 me.fuel_table.addChild("text").setValues({
@@ -634,12 +634,12 @@ var Dialog = {
         # Load RB 74 on main pylons. Load on empty pylon if possible.
         # If there is a choice, load on fuselage pylon.
         var rb74 = me.rb74_prop.getValue();
-        if (streq(rb74, "Left") or streq(rb74, "Both")) {
+        if (rb74 == "Left" or rb74 == "Both") {
             if (res[1] == "none") res[1] = "RB-74";
             elsif (res[0] == "none") res[0] = "RB-74";
             else res[1] = "RB-74";
         }
-        if (streq(rb74, "Right") or streq(rb74, "Both")) {
+        if (rb74 == "Right" or rb74 == "Both") {
             if (res[3] == "none") res[3] = "RB-74";
             elsif (res[2] == "none") res[2] = "RB-74";
             else res[3] = "RB-74";
