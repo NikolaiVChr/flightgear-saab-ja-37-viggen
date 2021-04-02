@@ -183,7 +183,7 @@ var CanvasSwitchAnim = {
 };
 
 
-var GroundCrewPanel = {
+var Dialog = {
     canvas_opts: {
         name: "ground crew panel",
         size: [1280, 1024],
@@ -312,11 +312,13 @@ var GroundCrewPanel = {
         me.switch_side.setCenter(582, 356);
     },
 
-    open_window: func {
+    open: func {
         if (me.window != nil) {
             me.window.setFocus();
             return;
         }
+
+        if (!ja37.reload_allowed("Please land and stop in order to change ground crew settings.")) return;
 
         # Create our own canvas to set custom options.
         me.canvas = canvas.new(me.canvas_opts);
@@ -335,7 +337,7 @@ var GroundCrewPanel = {
         me.window = canvas.Window.new([640,512], "Ground crew panel");
         # Hijack window destructor, that's the only way to add a close callback that I know of.
         me.window.del = func {
-            GroundCrewPanel.on_close();
+            Dialog.on_close();
             # Call parent method
             call(canvas.Window.del, [], me);
         };
@@ -348,5 +350,10 @@ var GroundCrewPanel = {
         me.destroy_listeners();
         me.window = nil;
         me.canvas = nil;
+    },
+
+    close: func() {
+        if (me.window == nil) return;
+        me.window.del();
     },
 };

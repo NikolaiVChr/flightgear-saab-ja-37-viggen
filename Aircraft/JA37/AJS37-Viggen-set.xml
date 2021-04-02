@@ -141,7 +141,7 @@
                         <label>Ground Crew Panel</label>
                         <binding>
                             <command>nasal</command>
-                            <script>ground_panel.GroundCrewPanel.open_window();</script>
+                            <script>ground_panel.Dialog.open();</script>
                         </binding>
                     </item>
                     <item>
