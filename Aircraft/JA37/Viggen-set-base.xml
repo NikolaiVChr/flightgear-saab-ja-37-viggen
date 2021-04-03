@@ -1159,6 +1159,8 @@
         </ventilation>
         <flight>
             <trim-reset type="bool">false</trim-reset>
+            <trim-pitch type="int">0</trim-pitch>
+            <trim-roll type="int">0</trim-roll>
             <trim-yaw type="int">0</trim-yaw>
             <rudder-trim type="double">0.0</rudder-trim>
             <elevator-ap type="double">0.0</elevator-ap>
@@ -1528,6 +1530,9 @@
             <chronometer-state type="int">0</chronometer-state>
             <chronometer-time-sec type="double">0</chronometer-time-sec>
         </clock>
+        <accelerometer>
+            <reset-button type="int">0</reset-button>
+        </accelerometer>
         <waypoint-indicator>
             <type type="int">0</type>
             <number type="int">0</number>
