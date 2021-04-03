@@ -121,21 +121,6 @@
               </pass>
             </technique>
 
-            <technique n="7">
-              <pass>
-                <program>
-                  <attribute>
-                    <name>tangent</name>
-                    <index>6</index>
-                  </attribute>
-                  <attribute>
-                    <name>binormal</name>
-                    <index>7</index>
-                  </attribute>
-                </program>
-              </pass>
-            </technique>
-
             <technique n="9">
               <pass>
               <program>
