@@ -551,7 +551,7 @@ var Dialog = {
         );
         CanvasSwitchAnim.new(
             me.switch_side_click_up, me.switch_side_click_down, input.start_left, 0, 1, nil,
-            "switch_side", "Firing sequence starting side (not implemented)"
+            "switch_side", "Firing sequence starting side"
         );
 
         CanvasTooltip.setup_canvas_tooltip_listener(me.canvas);

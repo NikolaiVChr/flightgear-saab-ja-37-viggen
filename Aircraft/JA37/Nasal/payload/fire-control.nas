@@ -23,6 +23,7 @@ var input = {
     speed_kt:   "/velocities/groundspeed-kt",
     gear_pos:   "/gear/gear/position-norm",
     time:       "/sim/time/elapsed-sec",
+    start_left: "/controls/armament/ground-panel/start-left",
 };
 
 foreach (var prop; keys(input)) {
@@ -105,15 +106,25 @@ var Missile = {
     parents: [WeaponLogic],
 
     # Selection order.
-    pylons_priority: [STATIONS.R7V, STATIONS.R7H, STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H],
+    pylons_priority_left: [STATIONS.R7V, STATIONS.R7H, STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H],
+    pylons_priority_right: [STATIONS.R7H, STATIONS.R7V, STATIONS.V7H, STATIONS.V7V, STATIONS.S7H, STATIONS.S7V],
+
+    pylons_priority: func {
+        if (me.can_start_right and !input.start_left.getBoolValue()) {
+            return me.pylons_priority_right;
+        } else {
+            return me.pylons_priority_left;
+        }
+    },
 
     # Additional parameters:
     #   falld_last: (bool) If the FALLD LAST indicator (for AJS) should light up after release.
     #   fire_delay: (float) Delay between trigger pull and firing.
     #   at_everything: (bool) Required for any lock after launch, change of lock, multiple target hit...
     #   no_lock: (bool) Allow firing without missile lock.
-    #   cycling: (bool) If cycling pylon is allowed with the FRAMSTEGN button. default ON
-    new: func(type, falld_last=0, fire_delay=0, at_everything=0, no_lock=0, cycling=1) {
+    #   cycling: (bool) Cycling pylon is allowed with the FRAMSTEGN button. default ON
+    #   can_start_right: (bool) The AJS ground panel L/R switch is taken in account to choose the first fired side.
+    new: func(type, falld_last=0, fire_delay=0, at_everything=0, no_lock=0, cycling=1, can_start_right=0) {
         var w = { parents: [Missile, WeaponLogic.new(type)], };
         w.selected = nil;
         w.station = nil;
@@ -124,6 +135,7 @@ var Missile = {
         w.at_everything = at_everything;
         w.no_lock = no_lock;
         w.cycling = cycling;
+        w.can_start_right = can_start_right;
 
         if (w.fire_delay > 0) {
             w.release_timer = maketimer(w.fire_delay, w, w.release_weapon);
@@ -172,7 +184,7 @@ var Missile = {
     select: func(pylon=nil) {
         if (pylon == nil) {
             # Pylon not given as argument. Find a matching one.
-            pylon = pylons.find_pylon_by_type(me.type, me.pylons_priority);
+            pylon = pylons.find_pylon_by_type(me.type, me.pylons_priority());
         } else {
             # Pylon given as argument. Check that it matches.
             if (!pylons.is_loaded_with(pylon, me.type)) pylon = nil;
@@ -193,13 +205,15 @@ var Missile = {
         # Cycling is only possible when trigger is safed.
         if (me.unsafe) return !me.fired;
 
+        var priority = me.pylons_priority();
+
         var first = 0;
         if (me.selected != nil) {
-            first = find_index(me.selected, me.pylons_priority)+1;
-            if (first >= size(me.pylons_priority)) first = 0;
+            first = find_index(me.selected, priority)+1;
+            if (first >= size(priority)) first = 0;
         }
 
-        pylon = pylons.find_pylon_by_type(me.type, me.pylons_priority, first);
+        pylon = pylons.find_pylon_by_type(me.type, priority, first);
         if (pylon == nil) {
             me.deselect();
             return FALSE;
@@ -430,7 +444,7 @@ var Missile = {
 
 ### Rb-05 has some special additional logic for remote control.
 var Rb05 = {
-    parents: [Missile.new(type:"RB-05A", cycling:0)],
+    parents: [Missile.new(type:"RB-05A", cycling:0, can_start_right:1)],
 
     active_rb05: nil,
 
@@ -752,10 +766,10 @@ if (variant.JA) {
         SubModelWeapon.new("M55"),
         SubModelWeapon.new(type:"M70"),
         Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
-        Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1),
-        Missile.new(type:"RB-75", fire_delay:1),
+        Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1, can_start_right:1),
+        Missile.new(type:"RB-75", fire_delay:1, can_start_right:1),
         Rb05,
-        Missile.new(type:"M90", at_everything:1, no_lock:1),
+        Missile.new(type:"M90", at_everything:1, no_lock:1, can_start_right:1),
         Bomb.new("M71"),
         Bomb.new("M71R"),
     ];
