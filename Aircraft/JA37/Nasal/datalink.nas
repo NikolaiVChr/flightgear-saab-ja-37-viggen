@@ -19,7 +19,8 @@
 #
 # API:
 # - get_contact(callsign)
-#     Returns datalink information about callsign as a hash { iff, on_link }
+#     Returns datalink information about callsign as a hash { iff, on_link },
+#     or nil if no information is present. Hash members:
 #       iff:        one of IFF_UNKNOWN, IFF_HOSTILE, IFF_FRIENDLY
 #       on_link:    (bool) indicates if 'callsign' is itself on the datalink.
 #
@@ -185,6 +186,7 @@ setlistener(input.power, func (node) {
         input.channel_mp.alias(input.channel);
     } else {
         receive_timer.stop();
+        contacts = {};
         input.channel_mp.unalias();
         input.channel_mp.setValue("");
         clear_data();
