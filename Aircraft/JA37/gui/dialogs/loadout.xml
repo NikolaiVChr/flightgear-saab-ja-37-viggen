@@ -233,4 +233,30 @@
 
     <empty><width>1</width></empty>
   </group>
+
+  <hrule/>
+
+  <group>
+    <layout>hbox</layout>
+
+    <empty><stretch>1</stretch></empty>
+
+    <text>
+      <label>Total weight: 10000 kg</label>
+      <format>Total weight: %.0f kg</format>
+      <property>/fdm/jsbsim/inertia/weight-kg</property>
+      <live>true</live>
+    </text>
+
+    <empty><stretch>1</stretch></empty>
+
+    <text>
+      <label>Center of gravity: 10000 mm</label>
+      <format>Center of gravity: %.0f mm</format>
+      <property>/fdm/jsbsim/inertia/corrected-cg-x-mm</property>
+      <live>true</live>
+    </text>
+
+    <empty><stretch>1</stretch></empty>
+  </group>
 </PropertyList>
