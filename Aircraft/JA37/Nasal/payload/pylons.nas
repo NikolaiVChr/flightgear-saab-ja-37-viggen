@@ -10,10 +10,8 @@ var input = {
     station:    "/payload/armament/station",
     wings_on:   "/fdm/jsbsim/structural/wings/serviceable",
     wow1:       "fdm/jsbsim/gear/unit[1]/WOW",
-    tank8Jettison:    "/consumables/fuel/tank[8]/jettisoned",
-    tank8Mounted:     "/consumables/fuel/tank[8]/mounted",
-    tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
-    tank8Selected:    "/consumables/fuel/tank[8]/selected",
+    xtank_load: "/payload/weight[6]",
+    xtank_fuel: "/consumables/fuel/tank[8]",
 };
 
 foreach (var prop; keys(input)) {
@@ -266,19 +264,31 @@ foreach(var pylon; [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H]) {
 
 
 ### Drop tank logic
+var xtank_props = {
+    weight_lb:  input.xtank_load.getNode("weight-lb", 1),
+    selected:   input.xtank_load.getNode("selected", 1),
+    fuel_sel:   input.xtank_fuel.getNode("selected", 1),
+    jettisoned: input.xtank_fuel.getNode("jettisoned", 1),
+    mounted:    input.xtank_fuel.getNode("mounted", 1),
+    lvl_norm:   input.xtank_fuel.getNode("level-norm", 1),
+};
+
+var drop_tank_weight = getprop("/payload/weight[6]/opt[1]/lbs");
+
 var update_droptank = func (node) {
     var droptank = (node.getValue() == "Drop tank");
 
-    input.tank8Selected.setBoolValue(droptank);
-    input.tank8Jettison.setBoolValue(!droptank);
-    input.tank8Mounted.setBoolValue(droptank);
-    if (!droptank) input.tank8LvlNorm.setValue(0);
+    xtank_props.weight_lb.setValue(droptank ? drop_tank_weight : 0);
+    xtank_props.fuel_sel.setBoolValue(droptank);
+    xtank_props.jettisoned.setBoolValue(!droptank);
+    xtank_props.mounted.setBoolValue(droptank);
+    if (!droptank) xtank_props.lvl_norm.setValue(0);
 }
 
-setlistener("/payload/weight[6]/selected", update_droptank, 1, 1);
+setlistener(xtank_props.selected, update_droptank, 1, 1);
 
 var set_droptank = func (b) {
-    setprop("/payload/weight[6]/selected", b ? "Drop tank" : "none");
+    xtank_props.selected.setValue(b ? "Drop tank" : "none");
 }
 
 
