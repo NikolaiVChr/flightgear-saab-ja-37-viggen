@@ -1245,7 +1245,7 @@ var test_support = func {
   setprop("ja37/supported/canvas-arcs", lexi_compare(version, [2020,3,9]) >= 0);
 
   if (lexi_compare(version, minVersion) < 0) {
-    notice("Minimum supported Flightgear version for Saab 37 is "~minVersion);
+    notice("Minimum supported Flightgear version for Saab 37 is "~minVersionString);
     notice("Some functionalities will not work as expected");
   }
 
