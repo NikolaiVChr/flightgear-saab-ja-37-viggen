@@ -64,6 +64,7 @@ input = {
   gearsPos:         "gear/gear/position-norm",
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
+  headshake:        "ja37/effect/headshake",
   heading:          "/instrumentation/heading-indicator/indicated-heading-deg",
   hz05:             "ja37/blink/five-Hz/state",
   hz10:             "ja37/blink/four-Hz/state",
@@ -117,20 +118,7 @@ input = {
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   sunAngle:         "sim/time/sun-angle-rad",
-  tank0LvlGal:      "/consumables/fuel/tank[0]/level-gal_us",
-  tank0LvlNorm:     "/consumables/fuel/tank[0]/level-norm",
-  tank1LvlGal:      "/consumables/fuel/tank[1]/level-gal_us",
-  tank2LvlGal:      "/consumables/fuel/tank[2]/level-gal_us",
-  tank3LvlGal:      "/consumables/fuel/tank[3]/level-gal_us",
-  tank4LvlGal:      "/consumables/fuel/tank[4]/level-gal_us",
-  tank5LvlGal:      "/consumables/fuel/tank[5]/level-gal_us",
-  tank6LvlGal:      "/consumables/fuel/tank[6]/level-gal_us",
-  tank7LvlGal:      "/consumables/fuel/tank[7]/level-gal_us",
-  tank8Flow:        "fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps",
-  tank8Jettison:    "/consumables/fuel/tank[8]/jettisoned",
-  tank8LvlGal:      "/consumables/fuel/tank[8]/level-gal_us",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
-  tank8Selected:    "/consumables/fuel/tank[8]/selected",
   taxiLight:        "ja37/effect/taxi-light",
   tempDegC:         "environment/temperature-degc",
   thrustLb:         "engines/engine/thrust_lb",
@@ -139,6 +127,7 @@ input = {
   viewInternal:     "sim/current-view/internal",
   viewName:         "sim/current-view/name",
   viewYOffset:      "sim/current-view/y-offset-m",
+  defaultYOffset:   "sim/view[0]/config/y-offset-m",
   warnButton:       "ja37/avionics/master-warning-button",
   wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
@@ -591,9 +580,9 @@ var Saab37 = {
       return;
     }
 
-    defaultView = getprop("ja37/effect/seat");
+    if (view.index != 0) return;
 
-    if(input.viewName.getValue() == "Cockpit View" and (((me.G > 7 or me.alpha>4.5) and me.rSpeed>30) or (me.mach>0.97 and me.mach<1.05) or (me.wow and me.rSpeed>100) or me.near == TRUE or me.explode == TRUE)) {
+    if (((me.G > 7 or me.alpha>4.5) and me.rSpeed>30) or (me.mach>0.97 and me.mach<1.05) or (me.wow and me.rSpeed>100) or me.near == TRUE or me.explode == TRUE) {
       me.factor = 0;
       me.densFactor = clamp(1-input.dens.getValue()/30000, 0, 1);
       if (me.G > 7) {
@@ -615,12 +604,14 @@ var Saab37 = {
       if (me.explode == TRUE) {
         me.factor += 3.5;
       }
-      setprop("ja37/effect/buffeting", me.factor);
-      input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()*me.factor); 
-    } elsif (input.viewName.getValue() == "Cockpit View") {
-      setprop("ja37/effect/buffeting", 0);
-      input.viewYOffset.setDoubleValue(defaultView);
-    } 
+    } else {
+      me.factor = 0;
+    }
+    setprop("ja37/effect/buffeting", me.factor);
+    if (input.headshake.getBoolValue()) {
+      defaultView = input.defaultYOffset.getValue();
+      input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()*me.factor);
+    }
   },
 
   # slow updating loop
@@ -1104,9 +1095,6 @@ var saab37 = Saab37.new();
 
 
 
-
-var defaultView = getprop("sim/view/config/y-offset-m");
-setprop("ja37/effect/seat", defaultView);
 
 var logTime = func{
   #log time and date for outputing ucsv files for converting into KML files for google earth.
@@ -1844,6 +1832,26 @@ var cycleSmoke = func() {
       notice("Smoke: OFF");
     }
 }
+
+# Seat movement parameters (y-axis)
+var seat_min = 0.6;
+var seat_max = 0.8;
+var seat_step = 0.0025;
+
+var move_seat = func(dir) {
+  # Apply seat movement to default view y position, clamped.
+  var step = seat_step * (dir > 0 ? 1 : -1);
+  var old_pos = input.defaultYOffset.getValue();
+  var pos = math.clamp(old_pos + step, seat_min, seat_max);
+  input.defaultYOffset.setValue(pos);
+  step = pos - old_pos; # Clamped movement
+
+  # Apply same (clamped) movement to actual y position, when in pilot view.
+  if (view.index != 0) return;
+
+  input.viewYOffset.setValue(input.viewYOffset.getValue() + step);
+}
+
 
 # Button on AJS throttle. Gear up: IR quick select, gear down: A/T disengage.
 var selectIR_disengageAT = func() {
