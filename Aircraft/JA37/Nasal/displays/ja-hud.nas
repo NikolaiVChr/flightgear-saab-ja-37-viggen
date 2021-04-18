@@ -1737,7 +1737,7 @@ var HUD = {
 ### Backup sight (orange).
 #
 # Manual says it is a 'fixed illuminated pattern [...] activated by the knob RES'.
-# Pattern itself is completely made up.
+# Nikolai asked a pilot, who said it looks like: --0--
 var BackupSight = {
     new: func(root) {
         var m = { parents: [BackupSight], };
@@ -1749,36 +1749,8 @@ var BackupSight = {
         var group = root.createChild("group");
 
         make_dot(group, 0, 0, opts.line_width*2);
-        make_path(group).moveTo(-100,0).horizTo(-25).moveTo(100,0).horizTo(25);
-
-        var line_start = 40*MIL2HUD;
-        var line_end = 80*MIL2HUD;
-        var grad = 10*MIL2HUD;
-        var grad_w = 3*MIL2HUD;
-        var line_bot_angle = math.pi/6;
-        var arc_angle = line_bot_angle+0.1;
-        var arc1_rad = 75*MIL2HUD;
-        var arc2_rad = 100*MIL2HUD;
-
-        var path = make_path(group)
-            .moveTo(-line_start, 0).horizTo(-line_end)
-            .moveTo(line_start, 0).horizTo(line_end)
-            .moveTo(0, -line_start).vertTo(-line_end)
-            .moveTo(-line_start, 0).arcSmallCWTo(line_start, line_start, 0, line_start, 0);
-
-        for (var i=1; i<= 5; i+=1) {
-            path.moveTo(-grad_w*i, grad*i).horizTo(grad_w*i);
-        }
-        path.moveTo(0, grad).vertTo(arc2_rad+grad);
-
-        path.moveTo(arc1_rad*math.sin(arc_angle), arc1_rad*math.cos(arc_angle))
-            .arcSmallCWTo(arc1_rad, arc1_rad, 0, -arc1_rad*math.sin(arc_angle), arc1_rad*math.cos(arc_angle));
-        path.moveTo(arc2_rad*math.sin(arc_angle), arc2_rad*math.cos(arc_angle))
-            .arcSmallCWTo(arc2_rad, arc2_rad, 0, -arc2_rad*math.sin(arc_angle), arc2_rad*math.cos(arc_angle));
-
-        path.moveTo(line_start*math.sin(line_bot_angle), line_start*math.cos(line_bot_angle))
-            .lineTo(arc2_rad*math.sin(line_bot_angle), arc2_rad*math.cos(line_bot_angle));
-        path.moveTo(-line_start*math.sin(line_bot_angle), line_start*math.cos(line_bot_angle))
-            .lineTo(-arc2_rad*math.sin(line_bot_angle), arc2_rad*math.cos(line_bot_angle));
+        make_circle(group, 0, 0, 50);
+        make_path(group)
+            .moveTo(-100,0).horizTo(-25).moveTo(100,0).horizTo(25);
     },
 };
