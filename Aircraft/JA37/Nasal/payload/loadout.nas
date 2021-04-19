@@ -266,7 +266,7 @@ var print_reload_message = func {
 ### AJS ground crew panel check / automatic setting
 var check_AJS_panel = func {
     if (variant.AJS) {
-        ground_panel.queue_settings_check();
+        ground_panel.run_settings_check();
     }
 }
 
@@ -690,6 +690,8 @@ var Dialog = {
         me.fuel_update_timer.stop();
         fgcommand("dialog-close", me.prop);
         me.state = 0;
+        # Display settings warning if any upon closing the dialog (provided ground crew panel is also closed).
+        ground_panel.settings_warning_callback();
     },
     toggle: func() {
         me.state ? me.close() : me.open();
