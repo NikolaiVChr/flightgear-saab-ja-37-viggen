@@ -79,13 +79,13 @@
   <model>
     <path>Aircraft/JA37/Models/right-panel-top.xml</path>
     <name>rightPanelTop</name>
-    <offsets><!-- order: yxz pitch 8 roll 68 heading 5 -->
-      <heading-deg>-14.00706252059607</heading-deg>
-      <pitch-deg>20.56454358139137</pitch-deg>
-      <roll-deg>66.65863014809248</roll-deg>
-      <x-m>-2.55995</x-m>
-      <y-m>0.53412</y-m>
-      <z-m>0.05521</z-m>
+    <offsets><!-- order: yxz -->
+      <heading-deg>-19.4</heading-deg>
+      <pitch-deg>27.3</pitch-deg>
+      <roll-deg>73.3</roll-deg>
+      <x-m>-3.7793</x-m>
+      <y-m>0.42700</y-m>
+      <z-m>0.22723</z-m>
     </offsets>
   </model>
 

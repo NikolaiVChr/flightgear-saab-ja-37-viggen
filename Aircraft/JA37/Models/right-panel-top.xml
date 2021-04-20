@@ -14,9 +14,9 @@
     </overlay>
     <offsets>
       <heading-deg>180</heading-deg>
-      <x-m> -1.105</x-m>
-      <y-m>  0.02</y-m>
-      <z-m>  0</z-m>
+      <x-m>0.03</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
     </offsets>
   </model>
 
@@ -34,9 +34,9 @@
     </overlay>
     <offsets>
       <heading-deg>180</heading-deg>
-      <x-m> -1.075</x-m>
-      <y-m>  0.02</y-m>
-      <z-m>  0</z-m>
+      <x-m>0.13</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
     </offsets>
   </model>
 
@@ -52,9 +52,9 @@
       </params>
     </overlay>
     <offsets>
-      <x-m> -1.045</x-m>
-      <y-m>  0.02</y-m>
-      <z-m>  0</z-m>
+      <x-m>0.16</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
     </offsets>
   </model>
 
@@ -70,9 +70,9 @@
       </params>
     </overlay>
     <offsets>
-      <x-m> -1.015</x-m>
-      <y-m>  0.02</y-m>
-      <z-m>  0</z-m>
+      <x-m>0.19</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
     </offsets>
   </model>
 
@@ -80,9 +80,12 @@
     <path>Aircraft/JA37/Models/Cockpit/fusePanel/fusePanel.xml</path>
     <name>fuses</name>
     <offsets>
-      <x-m> -0.980</x-m>
-      <y-m>  0.03</y-m>
-      <z-m>  0</z-m>
+      <x-m>0.27</x-m>
+      <y-m>0.03</y-m>
+      <z-m>0</z-m>
+      <pitch-deg>-2</pitch-deg>
+      <heading-deg>-1</heading-deg>
+      <roll-deg>-30</roll-deg>
     </offsets>
   </model>
 </PropertyList>
