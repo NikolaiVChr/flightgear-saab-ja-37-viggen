@@ -42,7 +42,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/right-panel.xml</path>
+    <path>Aircraft/JA37/Models/ajs37-right-panel.xml</path>
     <name>rightPanel</name>
     <offsets><!-- order: yxz pitch 17.996 roll 8.117 heading 4.027 -->
       <roll-deg>7.717420497913652</roll-deg>
