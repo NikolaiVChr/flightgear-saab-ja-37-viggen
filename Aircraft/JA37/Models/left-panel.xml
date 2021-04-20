@@ -179,7 +179,7 @@
   </model>
 
   <model>
-      <path>Aircraft/JA37/Models/Instruments/Datapanel/trim-reset.xml</path>
+      <path>Aircraft/JA37/Models/Panels/Datapanel/trim-reset.xml</path>
       <name>reset trim</name>
       <offsets>
           <heading-deg>-270</heading-deg>
@@ -256,7 +256,7 @@
   </model>
 
   <model>
-      <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-canopy.xml</path>
+      <path>Aircraft/JA37/Models/Panels/Datapanel/jett-canopy.xml</path>
       <name>jett-canopy</name>
       <offsets>
           <heading-deg>-270</heading-deg>
@@ -267,7 +267,7 @@
   </model>
 
     <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-kv3.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radio/channel-selector-kv3.xml</path>
     <name>kv3</name>
     <offsets>
       <heading-deg>0</heading-deg>
@@ -278,7 +278,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-kv1.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radio/channel-selector-kv1.xml</path>
     <name>kv1</name>
     <offsets>
       <heading-deg>0</heading-deg>
@@ -289,7 +289,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radar/radar-panel-ja.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radar/radar-panel-ja.xml</path>
     <name>radar-panel-ja</name>
     <offsets>
       <x-m>  0.500</x-m>
@@ -299,7 +299,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/RadarPanelAJS/radar-panel.xml</path>
+    <path>Aircraft/JA37/Models/Panels/RadarAJS/radar-panel.xml</path>
     <name>radar-panel-ajs</name>
     <offsets>
       <x-m>  0.495</x-m>
@@ -337,7 +337,7 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/fr31.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radio/fr31.xml</path>
     <name>fr31</name>
     <offsets>
       <x-m>  0.685</x-m>
@@ -347,7 +347,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/lightPanel/lightPanel.xml</path>
+    <path>Aircraft/JA37/Models/Panels/lights/lightPanel.xml</path>
     <name>int-light</name>
     <offsets>
       <x-m>  0.860</x-m>

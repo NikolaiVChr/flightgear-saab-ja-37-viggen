@@ -79,7 +79,7 @@
     </model>
 
     <model>
-        <path>Aircraft/JA37/Models/Instruments/counter-measure-panel/cm.xml</path>
+        <path>Aircraft/JA37/Models/Panels/counter-measure/cm.xml</path>
         <name>cm-p</name>
         <offsets>
             <x-m>  0.415</x-m>
@@ -133,7 +133,7 @@
     </animation>
 
     <model>
-        <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-tank.xml</path>
+        <path>Aircraft/JA37/Models/Panels/Datapanel/jett-tank.xml</path>
         <name>jett-xtank</name>
         <offsets>
             <heading-deg>-90</heading-deg>
@@ -144,7 +144,7 @@
     </model>
 
     <model>
-        <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-stores.xml</path>
+        <path>Aircraft/JA37/Models/Panels/Datapanel/jett-stores.xml</path>
         <name>jett-stores</name>
         <offsets>
             <heading-deg>-90</heading-deg>

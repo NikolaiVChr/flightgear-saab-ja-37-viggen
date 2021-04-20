@@ -189,7 +189,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/testPanel/testPanel.xml</path>
+    <path>Aircraft/JA37/Models/Panels/test/testPanel.xml</path>
     <name>hotair</name>
     <offsets>
       <x-m>  0.61</x-m>
@@ -199,7 +199,7 @@
   </model>
 
   <model>
-     <path>Aircraft/JA37/Models/Instruments/Datapanel/datapanel.xml</path>
+     <path>Aircraft/JA37/Models/Panels/Datapanel/datapanel.xml</path>
      <name>Datapanel</name>
      <offsets>
        <x-m> 0.375</x-m>
@@ -209,7 +209,7 @@
    </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/counter-measure-panel/p152.xml</path>
+    <path>Aircraft/JA37/Models/Panels/counter-measure/p152.xml</path>
     <name>p152-panel</name>
     <offsets>
       <x-m>  0.53</x-m>
@@ -219,7 +219,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-me31.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radio/channel-selector-me31.xml</path>
     <name>me31-nav-panel</name>
     <offsets>
       <heading-deg>0</heading-deg>
@@ -241,7 +241,7 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Transponder/transponder.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Transponder/transponder.xml</path>
     <name>Transponder</name>
     <offsets>
       <x-m>  0.6725</x-m>
@@ -298,7 +298,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/ME799/me799.xml</path>
+    <path>Aircraft/JA37/Models/Panels/ME799/me799.xml</path>
     <name>PN799</name>
     <offsets>
       <x-m>  0.77</x-m>
@@ -319,7 +319,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/FormationLightsPanel/formation-lights.xml</path>
+    <path>Aircraft/JA37/Models/Panels/FormationLights/formation-lights.xml</path>
     <name>formationLightPanel</name>
     <offsets>
       <x-m>  0.87</x-m>
@@ -347,7 +347,7 @@
   </model>
 
    <model>
-     <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel.xml</path>
+     <path>Aircraft/JA37/Models/Panels/Navigation/navpanel.xml</path>
      <name>Navpanel</name>
      <offsets>
        <x-m>  0.380</x-m>
@@ -370,7 +370,7 @@
    </animation>
 
    <model>
-     <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel-ja.xml</path>
+     <path>Aircraft/JA37/Models/Panels/Navigation/navpanel-ja.xml</path>
      <name>NavpanelJA</name>
      <offsets>
        <x-m>  0.3485</x-m>
