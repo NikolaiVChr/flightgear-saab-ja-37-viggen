@@ -81,15 +81,15 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/right-panel-bottom.xml</path>
+    <path>Aircraft/JA37/Models/ajs37-right-panel-bottom.xml</path>
     <name>rightPanelBottom</name>
-    <offsets><!-- order: yxz pitch 8 roll 14 heading 5 -->
-      <heading-deg>-5.703216067810287</heading-deg>
-      <pitch-deg>17.55746229928675</pitch-deg>
-      <roll-deg>36.682032956457476</roll-deg>
-      <x-m>-3.85567</x-m>
-      <y-m>0.42242</y-m>
-      <z-m>0.20891</z-m>
+    <offsets><!-- order: yxz -->
+      <heading-deg>-5.79</heading-deg>
+      <pitch-deg>17.2</pitch-deg>
+      <roll-deg>40.1</roll-deg>
+      <x-m>-3.778</x-m>
+      <y-m>0.42042</y-m>
+      <z-m>0.17135</z-m>
     </offsets>
   </model>
 

@@ -1019,6 +1019,16 @@
             <trigger-final type="bool">false</trigger-final>
             <trigger-unsafe type="bool">false</trigger-unsafe>
             <safety-distance type="int">1</safety-distance>
+            <weapon-panel>
+                <selector-knob type="int">0</selector-knob>
+                <dist-knob type="int">0</dist-knob>
+                <switch-impulse type="bool">0</switch-impulse>
+                <switch-single type="bool">0</switch-single>
+                <jett-tank-cover type="bool">0</jett-tank-cover>
+                <jett-tank type="bool">0</jett-tank>
+                <jett-weapon-cover type="bool">0</jett-weapon-cover>
+                <jett-weapon type="bool">0</jett-weapon>
+            </weapon-panel>
             <ground-panel>
                 <!-- AJS Ground crew panel -->
                 <weapon-selector-knob type="int">0</weapon-selector-knob>

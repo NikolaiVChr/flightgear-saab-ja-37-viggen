@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <model>
+    <path>Aircraft/JA37/Models/Panels/Weapons/weapon-panel-AJS.xml</path>
+    <name>weapon-panel</name>
+    <offsets>
+      <x-m>0.122</x-m>
+      <y-m>0.027</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>weapon-panel</object-name>
+    <center>
+      <x-m>0.122</x-m>
+      <y-m>0.027</y-m>
+      <z-m>0</z-m>
+    </center>
+    <x-offset>0.95</x-offset>
+    <y-offset>0.95</y-offset>
+    <z-offset>0.95</z-offset>
+  </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Panels/Transponder/transponder.xml</path>
+    <name>transponder</name>
+    <offsets>
+      <x-m>0.34</x-m>
+      <y-m>0.03</y-m>
+      <z-m>0</z-m>
+      <heading-deg>-90</heading-deg>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-ignition-plug</name>
+    <overlay>
+      <params>
+        <prop>ja37/engine/sparkplug</prop>
+        <texture>SPARKPLUG.png</texture>
+        <tooltip-text>Ignition plug</tooltip-text>
+        <tooltip-id>switch-sparkplug</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m>0.7</x-m>
+      <y-m>0.025</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+</PropertyList>

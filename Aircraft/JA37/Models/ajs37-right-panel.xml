@@ -155,7 +155,7 @@
     <path>Aircraft/JA37/Models/Panels/counter-measure/p152.xml</path>
     <name>p152-panel</name>
     <offsets>
-      <x-m>  0.56</x-m>
+      <x-m>  0.58</x-m>
       <y-m> -0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
