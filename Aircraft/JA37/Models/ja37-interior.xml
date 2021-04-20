@@ -157,17 +157,17 @@
     <object-name>leftPanelMid</object-name>
     <object-name>leftPanelForward</object-name>
   </animation>
-  
-  <!--<model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
     <name>Chronometer</name>
     <offsets>
-      <x-m> -3.885</x-m>
-      <y-m> 0.400</y-m>
-      <z-m>  0.200</z-m>
-      <heading-deg>-35</heading-deg>
-      <pitch-deg>-5</pitch-deg>
-      <roll-deg>-2.5</roll-deg>
+      <x-m> -3.8485</x-m>
+      <y-m> 0.39625</y-m>
+      <z-m>  0.2391</z-m>
+      <heading-deg>-38.1</heading-deg>
+      <pitch-deg>-19.3</pitch-deg>
+      <roll-deg>0</roll-deg>
     </offsets>
-  </model>-->
+  </model>
 </PropertyList>
