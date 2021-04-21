@@ -29,6 +29,7 @@ foreach(var name; keys(input)) {
 # !! This is the same order as pylons.STATIONS, but shifted by 1.
 
 # Weapon names are defined by 'pylons.load_options' (pylons.nas)
+# "skip" in a loadout means that this pylon will be unmodified
 
 # Full list of known loadouts
 var loadouts = {
@@ -44,22 +45,23 @@ var loadouts = {
     "12x ARAK, 2x RB 74": ["RB-74", "M70", "RB-74", "M70", "none", "none"],
     "24x ARAK, 2x RB 24J": ["M70", "M70", "M70", "M70", "RB-24J", "RB-24J"],
     # AJS
-    "2x RB 05":             ["none", "RB-05A", "none", "RB-05A", "none", "none"],
-    "2x RB 05, 2x AKAN":    ["M55", "RB-05A", "M55", "RB-05A", "none", "none"],
-    "2x RB 75":             ["none", "RB-75", "none", "RB-75", "none", "none"],
-    "4x RB 75":             ["RB-75", "RB-75", "RB-75", "RB-75", "none", "none"],
-    "2x RB 75, 2x AKAN":    ["M55", "RB-75", "M55", "RB-75", "none", "none"],
-    "2x AKAN":              ["M55", "none", "M55", "none", "none", "none"],
-    "4x RB 74":             ["RB-74", "RB-74", "RB-74", "RB-74", "none", "none"],
-    "2x RB 04":             ["RB-04E", "none", "RB-04E", "none", "none", "none"],
-    "2x RB 15":             ["RB-15F", "none", "RB-15F", "none", "none", "none"],
-    "12x ARAK":             ["none", "M70", "none", "M70", "none", "none"],
-    "24x ARAK":             ["M70", "M70", "M70", "M70", "none", "none"],
-    "8x m/71":              ["none", "M71", "none", "M71", "none", "none"],
-    "16x m/71":             ["M71", "M71", "M71", "M71", "none", "none"],
-    "8x m/71 (high drag)":  ["none", "M71R", "none", "M71R", "none", "none"],
-    "16x m/71 (high drag)": ["M71R", "M71R", "M71R", "M71R", "none", "none"],
-    "2x m/90":              ["M90", "none", "M90", "none", "none", "none"],
+    # Skip outer pylons. They are taken care of by the 'load/unload RB-24J' buttons.
+    "2x RB 05":             ["none", "RB-05A", "none", "RB-05A", "skip", "skip"],
+    "2x RB 05, 2x AKAN":    ["M55", "RB-05A", "M55", "RB-05A", "skip", "skip"],
+    "2x RB 75":             ["none", "RB-75", "none", "RB-75", "skip", "skip"],
+    "4x RB 75":             ["RB-75", "RB-75", "RB-75", "RB-75", "skip", "skip"],
+    "2x RB 75, 2x AKAN":    ["M55", "RB-75", "M55", "RB-75", "skip", "skip"],
+    "2x AKAN":              ["M55", "none", "M55", "none", "skip", "skip"],
+    "4x RB 74":             ["RB-74", "RB-74", "RB-74", "RB-74", "skip", "skip"],
+    "2x RB 04":             ["RB-04E", "none", "RB-04E", "none", "skip", "skip"],
+    "2x RB 15":             ["RB-15F", "none", "RB-15F", "none", "skip", "skip"],
+    "12x ARAK":             ["none", "M70", "none", "M70", "skip", "skip"],
+    "24x ARAK":             ["M70", "M70", "M70", "M70", "skip", "skip"],
+    "8x m/71":              ["none", "M71", "none", "M71", "skip", "skip"],
+    "16x m/71":             ["M71", "M71", "M71", "M71", "skip", "skip"],
+    "8x m/71 (high drag)":  ["none", "M71R", "none", "M71R", "skip", "skip"],
+    "16x m/71 (high drag)": ["M71R", "M71R", "M71R", "M71R", "skip", "skip"],
+    "2x m/90":              ["M90", "none", "M90", "none", "skip", "skip"],
 };
 
 # List of loadouts to include in the dialogs.
@@ -99,7 +101,7 @@ var loadout_list = variant.JA ? [
 
 ### Internal reload functions.
 
-# Load a pylon. 'pylon' is the pylon number (see above), and 'option' is the
+# Load a pylon. 'pylon' is the pylon number as in 'pylons.STATIONS', and 'option' is the
 # loadout option name (weapon), as defined in pylons.load_options
 var load_pylon = func(idx, option) {
     pylons.pylons[idx].loadSet(pylons.load_options_pylon(idx, option));
@@ -108,7 +110,7 @@ var load_pylon = func(idx, option) {
 # Select a loadout
 var set_loadout = func(loadout) {
     forindex(i; loadout) {
-        var name = load_pylon(i+1, loadout[i]);
+        if (loadout[i] != "skip") load_pylon(i+1, loadout[i]);
     }
 }
 
@@ -299,6 +301,55 @@ var load_clean = func() {
     check_AJS_panel();
 }
 
+# AJS IR missiles load functions.
+# These are designed as 'modifiers' on top of an existing loadout.
+
+# Two RB-24J on outer pylons.
+# arg: load=1 to load (default), load=0 to unload
+var load_AJS_rb24j = func(load=1) {
+    if(!ja37.reload_allowed(must_land_msg)) return;
+
+    var option = load ? "RB-24J" : "none";
+    load_pylon(pylons.STATIONS.R7V, option);
+    load_pylon(pylons.STATIONS.R7H, option);
+
+    print_reload_message();
+    check_AJS_panel();
+}
+
+# RB-74 on main pylons.
+var load_AJS_rb74 = func(quantity) {
+    if(!ja37.reload_allowed(must_land_msg)) return;
+
+    # Main pylons, in order of priority for loading the additional RB-74 (fuselage then wings).
+    var main_pylons = [pylons.STATIONS.S7H, pylons.STATIONS.S7V, pylons.STATIONS.V7H, pylons.STATIONS.V7V];
+    # Count current RB-74
+    foreach (var pylon; main_pylons) {
+        if (pylons.get_pylon_load(pylon) == "RB-74") {
+            quantity -= 1;
+        }
+    }
+    # Add on empty pylons if any
+    foreach (var pylon; main_pylons) {
+        if (quantity <= 0) break;
+        if (pylons.get_pylon_load(pylon) == "") {
+            load_pylon(pylon, "RB-74");
+            quantity -= 1;
+        }
+    }
+    # Add on other pylons (replacing current load). Skip pylons with RB-74.
+    foreach (var pylon; main_pylons) {
+        if (quantity <= 0) break;
+        if (pylons.get_pylon_load(pylon) != "RB-74") {
+            load_pylon(pylon, "RB-74");
+            quantity -= 1;
+        }
+    }
+
+    print_reload_message();
+    check_AJS_panel();
+}
+
 
 
 # Look for a descendent of 'group' with '<tag>value</tag>'.
@@ -371,12 +422,6 @@ var Dialog = {
     setup_props: func() {
         # Fuel
         me.fuel_prop = me.prop.getNode("fuel/request-percent", 1);
-
-        # AJS loadout options
-        me.outer_rb24j_prop = me.prop.getNode("loadout/load-outer-rb24j", 1);
-        me.outer_rb24j_prop.setBoolValue(FALSE);
-        me.rb74_prop = me.prop.getNode("loadout/load-rb74", 1);
-        me.rb74_prop.setValue("None");
     },
 
     ### Nasal generated parts of the dialog.
@@ -635,41 +680,8 @@ var Dialog = {
         set_droptank(input.drop_tank.getBoolValue());
     },
 
-    ### Loadout presets
-
-    apply_AJS_loadout_options: func(loadout) {
-        # Copy loadout vector
-        var res = [];
-        setsize(res, 6);
-        forindex(var i; res) res[i] = loadout[i];
-
-        if (me.outer_rb24j_prop.getBoolValue()) {
-            res[4] = "RB-24J";
-            res[5] = "RB-24J";
-        }
-
-        # Load RB 74 on main pylons. Load on empty pylon if possible.
-        # If there is a choice, load on fuselage pylon.
-        var rb74 = me.rb74_prop.getValue();
-        if (rb74 == "Left" or rb74 == "Both") {
-            if (res[1] == "none") res[1] = "RB-74";
-            elsif (res[0] == "none") res[0] = "RB-74";
-            else res[1] = "RB-74";
-        }
-        if (rb74 == "Right" or rb74 == "Both") {
-            if (res[3] == "none") res[3] = "RB-74";
-            elsif (res[2] == "none") res[2] = "RB-74";
-            else res[3] = "RB-74";
-        }
-
-        return res;
-    },
-
     apply_loadout: func(name) {
         var loadout = loadouts[name];
-        if (variant.AJS) {
-            loadout = me.apply_AJS_loadout_options(loadout);
-        }
         load_loadout(loadout);
     },
 

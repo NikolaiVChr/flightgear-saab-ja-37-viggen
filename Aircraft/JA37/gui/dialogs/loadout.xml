@@ -178,52 +178,80 @@
           <height>10</height>
         </empty>
 
+        <hrule/>
+
         <text>
-          <label>Options (effective after loading a preset)</label>
+          <label>Load A/A IR missiles</label>
         </text>
 
         <group>
           <layout>table</layout>
           <halign>left</halign>
 
-          <checkbox>
+          <button>
             <row>0</row>
             <col>0</col>
-            <property>/sim/gui/dialogs/loadout/dialog/loadout/load-outer-rb24j</property>
-            <live>true</live>
+            <pref-width>55</pref-width>
+            <pref-height>25</pref-height>
+            <legend>Load</legend>
             <enable>/ja37/reload-allowed</enable>
             <binding>
-              <command>dialog-apply</command>
+              <command>nasal</command>
+              <script>loadout.load_AJS_rb24j(1);</script>
             </binding>
-          </checkbox>
+          </button>
+
+          <button>
+            <row>0</row>
+            <col>1</col>
+            <pref-width>55</pref-width>
+            <pref-height>25</pref-height>
+            <legend>Unload</legend>
+            <enable>/ja37/reload-allowed</enable>
+            <binding>
+              <command>nasal</command>
+              <script>loadout.load_AJS_rb24j(0);</script>
+            </binding>
+          </button>
 
           <text>
             <row>0</row>
-            <col>1</col>
+            <col>2</col>
             <halign>left</halign>
-            <label>Add RB 24J on outer pylons</label>
+            <label>RB 24J on outer pylons</label>
           </text>
 
-          <combo>
+          <button>
             <row>1</row>
             <col>0</col>
-            <property>/sim/gui/dialogs/loadout/dialog/loadout/load-rb74</property>
-            <live>true</live>
+            <pref-width>55</pref-width>
+            <pref-height>25</pref-height>
+            <legend>Single</legend>
             <enable>/ja37/reload-allowed</enable>
             <binding>
-              <command>dialog-apply</command>
+              <command>nasal</command>
+              <script>loadout.load_AJS_rb74(1);</script>
             </binding>
-            <value>None</value>
-            <value>Right</value>
-            <value>Left</value>
-            <value>Both</value>
-          </combo>
+          </button>
+
+          <button>
+            <row>1</row>
+            <col>1</col>
+            <pref-width>55</pref-width>
+            <pref-height>25</pref-height>
+            <legend>Double</legend>
+            <enable>/ja37/reload-allowed</enable>
+            <binding>
+              <command>nasal</command>
+              <script>loadout.load_AJS_rb74(2);</script>
+            </binding>
+          </button>
 
           <text>
             <row>1</row>
-            <col>1</col>
+            <col>2</col>
             <halign>left</halign>
-            <label>Add RB 74 on main pylons (replaces some primary weapon)</label>
+            <label>RB 74 on main pylons (may replace some primary weapon)</label>
           </text>
         </group>
       </group>
