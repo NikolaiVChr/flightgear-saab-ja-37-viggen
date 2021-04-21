@@ -146,6 +146,8 @@ var knownTypes = {
     "USS-SanAntonio":     MARINE,
     "buk-m2":             SURFACE,
     "s-300":              SURFACE,
+    "MIM104D":            SURFACE,
+    "ZSU-23-4M":          SURFACE,
     "depot":              SURFACE,
     "struct":             SURFACE,
     "rig":                MARINE,
