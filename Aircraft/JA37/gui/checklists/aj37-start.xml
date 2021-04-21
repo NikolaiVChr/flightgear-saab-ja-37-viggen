@@ -70,10 +70,10 @@
             </less-than>
         </condition>
         <marker>
-            <x-m>-3.9400</x-m>
-            <y-m>0.4100</y-m>
-            <z-m>0.1700</z-m>
-            <scale>1.7000</scale>
+            <x-m>-3.90</x-m>
+            <y-m>0.42</y-m>
+            <z-m>0.17</z-m>
+            <scale>2.0</scale>
         </marker>
     </item>
     <item>
@@ -169,10 +169,10 @@
             </greater-than>
         </condition>
         <marker>
-            <x-m>-3.9900</x-m>
-            <y-m>0.4100</y-m>
-            <z-m>0.1850</z-m>
-            <scale>1.7000</scale>
+            <x-m>-3.95</x-m>
+            <y-m>0.42</y-m>
+            <z-m>0.185</z-m>
+            <scale>2.0</scale>
         </marker>
     </item>
     <item>
@@ -187,10 +187,10 @@
             </less-than>
         </condition>
         <marker>
-            <x-m>-3.9400</x-m>
-            <y-m>0.4100</y-m>
-            <z-m>0.1700</z-m>
-            <scale>1.7000</scale>
+            <x-m>-3.90</x-m>
+            <y-m>0.42</y-m>
+            <z-m>0.17</z-m>
+            <scale>2.0</scale>
         </marker>
     </item>
     <item>

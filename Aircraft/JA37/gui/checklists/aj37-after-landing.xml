@@ -41,9 +41,9 @@
         <name>Radar altimeter</name>
         <value>OFF</value>
         <marker>
-            <x-m>-3.8300</x-m>
-            <y-m>0.4400</y-m>
-            <z-m>0.1400</z-m>
+            <x-m>-3.75</x-m>
+            <y-m>0.44</y-m>
+            <z-m>0.13</z-m>
             <scale>1.0000</scale>
         </marker>
         <condition>
@@ -74,10 +74,10 @@
             <value>0</value>
         </binding>
         <marker>
-            <x-m>-3.4174</x-m>
-            <y-m>0.2893</y-m>
-            <z-m>-0.0099</z-m>
-            <scale>1.0000</scale>
+            <x-m>-3.48</x-m>
+            <y-m>0.465</y-m>
+            <z-m>0.125</z-m>
+            <scale>1.0</scale>
         </marker>
     </item>
 </PropertyList>

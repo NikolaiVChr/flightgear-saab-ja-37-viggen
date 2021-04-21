@@ -38,9 +38,9 @@
         <name>Below 9km(30000ft), fuel regulation</name>
         <value>MANUAL</value>
         <marker>
-            <x-m>-3.6496</x-m>
-            <y-m>0.4430</y-m>
-            <z-m>0.2223</z-m>
+            <x-m>-3.75</x-m>
+            <y-m>0.43</y-m>
+            <z-m>0.235</z-m>
             <scale>1.0000</scale>
         </marker>
         <condition>

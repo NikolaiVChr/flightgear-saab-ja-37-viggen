@@ -49,9 +49,9 @@
         <name>Oxygen</name>
         <value>ON, PRESSURE MIN 90</value>
         <marker>
-            <x-m>-3.8794</x-m>
-            <y-m>0.4016</y-m>
-            <z-m>0.1570</z-m>
+            <x-m>-3.800</x-m>
+            <y-m>0.401</y-m>
+            <z-m>0.140</z-m>
             <scale>1.0000</scale>
         </marker>
         <binding>

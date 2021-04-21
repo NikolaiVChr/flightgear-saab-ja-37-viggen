@@ -258,7 +258,7 @@
                 <checklist include="gui/checklists/takeoff.xml"/>
                 <checklist include="gui/checklists/landing.xml"/>
                 <checklist include="gui/checklists/ja37-after-landing.xml"/>
-                <checklist include="gui/checklists/shutdown.xml"/>
+                <checklist include="gui/checklists/ja37-shutdown.xml"/>
             </group>
             <group>
                 <name>Emergency Procedures</name>
