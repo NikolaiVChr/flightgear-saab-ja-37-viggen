@@ -79,6 +79,7 @@
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
             <path>ja37/effect/swedish-labels</path>
+            <path>ja37/effect/headshake</path>
             <path>ja37/displays/live-map</path>
             <path>controls/displays/arrows-controls-cursor</path>
             <path>controls/armament/ground-panel/automatic-settings</path>
@@ -544,6 +545,7 @@
             <navigation-light type="int">0</navigation-light>
             <formation-light type="int">0</formation-light>
             <rear-navigation-light type="int">0</rear-navigation-light>
+            <headshake type="bool">true</headshake>
             <seat type="double">0</seat>
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->

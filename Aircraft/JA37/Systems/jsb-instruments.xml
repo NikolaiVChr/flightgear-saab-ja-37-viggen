@@ -1119,10 +1119,39 @@
 
     <!-- Rotation speed and approach alpha -->
     <channel execrate="8">
+        <!-- Mass and CG convertions. Used for rotation/approach speed calculation (weight only), and UI display. -->
         <pure_gain name="inertia/weight-kg">
             <input>inertia/weight-lbs</input>
             <gain>0.45359237</gain>
         </pure_gain>
+
+        <!-- CG in mm, from the reference point used in flight manuals. -->
+        <fcs_function name="inertia/corrected-cg-x-mm">
+            <function>
+                <sum>
+                    <product>
+                        <property>inertia/cg-x-in</property>
+                        <value>25.4</value><!-- inch to mm -->
+                    </product>
+                    <!--The reference point used in flight manuals is bit in front of the nose.
+                        This is the offset between it and the JSBSim reference point.
+                        It is different for the two variants.
+                        From manuals CG position with full fuel and no external load:
+                        JA=12393, AJS=12324 (from manuals)
+                        Offset was manually adjusted to match these.
+                        -->
+                    <ifthen>
+                        <eq>
+                            <property>/ja37/systems/variant</property>
+                            <value>0</value>
+                        </eq>
+                        <value>10846</value><!-- JA -->
+                        <value>10763</value><!-- AJS -->
+                    </ifthen>
+                </sum>
+            </function>
+        </fcs_function>
+
 
         <pure_gain name="/environment/pressure-hpa">
             <input>/environment/pressure-inhg</input>

@@ -1559,39 +1559,31 @@
             <command>nasal</command>
             <script>ja37.eject_key();</script>
           </binding>
-         </key>
+        </key>
 
-         <key n="360">
+        <key n="360">
           <name>Shift PageUp</name>
-          <desc>Increase seat position</desc>
+          <desc>Move seat up</desc>
           <repeatable type="bool">true</repeatable>
           <mod-shift>
-           <desc>Up</desc>
-           <binding>
-              <command>property-adjust</command>
-              <property>ja37/effect/seat</property>
-              <step>0.0025</step>
-              <min>0.6</min>
-              <max>0.8</max>
+            <binding>
+              <command>nasal</command>
+              <script>ja37.move_seat(1);</script>
             </binding>
           </mod-shift>
-         </key>
-        
+        </key>
+
         <key n="361">
           <name>Shift PageDown</name>
-          <desc>Decrease seat position</desc>
+          <desc>Move seat down</desc>
           <repeatable type="bool">true</repeatable>
           <mod-shift>
-           <desc>Up</desc>
-           <binding>
-              <command>property-adjust</command>
-              <property>ja37/effect/seat</property>
-              <step>-0.0025</step>
-              <min>0.6</min>
-              <max>0.8</max>
+            <binding>
+              <command>nasal</command>
+              <script>ja37.move_seat(-1);</script>
             </binding>
           </mod-shift>
-         </key>
+        </key>
 
          <key n="18">
               <name>Ctrl-R</name>

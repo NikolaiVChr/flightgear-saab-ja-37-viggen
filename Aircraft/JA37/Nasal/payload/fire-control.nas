@@ -11,19 +11,21 @@ var find_index = func(val, vec) {
 
 
 var input = {
-    trigger:    "/controls/armament/trigger",
-    unsafe:     "/controls/armament/trigger-unsafe",
+    trigger:        "/controls/armament/trigger",
+    unsafe:         "/controls/armament/trigger-unsafe",
     trigger_m70:    "/controls/armament/trigger-m70",
-    release:    "/instrumentation/indicators/release-complete",
+    release:        "/instrumentation/indicators/release-complete",
     release_fail:   "/instrumentation/indicators/release-failed",
-    mp_msg:     "/payload/armament/msg",
-    atc_msg:    "/sim/messages/atc",
-    rb05_pitch: "/payload/armament/rb05-control-pitch",
-    rb05_yaw:   "/payload/armament/rb05-control-yaw",
-    speed_kt:   "/velocities/groundspeed-kt",
-    gear_pos:   "/gear/gear/position-norm",
-    time:       "/sim/time/elapsed-sec",
-    start_left: "/controls/armament/ground-panel/start-left",
+    mp_msg:         "/payload/armament/msg",
+    atc_msg:        "/sim/messages/atc",
+    rb05_pitch:     "/payload/armament/rb05-control-pitch",
+    rb05_yaw:       "/payload/armament/rb05-control-yaw",
+    speed_kt:       "/velocities/groundspeed-kt",
+    gear_pos:       "/gear/gear/position-norm",
+    time:           "/sim/time/elapsed-sec",
+    start_left:     "/controls/armament/ground-panel/start-left",
+    wpn_sel_knob:   "/controls/armament/ground-panel/weapon-selector-knob",
+    wpn_sel_switch: "/controls/armament/ground-panel/weapon-selector-switch",
 };
 
 foreach (var prop; keys(input)) {
@@ -984,23 +986,110 @@ setlistener(input.unsafe, unsafe_listener, 0, 0);
 
 
 ### Fire control inhibit.
+
+## AJS firing computer weapons check.
+#
+# Check that only weapons allowed by the ground crew weapon panel settings are loaded.
+# Otherwise, firing controls are disabled.
+
+# Table of allowed weapons, indexed by [weapon selection knob pos, weapon selection switch pos]
+#
+# In the definition each entry is an array of allowed weapons.
+# Each entry is then converted to a hash whose keys are the allowed weapons, for ease of use.
+# IR missiles are omitted in this table, and are added later.
+var allowed_weapons = [
+    # IR_RB
+    [[], []],
+    # AKAN
+    [["M55"], ["M55"]],
+    # AKAN / RB 05 / RB 75
+    [["M55", "RB-05A"], ["M55", "RB-75"]],
+    # RB 05 / RB 75
+    [["RB-05A"], ["RB-75"]],
+    # LYSB
+    [[], []],
+    # BOMB
+    # Allow both low and high drag, disregarding switch position.
+    # I do not think the computer can distinguish the two types.
+    [["M71", "M71R"], ["M71", "M71R"]],
+    # RB 04
+    # RB 15 and m/90 can not be combined. This check is implemented separately.
+    [["RB-04E"], ["RB-15F", "M90"]],
+    # ARAK
+    [["M70"], ["M70"]],
+];
+
+var IR_RB = ["RB-24", "RB-24J", "RB-74"];
+
+forindex (var i; allowed_weapons) {
+    forindex (var j; allowed_weapons[i]) {
+        # Convert array of values to hash
+        var arr = allowed_weapons[i][j];
+        var hash = {};
+        foreach (var weapon; arr) hash[weapon] = TRUE;
+        # Add IR missiles
+        foreach (var weapon; IR_RB) hash[weapon] = TRUE;
+        allowed_weapons[i][j] = hash;
+    }
+}
+
+var check_loaded_weapons = func {
+    # Check that RB 15 and m/90 are not loaded together (they use the same ground panel settings).
+    var has_rb15 = FALSE;
+    var has_m90 = FALSE;
+
+    var allowed = allowed_weapons[input.wpn_sel_knob.getValue()][input.wpn_sel_switch.getValue()];
+
+    foreach (var pylon; keys(STATIONS)) {
+        var type = pylons.get_pylon_load(STATIONS[pylon]);
+        if (type == "") continue; # no load
+        if (!contains(allowed, type)) return FALSE;
+
+        if (type == "RB-15F") {
+            if (has_m90) return FALSE;
+            else has_rb15 = TRUE;
+        } elsif (type == "M90") {
+            if (has_rb15) return FALSE;
+            else has_m90 = TRUE;
+        }
+    }
+
+    return TRUE;
+};
+
+# Store result of weapons check.
+var loaded_weapons_valid = TRUE;
+
+# Call this whenever the result of check_loaded_weapons() might change.
+var loaded_weapons_check_callback = func {
+    loaded_weapons_valid = check_loaded_weapons();
+    inhibit_callback();
+}
+
+
+## Fire control inhibit test function.
 var firing_enabled = func {
-    return input.gear_pos.getValue() == 0 and power.prop.acSecond.getBoolValue();
+    return input.gear_pos.getValue() == 0
+        and power.prop.acSecond.getBoolValue()
+        and (!variant.AJS or loaded_weapons_valid);
 }
 
+# Call this whenever the result of firing_enabled() might change.
 var inhibit_callback = func {
-    if (selected != nil and selected.armed() and firing_enabled()) selected.set_unsafe(FALSE);
+    # Disarm weapon if fire controls are inhibited.
+    if (selected != nil and selected.armed() and !firing_enabled()) selected.set_unsafe(FALSE);
 }
 
-setlistener(input.gear_pos, inhibit_callback, 0, 0);
-setlistener(power.prop.acSecond, inhibit_callback, 0, 0);
 
+### Listeners
 
-### Reset fire control logic when reloading.
+# Reload: reset logic, and (AJS only) update loaded weapons check.
 var ReloadCallback = {
     updateAll: func {
         _deselect_current();
         _set_selected_index(-1);
+
+        if (variant.AJS) loaded_weapons_check_callback();
     },
 
     init: func {
@@ -1009,5 +1098,14 @@ var ReloadCallback = {
         }
     },
 };
-
 ReloadCallback.init();
+
+# (AJS only) Ground crew weapon panel: update loaded weapons check.
+if (variant.AJS) {
+    setlistener(input.wpn_sel_knob, loaded_weapons_check_callback, 0, 0);
+    setlistener(input.wpn_sel_switch, loaded_weapons_check_callback, 0, 0);
+}
+
+# Landing gear pos and AC power: update inhibit.
+setlistener(input.gear_pos, inhibit_callback, 0, 0);
+setlistener(power.prop.acSecond, inhibit_callback, 0, 0);

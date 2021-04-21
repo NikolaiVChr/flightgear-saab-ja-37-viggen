@@ -216,42 +216,45 @@ var check_settings = func(loadout, auto_correct=0, zealous_auto_correct=0) {
 
 
 ### Ground panel check timer.
-# Checks are done with a 3sec delay, to avoid message spam while touching settings.
-
-# Temporary override of auto_correct flag, set by queue_settings_check and read by run_settings_check.
-var force_no_correct = FALSE;
 
 # Settings check wrapper for error messages.
-var run_settings_check = func {
+# force_no_correct: Disable automatic correction, even if the option is on
+#                   (intended for when a check is triggered by touching the ground crew panel).
+var run_settings_check = func(force_no_correct=0) {
     var auto_correct = input.auto_ground_panel.getBoolValue() and !force_no_correct;
     var error = check_settings(get_current_loadout(), auto_correct, TRUE);
+
+    # Clear warning flag from previous check.
+    warn_wrong_settings = FALSE;
 
     if (error == SETTING_ERROR.WRONG_LOADOUT) {
         screen.log.write("Invalid loadout! Weapons will not function correctly.", 1, 0, 0);
         screen.log.write("Consider using loadout presets in the Fuel and Payload dialog.", 1, 0, 0);
     } elsif (error == SETTING_ERROR.WRONG_SELECTION) {
-        screen.log.write("Incorrect ground crew panel settings! Weapons will not function correctly.", 1, 0, 0);
-        if (!force_no_correct) {
-            # User is touching the ground crew panel, don't tell them to check it.
-            screen.log.write("Check dialog AJS-37 > Ground Crew Panel, or enable the automatic ground crew settings option.", 1, 0, 0);
-        }
+        # For wrong settings, the warning is only given once the payload dialog
+        # and ground crew panel are closed, to give time to correct the settings.
+        # Only set this flag here.
+        warn_wrong_settings = TRUE;
+        # This call should be a no-op because run_settings_check is only called
+        # from the payload or the ground crew panel dialogs.
+        # But keep it here in case other triggers for the check are added.
+        settings_warning_callback();
     }
     # Ignore wrong count / flaps errors.
 }
 
-var settings_check_delay = 3;
 
-var settings_check_timer = maketimer(settings_check_delay, run_settings_check);
-settings_check_timer.singleShot = 1;
+# Flag for pending settings warning.
+var warn_wrong_settings = FALSE;
 
-# Queue a ground panel settings check.
-#
-# Option:
-# - force_no_correct: Disable automatic correction, even if the option is on
-#                     (intended when a check is triggered by touching the ground crew panel).
-var queue_settings_check = func (no_correct=0) {
-    force_no_correct = no_correct;
-    settings_check_timer.restart(settings_check_delay);
+# Callback to give warning upon closing both the payload dialog and the ground crew panel.
+var settings_warning_callback = func {
+    if (!warn_wrong_settings) return;
+    if (Dialog.is_open() or loadout.Dialog.is_open()) return;
+
+    screen.log.write("Incorrect ground crew panel settings! Weapons will not function correctly.", 1, 0, 0);
+    screen.log.write("Check dialog AJS-37 > Ground Crew Panel, or enable the automatic ground crew settings option.", 1, 0, 0);
+    warn_wrong_settings = FALSE;
 }
 
 
@@ -259,7 +262,7 @@ var queue_settings_check = func (no_correct=0) {
 # provided access to the ground crew panel is allowed.
 setlistener(input.auto_ground_panel, func (node) {
     if (node.getBoolValue() and ja37.reload_allowed()) {
-        queue_settings_check();
+        run_settings_check();
     }
 });
 
@@ -521,7 +524,7 @@ var Dialog = {
     setup_events_listeners: func {
         CanvasKnobAnim.new(
             me.knob_sel_click, input.wpn_sel_knob, 0, 7,
-            func { queue_settings_check(TRUE); },
+            func { run_settings_check(TRUE); },
             "knob_sel", "Loaded weapon type (not implemented)"
         );
         CanvasKnobAnim.new(
@@ -546,7 +549,7 @@ var Dialog = {
         );
         CanvasSwitchAnim.new(
             me.switch_sel_click_up, me.switch_sel_click_down, input.wpn_sel_switch, 0, 1,
-            func { queue_settings_check(TRUE); },
+            func { run_settings_check(TRUE); },
             "switch_sel", "Loaded weapon type (not implemented)"
         );
         CanvasSwitchAnim.new(
@@ -633,5 +636,11 @@ var Dialog = {
     close: func() {
         if (me.window == nil) return;
         me.window.del();
+        # Display settings warning if any upon closing the dialog (provided payload dialog is also closed).
+        settings_warning_callback();
+    },
+
+    is_open: func() {
+        return me.window != nil;
     },
 };

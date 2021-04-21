@@ -117,6 +117,9 @@ var radar_types = {
     "buk-m2":           { scan_freq: 400, scan_period: 3.7, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
     # Scan: P-37, lock: SNR-75
     "s-300":            { scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
+    # Scan: AN/MPQ-35, lock: AN/
+    "MIM104D":          { scan_freq: 800, scan_period: 7, scan_length: 0.8, lock_freq: 2000, half_angle: 180 },
+    "ZSU-23-4M":        { scan_freq: 700, scan_period: 3, scan_length: 0.5, lock_freq: 2400, half_angle: 180 },
     # Scan: AN/SPS-49, lock: AN/SPG-60
     "frigate":          { scan_freq: 800, scan_period: 5.1, scan_length: 0.6, lock_freq: 1800, half_angle: 180 },
     "missile_frigate":  "frigate",

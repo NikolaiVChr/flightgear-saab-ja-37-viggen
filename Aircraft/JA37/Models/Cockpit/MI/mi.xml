@@ -357,7 +357,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>ik</tooltip-id>
-                <label>Identification</label>
+                <label>Identification (not implemented)</label>
             </binding>
         </hovered>
     </animation>
@@ -370,7 +370,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>j</tooltip-id>
-                <label>Intercept</label>
+                <label>Intercept (not implemented)</label>
             </binding>
         </hovered>
     </animation>
@@ -383,7 +383,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>id</tooltip-id>
-                <label>Non-doppler mode</label>
+                <label>Non-doppler mode (not implemented)</label>
             </binding>
         </hovered>
     </animation>
@@ -492,7 +492,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>jl</tooltip-id>
-                <label>Fighter link</label>
+                <label>Fighter link (not implemented)</label>
             </binding>
         </hovered>
     </animation>
@@ -500,20 +500,11 @@
     <animation>
         <type>pick</type>
         <object-name>button_pek</object-name>
-        <action>
-            <name>cursor</name>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>nasal</command>
-                <script>MI.cursor();</script>
-            </binding>
-        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>pek</tooltip-id>
-                <label>MI/TI: Cursor</label>
+                <label>Cursor (not implemented)</label>
             </binding>
         </hovered>
     </animation>
@@ -584,7 +575,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Reg</tooltip-id>
-                <label>Recording Flight Tape</label>
+                <label>Recording Flight Tape (not implemented)</label>
             </binding>
         </hovered>
     </animation> 
@@ -630,6 +621,13 @@
                 <script>MI.press2();</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>button_2</tooltip-id>
+                <label>Toggle TI sideview</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -645,6 +643,13 @@
                 <script>MI.pressX1();</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>x1</tooltip-id>
+                <label>RB 99 built in test</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -660,6 +665,13 @@
                 <script>MI.pressX2();</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>x2</tooltip-id>
+                <label>RB 99 datalink</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -675,6 +687,13 @@
                 <script>MI.pressX3();</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>x3</tooltip-id>
+                <label>Register manual event</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -690,6 +709,34 @@
                 <script>MI.pressM2();</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>m2</tooltip-id>
+                <label>Toggle TI RWR display</label>
+            </binding>
+        </hovered>
     </animation>
 
+    <animation>
+        <type>pick</type>
+        <object-name>button_m4</object-name>
+        <visible>true</visible>
+        <action>
+            <name>TNF</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/avionics/ins-cmd</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>m4</tooltip-id>
+                <label>Reset inertial navigation</label>
+            </binding>
+        </hovered>
+    </animation>
 </PropertyList>

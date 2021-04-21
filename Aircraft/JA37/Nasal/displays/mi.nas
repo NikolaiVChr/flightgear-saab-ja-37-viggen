@@ -852,7 +852,7 @@ var MI = {
 				me.help_text_2.updateText(" -   -   -  VMI  -  TNF HÄN  - ");
 			} else {
 				me.help_text_1.updateText(" D   -   -  SDV  -   -  BIT LNK");
-				me.help_text_2.updateText(" -   -   -  ECM  -  INN EVN  - ");
+				me.help_text_2.updateText(" -   -   -  RWR  -  INN EVN  - ");
 			}
 			me.help_text.show();
 			me.lnk99_grp.hide();
