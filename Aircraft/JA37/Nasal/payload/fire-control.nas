@@ -1007,6 +1007,7 @@ if (variant.JA) {
 
     var quick_select_missile = func {
         selected = weapons.ir_rb;
+        selected.select();
     }
 }
 
