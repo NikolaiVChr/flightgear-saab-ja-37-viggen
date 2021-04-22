@@ -82,7 +82,6 @@ var Common = {
 			units:            "ja37/hud/units-metric",
 			rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:    "instrumentation/radar-altimeter/ready",
-			vid:              "ja37/avionics/vid",
 			RMActive:         "autopilot/route-manager/active",
 			rmDist:           "autopilot/route-manager/wp/dist",
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",
@@ -145,7 +144,6 @@ var Common = {
 		me.flighttime();
 		me.referenceAlt();
 		me.groundCorrectedAltitude();
-		me.EP13();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
@@ -443,14 +441,6 @@ var Common = {
 		if (modes.landing) {
 			me.ref_alt_ldg_override = TRUE;
 		}
-	},
-
-	EP13: func {
-		# Rb 75 screen
-		var selected = fire_control.selected;
-		me.input.vid.setBoolValue(
-			selected != nil and selected.type == "RB-75" and selected.weapon_ready() and selected.armed()
-		);
 	},
 
 	# Logic for AJS switch HÖJD CI/SI (radar altitude correction mode).

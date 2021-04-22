@@ -25,6 +25,7 @@ var input = {
     nose_WOW:       "fdm/jsbsim/gear/unit[0]/WOW",
     time:           "/sim/time/elapsed-sec",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
+    ep13:           "ja37/avionics/vid",
     # Ground crew weapon panel settings
     start_left:     "/controls/armament/ground-panel/start-left",
     gnd_wpn_knob:   "/controls/armament/ground-panel/weapon-selector-knob",
@@ -182,7 +183,10 @@ var Missile = {
         }
         if (w.is_IR and variant.JA) w.last_IR_lock = nil;
         if (w.is_rb75) {
+            # Note: separate from seeker_timer, high refresh rate needed.
             w.rb75_timer = maketimer(0.05, w, w.rb75_loop);
+
+            w.rb75_last_seeker_on = FALSE;
             w.last_click = FALSE;
             w.rb75_lock = FALSE;
             # Seeker position in degrees
@@ -202,9 +206,11 @@ var Missile = {
         me.station = pylons.station_by_id(me.selected);
         me.weapon = me.station.getWeapons()[0];
         me.fired = FALSE;
+        me.start_seeker();
     },
 
     deselect: func {
+        me.stop_seeker();
         me.set_unsafe(FALSE);
         me.selected = nil;
         me.station = nil;
@@ -264,49 +270,6 @@ var Missile = {
         # Call parent method
         call(WeaponLogic.set_unsafe, [unsafe], me);
 
-        if (me.weapon != nil) {
-            if (me.unsafe) {
-                # Setup weapon
-                me.weapon.start();
-                me.seeker_timer.start();
-
-                # IR weapons parameters.
-                if (me.is_IR or me.is_rb75) {
-                    if (!variant.JA) {
-                        # For AJS, locked on bore.
-                        me.weapon.setAutoUncage(FALSE);
-                        me.weapon.setCaged(TRUE);
-                        me.weapon.setSlave(TRUE);
-                        # Boresight position
-                        if (me.is_rb75) {
-                            me.rb75_lock = FALSE;
-                            me.rb75_pos_x = 0;
-                            me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
-                            me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
-                        } else {
-                            # 0.8 deg down, except for outer pylons (AJS SFI part 3);
-                            if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
-                                me.weapon.commandDir(0,0);
-                            } else {
-                                me.weapon.commandDir(0,-0.8);
-                            }
-                        }
-                    } else {
-                        me.weapon.setUncagedPattern(3, 2.5, -12);
-                    }
-                }
-                # Loop for Rb 75 seeker slewing.
-                if (me.is_rb75) {
-                    displays.common.resetCursorDelta();
-                    me.rb75_timer.start();
-                }
-            } else {
-                if (me.is_rb75) me.rb75_timer.stop();
-                me.seeker_timer.stop();
-                me.weapon.stop();
-            }
-        }
-
         # Select next weapon when safing after firing.
         if (me.fired and !me.unsafe) {
             me.fired = FALSE;
@@ -346,6 +309,50 @@ var Missile = {
         else me.release_weapon();
     },
 
+    start_seeker: func {
+        if (me.weapon == nil) return;
+
+        # Setup weapon
+        me.weapon.start();
+        me.seeker_timer.start();
+
+        # IR weapons parameters.
+        if (me.is_IR) {
+            if (!variant.JA) {
+                # For AJS, locked on bore.
+                me.weapon.setAutoUncage(FALSE);
+                me.weapon.setCaged(TRUE);
+                me.weapon.setSlave(TRUE);
+                # Boresight position: 0.8 deg down, except for outer pylons (AJS SFI part 3);
+                if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
+                    me.weapon.commandDir(0,0);
+                } else {
+                    me.weapon.commandDir(0,-0.8);
+                }
+            } else {
+                me.weapon.setUncagedPattern(3, 2.5, -12);
+            }
+        }
+
+        if (me.is_rb75) {
+            # Make sure the Rb 75 seeker gets initialised in the seeker loop.
+            me.rb75_last_seeker_on = FALSE;
+            me.rb75_timer.start();
+        }
+    },
+
+    stop_seeker: func {
+        if (me.weapon == nil) return;
+
+        if (me.is_rb75) {
+            input.ep13.setBoolValue(FALSE);
+            me.rb75_timer.stop();
+        }
+
+        me.seeker_timer.stop();
+        me.weapon.stop();
+    },
+
     # Allows the seeker to follow a target it is locked on.
     _uncage_seeker: func {
         # With these specific parameters, the seeker is free to follow the target,
@@ -373,7 +380,12 @@ var Missile = {
         if (variant.JA or me.weapon == nil
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
         me._reset_seeker();
-        me.weapon.commandDir(0,0);
+        # 0.8 deg down, except for outer pylons (AJS SFI part 3);
+        if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
+            me.weapon.commandDir(0,0);
+        } else {
+            me.weapon.commandDir(0,-0.8);
+        }
     },
 
     seeker_loop: func {
@@ -428,6 +440,21 @@ var Missile = {
             return;
         }
 
+        # Turn seeker on.
+        var seeker_on = (firing_enabled() and (me.armed() or modes.selector_ajs == modes.COMBAT));
+        if (seeker_on and !me.rb75_last_seeker_on) {
+            # Seeker just turned on, initialise
+            displays.common.resetCursorDelta();
+            me.rb75_lock = FALSE;
+            me.rb75_pos_x = 0;
+            me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
+            me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
+        }
+        me.rb75_last_seeker_on = seeker_on;
+        # Property for EP-13 (Rb75 screen) visual effect
+        input.ep13.setBoolValue(seeker_on);
+
+        # Cursor control
         var cursor = displays.common.getCursorDelta();
         displays.common.resetCursorDelta();
 

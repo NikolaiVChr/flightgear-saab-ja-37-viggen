@@ -746,8 +746,7 @@ var AimingMode = {
             # Default position of Rb 75 seeker
             me.reticle_pos = [0,130];
             # Display seeker position with secondary reticle, to compensate for the lack of EP13.
-            if (fire_control.is_armed()
-                and (var rb75 = fire_control.get_weapon()) != nil
+            if ((var rb75 = fire_control.get_weapon()) != nil
                 and (var pos = rb75.getSeekerInfo()) != nil) {
                 me.target.setTranslation(pos[0]*100, pos[1]*-100);
                 me.target.show();

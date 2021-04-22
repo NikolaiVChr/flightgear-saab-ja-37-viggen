@@ -1337,7 +1337,7 @@ var Distance = {
             me.cursorR.hide();
             me.dist.show();
 
-            if (fire_control.is_armed() and fire_control.get_weapon() != nil
+            if (fire_control.get_weapon() != nil
                 and (var dlz = fire_control.get_weapon().getDLZ(TRUE)) != nil and size(dlz) > 0) {
                 # Cursors indicate missile dynamic launch zone.
                 var max_dist = dlz[0];
@@ -1508,7 +1508,7 @@ var Targets = {
 
         # Use ["is_IR"] instead of .is_IR because it is not always a member of fire_control.selected.
         # And yes I'm defining variables in the condition, you can't stop me.
-        if (fire_control.is_armed() and fire_control.selected["is_IR"]
+        if (fire_control.selected != nil and fire_control.selected["is_IR"]
             and (var weapon = fire_control.get_weapon()) != nil
             and (var pos = weapon.getSeekerInfo()) != nil
             and (weapon.status == armament.MISSILE_LOCK or !weapon.isCaged() or !weapon.command_tgt)) {
