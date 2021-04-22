@@ -1020,7 +1020,7 @@
             <trigger-unsafe type="bool">false</trigger-unsafe>
             <safety-distance type="int">1</safety-distance>
             <weapon-panel>
-                <selector-knob type="int">0</selector-knob>
+                <selector-knob type="int">1</selector-knob><!-- ATTACK (avoid IR-RB as default, to not get a tone) -->
                 <dist-knob type="int">0</dist-knob>
                 <switch-impulse type="bool">0</switch-impulse>
                 <switch-single type="bool">0</switch-single>

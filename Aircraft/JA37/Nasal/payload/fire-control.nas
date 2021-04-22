@@ -44,6 +44,11 @@ var fireLog = events.LogBuffer.new(echo: 0);
 var STATIONS = pylons.STATIONS;
 
 
+### Don't do anything as long as this is off.
+var firing_computer_on = func {
+    return power.prop.acMainBool.getBoolValue();
+}
+
 
 #### Weapons firing logic
 
@@ -877,6 +882,8 @@ if (variant.JA) {
     #
     # If the argument 'subset' is given, only weapons whose index is in 'subset' are considered.
     var cycle_weapon_type = func(subset=nil) {
+        if (!firing_computer_on()) return;
+
         _deselect_current();
 
         # Cycle through weapons, starting from the previous one.
@@ -906,8 +913,10 @@ if (variant.JA) {
         }
     }
 
-    # For TIbutton
+    # For TI button
     var select_cannon = func {
+        if (!firing_computer_on()) return;
+
         _deselect_current();
         if(internal_gun.select()) {
             _set_selected_index(0);
@@ -918,6 +927,8 @@ if (variant.JA) {
 
     # Throttle quick select buttons. Automatically engage aiming mode.
     var quick_select_cannon = func {
+        if (!firing_computer_on()) return;
+
         # Switch to A/A aiming mode
         modes.set_aiming_mode(TRUE);
         TI.ti.ModeAttack = FALSE;
@@ -925,6 +936,8 @@ if (variant.JA) {
     }
 
     var quick_select_missile = func {
+        if (!firing_computer_on()) return;
+
         # Switch to A/A aiming mode
         modes.set_aiming_mode(TRUE);
         TI.ti.ModeAttack = FALSE;
@@ -933,6 +946,8 @@ if (variant.JA) {
 
     # Direct pylon selection through JA TI.
     var select_pylon = func(pylon) {
+        if (!firing_computer_on()) return;
+
         _deselect_current();
 
         var type = pylons.get_pylon_load(pylon);
@@ -983,6 +998,8 @@ if (variant.JA) {
 
     # Select weapon according to weapon selection knob.
     var update_selected_weapon = func {
+        if (!firing_computer_on()) return;
+
         # Cleanup previous
         if (selected != nil) {
             selected.deselect();
@@ -1030,6 +1047,8 @@ if (variant.JA) {
 
     # Toggle back and forth between IR-RB and the weapon knob selection.
     var quick_select_missile = func {
+        if (!firing_computer_on()) return;
+
         if (input.wpn_knob.getValue() == WPN_SEL.IR_RB) return; # Nothing to do here
 
         if (selected != nil and selected.type == "IR-RB") {
@@ -1037,6 +1056,7 @@ if (variant.JA) {
             update_selected_weapon();
         } else {
             # Switch to IR-RB
+            if (selected != nil) selected.deselect();
             selected = weapons.ir_rb;
             selected.select();
         }
@@ -1104,9 +1124,6 @@ var unsafe_listener = func (node) {
         safety_window_clear_timer.start();
     }
 }
-
-setlistener(input.trigger, trigger_listener, 0, 0);
-setlistener(input.unsafe, unsafe_listener, 0, 0);
 
 
 
@@ -1202,8 +1219,9 @@ if (variant.AJS) {
 
 ## Fire control inhibit test function.
 var firing_enabled = func {
-    return input.gear_pos.getValue() == 0
-        and power.prop.acSecond.getBoolValue()
+    return firing_computer_on()
+        and input.gear_pos.getValue() == 0
+        and power.prop.acSecondBool.getBoolValue()
         and (!variant.AJS or loaded_weapons_valid);
 }
 
@@ -1214,6 +1232,7 @@ var inhibit_callback = func {
 }
 
 
+
 ### Listeners
 
 # Reload callback for station-manager.nas
@@ -1221,8 +1240,7 @@ var ReloadCallback = {
     updateAll: func {
         if (variant.JA) {
             # JA: reset logic, deselect all
-            _deselect_current();
-            _set_selected_index(-1);
+            deselect_weapon();
         } else {
             # AJS: check loaded weapons, update selected weapon
             loaded_weapons_check_callback();
@@ -1236,32 +1254,54 @@ var ReloadCallback = {
         }
     },
 };
-ReloadCallback.init();
 
-if (variant.AJS) {
-    # Check loaded weapons when changing ground crew weapon panel settings, and at power on.
-    setlistener(input.gnd_wpn_knob, loaded_weapons_check_callback, 0, 0);
-    setlistener(input.gnd_wpn_switch, loaded_weapons_check_callback, 0, 0);
-    setlistener(power.prop.acSecond, func (n) {
-        if (n.getBoolValue()) update_selected_weapon();
+
+var init = func {
+    ReloadCallback.init();
+
+    setlistener(input.trigger, trigger_listener, 0, 0);
+    setlistener(input.unsafe, unsafe_listener, 0, 0);
+
+
+    # Deselect any weapon if power turns off.
+    setlistener(power.prop.acMainBool, func (n) {
+        if (!n.getBoolValue()) {
+            if (variant.JA) {
+                deselect_weapon();
+            } else {
+                if (selected != nil) {
+                    selected.deselect();
+                    selected = nil;
+                }
+            }
+        }
     }, 0, 0);
 
-    # Update selected weapon (from AJS manual part 1 chap 25 sec 1.2.3)
-    # - power on in mode BER
-    setlistener(power.prop.acSecond, func (n) {
-        if (n.getBoolValue() and modes.selector_ajs == modes.STBY) update_selected_weapon();
-    }, 0, 0);
-    # - when changing ground crew panel settings
-    setlistener(input.gnd_wpn_knob, update_selected_weapon, 0, 0);
-    setlistener(input.gnd_wpn_switch, update_selected_weapon, 0, 0);
-    # - when touching the weapon selection knob
-    setlistener(input.wpn_knob, update_selected_weapon, 0, 0);
-    # - at rotation
-    setlistener(input.nose_WOW, func (n) {
-        if (!n.getBoolValue()) update_selected_weapon();
-    }, 0, 0);
-}
+    if (variant.AJS) {
+        # Check loaded weapons when changing ground crew weapon panel settings, and at power on.
+        setlistener(input.gnd_wpn_knob, loaded_weapons_check_callback, 0, 0);
+        setlistener(input.gnd_wpn_switch, loaded_weapons_check_callback, 0, 0);
+        setlistener(power.prop.acMainBool, func (n) {
+            if (n.getBoolValue()) loaded_weapons_check_callback();
+        }, 0, 0);
 
-# Landing gear pos and AC power: update inhibit.
-setlistener(input.gear_pos, inhibit_callback, 0, 0);
-setlistener(power.prop.acSecond, inhibit_callback, 0, 0);
+        # Update selected weapon (from AJS manual part 1 chap 25 sec 1.2.3)
+        # - power on in mode BER
+        setlistener(power.prop.acMainBool, func (n) {
+            if (n.getBoolValue() and modes.selector_ajs == modes.STBY) update_selected_weapon();
+        }, 0, 0);
+        # - when changing ground crew panel settings
+        setlistener(input.gnd_wpn_knob, update_selected_weapon, 0, 0);
+        setlistener(input.gnd_wpn_switch, update_selected_weapon, 0, 0);
+        # - when touching the weapon selection knob
+        setlistener(input.wpn_knob, update_selected_weapon, 0, 0);
+        # - at rotation
+        setlistener(input.nose_WOW, func (n) {
+            if (!n.getBoolValue()) update_selected_weapon();
+        }, 0, 0);
+    }
+
+    # Landing gear pos and AC power secondary bus: update inhibit.
+    setlistener(input.gear_pos, inhibit_callback, 0, 0);
+    setlistener(power.prop.acSecond, inhibit_callback, 0, 0);
+};

@@ -899,6 +899,8 @@ var Saab37 = {
       }
     }
 
+    fire_control.init();
+
     if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
@@ -1013,6 +1015,8 @@ var Saab37 = {
         print(i);
       }
     }
+
+    fire_control.init();
 
     if (!variant.JA) {
       # CI display
