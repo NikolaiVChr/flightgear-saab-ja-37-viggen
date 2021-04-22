@@ -1020,15 +1020,15 @@ var cycle_pylon = func {
     if (selected != nil) selected.cycle_selection();
 }
 
-# IR seeker release button
+# IR seeker release button, AJS only
 var uncageIR = func {
-    if (selected != nil and (selected.type == "RB-24J" or selected.type == "RB-74")) {
+    if (selected != nil and selected.type == "IR-RB") {
         selected.uncage_IR_seeker();
     }
 }
 
 var resetIR = func {
-    if (selected != nil and (selected.type == "RB-24J" or selected.type == "RB-74")) {
+    if (selected != nil and selected.type == "IR-RB") {
         selected.reset_IR_seeker();
     }
 }
