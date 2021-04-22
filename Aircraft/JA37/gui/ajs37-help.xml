@@ -46,8 +46,8 @@
         <desc>Toggle radar/barometric altitude for HUD</desc>
     </key>
     <key>
-        <name>c</name>
-        <desc>Cycle weapons</desc>
+        <name>c/C</name>
+        <desc>Weapon selector clockwise/counter-clockwise</desc>
     </key>
     <key>
         <name>u</name>

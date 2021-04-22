@@ -219,6 +219,20 @@
             <auto-tutorials type="bool">false</auto-tutorials>
         </checklists>
     </sim>
+
+    <!-- overwrite some input stuff -->
+    <input n="0">
+      <keyboard n="0">
+        <!-- c/C should be repeatable in the AJS (weapon selector knob)
+             but not in the JA (cycle weapon, select cannon) -->
+        <key n="99"><!-- c -->
+          <repeatable>true</repeatable>
+        </key>
+        <key n="67"><!-- C -->
+          <repeatable>true</repeatable>
+        </key>
+      </keyboard>
+    </input>
     <!--**********************************************************************
 
                                           Payload

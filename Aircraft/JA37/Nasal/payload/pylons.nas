@@ -170,24 +170,37 @@ if (variant.JA) {
 
 
 # Pylon lookup functions
+
+# Arg: station number
+# Returns corresponding station/pylon object.
 var station_by_id = func(id) {
     if (id == INT_AKAN) return M75station;
     else return pylons[id];
 }
 
+# Arg: station number
+# Returns a string representing the current load:
+# "" for empty pylon, or a weapon type as used in 'missile.nas'
 var get_pylon_load = func(pylon) {
     return station_by_id(pylon).singleName;
 }
 
-var is_loaded_with = func(pylon, type) {
-    return get_pylon_load(pylon) == type;
+# Arg: pylon: station number, types: array of weapon types
+# Returns true if the pylon is loaded with one of these weapons.
+var is_loaded_with = func(pylon, types) {
+    var load = get_pylon_load(pylon);
+    foreach (var type; types) if (load == type) return TRUE;
+    return FALSE;
 }
 
-var find_pylon_by_type = func(type, order, first=0) {
+# Arg: types: array of weapon types, order: array of station numbers, first: index in 'order'
+# Find the first pylon in 'order' loaded with a weapon in 'types'.
+# If 'first' is defined, start from order[first] instead, and continue in cyclic order until order[first-1].
+var find_pylon_by_types = func(types, order, first=0) {
     var i = first;
     var looped = FALSE;
     while (i < first or !looped) {
-        if (is_loaded_with(order[i], type)) return order[i];
+        if (is_loaded_with(order[i], types)) return order[i];
 
         i += 1;
         if (i >= size(order)) {
@@ -198,10 +211,12 @@ var find_pylon_by_type = func(type, order, first=0) {
     return nil;
 }
 
-var find_all_pylons_by_type = func(type) {
+# Arg: array of weapon types.
+# Returns an array of pylon numbers, containing all pylons loaded with one of these types.
+var find_all_pylons_by_types = func(types) {
     var res = [];
     foreach(var pylon; stations_list) {
-        if (is_loaded_with(pylon, type)) {
+        if (is_loaded_with(pylon, types)) {
             append(res, pylon);
         }
     }

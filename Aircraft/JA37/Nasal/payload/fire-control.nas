@@ -22,10 +22,13 @@ var input = {
     rb05_yaw:       "/payload/armament/rb05-control-yaw",
     speed_kt:       "/velocities/groundspeed-kt",
     gear_pos:       "/gear/gear/position-norm",
+    nose_WOW:       "fdm/jsbsim/gear/unit[0]/WOW",
     time:           "/sim/time/elapsed-sec",
+    wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
+    # Ground crew weapon panel settings
     start_left:     "/controls/armament/ground-panel/start-left",
-    wpn_sel_knob:   "/controls/armament/ground-panel/weapon-selector-knob",
-    wpn_sel_switch: "/controls/armament/ground-panel/weapon-selector-switch",
+    gnd_wpn_knob:   "/controls/armament/ground-panel/weapon-selector-knob",
+    gnd_wpn_switch: "/controls/armament/ground-panel/weapon-selector-switch",
 };
 
 foreach (var prop; keys(input)) {
@@ -40,14 +43,30 @@ var fireLog = events.LogBuffer.new(echo: 0);
 var STATIONS = pylons.STATIONS;
 
 
+
+#### Weapons firing logic
+
 ### Weapon logic API (abstract class)
 #
 # Different weapon types should inherit this object and define the methods,
 # so as to implement custom firing logic.
 var WeaponLogic = {
-    new: func(type) {
+    # Args:
+    # - type: the weapon type (as used by missile.nas, uppercase)
+    #         for which an instance of this class is implementing the logic.
+    # - multi_types: An array of weapon types (in the sense of missile.nas), or nil.
+    #                Used if an instance of this class implements the logic of
+    #                several weapon types simultaneously (this generally means that
+    #                these weapon types can not be selected separately, e.g. AJS IR missiles).
+    #                When 'multi_types' is defined, 'type' is not used internally.
+    #                It may still be queried by external code to know which weapon type is selected.
+    #                Thus it should be set to something sensible, summarising 'multi_types'.
+    new: func(type, multi_types=nil) {
         var m = { parents: [WeaponLogic] };
         m.type = type;
+        # Array of weapon types (in the sense of missile.nas).
+        # Used internally when selecting pylons.
+        m.types = (multi_types != nil) ? multi_types : [type];
         m.unsafe = FALSE;
         return m;
     },
@@ -93,7 +112,13 @@ var WeaponLogic = {
     weapon_ready: func { return FALSE; },
 
     # Return ammo count for this type of weapon.
-    get_ammo: func { return pylons.get_ammo(me.type); },
+    get_ammo: func {
+        var sum = 0;
+        foreach (var type; me.types) {
+            sum += pylons.get_ammo(type);
+        }
+        return sum;
+    },
 
     # Return the active weapon object (created from missile.nas), when it makes sense.
     get_weapon: func { return nil; },
@@ -119,15 +144,16 @@ var Missile = {
         }
     },
 
-    # Additional parameters:
+    # parameters:
+    #   type, multi_types: see WeaponLogic
     #   falld_last: (bool) If the FALLD LAST indicator (for AJS) should light up after release.
     #   fire_delay: (float) Delay between trigger pull and firing.
     #   at_everything: (bool) Required for any lock after launch, change of lock, multiple target hit...
     #   no_lock: (bool) Allow firing without missile lock.
     #   cycling: (bool) Cycling pylon is allowed with the FRAMSTEGN button. default ON
     #   can_start_right: (bool) The AJS ground panel L/R switch is taken in account to choose the first fired side.
-    new: func(type, falld_last=0, fire_delay=0, at_everything=0, no_lock=0, cycling=1, can_start_right=0) {
-        var w = { parents: [Missile, WeaponLogic.new(type)], };
+    new: func(type, multi_types=nil, falld_last=0, fire_delay=0, at_everything=0, no_lock=0, cycling=1, can_start_right=0) {
+        var w = { parents: [Missile, WeaponLogic.new(type, multi_types)], };
         w.selected = nil;
         w.station = nil;
         w.weapon = nil;
@@ -147,8 +173,13 @@ var Missile = {
 
         w.seeker_timer = maketimer(0.5, w, w.seeker_loop);
 
-        w.is_IR = (type == "RB-24" or type == "RB-24J" or type == "RB-74");
-        w.is_rb75 = type == "RB-75";
+        # Flags for special weapons
+        w.is_IR = TRUE;
+        w.is_rb75 = TRUE;
+        foreach (var ty; w.types) {
+            if (ty != "RB-24" and ty != "RB-24J" and ty != "RB-74") w.is_IR = FALSE;
+            if (ty != "RB-75") w.is_rb75 = FALSE;
+        }
         if (w.is_IR and variant.JA) w.last_IR_lock = nil;
         if (w.is_rb75) {
             w.rb75_timer = maketimer(0.05, w, w.rb75_loop);
@@ -186,10 +217,10 @@ var Missile = {
     select: func(pylon=nil) {
         if (pylon == nil) {
             # Pylon not given as argument. Find a matching one.
-            pylon = pylons.find_pylon_by_type(me.type, me.pylons_priority());
+            pylon = pylons.find_pylon_by_types(me.types, me.pylons_priority());
         } else {
             # Pylon given as argument. Check that it matches.
-            if (!pylons.is_loaded_with(pylon, me.type)) pylon = nil;
+            if (!pylons.is_loaded_with(pylon, me.types)) pylon = nil;
         }
 
         # If pylon is nil at this point, selection failed.
@@ -215,7 +246,7 @@ var Missile = {
             if (first >= size(priority)) first = 0;
         }
 
-        pylon = pylons.find_pylon_by_type(me.type, priority, first);
+        pylon = pylons.find_pylon_by_types(me.types, priority, first);
         if (pylon == nil) {
             me.deselect();
             return FALSE;
@@ -482,13 +513,14 @@ var Rb05 = {
 var SubModelWeapon = {
     parents: [WeaponLogic],
 
-    new: func(type, ammo_factor=1) {
-        var w = { parents: [SubModelWeapon, WeaponLogic.new(type)], };
+    new: func(type, multi_types=nil, ammo_factor=1) {
+        var w = { parents: [SubModelWeapon, WeaponLogic.new(type, multi_types)], };
         w.selected = [];
         w.stations = [];
         w.weapons = [];
 
         w.firing = FALSE;
+        w.is_ARAK = (type == "M70");
 
         # Ammunition count is very important and a bit tricky, because it is used in 'weapon_ready()'.
         # Cache the results for efficiency.
@@ -503,7 +535,7 @@ var SubModelWeapon = {
     select: func (pylon=nil) {
         me.deselect();
 
-        me.selected = pylons.find_all_pylons_by_type(me.type);
+        me.selected = pylons.find_all_pylons_by_types(me.types);
         if (size(me.selected) == 0) {
             me.selected = [];
             return FALSE;
@@ -544,7 +576,7 @@ var SubModelWeapon = {
 
         var trigger_prop = input.trigger;
 
-        if (me.type == "M70") {
+        if (me.is_ARAK) {
             # For rockets, trigger logic is a bit different because all rockets must be fired.
             trigger_prop = input.trigger_m70;
             input.trigger_m70.setBoolValue(FALSE);
@@ -564,7 +596,7 @@ var SubModelWeapon = {
     set_trigger: func(trigger) {
         if (!me.armed() or !me.weapon_ready()) return;
 
-        if (me.type == "M70") {
+        if (me.is_ARAK) {
             # For rockets, set the trigger ON as required, but do not set it OFF, so that all rockets get fired.
             if (trigger) {
                 input.trigger_m70.setBoolValue(TRUE);
@@ -606,8 +638,8 @@ var SubModelWeapon = {
 var Bomb = {
     parents: [WeaponLogic],
 
-    new: func(type) {
-        var w = { parents: [Bomb, WeaponLogic.new(type)], };
+    new: func(type, multi_types) {
+        var w = { parents: [Bomb, WeaponLogic.new(type, multi_types)], };
         w.positions = [];
         w.next_pos = 0;
         w.next_weapon = nil;
@@ -659,7 +691,7 @@ var Bomb = {
     cycle_selection: func {},
 
     is_pos_loaded: func (pos) {
-        return pylons.is_loaded_with(pos[0], me.type)
+        return pylons.is_loaded_with(pos[0], me.types)
             and pylons.station_by_id(pos[0]).getWeapons()[pos[1]] != nil;
     },
 
@@ -744,55 +776,11 @@ var Bomb = {
 };
 
 
+#### Weapons selection
 
-### List of weapon types.
-if (variant.JA) {
-    var weapons = [
-        SubModelWeapon.new(type:"M75", ammo_factor:22), # get_ammo gives firing time
-        Missile.new(type:"RB-74", fire_delay:0.7),
-        Missile.new(type:"RB-99", fire_delay:0.7),
-        Missile.new(type:"RB-71", fire_delay:0.7),
-        Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new(type:"M70", ammo_factor:6),  # get_ammo gives number of pods
-    ];
-
-    # Set of indices considered for quick_select_missile() (A/A missiles)
-    var quick_select = {1:1, 2:1, 3:1, 4:1,};
-
-    var internal_gun = weapons[0];
-} else {
-    var weapons = [
-        Missile.new(type:"RB-74", fire_delay:0.7),
-        Missile.new(type:"RB-24J", fire_delay:0.7),
-        Missile.new(type:"RB-24", fire_delay:0.7),
-        SubModelWeapon.new("M55"),
-        SubModelWeapon.new(type:"M70"),
-        Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
-        Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1, can_start_right:1),
-        Missile.new(type:"RB-75", fire_delay:1, can_start_right:1),
-        Rb05,
-        Missile.new(type:"M90", at_everything:1, no_lock:1, can_start_right:1),
-        Bomb.new("M71"),
-        Bomb.new("M71R"),
-    ];
-
-    # Set of indices considered for quick_select_missile() (IR missiles)
-    var quick_select = {0:1, 1:1, 2:1,};
-}
-
-# Selected weapon type.
-var selected_index = -1;
+### Selected weapon access functions.
 var selected = nil;
 
-# Internal selection function.
-var _set_selected_index = func(index) {
-    selected_index = index;
-    if (index >= 0) selected = weapons[index];
-    else selected = nil;
-}
-
-
-### Access functions.
 var get_type = func {
     if (selected == nil) return nil;
     else return selected.type;
@@ -828,105 +816,208 @@ var is_firing = func {
     else return selected.is_firing();
 }
 
-### Controls
+### Selection functions
 
-## Weapon selection.
-var _deselect_current = func {
-    if (selected != nil) selected.deselect();
-}
+if (variant.JA) {
+    ### JA weapon selection.
 
-# Select next weapon type in the list.
-#
-# If the argument 'subset' is given, only weapons whose index is in 'subset' are considered.
-var cycle_weapon_type = func(subset=nil) {
-    _deselect_current();
+    # List of weapon types.
+    var weapons = [
+        SubModelWeapon.new(type:"M75", ammo_factor:22), # get_ammo gives firing time
+        Missile.new(type:"RB-74", fire_delay:0.7),
+        Missile.new(type:"RB-99", fire_delay:0.7),
+        Missile.new(type:"RB-71", fire_delay:0.7),
+        Missile.new(type:"RB-24J", fire_delay:0.7),
+        SubModelWeapon.new(type:"M70", ammo_factor:6),  # get_ammo gives number of pods
+    ];
 
-    # Cycle through weapons, starting from the previous one.
-    var prev = selected_index;
-    if (prev < 0) prev = size(weapons)-1;
-    var i = prev;
-    i += 1;
-    if (i >= size(weapons)) i = 0;
+    # Set of indices considered for quick_select_missile() (A/A missiles)
+    var quick_select = {1:1, 2:1, 3:1, 4:1,};
 
-    while (i != prev) {
+    var internal_gun = weapons[0];
+
+    ## Functions to cycle through weapon list.
+    var selected_index = -1;
+
+    # Internal selection function.
+    var _set_selected_index = func(index) {
+        selected_index = index;
+        if (index >= 0) selected = weapons[index];
+        else selected = nil;
+    }
+
+    var _deselect_current = func {
+        if (selected != nil) selected.deselect();
+    }
+
+    # Select next weapon type in the list.
+    #
+    # If the argument 'subset' is given, only weapons whose index is in 'subset' are considered.
+    var cycle_weapon_type = func(subset=nil) {
+        _deselect_current();
+
+        # Cycle through weapons, starting from the previous one.
+        var prev = selected_index;
+        if (prev < 0) prev = size(weapons)-1;
+        var i = prev;
+        i += 1;
+        if (i >= size(weapons)) i = 0;
+
+        while (i != prev) {
+            if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
+                _set_selected_index(i);
+                if (!variant.JA) ja37.notice("Selected "~selected.type);
+                return
+            }
+            i += 1;
+            if (i >= size(weapons)) i = 0;
+        }
+        # We are back to the first weapon. Last try
         if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
             _set_selected_index(i);
             if (!variant.JA) ja37.notice("Selected "~selected.type);
-            return
+        } else {
+            # Nothing found
+            _set_selected_index(-1);
+            if (!variant.JA) ja37.notice("No weapon selected");
         }
-        i += 1;
-        if (i >= size(weapons)) i = 0;
     }
-    # We are back to the first weapon. Last try
-    if ((subset == nil or contains(subset, i)) and weapons[i].select()) {
-        _set_selected_index(i);
-        if (!variant.JA) ja37.notice("Selected "~selected.type);
-    } else {
-        # Nothing found
-        _set_selected_index(-1);
-        if (!variant.JA) ja37.notice("No weapon selected");
+
+    # For TIbutton
+    var select_cannon = func {
+        _deselect_current();
+        if(internal_gun.select()) {
+            _set_selected_index(0);
+        } else {
+            _set_selected_index(-1);
+        }
     }
-}
 
-# For JA TI
-var select_cannon = func {
-    _deselect_current();
-    if(internal_gun.select()) {
-        _set_selected_index(0);
-    } else {
-        _set_selected_index(-1);
-    }
-}
-
-# Throttle quick select buttons. Automatically engage aiming mode for JA.
-var quick_select_cannon = func {
-    # Switch to A/A aiming mode
-    modes.set_aiming_mode(TRUE);
-    TI.ti.ModeAttack = FALSE;
-    select_cannon();
-}
-
-var quick_select_missile = func {
-    if (variant.JA) {
+    # Throttle quick select buttons. Automatically engage aiming mode.
+    var quick_select_cannon = func {
         # Switch to A/A aiming mode
         modes.set_aiming_mode(TRUE);
         TI.ti.ModeAttack = FALSE;
+        select_cannon();
     }
-    cycle_weapon_type(quick_select);
+
+    var quick_select_missile = func {
+        # Switch to A/A aiming mode
+        modes.set_aiming_mode(TRUE);
+        TI.ti.ModeAttack = FALSE;
+        cycle_weapon_type(quick_select);
+    }
+
+    # Direct pylon selection through JA TI.
+    var select_pylon = func(pylon) {
+        _deselect_current();
+
+        var type = pylons.get_pylon_load(pylon);
+        forindex(var i; weapons) {
+            # Find matching weapon type.
+            if (weapons[i].type == type) {
+                # Attempt to load this pylon.
+                if (weapons[i].select(pylon)) {
+                    _set_selected_index(i);
+                } else {
+                    _set_selected_index(-1);
+                }
+                return;
+            }
+        }
+    }
+
+    var deselect_weapon = func {
+        _deselect_current();
+        _set_selected_index(-1);
+    }
+
+} else {
+    ### AJS weapon selection
+
+    var weapons = {
+        ir_rb: Missile.new(type:"IR-RB", multi_types: ["RB-24", "RB-24J", "RB-74"], fire_delay:0.7),
+        akan: SubModelWeapon.new("M55"),
+        arak: SubModelWeapon.new(type:"M70"),
+        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
+        rb15: Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1, can_start_right:1),
+        m90: Missile.new(type:"M90", at_everything:1, no_lock:1, can_start_right:1),
+        rb05: Rb05,
+        rb75: Missile.new(type:"RB-75", fire_delay:1, can_start_right:1),
+        bomb: Bomb.new(type:"M71", multi_types: ["M71", "M71R"]),
+    };
+
+    # Weapon panel selector knob positions.
+    # (not the same as ground_panel.WPN_SEL, for the ground crew panel selector knob).
+    var WPN_SEL = {
+        IR_RB: 0,
+        ATTACK: 1,
+        AKAN_JAKT: 2,
+        RR_LUFT: 3,
+        DYK_MARK_RB75: 4,
+        PLAN_SJO: 5,
+    };
+
+    # Select weapon according to weapon selection knob.
+    var update_selected_weapon = func {
+        # Cleanup previous
+        if (selected != nil) {
+            selected.deselect();
+            selected = nil;
+        }
+
+        # Invalid loadout, just give up.
+        if (!loaded_weapons_valid) return;
+
+        # Select weapon type
+        var gnd_knob = input.gnd_wpn_knob.getValue();
+        var gnd_switch = input.gnd_wpn_switch.getValue();
+        var wpn_knob = input.wpn_knob.getValue();
+
+        if (wpn_knob == WPN_SEL.IR_RB) {
+            selected = weapons.ir_rb;
+        } elsif (wpn_knob == WPN_SEL.ATTACK) {
+            if (gnd_knob == ground_panel.WPN_SEL.AKAN or gnd_knob == ground_panel.WPN_SEL.AK_05) {
+                selected = weapons.akan;
+            } elsif (gnd_knob == ground_panel.WPN_SEL.ARAK) {
+                selected = weapons.arak;
+            } elsif (gnd_knob == ground_panel.WPN_SEL.RB04) {
+                if (!gnd_switch) selected = weapons.rb04;
+                elsif (has_rb15) selected = weapons.rb15;
+                elsif (has_m90) selected = weapons.m90;
+            }
+        } elsif (wpn_knob == WPN_SEL.AKAN_JAKT) {
+            if (gnd_knob == ground_panel.WPN_SEL.AKAN or gnd_knob == ground_panel.WPN_SEL.AK_05) {
+                selected = weapons.akan;
+            }
+        } elsif (wpn_knob == WPN_SEL.RR_LUFT or wpn_knob == WPN_SEL.DYK_MARK_RB75 or wpn_knob == WPN_SEL.PLAN_SJO) {
+            if (gnd_knob == ground_panel.WPN_SEL.BOMB) {
+                selected = weapons.bomb;
+            } elsif (gnd_knob == ground_panel.WPN_SEL.AK_05 or gnd_knob == ground_panel.WPN_SEL.RB05) {
+                if (!gnd_switch) selected = weapons.rb05;
+                elsif (wpn_knob == WPN_SEL.DYK_MARK_RB75) selected = weapons.rb75;
+            }
+        }
+
+        # If a weapon type was selected by the previous logic, try to select a weapon of this type.
+        if (selected != nil) {
+            selected.select();
+        }
+    }
+
+    var quick_select_missile = func {
+        selected = weapons.ir_rb;
+    }
 }
+
+
+
+### Other controls.
 
 # Next pylon of same type (left wall button)
 var cycle_pylon = func {
     if (selected != nil) selected.cycle_selection();
 }
-
-var deselect_weapon = func {
-    _deselect_current();
-    _set_selected_index(-1);
-    if (!variant.JA) ja37.notice("No weapon selected");
-}
-
-# Direct pylon selection through JA TI.
-var select_pylon = func(pylon) {
-    _deselect_current();
-
-    var type = pylons.get_pylon_load(pylon);
-    forindex(var i; weapons) {
-        # Find matching weapon type.
-        if (weapons[i].type == type) {
-            # Attempt to load this pylon.
-            if (weapons[i].select(pylon)) {
-                _set_selected_index(i);
-            } else {
-                _set_selected_index(-1);
-            }
-            return;
-        }
-    }
-}
-
-
-## Other controls.
 
 # IR seeker release button
 var uncageIR = func {
@@ -985,85 +1076,94 @@ setlistener(input.trigger, trigger_listener, 0, 0);
 setlistener(input.unsafe, unsafe_listener, 0, 0);
 
 
-### Fire control inhibit.
 
-## AJS firing computer weapons check.
-#
-# Check that only weapons allowed by the ground crew weapon panel settings are loaded.
-# Otherwise, firing controls are disabled.
+#### Fire control inhibit.
 
-# Table of allowed weapons, indexed by [weapon selection knob pos, weapon selection switch pos]
-#
-# In the definition each entry is an array of allowed weapons.
-# Each entry is then converted to a hash whose keys are the allowed weapons, for ease of use.
-# IR missiles are omitted in this table, and are added later.
-var allowed_weapons = [
-    # IR_RB
-    [[], []],
-    # AKAN
-    [["M55"], ["M55"]],
-    # AKAN / RB 05 / RB 75
-    [["M55", "RB-05A"], ["M55", "RB-75"]],
-    # RB 05 / RB 75
-    [["RB-05A"], ["RB-75"]],
-    # LYSB
-    [[], []],
-    # BOMB
-    # Allow both low and high drag, disregarding switch position.
-    # I do not think the computer can distinguish the two types.
-    [["M71", "M71R"], ["M71", "M71R"]],
-    # RB 04
-    # RB 15 and m/90 can not be combined. This check is implemented separately.
-    [["RB-04E"], ["RB-15F", "M90"]],
-    # ARAK
-    [["M70"], ["M70"]],
-];
+if (variant.AJS) {
+    ## AJS firing computer weapons check.
+    #
+    # Check that only weapons allowed by the ground crew weapon panel settings are loaded.
+    # Otherwise, firing controls are disabled.
 
-var IR_RB = ["RB-24", "RB-24J", "RB-74"];
+    # Table of allowed weapons, indexed by [weapon selection knob pos, weapon selection switch pos]
+    #
+    # In the definition each entry is an array of allowed weapons.
+    # Each entry is then converted to a hash whose keys are the allowed weapons, for ease of use.
+    # IR missiles are omitted in this table, and are added later.
+    var allowed_weapons = [
+        # IR_RB
+        [[], []],
+        # AKAN
+        [["M55"], ["M55"]],
+        # AKAN / RB 05 / RB 75
+        [["M55", "RB-05A"], ["M55", "RB-75"]],
+        # RB 05 / RB 75
+        [["RB-05A"], ["RB-75"]],
+        # LYSB
+        [[], []],
+        # BOMB
+        # Allow both low and high drag, disregarding switch position.
+        # I do not think the computer can distinguish the two types.
+        [["M71", "M71R"], ["M71", "M71R"]],
+        # RB 04
+        # RB 15 and m/90 can not be combined. This check is implemented separately.
+        [["RB-04E"], ["RB-15F", "M90"]],
+        # ARAK
+        [["M70"], ["M70"]],
+    ];
 
-forindex (var i; allowed_weapons) {
-    forindex (var j; allowed_weapons[i]) {
-        # Convert array of values to hash
-        var arr = allowed_weapons[i][j];
-        var hash = {};
-        foreach (var weapon; arr) hash[weapon] = TRUE;
-        # Add IR missiles
-        foreach (var weapon; IR_RB) hash[weapon] = TRUE;
-        allowed_weapons[i][j] = hash;
-    }
-}
+    var IR_RB = ["RB-24", "RB-24J", "RB-74"];
 
-var check_loaded_weapons = func {
-    # Check that RB 15 and m/90 are not loaded together (they use the same ground panel settings).
-    var has_rb15 = FALSE;
-    var has_m90 = FALSE;
-
-    var allowed = allowed_weapons[input.wpn_sel_knob.getValue()][input.wpn_sel_switch.getValue()];
-
-    foreach (var pylon; keys(STATIONS)) {
-        var type = pylons.get_pylon_load(STATIONS[pylon]);
-        if (type == "") continue; # no load
-        if (!contains(allowed, type)) return FALSE;
-
-        if (type == "RB-15F") {
-            if (has_m90) return FALSE;
-            else has_rb15 = TRUE;
-        } elsif (type == "M90") {
-            if (has_rb15) return FALSE;
-            else has_m90 = TRUE;
+    forindex (var i; allowed_weapons) {
+        forindex (var j; allowed_weapons[i]) {
+            # Convert array of values to hash
+            var arr = allowed_weapons[i][j];
+            var hash = {};
+            foreach (var weapon; arr) hash[weapon] = TRUE;
+            # Add IR missiles
+            foreach (var weapon; IR_RB) hash[weapon] = TRUE;
+            allowed_weapons[i][j] = hash;
         }
     }
 
-    return TRUE;
-};
+    # Flags indicating if a rb15 / m90 is loaded.
+    # (they use the same ground panel and weapon panel settings, so this is used to know which one to select).
+    # If the loadout / ground panel settings
+    var has_rb15 = FALSE;
+    var has_m90 = FALSE;
 
-# Store result of weapons check.
-var loaded_weapons_valid = TRUE;
+    var check_loaded_weapons = func {
+        var allowed = allowed_weapons[input.gnd_wpn_knob.getValue()][input.gnd_wpn_switch.getValue()];
 
-# Call this whenever the result of check_loaded_weapons() might change.
-var loaded_weapons_check_callback = func {
-    loaded_weapons_valid = check_loaded_weapons();
-    inhibit_callback();
+        # Reset flags
+        has_rb15 = FALSE;
+        has_m90 = FALSE;
+
+        foreach (var pylon; keys(STATIONS)) {
+            var type = pylons.get_pylon_load(STATIONS[pylon]);
+            if (type == "") continue; # no load
+            if (!contains(allowed, type)) return FALSE;
+
+            if (type == "RB-15F") {
+                if (has_m90) return FALSE;
+                else has_rb15 = TRUE;
+            } elsif (type == "M90") {
+                if (has_rb15) return FALSE;
+                else has_m90 = TRUE;
+            }
+        }
+
+        return TRUE;
+    };
+
+    # Store result of weapons check.
+    var loaded_weapons_valid = TRUE;
+
+    # Call this whenever the result of check_loaded_weapons() might change.
+    var loaded_weapons_check_callback = func {
+        loaded_weapons_valid = check_loaded_weapons();
+        inhibit_callback();
+    }
 }
 
 
@@ -1083,13 +1183,18 @@ var inhibit_callback = func {
 
 ### Listeners
 
-# Reload: reset logic, and (AJS only) update loaded weapons check.
+# Reload callback for station-manager.nas
 var ReloadCallback = {
     updateAll: func {
-        _deselect_current();
-        _set_selected_index(-1);
-
-        if (variant.AJS) loaded_weapons_check_callback();
+        if (variant.JA) {
+            # JA: reset logic, deselect all
+            _deselect_current();
+            _set_selected_index(-1);
+        } else {
+            # AJS: check loaded weapons, update selected weapon
+            loaded_weapons_check_callback();
+            update_selected_weapon();
+        }
     },
 
     init: func {
@@ -1100,10 +1205,28 @@ var ReloadCallback = {
 };
 ReloadCallback.init();
 
-# (AJS only) Ground crew weapon panel: update loaded weapons check.
 if (variant.AJS) {
-    setlistener(input.wpn_sel_knob, loaded_weapons_check_callback, 0, 0);
-    setlistener(input.wpn_sel_switch, loaded_weapons_check_callback, 0, 0);
+    # Check loaded weapons when changing ground crew weapon panel settings, and at power on.
+    setlistener(input.gnd_wpn_knob, loaded_weapons_check_callback, 0, 0);
+    setlistener(input.gnd_wpn_switch, loaded_weapons_check_callback, 0, 0);
+    setlistener(power.prop.acSecond, func (n) {
+        if (n.getBoolValue()) update_selected_weapon();
+    }, 0, 0);
+
+    # Update selected weapon (from AJS manual part 1 chap 25 sec 1.2.3)
+    # - power on in mode BER
+    setlistener(power.prop.acSecond, func (n) {
+        if (n.getBoolValue() and modes.selector_ajs == modes.STBY) update_selected_weapon();
+    }, 0, 0);
+    # - when changing ground crew panel settings
+    setlistener(input.gnd_wpn_knob, update_selected_weapon, 0, 0);
+    setlistener(input.gnd_wpn_switch, update_selected_weapon, 0, 0);
+    # - when touching the weapon selection knob
+    setlistener(input.wpn_knob, update_selected_weapon, 0, 0);
+    # - at rotation
+    setlistener(input.nose_WOW, func (n) {
+        if (!n.getBoolValue()) update_selected_weapon();
+    }, 0, 0);
 }
 
 # Landing gear pos and AC power: update inhibit.

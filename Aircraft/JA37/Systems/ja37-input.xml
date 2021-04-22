@@ -356,11 +356,30 @@
             <name>c</name>
             <desc>Cycle weapons.</desc>
             <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
                 <command>nasal</command>
                 <script>
                     fire_control.cycle_weapon_type();
                     ja37.click();
                 </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>/controls/armament/weapon-panel/selector-knob</property>
+                <min>0</min>
+                <max>5</max>
+                <step>1</step>
             </binding>
         </key>
         <key n="67">
@@ -378,6 +397,19 @@
                     fire_control.quick_select_cannon();
                     ja37.click();
                 </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>/controls/armament/weapon-panel/selector-knob</property>
+                <min>0</min>
+                <max>5</max>
+                <step>-1</step>
             </binding>
         </key>
         <key n="117">

@@ -684,7 +684,7 @@ var AimingMode = {
 
     update: func {
         var type = fire_control.get_type();
-        if (type == "RB-24" or type == "RB-24J" or type == "RB-74") {
+        if (type == "IR-RB") {
             me.reticle.hide();
             me.bars.hide();
             me.wing.show();
