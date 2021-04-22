@@ -86,22 +86,6 @@
         </axis>
     </animation>
 
-    <animation>
-        <type>rotate</type>
-        <object-name>arm-selector</object-name>
-        <property>controls/armament/station-select-custom</property>
-        <factor>30</factor>
-        <center>
-            <x-m>0.0842</x-m>
-            <y-m>0</y-m>
-            <z-m>0.4402</z-m>
-        </center>
-        <axis>
-            <y>1</y>
-        </axis>
-    </animation>
-
-
     <!-- Lighting -->
     <!--<animation> 
 		<object-name>stick</object-name>

@@ -278,12 +278,6 @@
 
 *************************************************************************-->
 
-    <controls>
-        <armament>
-            <station-select-custom type="int">0</station-select-custom>            <!-- cannon selected by default -->
-        </armament>
-    </controls>
-
     <ja37>
         <avionics>
             <brightness-mi-knob type="double">1.0</brightness-mi-knob>

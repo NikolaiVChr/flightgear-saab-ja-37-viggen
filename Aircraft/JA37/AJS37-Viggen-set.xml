@@ -240,12 +240,6 @@
 
 *************************************************************************-->
 
-    <controls>
-        <armament>
-            <station-select-custom type="int">1</station-select-custom>            <!-- cannon selected by default -->
-        </armament>
-    </controls>
-
     <ja37>
         <systems>
             <variant type="int">2</variant>

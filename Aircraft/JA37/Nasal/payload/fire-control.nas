@@ -202,7 +202,6 @@ var Missile = {
         me.station = pylons.station_by_id(me.selected);
         me.weapon = me.station.getWeapons()[0];
         me.fired = FALSE;
-        setprop("controls/armament/station-select-custom", pylon);
     },
 
     deselect: func {
@@ -211,7 +210,6 @@ var Missile = {
         me.station = nil;
         me.weapon = nil;
         me.fired = FALSE;
-        setprop("controls/armament/station-select-custom", -1);
     },
 
     select: func(pylon=nil) {
@@ -556,7 +554,6 @@ var SubModelWeapon = {
             return FALSE;
         }
 
-        setprop("controls/armament/station-select-custom", size(me.selected) > 0 ? me.selected[0] : -1);
         return TRUE;
     },
 
@@ -565,7 +562,6 @@ var SubModelWeapon = {
         me.selected = [];
         me.stations = [];
         me.weapons = [];
-        setprop("controls/armament/station-select-custom", -1);
     },
 
     cycle_selection: func {},
