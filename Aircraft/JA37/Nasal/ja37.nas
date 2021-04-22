@@ -1363,7 +1363,7 @@ var main_init = func {
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
   print("Loading exterior, wait...");
   # return to cabin to next cycle
-  settimer(load_interior, 0, 1);
+  settimer(load_interior, 0.5, 1);
   view.setViewByIndex(1);
   setprop("/sim/gui/tooltips-enabled", TRUE);
   
