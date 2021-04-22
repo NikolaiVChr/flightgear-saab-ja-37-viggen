@@ -8,7 +8,7 @@
       <params>
         <prop>controls/fuel/auto</prop>
         <texture>FUEL-REGULATION.png</texture>
-        <tooltip-text>Manual fuel regulation</tooltip-text>
+        <tooltip-text>Manual fuel regulation (not implemented)</tooltip-text>
         <tooltip-id>switch-fuel-reg</tooltip-id>
       </params>
     </overlay>
