@@ -39,11 +39,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>knob-irrb</tooltip-id>
-                <label>Sidewinder quick select</label>
+                <label>Cycle selected pylon</label>
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
        <type>translate</type>
        <object-name>knob-ir</object-name>
