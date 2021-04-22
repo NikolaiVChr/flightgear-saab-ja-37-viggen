@@ -1005,9 +1005,18 @@ if (variant.JA) {
         }
     }
 
+    # Toggle back and forth between IR-RB and the weapon knob selection.
     var quick_select_missile = func {
-        selected = weapons.ir_rb;
-        selected.select();
+        if (input.wpn_knob.getValue() == WPN_SEL.IR_RB) return; # Nothing to do here
+
+        if (selected != nil and selected.type == "IR-RB") {
+            # Back to knob selection
+            update_selected_weapon();
+        } else {
+            # Switch to IR-RB
+            selected = weapons.ir_rb;
+            selected.select();
+        }
     }
 }
 
