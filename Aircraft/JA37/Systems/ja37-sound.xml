@@ -808,24 +808,15 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <or>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>2</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>4</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>6</value>
-                    </equals>
-                </or>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>ja37/navigation/dp-mode</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.75</x>
@@ -844,20 +835,15 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <or>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>3</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/navigation/dp-mode</property>
-                        <value>5</value>
-                    </equals>
-                </or>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>ja37/navigation/dp-mode</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.75</x>
@@ -876,24 +862,15 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <or>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>2</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>4</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>6</value>
-                    </equals>
-                </or>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>ja37/mode/selector-ajs</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.66</x>
@@ -912,25 +889,74 @@
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <or>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>3</value>
-                    </equals>
-                    <equals>
-                        <property>ja37/mode/selector-ajs</property>
-                        <value>5</value>
-                    </equals>
-                </or>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>ja37/mode/selector-ajs</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.66</x>
                 <y>0.36</y><!-- minus means right, plus means left -->
                 <z>0</z>
+            </position>
+            <volume>
+                <factor>0.30</factor>
+            </volume>
+        </knobs>
+
+        <knobs>
+            <name>AJS weapon selector even</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>controls/armament/weapon-panel/selector-knob</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-3.65</x>
+                <y>-0.45</y><!-- minus means right, plus means left -->
+                <z>0.1</z>
+            </position>
+            <volume>
+                <factor>0.30</factor>
+            </volume>
+        </knobs>
+
+        <knobs>
+            <name>AJS weapon selector odd</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>controls/armament/weapon-panel/selector-knob</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-3.65</x>
+                <y>-0.45</y><!-- minus means right, plus means left -->
+                <z>0.1</z>
             </position>
             <volume>
                 <factor>0.30</factor>
