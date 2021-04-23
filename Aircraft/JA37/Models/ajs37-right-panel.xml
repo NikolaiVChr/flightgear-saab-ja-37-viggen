@@ -2,7 +2,7 @@
 
 <PropertyList>
   <model>
-    <path>Aircraft/JA37/Models/Instruments/IndicatorPanelRight/indicator-panel-right.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/indicator-panel-right.xml</path>
     <name>ind-panel-right</name>
     <offsets>
       <x-m>  0.15</x-m>

@@ -1,0 +1,358 @@
+﻿<?xml version="1.0"?>
+<PropertyList>
+    <path>indicator-panel.ac</path>
+
+    <!-- Swedish: BRAND (sound, blinking)
+    -->
+    <animation>
+        <name>Fire</name>
+        <object-name>indicatorLeft1</object-name>
+        <object-name>indicatorLeft2</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/fire</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: BRÄ UPPF (blinking, suppression of blinking if secondary from Hydr-1)
+    -->
+    <animation>
+        <name>Fuel flow distributor</name>
+        <object-name>indicatorLeft3</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/fuel-flow</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: X-TANK BRÄ (steady)
+    -->
+    <animation>
+        <name>X-tank good</name>
+        <object-name>indicatorLeft4</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/xtank</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: TANKPUMP (blinking, suppression of blinking if secondary from Electrical)
+    -->
+    <animation>
+        <name>Fuel pump</name>
+        <object-name>indicatorLeft5</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/fuel-pump</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: LANDSTÄLL (blinking/steady, sound)
+    -->
+    <animation>
+        <name>gears</name>
+        <object-name>indicatorLeft6</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/gears</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: FÖRV FÖRBJ (blinking)
+    -->
+    <animation>
+        <name>no forward thrust</name>
+        <object-name>indicatorLeft7</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/forward-thrust</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: NOSSTÄLL (steady)
+    -->
+    <animation>
+        <name>front gear</name>
+        <object-name>indicatorLeft8</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/gear-nose</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: V STÄLL (steady)
+    -->
+    <animation>
+        <name>left gear</name>
+        <object-name>indicatorLeft9</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/gear-left</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: H STÄLL (steady)
+    -->
+    <animation>
+        <name>right gear</name>
+        <object-name>indicatorLeft10</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/gear-right</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: LUFTBROMS (steady)
+    -->
+    <animation>
+        <name>electrical</name>
+        <object-name>indicatorRight1</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/speedbrake</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: ELFÖRS (blinking)
+    -->
+    <animation>
+        <name>electrical</name>
+        <object-name>indicatorRight2</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/electrical</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: ELRESERV (blinking)
+    -->
+    <animation>
+        <name>electrical reserve (Ram Air Turbine)</name>
+        <object-name>indicatorRight3</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: HYDR-TR2 (blinking)
+    -->
+    <animation>
+        <name>hydr 2</name>
+        <object-name>indicatorRight4</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/hydr-2</property>            
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: HYDR-TR1 (blinking, sound)
+    -->
+    <animation>
+        <name>hydr 1</name>
+        <object-name>indicatorRight5</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/hydr-1</property>  
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: AFK (blinking/steady, sound)
+    -->
+    <animation>
+        <name>Auto throttle</name>
+        <object-name>indicatorRight6</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/auto-throttle</property>  
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: EJ REV (blinking)
+    -->
+    <animation>
+        <name>no reversing</name>
+        <object-name>indicatorRight7</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/no-reverse</property>  
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: HYDRRESERV (blinking)
+    -->
+    <animation>
+        <name>hydr reserve</name>
+        <object-name>indicatorRight8</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>  
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: OLJETRYCK (blinking, sound)
+    -->
+    <animation>
+        <name>oil pressure</name>
+        <object-name>indicatorRight9</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/oil-pressure</property>  
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Swedish: OLJETEMP (blinking)
+    -->
+    <animation>
+        <name>Oil temp</name>
+        <object-name>indicatorRight10</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/oil-temperature</property>  
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>panel</object-name>
+    </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>indicatorLeft1</object-name>
+        <object-name>indicatorLeft2</object-name>
+        <object-name>indicatorLeft3</object-name>
+        <object-name>indicatorLeft4</object-name>
+        <object-name>indicatorLeft5</object-name>
+        <object-name>indicatorLeft6</object-name>
+        <object-name>indicatorLeft7</object-name>
+        <object-name>indicatorLeft8</object-name>
+        <object-name>indicatorLeft9</object-name>
+        <object-name>indicatorLeft10</object-name>
+        <object-name>indicatorRight1</object-name>
+        <object-name>indicatorRight2</object-name>
+        <object-name>indicatorRight3</object-name>
+        <object-name>indicatorRight4</object-name>
+        <object-name>indicatorRight5</object-name>
+        <object-name>indicatorRight6</object-name>
+        <object-name>indicatorRight7</object-name>
+        <object-name>indicatorRight8</object-name>
+        <object-name>indicatorRight9</object-name>
+        <object-name>indicatorRight10</object-name>
+    </effect>
+
+</PropertyList>

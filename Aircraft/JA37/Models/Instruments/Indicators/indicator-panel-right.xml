@@ -1,0 +1,364 @@
+﻿<?xml version="1.0"?>
+<PropertyList>
+    <path>indicator-panel.ac</path>
+
+    <!-- Same 3D model, texture shifted to the right half -->
+    <animation>
+      <type>textranslate</type>
+      <object-name>indicatorLeft1</object-name>
+      <object-name>indicatorLeft2</object-name>
+      <object-name>indicatorLeft3</object-name>
+      <object-name>indicatorLeft4</object-name>
+      <object-name>indicatorLeft5</object-name>
+      <object-name>indicatorLeft6</object-name>
+      <object-name>indicatorLeft7</object-name>
+      <object-name>indicatorLeft8</object-name>
+      <object-name>indicatorLeft9</object-name>
+      <object-name>indicatorLeft10</object-name>
+      <object-name>indicatorRight1</object-name>
+      <object-name>indicatorRight2</object-name>
+      <object-name>indicatorRight3</object-name>
+      <object-name>indicatorRight4</object-name>
+      <object-name>indicatorRight5</object-name>
+      <object-name>indicatorRight6</object-name>
+      <object-name>indicatorRight7</object-name>
+      <object-name>indicatorRight8</object-name>
+      <object-name>indicatorRight9</object-name>
+      <object-name>indicatorRight10</object-name>
+      <offset>0.5</offset>
+      <axis>
+        <x>1</x>
+        <y>0</y>
+      </axis>
+    </animation>
+
+    <animation>
+        <name>Flightstick</name>
+        <object-name>indicatorLeft1</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/flightstick</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>a/p att</name>
+        <object-name>indicatorLeft2</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/auto-attitude</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>a/p alt</name>
+        <object-name>indicatorLeft3</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/auto-altitude</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Fire in engine starter</name>
+        <object-name>indicatorLeft4</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/fire-in-starter</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Pitch gearing</name>
+        <object-name>indicatorLeft5</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/pitch-gearing</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Cabin pressure</name>
+        <object-name>indicatorLeft6</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/cabin-pressure</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Canopy and seat</name>
+        <object-name>indicatorLeft7</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/canopy-and-seat</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Ignition sys</name>
+        <object-name>indicatorLeft8</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/ignition-system</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Start sys</name>
+        <object-name>indicatorLeft9</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/start-system</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Ext power</name>
+        <object-name>indicatorLeft10</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/manual-fuel-regulation</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Central CPU</name>
+        <object-name>indicatorRight1</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/central-cpu</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Primary data</name>
+        <object-name>indicatorRight2</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/primary-data</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Inertia navigation</name>
+        <object-name>indicatorRight3</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/inertia-navigation</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Radar</name>
+        <object-name>indicatorRight4</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/radar</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>IKS</name>
+        <object-name>indicatorRight5</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/transponder</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Alpha</name>
+        <object-name>indicatorRight6</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/alpha</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Oxygen</name>
+        <object-name>indicatorRight7</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/oxygen</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Outlet temperature</name>
+        <object-name>indicatorRight8</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/outlet-temperature</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>low on fuel</name>
+        <object-name>indicatorRight9</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/low-fuel</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Weapons</name>
+        <object-name>indicatorRight10</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/weapons</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>panel</object-name>
+    </effect>
+    
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>indicatorLeft1</object-name>
+        <object-name>indicatorLeft2</object-name>
+        <object-name>indicatorLeft3</object-name>
+        <object-name>indicatorLeft4</object-name>
+        <object-name>indicatorLeft5</object-name>
+        <object-name>indicatorLeft6</object-name>
+        <object-name>indicatorLeft7</object-name>
+        <object-name>indicatorLeft8</object-name>
+        <object-name>indicatorLeft9</object-name>
+        <object-name>indicatorLeft10</object-name>
+        <object-name>indicatorRight1</object-name>
+        <object-name>indicatorRight2</object-name>
+        <object-name>indicatorRight3</object-name>
+        <object-name>indicatorRight4</object-name>
+        <object-name>indicatorRight5</object-name>
+        <object-name>indicatorRight6</object-name>
+        <object-name>indicatorRight7</object-name>
+        <object-name>indicatorRight8</object-name>
+        <object-name>indicatorRight9</object-name>
+        <object-name>indicatorRight10</object-name>
+    </effect>
+
+</PropertyList>
