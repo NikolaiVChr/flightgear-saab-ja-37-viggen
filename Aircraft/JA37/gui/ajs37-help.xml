@@ -34,6 +34,10 @@
         <desc>Main mode selector clockwise/counter-clockwise</desc>
     </key>
     <key>
+        <name>w</name>
+        <desc>Suppress master warning</desc>
+    </key>
+    <key>
         <name>h</name>
         <desc>Toggle HUD position</desc>
     </key>

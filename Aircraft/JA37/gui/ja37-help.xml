@@ -22,6 +22,10 @@
         <desc>Toggle canopy</desc>
     </key>
     <key>
+        <name>w</name>
+        <desc>Suppress master warning</desc>
+    </key>
+    <key>
         <name>h</name>
         <desc>Toggle aiming mode</desc>
     </key>
