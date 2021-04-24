@@ -1333,28 +1333,21 @@
             </volume>
         </ts>
 
-        <!--<lock>  is in manual but not enabled yet. is it every radar lock, or missile radar lock?
+        <lock>
             <name>radar-lock</name>
             <mode>once</mode>
             <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
             <type>avionics</type>
             <condition>
                 <property>ja37/avionics/annunciator/serviceable</property>
-                <property>ja37/sound/annunciation-enabled</property>
-                <greater-than>
-                    <property>ja37/elec/dc-bus-main-volt</property>
-                    <value>23</value>
-                </greater-than>
-                <or>
-                    <property>ja37/radar/lock</property>
-                    <not><property>ja37/radar/lock</property></not>
-                </or>
+                <property>ja37/elec/dc-bus-main-bool</property>
+                <property>ja37/sound/tones/radar-lock</property>
             </condition>
             <volume>
                 <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
-        </lock>-->
+        </lock>
 
         <vne>
             <name>vne</name>
