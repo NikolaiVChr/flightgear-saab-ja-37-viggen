@@ -26,6 +26,10 @@
         <desc>Suppress master warning</desc>
     </key>
     <key>
+        <name>W</name>
+        <desc>Chronometer start/stop/reset</desc>
+    </key>
+    <key>
         <name>h</name>
         <desc>Toggle aiming mode</desc>
     </key>

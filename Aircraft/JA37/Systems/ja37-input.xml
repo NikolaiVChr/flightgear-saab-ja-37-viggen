@@ -247,6 +247,33 @@
                 </binding>
             </mod-up>
         </key>
+        <key n="87">
+            <name>W</name>
+            <desc>Chronometer start/stop/reset</desc>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/clock/chronometer-state</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/clock/button</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/clock/button</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
         <key n="105">
             <name>i</name>
             <desc>Toggle type/callsign / SLAV SI</desc>
