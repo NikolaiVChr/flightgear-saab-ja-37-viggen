@@ -1425,6 +1425,10 @@
             <!-- transmission power (W), used by FGCom-mumble. JA37 FR28 value -->
             <tx-power type="double">50</tx-power>
         </comm>
+        <comm n="1">
+            <!-- JA37 FR31 -->
+            <tx-power type="double">15</tx-power>
+        </comm>
         <nav n="0">
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
