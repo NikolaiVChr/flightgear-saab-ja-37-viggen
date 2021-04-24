@@ -526,12 +526,18 @@
             <input>-instruments/clock/chrono-ref-sec</input>
         </summer>
 
+        <fcs_function name="instruments/clock/chrono-ref-diff-integer">
+            <function>
+                <integer><property>instruments/clock/chrono-ref-diff</property></integer>
+            </function>
+        </fcs_function>
+
         <switch name="instruments/clock/chrono-time-sec">
             <default value="/instrumentation/clock/chronometer-time-sec"/>
             <test value="0">
                 /instrumentation/clock/chronometer-state == 0
             </test>
-            <test value="instruments/clock/chrono-ref-diff">
+            <test value="instruments/clock/chrono-ref-diff-integer">
                 /instrumentation/clock/chronometer-state == 1
             </test>
             <output>/instrumentation/clock/chronometer-time-sec</output>
