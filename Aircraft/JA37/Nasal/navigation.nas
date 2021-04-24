@@ -1,55 +1,13 @@
-######## radio nav initialization
-
 input = {
-	radioComNav:	"instrumentation/radio/switches/com-nav",
-	radioMhzKhz:	"instrumentation/radio/switches/mhz-khz",
-	radioDisplFreq:	"instrumentation/radio/display-freq",
-	radioHeadNorm:	"instrumentation/radio/heading-indicator-norm",
-	AdfBearing:		"instrumentation/adf/indicated-bearing-deg",
-	commSelMhz:		"instrumentation/comm/frequencies/selected-mhz",
-	adfSelKhz:		"instrumentation/adf/frequencies/selected-khz",
-	navSelMhz:		"instrumentation/nav/frequencies/selected-mhz",
-	navNeedle:		"instrumentation/nav/heading-needle-deflection-norm",
-	wp_ind_type:	"instrumentation/waypoint-indicator/type",
-	wp_ind_num:		"instrumentation/waypoint-indicator/number",
-	rm_active:		"autopilot/route-manager/active",
-	landing_mode:	"ja37/hud/landing-mode",
+    wp_ind_type:    "instrumentation/waypoint-indicator/type",
+    wp_ind_num:     "instrumentation/waypoint-indicator/number",
+    rm_active:      "autopilot/route-manager/active",
+    landing_mode:   "ja37/hud/landing-mode",
 };
 
 foreach(var name; keys(input)) {
-	input[name] = props.globals.getNode(input[name], 1);
+    input[name] = props.globals.getNode(input[name], 1);
 }
-
-input.radioComNav.setBoolValue(0); # 0 is for com, 1 is for nav.
-input.radioMhzKhz.setBoolValue(0); # 0 is for mhz, 1 is for khz.
-input.radioDisplFreq.setDoubleValue(input.commSelMhz.getValue());# set up the radio panel display
-input.radioHeadNorm.setDoubleValue(0); #heading indicator for the left-hand side attitude display
-input.AdfBearing.setDoubleValue(0);
-
-
-######## radio panel display update code
-
-var display_freq = func {
-	#print("inside display_freq function");
-	#print("com-nav switch = " ~ getprop("instrumentation/radio/switches/com-nav"));
-	#print("mhz-khz switch = " ~ getprop("instrumentation/radio/switches/mhz-khz"));
-	if ( input.radioComNav.getValue() == 1 ) {
-		if ( input.radioMhzKhz.getValue() == 1 ) {
-			input.radioDisplFreq.setDoubleValue(input.adfSelKhz.getValue());
-		} else {
-			input.radioDisplFreq.setDoubleValue(input.navSelMhz.getValue());
-		}
-	} else {
-		input.radioDisplFreq.setDoubleValue(input.commSelMhz.getValue());
-	}
-}
-
-#i don't like all these listeners, to be honest. but it works and it's not heavy.
-setlistener("instrumentation/radio/switches/com-nav",display_freq);
-setlistener("instrumentation/radio/switches/mhz-khz",display_freq);
-setlistener("instrumentation/adf/frequencies/selected-khz",display_freq);
-setlistener("instrumentation/nav/frequencies/selected-mhz",display_freq);
-setlistener("instrumentation/comm/frequencies/selected-mhz",display_freq);
 
 
 ### Waypoint name display for AJ(S)
