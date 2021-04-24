@@ -1351,7 +1351,7 @@
                 </or>
             </condition>
             <volume>
-                <property>ja37/sound/ir-volume</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </lock>-->
@@ -2252,48 +2252,6 @@
                 <factor>1</factor>
             </volume>
         </rb74-signal>
-		
-        <rb71-signal>
-            <name>rb71-signal</name>
-            <mode>looped</mode>
-            <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
-            <condition>
-                <property>payload/armament/rb-71/sound-on-off</property>
-            </condition>
-            <!--<pitch>
-                <factor>1.1</factor>
-                <max>2</max>
-            </pitch>-->
-            <volume>
-                <property>payload/armament/rb-71/sound-volume</property>
-            </volume>
-            <volume>
-                <property>ja37/sound/ir-volume</property>
-                <factor>1</factor>
-            </volume>
-        </rb71-signal>
-
-        <rb99-signal>
-            <name>rb99-signal</name>
-            <mode>looped</mode>
-            <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/tones/radar-lock.wav</path>
-            <condition>
-                <property>payload/armament/rb-99/sound-on-off</property>
-            </condition>
-            <!--<pitch>
-                <factor>1.8</factor>
-                <max>2</max>
-            </pitch>-->
-            <volume>
-                <property>payload/armament/rb-99/sound-volume</property>
-            </volume>
-            <volume>
-                <property>ja37/sound/ir-volume</property>
-                <factor>1</factor>
-            </volume>
-        </rb99-signal>
 
         <missile-hit>
             <!-- multiple of these so the sound can be played over each other -->

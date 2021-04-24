@@ -165,9 +165,8 @@
         <type-id type="int">88</type-id>
         <short-name type="string">rb71</short-name>
         <long-name type="string">RB 71 Skyflash</long-name>
-        <vol-search type="double">0.00</vol-search>
-        <vol-track type="double">0.15</vol-track>
-        <vol-track-weak type="double">0.1</vol-track-weak>
+        <vol-search type="double">0</vol-search>
+        <vol-track type="double">0</vol-track>
         <guidance type="string">semi-radar</guidance>                  <!-- authentic -->
         <max-fire-range-nm type="double">22</max-fire-range-nm>        <!-- Skyflash range is 24.3nm -->
         <min-fire-range-nm type="double">0.16</min-fire-range-nm>      <!-- authentic -->
@@ -208,8 +207,8 @@
         <type-id type="int">90</type-id>
         <short-name type="string">rb99</short-name>
         <long-name type="string">RB 99 AMRAAM</long-name>
-        <vol-search type="double">0.00</vol-search>
-        <vol-track type="double">1.00</vol-track>
+        <vol-search type="double">0</vol-search>
+        <vol-track type="double">0</vol-track>
         <guidance type="string">inertial</guidance>
         <all-aspect type="bool">true</all-aspect>
         <max-fire-range-nm type="int">38.8</max-fire-range-nm>
@@ -256,12 +255,9 @@
         <type-id type="int">37</type-id>
         <short-name type="string">rb04</short-name>
         <long-name type="string">RB 04E</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0.0</sound-volume>
-        <vol-search type="double">0.00</vol-search>
-        <vol-track type="double">0.00</vol-track>
-        <vol-track-weak type="double">0.00</vol-track-weak>
+        <vol-search type="double">0</vol-search>
+        <vol-track type="double">0</vol-track>
         <guidance type="string">radar</guidance>                              <!-- source -->
         <prowl-flight type="string">terrain-follow</prowl-flight>
         <navigation type="string">APN</navigation>
@@ -297,12 +293,9 @@
         <type-id type="int">38</type-id>
         <short-name type="string">rb15</short-name>
         <long-name type="string">RB 15F</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0.0</sound-volume>
-        <vol-search type="double">0.00</vol-search>
-        <vol-track type="double">0.00</vol-track>
-        <vol-track-weak type="double">0.00</vol-track-weak>
+        <vol-search type="double">0</vol-search>
+        <vol-track type="double">0</vol-track>
         <guidance type="string">radar</guidance>
         <prowl-flight type="string">terrain-follow</prowl-flight>
         <navigation type="string">APN</navigation>
@@ -341,12 +334,9 @@
         <type-id type="int">85</type-id>
         <short-name type="string">rb05</short-name>
         <long-name type="string">RB 05A</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0</sound-volume>
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
-        <vol-track-weak type="double">0</vol-track-weak>
         <guidance type="string">remote-stable</guidance>
         <navigation type="string">direct</navigation>
         <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
@@ -392,12 +382,9 @@
         <type-id type="int">39</type-id>
         <short-name type="string">rb75</short-name>
         <long-name type="string">RB 75 Maverick</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0</sound-volume>
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
-        <vol-track-weak type="double">0</vol-track-weak>
         <guidance type="string">vision</guidance>
         <navigation type="string">direct</navigation>
         <all-aspect type="bool">true</all-aspect>
@@ -431,12 +418,9 @@
         <type-id type="int">31</type-id>
         <short-name type="string">m90</short-name>
         <long-name type="string">m/90</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0</sound-volume>
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
-        <vol-track-weak type="double">0</vol-track-weak>
         <guidance type="string">inertial</guidance>
         <prowl-flight type="string">terrain-follow</prowl-flight>
         <navigation type="string">APN</navigation>
@@ -474,12 +458,9 @@
         <type-id type="int">29</type-id>
         <short-name type="string">m71</short-name>
         <long-name type="string">m/71</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0</sound-volume>
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
-        <vol-track-weak type="double">0</vol-track-weak>
         <guidance type="string">unguided</guidance>
         <all-aspect type="bool">true</all-aspect>
         <max-fire-range-nm type="double">20</max-fire-range-nm>
@@ -512,12 +493,9 @@
         <type-id type="int">30</type-id>
         <short-name type="string">m71r</short-name>
         <long-name type="string">m/71 (high drag)</long-name>
-        <sound-on-off type="bool">false</sound-on-off>
         <sound-fire-on-off type="bool">false</sound-fire-on-off>
-        <sound-volume type="double">0</sound-volume>
         <vol-search type="double">0</vol-search>
         <vol-track type="double">0</vol-track>
-        <vol-track-weak type="double">0</vol-track-weak>
         <guidance type="string">unguided</guidance>
         <all-aspect type="bool">true</all-aspect>
         <max-fire-range-nm type="double">20</max-fire-range-nm>
@@ -550,9 +528,8 @@
     </m71r>
     <!-- Ejection seat -->
     <es>
-        <vol-search type="double">0.075</vol-search>
-        <vol-track type="double">0.25</vol-track>
-        <vol-track-weak type="double">0.175</vol-track-weak>
+        <vol-search type="double">0</vol-search>
+        <vol-track type="double">0</vol-track>
         <guidance type="string">unguided</guidance>
         <navigation type="string">direct</navigation>
         <all-aspect type="bool">false</all-aspect>
