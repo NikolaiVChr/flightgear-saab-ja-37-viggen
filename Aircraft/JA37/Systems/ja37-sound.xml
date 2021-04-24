@@ -1314,7 +1314,7 @@
                 <property>ja37/sound/tones/floor</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </floor>
@@ -1328,7 +1328,7 @@
                 <property>ja37/sound/tones/transonic</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </ts>
@@ -1351,7 +1351,7 @@
                 </or>
             </condition>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>1</factor>
             </volume>
         </lock>-->
@@ -1365,7 +1365,7 @@
                 <property>ja37/sound/tones/vne</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </vne>
@@ -1379,7 +1379,7 @@
                 <property>ja37/sound/tones/load-pre-1</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </gvv>
@@ -1393,7 +1393,7 @@
                 <property>ja37/sound/tones/load-pre-2</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </gvv>
@@ -1408,7 +1408,7 @@
                 <property>ja37/sound/tones/gvv-main</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </gvv>
@@ -1422,7 +1422,7 @@
                 <property>ja37/sound/tones/alpha-pre-2</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </gvv>
@@ -1436,7 +1436,7 @@
                 <property>ja37/sound/tones/alpha-pre-1</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </gvv>
@@ -1450,7 +1450,7 @@
                 <property>ja37/sound/tones/terrain-on</property>
             </condition>
             <!--<volume> cannot be turned down, but can be switched off
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>-->
             <volume>
@@ -1469,7 +1469,7 @@
                 <property>ja37/elec/dc-bus-main-bool</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
             </volume>
         </master>
@@ -1483,7 +1483,7 @@
                 <property>ja37/sound/tones/flare-release</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
                 <max>1</max>
             </volume>
@@ -1498,7 +1498,7 @@
                 <property>ja37/sound/tones/flare-release-out</property>
             </condition>
             <volume>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>1</factor>
                 <max>1</max>
             </volume>
@@ -1516,7 +1516,7 @@
             </condition>
             <volume>
                 <!-- NOT rwr/sound/volume, this is technically not part of the RWR -->
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
             </volume>
         </incoming>
 
@@ -2200,7 +2200,7 @@
                 <property>payload/armament/rb-24/sound-volume</property>
             </volume>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>1</factor>
             </volume>
         </rb24-signal>
@@ -2224,7 +2224,7 @@
                 <property>payload/armament/rb-24j/sound-volume</property>
             </volume>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>1</factor>
             </volume>
         </rb24j-signal>
@@ -2248,7 +2248,7 @@
                 <property>payload/armament/rb-74/sound-volume</property>
             </volume>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>1</factor>
             </volume>
         </rb74-signal>
@@ -2269,7 +2269,7 @@
                 <property>payload/armament/rb-71/sound-volume</property>
             </volume>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>1</factor>
             </volume>
         </rb71-signal>
@@ -2290,7 +2290,7 @@
                 <property>payload/armament/rb-99/sound-volume</property>
             </volume>
             <volume>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>1</factor>
             </volume>
         </rb99-signal>

@@ -63,7 +63,7 @@
     <animation>
         <type>knob</type>
         <object-name>knob-volume</object-name>
-        <property>ja37/sound/helmet</property>
+        <property>ja37/sound/ir-volume</property>
         <factor>90</factor>
         <offset-deg>0</offset-deg>
         <center>
@@ -79,7 +79,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/sound/helmet</property>
+                <property>ja37/sound/ir-volume</property>
                 <factor>0.1</factor>
                 <min>0</min>
                 <max>1</max>           

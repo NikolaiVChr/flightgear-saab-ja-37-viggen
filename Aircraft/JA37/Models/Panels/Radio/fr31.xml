@@ -49,8 +49,8 @@
     <animation>
         <type>knob</type>
         <object-name>knobVol</object-name>
-        <property>ja37/radio/fr29/knob-vol</property>
-        <factor>240</factor>
+        <property>ja37/sound/warnings-volume</property>
+        <factor>150</factor>
         <offset-deg>-135</offset-deg>
         <center>
             <x-m>  -0.04043 </x-m>
@@ -61,14 +61,14 @@
             <x>0</x>
             <y>0</y>
             <z>-1</z>
-        </axis>        
+        </axis>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr29/knob-vol</property>
+                <property>ja37/sound/warnings-volume</property>
                 <factor>0.05</factor>
                 <min>0</min>
-                <max>0.25</max>                
+                <max>0.40</max>
                 <wrap>false</wrap>
            </binding>
         </action>
