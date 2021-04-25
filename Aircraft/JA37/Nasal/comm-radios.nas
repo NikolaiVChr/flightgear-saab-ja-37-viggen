@@ -74,7 +74,7 @@ if (variant.JA) {
         "instrumentation/comm[0]",
         # Values from JA37D SFI chap 19
         {min: 103000, max:159975, sep: 25},
-        {min: 225000, max:399950, sep: 25});    # stops at 399.950MHz and 25KHz separation, not a typo
+        {min: 225000, max:399975, sep: 25});
     # FR31 secondary radio
     var fr31 = comm_radio.new(
         "instrumentation/comm[1]",
