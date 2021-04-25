@@ -789,7 +789,129 @@
 
 
     <channel execrate="4" name="Instruments">
-        <switch name="/instrumentation/iff/power">
+        <!-- Comm radios summary
+           JA37D:
+           - FR29 main radio -> comm[0]
+             (FR29 consists of two FR28 emitters/receivers, but only one active at a time, other for DL)
+           - FR31 secondary radio -> comm[1]
+           - guard channel receiver integrated in FR28 -> comm[2]
+
+           AJS37:
+           - FR22 main radio -> comm[0]
+           - FR24 backup radio -> comm[1]
+
+          References:
+            JA37D SFI chap. 3 (elec power) and chap. 19 (communication)
+            AJS SFI chap. 3 (elec power) and chap. 14 (communication)
+        -->
+
+
+        <!-- JA37D FR28 main radio / AJS FR22 radio -->
+
+        <switch name="instruments/radio/comm0-power">
+            <!-- JA FR28 transmitter B can be DC powered from either the main DC bus or the battery bus 3 -->
+            <test logic="AND" value="/ja37/elec/dc-bus-battery-3-bool">
+                /ja37/systems/variant eq 0                  <!-- JA -->
+                /instrumentation/comm[0]/transmitter eq 1   <!-- transmitter B -->
+                systems/electrical/relay-lr-1 eq 0          <!-- no AC power -->
+                /controls/electric/main eq 0                <!-- main power off -->
+            </test>
+            <test logic="AND" value="/ja37/elec/dc-bus-main-bool">
+                /ja37/systems/variant eq 0                  <!-- JA -->
+                /instrumentation/comm[0]/transmitter eq 1   <!-- transmitter B -->
+                systems/electrical/relay-lr-1 eq 0          <!-- no AC power -->
+            </test>
+            <!-- Normally, main AC bus -->
+            <default value="/ja37/elec/ac-bus-main-bool"/>
+            <output>/instrumentation/comm[0]/power</output>
+        </switch>
+
+        <!-- Transmission power (W). Used by fgcom-mumble. Values from manual for AM. -->
+        <switch name="instruments/radio/comm0-tx-power">
+            <!-- AJS FR22 emitter -->
+            <test logic="AND" value="10">       <!-- UHF -->
+                /ja37/systems/variant ne 0
+                /instrumentation/comm[0]/uhf eq 1
+            </test>
+            <test logic="AND" value="20">       <!-- VHF -->
+                /ja37/systems/variant ne 0
+            </test>
+            <!-- JA37 FR28 low power while on battery (made up value) -->
+            <test logic="AND" value="5">
+                /ja37/systems/variant eq 0                  <!-- JA -->
+                /instrumentation/comm[0]/transmitter eq 1   <!-- transmitter B -->
+                systems/electrical/relay-lr-1 eq 0          <!-- no AC power -->
+            </test>
+            <!-- JA37 FR28 emitter -->
+            <test logic="AND" value="15">       <!-- UHF -->
+                /instrumentation/comm[0]/uhf eq 1
+            </test>
+            <default value="25"/>               <!-- VHF -->
+            <output>/instrumentation/comm[0]/tx-power</output>
+        </switch>
+
+        <switch name="instruments/radio/comm1-power-on">
+            <!-- A negative frequency is set to indicate invalid frequency. Turn off in this case -->
+            <test value="0">
+                /instrumentation/comm[0]/frequencies/selected-mhz lt 0
+            </test>
+            <!-- FR22 is inactive in modes other than NORM and NORM+ALARM -->
+            <test logic="AND" value="0">
+                /ja37/systems/variant ne 0
+                /instrumentation/radio/mode ge 2
+            </test>
+            <default value="1"/>
+            <output>/instrumentation/comm[0]/power-btn</output>
+        </switch>
+
+
+        <!-- JA37D FR31 secondary radio / AJS FR24 backup radio -->
+
+        <switch name="instruments/radio/comm1-power">
+            <!-- FR24 battery powered -->
+            <test value="/ja37/elec/dc-bus-battery-3-bool">
+                /ja37/systems/variant ne 0
+            </test>
+            <!-- FR31 DC powered -->
+            <default value="/ja37/elec/dc-bus-secondary-bool"/>
+            <output>/instrumentation/comm[1]/power</output>
+        </switch>
+
+        <switch name="instruments/radio/comm1-power-on">
+            <!-- A negative frequency is set to indicate invalid frequency. Turn off in this case -->
+            <test value="0">
+                /instrumentation/comm[1]/frequencies/selected-mhz lt 0
+            </test>
+            <!-- FR24 is inactive in mode NORM -->
+            <test logic="AND" value="0">
+                /ja37/systems/variant ne 0
+                /instrumentation/radio/mode eq 1
+            </test>
+            <default value="1"/>
+            <output>/instrumentation/comm[1]/power-btn</output>
+        </switch>
+
+
+        <!-- JA FR28 integrated guard channel receiver -->
+
+        <switch name="instruments/radio/comm2-power">
+            <default value="instruments/radio/comm0-power"/>
+            <output>/instrumentation/comm[2]/power</output>
+        </switch>
+
+        <!-- only active in mode NORM+ALARM -->
+        <switch name="instruments/radio/comm2-power-on">
+            <test logic="AND" value="1">
+                /ja37/systems/variant eq 0
+                /instrumentation/radio/mode eq 0
+            </test>
+            <default value="0"/>
+            <output>/instrumentation/comm[2]/power-btn</output>
+        </switch>
+
+
+
+        <switch name="instruments/radio/iff-power">
             <default value="0"/>
             <test logic="AND" value="1">
                 /ja37/elec/ac-bus-main-bool == 1
@@ -800,14 +922,16 @@
                 /instrumentation/iff/power-knob == 1
                 gear/unit[0]/WOW == 0
             </test>
+            <output>/instrumentation/iff/power</output>
         </switch>
 
-        <switch name="/instrumentation/datalink/power">
+        <switch name="instruments/radio/datalink-power">
             <default value="0"/>
             <test logic="AND" value="1">
                 /instrumentation/datalink/on == 1
                 /ja37/elec/ac-bus-main-bool == 1
             </test>
+            <output>/instrumentation/datalink/power</output>
         </switch>
 
         <switch name="names/electrical/landing-light">

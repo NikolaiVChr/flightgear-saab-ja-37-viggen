@@ -53,15 +53,23 @@
   <comm-radio>
     <name>comm</name>
     <number>0</number>
-    <power-supply>/ja37/elec/dc-bus-main-bool</power-supply><!-- manual: transciever B uses AC or DC, A uses AC only -->
+    <power-supply>/instrumentation/comm[0]/power</power-supply>
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </comm-radio>
 
-  <!-- FR31 (JA) -->
+  <!-- FR31 secondary radio (JA) / FR24 backup radio (AJS) -->
   <comm-radio>
     <name>comm</name>
     <number>1</number>
-    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+    <power-supply>/instrumentation/comm[1]/power</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
+  </comm-radio>
+
+  <!-- Backup receiver for JA FR28 radio -->
+  <comm-radio>
+    <name>comm</name>
+    <number>2</number>
+    <power-supply>/instrumentation/comm[2]/power</power-supply>
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </comm-radio>
 

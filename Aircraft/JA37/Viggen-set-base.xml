@@ -1419,24 +1419,48 @@
         <gps n="0">
 		    <indicated-vertical-speed type="double">0</indicated-vertical-speed>
         </gps>
+        <!-- comm radios summary
+            JA37D:
+            - FR29 main radio -> comm[0]
+              (FR29 consists of two FR28 emitters/receivers, but only one active at a time, other for DL)
+            - FR31 secondary radio -> comm[1]
+            - guard channel receiver integrated in FR28 -> comm[2]
+
+            AJS37:
+            - FR22 main radio -> comm[0]
+            - FR24 backup radio -> comm[1]
+        -->
+        <!-- JA FR29 / AJS FR22 -->
         <comm n="0">
-            <power-btn type="bool">true</power-btn>
-            <power-good type="bool">false</power-good>
-            <!-- transmission power (W), used by FGCom-mumble. JA37 FR28 value -->
-            <tx-power type="double">50</tx-power>
+            <!-- Flag for UHF frequencies. Used in JSBSim to compute power output -->
+            <uhf type="bool">false</uhf>
+            <!-- JA37 transmitter A/B choice -->
+            <transmitter type="bool">false</transmitter>
+            <!-- transmission power (W), used by FGCom-mumble. -->
+            <tx-power type="double">25</tx-power><!-- set in JSBSim (depends on variant and VHF/UHF) -->
         </comm>
+        <!-- JA37D FR31 / AJS FR24 -->
         <comm n="1">
-            <!-- JA37 FR31 -->
-            <tx-power type="double">15</tx-power>
+            <!-- transmission power (W), used by FGCom-mumble. -->
+            <tx-power type="double">10</tx-power><!-- FR31 (AM) -->
+        </comm>
+        <!-- JA only FR28 guard channel receiver -->
+        <comm n="2">
+            <tx-power type="double">0</tx-power><!-- no transmission -->
+            <frequencies>
+                <selected-mhz>121.5</selected-mhz><!-- fixed to guard channel -->
+            </frequencies>
         </comm>
         <nav n="0">
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
         <radio>
+            <!-- FR29 / FR22 main operation mode knob -->
+            <mode type="int">0</mode>
             <!-- AJS frequency selector panel -->
             <frequency-selector>
-                <am type="bool">false</am>
+                <am type="bool">true</am>
                 <!-- selected frequency, divided among the 4 knobs -->
                 <frequency-10mhz type="int">12</frequency-10mhz>
                 <frequency-1mhz type="int">1</frequency-1mhz>

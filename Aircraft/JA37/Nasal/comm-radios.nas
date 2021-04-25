@@ -7,8 +7,7 @@ var input = {
     freq_sel_100khz:    "instrumentation/radio/frequency-selector/frequency-100khz",
     freq_sel_1khz:      "instrumentation/radio/frequency-selector/frequency-1khz",
     comm_mhz:           "instrumentation/comm/frequencies/selected-mhz",
-    # For FGCom-mumble
-    comm_pwr:           "instrumentation/comm/tx-power",
+    comm_uhf:           "instrumentation/comm/uhf",
 };
 
 foreach(var name; keys(input)) {
@@ -20,12 +19,10 @@ foreach(var name; keys(input)) {
 var VHF_min = 103000;
 var VHF_max = variant.JA ? 159975 : 155975;
 var VHF_sep = 25;
-var VHF_power = variant.JA ? 50 : 20;
 
 var UHF_min = 225000;
 var UHF_max = 399950;
 var UHF_sep = variant.JA ? 25 : 50;
-var UHF_power = variant.JA ? 30 : 10;
 
 # Check if a frequency (in khz) is valid, i.e. in the VHF or UHF band, with appropriate separation.
 var is_VHF = func(khz) {
@@ -48,12 +45,12 @@ var is_valid_freq = func(khz) {
 # and updating the radio power depending on the band (VHF/UHF).
 var set_comm_freq = func(khz) {
     if (!is_valid_freq(khz)) {
-        input.comm_mhz.setValue(0);
+        input.comm_mhz.setValue(-1);
         return
     }
 
     input.comm_mhz.setValue(khz/1000.0);
-    input.comm_pwr.setValue(is_VHF(khz) ? VHF_power : UHF_power);
+    input.comm_uhf.setValue(is_UHF(khz));
 }
 
 
