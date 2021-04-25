@@ -714,7 +714,7 @@ var AimingMode = {
         }
 
         me.reticle.setVisible(type == "M55");
-        me.set_wingspan(15, shoot_dist);
+        me.set_wingspan(input.wingspan.getValue(), shoot_dist);
         me.wing.show();
         me.firing_mark.setVisible(g_warning and input.fourHz.getBoolValue());
 

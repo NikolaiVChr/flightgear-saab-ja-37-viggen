@@ -963,6 +963,61 @@
             </volume>
         </knobs>
 
+        <knobs>
+            <name>AJS wingspan knob even</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>controls/armament/weapon-panel/dist-knob</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-3.55</x>
+                <y>-0.45</y><!-- minus means right, plus means left -->
+                <z>0.1</z>
+            </position>
+            <volume>
+                <factor>0.30</factor>
+            </volume>
+        </knobs>
+
+        <knobs>
+            <name>AJS wingspan knob odd</name>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <mode>once</mode>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>controls/armament/weapon-panel/dist-knob</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-3.55</x>
+                <y>-0.45</y><!-- minus means right, plus means left -->
+                <z>0.1</z>
+            </position>
+            <volume>
+                <factor>0.30</factor>
+            </volume>
+        </knobs>
+
+
         <gearlever>
             <name>gearlever0</name>
             <path>Aircraft/JA37/Sounds/gear-lever.wav</path>

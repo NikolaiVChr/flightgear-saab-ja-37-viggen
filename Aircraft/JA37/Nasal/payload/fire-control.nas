@@ -25,6 +25,7 @@ var input = {
     nose_WOW:       "fdm/jsbsim/gear/unit[0]/WOW",
     time:           "/sim/time/elapsed-sec",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
+    bomb_int:       "/controls/armament/wingspan",
     ep13:           "ja37/avionics/vid",
     # Ground crew weapon panel settings
     start_left:     "/controls/armament/ground-panel/start-left",
@@ -672,8 +673,6 @@ var Bomb = {
         w.next_pos = 0;
         w.next_weapon = nil;
 
-        w.release_distance = 20;   # meter
-
         w.release_order = [];      # list of positions indicating release priority order.
         # Release order: fuselage R/L alternating, then wing R/L alternating (AJS manual)
         for(var i=0; i<4; i+=1) {
@@ -748,14 +747,14 @@ var Bomb = {
         }
     },
 
-    release_interval: func(distance) {
-        return distance / (input.speed_kt.getValue() * KT2MPS);
+    release_interval: func {
+        return input.bomb_int.getValue() / (input.speed_kt.getValue() * KT2MPS);
     },
 
     start_drop_sequence: func {
         me.firing = TRUE;
         me.drop_next_bomb();
-        me.drop_bomb_timer.restart(me.release_interval(me.release_distance));
+        me.drop_bomb_timer.restart(me.release_interval());
     },
 
     stop_drop_sequence: func {
@@ -1061,6 +1060,14 @@ if (variant.JA) {
             selected.select();
         }
     }
+
+    ## wingspan / bomb interval knob
+    # Not sure what to do when outside of the distance selection range (the LYSB part).
+    # I chose to keep the last value (10m)
+    var bomb_int_pos = [60, 50, 40, 30, 25, 20, 15, 10, 10, 10, 10];
+    setlistener("/controls/armament/weapon-panel/dist-knob", func (node) {
+        input.bomb_int.setValue(bomb_int_pos[node.getValue()]);
+    }, 1, 0);
 }
 
 

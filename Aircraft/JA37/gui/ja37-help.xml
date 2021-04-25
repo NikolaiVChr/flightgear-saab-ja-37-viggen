@@ -118,6 +118,10 @@
         <desc>Toggle MI to show type or callsign for radar selection</desc>
     </key>
     <key>
+        <name>(/)</name>
+        <desc>Decrease/increase wingspan for cannon A/A sight</desc>
+    </key>
+    <key>
         <name>H</name>
         <desc>HUD Brightness</desc>
     </key>

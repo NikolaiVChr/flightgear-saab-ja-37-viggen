@@ -734,6 +734,74 @@
             </binding>
         </key>
 
+        <key n="41">
+            <name>)</name>
+            <desc>Increase wingspan / bomb interval</desc>
+            <repeatable>true</repeatable>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-multiply</command>
+                <property>controls/armament/wingspan</property>
+                <factor>1.05</factor>
+                <min>10</min>
+                <max>60</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>controls/armament/weapon-panel/dist-knob</property>
+                <step>-1</step>
+                <min>0</min>
+                <max>10</max>
+                <wrap>false</wrap>
+            </binding>
+        </key>
+
+        <key n="40">
+            <name>(</name>
+            <desc>Decrease wingspan / bomb interval</desc>
+            <repeatable>true</repeatable>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-multiply</command>
+                <property>controls/armament/wingspan</property>
+                <factor>0.9524</factor>
+                <min>10</min>
+                <max>60</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>controls/armament/weapon-panel/dist-knob</property>
+                <step>1</step>
+                <min>0</min>
+                <max>10</max>
+                <wrap>false</wrap>
+            </binding>
+        </key>
+
         <key n="21">
               <name>Ctrl-U</name>
               <desc>[Cheat] Add 1000ft of emergency altitude</desc>
@@ -1084,46 +1152,7 @@
                 <script>ja37.click()</script>
             </binding>
          </key>
-         
-         <key n="41">
-          <name>)</name>
-          <desc>Radial Increase</desc>
-          <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.1</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/nav/radials/selected-deg</property>
-                <step>1</step>
-                <min>0</min>
-                <max>359</max>
-                <wrap>true</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-         </key>
-         
-         <key n="40">
-          <name>(</name>
-          <desc>Radial Decrease</desc>
-          <repeatable>true</repeatable>
-            <interval-sec>0.1</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/nav/radials/selected-deg</property>
-                <step>-1</step>
-                <min>0</min>
-                <max>359</max>
-                <wrap>true</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-         </key>
-         
+
          <key n="42">
           <name>*</name>
           <desc>Comm / Nav Switch</desc>

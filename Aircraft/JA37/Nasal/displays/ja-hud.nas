@@ -172,8 +172,8 @@ var FPV = {
             me.aim_gun_tgt.hide();
             me.aim_gun_free.show();
 
-            var wingspan = 15;  # m
-            var dist = 0.6;     # km
+            var wingspan = input.wingspan.getValue();   # m
+            var dist = 0.6;                             # km
 
             # Angle from center to wingspan indication lines
             var offset = wingspan/2/dist * MIL2HUD;
