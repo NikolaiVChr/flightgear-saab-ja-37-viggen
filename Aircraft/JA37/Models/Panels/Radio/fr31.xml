@@ -25,7 +25,8 @@
         <object-name>knob92</object-name>
         <object-name>knobLetters</object-name>
         <object-name>knobTal</object-name>
-        <object-name>knobVol</object-name>
+        <object-name>knobVolInner</object-name>
+        <object-name>knobVolOuter</object-name>
         <object-name>lampDmount</object-name>
         <object-name>lampTmount</object-name>
         <object-name>mount1</object-name>
@@ -48,14 +49,14 @@
 
     <animation>
         <type>knob</type>
-        <object-name>knobVol</object-name>
+        <object-name>knobVolOuter</object-name>
         <property>ja37/sound/warnings-volume</property>
-        <factor>150</factor>
-        <offset-deg>-135</offset-deg>
+        <factor>600</factor><!-- 240 deg for 0-0.4 -->
+        <offset-deg>-120</offset-deg>
         <center>
-            <x-m>  -0.04043 </x-m>
-            <y-m>  0.04445 </y-m>
-            <z-m>  0 </z-m>
+            <x-m>-0.04043</x-m>
+            <y-m>0.04445</y-m>
+            <z-m>0</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -66,7 +67,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/sound/warnings-volume</property>
-                <factor>0.05</factor>
+                <factor>0.02</factor>
                 <min>0</min>
                 <max>0.40</max>
                 <wrap>false</wrap>
@@ -76,7 +77,42 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rdioVol</tooltip-id>
-                <label>Aural warning tones volume</label>
+                <label>Warnings volume</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>knobVolInner</object-name>
+        <property>instrumentation/comm[0]/volume</property>
+        <factor>240</factor>
+        <offset-deg>-120</offset-deg>
+        <center>
+            <x-m>-0.04043</x-m>
+            <y-m>0.04445</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/comm[0]/volume</property>
+                <factor>0.05</factor>
+                <min>0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
+           </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioVol</tooltip-id>
+                <label>FR 29 comm volume</label>
             </binding>
         </hovered>
     </animation>
