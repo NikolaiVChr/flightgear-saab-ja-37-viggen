@@ -633,8 +633,7 @@ var FPV = {
 
 
 ### Aiming mode HUD
-# All aiming mode symbols, except for the aiming dot (part of the horizon),
-# the time/distance line, and the digital altitude.
+# All aiming mode symbols except for the time/distance line, and the digital altitude.
 var AimingMode = {
     new: func(parent, hud_group) {
         var m = { parents: [AimingMode], parent: parent, hud_grp: hud_group, mode: -1, };
@@ -676,30 +675,76 @@ var AimingMode = {
         }
     },
 
+    ## AA sight. Radar lock not implemented yet.
+
+    # Wingspan indicator (before radar lock)
     set_wingspan: func(span, dist) {
         var pos = span/2/dist*R2D*100;
         me.wing_L.setTranslation(-pos,0);
         me.wing_R.setTranslation(pos,0);
     },
 
-    update: func {
-        var type = fire_control.get_type();
+    update_AA: func(type) {
+        # AA mode without lock for now...
+        me.bars.hide();
+        me.range_mark.hide();
+        me.break_bars.hide();
+        me.target.hide();
+
+        # Shooting distance, depending on weapon type.
+        var shoot_dist = 0;
+        # G-load warning for IR missiles.
+        var g_warning = FALSE;
+
         if (type == "IR-RB") {
-            me.reticle.hide();
-            me.bars.hide();
-            me.wing.show();
-            me.range_mark.hide();
-            me.firing_mark.hide();
-            me.break_bars.hide();
-            me.target.hide();
-            me.set_wingspan(15, 2000);
-            # Boresight position is 0.8deg down, except for outer pylons.
+            if ((var wpn = fire_control.get_weapon()) != nil and wpn.type == "RB-24") {
+                # RB 24: distance 1000m, max 2G
+                shoot_dist = 1000;
+                g_warning = input.g_load.getValue() > 2;
+            } else {
+                # RB 24J / RB 74: distance 1500m, max 6G
+                shoot_dist = 1500;
+                g_warning = input.g_load.getValue() > 6;
+            }
+        } elsif (type == "RB-05A") {
+            # RB 05: distance 2800m, no G warning
+            shoot_dist = 2800;
+        } elsif (type == "M55") {
+            shoot_dist = 500;
+        }
+
+        me.reticle.setVisible(type == "M55");
+        me.set_wingspan(15, shoot_dist);
+        me.wing.show();
+        me.firing_mark.setVisible(g_warning and input.fourHz.getBoolValue());
+
+        if (type == "M55") {
+            # A/G sight computer is used for this, and this is essentially what the real AJS does too
+            # (no lead, target velocity is not measured, radar ranging is to indicate firing distance).
+            sight.AGsight.update(m55_AA_mode:TRUE);
+            var pos = sight.AGsight.get_pos();
+            me.reticle_pos[0] = pos[0] * MIL2HUD;
+            me.reticle_pos[1] = pos[1] * MIL2HUD;
+        } else {
+            # Missile boresight position is 0.8deg down, except for outer pylons.
             var pylon = fire_control.get_selected_pylons();
             if (size(pylon) > 0 and (pylon[0] == pylons.STATIONS.R7V or pylon[0] == pylons.STATIONS.R7H)) {
-              me.reticle_pos = [0,0];
+                me.reticle_pos = [0,0];
             } else {
-              me.reticle_pos = [0,80];
+                me.reticle_pos = [0,80];
             }
+        }
+    },
+
+    ## Main update function
+
+    update: func {
+        var type = fire_control.get_type();
+
+        if (type == "IR-RB"
+            or (type == "RB-05A" and input.wpn_knob.getValue() == fire_control.WPN_SEL.RR_LUFT)
+            or (type == "M55" and input.wpn_knob.getValue() == fire_control.WPN_SEL.AKAN_JAKT)) {
+            me.update_AA(type);
         } elsif (type == "M55" or type == "M70") {
             sight.AGsight.update();
             var pos = sight.AGsight.get_pos();
@@ -831,7 +876,10 @@ var HUD = {
 
         var type = fire_control.get_type();
         # Firing presentation is the same as navigation mode for these weapons.
-        if (type == "RB-05A" or type == "RB-04E" or type == "RB-15F" or type == "M90") return FALSE;
+        # (Rb 05: navigation mode except in A/A mode)
+        if (type == "RB-04E" or type == "RB-15F" or type == "M90"
+            or (type == "RB-05A" and input.wpn_knob.getValue() != fire_control.WPN_SEL.RR_LUFT))
+            return FALSE;
 
         return TRUE;
     },

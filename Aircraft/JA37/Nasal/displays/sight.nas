@@ -222,7 +222,8 @@ var AG_computer = {
     # Optional arguments time_estimate and drop_dist_estimate
     # can be used to feedback result of previous calls to improve accuracy.
     # (It works fine without them too)
-    get_traj: func(dist, time_estimate=0, drop_dist_estimate=0) {
+    # ignore_wind is self explanatory, used by the AJS AKAN A/A sight.
+    get_traj: func(dist, time_estimate=0, drop_dist_estimate=0, ignore_wind=0) {
         dist = math.clamp(dist, 50, me.max_dist);   # Set a minimum distance to avoid weird behaviours.
 
         var pitch = input.pitch_rad.getValue();
@@ -233,7 +234,7 @@ var AG_computer = {
             math.cos(pitch) * math.cos(roll),
         ];
 
-        var wind = me.wind_vector();
+        var wind = ignore_wind ? [0,0,0] : me.wind_vector();
 
         var init_vel = me.init_vel_vector();
         var init_speed = vector.Math.magnitudeVector(init_vel);
@@ -420,6 +421,7 @@ var AGsight = {
     has_range: FALSE,
     # Previous weapon type, to reset state appropriately.
     last_type: nil,
+    m55_AA_mode: FALSE, # AJS AKAN A/A mode. Closer to an A/G sight than an A/A sight (no lead etc.)
     active: FALSE,
     # Computed firing distance (minimum distance for safe evasion).
     min_dist: 0,
@@ -452,7 +454,7 @@ var AGsight = {
         }
     },
 
-    update: func {
+    update: func(m55_AA_mode=0) {
         me.active = TRUE;
 
         var type = fire_control.get_type();
@@ -465,34 +467,48 @@ var AGsight = {
             me.last_type = type;
         }
 
+        if (m55_AA_mode != me.m55_AA_mode) {
+            me.reset();
+            me.m55_AA_mode = m55_AA_mode;
+        }
+
         # After reset, initialize computed trajectory with projectile initial trajectory.
         if (me.traj == nil) {
             me.traj = sight.init_vel_vector();
             me.traj = vector.Math.normalize(me.traj);
         }
 
-        # Compute distance using trajectory from previous loop (feedback).
-        var res = DistanceComputer.update(me.traj);
-        me.dist = res[0];
-        me.has_range = res[1];
-        me.has_radar_range = res[2];
-        # Distance used for sight computation.
-        var sight_dist = me.dist;
+        if (me.m55_AA_mode) {
+            me.has_range = FALSE;
+            # In AJS AKAN A/A mode, target distance of 500m is always assumed.
+            # However, target speed * travel time must be added to this.
+            # From AJS SFI part 3: target speed is always assumed to be our speed -100m/s
+            var sight_dist = 500;
+            sight_dist += (input.grd_speed.getValue()*KT2MPS - 100) * me.time;
+        } else {
+            # Compute distance using trajectory from previous loop (feedback).
+            var res = DistanceComputer.update(me.traj);
+            me.dist = res[0];
+            me.has_range = res[1];
+            me.has_radar_range = res[2];
+            # Distance used for sight computation.
+            var sight_dist = me.dist;
 
-        # Compute firing distance.
-        if (me.has_range) {
-            res = FiringDistanceComputer.firing_distance(type, me.traj, TRUE);
-            me.min_dist = res[0];
-            me.opt_dist = res[1];
+            # Compute firing distance.
+            if (me.has_range) {
+                res = FiringDistanceComputer.firing_distance(type, me.traj, TRUE);
+                me.min_dist = res[0];
+                me.opt_dist = res[1];
 
-            if (!variant.JA) {
-                # For AJS, sight is computed for 3s before firing time.
-                sight_dist = math.min(sight_dist, me.opt_dist + 3*input.grd_speed.getValue()*KT2MPS);
+                if (!variant.JA) {
+                    # For AJS, sight is computed for 3s before firing time.
+                    sight_dist = math.min(sight_dist, me.opt_dist + 3*input.grd_speed.getValue()*KT2MPS);
+                }
             }
         }
 
         # Compute trajectory.
-        res = sight.get_traj(sight_dist, me.time, me.drop_dist);
+        res = sight.get_traj(sight_dist, me.time, me.drop_dist, m55_AA_mode);
         me.traj = res[0];
         me.time = res[1];
         me.drop_dist = res[2];
