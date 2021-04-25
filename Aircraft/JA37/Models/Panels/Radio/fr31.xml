@@ -76,7 +76,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>rdioVol</tooltip-id>
+                <tooltip-id>warning-vol</tooltip-id>
                 <label>Warnings volume</label>
             </binding>
         </hovered>
@@ -111,7 +111,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>rdioVol</tooltip-id>
+                <tooltip-id>comm-vol</tooltip-id>
                 <label>FR 29 comm volume</label>
             </binding>
         </hovered>
