@@ -118,8 +118,12 @@
         <desc>Toggle MI to show type or callsign for radar selection</desc>
     </key>
     <key>
-        <name>(/)</name>
+        <name>( / )</name>
         <desc>Decrease/increase wingspan for gunsight</desc>
+    </key>
+    <key>
+        <name>{ / }</name>
+        <desc>Decrease/increase distance for gunsight</desc>
     </key>
     <key>
         <name>H</name>

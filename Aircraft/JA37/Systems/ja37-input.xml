@@ -786,6 +786,46 @@
             </binding>
         </key>
 
+        <key n="125">
+            <name>}</name>
+            <desc>Increase A/A sight distance</desc>
+            <repeatable>true</repeatable>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-multiply</command>
+                <property>instrumentation/gunsight/distance-m</property>
+                <factor>1.05</factor>
+                <min>300</min>
+                <max>1200</max>
+                <wrap>false</wrap>
+            </binding>
+        </key>
+
+        <key n="123">
+            <name>{</name>
+            <desc>Decrease A/A sight distance</desc>
+            <repeatable>true</repeatable>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>property-multiply</command>
+                <property>instrumentation/gunsight/distance-m</property>
+                <factor>0.9524</factor>
+                <min>300</min>
+                <max>1200</max>
+                <wrap>false</wrap>
+            </binding>
+        </key>
+
         <key n="21">
               <name>Ctrl-U</name>
               <desc>[Cheat] Add 1000ft of emergency altitude</desc>

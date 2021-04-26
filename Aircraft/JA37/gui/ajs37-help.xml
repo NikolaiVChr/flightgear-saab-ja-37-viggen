@@ -58,7 +58,7 @@
         <desc>Weapon selector clockwise/counter-clockwise</desc>
     </key>
     <key>
-        <name>(/)</name>
+        <name>( / )</name>
         <desc>Decrease/increase wingspan / bomb interval</desc>
     </key>
     <key>
