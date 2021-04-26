@@ -319,16 +319,6 @@ var Common = {
 		return fire_control.get_weapon();
 	},
 
-	sidewinders: func {
-		me.snakes = [];
-		for(var x=1; x<=6; x+=1) {
-			if (armament.AIM.active[100*x] != nil and armament.AIM.active[100*x].guidance=="heat") {
-				append(me.snakes, armament.AIM.active[100*x]);
-			}
-		}
-		return me.snakes;
-	},
-
 	armNamePylon: func (station) {
 		me.armamentp = pylons.get_pylon_load(station);
 		if (!contains(me.arm_name_short, me.armamentp)) return nil;
@@ -425,6 +415,12 @@ var Common = {
 		# For AJS, different functionality in LOW NAV (declutter) mode
 		if (!variant.JA and hud.hud.mode == hud.hud.MODE_NAV_DECLUTTER) {
 			hud.hud.declutter_heading_toggle();
+			return;
+		}
+
+		# For JA, also used for IR seeker reference.
+		if (variant.JA and fire_control.selected != nil and fire_control.selected["is_IR"]) {
+			fire_control.selected.toggle_IR_boresight();
 			return;
 		}
 

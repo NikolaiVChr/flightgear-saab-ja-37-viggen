@@ -5,7 +5,7 @@ var FALSE = 0;
 
 
 var find_index = func(val, vec) {
-    forindex(var i; vec) if (vec[i] == val) return i;
+    forindex (var i; vec) if (vec[i] == val) return i;
     return nil;
 }
 
@@ -23,6 +23,7 @@ var input = {
     speed_kt:       "/velocities/groundspeed-kt",
     gear_pos:       "/gear/gear/position-norm",
     nose_WOW:       "fdm/jsbsim/gear/unit[0]/WOW",
+    generator:      "fdm/jsbsim/systems/electrical/generator-running-norm",
     time:           "/sim/time/elapsed-sec",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     bomb_int:       "/controls/armament/wingspan",
@@ -158,13 +159,14 @@ var Missile = {
     #   fire_delay: (float) Delay between trigger pull and firing.
     #   fire_multi_delay: (float) If non-zero, enables firing multiple weapons with a single trigger press
     #                when input.fire_single is false. The value is the delay between weapons.
+    #   hold_trigger: (bool) Trigger must be held during 'fire_delay' (only makes sense if fire_delay>0)
     #   at_everything: (bool) Required for any lock after launch, change of lock, multiple target hit, etc.
-    #   no_lock: (bool) Allow firing without missile lock.
+    #   need_lock: (bool) If missile lock is required to fire
     #   cycling: (bool) Cycling pylon is allowed with the FRAMSTEGN button. default ON
     #   fire_multi_press: (bool) Allow firing several weapons without safing the trigger.
     #   can_start_right: (bool) The AJS ground panel L/R switch is taken in account to choose the first fired side.
-    new: func(type, multi_types=nil, falld_last=0, fire_delay=0, fire_multi_delay=0,
-              at_everything=0, no_lock=0, cycling=1, fire_multi_press=0, can_start_right=0) {
+    new: func(type, multi_types=nil, falld_last=0, fire_delay=0, fire_multi_delay=0, hold_trigger=0,
+              at_everything=0, need_lock=0, cycling=1, fire_multi_press=0, can_start_right=0) {
         var w = { parents: [Missile, WeaponLogic.new(type, multi_types)], };
         w.selected = nil;
         w.station = nil;
@@ -173,8 +175,9 @@ var Missile = {
         w.falld_last = falld_last;
         w.fire_delay = fire_delay;
         w.fire_multi_delay = fire_multi_delay;
+        w.hold_trigger = hold_trigger and fire_delay > 0;
         w.at_everything = at_everything;
-        w.no_lock = no_lock;
+        w.need_lock = need_lock;
         w.cycling = cycling;
         w.fire_multi_press = fire_multi_press;
         w.can_start_right = can_start_right;
@@ -199,7 +202,10 @@ var Missile = {
             if (ty != "RB-24" and ty != "RB-24J" and ty != "RB-74") w.is_IR = FALSE;
             if (ty != "RB-75") w.is_rb75 = FALSE;
         }
-        if (w.is_IR and variant.JA) w.last_IR_lock = nil;
+        if (w.is_IR and variant.JA) {
+            w.IR_boresight = FALSE;
+            w.last_IR_lock = nil;
+        }
         if (w.is_rb75) {
             # Note: separate from seeker_timer, high refresh rate needed.
             w.rb75_timer = maketimer(0.05, w, w.rb75_loop);
@@ -347,9 +353,17 @@ var Missile = {
     },
 
     set_trigger: func(trigger) {
-        if (!me.armed() or !trigger or me.weapon == nil
-            or (!me.no_lock and me.weapon.status != armament.MISSILE_LOCK)
+        if (!me.armed() or me.weapon == nil
+            or (me.need_lock and me.weapon.status != armament.MISSILE_LOCK)
             or (me.is_rb75 and !me.rb75_can_fire())) return;
+
+        if (!trigger) {
+            # Trigger released, interput firing sequence if hold_trigger=1
+            if (me.hold_trigger and me.fire_delay > 0 and me.release_timer.isRunning) {
+                me.release_timer.stop();
+            }
+            return;
+        }
 
         # Already in the firing sequence, do nothing
         if ((me.fire_delay > 0 or me.fire_multi_delay > 0) and me.release_timer.isRunning) return;
@@ -367,20 +381,12 @@ var Missile = {
 
         # IR weapons parameters.
         if (me.is_IR) {
-            if (!variant.JA) {
-                # For AJS, locked on bore.
-                me.weapon.setAutoUncage(FALSE);
-                me.weapon.setCaged(TRUE);
-                me.weapon.setSlave(TRUE);
-                # Boresight position: 0.8 deg down, except for outer pylons (AJS SFI part 3);
-                if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
-                    me.weapon.commandDir(0,0);
-                } else {
-                    me.weapon.commandDir(0,-0.8);
-                }
-            } else {
-                me.weapon.setUncagedPattern(3, 2.5, -12);
-            }
+            me.weapon.setAutoUncage(FALSE);
+            me.weapon.setCaged(TRUE);
+            me.weapon.setSlave(TRUE);
+            # Radar command by default on JA
+            if (variant.JA) me.IR_boresight = FALSE;
+            me.update_IR_seeker_command();
         }
 
         if (me.is_rb75) {
@@ -420,20 +426,38 @@ var Missile = {
 
     # IR seeker manipulation
     uncage_IR_seeker: func {
-        if (variant.JA or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
+        if (me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
             or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
         me._uncage_seeker();
     },
 
     reset_IR_seeker: func {
-        if (variant.JA or me.weapon == nil
-            or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        if (me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
         me._reset_seeker();
-        # 0.8 deg down, except for outer pylons (AJS SFI part 3);
-        if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
-            me.weapon.commandDir(0,0);
+        me.update_IR_seeker_command();
+    },
+
+    toggle_IR_boresight: func {
+        if (me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        me.IR_boresight = !me.IR_boresight;
+    },
+
+    update_IR_seeker_command: func {
+        if (variant.JA) {
+            # JA: radar command by default, boresight if no radar target or manually selected.
+            if (radar_logic.selection == nil or me.IR_boresight) {
+                # 0.8 deg down is from AJS
+                if (me.weapon.command_tgt) me.weapon.commandDir(0,-0.8);
+            } else {
+                if (!me.weapon.command_tgt) me.weapon.commandRadar();
+            }
         } else {
-            me.weapon.commandDir(0,-0.8);
+            # For AJS, locked on bore. 0.8 deg down, except for outer pylons (AJS SFI part 3);
+            if (me.selected == STATIONS.R7V or me.selected == STATIONS.R7H) {
+                me.weapon.commandDir(0,0);
+            } else {
+                me.weapon.commandDir(0,-0.8);
+            }
         }
     },
 
@@ -447,12 +471,7 @@ var Missile = {
         # Note: not using 'setBore()' for bore sight. Instead keeping 'setSlave()'
         # and using 'commandDir()' to allow to adjust bore position, if we want to.
         if (me.is_IR and variant.JA and me.weapon.isCaged()) {
-            if (radar_logic.selection == nil or TI.ti.rb74_force_bore) {
-                # 0.8 deg down is from AJS
-                if (me.weapon.command_tgt) me.weapon.commandDir(0,-0.8);
-            } else {
-                if (!me.weapon.command_tgt) me.weapon.commandRadar();
-            }
+            me.update_IR_seeker_command();
         }
 
         # Update list of contacts on which to lock on.
@@ -606,7 +625,7 @@ var SubModelWeapon = {
     },
 
     # Argument ignored. Always select all weapons of this type.
-    select: func (pylon=nil) {
+    select: func(pylon=nil) {
         me.deselect();
 
         me.selected = pylons.find_all_pylons_by_types(me.types);
@@ -617,7 +636,7 @@ var SubModelWeapon = {
 
         setsize(me.stations, size(me.selected));
         setsize(me.weapons, size(me.selected));
-        forindex(var i; me.selected) {
+        forindex (var i; me.selected) {
             me.stations[i] = pylons.station_by_id(me.selected[i]);
             me.weapons[i] = me.stations[i].getWeapons()[0];
         }
@@ -633,7 +652,7 @@ var SubModelWeapon = {
         return TRUE;
     },
 
-    deselect: func (pylon=nil) {
+    deselect: func(pylon=nil) {
         me.set_unsafe(FALSE);
         me.selected = [];
         me.stations = [];
@@ -654,7 +673,7 @@ var SubModelWeapon = {
             input.trigger_m70.setBoolValue(FALSE);
         }
 
-        foreach(var weapon; me.weapons) {
+        foreach (var weapon; me.weapons) {
             if (me.unsafe) weapon.start(trigger_prop);
             else weapon.stop();
         }
@@ -718,11 +737,11 @@ var Bomb = {
 
         w.release_order = [];      # list of positions indicating release priority order.
         # Release order: fuselage R/L alternating, then wing R/L alternating (AJS manual)
-        for(var i=0; i<4; i+=1) {
+        for (var i=0; i<4; i+=1) {
             append(w.release_order, [STATIONS.S7H, i]);
             append(w.release_order, [STATIONS.S7V, i]);
         }
-        for(var i=0; i<4; i+=1) {
+        for (var i=0; i<4; i+=1) {
             append(w.release_order, [STATIONS.V7H, i]);
             append(w.release_order, [STATIONS.V7V, i]);
         }
@@ -742,7 +761,7 @@ var Bomb = {
     select: func(pylon=nil) {
         me.deselect();
 
-        foreach(var pos; me.release_order) {
+        foreach (var pos; me.release_order) {
             if (me.is_pos_loaded(pos)) append(me.positions, pos);
         }
         if (size(me.positions) == 0) {
@@ -763,16 +782,16 @@ var Bomb = {
 
     cycle_selection: func {},
 
-    is_pos_loaded: func (pos) {
+    is_pos_loaded: func(pos) {
         return pylons.is_loaded_with(pos[0], me.types)
             and pylons.station_by_id(pos[0]).getWeapons()[pos[1]] != nil;
     },
 
-    drop_bomb_pos: func (pos) {
+    drop_bomb_pos: func(pos) {
         pylons.station_by_id(pos[0]).fireWeapon(pos[1], radar_logic.complete_list);
     },
 
-    get_bomb_pos: func (pos) {
+    get_bomb_pos: func(pos) {
         return pylons.station_by_id(pos[0]).getWeapons()[pos[1]];
     },
 
@@ -900,14 +919,21 @@ var is_firing = func {
 if (variant.JA) {
     ### JA weapon selection.
 
+    # Common missile parameters on JA
+    var JA_Missile = {
+        new: func(type) {
+            return Missile.new(type:type, fire_delay: 0.5, hold_trigger:1, need_lock:1);
+        }
+    };
+
     # List of weapon types.
     var weapons = [
-        SubModelWeapon.new(type:"M75", ammo_factor:22), # get_ammo gives firing time
-        Missile.new(type:"RB-74", fire_delay:0.7),
-        Missile.new(type:"RB-99", fire_delay:0.7),
-        Missile.new(type:"RB-71", fire_delay:0.7),
-        Missile.new(type:"RB-24J", fire_delay:0.7),
-        SubModelWeapon.new(type:"M70", ammo_factor:6),  # get_ammo gives number of pods
+        SubModelWeapon.new(type:"M75"),
+        JA_Missile.new("RB-74"),
+        JA_Missile.new("RB-99"),
+        JA_Missile.new("RB-71"),
+        JA_Missile.new("RB-24J"),
+        SubModelWeapon.new(type:"M70"),
     ];
 
     # Set of indices considered for quick_select_missile() (A/A missiles)
@@ -969,7 +995,7 @@ if (variant.JA) {
         if (!firing_computer_on()) return;
 
         _deselect_current();
-        if(internal_gun.select()) {
+        if (internal_gun.select()) {
             _set_selected_index(0);
         } else {
             _set_selected_index(-1);
@@ -1002,7 +1028,7 @@ if (variant.JA) {
         _deselect_current();
 
         var type = pylons.get_pylon_load(pylon);
-        forindex(var i; weapons) {
+        forindex (var i; weapons) {
             # Find matching weapon type.
             if (weapons[i].type == type) {
                 # Attempt to load this pylon.
@@ -1025,16 +1051,18 @@ if (variant.JA) {
     ### AJS weapon selection
 
     var weapons = {
+        # Sidewinders can be fired without lock, but can't lock after launch (just wasted).
+        # rationale: I don't think the AJS firing computer would check for lock.
+        # On the other hand the seeker would remain straight, so realistically wouldn't find a target.
+        # missile.nas lock after launch is not appropriate for this (it would do a search pattern).
         ir_rb: Missile.new(type:"IR-RB", multi_types: ["RB-24", "RB-24J", "RB-74"], fire_delay:0.7),
         akan: SubModelWeapon.new("M55"),
-        arak: SubModelWeapon.new(type:"M70"),
-        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay: 2,
-                          at_everything:1, no_lock:1, cycling:0),
-        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_multi_delay: 2,
-                          at_everything:1, no_lock:1, can_start_right:1),
-        m90: Missile.new(type:"M90", at_everything:1, no_lock:1, can_start_right:1),
+        arak: SubModelWeapon.new("M70"),
+        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay: 2, at_everything:1, cycling:0),
+        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_multi_delay: 2, at_everything:1, can_start_right:1),
+        m90: Missile.new(type:"M90", at_everything:1, can_start_right:1),
         rb05: Rb05,
-        rb75: Missile.new(type:"RB-75", fire_delay:1, can_start_right:1),
+        rb75: Missile.new(type:"RB-75", fire_delay:1, need_lock:1, can_start_right:1),
         bomb: Bomb.new(type:"M71", multi_types: ["M71", "M71R"]),
     };
 
@@ -1119,7 +1147,7 @@ if (variant.JA) {
     # Not sure what to do when outside of the distance selection range (the LYSB part).
     # I chose to keep the last value (10m)
     var bomb_int_pos = [60, 50, 40, 30, 25, 20, 15, 10, 10, 10, 10];
-    setlistener("/controls/armament/weapon-panel/dist-knob", func (node) {
+    setlistener("/controls/armament/weapon-panel/dist-knob", func(node) {
         input.bomb_int.setValue(bomb_int_pos[node.getValue()]);
     }, 1, 0);
 }
@@ -1133,15 +1161,15 @@ var cycle_pylon = func {
     if (selected != nil) selected.cycle_selection();
 }
 
-# IR seeker release button, AJS only
+# IR seeker release button
 var uncageIR = func {
-    if (selected != nil and selected.type == "IR-RB") {
+    if (selected != nil and (selected.type == "IR-RB" or selected.type == "RB-24J" or selected.type == "RB-74")) {
         selected.uncage_IR_seeker();
     }
 }
 
 var resetIR = func {
-    if (selected != nil and selected.type == "IR-RB") {
+    if (selected != nil and (selected.type == "IR-RB" or selected.type == "RB-24J" or selected.type == "RB-74")) {
         selected.reset_IR_seeker();
     }
 }
@@ -1151,7 +1179,7 @@ var uncageIRButtonTimer = maketimer(1, resetIR);
 uncageIRButtonTimer.singleShot = TRUE;
 uncageIRButtonTimer.simulatedTime = TRUE;
 
-var uncageIRButton = func (pushed) {
+var uncageIRButton = func(pushed) {
     if (pushed) {
         uncageIR();
         uncageIRButtonTimer.start();
@@ -1162,7 +1190,7 @@ var uncageIRButton = func (pushed) {
 
 
 # Propagate controls to weapon logic.
-var trigger_listener = func (node) {
+var trigger_listener = func(node) {
     if (selected != nil) selected.set_trigger(node.getBoolValue());
 }
 
@@ -1172,7 +1200,7 @@ var safety_window = screen.window.new(x:nil, y:-15, maxlines:1, autoscroll:0);
 var safety_window_clear_timer = maketimer(3, func { safety_window.clear(); });
 safety_window_clear_timer.singleShot = TRUE;
 
-var unsafe_listener = func (node) {
+var unsafe_listener = func(node) {
     var unsafe = node.getBoolValue();
     if (selected != nil) selected.set_unsafe(unsafe);
 
@@ -1188,7 +1216,26 @@ var unsafe_listener = func (node) {
 
 
 
-#### Fire control inhibit.
+### Sidewinders cooling.
+var set_cooling = func(c) {
+    foreach (var pylon; pylons.find_all_pylons_by_types(["RB-24J", "RB-74"])) {
+        pylons.station_by_id(pylon).getWeapons()[0].setCooling(cooling);
+    }
+}
+
+var cooling = FALSE;
+
+# Guess, cooling is enabled when generator starts supplying.
+setlistener(input.generator, func(node) {
+    if ((node.getValue() > 0.95) != cooling) {
+        cooling = !cooling;
+        set_cooling(cooling);
+    }
+}, 1, 0);
+
+
+
+### Fire control inhibit.
 
 if (variant.AJS) {
     ## AJS firing computer weapons check.
@@ -1307,10 +1354,13 @@ var ReloadCallback = {
             loaded_weapons_check_callback();
             update_selected_weapon();
         }
+
+        # Set cooling for new weapons appropriately.
+        set_cooling(cooling);
     },
 
     init: func {
-        foreach(var station; pylons.stations_list) {
+        foreach (var station; pylons.stations_list) {
             pylons.station_by_id(station).setPylonListener(me);
         }
     },
@@ -1325,7 +1375,7 @@ var init = func {
 
 
     # Deselect any weapon if power turns off.
-    setlistener(power.prop.acMainBool, func (n) {
+    setlistener(power.prop.acMainBool, func(n) {
         if (!n.getBoolValue()) {
             if (variant.JA) {
                 deselect_weapon();
@@ -1342,13 +1392,13 @@ var init = func {
         # Check loaded weapons when changing ground crew weapon panel settings, and at power on.
         setlistener(input.gnd_wpn_knob, loaded_weapons_check_callback, 0, 0);
         setlistener(input.gnd_wpn_switch, loaded_weapons_check_callback, 0, 0);
-        setlistener(power.prop.acMainBool, func (n) {
+        setlistener(power.prop.acMainBool, func(n) {
             if (n.getBoolValue()) loaded_weapons_check_callback();
         }, 0, 0);
 
         # Update selected weapon (from AJS manual part 1 chap 25 sec 1.2.3)
         # - power on in mode BER
-        setlistener(power.prop.acMainBool, func (n) {
+        setlistener(power.prop.acMainBool, func(n) {
             if (n.getBoolValue() and modes.selector_ajs == modes.STBY) update_selected_weapon();
         }, 0, 0);
         # - when changing ground crew panel settings
@@ -1357,7 +1407,7 @@ var init = func {
         # - when touching the weapon selection knob
         setlistener(input.wpn_knob, update_selected_weapon, 0, 0);
         # - at rotation
-        setlistener(input.nose_WOW, func (n) {
+        setlistener(input.nose_WOW, func(n) {
             if (!n.getBoolValue()) update_selected_weapon();
         }, 0, 0);
     }

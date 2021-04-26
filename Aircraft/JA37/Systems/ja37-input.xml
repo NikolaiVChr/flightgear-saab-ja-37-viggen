@@ -474,12 +474,6 @@
             <name>U</name>
             <desc>Uncage IR seeker (held: reset seeker)</desc>
             <binding>
-                <condition>
-                    <not-equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </not-equals>
-                </condition>
                 <command>nasal</command>
                 <script>
                     fire_control.uncageIRButton(1);
@@ -488,12 +482,6 @@
             </binding>
             <mod-up>
                 <binding>
-                    <condition>
-                        <not-equals>
-                            <property>/ja37/systems/variant</property>
-                            <value>0</value>
-                        </not-equals>
-                    </condition>
                     <command>nasal</command>
                     <script>fire_control.uncageIRButton(0);</script>
                 </binding>

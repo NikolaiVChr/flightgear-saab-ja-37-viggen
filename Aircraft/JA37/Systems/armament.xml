@@ -154,7 +154,7 @@
         <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
         <coolable type="bool">true</coolable>
         <cool-time type="double">5</cool-time>
-        <cool-duration type="int">3600</cool-duration>
+        <cool-duration type="int">12000</cool-duration>               <!-- Coolant in the pylon, probably fairly long duration -->
         <warm-detect-range-nm type="double">6.5</warm-detect-range-nm>
         <detect-range-nm type="double">9.7</detect-range-nm>
         <seeker-beam-width-deg type="double">4</seeker-beam-width-deg>

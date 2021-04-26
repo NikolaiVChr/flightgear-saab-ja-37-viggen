@@ -54,6 +54,10 @@
         <desc>Press trigger</desc>
     </key>
     <key>
+        <name>U</name>
+        <desc>Uncage IR seeker after lock (hold for 1s: cage/reset seeker)</desc>
+    </key>
+    <key>
         <name>q</name>
         <desc>Release flare/chaff</desc>
     </key>
@@ -167,7 +171,7 @@
     </key>
     <key>
         <name>R</name>
-        <desc>Set target altitude (does not affect autopilot)</desc>
+        <desc>Set target altitude / toggle IR seeker boresight</desc>
     </key>
     <key>
         <name>Shift-PageUp</name>
