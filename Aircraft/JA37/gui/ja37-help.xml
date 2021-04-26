@@ -35,15 +35,11 @@
     </key>
     <key>
         <name>c</name>
-        <desc>Cycle weapons</desc>
+        <desc>Quick select missile</desc>
     </key>
     <key>
         <name>C</name>
         <desc>Quick select cannon</desc>
-    </key>
-    <key>
-        <name>u</name>
-        <desc>Quick select A/A missile</desc>
     </key>
     <key>
         <name>E</name>
@@ -51,7 +47,7 @@
     </key>
     <key>
         <name>e</name>
-        <desc>Press trigger</desc>
+        <desc>Trigger</desc>
     </key>
     <key>
         <name>U</name>
@@ -123,7 +119,7 @@
     </key>
     <key>
         <name>(/)</name>
-        <desc>Decrease/increase wingspan for cannon A/A sight</desc>
+        <desc>Decrease/increase wingspan for gunsight</desc>
     </key>
     <key>
         <name>H</name>
@@ -166,7 +162,7 @@
         <desc>Toggle autothrottle lever</desc>
     </key>
     <key>
-        <name>Ctrl-G</name>
+        <name>u</name>
         <desc>Autothrottle quick disengage</desc>
     </key>
     <key>

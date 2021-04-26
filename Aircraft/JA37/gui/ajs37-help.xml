@@ -62,16 +62,12 @@
         <desc>Decrease/increase wingspan / bomb interval</desc>
     </key>
     <key>
-        <name>u</name>
-        <desc>Quick select IR missile / Autothrottle disengage</desc>
-    </key>
-    <key>
         <name>E</name>
         <desc>Toggle trigger safety</desc>
     </key>
     <key>
         <name>e</name>
-        <desc>Press trigger</desc>
+        <desc>Trigger</desc>
     </key>
     <key>
         <name>U</name>
@@ -142,8 +138,8 @@
         <desc>Toggle autothrottle lever</desc>
     </key>
     <key>
-        <name>Ctrl-G</name>
-        <desc>Autothrottle quick disengage</desc>
+        <name>u</name>
+        <desc>Quick select IR missile / Autothrottle quick disengage</desc>
     </key>
     <key>
         <name>R</name>
