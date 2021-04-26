@@ -1021,14 +1021,15 @@
             <safety-distance type="int">1</safety-distance>
             <wingspan type="double">15</wingspan>
             <weapon-panel>
+                <!-- AJS weapon panel -->
                 <selector-knob type="int">1</selector-knob> <!-- ATTACK (avoid IR-RB as default, to not get a tone) -->
                 <dist-knob type="int">6</dist-knob>         <!-- 15 m -->
-                <switch-impulse type="bool">0</switch-impulse>
-                <switch-single type="bool">0</switch-single>
-                <jett-tank-cover type="bool">0</jett-tank-cover>
-                <jett-tank type="bool">0</jett-tank>
-                <jett-weapon-cover type="bool">0</jett-weapon-cover>
-                <jett-weapon type="bool">0</jett-weapon>
+                <switch-impulse type="bool">false</switch-impulse>
+                <switch-single type="bool">false</switch-single>
+                <jett-tank-cover type="bool">false</jett-tank-cover>
+                <jett-tank type="bool">false</jett-tank>
+                <jett-weapon-cover type="bool">false</jett-weapon-cover>
+                <jett-weapon type="bool">false</jett-weapon>
             </weapon-panel>
             <ground-panel>
                 <!-- AJS Ground crew panel -->

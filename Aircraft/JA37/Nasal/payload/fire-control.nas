@@ -26,6 +26,7 @@ var input = {
     time:           "/sim/time/elapsed-sec",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     bomb_int:       "/controls/armament/wingspan",
+    fire_single:    "/controls/armament/weapon-panel/switch-impulse",
     ep13:           "ja37/avionics/vid",
     # Ground crew weapon panel settings
     start_left:     "/controls/armament/ground-panel/start-left",
@@ -155,11 +156,15 @@ var Missile = {
     #   type, multi_types: see WeaponLogic
     #   falld_last: (bool) If the FALLD LAST indicator (for AJS) should light up after release.
     #   fire_delay: (float) Delay between trigger pull and firing.
-    #   at_everything: (bool) Required for any lock after launch, change of lock, multiple target hit...
+    #   fire_multi_delay: (float) If non-zero, enables firing multiple weapons with a single trigger press
+    #                when input.fire_single is false. The value is the delay between weapons.
+    #   at_everything: (bool) Required for any lock after launch, change of lock, multiple target hit, etc.
     #   no_lock: (bool) Allow firing without missile lock.
     #   cycling: (bool) Cycling pylon is allowed with the FRAMSTEGN button. default ON
+    #   fire_multi_press: (bool) Allow firing several weapons without safing the trigger.
     #   can_start_right: (bool) The AJS ground panel L/R switch is taken in account to choose the first fired side.
-    new: func(type, multi_types=nil, falld_last=0, fire_delay=0, at_everything=0, no_lock=0, cycling=1, can_start_right=0) {
+    new: func(type, multi_types=nil, falld_last=0, fire_delay=0, fire_multi_delay=0,
+              at_everything=0, no_lock=0, cycling=1, fire_multi_press=0, can_start_right=0) {
         var w = { parents: [Missile, WeaponLogic.new(type, multi_types)], };
         w.selected = nil;
         w.station = nil;
@@ -167,15 +172,22 @@ var Missile = {
         w.fired = FALSE;
         w.falld_last = falld_last;
         w.fire_delay = fire_delay;
+        w.fire_multi_delay = fire_multi_delay;
         w.at_everything = at_everything;
         w.no_lock = no_lock;
         w.cycling = cycling;
+        w.fire_multi_press = fire_multi_press;
         w.can_start_right = can_start_right;
 
-        if (w.fire_delay > 0) {
+        if (w.fire_delay > 0 or w.fire_multi_delay > 0) {
             w.release_timer = maketimer(w.fire_delay, w, w.release_weapon);
             w.release_timer.simulatedTime = TRUE;
             w.release_timer.singleShot = TRUE;
+        }
+
+        if (w.fire_multi_delay > 0) {
+            # Used to remember the position of the SERIES/IMPULS switch when unsafing.
+            w.fire_multiple = !input.fire_single.getBoolValue();
         }
 
         w.seeker_timer = maketimer(0.5, w, w.seeker_loop);
@@ -206,7 +218,7 @@ var Missile = {
     # Internal function. pylon must be correct (loaded with correct type...)
     _select: func(pylon) {
         # First reset state
-        me.deselect();
+        me._deselect();
 
         me.selected = pylon;
         me.station = pylons.station_by_id(me.selected);
@@ -215,13 +227,20 @@ var Missile = {
         me.start_seeker();
     },
 
-    deselect: func {
+    # Internal function. Resets weapon state, but allows to keep me.unsafe=1
+    _deselect: func {
         me.stop_seeker();
-        me.set_unsafe(FALSE);
         me.selected = nil;
         me.station = nil;
         me.weapon = nil;
         me.fired = FALSE;
+    },
+
+    # Deselect a weapon. Similar to _deselect, but forces me.unsafe=0,
+    # so that a new weapon doesn't magically get armed.
+    deselect: func {
+        me.set_unsafe(FALSE);
+        me._deselect();
     },
 
     select: func(pylon=nil) {
@@ -238,6 +257,8 @@ var Missile = {
             me.deselect();
             return FALSE;
         } else {
+            # Make sure the new weapon isn't armed until cycling trigger safety
+            me.set_unsafe(FALSE);
             me._select(pylon);
             return TRUE;
         }
@@ -245,9 +266,6 @@ var Missile = {
 
     # Internal function, select next missile of same type.
     _cycle_selection: func {
-        # Cycling is only possible when trigger is safed.
-        if (me.unsafe) return !me.fired;
-
         var priority = me.pylons_priority();
 
         var first = 0;
@@ -261,20 +279,30 @@ var Missile = {
             me.deselect();
             return FALSE;
         } else {
+            # This calls _select() and not select() on purpose.
+            # If _cycle_selection() is called while unsafe,
+            # we want the next weapon to be immediately armed.
+            # This is used by option me.fire_multi_press.
             me._select(pylon);
             return TRUE;
         }
     },
 
     # Called when pressing the 'cycle missile' button.
-    # Same as _cycle_selection, unless cycling is disabled by the argument cycling in the constructor.
+    # Same as _cycle_selection, except 1. cycling while unsafe is not possible
+    # and 2. cycling is disabled if me.cycling=0
     cycle_selection: func {
-        if (me.cycling) me._cycle_selection();
+        if (!me.unsafe and me.cycling) me._cycle_selection();
     },
 
     set_unsafe: func(unsafe) {
         # Call parent method
         call(WeaponLogic.set_unsafe, [unsafe], me);
+
+        # If switch SERIES/IMPULS is used, its value when unsafing is taken in account.
+        if (me.fire_multi_delay > 0 and me.unsafe) {
+            me.fire_multiple = !input.fire_single.getBoolValue();
+        }
 
         # Select next weapon when safing after firing.
         if (me.fired and !me.unsafe) {
@@ -286,7 +314,7 @@ var Missile = {
         if (!me.unsafe) input.release.setBoolValue(FALSE);
 
         # Interupt firing sequence if timer is running.
-        if (!me.unsafe and me.fire_delay > 0 and me.release_timer.isRunning) {
+        if (!me.unsafe and (me.fire_delay > 0 or me.fire_multi_delay > 0) and me.release_timer.isRunning) {
             me.release_timer.stop();
             input.release_fail.setBoolValue(TRUE);
         }
@@ -303,7 +331,19 @@ var Missile = {
 
         me.weapon = nil;
         me.fired = TRUE;
-        input.release.setBoolValue(me.falld_last);
+
+        # Fire more?
+        if (me.fire_multi_delay > 0 and me.fire_multiple and me._cycle_selection()) {
+            # Launch timer to fire next weapon
+            me.fired = FALSE;
+            me.release_timer.restart(me.fire_multi_delay);
+        } elsif (me.fire_multi_press and me._cycle_selection()) {
+            # Next weapon is ready to be fired at next trigger press
+            me.fired = FALSE;
+        } else {
+            # Firing sequence finished
+            input.release.setBoolValue(me.falld_last);
+        }
     },
 
     set_trigger: func(trigger) {
@@ -311,7 +351,10 @@ var Missile = {
             or (!me.no_lock and me.weapon.status != armament.MISSILE_LOCK)
             or (me.is_rb75 and !me.rb75_can_fire())) return;
 
-        if (me.fire_delay > 0) me.release_timer.start();
+        # Already in the firing sequence, do nothing
+        if ((me.fire_delay > 0 or me.fire_multi_delay > 0) and me.release_timer.isRunning) return;
+
+        if (me.fire_delay > 0) me.release_timer.restart(me.fire_delay);
         else me.release_weapon();
     },
 
@@ -690,6 +733,9 @@ var Bomb = {
 
         w.firing = FALSE;
 
+        # Used to memorize interval when unsafing. Changes to the knob while unsafe are ignored.
+        w.bomb_int = input.bomb_int.getValue();
+
         return w;
     },
 
@@ -748,7 +794,7 @@ var Bomb = {
     },
 
     release_interval: func {
-        return input.bomb_int.getValue() / (input.speed_kt.getValue() * KT2MPS);
+        return me.bomb_int / (input.speed_kt.getValue() * KT2MPS);
     },
 
     start_drop_sequence: func {
@@ -765,6 +811,12 @@ var Bomb = {
     set_unsafe: func(unsafe) {
         # Call parent method
         call(WeaponLogic.set_unsafe, [unsafe], me);
+
+        # The bomb interval when unsafing is used.
+        if (me.unsafe) {
+            me.bomb_int = input.bomb_int.getValue();
+        }
+
 
         if (!me.unsafe) {
             # 'FALLD LAST' off when securing the trigger.
@@ -976,8 +1028,10 @@ if (variant.JA) {
         ir_rb: Missile.new(type:"IR-RB", multi_types: ["RB-24", "RB-24J", "RB-74"], fire_delay:0.7),
         akan: SubModelWeapon.new("M55"),
         arak: SubModelWeapon.new(type:"M70"),
-        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, at_everything:1, no_lock:1, cycling:0),
-        rb15: Missile.new(type:"RB-15F", falld_last:1, at_everything:1, no_lock:1, can_start_right:1),
+        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay: 2,
+                          at_everything:1, no_lock:1, cycling:0),
+        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_multi_delay: 2,
+                          at_everything:1, no_lock:1, can_start_right:1),
         m90: Missile.new(type:"M90", at_everything:1, no_lock:1, can_start_right:1),
         rb05: Rb05,
         rb75: Missile.new(type:"RB-75", fire_delay:1, can_start_right:1),
