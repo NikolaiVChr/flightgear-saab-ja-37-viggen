@@ -1002,22 +1002,14 @@ if (variant.JA) {
         }
     }
 
-    # Throttle quick select buttons. Automatically engage aiming mode.
+    # Throttle quick select buttons.
     var quick_select_cannon = func {
         if (!firing_computer_on()) return;
-
-        # Switch to A/A aiming mode
-        modes.set_aiming_mode(TRUE);
-        TI.ti.ModeAttack = FALSE;
         select_cannon();
     }
 
     var quick_select_missile = func {
         if (!firing_computer_on()) return;
-
-        # Switch to A/A aiming mode
-        modes.set_aiming_mode(TRUE);
-        TI.ti.ModeAttack = FALSE;
         cycle_weapon_type(quick_select);
     }
 

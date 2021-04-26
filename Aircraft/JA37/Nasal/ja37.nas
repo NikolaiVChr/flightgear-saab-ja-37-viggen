@@ -1857,9 +1857,9 @@ var move_seat = func(dir) {
 }
 
 
-# Button on AJS throttle. Gear up: IR quick select, gear down: A/T disengage.
+# Button on throttle. Gear up on AJS: IR quick select, otherwise: A/T disengage.
 var selectIR_disengageAT = func() {
-  if (input.gearsPos.getValue() > 0) {
+  if (variant.JA or input.gearsPos.getValue() > 0) {
     autoflight.System.athrQuickDisengage();
   } else {
     fire_control.quick_select_missile();

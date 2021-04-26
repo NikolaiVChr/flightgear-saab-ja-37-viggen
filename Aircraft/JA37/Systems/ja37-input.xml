@@ -397,7 +397,7 @@
         </key>
         <key n="99">
             <name>c</name>
-            <desc>Cycle weapons.</desc>
+            <desc>Quick select missile.</desc>
             <binding>
                 <condition>
                     <equals>
@@ -407,7 +407,7 @@
                 </condition>
                 <command>nasal</command>
                 <script>
-                    fire_control.cycle_weapon_type();
+                    fire_control.quick_select_missile();
                     ja37.click();
                 </script>
             </binding>
@@ -457,15 +457,11 @@
         </key>
         <key n="117">
             <name>u</name>
-            <desc>Quick select missile</desc>
+            <desc>Disengage A/T / Quick select missile</desc>
             <binding>
                 <command>nasal</command>
                 <script>
-                    if (variant.JA) {
-                        fire_control.quick_select_missile();
-                    } else {
-                        ja37.selectIR_disengageAT();
-                    }
+                    ja37.selectIR_disengageAT();
                     ja37.click();
                 </script>
             </binding>
@@ -1699,17 +1695,6 @@
           <binding>
             <command>property-toggle</command>
             <property>/fdm/jsbsim/autoflight/athr-cmd</property>
-          </binding>
-        </key>
-        <key n="7">
-          <name>Ctrl-G</name>
-          <desc>Autothrottle quick-disengage</desc>
-          <binding>
-            <command>nasal</command>
-            <script>
-              autoflight.System.athrQuickDisengage();
-              ja37.click();
-            </script>
           </binding>
         </key>
 
