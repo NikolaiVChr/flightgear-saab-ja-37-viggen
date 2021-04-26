@@ -1802,12 +1802,6 @@
         <blackout>
             <file>Aircraft/JA37/Nasal/blackout.nas</file>
         </blackout>
-        <ch_select>
-            <file>Aircraft/JA37/Nasal/channel-selector.nas</file>
-        </ch_select>
-        <me31>
-            <file>Aircraft/JA37/Nasal/channel-selector-me31.nas</file>
-        </me31>
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>
