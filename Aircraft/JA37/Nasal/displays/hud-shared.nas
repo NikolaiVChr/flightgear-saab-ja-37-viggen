@@ -64,6 +64,7 @@ var input = {
     fourHz:         "/ja37/blink/four-Hz/state",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     wingspan:       "/controls/armament/wingspan",
+    gunsight_dist:  "/instrumentation/gunsight[0]/distance-m",
     bright:         "/ja37/hud/brightness",
     bright_hud:     "/ja37/hud/brightness-si",
     bright_bck:     "/ja37/hud/brightness-res",
