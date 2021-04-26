@@ -43,14 +43,22 @@ var disableSteerOrder = func {
 }
 
 var setSelection = func (s) {
-  if (s == selection) return;
-
-  unlockSelection();
-  selection = s;
-  if (s != nil) {
+  if (s == nil) {
+    # Deselect
+    unlockSelection();
+    selection = nil;
+    return
+  } elsif (selection != nil and s.getUnique() == selection.getUnique()) {
+    # Same selection, do nothing
+    return;
+  } else {
+    # New selection
+    unlockSelection();
+    selection = s;
     radarLogic.paint(selection.getNode(), TRUE);
     lookatSelection();
     lockLog.push(sprintf("Radar lock on to %s", s.get_Callsign()));
+    play_lock_tone();
   }
 }
 
@@ -103,6 +111,18 @@ var selectNextWaypoint = func () {
     setSelection(contact);
   }
 }
+
+
+# Lock sound
+var play_lock_tone = func {
+    input.lock_tone.setBoolValue(TRUE);
+    lock_tone_timer.start();
+}
+
+# Sound lasts for 1sec, keep prop on for 2 sec for margin.
+var lock_tone_timer = maketimer(2, func { input.lock_tone.setBoolValue(FALSE); });
+lock_tone_timer.simulatedTime = 1;
+lock_tone_timer.singleShot = 1;
 
 
 
@@ -189,6 +209,7 @@ var input = {
     lookThrough:      "ja37/radar/look-through-terrain",
     dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
     nose_wow:         "fdm/jsbsim/gear/unit[0]/WOW",
+    lock_tone:        "ja37/sound/tones/radar-lock",
 };
 
 

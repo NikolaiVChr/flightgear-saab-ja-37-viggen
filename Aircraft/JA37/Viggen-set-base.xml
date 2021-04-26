@@ -625,9 +625,11 @@
             <dist-thunder3 type="double">0.0</dist-thunder3>
             <environment-volume type="double">0.0</environment-volume>
             <rain-volume type="double">0.0</rain-volume>
-            <helmet type="double">0.9</helmet>
             <floor-ft type="double">-10000</floor-ft>
             <loadfactor-percent type="int">100</loadfactor-percent>
+            <!-- Volume knobs -->
+            <warnings-volume type="double">0.25</warnings-volume>
+            <ir-volume type="double">0.7</ir-volume>
         </sound>
         <damage>
             <enabled type="bool">true</enabled>
@@ -699,10 +701,6 @@
             <me31>
                 <button-mhz type="bool">true</button-mhz>
             </me31>
-            <fr29>
-                <!-- fr29 aka. fr31 knob for aural warning tones -->
-                <knob-vol type="double">0.25</knob-vol>
-            </fr29>
             <fr31>
                 <knob-l type="int">0</knob-l>
                 <knob-t type="int">0</knob-t>
@@ -1424,11 +1422,28 @@
         <comm n="0">
             <power-btn type="bool">true</power-btn>
             <power-good type="bool">false</power-good>
+            <!-- transmission power (W), used by FGCom-mumble. JA37 FR28 value -->
+            <tx-power type="double">50</tx-power>
+        </comm>
+        <comm n="1">
+            <!-- JA37 FR31 -->
+            <tx-power type="double">15</tx-power>
         </comm>
         <nav n="0">
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
+        <radio>
+            <!-- AJS frequency selector panel -->
+            <frequency-selector>
+                <am type="bool">false</am>
+                <!-- selected frequency, divided among the 4 knobs -->
+                <frequency-10mhz type="int">12</frequency-10mhz>
+                <frequency-1mhz type="int">1</frequency-1mhz>
+                <frequency-100khz type="int">5</frequency-100khz>
+                <frequency-1khz type="int">0</frequency-1khz>
+            </frequency-selector>
+        </radio>
         <instrumentation-light>
             <serviceable type="bool">true</serviceable>
         </instrumentation-light>
@@ -1754,9 +1769,12 @@
         <formation>
             <file>Aircraft/Generic/formation.nas</file>
         </formation>
-		<navigation>
-			<file>Aircraft/JA37/Nasal/navigation.nas</file>
-		</navigation>
+        <navigation>
+            <file>Aircraft/JA37/Nasal/navigation.nas</file>
+        </navigation>
+        <radios>
+            <file>Aircraft/JA37/Nasal/comm-radios.nas</file>
+        </radios>
         <blackout>
             <file>Aircraft/JA37/Nasal/blackout.nas</file>
         </blackout>

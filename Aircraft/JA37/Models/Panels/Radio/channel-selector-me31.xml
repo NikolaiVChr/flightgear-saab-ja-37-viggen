@@ -726,53 +726,13 @@
 		</axis>
 	</animation>
 
-<!--	<animation>
-		<type>pick</type>
-		<object-name>Switch</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-                <command>property-toggle</command>
-                <property>instrumentation/radio/switches/com-nav</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>Bas</tooltip-id>
-                <label>Select Comm/Nav</label>
-            </binding>
-        </hovered>
-	</animation>
-	<animation>
-        <type>rotate</type>
-        <object-name>Switch</object-name>
-        <property>instrumentation/radio/switches/com-nav</property>
-        <factor>-60</factor>
-        <offset-deg>30</offset-deg>
-        <center>
-            <x-m> 0.00907 </x-m>
-            <y-m> 0.03043 </y-m>
-            <z-m> 0.00348 </z-m>
-        </center>
-        <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
-        </axis>
-    </animation>-->
 
   <animation>
     <type>knob</type>
     <object-name>vol</object-name>
     <property>instrumentation/comm[1]/volume</property>
-    <factor>90</factor>
-    <offset-deg>-45</offset-deg>
+    <factor>240</factor>
+    <offset-deg>-120</offset-deg>
     <center>
       <x-m>0.00639</x-m>
       <y-m>0.04576</y-m>
@@ -787,7 +747,7 @@
       <binding>
         <command>property-adjust</command>
         <property>instrumentation/comm[1]/volume</property>
-        <factor>0.1</factor>
+        <factor>0.05</factor>
         <min>0</min>
         <max>1</max>
         <wrap>false</wrap>
@@ -797,7 +757,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>me31-volume</tooltip-id>
-        <label>Volume</label>
+        <label>FR31 comm volume</label>
       </binding>
     </hovered>
   </animation>
