@@ -59,12 +59,12 @@
 
 # JA preset channels (last two positions of the FR29 knob, unavailable on AJS)
 M       132.850
-L       143.450
+L       122.950
 
 # AJS special channels 1-3 (FR22 3 unlabelled buttons on the top row)
-S1      129.200
-S2      284.900
-S3      327.750
+S1      135.425
+S2      285.150
+S3      240.550
 
 
 ### Group channels.
@@ -80,24 +80,24 @@ S3      327.750
 
 # In the default config, JA channels 001-003 correspond to AJS special channels 1-3
 N00     Special channels
-N001    129.200
-N002    284.900
-N003    327.750
+N001    135.425
+N002    285.150
+N003    240.550
 
-N01     Group 01
-N010    125.400
-N011    129.550
-N012    143.675
-N013    114.250
-N014    339.300
-N015    227.500
-N016    304.400
-N017    277.100
-N018    257.100
-N019    265.800
+N01     Group 1
+N010    129.200
+N011    132.950
+N012    154.375
+N013    132.925
+N014    374.350
+N015    347.000
+N016    387.900
+N017    308.950
+N018    269.800
+N019    350.050
 
 
-# Airbase channels.
+### Airbase channels.
 #
 # Channel name of the form BXXC[C]
 # - literal 'B' prefix
