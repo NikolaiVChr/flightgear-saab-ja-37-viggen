@@ -554,6 +554,15 @@ if (variant.JA) {
     prop_link("instrumentation/comm[0]/volume", "instrumentation/comm[1]/volume");
 }
 
+# Link nav[2-3] to comm[0-1] (volume, frequency, power button).
+# These are fake nav radios used to listen to VOR identifiers on the comm radio.
+prop_link("instrumentation/comm[0]/volume", "instrumentation/nav[2]/volume");
+prop_link("instrumentation/comm[0]/power-btn", "instrumentation/nav[2]/power-btn");
+prop_link("instrumentation/comm[0]/frequencies/selected-mhz", "instrumentation/nav[2]/frequencies/selected-mhz");
+prop_link("instrumentation/comm[1]/volume", "instrumentation/nav[3]/volume");
+prop_link("instrumentation/comm[1]/power-btn", "instrumentation/nav[3]/power-btn");
+prop_link("instrumentation/comm[1]/frequencies/selected-mhz", "instrumentation/nav[3]/frequencies/selected-mhz");
+
 
 
 ### Initialisation

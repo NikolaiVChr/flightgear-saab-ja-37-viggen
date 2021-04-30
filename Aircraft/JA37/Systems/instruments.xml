@@ -90,6 +90,24 @@
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </nav-radio>
 
+  <!-- Nav radios 2,3 correspond to comm radios 0,1.
+       They are here for the sole purpose of hearing VOR Morse identifier when tuning to a VOR frequency.
+       (Not needed for comm[2], as it is fixed to the guard channel).
+    -->
+  <nav-radio>
+    <name>nav</name>
+    <number>2</number>
+    <power-supply>/instrumentation/comm[0]/power</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
+  </nav-radio>
+
+  <nav-radio>
+    <name>nav</name>
+    <number>3</number>
+    <power-supply>/instrumentation/comm[1]/power</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
+  </nav-radio>
+
   <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
 
   <adf>
