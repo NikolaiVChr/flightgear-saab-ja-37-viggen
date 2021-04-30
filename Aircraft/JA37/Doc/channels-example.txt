@@ -1,0 +1,116 @@
+#### Saab 37 Viggen radio preset example file
+
+# This is an example file for documentation purpose.
+# See Nasal/channels-default.txt for the default configuration.
+
+
+### Generalities
+#
+# Each line in this file is a pair
+# CHANNEL   FREQUENCY
+# Empty lines are ignored. Comments starting with '#' are allowed.
+# The channel and frequency on a non-empty line must be separated by whitespace (space or tab).
+# Additional whitespace (before, between, after the channel and frequency) is ignored.
+#
+# Allowed channel names are detailed in the rest of this file.
+# Frequencies are given as a floating point number (no suffix, etc.) in MHz.
+# The exact frequency must be given, e.g. 120.025 can not be abbreviated to 120.02
+# There is no restriction on the formatting of frequencies, e.g. 120.000 and 0120 are equivalent.
+# For style, it is recommended to stick to the format XXX.XXX
+#
+# Any frequency can be assigned to a channel in the configuration file,
+# but that does not mean the aircraft radio will be able to use it.
+# Allowed frequencies are the following.
+# AJS37:
+# - FR22 main radio:
+#   VHF 103.000MHz - 155.975MHz, 25KHz separation
+#   UHF 225.000MHz - 399.950MHz, 50KHz separation
+# JA37D:
+# - FR29 main radio:
+#   VHF 103.000MHz - 159.975MHz, 25KHz separation
+#   UHF 225.000MHz - 399.975MHz, 25KHz separation
+# - FR31 secondary radio:
+#   VHF 104.000MHz - 161.975MHz, 25KHz separation
+#   UHF 223.000MHz - 407.975MHz, 25KHz separation
+#
+# Note that the VHF bands contain the usual NAV band.
+# Don't be surprised to hear a VOR identifier if you tune to its frequency.
+#
+# Similarly, not all radios can use all channels.
+#
+# There are three types of channels: airbase channels (prefixed by B in this file),
+# group channels (prefixed by N in this file), and other 'special' channels.
+#
+# Channels configuration files can be loaded in FlightGear using ???
+# When loading a channels configuration file, any previously existing channel is erased.
+# However it is possible to load two separate configuration files:
+# one for group and special channels, and one for airbase channels.
+# When loading e.g. a file for group/special channels, all currently loaded
+# airbase channels are preserved, and all airbase channels in this file are ignored.
+#
+# The following properties can be set to load configuration files at startup:
+# - ja37/radio/channels-file
+# - ja37/radio/group-channels-file
+# - ja37/radio/base-channels-file
+# (the latter two have priority over the former).
+
+
+### Special channels
+
+# JA preset channels (last two positions of the FR29 knob, unavailable on AJS)
+M       132.850
+L       143.450
+
+# AJS special channels 1-3 (FR22 3 unlabelled buttons on the top row)
+S1      129.200
+S2      284.900
+S3      327.750
+
+
+### Group channels.
+#
+# Channel name of the form NXXC
+# - literal 'N' prefix
+# - XX is the group number (two digits)
+# - C is the channel number within the group (0 to 9)
+# AJS can use group numbers 01 to 42
+# JA can use group numbers ???
+#
+# Optional group descriptions of the form NXX <description> are allowed.
+
+# In the default config, JA channels 001-003 correspond to AJS special channels 1-3
+N00     Special channels
+N001    129.200
+N002    284.900
+N003    327.750
+
+N01     Group 01
+N010    125.400
+N011    129.550
+N012    143.675
+N013    114.250
+N014    339.300
+N015    227.500
+N016    304.400
+N017    277.100
+N018    257.100
+N019    265.800
+
+
+# Airbase channels.
+#
+# Channel name of the form BXXC[C]
+# - literal 'B' prefix
+# - XX is the base number (two digits)
+# - C[C] is the channel name, one of A,B,C,C2,D
+# AJS can use airbase numbers 01 to 84
+# JA can use airbase numbers ???
+#
+# Optional group descriptions of the form BXX <description> are allowed.
+B21     ESPE F21 Luleå
+B21A    128.200     # TWR
+#B21B
+B21C    125.450     # APP
+B21C2   130.800
+B21D    119.000     # PAR
+

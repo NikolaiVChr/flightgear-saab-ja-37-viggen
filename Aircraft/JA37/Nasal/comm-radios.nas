@@ -7,6 +7,12 @@ var input = {
     freq_sel_1mhz:      "instrumentation/radio/frequency-selector/frequency-1mhz",
     freq_sel_100khz:    "instrumentation/radio/frequency-selector/frequency-100khz",
     freq_sel_1khz:      "instrumentation/radio/frequency-selector/frequency-1khz",
+    preset_file:        "ja37/radio/channels-file",
+    preset_group_file:  "ja37/radio/group-channels-file",
+    preset_base_file:   "ja37/radio/base-channels-file",
+    gui_file:           "sim/gui/dialogs/comm-channels/channels-file",
+    gui_group_file:     "sim/gui/dialogs/comm-channels/group-channels-file",
+    gui_base_file:      "sim/gui/dialogs/comm-channels/base-channels-file",
 };
 
 foreach (var name; keys(input)) {
@@ -93,9 +99,248 @@ if (variant.JA) {
     # FR24 backup radio
     var fr24 = comm_radio.new(
         "instrumentation/comm[1]",
-        {min: 118000, max:136975, sep: 25},     # Standard air band. Made up: FR24 only uses fixed channels anyway.
+        {min: 110000, max:147000, sep: 50},     # src: Militär flygradio 1916-1990, Lars V Larsson
         nil);
 }
+
+
+
+#### Channels preset file parser
+
+## Character type functions.
+
+var is_digit = func(c) {
+    # nasal characters are numbers (ASCII code)...
+    # I don't know a way to make this more readable.
+    return c >= 48 and c <= 57;
+}
+
+# Space or tab
+var is_whitespace = func(c) {
+    return c == 32 or c == 9;
+}
+
+
+var Channels = {
+    ## Channels table
+    channels: {
+        # Global fixed channels.
+        # Randomly chosen, no idea what were the historical channels.
+        E: 127000,
+        F: 118500,
+        G: 125500,
+        # Guard, don't change this one.
+        H: 121500,
+    },
+
+
+    ## Channel names
+
+    # Suffixes for airbase channel names
+    base_channel_names: ["A", "B", "C", "C2", "D"],
+    # Global configurable channels
+    special_channels: ["M", "L", "S1", "S2", "S3"],
+
+    # ASCII characters for prefixes
+    base_prefix: 66,    # 'B'
+    group_prefix: 78,   # 'N'
+
+    # Test if 'str' is a valid group channel name. Also include the special channels.
+    is_group_channel: func(str) {
+        foreach (var channel; me.special_channels) {
+            if (str == channel) return TRUE;
+        }
+
+        if (size(str) != 4) return FALSE;
+        if (str[0] != me.group_prefix) return FALSE;
+        for (var i=1; i<4; i+=1) {
+            if (!is_digit(str[i])) return FALSE;
+        }
+        return TRUE;
+    },
+
+    # Test if 'str' is a valid airbase channel name.
+    is_base_channel: func(str) {
+        if (size(str) != 4 and size(str) != 5) return FALSE;
+        if (str[0] != me.base_prefix) return FALSE;
+        for (var i=1; i<3; i+=1) {
+            if (!is_digit(str[i])) return FALSE;
+        }
+
+        var suffix = substr(str, 3);
+        foreach (var channel; me.base_channel_names) {
+            if (suffix == channel) return TRUE;
+        }
+        return FALSE;
+    },
+
+    # Test if 'str' is an airbase or group name, which should be silently ignored
+    # in the radio config file (used to add 'comments' for airbases or groups).
+    is_comment_key: func(str) {
+        return size(str) == 3
+            and (str[0] == me.group_prefix or str[0] == me.base_prefix)
+            and is_digit(str[1]) and is_digit(str[2]);
+    },
+
+
+    ## Parser
+
+    # Parse a line, extract key (first whitespace separated token) and value (rest of line).
+    # Comments starting with '#' are allowed.
+    # Returns nil if the line is blank, [key,val] otherwise.
+    # 'key' is a non-empty string without whitespace.
+    # 'val' is a possibly empty string with whitespace stripped at both ends.
+    parse_key_val: func(line) {
+        # Strip comments
+        var comment = find("#", line);
+        if (comment >= 0) line = substr(line, 0, comment);
+        var len = size(line);
+
+        # Start of key
+        var key_s = 0;
+        while (key_s < len and is_whitespace(line[key_s])) key_s += 1;
+        if (key_s >= len) return nil;
+        # End of key
+        var key_e = key_s;
+        while (key_e < len and !is_whitespace(line[key_e])) key_e += 1;
+        var key = substr(line, key_s, key_e-key_s);
+
+        # Start of value
+        var val_s = key_e;
+        while (val_s < len and is_whitespace(line[val_s])) val_s += 1;
+        if (val_s >= len) return [key, ""];
+        # End of value
+        var val_e = len;
+        while (is_whitespace(line[val_e-1])) val_e -= 1;
+        var val = substr(line, val_s, val_e-val_s);
+
+        return [key,val];
+    },
+
+    # Parse a frequency string, return its value in KHz, or nil if it is invalid.
+    parse_freq: func(str) {
+        var f = num(str);
+        if (f == nil) return nil;
+        else return f * 1000.0;
+    },
+
+    # Clear channels table
+    reset_channels: func(reset_group_channels=1, reset_base_channels=1) {
+        foreach (var channel; keys(me.channels)) {
+            if ((reset_group_channels and me.is_group_channel(channel))
+                or (reset_base_channels and me.is_base_channel(channel))) {
+                delete(me.channels, channel);
+            }
+        }
+    },
+
+    # Load a radio channels configuration file.
+    read_file: func(path, load_group_channels=1, load_base_channels=1) {
+        var file = nil;
+        call(func { file = io.open(path, "r"); }, nil, nil, nil, var err = []);
+        if (size(err)) {
+            debug.printerror(err);
+            printf("Failed to load radio channels file: %s\n", path);
+            if (file != nil) io.close(file);
+            return;
+        }
+        printf("Reading radio channels file %s\n", path);
+
+        # Memorize loaded file paths, for GUI only.
+        var short_path = path;
+        if (size(short_path) > 50) {
+            short_path = "... "~substr(short_path, size(short_path)-46);
+        }
+        if (load_group_channels and load_base_channels) {
+            input.gui_file.setValue(short_path);
+            input.gui_group_file.clearValue();
+            input.gui_base_file.clearValue();
+        } elsif (load_group_channels) {
+            input.gui_group_file.setValue(short_path);
+            if (input.gui_base_file.getValue() == nil and input.gui_file.getValue() != nil) {
+                input.gui_base_file.setValue(input.gui_file.getValue());
+            }
+            input.gui_file.clearValue();
+        } elsif (load_base_channels) {
+            input.gui_base_file.setValue(short_path);
+            if (input.gui_group_file.getValue() == nil and input.gui_file.getValue() != nil) {
+                input.gui_group_file.setValue(input.gui_file.getValue());
+            }
+            input.gui_file.clearValue();
+        }
+
+
+        me.reset_channels(load_group_channels, load_base_channels);
+
+        # Variables for me.parser_log
+        var line_no = 0;
+
+        while ((var line = io.readln(file)) != nil) {
+            # Extract key and value from line
+            line_no += 1;
+            var res = me.parse_key_val(line);
+            if (res == nil) continue;
+
+            # 'Comment' key, skip
+            if (me.is_comment_key(res[0])) continue;
+
+            var is_group = me.is_group_channel(res[0]);
+            var is_base = me.is_base_channel(res[0]);
+
+            # Invalid channel name
+            if (!is_group and !is_base) {
+                printf("%s:%d: Warning: Ignoring unexpected channel name: %s", path, line_no, res[0]);
+                continue;
+            }
+            # Skipped channel type.
+            if ((is_group and !load_group_channels) or (is_base and !load_base_channels)) {
+                printf("%s:%d: Skipping %s channel %s (only loading %s channels)",
+                       path, line_no, is_group ? "group" : "base", res[0], is_group ? "base" : "group");
+                continue;
+            }
+            # Warnings for redefined channels.
+            if (contains(me.channels, res[0])) {
+                printf("%s:%d: Warning: Redefinition of channel %s", path, line_no, res[0]);
+            }
+            # Parse and assign new frequency.
+            var freq = me.parse_freq(res[1]);
+            if (freq == nil) {
+                printf("%s:%d: Warning: Ignoring invalid frequency: %s", path, line_no, res[1]);
+                continue;
+            }
+            me.channels[res[0]] = freq;
+        }
+
+        io.close(file);
+    },
+
+    read_group_file: func(path) {
+        me.read_file(path:path, load_base_channels:0);
+    },
+
+    read_base_file: func(path) {
+        me.read_file(path:path, load_group_channels:0);
+    },
+
+    ## Channel access functions
+
+    get: func(channel) {
+        if (contains(me.channels, channel)) return me.channels[channel];
+        else return 0;
+    },
+
+    get_group: func(channel) {
+        return me.get("N"~channel);
+    },
+
+    get_base: func(channel) {
+        return me.get("B"~channel);
+    },
+
+    guard: func() {
+        return me.get("H");
+    },
+};
 
 
 
@@ -249,14 +494,6 @@ var MODE = {
     L: 7,
 };
 
-# Special channels
-var channels = {
-    E: 0,       # Don't know what these should be
-    F: 0,
-    G: 0,
-    H: 121500,  # guard
-};
-
 
 ### Frequency update functions.
 
@@ -275,7 +512,6 @@ if (variant.AJS) {
     setlistener(input.freq_sel_1mhz, update_fr22_freq, 0, 0);
     setlistener(input.freq_sel_100khz, update_fr22_freq, 0, 0);
     setlistener(input.freq_sel_1khz, update_fr22_freq, 0, 0);
-    update_fr22_freq();
 
     # FR24 frequency is controlled by the FR24 mode knob
     var update_fr24_freq = func {
@@ -283,15 +519,45 @@ if (variant.AJS) {
         var freq = 0;
 
         if (mode == MODE.NORM_LARM) {
-            freq = channels.H;
+            freq = Channels.guard();
         } else {
             foreach (var chan; ["E", "F", "G", "H"]) {
-                if (mode == MODE[chan]) freq = channels[chan];
+                if (mode == MODE[chan]) freq = Channels.get(chan);
             }
         }
 
         fr24.set_freq(freq);
     }
 
-    setlistener(input.radio_mode, update_fr24_freq, 1, 0);
+    setlistener(input.radio_mode, update_fr24_freq, 0, 0);
+}
+
+
+var default_group_channels = getprop("/sim/aircraft-dir")~"/Nasal/channels-default.txt";
+
+var init = func {
+    var path = input.preset_file.getValue();
+    var group_path = input.preset_group_file.getValue();
+    var base_path = input.preset_base_file.getValue();
+
+    # Load default channels configuration
+    if (path == nil and group_path == nil) {
+        Channels.read_group_file(default_group_channels);
+    }
+    # Load custom ones
+    if (path != nil and (group_path == nil or base_path == nil)) {
+        Channels.read_file(path);
+    }
+    if (group_path != nil) {
+        Channels.read_group_file(group_path);
+    }
+    if (base_path != nil) {
+        Channels.read_base_file(base_path);
+    }
+
+
+    if (variant.AJS) {
+        update_fr22_freq();
+        update_fr24_freq();
+    }
 }

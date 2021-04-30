@@ -215,6 +215,14 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Load radio channels</label>
+                        <name>comm-channels</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>comm-channels</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Friends (IFF)</label>
                         <name>faf</name>
                         <binding>
