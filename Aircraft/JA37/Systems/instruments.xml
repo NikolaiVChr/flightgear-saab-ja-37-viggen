@@ -110,13 +110,6 @@
 
   <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
 
-  <adf>
-    <name>adf</name>
-    <number>0</number>
-    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
-    <minimum-supply-volts>1.0</minimum-supply-volts>
-  </adf>
-
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>0</number>
