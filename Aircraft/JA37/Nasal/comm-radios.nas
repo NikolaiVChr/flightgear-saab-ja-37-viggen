@@ -481,7 +481,6 @@ var RadioButtons = {
 
 
 
-
 # FR29 / FR22 mode knob
 var MODE = {
     NORM_LARM: 0,
@@ -533,9 +532,36 @@ if (variant.AJS) {
 }
 
 
+
+### Various linking of volume/frequencies/...
+#
+# Remark: I use listeners rather than aliases to make the link one-way only.
+# I would not want e.g. weird stuff on the nav radio side to affect the comm radio.
+
+# Set a listener, copying values from 'target' to 'link'.
+var prop_link = func(target, link) {
+    link = ensure_prop(link);
+    return setlistener(target, func (node) {
+        link.setValue(node.getValue());
+    }, 1, 0);
+}
+
+if (variant.JA) {
+    # Link FR28 backup receiver volume.
+    prop_link("instrumentation/comm[0]/volume", "instrumentation/comm[2]/volume");
+} else {
+    # AJS uses the same volume knob for FR22 and FR24.
+    prop_link("instrumentation/comm[0]/volume", "instrumentation/comm[1]/volume");
+}
+
+
+
+### Initialisation
+
 var default_group_channels = getprop("/sim/aircraft-dir")~"/Nasal/channels-default.txt";
 
 var init = func {
+    # Load channels configuration files
     var path = input.preset_file.getValue();
     var group_path = input.preset_group_file.getValue();
     var base_path = input.preset_base_file.getValue();
@@ -555,7 +581,7 @@ var init = func {
         Channels.read_base_file(base_path);
     }
 
-
+    # Initial frequencies update.
     if (variant.AJS) {
         update_fr22_freq();
         update_fr24_freq();
