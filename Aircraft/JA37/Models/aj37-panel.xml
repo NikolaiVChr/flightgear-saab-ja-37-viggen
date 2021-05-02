@@ -168,7 +168,7 @@
 
   <!-- center -->
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radar/range-selector.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radar/range-selector.xml</path>
     <name>RadarRange</name>
     <offsets>
       <x-m>  0.035</x-m>
@@ -266,7 +266,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/radio.xml</path>
+    <path>Aircraft/JA37/Models/Panels/Radio/radio.xml</path>
     <name>Radio Panel</name>
     <offsets>
       <x-m>  -0.005</x-m>

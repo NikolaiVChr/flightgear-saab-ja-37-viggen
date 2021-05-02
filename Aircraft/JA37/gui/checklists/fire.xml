@@ -9,9 +9,9 @@
         <name>Afterburner cutoff</name>
         <value>CLOSED</value>
         <marker>
-            <x-m>-3.6190</x-m>
-            <y-m>0.4430</y-m>
-            <z-m>0.2223</z-m>
+            <x-m>-3.650</x-m>
+            <y-m>0.443</y-m>
+            <z-m>0.230</z-m>
             <scale>1.0000</scale>
         </marker>
         <condition>

@@ -96,10 +96,6 @@ TODO: manual fuel controls
                 propulsion/engine[0]/n2 lt 40
                 systems/fuel/pneumatics/serviceable == 0
             </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/pneumatic-flow == 0
-            </test>
         </switch>
 
         <switch name="names/fuel/tank2-external-flow-rate-pps">
@@ -136,10 +132,6 @@ TODO: manual fuel controls
 
         <switch name="systems/fuel/xtank-output">
             <default value="-11.887742356116678"/>            <!-- 25000 L/h from xtank to 1 -->
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/xtank == 0
-            </test>
             <test logic="OR" value="0">
                 propulsion/tank[8]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
@@ -179,10 +171,6 @@ TODO: manual fuel controls
                 propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
                 systems/fuel/xtank-output lt 0
             </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 0
-            </test>
             <test logic="AND" value="-0.47550969424466712"><!-- 1000 L/h -->
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 1
@@ -190,10 +178,6 @@ TODO: manual fuel controls
             <test logic="AND" value="0">
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
-            </test>
-            <test logic="AND" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -224,10 +208,6 @@ TODO: manual fuel controls
                 propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
                 systems/fuel/xtank-output lt 0
             </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 0
-            </test>
             <test logic="AND" value="-0.47550969424466712"><!-- 1000 L/h -->
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 1
@@ -235,10 +215,6 @@ TODO: manual fuel controls
             <test logic="AND" value="0">
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
-            </test>
-            <test logic="AND" value="-0.95101938848933424">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -268,10 +244,6 @@ TODO: manual fuel controls
                 propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
                 systems/fuel/xtank-output lt 0
             </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 0
-            </test>
             <test logic="AND" value="-0.380407755395733696"><!-- 800 L/h -->
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 1
@@ -279,10 +251,6 @@ TODO: manual fuel controls
             <test logic="AND" value="0">
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
-            </test>
-            <test logic="AND" value="-0.760815510791467392">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-0.760815510791467392"><!-- 1600 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -304,10 +272,6 @@ TODO: manual fuel controls
                 propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
                 systems/fuel/xtank-output lt 0
             </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 0
-            </test>
             <test logic="AND" value="-0.570611633093600544"><!-- 1200 L/h -->
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 1
@@ -315,10 +279,6 @@ TODO: manual fuel controls
             <test logic="AND" value="0">
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
-            </test>
-            <test logic="AND" value="-1.141223266187201088">
-                /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-1.141223266187201088"><!-- 2400 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -350,10 +310,6 @@ TODO: manual fuel controls
                 propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
                 systems/fuel/xtank-output lt 0
             </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/electric-pump == 0
-            </test>
         </switch>
 
         <switch name="names/fuel/tank4-external-flow-rate-pps">
@@ -375,10 +331,6 @@ TODO: manual fuel controls
             <test logic="AND" value="0">
                 propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
                 systems/fuel/xtank-output lt 0
-            </test>
-            <test logic="AND" value="0">
-                /controls/fuel/auto == 0
-                /controls/fuel/electric-pump == 0
             </test>
         </switch>
 

@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <model>
+    <path>Aircraft/JA37/Models/Panels/Datapanel/jett-stores.xml</path>
+    <name>jett-stores</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>0.04</x-m>
+      <y-m>0.025</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/knob-a/weapons-mode.xml</path>
+    <name>weapon-mode</name>
+    <offsets>
+      <heading-deg>-90</heading-deg>
+      <x-m>0.10</x-m>
+      <y-m>0.03</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-d/sim.xml</path>
+    <name>sim</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>0.16</x-m>
+      <y-m>0.03</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Panels/Datapanel/jett-tank.xml</path>
+    <name>jett-xtank</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>0.19</x-m>
+      <y-m>0.025</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-d/safety.xml</path>
+    <name>safe</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>0.22</x-m>
+      <y-m>0.03</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Panels/counter-measure/cm.xml</path>
+    <name>cm-p</name>
+    <offsets>
+      <x-m>0.34</x-m>
+      <y-m>0.035</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Panels/FormationLights/formation-lights.xml</path>
+    <name>lights</name>
+    <offsets>
+      <heading-deg>-90</heading-deg>
+      <x-m>0.48</x-m>
+      <y-m>0.035</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-ignition-plug</name>
+    <overlay>
+      <params>
+        <prop>ja37/engine/sparkplug</prop>
+        <texture>SPARKPLUG.png</texture>
+        <tooltip-text>Ignition plug</tooltip-text>
+        <tooltip-id>switch-sparkplug</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m>0.7</x-m>
+      <y-m>0.025</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+</PropertyList>

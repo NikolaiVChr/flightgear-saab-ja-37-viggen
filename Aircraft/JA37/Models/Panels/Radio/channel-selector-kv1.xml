@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>channel-selector-me31.ac</path>
+    <path>channel-selector-kv1.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
@@ -19,11 +19,18 @@
         <object-name>9</object-name>
         <object-name>BAS</object-name>
         <object-name>NR</object-name>
-        <object-name>SM</object-name>
         <object-name>MHz</object-name>
         <object-name>CL1</object-name>
-        <object-name>vol</object-name>
+        <object-name>CL2</object-name>
+        <object-name>CL3</object-name>
         <object-name>Switch</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glassTop</object-name>
+        <object-name>glassMiddle</object-name>
+        <object-name>glassBottom</object-name>
     </effect>
     
     <effect>
@@ -33,6 +40,12 @@
         <object-name>botDig3</object-name>
         <object-name>botDig4</object-name>
         <object-name>botDig5</object-name>
+        <object-name>middleDig1</object-name>
+        <object-name>middleDig2</object-name>
+        <object-name>middleDig3</object-name>
+        <object-name>topDig1</object-name>
+        <object-name>topDig2</object-name>
+        <object-name>topDig3</object-name>
     </effect>
 
     <animation>
@@ -41,16 +54,11 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>nav</tooltip-id>
-                <label>ME31 Comm panel</label>
+                <tooltip-id>comm</tooltip-id>
+                <label>KV1 Comm panel</label>
             </binding>
         </hovered>
     </animation>
-
-    <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-        <object-name>glassBottom</object-name>
-    </effect>
 
     <animation>
         <type>pick</type>
@@ -59,16 +67,23 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-bas</property>
+                <property>ja37/radio/kv1/button-bas</property>
                 <value>1</value>
             </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/me31/button-bas</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-nr</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-mhz</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
+            </binding>
         </action>
         <hovered>
             <binding>
@@ -81,7 +96,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>BAS</object-name>
-	   <property>ja37/radio/me31/button-bas</property>
+	   <property>ja37/radio/kv1/button-bas</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -94,49 +109,6 @@
 	    </center>
 	</animation>
 
-    <animation>
-        <type>pick</type>
-        <object-name>SM</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>property-assign</command>
-                <property>ja37/radio/me31/button-ms</property>
-                <value>1</value>
-            </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/me31/button-ms</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>SM</tooltip-id>
-                <label>SM (not funtional)</label>
-            </binding>
-        </hovered>
-    </animation>
-    <animation>
-       <type>translate</type>
-       <object-name>SM</object-name>
-       <property>ja37/radio/me31/button-ms</property>
-       <factor>0.005</factor>
-       <offset-m>0</offset-m>
-       <axis>
-         <z>-1</z>
-       </axis>
-       <center>
-            <x-m>0</x-m>
-            <y-m>0</y-m>
-            <z-m>0</z-m>
-        </center>
-    </animation>
-
-
 	<animation>
         <type>pick</type>
         <object-name>NR</object-name>
@@ -144,29 +116,36 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-nr</property>
+                <property>ja37/radio/kv1/button-nr</property>
                 <value>1</value>
             </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/me31/button-nr</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-bas</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-mhz</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
+            </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Nr</tooltip-id>
-                <label>Set to preset freq (not funtional)</label>
+                <label>Set to preset freq</label>
             </binding>
         </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
 	   <object-name>NR</object-name>
-	   <property>ja37/radio/me31/button-nr</property>
+	   <property>ja37/radio/kv1/button-nr</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -186,8 +165,22 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-mhz</property>
+                <property>ja37/radio/kv1/button-mhz</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-nr</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-bas</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
             </binding>
         </action>
         <hovered>
@@ -201,7 +194,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>MHz</object-name>
-	   <property>ja37/radio/me31/button-mhz</property>
+	   <property>ja37/radio/kv1/button-mhz</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -221,17 +214,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-0</property>
+                <property>ja37/radio/kv1/button-0</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(0)</script>
+                <script>ch_select.button(0)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-0</property>
+                    <property>ja37/radio/kv1/button-0</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -240,7 +233,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>0</object-name>
-	   <property>ja37/radio/me31/button-0</property>
+	   <property>ja37/radio/kv1/button-0</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -260,17 +253,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-1</property>
+                <property>ja37/radio/kv1/button-1</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(1)</script>
+                <script>ch_select.button(1)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-1</property>
+                    <property>ja37/radio/kv1/button-1</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -279,7 +272,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>1</object-name>
-	   <property>ja37/radio/me31/button-1</property>
+	   <property>ja37/radio/kv1/button-1</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -299,17 +292,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-2</property>
+                <property>ja37/radio/kv1/button-2</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(2)</script>
+                <script>ch_select.button(2)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-2</property>
+                    <property>ja37/radio/kv1/button-2</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -318,7 +311,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>2</object-name>
-	   <property>ja37/radio/me31/button-2</property>
+	   <property>ja37/radio/kv1/button-2</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -338,17 +331,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-3</property>
+                <property>ja37/radio/kv1/button-3</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(3)</script>
+                <script>ch_select.button(3)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-3</property>
+                    <property>ja37/radio/kv1/button-3</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -357,7 +350,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>3</object-name>
-	   <property>ja37/radio/me31/button-3</property>
+	   <property>ja37/radio/kv1/button-3</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -377,17 +370,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-4</property>
+                <property>ja37/radio/kv1/button-4</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(4)</script>
+                <script>ch_select.button(4)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-4</property>
+                    <property>ja37/radio/kv1/button-4</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -396,7 +389,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>4</object-name>
-	   <property>ja37/radio/me31/button-4</property>
+	   <property>ja37/radio/kv1/button-4</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -416,17 +409,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-5</property>
+                <property>ja37/radio/kv1/button-5</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(5)</script>
+                <script>ch_select.button(5)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-5</property>
+                    <property>ja37/radio/kv1/button-5</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -435,7 +428,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>5</object-name>
-	   <property>ja37/radio/me31/button-5</property>
+	   <property>ja37/radio/kv1/button-5</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -455,17 +448,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-6</property>
+                <property>ja37/radio/kv1/button-6</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(6)</script>
+                <script>ch_select.button(6)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-6</property>
+                    <property>ja37/radio/kv1/button-6</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -474,7 +467,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>6</object-name>
-	   <property>ja37/radio/me31/button-6</property>
+	   <property>ja37/radio/kv1/button-6</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -494,17 +487,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-7</property>
+                <property>ja37/radio/kv1/button-7</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(7)</script>
+                <script>ch_select.button(7)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-7</property>
+                    <property>ja37/radio/kv1/button-7</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -513,7 +506,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>7</object-name>
-	   <property>ja37/radio/me31/button-7</property>
+	   <property>ja37/radio/kv1/button-7</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -533,17 +526,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-8</property>
+                <property>ja37/radio/kv1/button-8</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(8)</script>
+                <script>ch_select.button(8)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-8</property>
+                    <property>ja37/radio/kv1/button-8</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -552,7 +545,7 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>8</object-name>
-	   <property>ja37/radio/me31/button-8</property>
+	   <property>ja37/radio/kv1/button-8</property>
 	   <factor>0.005</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -572,17 +565,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-9</property>
+                <property>ja37/radio/kv1/button-9</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(9)</script>
+                <script>ch_select.button(9)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-9</property>
+                    <property>ja37/radio/kv1/button-9</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -591,8 +584,54 @@
 	<animation>
 	   <type>translate</type>
 	   <object-name>9</object-name>
-	   <property>ja37/radio/me31/button-9</property>
+	   <property>ja37/radio/kv1/button-9</property>
 	   <factor>0.005</factor>
+	   <offset-m>0</offset-m>
+	   <axis>
+	     <z>-1</z>
+	   </axis>
+	   <center>
+	        <x-m>0</x-m>
+	        <y-m>0</y-m>
+	        <z-m>0</z-m>
+	    </center>
+	</animation>
+
+	<animation>
+        <type>pick</type>
+        <object-name>CL1</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-cl1</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.cl1()</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/radio/kv1/button-cl1</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>tp</tooltip-id>
+                <label>Clear top display to enter new values</label>
+            </binding>
+        </hovered>
+    </animation>
+	<animation>
+	   <type>translate</type>
+	   <object-name>CL1</object-name>
+	   <property>ja37/radio/kv1/button-cl1</property>
+	   <factor>0.0025</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
 	     <z>-1</z>
@@ -611,17 +650,17 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-cl3</property>
+                <property>ja37/radio/kv1/button-cl3</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.cl3()</script>
+                <script>ch_select.cl3()</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-cl3</property>
+                    <property>ja37/radio/kv1/button-cl3</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -630,14 +669,60 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>bt</tooltip-id>
-                <label>Clear display to enter new values</label>
+                <label>Clear bottom display to enter new values</label>
             </binding>
         </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
 	   <object-name>CL3</object-name>
-	   <property>ja37/radio/me31/button-cl3</property>
+	   <property>ja37/radio/kv1/button-cl3</property>
+	   <factor>0.0025</factor>
+	   <offset-m>0</offset-m>
+	   <axis>
+	     <z>-1</z>
+	   </axis>
+	   <center>
+	        <x-m>0</x-m>
+	        <y-m>0</y-m>
+	        <z-m>0</z-m>
+	    </center>
+	</animation>
+
+	<animation>
+        <type>pick</type>
+        <object-name>CL2</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-cl2</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.cl2()</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/radio/kv1/button-cl2</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>md</tooltip-id>
+                <label>Clear middle display to enter new values</label>
+            </binding>
+        </hovered>
+    </animation>
+	<animation>
+	   <type>translate</type>
+	   <object-name>CL2</object-name>
+	   <property>ja37/radio/kv1/button-cl2</property>
 	   <factor>0.0025</factor>
 	   <offset-m>0</offset-m>
 	   <axis>
@@ -652,6 +737,12 @@
 
 	<animation>
         <type>material</type>
+        <object-name>topDig1</object-name>
+		<object-name>topDig2</object-name>
+		<object-name>topDig3</object-name>
+		<object-name>middleDig1</object-name>
+		<object-name>middleDig2</object-name>
+		<object-name>middleDig3</object-name>
 		<object-name>botDig1</object-name>
 		<object-name>botDig2</object-name>
 		<object-name>botDig3</object-name>
@@ -665,10 +756,84 @@
         </emission>
     </animation>
 
+    <animation>
+		<type>textranslate</type>
+		<object-name>topDig1</object-name>
+		<property>ja37/radio/kv1/digit-top[1]</property>
+		<bias>0</bias>
+		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
+		<step>1</step>
+		<axis>
+		<x>1</x>
+		<y>0</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>topDig2</object-name>
+		<property>ja37/radio/kv1/digit-top[2]</property>
+		<bias>0</bias>
+		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>topDig3</object-name>
+		<property>ja37/radio/kv1/digit-top[3]</property>
+		<bias>0</bias>
+		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>textranslate</type>
+		<object-name>middleDig1</object-name>
+		<property>ja37/radio/kv1/digit-middle[1]</property>
+		<bias>0</bias>
+		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
+		<step>1</step>
+		<axis>
+		<x>1</x>
+		<y>0</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>middleDig2</object-name>
+		<property>ja37/radio/kv1/digit-middle[2]</property>
+		<bias>0</bias>
+		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	<animation>
+		<type>textranslate</type>
+		<object-name>middleDig3</object-name>
+		<property>ja37/radio/kv1/digit-middle[3]</property>
+		<bias>0</bias>
+		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig1</object-name>
-		<property>ja37/radio/me31/digit-bottom-1</property>
+		<property>ja37/radio/kv1/digit-bottom[1]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -680,7 +845,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig2</object-name>
-		<property>ja37/radio/me31/digit-bottom-2</property>
+		<property>ja37/radio/kv1/digit-bottom[2]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -692,7 +857,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig3</object-name>
-		<property>ja37/radio/me31/digit-bottom-3</property>
+		<property>ja37/radio/kv1/digit-bottom[3]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -704,7 +869,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig4</object-name>
-		<property>ja37/radio/me31/digit-bottom-4</property>
+		<property>ja37/radio/kv1/digit-bottom[4]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -716,7 +881,7 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>botDig5</object-name>
-		<property>ja37/radio/me31/digit-bottom-5</property>
+		<property>ja37/radio/kv1/digit-bottom[5]</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -726,80 +891,16 @@
 		</axis>
 	</animation>
 
-<!--	<animation>
+	<animation>
 		<type>pick</type>
 		<object-name>Switch</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-                <command>property-toggle</command>
-                <property>instrumentation/radio/switches/com-nav</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-		</action>
 		<hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>Bas</tooltip-id>
-                <label>Select Comm/Nav</label>
+                <tooltip-id>amfm</tooltip-id>
+                <label>Select AM/FM</label>
             </binding>
         </hovered>
 	</animation>
-	<animation>
-        <type>rotate</type>
-        <object-name>Switch</object-name>
-        <property>instrumentation/radio/switches/com-nav</property>
-        <factor>-60</factor>
-        <offset-deg>30</offset-deg>
-        <center>
-            <x-m> 0.00907 </x-m>
-            <y-m> 0.03043 </y-m>
-            <z-m> 0.00348 </z-m>
-        </center>
-        <axis>
-            <x> 1.0 </x>
-            <y> 0.0 </y>
-            <z> 0.0 </z>
-        </axis>
-    </animation>-->
-
-  <animation>
-    <type>knob</type>
-    <object-name>vol</object-name>
-    <property>instrumentation/comm[1]/volume</property>
-    <factor>90</factor>
-    <offset-deg>-45</offset-deg>
-    <center>
-      <x-m>0.00639</x-m>
-      <y-m>0.04576</y-m>
-      <z-m>0</z-m>
-    </center>
-    <axis>
-      <x>0</x>
-      <y>0</y>
-      <z>-1</z>
-    </axis>
-    <action>
-      <binding>
-        <command>property-adjust</command>
-        <property>instrumentation/comm[1]/volume</property>
-        <factor>0.1</factor>
-        <min>0</min>
-        <max>1</max>
-        <wrap>false</wrap>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>me31-volume</tooltip-id>
-        <label>Volume</label>
-      </binding>
-    </hovered>
-  </animation>
 
 </PropertyList>

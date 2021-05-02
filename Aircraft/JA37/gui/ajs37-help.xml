@@ -34,6 +34,14 @@
         <desc>Main mode selector clockwise/counter-clockwise</desc>
     </key>
     <key>
+        <name>w</name>
+        <desc>Suppress master warning</desc>
+    </key>
+    <key>
+        <name>W</name>
+        <desc>Chronometer start/stop/reset</desc>
+    </key>
+    <key>
         <name>h</name>
         <desc>Toggle HUD position</desc>
     </key>
@@ -46,12 +54,12 @@
         <desc>Toggle radar/barometric altitude for HUD</desc>
     </key>
     <key>
-        <name>c</name>
-        <desc>Cycle weapons</desc>
+        <name>c/C</name>
+        <desc>Weapon selector clockwise/counter-clockwise</desc>
     </key>
     <key>
-        <name>u</name>
-        <desc>Quick select IR missile / Autothrottle disengage</desc>
+        <name>( / )</name>
+        <desc>Decrease/increase wingspan / bomb interval</desc>
     </key>
     <key>
         <name>E</name>
@@ -59,7 +67,7 @@
     </key>
     <key>
         <name>e</name>
-        <desc>Press trigger</desc>
+        <desc>Trigger</desc>
     </key>
     <key>
         <name>U</name>
@@ -130,8 +138,8 @@
         <desc>Toggle autothrottle lever</desc>
     </key>
     <key>
-        <name>Ctrl-G</name>
-        <desc>Autothrottle quick disengage</desc>
+        <name>u</name>
+        <desc>Quick select IR missile / Autothrottle quick disengage</desc>
     </key>
     <key>
         <name>R</name>

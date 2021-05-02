@@ -258,7 +258,7 @@
                 <checklist include="gui/checklists/takeoff.xml"/>
                 <checklist include="gui/checklists/landing.xml"/>
                 <checklist include="gui/checklists/ja37-after-landing.xml"/>
-                <checklist include="gui/checklists/shutdown.xml"/>
+                <checklist include="gui/checklists/ja37-shutdown.xml"/>
             </group>
             <group>
                 <name>Emergency Procedures</name>
@@ -277,12 +277,6 @@
 
 
 *************************************************************************-->
-
-    <controls>
-        <armament>
-            <station-select-custom type="int">0</station-select-custom>            <!-- cannon selected by default -->
-        </armament>
-    </controls>
 
     <ja37>
         <avionics>

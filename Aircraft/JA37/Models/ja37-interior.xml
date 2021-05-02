@@ -51,7 +51,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/right-panel.xml</path>
+    <path>Aircraft/JA37/Models/ja37-right-panel.xml</path>
     <name>rightPanel</name>
     <offsets><!-- order: yxz pitch 17.996 roll 8.117 heading 4.027 -->
       <roll-deg>7.717420497913652</roll-deg>
@@ -79,26 +79,26 @@
   <model>
     <path>Aircraft/JA37/Models/right-panel-top.xml</path>
     <name>rightPanelTop</name>
-    <offsets><!-- order: yxz pitch 8 roll 68 heading 5 -->
-      <heading-deg>-14.00706252059607</heading-deg>
-      <pitch-deg>20.56454358139137</pitch-deg>
-      <roll-deg>66.65863014809248</roll-deg>
-      <x-m>-2.55995</x-m>
-      <y-m>0.53412</y-m>
-      <z-m>0.05521</z-m>
+    <offsets><!-- order: yxz -->
+      <heading-deg>-19.4</heading-deg>
+      <pitch-deg>27.3</pitch-deg>
+      <roll-deg>73.3</roll-deg>
+      <x-m>-3.7793</x-m>
+      <y-m>0.42700</y-m>
+      <z-m>0.22723</z-m>
     </offsets>
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/right-panel-bottom.xml</path>
+    <path>Aircraft/JA37/Models/ja37-right-panel-bottom.xml</path>
     <name>rightPanelBottom</name>
-    <offsets><!-- order: yxz pitch 8 roll 14 heading 5 -->
-      <heading-deg>-5.703216067810287</heading-deg>
-      <pitch-deg>17.55746229928675</pitch-deg>
-      <roll-deg>36.682032956457476</roll-deg>
-      <x-m>-3.85567</x-m>
-      <y-m>0.42242</y-m>
-      <z-m>0.20891</z-m>
+    <offsets><!-- order: yxz -->
+      <heading-deg>-5.79</heading-deg>
+      <pitch-deg>17.2</pitch-deg>
+      <roll-deg>40.1</roll-deg>
+      <x-m>-3.778</x-m>
+      <y-m>0.42042</y-m>
+      <z-m>0.17135</z-m>
     </offsets>
   </model>
 
@@ -144,6 +144,19 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
+    <name>Chronometer</name>
+    <offsets>
+      <x-m> -3.8485</x-m>
+      <y-m> 0.39625</y-m>
+      <z-m>  0.2391</z-m>
+      <heading-deg>-38.1</heading-deg>
+      <pitch-deg>-19.3</pitch-deg>
+      <roll-deg>0</roll-deg>
+    </offsets>
+  </model>
+
   <!-- Disable shadows for all small objects -->
   <animation>
     <type>noshadow</type>
@@ -156,18 +169,6 @@
     <object-name>rightPanelBottom</object-name>
     <object-name>leftPanelMid</object-name>
     <object-name>leftPanelForward</object-name>
+    <object-name>Chronometer</object-name>
   </animation>
-  
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
-    <name>Chronometer</name>
-    <offsets>
-      <x-m> -3.885</x-m>
-      <y-m> 0.400</y-m>
-      <z-m>  0.200</z-m>
-      <heading-deg>-35</heading-deg>
-      <pitch-deg>-5</pitch-deg>
-      <roll-deg>-2.5</roll-deg>
-    </offsets>
-  </model>-->
 </PropertyList>

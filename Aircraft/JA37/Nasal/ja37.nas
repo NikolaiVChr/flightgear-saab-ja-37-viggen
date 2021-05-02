@@ -899,6 +899,8 @@ var Saab37 = {
       }
     }
 
+    fire_control.init();
+
     if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
@@ -1013,6 +1015,8 @@ var Saab37 = {
         print(i);
       }
     }
+
+    fire_control.init();
 
     if (!variant.JA) {
       # CI display
@@ -1363,7 +1367,7 @@ var main_init = func {
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
   print("Loading exterior, wait...");
   # return to cabin to next cycle
-  settimer(load_interior, 0, 1);
+  settimer(load_interior, 0.5, 1);
   view.setViewByIndex(1);
   setprop("/sim/gui/tooltips-enabled", TRUE);
   
@@ -1853,9 +1857,9 @@ var move_seat = func(dir) {
 }
 
 
-# Button on AJS throttle. Gear up: IR quick select, gear down: A/T disengage.
+# Button on throttle. Gear up on AJS: IR quick select, otherwise: A/T disengage.
 var selectIR_disengageAT = func() {
-  if (input.gearsPos.getValue() > 0) {
+  if (variant.JA or input.gearsPos.getValue() > 0) {
     autoflight.System.athrQuickDisengage();
   } else {
     fire_control.quick_select_missile();

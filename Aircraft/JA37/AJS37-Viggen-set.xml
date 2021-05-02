@@ -206,7 +206,7 @@
                 <checklist include="gui/checklists/takeoff.xml"/>
                 <checklist include="gui/checklists/landing.xml"/>
                 <checklist include="gui/checklists/aj37-after-landing.xml"/>
-                <checklist include="gui/checklists/shutdown.xml"/>
+                <checklist include="gui/checklists/aj37-shutdown.xml"/>
             </group>
             <group>
                 <name>Emergency Procedures</name>
@@ -219,18 +219,26 @@
             <auto-tutorials type="bool">false</auto-tutorials>
         </checklists>
     </sim>
+
+    <!-- overwrite some input stuff -->
+    <input n="0">
+      <keyboard n="0">
+        <!-- c/C should be repeatable in the AJS (weapon selector knob)
+             but not in the JA (cycle weapon, select cannon) -->
+        <key n="99"><!-- c -->
+          <repeatable>true</repeatable>
+        </key>
+        <key n="67"><!-- C -->
+          <repeatable>true</repeatable>
+        </key>
+      </keyboard>
+    </input>
     <!--**********************************************************************
 
                                           Payload
 
 
 *************************************************************************-->
-
-    <controls>
-        <armament>
-            <station-select-custom type="int">1</station-select-custom>            <!-- cannon selected by default -->
-        </armament>
-    </controls>
 
     <ja37>
         <systems>

@@ -349,7 +349,7 @@ name "A2_handle"
 data 14
 A2_handle.mesh
 crease 40.0
-texture "../black.png"
+texture "../../black.png"
 texrep 1 1
 numvert 480
 0.13732 0.0034 0.00145
@@ -4048,7 +4048,7 @@ name "A2_screw"
 data 13
 A2_screw.mesh
 crease 40.0
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 100
 0.13975 0.01673 0.00429

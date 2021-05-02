@@ -22,20 +22,24 @@
         <desc>Toggle canopy</desc>
     </key>
     <key>
+        <name>w</name>
+        <desc>Suppress master warning</desc>
+    </key>
+    <key>
+        <name>W</name>
+        <desc>Chronometer start/stop/reset</desc>
+    </key>
+    <key>
         <name>h</name>
         <desc>Toggle aiming mode</desc>
     </key>
     <key>
         <name>c</name>
-        <desc>Cycle weapons</desc>
+        <desc>Quick select missile</desc>
     </key>
     <key>
         <name>C</name>
         <desc>Quick select cannon</desc>
-    </key>
-    <key>
-        <name>u</name>
-        <desc>Quick select A/A missile</desc>
     </key>
     <key>
         <name>E</name>
@@ -43,7 +47,11 @@
     </key>
     <key>
         <name>e</name>
-        <desc>Press trigger</desc>
+        <desc>Trigger</desc>
+    </key>
+    <key>
+        <name>U</name>
+        <desc>Uncage IR seeker after lock (hold for 1s: cage/reset seeker)</desc>
     </key>
     <key>
         <name>q</name>
@@ -90,14 +98,6 @@
         <desc>Unlock selected radar track</desc>
     </key>
     <key>
-        <name>Ctrl-n</name>
-        <desc>Target next route-manager waypoint</desc>
-    </key>
-    <key>
-        <name>f</name>
-        <desc>Toggle radar steer order on current selection</desc>
-    </key>
-    <key>
         <name>Ctrl-f</name>
         <desc>IFF interrogation of radar track under the MI cursor</desc>
     </key>
@@ -108,6 +108,14 @@
     <key>
         <name>i</name>
         <desc>Toggle MI to show type or callsign for radar selection</desc>
+    </key>
+    <key>
+        <name>( / )</name>
+        <desc>Decrease/increase wingspan for gunsight</desc>
+    </key>
+    <key>
+        <name>{ / }</name>
+        <desc>Decrease/increase distance for gunsight</desc>
     </key>
     <key>
         <name>H</name>
@@ -150,12 +158,12 @@
         <desc>Toggle autothrottle lever</desc>
     </key>
     <key>
-        <name>Ctrl-G</name>
+        <name>u</name>
         <desc>Autothrottle quick disengage</desc>
     </key>
     <key>
         <name>R</name>
-        <desc>Set target altitude (does not affect autopilot)</desc>
+        <desc>Set target altitude / toggle IR seeker boresight</desc>
     </key>
     <key>
         <name>Shift-PageUp</name>

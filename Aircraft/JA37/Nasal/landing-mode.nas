@@ -260,18 +260,16 @@ var LF = func {
 };
 
 var OPT = func {
-    if (getprop("gear/gear/position-norm") > 0 or getprop("ja37/hud/landing-mode") == TRUE) {
-        printDA("OPT: activated");
-        mode = 4;
-        mode_LA_active = FALSE;
-        mode_B_active = FALSE;
-        mode_L_active = FALSE;
-        mode_LB_active = FALSE;
-        mode_LF_active = FALSE;
-        mode_OPT_active = TRUE;
-        showActiveSteer = FALSE;
-        radar_logic.disableSteerOrder();
-    }
+    printDA("OPT: activated");
+    mode = 4;
+    mode_LA_active = FALSE;
+    mode_B_active = FALSE;
+    mode_L_active = FALSE;
+    mode_LB_active = FALSE;
+    mode_LF_active = FALSE;
+    mode_OPT_active = TRUE;
+    showActiveSteer = FALSE;
+    radar_logic.disableSteerOrder();
 };
 
 

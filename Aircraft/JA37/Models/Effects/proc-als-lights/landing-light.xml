@@ -20,7 +20,7 @@
     <direction>
       <x>-1</x>
       <y>0</y>
-      <z>-0.1</z>
+      <z>-0.10</z>
     </direction>
     <ambient>
       <r>0.0</r>
@@ -41,13 +41,13 @@
       <a>1</a>
     </specular>
     <attenuation>
-      <c>0.05</c>
-      <l>0.022</l>
-      <q>0.0019</q>
+      <c>0.1</c>
+      <l>0.001</l>
+      <q>0.00003</q>
     </attenuation>
     <spot-cutoff>25</spot-cutoff>
     <spot-exponent>45</spot-exponent><!-- Lose half intensity at 10deg -->
-    <range-m>200</range-m>
+    <range-m>500</range-m>
   </light>
 
   <animation>

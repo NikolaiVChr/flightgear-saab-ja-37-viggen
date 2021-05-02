@@ -20,7 +20,7 @@
     <direction>
       <x>-1</x>
       <y>0</y>
-      <z>-0.05</z>
+      <z>-0.02</z>
     </direction>
     <ambient>
       <r>0.0</r>
@@ -42,12 +42,12 @@
     </specular>
     <attenuation>
       <c>0.1</c>
-      <l>0.05</l>
-      <q>0.009</q>
+      <l>0.003</l>
+      <q>0.0001</q>
     </attenuation>
     <spot-cutoff>40</spot-cutoff>
-    <spot-exponent>10</spot-exponent><!-- Lose half intensity at 20deg -->
-    <range-m>80</range-m>
+    <spot-exponent>15</spot-exponent><!-- Lose half intensity at 17deg -->
+    <range-m>150</range-m>
   </light>
 
   <!-- Hide in internal view when retracting, otherwise it illuminates the dashboard -->
