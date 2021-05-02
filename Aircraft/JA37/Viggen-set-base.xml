@@ -1467,6 +1467,11 @@
                 <frequency-100khz type="int">5</frequency-100khz>
                 <frequency-1khz type="int">0</frequency-1khz>
             </frequency-selector>
+            <channel-selector>
+                <fr22-button type="int">19</fr22-button><!-- '-' button (use frequency selector) -->
+                <fr22-group type="int">1</fr22-group>
+                <fr22-base-knob type="int">1</fr22-base-knob>
+            </channel-selector>
         </radio>
         <instrumentation-light>
             <serviceable type="bool">true</serviceable>

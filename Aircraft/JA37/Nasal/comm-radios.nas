@@ -7,6 +7,15 @@ var input = {
     freq_sel_1mhz:      "instrumentation/radio/frequency-selector/frequency-1mhz",
     freq_sel_100khz:    "instrumentation/radio/frequency-selector/frequency-100khz",
     freq_sel_1khz:      "instrumentation/radio/frequency-selector/frequency-1khz",
+    fr22_button:        "instrumentation/radio/channel-selector/fr22-button",
+    fr22_group:         "instrumentation/radio/channel-selector/fr22-group",
+    fr22_group_dig1:    "instrumentation/radio/channel-selector/fr22-group-digit[1]",
+    fr22_group_dig10:   "instrumentation/radio/channel-selector/fr22-group-digit[0]",
+    fr22_base:          "instrumentation/radio/channel-selector/fr22-base",
+    fr22_base_gen:      "instrumentation/radio/channel-selector/fr22-base-gen",
+    fr22_base_knob:     "instrumentation/radio/channel-selector/fr22-base-knob",
+    fr22_base_dig1:     "instrumentation/radio/channel-selector/fr22-base-digit[1]",
+    fr22_base_dig10:    "instrumentation/radio/channel-selector/fr22-base-digit[0]",
     preset_file:        "ja37/radio/channels-file",
     preset_group_file:  "ja37/radio/group-channels-file",
     preset_base_file:   "ja37/radio/base-channels-file",
@@ -218,10 +227,11 @@ var Channels = {
     },
 
     # Parse a frequency string, return its value in KHz, or nil if it is invalid.
+    # Frequencies are rounded to the nearest KHz.
     parse_freq: func(str) {
         var f = num(str);
         if (f == nil) return nil;
-        else return f * 1000.0;
+        else return math.round(f * 1000.0);
     },
 
     # Clear channels table
@@ -368,7 +378,7 @@ var RadioButtons = {
     # - n_buttons: The number of button properties, only used if button_props is a single property.
     #              (if button_props is an array, the size of this array is used instead).
     new: func(button_props, control_prop, n_buttons=nil) {
-        var b = { parents: [radio_buttons], };
+        var b = { parents: [RadioButtons], };
         b.init(button_props, control_prop, n_buttons);
         return b;
     },
@@ -480,6 +490,12 @@ var RadioButtons = {
 };
 
 
+if (variant.AJS) {
+    RadioButtons.new("instrumentation/radio/channel-selector/button", input.fr22_button, 20);
+}
+
+
+
 
 # FR29 / FR22 mode knob
 var MODE = {
@@ -497,20 +513,120 @@ var MODE = {
 ### Frequency update functions.
 
 if (variant.AJS) {
-    # FR22 frequency is controlled by the FR22 channel and frequency panels.
-    # Currently only the latter exists.
+    # Callback for FR22 panel knobs.
+    setlistener(input.fr22_group, func(node) {
+        var grp = node.getValue();
+        input.fr22_group_dig1.setValue(math.mod(grp, 10));
+        input.fr22_group_dig10.setValue(math.floor(grp/10));
+    }, 1, 0);
+
+    setlistener(input.fr22_base_knob, func(node) {
+        var base = node.getValue();
+        # Every sixth position is ALLM (global channels)
+        var gen = (math.mod(base, 6) == 5);
+        # Actual base number
+        base = math.mod(base, 6) + math.floor(base/6)*5;
+        input.fr22_base_gen.setBoolValue(gen);
+        input.fr22_base.setValue(base);
+        input.fr22_base_dig1.setValue(math.mod(base, 10));
+        input.fr22_base_dig10.setValue(math.floor(base/10));
+    }, 1, 0);
+
+    # FR22 channels panel buttons indices (for input.fr22_button)
+    var FR22_BUTTONS = {
+        GROUP_START: 0,
+        GROUP_END: 9,
+
+        BASE_START: 10,
+        BASE_END: 14,
+
+        SPECIAL_START: 15,
+        SPECIAL_END: 19,
+
+        BASE: {
+            A: 10,
+            B: 11,
+            C: 12,
+            C2: 13,
+            D: 14,
+        },
+        BASE_GEN: {
+            G: 10,
+            F: 12,
+            E: 14,
+        },
+
+        SPECIAL: {
+            H: 15,
+            S1: 16,
+            S2: 17,
+            S3: 18,
+            FREQ: 19,
+        },
+    };
+
+    # FR22 frequency update logic.
     var update_fr22_freq = func {
-        fr22.set_freq(
-            input.freq_sel_10mhz.getValue() * 10000
-            + input.freq_sel_1mhz.getValue() * 1000
-            + input.freq_sel_100khz.getValue() * 100
-            + input.freq_sel_1khz.getValue());
+        var button = input.fr22_button.getValue();
+
+        var channel = nil;
+
+        if (button >= FR22_BUTTONS.GROUP_START and button <= FR22_BUTTONS.GROUP_END) {
+            # Group button pressed
+            var channel = sprintf("N%.2d%d", input.fr22_group.getValue(), button - FR22_BUTTONS.GROUP_START);
+        } elsif (button >= FR22_BUTTONS.BASE_START and button <= FR22_BUTTONS.BASE_END) {
+            # Airbase button pressed
+            if (input.fr22_base_gen.getValue()) {
+                # Base knob in position ALLM
+                foreach (var chan; keys(FR22_BUTTONS.BASE_GEN)) {
+                    if (button == FR22_BUTTONS.BASE_GEN[chan]) {
+                        channel = chan;
+                        break;
+                    }
+                }
+            } else {
+                # Normal airbase channel usage
+                foreach (var chan; keys(FR22_BUTTONS.BASE)) {
+                    if (button == FR22_BUTTONS.BASE[chan]) {
+                        channel = sprintf("B%.2d%s", input.fr22_base.getValue(), chan);
+                        break;
+                    }
+                }
+            }
+        } elsif (button >= FR22_BUTTONS.SPECIAL_START and button <= FR22_BUTTONS.SPECIAL_END) {
+            # Special button pressed
+            foreach (var chan; keys(FR22_BUTTONS.SPECIAL)) {
+                if (button == FR22_BUTTONS.SPECIAL[chan]) {
+                    channel = chan;
+                    break;
+                }
+            }
+        }
+
+        if (channel == nil) {
+            # No valid channel
+            fr22.set_freq(0);
+        } elsif (channel == "FREQ") {
+            # Use frequency selector
+            fr22.set_freq(input.freq_sel_10mhz.getValue() * 10000
+                         + input.freq_sel_1mhz.getValue() * 1000
+                         + input.freq_sel_100khz.getValue() * 100
+                         + input.freq_sel_1khz.getValue());
+        } else {
+            # Query channel
+            fr22.set_freq(Channels.get(channel));
+        }
     }
 
     setlistener(input.freq_sel_10mhz, update_fr22_freq, 0, 0);
     setlistener(input.freq_sel_1mhz, update_fr22_freq, 0, 0);
     setlistener(input.freq_sel_100khz, update_fr22_freq, 0, 0);
     setlistener(input.freq_sel_1khz, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_button, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_group, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_base, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_base_gen, update_fr22_freq, 0, 0);
+
 
     # FR24 frequency is controlled by the FR24 mode knob
     var update_fr24_freq = func {
