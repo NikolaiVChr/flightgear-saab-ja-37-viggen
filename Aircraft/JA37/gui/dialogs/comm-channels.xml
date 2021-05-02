@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <name>comm-channels</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+
+  <nasal>
+    <open>
+      <![CDATA[
+        var load_file = func(path) {
+          radios.Channels.read_file(path.getValue());
+        }
+        var load_group_file = func(path) {
+          radios.Channels.read_group_file(path.getValue());
+        }
+        var load_base_file = func(path) {
+          radios.Channels.read_base_file(path.getValue());
+        }
+        var load_group_default = func {
+          radios.Channels.read_group_file(radios.default_group_channels);
+        }
+
+        var default_dir = getprop("/sim/fg-home");
+
+        var file_selector = gui.FileSelector.new(callback:load_file, title:"Load comm radio channels", button:"Load", dir:default_dir);
+        var file_group_selector = gui.FileSelector.new(callback:load_group_file, title:"Load comm radio general channels", button:"Load", dir:default_dir);
+        var file_base_selector = gui.FileSelector.new(callback:load_base_file, title:"Load comm radio airbase channels", button:"Load", dir:default_dir);
+      ]]>
+    </open>
+    <close>
+      <![CDATA[
+        file_selector.del();
+        file_group_selector.del();
+        file_base_selector.del();
+      ]]>
+    </close>
+  </nasal>
+
+  <group>
+    <layout>hbox</layout>
+    <empty><stretch>1</stretch></empty>
+    <text><label>Options</label></text>
+    <empty><stretch>1</stretch></empty>
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+
+  <text>
+    <label>Comm Radio Config Files</label>
+  </text>
+
+  <group>
+    <layout>table</layout>
+
+    <text>
+      <row>0</row>
+      <col>0</col>
+      <label>Global configuration file</label>
+    </text>
+
+    <button>
+      <row>0</row>
+      <col>1</col>
+      <legend>Load</legend>
+      <pref-width>80</pref-width>
+      <binding>
+        <command>nasal</command>
+        <script>file_selector.open();</script>
+      </binding>
+    </button>
+
+    <text>
+      <row>1</row>
+      <col>0</col>
+      <colspan>3</colspan>
+      <pref-width>350</pref-width>
+      <format>current: %s</format>
+      <property>sim/gui/dialogs/comm-channels/channels-file</property>
+      <live>true</live>
+    </text>
+
+    <hrule>
+      <row>2</row>
+      <col>0</col>
+      <colspan>3</colspan>
+    </hrule>
+
+    <text>
+      <row>3</row>
+      <col>0</col>
+      <label>Config for general channels only</label>
+    </text>
+
+    <button>
+      <row>3</row>
+      <col>1</col>
+      <legend>Load</legend>
+      <pref-width>80</pref-width>
+      <binding>
+        <command>nasal</command>
+        <script>file_group_selector.open();</script>
+      </binding>
+    </button>
+
+    <button>
+      <row>3</row>
+      <col>2</col>
+      <legend>Default</legend>
+      <pref-width>80</pref-width>
+      <binding>
+        <command>nasal</command>
+        <script>load_group_default();</script>
+      </binding>
+    </button>
+
+    <text>
+      <row>4</row>
+      <col>0</col>
+      <colspan>3</colspan>
+      <pref-width>350</pref-width>
+      <format>current: %s</format>
+      <property>sim/gui/dialogs/comm-channels/group-channels-file</property>
+      <live>true</live>
+    </text>
+
+    <empty>
+      <row>5</row>
+      <col>0</col>
+      <pref-height>5</pref-height>
+    </empty>
+
+    <text>
+      <row>6</row>
+      <col>0</col>
+      <label>Config for airbase channels only</label>
+    </text>
+
+    <button>
+      <row>6</row>
+      <col>1</col>
+      <legend>Load</legend>
+      <pref-width>80</pref-width>
+      <binding>
+        <command>nasal</command>
+        <script>file_base_selector.open();</script>
+      </binding>
+    </button>
+
+    <text>
+      <row>7</row>
+      <col>0</col>
+      <colspan>3</colspan>
+      <pref-width>350</pref-width>
+      <format>current: %s</format>
+      <property>sim/gui/dialogs/comm-channels/base-channels-file</property>
+      <live>true</live>
+    </text>
+  </group>
+</PropertyList>
