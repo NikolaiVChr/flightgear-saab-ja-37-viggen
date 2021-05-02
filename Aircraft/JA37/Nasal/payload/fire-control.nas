@@ -381,15 +381,14 @@ var Missile = {
 
         # IR weapons parameters.
         if (me.is_IR) {
-            me.weapon.setAutoUncage(FALSE);
-            me.weapon.setCaged(TRUE);
-            me.weapon.setSlave(TRUE);
+            me._reset_seeker();
             # Radar command by default on JA
             if (variant.JA) me.IR_boresight = FALSE;
             me.update_IR_seeker_command();
         }
 
         if (me.is_rb75) {
+            me._reset_seeker();
             # Make sure the Rb 75 seeker gets initialised in the seeker loop.
             me.rb75_last_seeker_on = FALSE;
             me.rb75_timer.start();
