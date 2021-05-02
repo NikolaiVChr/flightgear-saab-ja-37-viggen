@@ -503,6 +503,7 @@ var Missile = {
 
     rb75_loop: func {
         if (!me.weapon_ready()) {
+            input.ep13.setBoolValue(FALSE);
             me.rb75_timer.stop();
             return;
         }
