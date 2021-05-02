@@ -1455,23 +1455,22 @@
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
+        <fr22>
+            <!-- frequency selector panel -->
+            <am type="bool">true</am>
+            <!-- selected frequency, divided among the 4 knobs -->
+            <frequency-10mhz type="int">12</frequency-10mhz>
+            <frequency-1mhz type="int">1</frequency-1mhz>
+            <frequency-100khz type="int">5</frequency-100khz>
+            <frequency-1khz type="int">0</frequency-1khz>
+            <!-- channel selector panel -->
+            <button-selected type="int">19</button-selected><!-- '-' button (use frequency selector) -->
+            <group type="int">1</group>
+            <base-knob type="int">1</base-knob>
+        </fr22>
         <radio>
             <!-- FR29 / FR22 main operation mode knob -->
             <mode type="int">0</mode>
-            <!-- AJS frequency selector panel -->
-            <frequency-selector>
-                <am type="bool">true</am>
-                <!-- selected frequency, divided among the 4 knobs -->
-                <frequency-10mhz type="int">12</frequency-10mhz>
-                <frequency-1mhz type="int">1</frequency-1mhz>
-                <frequency-100khz type="int">5</frequency-100khz>
-                <frequency-1khz type="int">0</frequency-1khz>
-            </frequency-selector>
-            <channel-selector>
-                <fr22-button type="int">19</fr22-button><!-- '-' button (use frequency selector) -->
-                <fr22-group type="int">1</fr22-group>
-                <fr22-base-knob type="int">1</fr22-base-knob>
-            </channel-selector>
         </radio>
         <instrumentation-light>
             <serviceable type="bool">true</serviceable>

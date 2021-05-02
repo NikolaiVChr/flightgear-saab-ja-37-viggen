@@ -59,7 +59,7 @@
   <animation>
     <type>knob</type>
     <object-name>leftMicroKnob</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-10mhz</property>
+    <property>instrumentation/fr22/frequency-10mhz</property>
     <factor>36</factor>
     <center>
       <x-m>0</x-m>
@@ -75,7 +75,7 @@
       <binding>
         <command>property-adjust</command>
         <!-- 103 to 399 MHz -->
-        <property>instrumentation/radio/frequency-selector/frequency-10mhz</property>
+        <property>instrumentation/fr22/frequency-10mhz</property>
         <min>10</min>
         <max>39</max>
         <wrap>false</wrap>
@@ -93,7 +93,7 @@
   <animation>
     <type>knob</type>
     <object-name>leftMacroKnob</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-1mhz</property>
+    <property>instrumentation/fr22/frequency-1mhz</property>
     <factor>36</factor>
     <center>
       <x-m>0</x-m>
@@ -108,7 +108,7 @@
     <action>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/radio/frequency-selector/frequency-1mhz</property>
+        <property>instrumentation/fr22/frequency-1mhz</property>
         <min>0</min>
         <max>10</max>
         <wrap>true</wrap>
@@ -126,7 +126,7 @@
   <animation>
     <type>knob</type>
     <object-name>rightMacroKnob</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-100khz</property>
+    <property>instrumentation/fr22/frequency-100khz</property>
     <factor>36</factor>
     <center>
       <x-m>0</x-m>
@@ -141,7 +141,7 @@
     <action>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/radio/frequency-selector/frequency-100khz</property>
+        <property>instrumentation/fr22/frequency-100khz</property>
         <min>0</min>
         <max>10</max>
         <wrap>true</wrap>
@@ -159,7 +159,7 @@
   <animation>
     <type>knob</type>
     <object-name>rightMicroKnob</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-1khz</property>
+    <property>instrumentation/fr22/frequency-1khz</property>
     <factor>3.6</factor>
     <center>
       <x-m>0</x-m>
@@ -174,7 +174,7 @@
     <action>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/radio/frequency-selector/frequency-1khz</property>
+        <property>instrumentation/fr22/frequency-1khz</property>
         <min>0</min>
         <max>100</max>
         <factor>25</factor>
@@ -195,7 +195,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>100000sFreq</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-10mhz</property>
+    <property>instrumentation/fr22/frequency-10mhz</property>
     <factor>0.01</factor>
     <step>10</step>
     <axis>
@@ -207,7 +207,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>10000sFreq</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-10mhz</property>
+    <property>instrumentation/fr22/frequency-10mhz</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -219,7 +219,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>1000sFreq</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-1mhz</property>
+    <property>instrumentation/fr22/frequency-1mhz</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -231,7 +231,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>100sFreq</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-100khz</property>
+    <property>instrumentation/fr22/frequency-100khz</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -243,7 +243,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>10sFreq</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-1khz</property>
+    <property>instrumentation/fr22/frequency-1khz</property>
     <factor>0.01</factor>
     <step>10</step>
     <axis>
@@ -255,7 +255,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>1sFreq</object-name>
-    <property>instrumentation/radio/frequency-selector/frequency-1khz</property>
+    <property>instrumentation/fr22/frequency-1khz</property>
     <factor>0.1</factor>
     <step>1</step>
     <axis>
@@ -272,7 +272,7 @@
       <button>0</button>
       <binding>
         <command>property-toggle</command>
-        <property>instrumentation/radio/frequency-selector/am</property>
+        <property>instrumentation/fr22/am</property>
       </binding>
       <binding>
         <command>nasal</command>
@@ -291,7 +291,7 @@
   <animation>
     <type>rotate</type>
     <object-name>switch</object-name>
-    <property>instrumentation/radio/frequency-selector/am</property>
+    <property>instrumentation/fr22/am</property>
     <factor>60</factor>
     <offset-deg>-30</offset-deg>
     <center>

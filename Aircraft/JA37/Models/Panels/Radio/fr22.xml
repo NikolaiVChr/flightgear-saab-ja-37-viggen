@@ -74,7 +74,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[0]</property>
+        <property>instrumentation/fr22/button[0]</property>
         <value>1</value>
       </binding>
     </action>
@@ -89,7 +89,7 @@
   <animation>
     <type>translate</type>
     <object-name>button0</object-name>
-    <property>instrumentation/radio/channel-selector/button[0]</property>
+    <property>instrumentation/fr22/button[0]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -103,7 +103,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[1]</property>
+        <property>instrumentation/fr22/button[1]</property>
         <value>1</value>
       </binding>
     </action>
@@ -118,7 +118,7 @@
   <animation>
     <type>translate</type>
     <object-name>button1</object-name>
-    <property>instrumentation/radio/channel-selector/button[1]</property>
+    <property>instrumentation/fr22/button[1]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -132,7 +132,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[2]</property>
+        <property>instrumentation/fr22/button[2]</property>
         <value>1</value>
       </binding>
     </action>
@@ -147,7 +147,7 @@
   <animation>
     <type>translate</type>
     <object-name>button2</object-name>
-    <property>instrumentation/radio/channel-selector/button[2]</property>
+    <property>instrumentation/fr22/button[2]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -161,7 +161,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[3]</property>
+        <property>instrumentation/fr22/button[3]</property>
         <value>1</value>
       </binding>
     </action>
@@ -176,7 +176,7 @@
   <animation>
     <type>translate</type>
     <object-name>button3</object-name>
-    <property>instrumentation/radio/channel-selector/button[3]</property>
+    <property>instrumentation/fr22/button[3]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -190,7 +190,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[4]</property>
+        <property>instrumentation/fr22/button[4]</property>
         <value>1</value>
       </binding>
     </action>
@@ -205,7 +205,7 @@
   <animation>
     <type>translate</type>
     <object-name>button4</object-name>
-    <property>instrumentation/radio/channel-selector/button[4]</property>
+    <property>instrumentation/fr22/button[4]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -219,7 +219,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[5]</property>
+        <property>instrumentation/fr22/button[5]</property>
         <value>1</value>
       </binding>
     </action>
@@ -234,7 +234,7 @@
   <animation>
     <type>translate</type>
     <object-name>button5</object-name>
-    <property>instrumentation/radio/channel-selector/button[5]</property>
+    <property>instrumentation/fr22/button[5]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -248,7 +248,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[6]</property>
+        <property>instrumentation/fr22/button[6]</property>
         <value>1</value>
       </binding>
     </action>
@@ -263,7 +263,7 @@
   <animation>
     <type>translate</type>
     <object-name>button6</object-name>
-    <property>instrumentation/radio/channel-selector/button[6]</property>
+    <property>instrumentation/fr22/button[6]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -277,7 +277,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[7]</property>
+        <property>instrumentation/fr22/button[7]</property>
         <value>1</value>
       </binding>
     </action>
@@ -292,7 +292,7 @@
   <animation>
     <type>translate</type>
     <object-name>button7</object-name>
-    <property>instrumentation/radio/channel-selector/button[7]</property>
+    <property>instrumentation/fr22/button[7]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -306,7 +306,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[8]</property>
+        <property>instrumentation/fr22/button[8]</property>
         <value>1</value>
       </binding>
     </action>
@@ -321,7 +321,7 @@
   <animation>
     <type>translate</type>
     <object-name>button8</object-name>
-    <property>instrumentation/radio/channel-selector/button[8]</property>
+    <property>instrumentation/fr22/button[8]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -335,7 +335,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[9]</property>
+        <property>instrumentation/fr22/button[9]</property>
         <value>1</value>
       </binding>
     </action>
@@ -350,7 +350,7 @@
   <animation>
     <type>translate</type>
     <object-name>button9</object-name>
-    <property>instrumentation/radio/channel-selector/button[9]</property>
+    <property>instrumentation/fr22/button[9]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -364,7 +364,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[10]</property>
+        <property>instrumentation/fr22/button[10]</property>
         <value>1</value>
       </binding>
     </action>
@@ -379,7 +379,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonA</object-name>
-    <property>instrumentation/radio/channel-selector/button[10]</property>
+    <property>instrumentation/fr22/button[10]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -393,7 +393,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[11]</property>
+        <property>instrumentation/fr22/button[11]</property>
         <value>1</value>
       </binding>
     </action>
@@ -408,7 +408,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonB</object-name>
-    <property>instrumentation/radio/channel-selector/button[11]</property>
+    <property>instrumentation/fr22/button[11]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -422,7 +422,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[12]</property>
+        <property>instrumentation/fr22/button[12]</property>
         <value>1</value>
       </binding>
     </action>
@@ -437,7 +437,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonC</object-name>
-    <property>instrumentation/radio/channel-selector/button[12]</property>
+    <property>instrumentation/fr22/button[12]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -451,7 +451,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[13]</property>
+        <property>instrumentation/fr22/button[13]</property>
         <value>1</value>
       </binding>
     </action>
@@ -466,7 +466,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonC2</object-name>
-    <property>instrumentation/radio/channel-selector/button[13]</property>
+    <property>instrumentation/fr22/button[13]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -480,7 +480,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[14]</property>
+        <property>instrumentation/fr22/button[14]</property>
         <value>1</value>
       </binding>
     </action>
@@ -495,7 +495,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonD</object-name>
-    <property>instrumentation/radio/channel-selector/button[14]</property>
+    <property>instrumentation/fr22/button[14]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -509,7 +509,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[15]</property>
+        <property>instrumentation/fr22/button[15]</property>
         <value>1</value>
       </binding>
     </action>
@@ -524,7 +524,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonH</object-name>
-    <property>instrumentation/radio/channel-selector/button[15]</property>
+    <property>instrumentation/fr22/button[15]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -538,7 +538,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[16]</property>
+        <property>instrumentation/fr22/button[16]</property>
         <value>1</value>
       </binding>
     </action>
@@ -553,7 +553,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonS1</object-name>
-    <property>instrumentation/radio/channel-selector/button[16]</property>
+    <property>instrumentation/fr22/button[16]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -567,7 +567,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[17]</property>
+        <property>instrumentation/fr22/button[17]</property>
         <value>1</value>
       </binding>
     </action>
@@ -582,7 +582,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonS2</object-name>
-    <property>instrumentation/radio/channel-selector/button[17]</property>
+    <property>instrumentation/fr22/button[17]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -596,7 +596,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[18]</property>
+        <property>instrumentation/fr22/button[18]</property>
         <value>1</value>
       </binding>
     </action>
@@ -611,7 +611,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonS3</object-name>
-    <property>instrumentation/radio/channel-selector/button[18]</property>
+    <property>instrumentation/fr22/button[18]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -625,7 +625,7 @@
       <button>0</button>
       <binding>
         <command>property-assign</command>
-        <property>instrumentation/radio/channel-selector/button[19]</property>
+        <property>instrumentation/fr22/button[19]</property>
         <value>1</value>
       </binding>
     </action>
@@ -640,7 +640,7 @@
   <animation>
     <type>translate</type>
     <object-name>buttonM</object-name>
-    <property>instrumentation/radio/channel-selector/button[19]</property>
+    <property>instrumentation/fr22/button[19]</property>
     <factor>0.004</factor>
     <axis>
       <z>-1</z>
@@ -651,7 +651,7 @@
   <animation>
     <type>knob</type>
     <object-name>knob_group</object-name>
-    <property>instrumentation/radio/channel-selector/fr22-group</property>
+    <property>instrumentation/fr22/group</property>
     <factor>18</factor>
     <center>
       <x-m>0.002629</x-m>
@@ -666,7 +666,7 @@
     <action>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/radio/channel-selector/fr22-group</property>
+        <property>instrumentation/fr22/group</property>
         <min>1</min>
         <max>41</max>
         <wrap>false</wrap>
@@ -684,7 +684,7 @@
   <animation>
     <type>knob</type>
     <object-name>knob_base</object-name>
-    <property>instrumentation/radio/channel-selector/fr22-base-knob</property>
+    <property>instrumentation/fr22/base-knob</property>
     <factor>18</factor>
     <center>
       <x-m>0.002629</x-m>
@@ -699,7 +699,7 @@
     <action>
       <binding>
         <command>property-adjust</command>
-        <property>instrumentation/radio/channel-selector/fr22-base-knob</property>
+        <property>instrumentation/fr22/base-knob</property>
         <min>1</min>
         <max>101</max>  <!-- Channels up to 84, with ALLM added every sixth position -->
         <wrap>false</wrap>
@@ -718,7 +718,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>group10</object-name>
-    <property>instrumentation/radio/channel-selector/fr22-group-digit[0]</property>
+    <property>instrumentation/fr22/group-digit[0]</property>
     <factor>0.09375</factor>
     <axis>
       <x>0</x>
@@ -728,7 +728,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>group1</object-name>
-    <property>instrumentation/radio/channel-selector/fr22-group-digit[1]</property>
+    <property>instrumentation/fr22/group-digit[1]</property>
     <factor>0.09375</factor>
     <axis>
       <x>0</x>
@@ -739,7 +739,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>base10</object-name>
-    <property>instrumentation/radio/channel-selector/fr22-base-digit[0]</property>
+    <property>instrumentation/fr22/base-digit[0]</property>
     <factor>0.09375</factor>
     <axis>
       <x>0</x>
@@ -749,7 +749,7 @@
   <animation>
     <type>textranslate</type>
     <object-name>base1</object-name>
-    <property>instrumentation/radio/channel-selector/fr22-base-digit[1]</property>
+    <property>instrumentation/fr22/base-digit[1]</property>
     <factor>0.09375</factor>
     <axis>
       <x>0</x>
@@ -762,14 +762,14 @@
     <object-name>base1</object-name>
     <object-name>base10</object-name>
     <condition>
-      <not><property>instrumentation/radio/channel-selector/fr22-base-gen</property></not>
+      <not><property>instrumentation/fr22/base-gen</property></not>
     </condition>
   </animation>
   <animation>
     <type>select</type>
     <object-name>base_gen</object-name>
     <condition>
-      <property>instrumentation/radio/channel-selector/fr22-base-gen</property>
+      <property>instrumentation/fr22/base-gen</property>
     </condition>
   </animation>
 

@@ -3,19 +3,19 @@ var FALSE = 0;
 
 var input = {
     radio_mode:         "instrumentation/radio/mode",
-    freq_sel_10mhz:     "instrumentation/radio/frequency-selector/frequency-10mhz",
-    freq_sel_1mhz:      "instrumentation/radio/frequency-selector/frequency-1mhz",
-    freq_sel_100khz:    "instrumentation/radio/frequency-selector/frequency-100khz",
-    freq_sel_1khz:      "instrumentation/radio/frequency-selector/frequency-1khz",
-    fr22_button:        "instrumentation/radio/channel-selector/fr22-button",
-    fr22_group:         "instrumentation/radio/channel-selector/fr22-group",
-    fr22_group_dig1:    "instrumentation/radio/channel-selector/fr22-group-digit[1]",
-    fr22_group_dig10:   "instrumentation/radio/channel-selector/fr22-group-digit[0]",
-    fr22_base:          "instrumentation/radio/channel-selector/fr22-base",
-    fr22_base_gen:      "instrumentation/radio/channel-selector/fr22-base-gen",
-    fr22_base_knob:     "instrumentation/radio/channel-selector/fr22-base-knob",
-    fr22_base_dig1:     "instrumentation/radio/channel-selector/fr22-base-digit[1]",
-    fr22_base_dig10:    "instrumentation/radio/channel-selector/fr22-base-digit[0]",
+    freq_sel_10mhz:     "instrumentation/fr22/frequency-10mhz",
+    freq_sel_1mhz:      "instrumentation/fr22/frequency-1mhz",
+    freq_sel_100khz:    "instrumentation/fr22/frequency-100khz",
+    freq_sel_1khz:      "instrumentation/fr22/frequency-1khz",
+    fr22_button:        "instrumentation/fr22/button-selected",
+    fr22_group:         "instrumentation/fr22/group",
+    fr22_group_dig1:    "instrumentation/fr22/group-digit[1]",
+    fr22_group_dig10:   "instrumentation/fr22/group-digit[0]",
+    fr22_base:          "instrumentation/fr22/base",
+    fr22_base_gen:      "instrumentation/fr22/base-gen",
+    fr22_base_knob:     "instrumentation/fr22/base-knob",
+    fr22_base_dig1:     "instrumentation/fr22/base-digit[1]",
+    fr22_base_dig10:    "instrumentation/fr22/base-digit[0]",
     preset_file:        "ja37/radio/channels-file",
     preset_group_file:  "ja37/radio/group-channels-file",
     preset_base_file:   "ja37/radio/base-channels-file",
@@ -491,7 +491,7 @@ var RadioButtons = {
 
 
 if (variant.AJS) {
-    RadioButtons.new("instrumentation/radio/channel-selector/button", input.fr22_button, 20);
+    RadioButtons.new("instrumentation/fr22/button", input.fr22_button, 20);
 }
 
 
