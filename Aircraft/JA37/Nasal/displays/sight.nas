@@ -261,7 +261,7 @@ var AG_computer = {
 # The various guns and rockets.
 var M75AGsight = AG_computer.new(0.36, 1030, 0.193, 0.000126677, 0, 8000);
 var M55sight = AG_computer.new(0.22, 741, 0.193, 0.00012667701, -0.0265, 8000);
-var M70sight = AG_computer.new(45.4, 600, 0.0001, 0.005, 0.0677, 8000);
+var M70sight = AG_computer.new(45.4, 450, 0.0001, 0.005, 0.0677, 8000);
 
 
 
