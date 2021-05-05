@@ -691,21 +691,9 @@
             <battery-reinit type="bool">false</battery-reinit>
         </systems>
         <radio>
-            <kv1>
-                <button-mhz type="bool">true</button-mhz>
-                <switch type="bool">true</switch><!-- set to FM per default -->
-            </kv1>
-            <kv3>
-                <code type="int">0</code>
-            </kv3>
             <me31>
                 <button-mhz type="bool">true</button-mhz>
             </me31>
-            <fr31>
-                <knob-l type="int">0</knob-l>
-                <knob-t type="int">0</knob-t>
-                <s-m type="int">0</s-m>
-            </fr31>
         </radio>
         <faf>
           <!-- populated by Nasal/radar/faf.nas -->
@@ -1468,6 +1456,12 @@
             <group type="int">1</group>
             <base-knob type="int">1</base-knob>
         </fr22>
+        <kv1>
+            <button-bas type="bool">false</button-bas>
+            <button-nr type="bool">false</button-nr>
+            <button-mhz type="bool">true</button-mhz>
+            <button-selected type="int">0</button-selected><!-- MHz selected -->
+        </kv1>
         <radio>
             <!-- FR29 / FR22 main operation mode knob -->
             <mode type="int">0</mode>
@@ -1617,10 +1611,11 @@
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
         <datalink>
-            <channel_prop type="string">/ja37/radio/kv3/code</channel_prop>
+            <channel_prop type="string">/instrumentation/datalink/channel</channel_prop>
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
             <on type="bool">false</on>
             <power type="bool">false</power>
+            <channel type="int">0</channel>
         </datalink>
         <gunsight>
             <distance-m type="double">600</distance-m>

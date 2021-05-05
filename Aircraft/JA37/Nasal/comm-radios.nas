@@ -16,6 +16,11 @@ var input = {
     fr22_base_knob:     "instrumentation/fr22/base-knob",
     fr22_base_dig1:     "instrumentation/fr22/base-digit[1]",
     fr22_base_dig10:    "instrumentation/fr22/base-digit[0]",
+    kv1_freq:           "instrumentation/kv1/button-mhz",
+    kv1_group:          "instrumentation/kv1/button-nr",
+    kv1_base:           "instrumentation/kv1/button-bas",
+    kv1_button:         "instrumentation/kv1/button-selected",
+    kv3_channel:        "instrumentation/datalink/channel",
     preset_file:        "ja37/radio/channels-file",
     preset_group_file:  "ja37/radio/group-channels-file",
     preset_base_file:   "ja37/radio/base-channels-file",
@@ -492,6 +497,309 @@ var RadioButtons = {
 
 if (variant.AJS) {
     RadioButtons.new("instrumentation/fr22/button", input.fr22_button, 20);
+} else {
+    RadioButtons.new([input.kv1_freq, input.kv1_group, input.kv1_base], input.kv1_button);
+}
+
+
+
+#### JA radio selector displays logic
+
+### Keypad shared between several input controllers.
+#
+# Each controller can take_focus(), after which calls to Keypad.button()
+# are redirected to this controller button() method, until it calls Keypad.release(),
+# or another controller calls take_focus(),
+# When a controller looses focus, this controller on_focus_lost() method is called.
+#
+# Arg: no_focus_callback: if non nil, called instead of controller.button() when no controller has focus.
+var Keypad = {
+    new: func(no_focus_callback=nil) {
+        var k = { parents: [Keypad], };
+        k.controller = nil;
+        k.no_focus_callback = no_focus_callback;
+        return k;
+    },
+
+    take_focus: func(c) {
+        if (me.controller != nil) {
+            me.controller.on_focus_lost();
+        }
+        me.controller = c;
+    },
+
+    release: func {
+        me.controller = nil;
+    },
+
+    button: func(n) {
+        if (me.controller != nil) me.controller.button(n);
+        elsif (me.no_focus_callback != nil) me.no_focus_callback(n);
+    },
+};
+
+var InputScreen = {
+    # Arguments:
+    # - digit_base_prop, n_digits: specify the properties used to display digits.
+    #   The index of digit_base_prop if any is dropped, and the digit properties become
+    #   digit_base_prop[0 to n_digits-1]
+    # - keypad: keypad object used to input on this screen.
+    # - digit_offset, blank, waiting, error: values to assign to the digit properties
+    #   for the various symbols.
+    # - input_callback: called on the array of values whenever a new full, valid input is done.
+    # - validate (optional): called on the array of values for each new partial input.
+    new: func(digit_base_prop, n_digits, keypad,
+              digit_offset, blank, waiting, error,
+              input_callback, validate=nil) {
+        var s = {
+            parents: [InputScreen],
+            digit_base_prop: digit_base_prop,
+            n_digits: n_digits,
+            keypad: keypad,
+            digit_offset: digit_offset,
+            blank: blank,
+            waiting: waiting,
+            error: error,
+            input_callback: input_callback,
+            validate: validate,
+        };
+        s.init();
+        return s;
+    },
+
+    init: func {
+        me.focused = FALSE;
+
+        # Initialize digit properties
+        me.digit_base_prop = ensure_prop(me.digit_base_prop);
+        var parent_prop = me.digit_base_prop.getParent();
+        var prop_name = me.digit_base_prop.getName();
+        me.digits = [];
+        setsize(me.digits, me.n_digits);
+        forindex (var i; me.digits) {
+            me.digits[i] = parent_prop.getChild(prop_name, i, 1);
+            me.digits[i].setValue(me.blank);
+        }
+
+        me.last_input = [];
+        setsize(me.last_input, me.n_digits);
+        forindex (var i; me.last_input) {
+            me.last_input[i] = me.blank;
+        }
+
+        me.current_input = [];
+        me.pos = 0;
+    },
+
+    button: func(n) {
+        append(me.current_input, n);
+
+        if (me.validate != nil and !me.validate(me.current_input)) {
+            me.digits[me.pos].setValue(me.error);
+            # End of input on error.
+            me.release_focus();
+            return;
+        }
+
+        me.digits[me.pos].setValue(n+me.digit_offset);
+
+        me.pos += 1;
+        if (me.pos >= me.n_digits) {
+            # End of input, and valid. Remember it, and call input_callback.
+            forindex (var i; me.current_input) {
+                me.last_input[i] = me.current_input[i];
+            }
+            me.input_callback(me.last_input);
+            me.release_focus();
+        }
+    },
+
+    take_focus: func {
+        me.keypad.take_focus(me);
+        me.focused = TRUE;
+    },
+
+    release_focus: func {
+        if (!me.focused) return;
+        me.keypad.release();
+        me.focused = FALSE;
+    },
+
+    # Clear field and take focus
+    clear: func {
+        # First call take_focus, because it will call reset() if we already had focus.
+        me.take_focus();
+
+        me.current_input = [];
+        me.pos = 0;
+        foreach (var dig; me.digits) dig.setValue(me.blank);
+    },
+
+    # Reset to last programmed value
+    reset: func {
+        me.release_focus();
+
+        # Restore last input
+        setsize(me.current_input, size(me.last_input));
+        forindex (var i; me.last_input) {
+            me.digits[i].setValue(me.last_input[i]);
+            me.current_input[i] = me.last_input[i];
+        }
+    },
+
+    on_focus_lost: func {
+        me.focused = FALSE;
+        me.reset();
+    },
+};
+
+
+if (variant.JA) {
+    ### KV1 channel selector logic
+
+    ## current frequency / channels
+    var kv1_freq = 0;
+    var kv1_group = "";
+    var kv1_base = "";
+
+    ## Convert input (vector of digits) to frequency or channel.
+
+    # Frequencies
+
+    var kv1_freq_input_validate = func(digits) {
+        if (size(digits) == 5) {
+            # Last digit is limited for 25KHz separation.
+            if (digits[4] != 0 and digits[4] != 2 and digits[4] != 5 and digits[4] != 7) return FALSE;
+        }
+
+        # Compute (partial) frequency
+        var freq = 0;
+        var pow = 100000;
+        foreach (var digit; digits) {
+            freq += pow * digit;
+            pow /= 10;
+        }
+        # Maximum frequency that can be input with the current partial input (actually 1 more than the max).
+        var max_freq = freq + pow*10;
+
+        # Check that it is in range.
+        if (freq <= fr28.vhf.max and max_freq > fr28.vhf.min) return TRUE;
+        if (freq <= fr28.uhf.max and max_freq > fr28.uhf.min) return TRUE;
+        return FALSE;
+    }
+
+    var kv1_input_to_freq = func(digits) {
+        var freq = 0;
+        # Sum digits. Leftmost is 100MHz
+        var pow = 100000;
+        foreach (var digit; digits) {
+            freq += pow * digit;
+            pow /= 10;
+        }
+        # Convert to 25KHz separation
+        if (digits[4] == 2 or digits[4] == 7) {
+            freq += 5;
+        }
+        return freq;
+    }
+
+    var kv1_set_new_freq = func(digits) {
+        kv1_freq = kv1_input_to_freq(digits);
+        update_fr29_freq();
+    }
+
+    # Group channel
+
+    var kv1_group_input_validate = func(digits) {
+        # Need to implement limit
+        return TRUE;
+    }
+
+    var kv1_input_to_group = func(digits) {
+        # Just concatenate the digits
+        return digits[0]~digits[1]~digits[2];
+    }
+
+    var kv1_set_new_group = func(digits) {
+        kv1_group = kv1_input_to_group(digits);
+        update_fr29_freq();
+    }
+
+    # Airbase channel
+
+    var kv1_base_input_validate = func(digits) {
+        # Need to implement limit
+        return TRUE;
+    }
+
+    var base_channels_letters = ["A", "B", "C", "C2", "D", "E", "F", "G", "H", "X"];
+
+    var kv1_input_to_base = func(digits) {
+        if (digits[2] >= 5) {
+            # global channels
+            return base_channels_letters[digits[2]];
+        } else {
+            return digits[0]~digits[1]~base_channels_letters[digits[2]];
+        }
+    }
+
+    var kv1_set_new_base = func(digits) {
+        kv1_base = kv1_input_to_base(digits);
+        update_fr29_freq();
+    }
+
+    # Datalink channel
+
+    var kv3_input_to_channel = func(digits) {
+        # Just concatenate the digits
+        return digits[0]~digits[1]~digits[2]~digits[3];
+    }
+
+    var kv3_set_new_channel = func(digits) {
+        input.kv3_channel.setValue(num(kv3_input_to_channel(digits)));
+    }
+
+
+
+    var kv1_pad = Keypad.new();
+
+    # Positions of symbols on texture
+    var KV1_DIGIT_OFFSET = 0;
+    var KV1_MINUS = 10;
+    var KV1_ERROR = 11;
+    var KV1_BLANK = 12;
+
+    var KV3_DIGIT_OFFSET = 0;
+    var KV3_BLANK = 10;
+    var KV3_MINUS = 11;
+
+
+    var kv1_freq_input = InputScreen.new("instrumentation/kv1/digit-mhz", 5, kv1_pad,
+        KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
+        kv1_set_new_freq, kv1_freq_input_validate);
+
+    var kv1_group_input = InputScreen.new("instrumentation/kv1/digit-nr", 3, kv1_pad,
+        KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
+        kv1_set_new_group, kv1_group_input_validate);
+
+    var kv1_base_input = InputScreen.new("instrumentation/kv1/digit-bas", 3, kv1_pad,
+        KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
+        kv1_set_new_base, kv1_base_input_validate);
+
+    var kv3_input = InputScreen.new("instrumentation/kv3/digit", 4, kv1_pad,
+        KV3_DIGIT_OFFSET, KV3_BLANK, KV3_MINUS, 0,
+        kv3_set_new_channel, nil);
+
+    # Reset a display to last programmed value when selecting it.
+    setlistener(input.kv1_freq, func (node) {
+        if (node.getBoolValue()) kv1_freq_input.reset()
+    }, 0, 0);
+    setlistener(input.kv1_group, func (node) {
+        if (node.getBoolValue()) kv1_group_input.reset()
+    }, 0, 0);
+    setlistener(input.kv1_base, func (node) {
+        if (node.getBoolValue()) kv1_base_input.reset()
+    }, 0, 0);
 }
 
 
@@ -645,7 +953,32 @@ if (variant.AJS) {
     }
 
     setlistener(input.radio_mode, update_fr24_freq, 0, 0);
+
+} else {
+    # JA
+    var update_fr29_freq = func {
+        var mode = input.radio_mode.getValue();
+        var freq = 0;
+
+        if (mode == MODE.NORM_LARM or mode == MODE.NORM) {
+            # Use frequency from KV1 selector
+            if (input.kv1_freq.getBoolValue())     freq = kv1_freq;
+            elsif (input.kv1_group.getBoolValue()) freq = Channels.get_group(kv1_group);
+            elsif (input.kv1_base.getBoolValue())  freq = Channels.get_base(kv1_base);
+        } else {
+            foreach (var chan; ["E", "F", "G", "H", "M", "L"]) {
+                if (mode == MODE[chan]) freq = Channels.get(chan);
+            }
+        }
+
+        fr28.set_freq(freq);
+    }
+
+    # update_fr29_freq is called when kv1_{freq,group,base} changes
+    setlistener(input.radio_mode, update_fr29_freq);
+    setlistener(input.kv1_button, update_fr29_freq);
 }
+
 
 
 
@@ -710,5 +1043,7 @@ var init = func {
     if (variant.AJS) {
         update_fr22_freq();
         update_fr24_freq();
+    } else {
+        update_fr29_freq();
     }
 }

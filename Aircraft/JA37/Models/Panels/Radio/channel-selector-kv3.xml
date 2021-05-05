@@ -34,7 +34,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit1</object-name>
-        <property>ja37/radio/kv3/digit[4]</property>
+        <property>instrumentation/kv3/digit[3]</property>
         <factor>0.083333</factor>
         <axis>
             <x>1</x>
@@ -44,7 +44,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit10</object-name>
-        <property>ja37/radio/kv3/digit[3]</property>
+        <property>instrumentation/kv3/digit[2]</property>
         <factor>0.083333</factor>
         <axis>
             <x>1</x>
@@ -54,7 +54,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit100</object-name>
-        <property>ja37/radio/kv3/digit[2]</property>
+        <property>instrumentation/kv3/digit[1]</property>
         <factor>0.083333</factor>
         <axis>
             <x>1</x>
@@ -64,7 +64,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit1000</object-name>
-        <property>ja37/radio/kv3/digit[1]</property>
+        <property>instrumentation/kv3/digit[0]</property>
         <factor>0.083333</factor>
         <axis>
             <x>1</x>
@@ -79,19 +79,19 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/kv3/button-del</property>
+                <property>instrumentation/kv3/button-del</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/kv3/button-del</property>
+                    <property>instrumentation/kv3/button-del</property>
                     <value>0</value>
                 </binding>
             </mod-up>
             <binding>
                 <command>nasal</command>
-                <script>ch_select.cl_kv3();</script>
+                <script>radios.kv3_input.clear();</script>
             </binding>
         </action>
         <hovered>
@@ -105,7 +105,7 @@
     <animation>
        <type>translate</type>
        <object-name>del</object-name>
-       <property>ja37/radio/kv3/button-del</property>
+       <property>instrumentation/kv3/button-del</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
@@ -125,13 +125,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/kv3/button-avb</property>
+                <property>instrumentation/kv3/button-avb</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/kv3/button-avb</property>
+                    <property>instrumentation/kv3/button-avb</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -140,7 +140,7 @@
     <animation>
        <type>translate</type>
        <object-name>avb</object-name>
-       <property>ja37/radio/kv3/button-avb</property>
+       <property>instrumentation/kv3/button-avb</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
@@ -160,13 +160,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/kv3/button-sam</property>
+                <property>instrumentation/kv3/button-sam</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/kv3/button-sam</property>
+                    <property>instrumentation/kv3/button-sam</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -175,7 +175,7 @@
     <animation>
        <type>translate</type>
        <object-name>sam</object-name>
-       <property>ja37/radio/kv3/button-sam</property>
+       <property>instrumentation/kv3/button-sam</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
@@ -195,13 +195,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/kv3/button-fi</property>
+                <property>instrumentation/kv3/button-fi</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/kv3/button-fi</property>
+                    <property>instrumentation/kv3/button-fi</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -210,7 +210,7 @@
     <animation>
        <type>translate</type>
        <object-name>fi</object-name>
-       <property>ja37/radio/kv3/button-fi</property>
+       <property>instrumentation/kv3/button-fi</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
@@ -230,13 +230,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/kv3/button-lbv</property>
+                <property>instrumentation/kv3/button-lbv</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/kv3/button-lbv</property>
+                    <property>instrumentation/kv3/button-lbv</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -245,7 +245,7 @@
     <animation>
        <type>translate</type>
        <object-name>lbv</object-name>
-       <property>ja37/radio/kv3/button-lbv</property>
+       <property>instrumentation/kv3/button-lbv</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
@@ -265,13 +265,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/kv3/button-vao</property>
+                <property>instrumentation/kv3/button-vao</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/kv3/button-vao</property>
+                    <property>instrumentation/kv3/button-vao</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -280,7 +280,7 @@
     <animation>
        <type>translate</type>
        <object-name>vao</object-name>
-       <property>ja37/radio/kv3/button-vao</property>
+       <property>instrumentation/kv3/button-vao</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
