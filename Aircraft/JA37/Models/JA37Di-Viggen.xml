@@ -283,7 +283,7 @@
           "sim/multiplay/generic/bool[5]":    "fdm/jsbsim/effects/wingtip-vapour",
           "sim/multiplay/generic/bool[6]":    "payload/armament/station/id-5-count",
           "sim/multiplay/generic/bool[7]":    "payload/armament/station/id-6-count",
-          "sim/multiplay/generic/bool[8]":    "consumabels/fuel/tank[8]/jettisoned",
+          "sim/multiplay/generic/bool[8]":    "consumables/fuel/tank[8]/jettisoned",
           "sim/multiplay/generic/bool[9]":    "engines/engine/running",
           "sim/multiplay/generic/bool[10]":   "engines/engine/augmentation",
           "sim/multiplay/generic/bool[11]":   "engines/engine/is-reversed",
