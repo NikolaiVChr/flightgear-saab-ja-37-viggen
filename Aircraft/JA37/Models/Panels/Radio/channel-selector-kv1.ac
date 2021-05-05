@@ -682,7 +682,7 @@ name "botDig1"
 data 8
 Cube.025
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.00582
@@ -694,8 +694,8 @@ SURF 0X10
 mat 2
 refs 4
 0 0.000000 1.000000
-3 0.000000 0.000000
-2 0.076170 0.000000
+3 0.000000 0.500000
+2 0.076170 0.500000
 1 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -703,7 +703,7 @@ name "botDig2"
 data 8
 Cube.026
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.01267
@@ -715,8 +715,8 @@ SURF 0X10
 mat 2
 refs 4
 0 -0.000000 1.000000
-3 0.000000 -0.000000
-2 0.076170 0.000000
+3 0.000000 0.500000
+2 0.076170 0.500000
 1 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -724,7 +724,7 @@ name "botDig3"
 data 8
 Cube.027
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.01927
@@ -736,8 +736,8 @@ SURF 0X10
 mat 2
 refs 4
 0 0.000000 1.000000
-3 0.000000 0.000000
-2 0.076170 0.000000
+3 0.000000 0.500000
+2 0.076170 0.500000
 1 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -745,7 +745,7 @@ name "botDig4"
 data 8
 Cube.028
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.02577
@@ -757,8 +757,8 @@ SURF 0X10
 mat 2
 refs 4
 0 0.000000 1.000000
-3 0.000000 0.000000
-2 0.076170 0.000000
+3 0.000000 0.500000
+2 0.076170 0.500000
 1 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -766,7 +766,7 @@ name "botDig5"
 data 8
 Cube.029
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.03189
@@ -778,8 +778,8 @@ SURF 0X10
 mat 2
 refs 4
 0 0.000000 1.000000
-3 0.000000 0.000000
-2 0.076170 0.000000
+3 0.000000 0.500000
+2 0.076170 0.500000
 1 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -2084,7 +2084,7 @@ name "middleDig1"
 data 8
 Cube.022
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 -0.00207 0.00054 -0.02801
@@ -2096,8 +2096,8 @@ SURF 0X10
 mat 2
 refs 4
 3 -0.000000 1.000000
-1 0.000000 0.000000
-0 0.076170 0.000000
+1 0.000000 0.500000
+0 0.076170 0.500000
 2 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -2105,7 +2105,7 @@ name "middleDig2"
 data 8
 Cube.023
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 -0.00207 0.00054 -0.03427
@@ -2117,8 +2117,8 @@ SURF 0X10
 mat 2
 refs 4
 3 0.000058 1.000000
-1 0.000000 -0.000000
-0 0.076170 0.000000
+1 0.000000 0.500000
+0 0.076170 0.500000
 2 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -2126,7 +2126,7 @@ name "middleDig3"
 data 8
 Cube.024
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 -0.00207 0.00054 -0.03954
@@ -2138,8 +2138,8 @@ SURF 0X10
 mat 2
 refs 4
 3 0.000000 1.000000
-1 0.000000 0.000000
-0 0.076143 0.000000
+1 0.000000 0.500000
+0 0.076143 0.500000
 2 0.076197 1.000000
 kids 0
 OBJECT poly
@@ -4862,7 +4862,7 @@ name "topDig1"
 data 8
 Cube.009
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 -0.03059 0.00054 -0.02165
@@ -4873,17 +4873,17 @@ numsurf 1
 SURF 0X10
 mat 2
 refs 4
-0 0.000003 0.998974
-2 0.000000 0.000000
-3 0.076170 0.000000
-1 0.076170 0.998974
+0 0.000003 1.000000
+2 0.000000 0.500000
+3 0.076170 0.500000
+1 0.076170 1.000000
 kids 0
 OBJECT poly
 name "topDig2"
 data 8
 Cube.020
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 -0.03059 0.00054 -0.02781
@@ -4895,8 +4895,8 @@ SURF 0X10
 mat 2
 refs 4
 0 0.000000 1.000000
-2 0.000000 0.000000
-3 0.076170 0.000000
+2 0.000000 0.500000
+3 0.076170 0.500000
 1 0.076170 1.000000
 kids 0
 OBJECT poly
@@ -4904,7 +4904,7 @@ name "topDig3"
 data 8
 Cube.021
 crease 50.0
-texture "kv1-digits.png"
+texture "lcd-digits.png"
 texrep 1 1
 numvert 4
 -0.03059 0.00054 -0.03417
@@ -4915,8 +4915,8 @@ numsurf 1
 SURF 0X10
 mat 2
 refs 4
-0 0.000000 1.000000
+0 0.000000 0.500000
 2 0.000000 0.000000
 3 0.076170 0.000000
-1 0.076170 1.000000
+1 0.076170 0.500000
 kids 0
