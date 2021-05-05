@@ -18,6 +18,7 @@
     <MLW-launcher type="string"></MLW-launcher>
     <MAW-bearing type="double">0</MAW-bearing>
     <MAW-active type="bool">false</MAW-active>
+    <spectator type="bool">false</spectator>
     <!-- A/A IR -->
     <rb-24>                    <!-- RB-24 (Swedish version of aim-9b sidewinder) mach 1.5 -->
         <type-id type="int">86</type-id>

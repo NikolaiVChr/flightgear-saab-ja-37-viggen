@@ -83,6 +83,7 @@
             <path>ja37/displays/live-map</path>
             <path>controls/displays/arrows-controls-cursor</path>
             <path>controls/armament/ground-panel/automatic-settings</path>
+            <path>payload/armament/spectator</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
