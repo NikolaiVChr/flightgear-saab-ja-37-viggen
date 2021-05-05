@@ -360,9 +360,6 @@
                 rotors/main/blade[1]/position-deg  = wheel spin
                 rotors/main/blade[2]/position-deg  = wheel spin
                 rotors/main/blade[3]/position-deg  = chaff
-                rotors/main/blade[0]/flap-deg      = MP missiles lat
-                rotors/main/blade[1]/flap-deg      = MP missiles lon
-                rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
                 rotors/tail/rpm                    = alpha
 
@@ -1320,15 +1317,12 @@
         <main>
             <rpm alias="/engines/engine/nozzle-pos-norm"/>
             <blade n="0">
-                <flap-deg type="double">0</flap-deg>
                 <position-deg alias="/gear/gear[0]/rollspeed-ms"/>
             </blade>
             <blade n="1">
-                <flap-deg type="double">0</flap-deg>
                 <position-deg alias="/gear/gear[1]/rollspeed-ms"/>
             </blade>
             <blade n="2">
-                <flap-deg type="double">0</flap-deg>
                 <position-deg alias="/gear/gear[2]/rollspeed-ms"/>
             </blade>
             <blade n="3">
