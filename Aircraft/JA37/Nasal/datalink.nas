@@ -18,6 +18,16 @@
 #    It could e.g. correspond to a 'wingman number'. It can contain anything and is transmitted as a string.).
 #
 # API:
+# - is_known(callsign), is_connected(callsign), is_friendly(callsign)
+#     Simplified datalink information about callsign.
+#     is_known(callsign): Indicates that either 1. callsign is connected on datalink,
+#                         or 2. someone is transmitting info on callsign on datalink.
+#                         (in short, callsign should be displayed)
+#     is_connected(callsign): Indicates that callsign is connected on your datalink channel.
+#     is_friendly(callsign): Indicates that callsign should be considered as friendly based on datalink info alone,
+#                            meaning 1. callsign is connected on datalink or 2. someone on datalink identified callsign as friendly.
+#                            This does NOT send an IFF query to 'callsign', this must be done separately if required.
+#
 # - get_contact(callsign)
 #     Returns datalink information about callsign as a hash { iff, on_link, identifier },
 #     or nil if no information is present.
@@ -246,6 +256,23 @@ var connected_indices = [];
 var get_contact = func(callsign) {
     return contacts[hash_callsign(callsign)];
 }
+
+# Simplified API
+var is_known = func(callsign) {
+    return get_contact(callsign) != nil;
+}
+
+var is_connected = func(callsign) {
+    var data = get_contact(callsign);
+    return data != nil and data.on_link;
+}
+
+var is_friendly = func(callsign) {
+    var data = get_contact(callsign);
+    return data != nil and (data.on_link or data.iff == IFF_FRIENDLY);
+}
+
+
 
 var get_connected_callsigns = func {
     return connected_callsigns;
