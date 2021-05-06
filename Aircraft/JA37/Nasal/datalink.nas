@@ -150,8 +150,10 @@ var decode_contact = func(str) {
 # Channel is hashed with current time (rounded to 10min) and own callsign.
 
 var my_callsign = func {
+    var callsign = input.callsign.getValue();
     # Cut to length 7, only use the part sent over MP.
-    return left(input.callsign.getValue(), 7);
+    if (size(callsign) > 7) callsign = left(callsign, 7);
+    return callsign;
 }
 
 # Time, rounded to 'channel_hash_period'. This is used to hash channel.
