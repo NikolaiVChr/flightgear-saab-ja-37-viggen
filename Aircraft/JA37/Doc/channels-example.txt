@@ -74,7 +74,7 @@ S3      240.550
 # - XX is the group number (two digits)
 # - C is the channel number within the group (0 to 9)
 # AJS can use group numbers 01 to 42
-# JA can use group numbers ???
+# JA can use group numbers 00 to 42 with FR29 main radio, and 01 to 12 with FR31 secondary radio.
 #
 # Optional group descriptions of the form NXX <description> are allowed.
 
@@ -104,7 +104,7 @@ N019    350.050
 # - XX is the base number (two digits)
 # - C[C] is the channel name, one of A,B,C,C2,D
 # AJS can use airbase numbers 01 to 84
-# JA can use airbase numbers ???
+# JA can use airbase numbers 00 to 99 with FR29 main radio, 00 to 169 with FR31 secondary radio.
 #
 # Optional group descriptions of the form BXX <description> are allowed.
 B21     ESPE F21 Luleå

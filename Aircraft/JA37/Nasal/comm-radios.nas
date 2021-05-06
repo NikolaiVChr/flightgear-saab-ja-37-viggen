@@ -709,16 +709,21 @@ if (variant.JA) {
         update_fr29_freq();
     }
 
-    # Group channel
+    # Group channel (000 to 429)
 
     var kv1_group_input_validate = func(digits) {
-        # Need to implement limit
-        return TRUE;
+        var channel = 0;
+        var pow = 100;
+        foreach (var digit; digits) {
+            channel += pow * digit;
+            pow /= 10;
+        }
+        return channel < 430;
     }
 
     var kv1_input_to_group = func(digits) {
         # Just concatenate the digits
-        return digits[0]~digits[1]~digits[2];
+        return "N"~digits[0]~digits[1]~digits[2];
     }
 
     var kv1_set_new_group = func(digits) {
@@ -729,10 +734,8 @@ if (variant.JA) {
     # Airbase channel
 
     var kv1_base_input_validate = func(digits) {
-        # Button 'X', not allowed (used for testing).
-        if (size(digits) == 3 and digits[2] == 9) return FALSE;
-        # Need to implement limit
-        return TRUE;
+        # Button 'X', not allowed for last position (used for testing).
+        return size(digits) != 3 or digits[2] != 9;
     }
 
     var base_channels_letters = ["A", "B", "C", "C2", "D", "E", "F", "G", "H"];
@@ -742,7 +745,7 @@ if (variant.JA) {
             # global channels
             return base_channels_letters[digits[2]];
         } else {
-            return digits[0]~digits[1]~base_channels_letters[digits[2]];
+            return "B"~digits[0]~digits[1]~base_channels_letters[digits[2]];
         }
     }
 
@@ -767,8 +770,7 @@ if (variant.JA) {
     }
 
 
-
-    var kv1_pad = Keypad.new();
+    ## KV1 input screens
 
     # Positions of symbols on texture
     var KV1_DIGIT_OFFSET = 0;
@@ -780,6 +782,7 @@ if (variant.JA) {
     var KV3_BLANK = 10;
     var KV3_MINUS = 11;
 
+    var kv1_pad = Keypad.new();
 
     var kv1_freq_input = InputScreen.new("instrumentation/kv1/digit-mhz", 5, kv1_pad,
         KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
@@ -970,8 +973,8 @@ if (variant.AJS) {
         if (mode == MODE.NORM_LARM or mode == MODE.NORM) {
             # Use frequency from KV1 selector
             if (input.kv1_freq.getBoolValue())     freq = kv1_freq;
-            elsif (input.kv1_group.getBoolValue()) freq = Channels.get_group(kv1_group);
-            elsif (input.kv1_base.getBoolValue())  freq = Channels.get_base(kv1_base);
+            elsif (input.kv1_group.getBoolValue()) freq = Channels.get(kv1_group);
+            elsif (input.kv1_base.getBoolValue())  freq = Channels.get(kv1_base);
         } else {
             foreach (var chan; ["E", "F", "G", "H", "M", "L"]) {
                 if (mode == MODE[chan]) freq = Channels.get(chan);
