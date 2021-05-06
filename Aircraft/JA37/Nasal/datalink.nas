@@ -39,6 +39,12 @@
 #   3. Otherwise (B is not on datalink, and no third aircraft on datalink is transmitting info on B),
 #      get_contact() returns nil.
 #
+# - get_connected_callsigns() / get_connected_indices()
+#     Returns a vector containing all callsigns, resp. indices in /ai/models/multiplayer[i],
+#     of aircrafts connected on datalink (but not other aircraft whose information is sent on datalink).
+#     Both vectors use the same indices, i.e. get_connected_callsigns()[i] and get_connected_indices()[i]
+#     correspond to the same aircraft.
+#
 #
 # - send_data(contacts, timeout=nil)
 #     Send a list of contact objects on datalink.
@@ -230,10 +236,23 @@ hash_update_timer.start();
 
 
 ### Receiving loop.
+
+# Contacts information (hash)
 var contacts = {};
+# List of callsigns / indices connected on datalink (index is for /ai/models/multiplayer[i]).
+var connected_callsigns = [];
+var connected_indices = [];
 
 var get_contact = func(callsign) {
     return contacts[hash_callsign(callsign)];
+}
+
+var get_connected_callsigns = func {
+    return connected_callsigns;
+}
+
+var get_connected_indices = func {
+    return connected_indices;
 }
 
 # Add a contact to the table of datalink contacts.
@@ -267,6 +286,8 @@ var receive_loop = func {
     var my_channel = input.channel.getValue();
 
     contacts = {};
+    connected_callsigns = [];
+    connected_indices = [];
 
     var mp_models = input.models.getChildren("multiplayer");
     forindex(var idx; mp_models) {
@@ -290,6 +311,10 @@ var receive_loop = func {
         channel = tokens[0];
 
         if (!check_channel_hash(channel, callsign, my_channel)) continue;
+
+        # Add to list of connected aircrafts.
+        append(connected_callsigns, callsign);
+        append(connected_indices, idx);
 
         # Optional datalink identifier
         var identifier = (size(tokens) >= 2) ? tokens[1] : nil;
