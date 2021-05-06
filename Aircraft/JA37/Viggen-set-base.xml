@@ -351,8 +351,7 @@
 
                 string[4] = IFF
                 string[6] = radar selected target
-                string[7] = datalink channel
-                string[8] = datalink data
+                string[7] = datalink
 
                 Also used:
                 sim/hitches/aerotow/is-slave       = wings on/off
@@ -695,6 +694,7 @@
             </kv1>
             <kv3>
                 <code type="int">0</code>
+                <ident type="int">0</ident>
             </kv3>
             <me31>
                 <button-mhz type="bool">true</button-mhz>
@@ -1586,6 +1586,7 @@
         <datalink>
             <channel_prop type="string">/ja37/radio/kv3/code</channel_prop>
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
+            <identifier_prop type="string">/ja37/radio/kv3/ident</identifier_prop>
             <on type="bool">false</on>
             <power type="bool">false</power>
         </datalink>

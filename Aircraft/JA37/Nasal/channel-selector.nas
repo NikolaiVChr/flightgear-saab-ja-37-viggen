@@ -17,6 +17,7 @@ var input = {
     comm_mhz:   "instrumentation/comm/frequencies/selected-mhz",
     kv3:        "ja37/radio/kv3",
     kv3_code:   "ja37/radio/kv3/code",
+    kv3_ident:  "ja37/radio/kv3/ident",
 };
 
 foreach (var prop; keys(input)) {
@@ -134,7 +135,10 @@ var button = func (number) {
     if (input_pos == size(displays[input_display])-1) {
         # Input complete
         contents[input_display] = input_content;
-        if (input_display == "kv3") input.kv3_code.setValue(num(input_content));
+        if (input_display == "kv3") {
+            input.kv3_ident.setValue(num(substr(input_content, 0, 1)));
+            input.kv3_code.setValue(num(substr(input_content, 1, 3)));
+        }
         else updateToRadio();
 
         resetInput();

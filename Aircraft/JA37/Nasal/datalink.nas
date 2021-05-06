@@ -73,7 +73,7 @@ var receive_period = getprop("/instrumentation/datalink/receive_period") or 1;
 var input = {
     power:      getprop("/instrumentation/datalink/power_prop"),
     channel:    getprop("/instrumentation/datalink/channel_prop"),
-    ident:      getprop("/instrumentation/datalink/indentifier_prop"),
+    ident:      getprop("/instrumentation/datalink/identifier_prop"),
     mp:         mp_path,
     models:     "/ai/models",
 };
@@ -194,7 +194,7 @@ var add_contact = func(hash, iff, on_link, identifier) {
         # In that case, check if the fields 'iff', 'on_link', 'identifier' need to be changed (upgraded).
         contacts[hash].iff = math.max(contacts[hash].iff, iff);
         contacts[hash].on_link = math.max(contacts[hash].iff, on_link);
-        if (identifier != nil) contacts[hash].identifier = indentifier;
+        if (identifier != nil) contacts[hash].identifier = identifier;
     }
 }
 
