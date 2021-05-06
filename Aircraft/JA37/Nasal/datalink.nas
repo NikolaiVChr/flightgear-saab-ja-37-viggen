@@ -127,7 +127,7 @@ var decode_contact = func(str) {
 
 ### Channel hash (based on iff.nas)
 #
-# Channel is hashed with current time (rounded to 120s) and own callsign.
+# Channel is hashed with current time (rounded to 10min) and own callsign.
 
 var my_callsign = func {
     # Cut to length 7, only use the part sent over MP.
@@ -169,8 +169,8 @@ var check_channel_hash = func(hash, callsign, channel) {
 # channel[:identifier]#contact1:contact2:...contactn:
 # where
 # - ':','#' are literal separators
-# - channel is
-# - identifier (optional) is the literal content of identifier_prop
+# - channel, hashed by hash_channel() (use check_channel_hash() to test value).
+# - identifier (optional) is the literal content of identifier_prop.
 # - contact1 ... contactn is the list of transmitted contacts, encoded with encode_contact().
 
 var clear_data = func {
