@@ -61,14 +61,22 @@ var IFF_FRIENDLY = 2;     # Friendly, because positive IFF identification.
 #   e.g. a contact will be reported as friendly if anyone on datalink reports it as friendly.
 
 
-### Properties
+### Parameters
+#
+# Remark: most parameters need to be the same on all aircrafts.
 
 # Index of multiplayer string used to transmit datalink info.
 # Must be the same for all aircrafts.
 var mp_string = 7;
 var mp_path = "sim/multiplay/generic/string["~mp_string~"]";
 
+var channel_hash_period = 600;
+var channel_hash_length = 3;
+var callsign_hash_length = 4;
+
 var receive_period = getprop("/instrumentation/datalink/receive_period") or 1;
+
+### Properties
 
 var input = {
     power:      getprop("/instrumentation/datalink/power_prop"),
@@ -76,6 +84,7 @@ var input = {
     ident:      getprop("/instrumentation/datalink/identifier_prop"),
     mp:         mp_path,
     models:     "/ai/models",
+    callsign:   "/sim/multiplay/callsign",
 };
 
 foreach (var name; keys(input)) {
@@ -88,30 +97,68 @@ foreach (var name; keys(input)) {
 ### String encoding of a contact information: 'hash + iff' (no separator)
 # iff is the character 'a'+iff (with ascii encoding).
 #
-# Callsigns are transmitted as MD5 hashes cut to length 4.
-var hash = func(callsign) {
+# Callsigns are transmitted as MD5 hashes cut to length 'callsign_hash_length'.
+
+var hash_callsign = func(callsign) {
     # Note: callsign is cut to length 7, to only use the part sent over MP.
     if (size(callsign) > 7) callsign = left(callsign, 7);
-    return left(md5(callsign), 4);
+    return left(md5(callsign), callsign_hash_length);
 }
 
 var encode_contact = func(callsign, iff=nil) {
     if (iff == nil) iff = IFF_UNKNOWN;
-    return hash(callsign)~chr(97+iff);
+    return hash_callsign(callsign)~chr(97+iff);
 }
 
 var decode_contact = func(str) {
-    if (size(str) < 4) return nil;
+    if (size(str) < callsign_hash_length) return nil;
 
-    var contact = { hash: substr(str, 0, 4) };
+    var contact = { hash: substr(str, 0, callsign_hash_length) };
 
-    if (size(str) >= 5) {
-        contact.iff = str[4] - 97;
+    if (size(str) >= callsign_hash_length+1) {
+        contact.iff = str[callsign_hash_length] - 97;
     } else {
         contact.iff = IFF_UNKNOWN;
     }
 
     return contact;
+}
+
+
+### Channel hash (based on iff.nas)
+#
+# Channel is hashed with current time (rounded to 120s) and own callsign.
+
+var my_callsign = func {
+    # Cut to length 7, only use the part sent over MP.
+    return left(input.callsign.getValue(), 7);
+}
+
+# Time, rounded to 'channel_hash_period'. This is used to hash channel.
+var get_time = func {
+    return int(math.floor(systime() / channel_hash_period) * channel_hash_period);
+}
+
+# Previous / next time (with channel_hash_period interval).
+# This is used to give a bit of margin on the time check.
+# (will work if system clocks are coordinated within 10min).
+var get_prev_time = func { return get_time() - channel_hash_period; }
+var get_next_time = func { return get_time() + channel_hash_period; }
+
+var _hash_channel = func(time, callsign, channel) {
+    return left(md5(time ~ callsign ~ channel), channel_hash_length)
+}
+
+# Hash channel (when sending).
+var hash_channel = func(channel) {
+    return _hash_channel(get_time(), my_callsign(), channel);
+}
+
+# Check that the hash transmitted by aircraft 'callsign' is correct for 'channel'.
+var check_channel_hash = func(hash, callsign, channel) {
+    return hash == _hash_channel(get_time(), callsign, channel)
+        or hash == _hash_channel(get_prev_time(), callsign, channel)
+        or hash == _hash_channel(get_next_time(), callsign, channel);
 }
 
 
@@ -147,9 +194,7 @@ var send_data = func(contacts, timeout=nil) {
     }
 
     # First encode channel and identifier.
-    var data = input.channel.getValue();
-
-    # Identifier
+    var data = hash_channel(input.channel.getValue());
     if (input.ident != nil) {
         data = data ~ ":" ~ input.ident.getValue();
     }
@@ -173,12 +218,18 @@ var resend_data = func {
     send_data(last_contacts);
 }
 
+# Very slow timer to ensure the channel hash is updated regularly.
+# Only relevant if you never call send_data();
+var hash_update_timer = maketimer(channel_hash_period/2, resend_data);
+hash_update_timer.start();
+
+
 
 ### Receiving loop.
 var contacts = {};
 
 var get_contact = func(callsign) {
-    return contacts[hash(callsign)];
+    return contacts[hash_callsign(callsign)];
 }
 
 # Add a contact to the table of datalink contacts.
@@ -221,13 +272,14 @@ var receive_loop = func {
         var tokens = split(":", channel);
         if (size(tokens) < 1) continue;
         channel = tokens[0];
-        if (channel != my_channel) continue;
+
+        if (!check_channel_hash(channel, callsign, my_channel)) continue;
 
         # Optional datalink identifier
         var identifier = (size(tokens) >= 2) ? tokens[1] : nil;
 
         # First add the aircraft on datalink itself.
-        add_contact(hash(callsign), IFF_UNKNOWN, 1, identifier);
+        add_contact(hash_callsign(callsign), IFF_UNKNOWN, 1, identifier);
 
         # Then decode what it's transmitting.
         foreach (var token; split(":", contacts)) {
