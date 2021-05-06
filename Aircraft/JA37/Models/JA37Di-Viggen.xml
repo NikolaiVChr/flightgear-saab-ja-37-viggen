@@ -305,6 +305,8 @@
           alias_prop.unalias();
           alias_prop.alias(mp_prop);
         }
+
+        self.setValue("ja37/systems/variant", 0);
       ]]>
       </load>
 
