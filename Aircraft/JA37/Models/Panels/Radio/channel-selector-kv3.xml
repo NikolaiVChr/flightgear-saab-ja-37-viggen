@@ -7,10 +7,6 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>panel</object-name>
-        <object-name>digit1</object-name>
-        <object-name>digit10</object-name>
-        <object-name>digit100</object-name>
-        <object-name>digit1000</object-name>
         <object-name>del</object-name>
         <object-name>avb</object-name>
         <object-name>sam</object-name>
@@ -18,6 +14,28 @@
         <object-name>lbv</object-name>
         <object-name>vao</object-name>
     </effect>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>digit1</object-name>
+        <object-name>digit10</object-name>
+        <object-name>digit100</object-name>
+        <object-name>digit1000</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>digit1</object-name>
+        <object-name>digit10</object-name>
+        <object-name>digit100</object-name>
+        <object-name>digit1000</object-name>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>ja37/elec/dc-bus-battery-2-norm</factor-prop>
+        </emission>
+    </animation>
 
     <animation>
         <type>pick</type>
@@ -91,7 +109,7 @@
             </mod-up>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv3_input.clear();</script>
+                <script>radios.kv3_clear();</script>
             </binding>
         </action>
         <hovered>

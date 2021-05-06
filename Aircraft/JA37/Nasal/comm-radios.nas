@@ -894,6 +894,39 @@ if (variant.JA) {
     setlistener(input.kv1_base, func (node) {
         if (node.getBoolValue()) kv1_base_input.reset()
     }, 0, 0);
+
+
+    # Radio control panel power.
+    var fr29_on = func {
+        return power.prop.dcBatt2Bool.getValue();
+    }
+
+    # Wrappers to check that the radio is on.
+    var kv1_button = func(n) {
+        if (fr29_on()) kv1_pad.button(n);
+    }
+    var kv1_clear_freq = func {
+        if (fr29_on()) kv1_freq_input.clear();
+    }
+    var kv1_clear_group = func {
+        if (fr29_on()) kv1_group_input.clear();
+    }
+    var kv1_clear_base = func {
+        if (fr29_on()) kv1_base_input.clear();
+    }
+    var kv3_clear = func {
+        if (fr29_on()) kv3_input.clear();
+    }
+
+    # Reset inputs on power on
+    setlistener(power.prop.dcBatt2Bool, func (node) {
+        if (node.getBoolValue()) {
+            kv1_freq_input.reset();
+            kv1_group_input.reset();
+            kv1_base_input.reset();
+            kv3_input.reset();
+        }
+    }, 1, 0);
 }
 
 

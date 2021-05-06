@@ -49,6 +49,28 @@
     </effect>
 
     <animation>
+        <type>material</type>
+        <object-name>topDig1</object-name>
+        <object-name>topDig2</object-name>
+        <object-name>topDig3</object-name>
+        <object-name>middleDig1</object-name>
+        <object-name>middleDig2</object-name>
+        <object-name>middleDig3</object-name>
+        <object-name>botDig1</object-name>
+        <object-name>botDig2</object-name>
+        <object-name>botDig3</object-name>
+        <object-name>botDig4</object-name>
+        <object-name>botDig5</object-name>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>ja37/elec/dc-bus-battery-2-norm</factor-prop>
+        </emission>
+    </animation>
+
+
+    <animation>
         <type>pick</type>
         <object-name>Panel</object-name>
         <hovered>
@@ -178,7 +200,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(0)</script>
+                <script>radios.kv1_button(0)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -217,7 +239,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(1)</script>
+                <script>radios.kv1_button(1)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -256,7 +278,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(2)</script>
+                <script>radios.kv1_button(2)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -295,7 +317,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(3)</script>
+                <script>radios.kv1_button(3)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -334,7 +356,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(4)</script>
+                <script>radios.kv1_button(4)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -373,7 +395,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(5)</script>
+                <script>radios.kv1_button(5)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -412,7 +434,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(6)</script>
+                <script>radios.kv1_button(6)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -451,7 +473,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(7)</script>
+                <script>radios.kv1_button(7)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -490,7 +512,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(8)</script>
+                <script>radios.kv1_button(8)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -529,7 +551,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_pad.button(9)</script>
+                <script>radios.kv1_button(9)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -568,7 +590,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_base_input.clear();</script>
+                <script>radios.kv1_clear_base();</script>
             </binding>
             <mod-up>
                 <binding>
@@ -614,7 +636,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_group_input.clear();</script>
+                <script>radios.kv1_clear_group();</script>
             </binding>
             <mod-up>
                 <binding>
@@ -660,7 +682,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_freq_input.clear();</script>
+                <script>radios.kv1_clear_freq();</script>
             </binding>
             <mod-up>
                 <binding>
@@ -692,27 +714,6 @@
             <y-m>0</y-m>
             <z-m>0</z-m>
         </center>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>topDig1</object-name>
-        <object-name>topDig2</object-name>
-        <object-name>topDig3</object-name>
-        <object-name>middleDig1</object-name>
-        <object-name>middleDig2</object-name>
-        <object-name>middleDig3</object-name>
-        <object-name>botDig1</object-name>
-        <object-name>botDig2</object-name>
-        <object-name>botDig3</object-name>
-        <object-name>botDig4</object-name>
-        <object-name>botDig5</object-name>
-        <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
-        </emission>
     </animation>
 
     <animation>
