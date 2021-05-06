@@ -98,14 +98,6 @@
         <desc>Unlock selected radar track</desc>
     </key>
     <key>
-        <name>Ctrl-n</name>
-        <desc>Target next route-manager waypoint</desc>
-    </key>
-    <key>
-        <name>f</name>
-        <desc>Toggle radar steer order on current selection</desc>
-    </key>
-    <key>
         <name>Ctrl-f</name>
         <desc>IFF interrogation of radar track under the MI cursor</desc>
     </key>

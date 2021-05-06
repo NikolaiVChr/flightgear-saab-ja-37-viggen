@@ -21,6 +21,7 @@ var input = {
     kv1_base:           "instrumentation/kv1/button-bas",
     kv1_button:         "instrumentation/kv1/button-selected",
     kv3_channel:        "instrumentation/datalink/channel",
+    kv3_ident:          "instrumentation/datalink/ident",
     preset_file:        "ja37/radio/channels-file",
     preset_group_file:  "ja37/radio/group-channels-file",
     preset_base_file:   "ja37/radio/base-channels-file",
@@ -756,7 +757,11 @@ if (variant.JA) {
     }
 
     var kv3_set_new_channel = func(digits) {
-        input.kv3_channel.setValue(num(kv3_input_to_channel(digits)));
+        var channel = num(digits[1]~digits[2]~digits[3]);
+        var ident = num(digits[0]);
+
+        input.kv3_channel.setValue(channel);
+        input.kv3_ident.setValue(ident);
     }
 
 

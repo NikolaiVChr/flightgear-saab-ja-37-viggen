@@ -746,6 +746,8 @@ var AimingMode = {
             or (type == "M55" and input.wpn_knob.getValue() == fire_control.WPN_SEL.AKAN_JAKT)) {
             me.update_AA(type);
         } elsif (type == "M55" or type == "M70") {
+            var arak_long = (type == "M70" and input.arak_long.getBoolValue());
+
             sight.AGsight.update();
             var pos = sight.AGsight.get_pos();
             # Vector [target dist, evade dist, firing dist, radar range used]
@@ -757,8 +759,22 @@ var AimingMode = {
             me.wing.hide();
             # Ranging mark if radar ranging is used.
             me.range_mark.setVisible(dist != nil and dist[3]);
-            # Firing mark 0.5s before firing.
-            me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
+            if (arak_long) {
+                var time = sight.AGsight.get_time();
+                var pitch = sight.AGsight.get_pitch();
+                me.firing_mark.setVisible(
+                    # Distance <=7km, more than minimum firing distance
+                    dist != nil and dist[0] <= 7000 and dist[0] >= dist[2]
+                    # Pitch at least 3deg, at most 6deg
+                    and pitch <= -3 and pitch >= -6
+                    # Time <= 18s and >= 0.5s
+                    and time <= 18 and time >= 0.5
+                    # Blinking 2s before last firing point
+                    and (dist[0] > dist[2] + speed*2 or input.fourHz.getBoolValue()));
+            } else {
+                # Firing mark 0.5s before firing.
+                me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
+            }
             # Pull up bars flashing after evade distance.
             me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fourHz.getBoolValue());
             me.target.hide();

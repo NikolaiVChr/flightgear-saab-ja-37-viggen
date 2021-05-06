@@ -143,7 +143,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[1]/trigger-m70</trigger>
-        <speed>1969</speed><!-- as per source -->
+        <speed>1476</speed><!-- source=600m/s ?? Set to 450m/s due to lack of drag and engine -->
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
@@ -180,7 +180,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[2]/trigger-m70</trigger>
-        <speed>1969</speed>
+        <speed>1476</speed>
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
@@ -217,7 +217,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[3]/trigger-m70</trigger>
-        <speed>1969</speed>
+        <speed>1476</speed>
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>
@@ -254,7 +254,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[4]/trigger-m70</trigger>
-        <speed>1969</speed>
+        <speed>1476</speed>
         <repeat>true</repeat>
         <delay>0.1</delay><!-- manual -->
         <count>6</count>

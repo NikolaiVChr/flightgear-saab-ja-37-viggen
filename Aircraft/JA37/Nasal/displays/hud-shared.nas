@@ -65,6 +65,7 @@ var input = {
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     wingspan:       "/controls/armament/wingspan",
     gunsight_dist:  "/instrumentation/gunsight[0]/distance-m",
+    arak_long:      "/controls/armament/weapon-panel/switch-impulse",
     bright:         "/ja37/hud/brightness",
     bright_hud:     "/ja37/hud/brightness-si",
     bright_bck:     "/ja37/hud/brightness-res",

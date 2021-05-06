@@ -370,6 +370,7 @@
       <col>1</col>
       <halign>left</halign>
       <label>Enable multiplayer damage</label>
+      <enable><property>/ja37/on-ground</property></enable>
     </text>
 
     <text>
@@ -399,6 +400,33 @@
       <colspan>2</colspan>
       <halign>left</halign>
       <label>speed, and disabling fuel, payload, and repair menus while in flight.</label>
+    </text>
+
+    <checkbox>
+      <row>23</row>
+      <col>0</col>
+      <enable><not><property>/payload/armament/msg</property></not></enable>
+      <property>/payload/armament/spectator</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </checkbox>
+
+    <text>
+      <row>23</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>Spectator mode</label>
+      <enable><not><property>/payload/armament/msg</property></not></enable>
+    </text>
+    <text>
+      <row>24</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>Show flares, missiles trails, craters, etc. from MP aircraft with damage off.</label>
+      <enable><not><property>/payload/armament/msg</property></not></enable>
     </text>
   </group>
 </PropertyList>

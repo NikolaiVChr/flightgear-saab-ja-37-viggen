@@ -94,21 +94,6 @@
                 <script>radar_logic.centerTarget()</script>
             </binding>
         </key>
-        <key n="14">
-            <name>CTRL-N</name>
-            <desc>Target next route-manager waypoint</desc>
-            <repeatable>false</repeatable>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>nasal</command>
-                <script>radar_logic.selectNextWaypoint()</script>
-            </binding>
-        </key>
         <key n="70">
             <name>F</name>
             <desc>Unlock selected target</desc>
@@ -121,20 +106,6 @@
                 </condition>
                 <command>nasal</command>
                 <script>radar_logic.unlockSelection()</script>
-            </binding>
-        </key>
-        <key n="102">
-            <name>f</name>
-            <desc>Toggle radar steer order on current selection</desc>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>nasal</command>
-                <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
         <key n="6">

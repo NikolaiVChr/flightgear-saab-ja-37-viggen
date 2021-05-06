@@ -381,15 +381,14 @@ var Missile = {
 
         # IR weapons parameters.
         if (me.is_IR) {
-            me.weapon.setAutoUncage(FALSE);
-            me.weapon.setCaged(TRUE);
-            me.weapon.setSlave(TRUE);
+            me._reset_seeker();
             # Radar command by default on JA
             if (variant.JA) me.IR_boresight = FALSE;
             me.update_IR_seeker_command();
         }
 
         if (me.is_rb75) {
+            me.reset_rb75_seeker();
             # Make sure the Rb 75 seeker gets initialised in the seeker loop.
             me.rb75_last_seeker_on = FALSE;
             me.rb75_timer.start();
@@ -461,6 +460,14 @@ var Missile = {
         }
     },
 
+    reset_rb75_seeker: func {
+        me._reset_seeker();
+        me.rb75_lock = FALSE;
+        me.rb75_pos_x = 0;
+        me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
+        me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
+    },
+
     seeker_loop: func {
         if (!me.weapon_ready()) {
             me.seeker_timer.stop();
@@ -504,23 +511,27 @@ var Missile = {
 
     rb75_loop: func {
         if (!me.weapon_ready()) {
+            input.ep13.setBoolValue(FALSE);
             me.rb75_timer.stop();
             return;
         }
 
         # Turn seeker on.
         var seeker_on = (firing_enabled() and (me.armed() or modes.selector_ajs == modes.COMBAT));
+
+        # Reset seeker when turning it off
+        if (!seeker_on and me.rb75_last_seeker_on) {
+            me.reset_rb75_seeker();
+        }
+        # Seeker turned on: take cursor focus.
         if (seeker_on and !me.rb75_last_seeker_on) {
-            # Seeker just turned on, initialise
             displays.common.resetCursorDelta();
-            me.rb75_lock = FALSE;
-            me.rb75_pos_x = 0;
-            me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
-            me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
         }
         me.rb75_last_seeker_on = seeker_on;
         # Property for EP-13 (Rb75 screen) visual effect
         input.ep13.setBoolValue(seeker_on);
+
+        if (!seeker_on) return;
 
         # Cursor control
         var cursor = displays.common.getCursorDelta();
@@ -530,11 +541,7 @@ var Missile = {
             # Clicked
             if (me.rb75_lock) {
                 # Unlock and reset position
-                me.rb75_lock = FALSE;
-                me.rb75_pos_x = 0;
-                me.rb75_pos_y = -1.3; # 1.3deg down initially (manual).
-                me._reset_seeker();
-                me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
+                me.reset_rb75_seeker();
             } elsif (me.weapon.status == armament.MISSILE_LOCK) {
                 # Lock
                 me.rb75_lock = TRUE;
