@@ -592,24 +592,35 @@ var InputScreen = {
 
         me.current_input = [];
         me.pos = 0;
+
+        me.blink_timer = maketimer(me.blink_period, me, me.blink);
+        me.blink_timer.simulatedTime = TRUE;
+
+        me.start_blink_timer = maketimer(me.blink_delay, me, me.start_blink);
+        me.start_blink_timer.simulatedTime = TRUE;
+        me.start_blink_timer.singleShot = TRUE;
     },
 
-    # Button press while this screen has focus.
+    # Button press handling
     button: func(n) {
         if (me.pos >= me.n_digits) return;
 
-        append(me.current_input, n);
+        # Reset blinking timer
+        if (me.focused) me.queue_blink();
 
+        # Check input
+        append(me.current_input, n);
         if (me.validate != nil and !me.validate(me.current_input)) {
-            # Set error symbol.
+            # Release focus on error.
+            me.release_focus();
+            # Append error symbol (must be after release_focus(), otherwise the symbol is overwritten).
             me.digits[me.pos].setValue(me.error);
             # Remove erronous digit from current input, so that it can be corrected later.
             pop(me.current_input);
-            # Release focus on error.
-            me.release_focus();
             return;
         }
 
+        # Update screen
         me.digits[me.pos].setValue(n+me.digit_offset);
 
         me.pos += 1;
@@ -635,6 +646,7 @@ var InputScreen = {
     },
 
     release_focus: func {
+        me.stop_blink();
         if (!me.focused) return;
         me.keypad.release();
         me.focused = FALSE;
@@ -648,6 +660,8 @@ var InputScreen = {
         me.current_input = [];
         me.pos = 0;
         foreach (var dig; me.digits) dig.setValue(me.blank);
+
+        me.queue_blink();
     },
 
     # Reset to last programmed value
@@ -666,12 +680,53 @@ var InputScreen = {
                 me.current_input[i] = me.last_input[i];
             }
             me.pos = me.n_digits-1;
+        } else {
+            # no edit possible until clearing
+            me.pos = me.n_digits;
         }
     },
 
     on_focus_lost: func {
         me.focused = FALSE;
         me.reset();
+    },
+
+    # Blinking when waiting for input.
+    blink_period: 0.5,  # Blinking
+    blink_delay: 9,     # Delay before blinking starts.
+
+    # Set any empty position to minus (if 'b' is true) or blank (if 'b' is false).
+    set_blink: func(b) {
+        var symbol = b ? me.waiting : me.blank;
+        for (var i=me.pos; i<me.n_digits; i+=1) {
+            me.digits[i].setValue(symbol);
+        }
+    },
+
+    blink: func {
+        me.last_blink = !me.last_blink;
+        me.set_blink(me.last_blink);
+    },
+
+    start_blink: func {
+        me.last_blink = FALSE;
+        me.blink();
+        me.blink_timer.start();
+    },
+
+    _stop_blink: func {
+        me.blink_timer.stop();
+        me.set_blink(FALSE);
+    },
+
+    stop_blink: func {
+        me._stop_blink();
+        me.start_blink_timer.stop();
+    },
+
+    queue_blink: func {
+        me._stop_blink();
+        me.start_blink_timer.restart(me.blink_delay);
     },
 };
 
