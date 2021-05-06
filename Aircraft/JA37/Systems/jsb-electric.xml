@@ -1043,6 +1043,94 @@
             <output>/controls/lighting/instruments-norm</output>
         </fcs_function>
 
+        <fcs_function name="names/electrical/display-light-norm">
+            <description>
+                    Displays light power
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <!-- controlled by instruments light knob, but can not drop to 0 -->
+                    <table>
+                        <independentVar>/controls/lighting/instruments-knob</independentVar>
+                        <tableData>
+                            0   0.3
+                            1   1.0
+                        </tableData>
+                    </table>
+                    <property>/systems/electrical/dc-light</property>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/displays-norm</output>
+        </fcs_function>
+
+        <fcs_function name="names/electrical/fr29-light-norm">
+            <description>
+                    FR29 radio panel light power (uses battery bus 2)
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <!-- controlled by instruments light knob, but can not drop to 0 -->
+                    <table>
+                        <independentVar>/controls/lighting/instruments-knob</independentVar>
+                        <tableData>
+                            0   0.3
+                            1   1.0
+                        </tableData>
+                    </table>
+                    <table>
+                        <independentVar>/ja37/elec/dc-bus-battery-2-volt</independentVar>
+                        <tableData>
+                            10   0.0
+                            24   1.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/fr29-norm</output>
+        </fcs_function>
+
+        <fcs_function name="names/electrical/fr31-light-norm">
+            <description>
+                    FR31 radio panel light power (uses DC secondary bus)
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <!-- controlled by instruments light knob, but can not drop to 0 -->
+                    <table>
+                        <independentVar>/controls/lighting/instruments-knob</independentVar>
+                        <tableData>
+                            0   0.3
+                            1   1.0
+                        </tableData>
+                    </table>
+                    <table>
+                        <independentVar>/ja37/elec/dc-bus-secondary-volt</independentVar>
+                        <tableData>
+                            10   0.0
+                            28   1.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/fr31-norm</output>
+        </fcs_function>
+
+
         <fcs_function name="names/electrical/flood-light-norm">
             <description>
                       Flood light power

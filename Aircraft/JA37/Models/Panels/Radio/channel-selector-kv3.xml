@@ -33,7 +33,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>ja37/elec/dc-bus-battery-2-norm</factor-prop>
+            <factor-prop>controls/lighting/fr29-norm</factor-prop>
         </emission>
     </animation>
 
