@@ -13,16 +13,28 @@
 #   (the channel property can contain anything, and is transmitted/compared as a string).
 # * Optional
 #   /instrumentation/datalink/receive_period = 1        receiving loop update rate
-# * Optional (requires same change for other aircrafts).
-#   /instrumentation/datalink/channel_mp_string = 7     index of MP string indicating channel
-#   /instrumentation/datalink/data_mp_string = 8        index of MP string transmitting data
+#   /instrumentation/datalink/identifier_prop           path to optional property containing an aircraft identifier
+#   (Identifier is intended to help distinguish between aircrafts connected on the same datalink channel.
+#    It could e.g. correspond to a 'wingman number'. It can contain anything and is transmitted as a string.).
 #
 # API:
 # - get_contact(callsign)
-#     Returns datalink information about callsign as a hash { iff, on_link },
-#     or nil if no information is present. Hash members:
+#     Returns datalink information about callsign as a hash { iff, on_link, identifier },
+#     or nil if no information is present.
 #       iff:        one of IFF_UNKNOWN, IFF_HOSTILE, IFF_FRIENDLY
 #       on_link:    (bool) indicates if 'callsign' is itself on the datalink.
+#       identifier: (string) the identifier transmitted by this aircraft (nil if not transmitted).
+#
+#   To summarize, if aircraft A calls get_contact() on aircraft B, the following is returned:
+#   1. If A and B are on same datalink channel:
+#       on_link=1, identifier possibly set,
+#       iff=IFF_UNKNOWN unless point 2 also applies.
+#   2. If aircrafts A and C are on the same datalink channel, and C is transmitting info about B:
+#       iff=<whatever IFF status C is transmitting for B>
+#       on_link=0 and identifier=nil, unless point 1 also applies.
+#   3. Otherwise (B is not on datalink, and no third aircraft on datalink is transmitting info on B),
+#      get_contact() returns nil.
+#
 #
 # - send_data(contacts, timeout=nil)
 #     Send a list of contact objects on datalink.
@@ -35,7 +47,7 @@
 #
 # Notes:
 # - The datalink only indicates to other aircrafts that this aircraft is tracking some contact.
-#   It does not actually transmit contact information (except for IFF),
+#   It does not actually transmit contact information (except for identifier/IFF),
 #   since other aircrafts internally can access it.
 # - After a 'send_data(contacts)', and until the next 'send_data()' or 'clear_data()',
 #   the datalink behaves as if you are continuously sending information on 'contacts'.
@@ -51,27 +63,29 @@ var IFF_FRIENDLY = 2;     # Friendly, because positive IFF identification.
 
 ### Properties
 
-var channel_mp_string = getprop("/instrumentation/datalink/channel_mp_string") or 7;
-var data_mp_string = getprop("/instrumentation/datalink/channel_mp_string") or 8;
-var receive_period = getprop("/instrumentation/datalink/receive_period") or 1;
+# Index of multiplayer string used to transmit datalink info.
+# Must be the same for all aircrafts.
+var mp_string = 7;
+var mp_path = "sim/multiplay/generic/string["~mp_string~"]";
 
-var channel_mp_path = "sim/multiplay/generic/string["~channel_mp_string~"]";
-var data_mp_path = "sim/multiplay/generic/string["~data_mp_string~"]";
+var receive_period = getprop("/instrumentation/datalink/receive_period") or 1;
 
 var input = {
     power:      getprop("/instrumentation/datalink/power_prop"),
     channel:    getprop("/instrumentation/datalink/channel_prop"),
-    channel_mp: channel_mp_path,
-    data_mp:    data_mp_path,
+    ident:      getprop("/instrumentation/datalink/indentifier_prop"),
+    mp:         mp_path,
     models:     "/ai/models",
 };
 
 foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
+    if (input[name] != nil) {
+        input[name] = props.globals.getNode(input[name], 1);
+    }
 }
 
 
-### String encoding: 'hash|iff'.
+### String encoding of a contact information: 'hash + iff' (no separator)
 # iff is the character 'a'+iff (with ascii encoding).
 #
 # Callsigns are transmitted as MD5 hashes cut to length 4.
@@ -101,10 +115,19 @@ var decode_contact = func(str) {
 }
 
 
+
 ### Transmission
+#
+# The format of the MP sring content is
+# channel[:identifier]#contact1:contact2:...contactn:
+# where
+# - ':','#' are literal separators
+# - channel is
+# - identifier (optional) is the literal content of identifier_prop
+# - contact1 ... contactn is the list of transmitted contacts, encoded with encode_contact().
 
 var clear_data = func {
-    input.data_mp.setValue("");
+    send_data([]);
 }
 
 var clear_timer = maketimer(1, clear_data);
@@ -114,21 +137,40 @@ clear_timer.singleShot = 1;
 #
 # timeout: if set, sent data will be cleared after this time (other aircrafts
 # won't receive it anymore). Useful if 'send_data' is not called often.
+var last_contacts = [];
+
 var send_data = func(contacts, timeout=nil) {
     if (!input.power.getBoolValue()) {
-        clear_data();
+        last_contacts = [];
+        input.mp.setValue("");
         return;
     }
 
-    var data = "";
+    # First encode channel and identifier.
+    var data = input.channel.getValue();
+
+    # Identifier
+    if (input.ident != nil) {
+        data = data ~ ":" ~ input.ident.getValue();
+    }
+
+    # Contacts
+    last_contacts = contacts;
+    data = data~'#';
     foreach(var contact; contacts) {
         data = data ~ encode_contact(contact.callsign, contact["iff"]) ~ ":";
     }
-    input.data_mp.setValue(data);
+    input.mp.setValue(data);
 
     if (timeout != nil) {
         clear_timer.restart(timeout);
     }
+}
+
+# Used internally to update the channel/identifier while keeping the same contacts info.
+# Does not touch timeout.
+var resend_data = func {
+    send_data(last_contacts);
 }
 
 
@@ -140,40 +182,57 @@ var get_contact = func(callsign) {
 }
 
 # Add a contact to the table of datalink contacts.
-var add_contact = func(hash, iff, on_link) {
+var add_contact = func(hash, iff, on_link, identifier) {
     if (!contains(contacts, hash)) {
         contacts[hash] = {
             iff: iff,
             on_link: on_link,
+            identifier: identifier,
         };
     } else {
         # Already in the table of contacts.
-        # In that case, check if the fields 'iff' and 'on_link' need to be changed (upgraded).
+        # In that case, check if the fields 'iff', 'on_link', 'identifier' need to be changed (upgraded).
         contacts[hash].iff = math.max(contacts[hash].iff, iff);
         contacts[hash].on_link = math.max(contacts[hash].iff, on_link);
+        if (identifier != nil) contacts[hash].identifier = indentifier;
     }
 }
 
 var receive_loop = func {
+    var my_channel = input.channel.getValue();
+
     contacts = {};
 
     foreach(var mp; input.models.getChildren("multiplayer")) {
         if (!mp.getValue("valid")) continue;
 
-        var channel = mp.getValue(channel_mp_path);
+        var data = mp.getValue(mp_path);
         var callsign = mp.getValue("callsign");
-        if (callsign == nil or channel == nil or channel != input.channel.getValue()) continue;
+        if (callsign == nil or data == nil) continue;
+
+        # Split channel part and data part
+        var tokens = split("#", data);
+        if (size(tokens) != 2) continue;
+
+        var channel = tokens[0];
+        var contacts = tokens[1];
+
+        # Check channel
+        var tokens = split(":", channel);
+        if (size(tokens) < 1) continue;
+        channel = tokens[0];
+        if (channel != my_channel) continue;
+
+        # Optional datalink identifier
+        var identifier = (size(tokens) >= 2) ? tokens[1] : nil;
 
         # First add the aircraft on datalink itself.
-        add_contact(hash(callsign), IFF_UNKNOWN, 1);
+        add_contact(hash(callsign), IFF_UNKNOWN, 1, identifier);
 
         # Then decode what it's transmitting.
-        var data = mp.getValue(data_mp_path);
-        if (data == nil or data == "") continue;
-
-        foreach (var token; split(":", data)) {
+        foreach (var token; split(":", contacts)) {
             var contact = decode_contact(token);
-            if (contact != nil) add_contact(contact.hash, contact.iff, 0);
+            if (contact != nil) add_contact(contact.hash, contact.iff, 0, nil);
         }
     }
 }
@@ -183,12 +242,13 @@ var receive_timer = maketimer(receive_period, receive_loop);
 setlistener(input.power, func (node) {
     if (node.getBoolValue()) {
         receive_timer.start();
-        input.channel_mp.alias(input.channel);
+        resend_data();  # Sets channel/identifier
     } else {
         receive_timer.stop();
         contacts = {};
-        input.channel_mp.unalias();
-        input.channel_mp.setValue("");
         clear_data();
     }
 }, 1, 0);
+
+setlistener(input.channel, resend_data);
+if (input.ident != nil) setlistener(input.ident, resend_data);
