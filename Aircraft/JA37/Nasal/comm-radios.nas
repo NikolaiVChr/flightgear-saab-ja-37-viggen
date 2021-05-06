@@ -729,11 +729,13 @@ if (variant.JA) {
     # Airbase channel
 
     var kv1_base_input_validate = func(digits) {
+        # Button 'X', not allowed (used for testing).
+        if (size(digits) == 3 and digits[2] == 9) return FALSE;
         # Need to implement limit
         return TRUE;
     }
 
-    var base_channels_letters = ["A", "B", "C", "C2", "D", "E", "F", "G", "H", "X"];
+    var base_channels_letters = ["A", "B", "C", "C2", "D", "E", "F", "G", "H"];
 
     var kv1_input_to_base = func(digits) {
         if (digits[2] >= 5) {
