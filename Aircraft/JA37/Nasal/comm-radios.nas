@@ -549,9 +549,10 @@ var InputScreen = {
     #   for the various symbols.
     # - input_callback: called on the array of values whenever a new full, valid input is done.
     # - validate (optional): called on the array of values for each new partial input.
+    # - edit_last (default false): if true, pressing a button when input is complete will edit the last symbol.
     new: func(digit_base_prop, n_digits, keypad,
               digit_offset, blank, waiting, error,
-              input_callback, validate=nil) {
+              input_callback, validate=nil, edit_last=0) {
         var s = {
             parents: [InputScreen],
             digit_base_prop: digit_base_prop,
@@ -563,6 +564,7 @@ var InputScreen = {
             error: error,
             input_callback: input_callback,
             validate: validate,
+            edit_last: edit_last,
         };
         s.init();
         return s;
@@ -592,12 +594,18 @@ var InputScreen = {
         me.pos = 0;
     },
 
+    # Button press while this screen has focus.
     button: func(n) {
+        if (me.pos >= me.n_digits) return;
+
         append(me.current_input, n);
 
         if (me.validate != nil and !me.validate(me.current_input)) {
+            # Set error symbol.
             me.digits[me.pos].setValue(me.error);
-            # End of input on error.
+            # Remove erronous digit from current input, so that it can be corrected later.
+            pop(me.current_input);
+            # Release focus on error.
             me.release_focus();
             return;
         }
@@ -612,6 +620,12 @@ var InputScreen = {
             }
             me.input_callback(me.last_input);
             me.release_focus();
+
+            if (me.edit_last) {
+                # Get ready to edit the last digit on the next button press.
+                pop(me.current_input);
+                me.pos = me.n_digits - 1;
+            }
         }
     },
 
@@ -640,11 +654,18 @@ var InputScreen = {
     reset: func {
         me.release_focus();
 
-        # Restore last input
-        setsize(me.current_input, size(me.last_input));
+        # Restore last input on screen
         forindex (var i; me.last_input) {
             me.digits[i].setValue(me.last_input[i]);
-            me.current_input[i] = me.last_input[i];
+        }
+
+        if (me.edit_last) {
+            # get ready to edit last digit
+            setsize(me.current_input, me.n_digits-1);
+            forindex (var i; me.current_input) {
+                me.current_input[i] = me.last_input[i];
+            }
+            me.pos = me.n_digits-1;
         }
     },
 
@@ -782,23 +803,31 @@ if (variant.JA) {
     var KV3_BLANK = 10;
     var KV3_MINUS = 11;
 
-    var kv1_pad = Keypad.new();
+    # Function called when a button is pressed while no screen has taken the focus (with 'clear' button).
+    # Simply transmit it to the screen selected with the BAS/NR/MHz buttons.
+    var kv1_pad_no_focus_callback = func(n) {
+        if (input.kv1_freq.getBoolValue())     kv1_freq_input.button(n);
+        elsif (input.kv1_group.getBoolValue()) kv1_group_input.button(n);
+        elsif (input.kv1_base.getBoolValue())  kv1_base_input.button(n);
+    }
+
+    var kv1_pad = Keypad.new(kv1_pad_no_focus_callback);
 
     var kv1_freq_input = InputScreen.new("instrumentation/kv1/digit-mhz", 5, kv1_pad,
         KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
-        kv1_set_new_freq, kv1_freq_input_validate);
+        kv1_set_new_freq, kv1_freq_input_validate, FALSE);
 
     var kv1_group_input = InputScreen.new("instrumentation/kv1/digit-nr", 3, kv1_pad,
         KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
-        kv1_set_new_group, kv1_group_input_validate);
+        kv1_set_new_group, kv1_group_input_validate, TRUE);
 
     var kv1_base_input = InputScreen.new("instrumentation/kv1/digit-bas", 3, kv1_pad,
         KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
-        kv1_set_new_base, kv1_base_input_validate);
+        kv1_set_new_base, kv1_base_input_validate, TRUE);
 
     var kv3_input = InputScreen.new("instrumentation/kv3/digit", 4, kv1_pad,
         KV3_DIGIT_OFFSET, KV3_BLANK, KV3_MINUS, 0,
-        kv3_set_new_channel, nil);
+        kv3_set_new_channel, nil, FALSE);
 
     # Reset a display to last programmed value when selecting it.
     setlistener(input.kv1_freq, func (node) {
