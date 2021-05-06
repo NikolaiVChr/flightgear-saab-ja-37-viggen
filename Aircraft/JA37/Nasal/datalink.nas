@@ -1,6 +1,6 @@
 #### Datalink
 
-# Copyright 2020 Colin Geniet.
+# Copyright 2020-2021 Colin Geniet.
 # Licensed under the GNU General Public License 2.0 or any later version.
 
 
@@ -24,13 +24,17 @@
 #       iff:        one of IFF_UNKNOWN, IFF_HOSTILE, IFF_FRIENDLY
 #       on_link:    (bool) indicates if 'callsign' is itself on the datalink.
 #       identifier: (string) the identifier transmitted by this aircraft (nil if not transmitted).
+#       from_callsign:  callsign of the aircraft which transmitted this contact on datalink, or nil
+#       from_index:     index in /ai/models/multiplayer[i] of the aircraft which transmitted this contact on datalink, or nil
+#       from_ident:     datalink identifier of the aircraft which transmitted this contact on datalink, or nil
 #
 #   To summarize, if aircraft A calls get_contact() on aircraft B, the following is returned:
 #   1. If A and B are on same datalink channel:
 #       on_link=1, identifier possibly set,
-#       iff=IFF_UNKNOWN unless point 2 also applies.
+#       iff=IFF_UNKNOWN and from_callsign=from_index=from_ident=nil unless point 2 also applies.
 #   2. If aircrafts A and C are on the same datalink channel, and C is transmitting info about B:
-#       iff=<whatever IFF status C is transmitting for B>
+#       iff=<whatever IFF status C is transmitting for B>,
+#       from_callsign=<callsign of C>, from_index=<index of C in /ai/models>, from_ident=<identifier of C>
 #       on_link=0 and identifier=nil, unless point 1 also applies.
 #   3. Otherwise (B is not on datalink, and no third aircraft on datalink is transmitting info on B),
 #      get_contact() returns nil.
@@ -233,19 +237,29 @@ var get_contact = func(callsign) {
 }
 
 # Add a contact to the table of datalink contacts.
-var add_contact = func(hash, iff, on_link, identifier) {
+var add_contact = func(hash, iff, on_link, identifier, from_callsign, from_index, from_ident) {
     if (!contains(contacts, hash)) {
         contacts[hash] = {
             iff: iff,
             on_link: on_link,
             identifier: identifier,
+            from_callsign: from_callsign,
+            from_index: from_index,
+            from_ident: from_ident,
         };
     } else {
         # Already in the table of contacts.
         # In that case, check if the fields 'iff', 'on_link', 'identifier' need to be changed (upgraded).
         contacts[hash].iff = math.max(contacts[hash].iff, iff);
         contacts[hash].on_link = math.max(contacts[hash].iff, on_link);
-        if (identifier != nil) contacts[hash].identifier = identifier;
+        if (contacts[hash].identifier == nil) {
+            contacts[hash].identifier = identifier;
+        }
+        if (contacts[hash].from_callsign == nil) {
+            contacts[hash].from_callsign = from_callsign;
+            contacts[hash].from_index = from_index;
+            contacts[hash].from_ident = from_ident;
+        }
     }
 }
 
@@ -254,7 +268,9 @@ var receive_loop = func {
 
     contacts = {};
 
-    foreach(var mp; input.models.getChildren("multiplayer")) {
+    var mp_models = input.models.getChildren("multiplayer");
+    forindex(var idx; mp_models) {
+        var mp = mp_models[idx];
         if (!mp.getValue("valid")) continue;
 
         var data = mp.getValue(mp_path);
@@ -279,12 +295,12 @@ var receive_loop = func {
         var identifier = (size(tokens) >= 2) ? tokens[1] : nil;
 
         # First add the aircraft on datalink itself.
-        add_contact(hash_callsign(callsign), IFF_UNKNOWN, 1, identifier);
+        add_contact(hash_callsign(callsign), IFF_UNKNOWN, 1, identifier, nil, nil, nil);
 
         # Then decode what it's transmitting.
         foreach (var token; split(":", contacts)) {
             var contact = decode_contact(token);
-            if (contact != nil) add_contact(contact.hash, contact.iff, 0, nil);
+            if (contact != nil) add_contact(contact.hash, contact.iff, 0, nil, callsign, idx, identifier);
         }
     }
 }
