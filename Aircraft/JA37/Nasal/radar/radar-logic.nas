@@ -210,6 +210,7 @@ var input = {
     dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
     nose_wow:         "fdm/jsbsim/gear/unit[0]/WOW",
     lock_tone:        "ja37/sound/tones/radar-lock",
+    datalink_ident:   "ja37/radio/kv3/ident",
 };
 
 
@@ -302,12 +303,19 @@ var RadarLogic = {
 
       if (variant.JA) {
         if (selection != nil and selection.type == "multiplayer") {
-          datalink.send_data([{
-            callsign: selection.get_Callsign(),
-            iff: selection.getIFF() ? datalink.IFF_FRIENDLY : datalink.IFF_HOSTILE,
-          }]);
+          datalink.send_data({
+            "contacts": [
+              {
+                callsign: selection.get_Callsign(),
+                iff: selection.getIFF() ? datalink.IFF_FRIENDLY : datalink.IFF_HOSTILE,
+              }
+            ],
+            "identifier": input.datalink_ident.getValue(),
+          });
         } else {
-          datalink.clear_data();
+          datalink.send_data({
+            "identifier": input.datalink_ident.getValue(),
+          });
         }
       }
   },

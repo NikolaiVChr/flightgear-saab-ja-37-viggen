@@ -1587,7 +1587,6 @@
         <datalink>
             <channel_prop type="string">/ja37/radio/kv3/code</channel_prop>
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
-            <identifier_prop type="string">/ja37/radio/kv3/ident</identifier_prop>
             <on type="bool">false</on>
             <power type="bool">false</power>
         </datalink>

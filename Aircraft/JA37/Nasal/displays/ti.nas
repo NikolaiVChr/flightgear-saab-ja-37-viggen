@@ -4769,7 +4769,7 @@ var TI = {
 	},
 
 	displayRadarTrack: func (contact) {
-		if (contact.type == "multiplayer") me.datalink_info = datalink.get_contact(contact.get_Callsign());
+		if (contact.type == "multiplayer") me.datalink_info = datalink.get_data(contact.get_Callsign());
 		else me.datalink_info = nil;
 
 		# Show selected target, datalink contacts, and Rb 99
@@ -4830,20 +4830,20 @@ var TI = {
 
 			me.is_tgt = (contact == me.selection);
 			me.iff = (me.is_tgt and contact.getIFF());
-			me.has_dl = me.datalink_info != nil;
-			me.dl_buddy = me.has_dl and me.datalink_info.on_link;
+			me.on_dl = me.datalink_info != nil and (me.datalink_info.on_link() or me.datalink_info.tracked());
+			me.dl_buddy = me.on_dl and me.datalink_info.on_link();
 
 			# Symbol type
 			if (me.is_tgt) {
-				if (me.iff or me.dl_buddy)    me.symbol = "friendly";
-				else                          me.symbol = "target";
+				if (me.iff or me.dl_buddy)  me.symbol = "friendly";
+				else                        me.symbol = "target";
 			} elsif (me.dl_buddy)           me.symbol = "datalink";
-			elsif (me.datalink_info != nil) me.symbol = "dl_tgt";
+			elsif (me.on_dl)                me.symbol = "dl_tgt";
 
 			# Color (IFF)
-			if (me.iff or me.dl_buddy or (me.has_dl and me.datalink_info.iff == datalink.IFF_FRIENDLY)) {
+			if (me.iff or me.dl_buddy or (me.on_dl and me.datalink_info.iff() == datalink.IFF_FRIENDLY)) {
 				me.color = COLOR_GREEN;
-			} elsif (me.is_tgt or (me.has_dl and me.datalink_info.iff == datalink.IFF_HOSTILE)) {
+			} elsif (me.is_tgt or (me.on_dl and me.datalink_info.iff() == datalink.IFF_HOSTILE)) {
 				me.color = COLOR_RED;
 			} else {
 				me.color = COLOR_YELLOW;
@@ -4852,10 +4852,11 @@ var TI = {
 			# Datalink identifier
 			if (me.dl_buddy) {
 				# Connected to datalink: identifier of aircraft
-				me.ident = me.datalink_info.identifier;
-			} elsif (me.has_dl) {
+				me.ident = me.datalink_info.identifier();
+			} elsif (me.on_dl) {
 				# Contact from datalink: identifier of aircraft who transmitted
-				me.ident = me.datalink_info.from_ident;
+				me.tracked_by = me.datalink_info.tracked_by();
+				if (me.tracked_by != nil) me.ident = datalink.get_data(me.tracked_by).identifier();
 			} else {
 				me.ident = nil;
 			}
