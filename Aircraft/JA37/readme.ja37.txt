@@ -239,7 +239,7 @@ REG/STR:
 - IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.
 - OUT: If 2 first digits entered will show value of address in last 4 digits.
 - ADDRESSES:
-    19xxxx is training floor altitude.
+    19xxxx is training floor altitude (in 100m, or 100ft in interoperability mode).
     52xxxd is loadfactor in percent for aural g-force warning. d is ignored. From 075 to 110.
 
 TI

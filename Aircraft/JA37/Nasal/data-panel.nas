@@ -543,7 +543,7 @@ var main = func {
             resetSign();
         } elsif (ok==HOLD and digit == 6 and num(left(input,2))==19) {
             # set floor warn
-            var floor = metric?num(right(input,4))*M2FT:num(right(input,4));
+            var floor = metric?num(right(input,4))*M2FT*100:num(right(input,4))*100;
             if (floor == 0) {
               floor = -10000;
             }
@@ -844,7 +844,7 @@ var disp = func {
           if (getprop("ja37/sound/floor-ft") < 0) {
             display = "190000";
           } else {
-            display = sprintf("19%04d", getprop("ja37/sound/floor-ft")*(metric?FT2M:1));
+            display = sprintf("19%04d", math.round(getprop("ja37/sound/floor-ft")*(metric?FT2M:1)/100));
           }
       } else {
         display = "000000";
