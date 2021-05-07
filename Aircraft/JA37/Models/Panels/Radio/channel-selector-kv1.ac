@@ -682,7 +682,7 @@ name "botDig1"
 data 8
 Cube.025
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.00582
@@ -703,7 +703,7 @@ name "botDig2"
 data 8
 Cube.026
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.01267
@@ -724,7 +724,7 @@ name "botDig3"
 data 8
 Cube.027
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.01927
@@ -745,7 +745,7 @@ name "botDig4"
 data 8
 Cube.028
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.02577
@@ -766,7 +766,7 @@ name "botDig5"
 data 8
 Cube.029
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 0.02052 0.00024 -0.03189
@@ -2084,7 +2084,7 @@ name "middleDig1"
 data 8
 Cube.022
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 -0.00207 0.00054 -0.02801
@@ -2105,7 +2105,7 @@ name "middleDig2"
 data 8
 Cube.023
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 -0.00207 0.00054 -0.03427
@@ -2126,7 +2126,7 @@ name "middleDig3"
 data 8
 Cube.024
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 -0.00207 0.00054 -0.03954
@@ -4862,7 +4862,7 @@ name "topDig1"
 data 8
 Cube.009
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 -0.03059 0.00054 -0.02165
@@ -4883,7 +4883,7 @@ name "topDig2"
 data 8
 Cube.020
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 -0.03059 0.00054 -0.02781
@@ -4904,7 +4904,7 @@ name "topDig3"
 data 8
 Cube.021
 crease 50.0
-texture "lcd-digits.png"
+texture "kv1-digits.png"
 texrep 1 1
 numvert 4
 -0.03059 0.00054 -0.03417

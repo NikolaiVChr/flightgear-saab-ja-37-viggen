@@ -343,8 +343,5 @@
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>
         </hud>
-        <me31>
-            <file>Aircraft/JA37/Nasal/channel-selector-me31.nas</file>
-        </me31>
     </nasal>
 </PropertyList>

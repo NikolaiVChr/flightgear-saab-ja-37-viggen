@@ -732,6 +732,163 @@ var InputScreen = {
 
 
 if (variant.JA) {
+}
+
+
+
+
+# FR29 / FR22 mode knob
+var MODE = {
+    NORM_LARM: 0,
+    NORM: 1,
+    E: 2,
+    F: 3,
+    G: 4,
+    H: 5,
+    M: 6,
+    L: 7,
+};
+
+
+### Frequency update functions.
+
+if (variant.AJS) {
+    # Callback for FR22 panel knobs.
+    setlistener(input.fr22_group, func(node) {
+        var grp = node.getValue();
+        input.fr22_group_dig1.setValue(math.mod(grp, 10));
+        input.fr22_group_dig10.setValue(math.floor(grp/10));
+    }, 1, 0);
+
+    setlistener(input.fr22_base_knob, func(node) {
+        var base = node.getValue();
+        # Every sixth position is ALLM (global channels)
+        var gen = (math.mod(base, 6) == 5);
+        # Actual base number
+        base = math.mod(base, 6) + math.floor(base/6)*5;
+        input.fr22_base_gen.setBoolValue(gen);
+        input.fr22_base.setValue(base);
+        input.fr22_base_dig1.setValue(math.mod(base, 10));
+        input.fr22_base_dig10.setValue(math.floor(base/10));
+    }, 1, 0);
+
+    # FR22 channels panel buttons indices (for input.fr22_button)
+    var FR22_BUTTONS = {
+        GROUP_START: 0,
+        GROUP_END: 9,
+
+        BASE_START: 10,
+        BASE_END: 14,
+
+        SPECIAL_START: 15,
+        SPECIAL_END: 19,
+
+        BASE: {
+            A: 10,
+            B: 11,
+            C: 12,
+            C2: 13,
+            D: 14,
+        },
+        BASE_GEN: {
+            G: 10,
+            F: 12,
+            E: 14,
+        },
+
+        SPECIAL: {
+            H: 15,
+            S1: 16,
+            S2: 17,
+            S3: 18,
+            FREQ: 19,
+        },
+    };
+
+    # FR22 frequency update logic.
+    var update_fr22_freq = func {
+        var button = input.fr22_button.getValue();
+
+        var channel = nil;
+
+        if (button >= FR22_BUTTONS.GROUP_START and button <= FR22_BUTTONS.GROUP_END) {
+            # Group button pressed
+            var channel = sprintf("N%.2d%d", input.fr22_group.getValue(), button - FR22_BUTTONS.GROUP_START);
+        } elsif (button >= FR22_BUTTONS.BASE_START and button <= FR22_BUTTONS.BASE_END) {
+            # Airbase button pressed
+            if (input.fr22_base_gen.getValue()) {
+                # Base knob in position ALLM
+                foreach (var chan; keys(FR22_BUTTONS.BASE_GEN)) {
+                    if (button == FR22_BUTTONS.BASE_GEN[chan]) {
+                        channel = chan;
+                        break;
+                    }
+                }
+            } else {
+                # Normal airbase channel usage
+                foreach (var chan; keys(FR22_BUTTONS.BASE)) {
+                    if (button == FR22_BUTTONS.BASE[chan]) {
+                        channel = sprintf("B%.2d%s", input.fr22_base.getValue(), chan);
+                        break;
+                    }
+                }
+            }
+        } elsif (button >= FR22_BUTTONS.SPECIAL_START and button <= FR22_BUTTONS.SPECIAL_END) {
+            # Special button pressed
+            foreach (var chan; keys(FR22_BUTTONS.SPECIAL)) {
+                if (button == FR22_BUTTONS.SPECIAL[chan]) {
+                    channel = chan;
+                    break;
+                }
+            }
+        }
+
+        if (channel == nil) {
+            # No valid channel
+            fr22.set_freq(0);
+        } elsif (channel == "FREQ") {
+            # Use frequency selector
+            fr22.set_freq(input.freq_sel_10mhz.getValue() * 10000
+                         + input.freq_sel_1mhz.getValue() * 1000
+                         + input.freq_sel_100khz.getValue() * 100
+                         + input.freq_sel_1khz.getValue());
+        } else {
+            # Query channel
+            fr22.set_freq(Channels.get(channel));
+        }
+    }
+
+    setlistener(input.freq_sel_10mhz, update_fr22_freq, 0, 0);
+    setlistener(input.freq_sel_1mhz, update_fr22_freq, 0, 0);
+    setlistener(input.freq_sel_100khz, update_fr22_freq, 0, 0);
+    setlistener(input.freq_sel_1khz, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_button, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_group, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_base, update_fr22_freq, 0, 0);
+    setlistener(input.fr22_base_gen, update_fr22_freq, 0, 0);
+
+
+    # FR24 frequency is controlled by the FR24 mode knob
+    var update_fr24_freq = func {
+        var mode = input.radio_mode.getValue();
+        var freq = 0;
+
+        if (mode == MODE.NORM_LARM) {
+            freq = Channels.guard();
+        } else {
+            foreach (var chan; ["E", "F", "G", "H"]) {
+                if (mode == MODE[chan]) freq = Channels.get(chan);
+            }
+        }
+
+        fr24.set_freq(freq);
+    }
+
+    setlistener(input.radio_mode, update_fr24_freq, 0, 0);
+
+} else {
+    #### JA radios
+
     ### KV1 channel selector logic
 
     ## current frequency / channels
@@ -927,162 +1084,10 @@ if (variant.JA) {
             kv3_input.reset();
         }
     }, 1, 0);
-}
 
 
+    # FR29 channel selection
 
-
-# FR29 / FR22 mode knob
-var MODE = {
-    NORM_LARM: 0,
-    NORM: 1,
-    E: 2,
-    F: 3,
-    G: 4,
-    H: 5,
-    M: 6,
-    L: 7,
-};
-
-
-### Frequency update functions.
-
-if (variant.AJS) {
-    # Callback for FR22 panel knobs.
-    setlistener(input.fr22_group, func(node) {
-        var grp = node.getValue();
-        input.fr22_group_dig1.setValue(math.mod(grp, 10));
-        input.fr22_group_dig10.setValue(math.floor(grp/10));
-    }, 1, 0);
-
-    setlistener(input.fr22_base_knob, func(node) {
-        var base = node.getValue();
-        # Every sixth position is ALLM (global channels)
-        var gen = (math.mod(base, 6) == 5);
-        # Actual base number
-        base = math.mod(base, 6) + math.floor(base/6)*5;
-        input.fr22_base_gen.setBoolValue(gen);
-        input.fr22_base.setValue(base);
-        input.fr22_base_dig1.setValue(math.mod(base, 10));
-        input.fr22_base_dig10.setValue(math.floor(base/10));
-    }, 1, 0);
-
-    # FR22 channels panel buttons indices (for input.fr22_button)
-    var FR22_BUTTONS = {
-        GROUP_START: 0,
-        GROUP_END: 9,
-
-        BASE_START: 10,
-        BASE_END: 14,
-
-        SPECIAL_START: 15,
-        SPECIAL_END: 19,
-
-        BASE: {
-            A: 10,
-            B: 11,
-            C: 12,
-            C2: 13,
-            D: 14,
-        },
-        BASE_GEN: {
-            G: 10,
-            F: 12,
-            E: 14,
-        },
-
-        SPECIAL: {
-            H: 15,
-            S1: 16,
-            S2: 17,
-            S3: 18,
-            FREQ: 19,
-        },
-    };
-
-    # FR22 frequency update logic.
-    var update_fr22_freq = func {
-        var button = input.fr22_button.getValue();
-
-        var channel = nil;
-
-        if (button >= FR22_BUTTONS.GROUP_START and button <= FR22_BUTTONS.GROUP_END) {
-            # Group button pressed
-            var channel = sprintf("N%.2d%d", input.fr22_group.getValue(), button - FR22_BUTTONS.GROUP_START);
-        } elsif (button >= FR22_BUTTONS.BASE_START and button <= FR22_BUTTONS.BASE_END) {
-            # Airbase button pressed
-            if (input.fr22_base_gen.getValue()) {
-                # Base knob in position ALLM
-                foreach (var chan; keys(FR22_BUTTONS.BASE_GEN)) {
-                    if (button == FR22_BUTTONS.BASE_GEN[chan]) {
-                        channel = chan;
-                        break;
-                    }
-                }
-            } else {
-                # Normal airbase channel usage
-                foreach (var chan; keys(FR22_BUTTONS.BASE)) {
-                    if (button == FR22_BUTTONS.BASE[chan]) {
-                        channel = sprintf("B%.2d%s", input.fr22_base.getValue(), chan);
-                        break;
-                    }
-                }
-            }
-        } elsif (button >= FR22_BUTTONS.SPECIAL_START and button <= FR22_BUTTONS.SPECIAL_END) {
-            # Special button pressed
-            foreach (var chan; keys(FR22_BUTTONS.SPECIAL)) {
-                if (button == FR22_BUTTONS.SPECIAL[chan]) {
-                    channel = chan;
-                    break;
-                }
-            }
-        }
-
-        if (channel == nil) {
-            # No valid channel
-            fr22.set_freq(0);
-        } elsif (channel == "FREQ") {
-            # Use frequency selector
-            fr22.set_freq(input.freq_sel_10mhz.getValue() * 10000
-                         + input.freq_sel_1mhz.getValue() * 1000
-                         + input.freq_sel_100khz.getValue() * 100
-                         + input.freq_sel_1khz.getValue());
-        } else {
-            # Query channel
-            fr22.set_freq(Channels.get(channel));
-        }
-    }
-
-    setlistener(input.freq_sel_10mhz, update_fr22_freq, 0, 0);
-    setlistener(input.freq_sel_1mhz, update_fr22_freq, 0, 0);
-    setlistener(input.freq_sel_100khz, update_fr22_freq, 0, 0);
-    setlistener(input.freq_sel_1khz, update_fr22_freq, 0, 0);
-    setlistener(input.fr22_button, update_fr22_freq, 0, 0);
-    setlistener(input.fr22_group, update_fr22_freq, 0, 0);
-    setlistener(input.fr22_base, update_fr22_freq, 0, 0);
-    setlistener(input.fr22_base_gen, update_fr22_freq, 0, 0);
-
-
-    # FR24 frequency is controlled by the FR24 mode knob
-    var update_fr24_freq = func {
-        var mode = input.radio_mode.getValue();
-        var freq = 0;
-
-        if (mode == MODE.NORM_LARM) {
-            freq = Channels.guard();
-        } else {
-            foreach (var chan; ["E", "F", "G", "H"]) {
-                if (mode == MODE[chan]) freq = Channels.get(chan);
-            }
-        }
-
-        fr24.set_freq(freq);
-    }
-
-    setlistener(input.radio_mode, update_fr24_freq, 0, 0);
-
-} else {
-    # JA
     var update_fr29_freq = func {
         var mode = input.radio_mode.getValue();
         var freq = 0;
@@ -1104,6 +1109,197 @@ if (variant.AJS) {
     # update_fr29_freq is called when kv1_{freq,group,base} changes
     setlistener(input.radio_mode, update_fr29_freq);
     setlistener(input.kv1_button, update_fr29_freq);
+
+
+    ### FR31 channel / frequency selection logic
+    var me31 = {
+        MODE: {
+            FREQ: 0,
+            GROUP: 1,
+            BASE: 2,
+        },
+
+        # Number of input characters for each mode
+        input_sizes: [5, 3, 3],
+        # For current mode
+        input_size: 5,
+
+        # Symbols positions on texture
+        DIGITS_OFFSET: 0,
+        BLANK: 12,
+        DIGIT_TO_LETTER: ["X", "A", "B", "C", "C2", "D", "E", "F", "G", "H"],
+        LETTER_TO_DIGIT: {
+            A: 1,
+            B: 2,
+            C: 3,
+            C2: 4,
+            E: 5,
+            H: 9,
+        },
+
+        init: func {
+            # Screen is controlled by properties letter[i] (toggles between
+            # digits and letters) and digit[i] (select the digit / letter).
+            me.node = props.globals.getNode("instrumentation/fr31");
+            me.digits = [];
+            me.is_letter = [];
+            setsize(me.digits, 5);
+            setsize(me.is_letter, 5);
+            forindex (var i; me.digits) {
+                me.digits[i] = me.node.getChild("digit", i, 1);
+                me.digits[i].setValue(me.BLANK);
+                me.is_letter[i] = me.node.getChild("letter", i, 1);
+                me.is_letter[i].setBoolValue(FALSE);
+            }
+
+            me.mode = me.MODE.FREQ;
+            me.presel_mode = me.MODE.FREQ;
+
+            me.pos = -1;
+        },
+
+        validate: func(digits) {
+            # Compute the value corresponding to the current (partial) input.
+            var pow = math.pow(10, me.input_size-1);
+            var val = 0;
+            foreach (var digit; digits) {
+                val += pow * digit;
+                pow /= 10;
+            }
+            # Mode dependent check
+            if (me.mode == me.MODE.FREQ) {
+                # Check last digit for 25KHz separation
+                if (size(digits) == me.input_size) {
+                    var last_dig = digits[me.input_size-1];
+                    if (last_dig != 0 and last_dig != 2 and last_dig != 5 and last_dig != 7) return FALSE;
+                }
+
+                # One above the maximum frequency that can be reached with the current partial input.
+                var max_val = val + pow*10;
+                # Convert values to to KHz
+                val *= 10;
+                max_val *= 10;
+                # Check range
+                if (val <= fr31.vhf.max and max_val > fr31.vhf.min) return TRUE;
+                if (val <= fr31.uhf.max and max_val > fr31.uhf.min) return TRUE;
+                return FALSE;
+            } elsif (me.mode == me.MODE.GROUP) {
+                # Channels up to 119.
+                return val < 120;
+            } elsif (me.mode == me.MODE.BASE) {
+                # Check last character
+                if (size(digits) == me.input_size) {
+                    var last_char = digits[me.input_size-1];
+                    if (last_char < me.LETTER_TO_DIGIT["A"] or last_char > me.LETTER_TO_DIGIT["E"]) return FALSE;
+                }
+                # Base numbers up to 99.
+                return (val/10) < 100;
+            }
+        },
+
+        set_freq: func(digits) {
+            if (me.mode == me.MODE.FREQ) {
+                var pow = 100000;
+                var freq = 0;
+                foreach (var digit; digits) {
+                    freq += pow * digit;
+                    pow /= 10;
+                }
+                # Convert to 25KHz separation
+                if (digits[4] == 2 or digits[4] == 7) {
+                    freq += 5;
+                }
+                fr31.set_freq(freq);
+            } elsif (me.mode == me.MODE.GROUP) {
+                var channel = "N"~digits[0]~digits[1]~digits[2];
+                fr31.set_freq(Channels.get(channel));
+            } elsif (me.mode == me.MODE.BASE) {
+                var channel = "B"~digits[0]~digits[1]~me.DIGIT_TO_LETTER[digits[2]];
+                fr31.set_freq(Channels.get(channel));
+            }
+        },
+
+        # Buttons
+        button: func(n) {
+            if (!me.power()) return;
+
+            # Input inactive
+            if (me.pos < 0) return;
+
+            # Check input
+            append(me.current_input, n);
+            if (!me.validate(me.current_input, me.mode)) {
+                # Ignore invalid input
+                pop(me.current_input);
+                return;
+            }
+
+            # Update screen
+            me.digits[me.pos].setValue(n+me.DIGITS_OFFSET);
+            # Special logic to display the 'C2' channel, last position in BAS mode.
+            if (me.mode == me.MODE.BASE and me.pos == me.input_size-1) {
+                if (n == me.LETTER_TO_DIGIT["C2"]) {
+                    me.digits[me.pos].setValue(me.LETTER_TO_DIGIT["C"]);
+                    me.digits[me.pos+1].setValue(2 + me.DIGITS_OFFSET);
+                } else {
+                    me.digits[me.pos+1].setValue(me.BLANK);
+                }
+            }
+
+            me.pos += 1;
+            if (me.pos >= me.input_size) {
+                # End of input
+                me.set_freq(me.current_input, me.mode);
+
+                if (me.mode == me.MODE.GROUP or me.mode == me.MODE.BASE) {
+                    # Get ready to edit the last digit on the next button press
+                    pop(me.current_input);
+                    me.pos -= 1;
+                } else {
+                    # end of input
+                    me.pos = -1;
+                }
+            }
+        },
+
+        clear: func {
+            if (!me.power()) return;
+
+            # The MHz/NR/BAS buttons only preselect a mode, which activates when clearing.
+            me.mode = me.presel_mode;
+            me.input_size = me.input_sizes[me.mode];
+
+            forindex (var i; me.digits) {
+                me.digits[i].setValue(me.BLANK);
+                me.is_letter[i].setBoolValue(FALSE);
+            }
+            # Last character in mode BAS is the channel letter.
+            if (me.mode == me.MODE.BASE) me.is_letter[me.input_size-1].setBoolValue(TRUE);
+
+            me.current_input = [];
+            me.pos = 0;
+        },
+
+        mhz: func {
+            if (!me.power()) return;
+            me.presel_mode = me.MODE.FREQ;
+        },
+
+        nr: func {
+            if (!me.power()) return;
+            me.presel_mode = me.MODE.GROUP;
+        },
+
+        bas: func {
+            if (!me.power()) return;
+            me.presel_mode = me.MODE.BASE;
+        },
+
+        # Power condition
+        power: func {
+            return power.prop.dcSecondBool.getValue();
+        },
+    };
 }
 
 
@@ -1172,5 +1368,6 @@ var init = func {
         update_fr24_freq();
     } else {
         update_fr29_freq();
+        me31.init();
     }
 }

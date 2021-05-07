@@ -687,11 +687,6 @@
             <battery-recharge-rate type="double">0.001666</battery-recharge-rate>
             <battery-reinit type="bool">false</battery-reinit>
         </systems>
-        <radio>
-            <me31>
-                <button-mhz type="bool">true</button-mhz>
-            </me31>
-        </radio>
         <faf>
           <!-- populated by Nasal/radar/faf.nas -->
         </faf>
