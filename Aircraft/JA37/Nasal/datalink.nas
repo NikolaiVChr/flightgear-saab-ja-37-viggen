@@ -35,9 +35,15 @@
 # - get_connected_callsigns() / get_connected_indices()
 #     Returns a vector containing all callsigns, resp. indices
 #     in /ai/models/multiplayer[i], of aircrafts connected on datalink.
-#     Both vectors use the same indices, i.e. get_connected_callsigns()[i]
+#     Both vectors use the same order, i.e. get_connected_callsigns()[i]
 #     and get_connected_indices()[i] correspond to the same aircraft.
-# 
+#     Furthermore this order is stable (the relative order of two aircrafts
+#     does not change as long as neither disconnects from multiplayer).
+#
+# - get_all_callsigns()
+#     Returns a vector containing all callsigns of aircraft with any associated data.
+#     There is no guarantee on the order of callsigns.
+#
 # - send_data(data, timeout=nil)
 #     Send data on the datalink. 'data' is a hash of the form
 #       {
@@ -378,6 +384,10 @@ var get_connected_callsigns = func {
 
 var get_connected_indices = func {
     return connected_indices;
+}
+
+var get_all_callsigns = func {
+    return keys(aircrafts_data);
 }
 
 # Helper for modifying aircrafts_data.
