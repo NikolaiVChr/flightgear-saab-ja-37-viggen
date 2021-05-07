@@ -1045,30 +1045,46 @@ var RadarAltitude = {
     initialize: func {
         me.shown = FALSE;
         me.text = make_text(me.parent)
-            .setTranslation(-400, 600);
+            .setTranslation(-350, 600)
+            .setAlignment("right-baseline");
         me.text.enableUpdate();
         me.text.hide();
+
+        me.text_int = make_text(me.parent)
+            .setTranslation(-370, 520)
+            .setAlignment("right-baseline")
+            .setText("INT");
     },
 
     set_mode: func(mode) {},
 
     update: func {
-        if (modes.takeoff_30s_inhibit or modes.landing or !input.rad_alt_ready.getValue()) {
+        var terrain_height_mode = input.show_ground_h.getBoolValue();
+
+        if (modes.takeoff_30s_inhibit or modes.landing
+            or (!input.rad_alt_ready.getValue() and !terrain_height_mode)) {
             me.shown = FALSE;
+        } elsif (terrain_height_mode) {
+            # Display terrain height
+            var terrain_height = input.true_alt_ft.getValue() - input.true_alt_agl_ft.getValue();
+            if (displays.metric) terrain_height *= FT2M;
+            terrain_height = math.round(terrain_height, 100);
+            me.text.updateText(sprintf("%d", terrain_height));
+            me.shown = TRUE;
         } else {
+            # Display radar altitude
             var alt = input.rad_alt.getValue();
+            if (alt < 99.5) me.shown = TRUE;
+            elsif (alt > 109.5) me.shown = FALSE;
+
             if (!displays.metric) alt *= M2FT;
             alt = math.round(alt);
-            if (alt < (displays.metric ? 100 : 300)) me.shown = TRUE;
-            elsif (alt >= (displays.metric ? 110 : 350)) me.shown = FALSE;
-        }
 
-        if (me.shown) {
-            me.text.updateText(sprintf("R%3d", alt));
-            me.text.show();
-        } else {
-            me.text.hide();
+            if(me.shown) me.text.updateText(sprintf("R%3d", alt));
         }
+        me.text.setVisible(me.shown);
+
+        me.text_int.setVisible(!displays.metric);
     },
 };
 

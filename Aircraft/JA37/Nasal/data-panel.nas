@@ -552,6 +552,18 @@ var main = func {
             input = inputDefault;
             digit = 0;
             resetSign();
+        } elsif (ok==HOLD and digit == 6 and num(left(input,2))==18) {
+            # toggle terrain altitude on HUD
+            var io = num(substr(input,3,1));
+            printDA("set HUD terrain height display "~io~" ");
+            if (io == 0 or io == 1) {
+              setprop("ja37/hud/display-terrain-height", io);
+            } else {
+              error = TRUE;
+            }
+            input = inputDefault;
+            digit = 0;
+            resetSign();
         } elsif (ok==HOLD and digit == 6 and num(left(input,2))==52) {
             # set max loadfactor percent
             var percent = num(substr(input,2,3));
@@ -836,16 +848,18 @@ var disp = func {
           # max alpha
           #printDA("displaying alpha");
           display = sprintf("00%02d00", getprop("fdm/jsbsim/fcs/max-alpha-deg"));
-      } elsif (address != nil and address==52) {
+      } elsif (address==52) {
           # loadfactor percent warn
           display = sprintf("52%03d0", getprop("ja37/sound/loadfactor-percent"));
-      } elsif (address != nil and address==19) {
+      } elsif (address==19) {
           # floor warn
           if (getprop("ja37/sound/floor-ft") < 0) {
             display = "190000";
           } else {
             display = sprintf("19%04d", math.round(getprop("ja37/sound/floor-ft")*(metric?FT2M:1)/100));
           }
+      } elsif (address==18) {
+        display = sprintf("180%d00", getprop("ja37/hud/display-terrain-height"));
       } else {
         display = "000000";
       }
@@ -1052,7 +1066,7 @@ var serialize = func(m) {
   }
   ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
   ret = ret~sprintf("FPLDATA,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"));
-  ret = ret~sprintf("REG,%d,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"),getprop("ja37/sound/loadfactor-percent"));
+  ret = ret~sprintf("REG,%d,%d,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"),getprop("ja37/sound/loadfactor-percent"),getprop("ja37/hud/display-terrain-height"));
   ret = ret~sprintf("FUEL,%d|",getprop("ja37/systems/fuel-warning-extra-percent"));
   ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.displayFlight);
   return ret;
@@ -1097,6 +1111,9 @@ var unserialize = func(m) {
         setprop("fdm/jsbsim/fcs/max-alpha-deg", num(items[2]));
         if (size(items) >= 4) {
           setprop("ja37/sound/loadfactor-percent", num(items[3]));
+        }
+        if (size(items) >= 5) {
+          setprop("ja37/hud/display-terrain-height", num(items[4]));
         }
       } elsif (key == "FUEL") {
         setprop("ja37/systems/fuel-warning-extra-percent", num(items[1]));
