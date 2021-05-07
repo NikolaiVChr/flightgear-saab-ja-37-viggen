@@ -23,7 +23,8 @@
 #
 # API:
 # - get_data(callsign)
-#     Returns all datalink information about 'callsign' as an object, which must not be modified.
+#     Returns all datalink information about 'callsign' as an object, or nil if there is none.
+#     This object must not be modified.
 #     It contains the following methods:
 #       callsign(): The aircraft callsign (same as the argument of get_data()).
 #       index():    The aircraft index in /ai/models/multiplayer[i].
@@ -69,8 +70,8 @@
 #       tracked():          A bool indicating that some aircraft "B" connected on datalink
 #                           is transmitting information about aircraft "A".
 #       iff():              One of IFF_UNKNOWN, IFF_HOSTILE, IFF_FRIENDLY, or nil if tracked() is false.
-#                           Indicates the result of IFF interogation of "A" by "B"
-#                           IFF_UNKNOWN means that e.g. no IFF interogation was performed.
+#                           Indicates the result of IFF interrogation of "A" by "B"
+#                           IFF_UNKNOWN means that e.g. no IFF interrogation was performed.
 #       tracked_by():       The callsign of the transmitting aircraft ("A"), or nil if tracked() is false.
 #       tracked_by_index(): The index of the transmitting aircraft, or nil if tracked() is false.
 #                           The index refers to property nodes /ai/models/multiplayer[i].
@@ -83,17 +84,27 @@
 
 ### Datalink identifier (extension name: "identifier")
 #
-# This extension alows each aircraft on datalink to transmit a presonal
+# This extension allows each aircraft on datalink to transmit a personal
 # identifier, e.g. the number of the aircraft in a flight.
 #
 ## Receiving data
-# This extensions adds the method identifier() to the result of get_data(),
-# which returns the identifier (or nil if there is none).
+# This extension adds the method identifier() to the result of get_data(),
+# which returns the identifier, or nil if there is none).
 #
 ## Sending data
 # Set the identifier with send_data({"identifier": <identifier>, ...});
 # The identifier must be a string.
 
+### Coordinate transmission (extension name: "point")
+#
+# This extension allows each aircraft to broadcast a coordinate (geo.Coord object).
+#
+## Receiving data
+# This extension adds the method point() to the result of get_data(),
+# which results the transmitted geo.Coord object, or nil if there is none.
+#
+## Sending data
+# Transmit a geo.Coord object <coord> with send_data({"point": <coord>, ...});
 
 
 #### Protocol:
@@ -462,7 +473,7 @@ var ContactIdentifier = {
         me._identifier = nil;
     },
     set_identifier: func(ident) {
-        if (me._identifier == nil) me._identifier = ident;
+        me._identifier = ident;
     },
     identifier: func {
         return me._identifier;
@@ -483,6 +494,7 @@ var decode_identifier = func(aircrafts_data, callsign, str) {
 register_extension("identifier", "I", ContactIdentifier, encode_identifier, decode_identifier);
 
 
+
 ## Contacts
 
 # IFF status transmitted over datalink.
@@ -498,7 +510,7 @@ var ContactTracked = {
         me._iff = IFF_UNKNOWN;
     },
     set_tracked_by: func(callsign) {
-        if (me._tracked_by == nil) me._tracked_by = callsign;
+        me._tracked_by = callsign;
     },
     set_iff: func(iff) {
         # Priority order on IFF values (friendly, then hostile, then no data).
@@ -567,3 +579,32 @@ var decode_contacts = func(aircrafts_data, callsign, str) {
 }
 
 register_extension("contacts", "C", ContactTracked, encode_contacts, decode_contacts);
+
+
+
+## Coordinate
+
+var ContactPoint = {
+    init: func {
+        me._point = nil;
+    },
+    set_point: func(point) {
+        me._point = point;
+    },
+    point: func {
+        return me._point;
+    },
+};
+
+var encode_point = func(coord) {
+    return emesary.TransferCoord.encode(coord);
+}
+
+var decode_point = func(aircrafts_data, callsign, str) {
+    var coord = emesary.TransferCoord.decode(str, 0).value;
+    aircrafts_data = add_if_missing(aircrafts_data, callsign);
+    aircrafts_data[callsign].set_point(coord);
+    return aircrafts_data;
+}
+
+register_extension("point", "P", ContactPoint, encode_point, decode_point);
