@@ -126,8 +126,9 @@
 # Remark: '!' as separator is specifically chosen to allow encoding with emesary.Transfer<type>.
 #
 # The current extension prefixes are the following:
-#   contacts: C
+#   contacts:   C
 #   identifier: I
+#   point:      P
 
 #### Extensions API
 #
