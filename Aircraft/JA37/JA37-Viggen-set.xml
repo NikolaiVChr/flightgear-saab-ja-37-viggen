@@ -331,6 +331,9 @@
         <datalink>
             <file>Aircraft/JA37/Nasal/datalink.nas</file>
         </datalink>
+        <fighterlink>
+            <file>Aircraft/JA37/Nasal/fighter-link.nas</file>
+        </fighterlink>
         <hud>
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>

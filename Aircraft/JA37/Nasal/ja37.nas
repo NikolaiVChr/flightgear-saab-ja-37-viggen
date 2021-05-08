@@ -954,6 +954,12 @@ var Saab37 = {
     # radar (must be called after TI)
     me.loop_logic.start();
 
+    # datalink
+    if (variant.JA) {
+        me.loop_jl = maketimer(1.05, fighterlink.loop);
+        me.loop_jl.start();
+    }
+
     # fire
     failureSys.init_fire();
     me.loop_fire  = maketimer(1, me, func failureSys.loop_fire());
@@ -1070,6 +1076,12 @@ var Saab37 = {
     }
     # radar (must be called after TI)
     me.loop_logic.start();
+
+    # datalink
+    if (variant.JA) {
+        me.loop_jl = maketimer(1.05, me, func { timer.timeLoop("datalink", fighterlink.loop, me);});
+        me.loop_jl.start();
+    }
 
     # fire
     failureSys.init_fire();
