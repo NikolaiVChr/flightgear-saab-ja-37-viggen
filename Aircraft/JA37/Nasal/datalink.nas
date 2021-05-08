@@ -81,6 +81,11 @@
 #       tracked_by():       The callsign of the transmitting aircraft ("A"), or nil if tracked() is false.
 #       tracked_by_index(): The index of the transmitting aircraft, or nil if tracked() is false.
 #                           The index refers to property nodes /ai/models/multiplayer[i].
+#       is_known():         Equivalent to (on_link() or tracked()).
+#                           Indicates if the position of this aircraft is supposed to be known
+#                           (i.e. whether or not it should be displayed on a HSD or whatever).
+#       is_friendly():      Equivalent to (on_link() or iff() == IFF_FRIENDLY).
+#       is_hostile():       Equivalent to (!on_link() and iff() == IFF_HOSTILE).
 #
 ## Sending data
 # usage: send_data({ contacts: <contacts>, ...}, ...)
@@ -167,10 +172,11 @@
 
 
 #### Version and changelog
-# current: v1.0.0, minimum compatible: v1.0.0
+# current: v1.0.1, minimum compatible: v1.0.0
 #
-## v1.0.0
-# Initial version.
+## v1.0.1: Add is_known(), is_friendly(), is_hostile() helpers to extension "contacts".
+#
+## v1.0.0: Initial version
 # - Core protocol for datalink channel.
 # - Extensions "contacts", "identifier", and "point".
 
@@ -549,6 +555,15 @@ var ContactTracked = {
     },
     iff: func {
         return me._iff;
+    },
+    is_known: func {
+        return me.on_link() or me.tracked();
+    },
+    is_friendly: func {
+        return me.on_link() or me.iff() == IFF_FRIENDLY;
+    },
+    is_hostile: func {
+        return !me.on_link() and me.iff() == IFF_HOSTILE;
     },
 };
 
