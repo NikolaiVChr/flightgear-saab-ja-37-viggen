@@ -165,6 +165,17 @@
 #     unless an entry for 'callsign' already exists. Returns the modified hash.
 
 
+
+#### Version and changelog
+# current: v1.0.0, minimum compatible: v1.0.0
+#
+## v1.0.0
+# Initial version.
+# - Core protocol for datalink channel.
+# - Extensions "contacts", "identifier", and "point".
+
+
+
 ### Parameters
 #
 # Remark: most parameters need to be the same on all aircrafts.
