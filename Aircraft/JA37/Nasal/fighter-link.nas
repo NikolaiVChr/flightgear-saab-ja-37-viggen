@@ -4,6 +4,7 @@
 # See datalink.nas for the generic datalink implementation.
 
 var input = {
+    on:             "instrumentation/datalink/on",
     power:          "instrumentation/datalink/power",
     identifier:     "ja37/radio/kv3/ident",
 };
@@ -23,10 +24,6 @@ var IFF_FRIENDLY = datalink.IFF_FRIENDLY;
 var send_period = 1;
 
 var send_loop = func {
-    # It would be safe to send_data() with power off (datalink will ignore it),
-    # but there's no reason to do it.
-    if (!input.power.getBoolValue()) return;
-
     var data = {};
 
     # Make sure the identifier is converted to a string.
@@ -92,5 +89,10 @@ var get_identifier = func(callsign, only_connected=0) {
 
 
 var loop = func {
-    send_loop();
+    if (!input.power.getBoolValue()) {
+        # No power, turn off
+        input.on.setBoolValue(0);
+    } else {
+        send_loop();
+    }
 }
