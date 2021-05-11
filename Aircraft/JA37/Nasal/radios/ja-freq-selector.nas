@@ -28,6 +28,8 @@ var ensure_prop = func(path) {
 
 ### KV1 channel selector logic
 
+radio_buttons.RadioButtons.new([input.kv1_freq, input.kv1_group, input.kv1_base], input.kv1_button);
+
 # Keypad shared between several input controllers.
 #
 # Each controller can take_focus(), after which calls to Keypad.button()
@@ -61,6 +63,7 @@ var KV1Keypad = {
         }
     },
 };
+
 
 var InputScreen = {
     # Arguments:
@@ -138,8 +141,13 @@ var InputScreen = {
             me.release_focus();
             # Append error symbol (must be after release_focus(), otherwise the symbol is overwritten).
             me.digits[me.pos].setValue(me.error);
-            # Remove erronous digit from current input, so that it can be corrected later.
+            # Remove erronous digit from current input.
             pop(me.current_input);
+            # End of input, unless on the last character for BAS and NR screens (which can correct).
+            if (!me.edit_last or me.pos != me.n_digits-1) {
+                # End of input, unless
+                me.pos = me.n_digits;
+            }
             return;
         }
 
@@ -252,9 +260,6 @@ var InputScreen = {
         me.start_blink_timer.restart(me.blink_delay);
     },
 };
-
-radio_buttons.RadioButtons.new([input.kv1_freq, input.kv1_group, input.kv1_base], input.kv1_button);
-
 
 ## current frequency / channels
 var kv1_freq = 0;
