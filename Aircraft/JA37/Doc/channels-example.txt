@@ -36,12 +36,12 @@
 # Note that the VHF bands contain the usual NAV band.
 # Don't be surprised to hear a VOR identifier if you tune to its frequency.
 #
-# Similarly, not all radios can use all channels.
+# Not all radios can use all channels. Restrictions are detailled in the rest of this file.
 #
 # There are three types of channels: airbase channels (prefixed by B in this file),
 # group channels (prefixed by N in this file), and other 'special' channels.
 #
-# Channels configuration files can be loaded in FlightGear using ???
+# Channels configuration files can be loaded in FlightGear using the 'load radio channels' dialog.
 # When loading a channels configuration file, any previously existing channel is erased.
 # However it is possible to load two separate configuration files:
 # one for group and special channels, and one for airbase channels.
@@ -73,8 +73,8 @@ S3      240.550
 # - literal 'N' prefix
 # - XX is the group number (two digits)
 # - C is the channel number within the group (0 to 9)
-# AJS can use group numbers 01 to 42
-# JA can use group numbers 00 to 42 with FR29 main radio, and 01 to 12 with FR31 secondary radio.
+# AJS can use group numbers 01 to 41
+# JA can use group numbers 00 to 42 with FR29 main radio, and 00 to 11 with FR31 secondary radio.
 #
 # Optional group descriptions of the form NXX <description> are allowed.
 
@@ -99,18 +99,21 @@ N019    350.050
 
 ### Airbase channels.
 #
-# Channel name of the form BXXC[C]
+# Channel name of the form BXXXC[C]
 # - literal 'B' prefix
-# - XX is the base number (two digits)
+# - XXX is the base number (three digits)
 # - C[C] is the channel name, one of A,B,C,C2,D
-# AJS can use airbase numbers 01 to 84
+# AJS can use airbase numbers 01 to 69
 # JA can use airbase numbers 00 to 99 with FR29 main radio, 00 to 169 with FR31 secondary radio.
 #
-# Optional group descriptions of the form BXX <description> are allowed.
-B21     ESPE F21 Luleå
-B21A    128.200     # TWR
-#B21B
-B21C    125.450     # APP
-B21C2   130.800
-B21D    119.000     # PAR
+# The AJS FR22 or JA FR29 radios can not use airbase numbers over 100, thus the airbase
+# number is selected without leading 0 on the corresponding channel selectors.
+#
+# Optional group descriptions of the form BXXX <description> are allowed.
+B021    ESPE F21 Luleå
+B021A   128.200     # TWR
+B021B   119.000     # PAR
+B021C   125.450     # APP
+B021C2  130.800     # APP
+#B021D
 

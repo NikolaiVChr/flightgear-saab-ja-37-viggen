@@ -700,8 +700,8 @@
       <binding>
         <command>property-adjust</command>
         <property>instrumentation/fr22/base-knob</property>
-        <min>1</min>
-        <max>101</max>  <!-- Channels up to 84, with ALLM added every sixth position -->
+        <min>0</min>
+        <max>83</max>  <!-- 84 positions, 69 channels with with ALLM added every sixth position -->
         <wrap>false</wrap>
       </binding>
     </action>

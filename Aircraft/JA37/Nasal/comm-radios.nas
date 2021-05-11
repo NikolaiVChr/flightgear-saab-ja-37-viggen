@@ -176,13 +176,13 @@ var Channels = {
 
     # Test if 'str' is a valid airbase channel name.
     is_base_channel: func(str) {
-        if (size(str) != 4 and size(str) != 5) return FALSE;
+        if (size(str) != 5 and size(str) != 6) return FALSE;
         if (str[0] != me.base_prefix) return FALSE;
-        for (var i=1; i<3; i+=1) {
+        for (var i=1; i<4; i+=1) {
             if (!is_digit(str[i])) return FALSE;
         }
 
-        var suffix = substr(str, 3);
+        var suffix = substr(str, 4);
         foreach (var channel; me.base_channel_names) {
             if (suffix == channel) return TRUE;
         }
@@ -192,9 +192,10 @@ var Channels = {
     # Test if 'str' is an airbase or group name, which should be silently ignored
     # in the radio config file (used to add 'comments' for airbases or groups).
     is_comment_key: func(str) {
-        return size(str) == 3
-            and (str[0] == me.group_prefix or str[0] == me.base_prefix)
-            and is_digit(str[1]) and is_digit(str[2]);
+        return (size(str) == 3 and str[0] == me.group_prefix
+                and is_digit(str[1]) and is_digit(str[2]))
+            or (size(str) == 4 and  str[0] == me.base_prefix
+                and is_digit(str[1]) and is_digit(str[2]) and is_digit(str[3]));
     },
 
 
@@ -763,7 +764,8 @@ if (variant.AJS) {
     setlistener(input.fr22_base_knob, func(node) {
         var base = node.getValue();
         # Every sixth position is ALLM (global channels)
-        var gen = (math.mod(base, 6) == 5);
+        # Exception for position 0, which is also ALLM (so that ALLM is at both ends of the knob range).
+        var gen = (math.mod(base, 6) == 5) or base == 0;
         # Actual base number
         base = math.mod(base, 6) + math.floor(base/6)*5;
         input.fr22_base_gen.setBoolValue(gen);
@@ -828,7 +830,7 @@ if (variant.AJS) {
                 # Normal airbase channel usage
                 foreach (var chan; keys(FR22_BUTTONS.BASE)) {
                     if (button == FR22_BUTTONS.BASE[chan]) {
-                        channel = sprintf("B%.2d%s", input.fr22_base.getValue(), chan);
+                        channel = sprintf("B%.3d%s", input.fr22_base.getValue(), chan);
                         break;
                     }
                 }
@@ -978,7 +980,7 @@ if (variant.AJS) {
             # global channels
             return base_channels_letters[digits[2]];
         } else {
-            return "B"~digits[0]~digits[1]~base_channels_letters[digits[2]];
+            return "B0"~digits[0]~digits[1]~base_channels_letters[digits[2]];
         }
     }
 
@@ -1120,7 +1122,7 @@ if (variant.AJS) {
         },
 
         # Number of input characters for each mode
-        input_sizes: [5, 3, 3],
+        input_sizes: [5, 3, 4],
         # For current mode
         input_size: 5,
 
@@ -1192,8 +1194,8 @@ if (variant.AJS) {
                     var last_char = digits[me.input_size-1];
                     if (last_char < me.LETTER_TO_DIGIT["A"] or last_char > me.LETTER_TO_DIGIT["E"]) return FALSE;
                 }
-                # Base numbers up to 99.
-                return (val/10) < 100;
+                # Base numbers up to 169.
+                return (val/10) < 170;
             }
         },
 
@@ -1214,7 +1216,7 @@ if (variant.AJS) {
                 var channel = "N"~digits[0]~digits[1]~digits[2];
                 fr31.set_freq(Channels.get(channel));
             } elsif (me.mode == me.MODE.BASE) {
-                var channel = "B"~digits[0]~digits[1]~me.DIGIT_TO_LETTER[digits[2]];
+                var channel = "B"~digits[0]~digits[1]~digits[2]~me.DIGIT_TO_LETTER[digits[3]];
                 fr31.set_freq(Channels.get(channel));
             }
         },
