@@ -200,7 +200,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(0)</script>
+                <script>freq_sel.kv1_button(0)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -239,7 +239,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(1)</script>
+                <script>freq_sel.kv1_button(1)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -278,7 +278,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(2)</script>
+                <script>freq_sel.kv1_button(2)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -317,7 +317,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(3)</script>
+                <script>freq_sel.kv1_button(3)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -356,7 +356,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(4)</script>
+                <script>freq_sel.kv1_button(4)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -395,7 +395,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(5)</script>
+                <script>freq_sel.kv1_button(5)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -434,7 +434,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(6)</script>
+                <script>freq_sel.kv1_button(6)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -473,7 +473,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(7)</script>
+                <script>freq_sel.kv1_button(7)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -512,7 +512,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(8)</script>
+                <script>freq_sel.kv1_button(8)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -551,7 +551,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_button(9)</script>
+                <script>freq_sel.kv1_button(9)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -590,7 +590,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_clear_base();</script>
+                <script>freq_sel.kv1_clear_base();</script>
             </binding>
             <mod-up>
                 <binding>
@@ -636,7 +636,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_clear_group();</script>
+                <script>freq_sel.kv1_clear_group();</script>
             </binding>
             <mod-up>
                 <binding>
@@ -682,7 +682,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv1_clear_freq();</script>
+                <script>freq_sel.kv1_clear_freq();</script>
             </binding>
             <mod-up>
                 <binding>

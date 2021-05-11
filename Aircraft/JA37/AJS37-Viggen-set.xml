@@ -301,9 +301,11 @@
             <file>Aircraft/JA37/Nasal/displays/ajs-hud.nas</file>
         </hud>
         <ground_panel>
-          <file>Aircraft/JA37/Nasal/payload/ground-crew-panel.nas</file>
+            <file>Aircraft/JA37/Nasal/payload/ground-crew-panel.nas</file>
         </ground_panel>
-
+        <freq_sel>
+            <file>Aircraft/JA37/Nasal/radios/ajs-freq-selector.nas</file>
+        </freq_sel>
     </nasal>
 
 </PropertyList>

@@ -901,7 +901,8 @@ var Saab37 = {
 
     fire_control.init();
 
-    radios.init();
+    # Radios
+    channels.init();
 
     if (!variant.JA) {
       # CI display
@@ -1026,7 +1027,8 @@ var Saab37 = {
 
     fire_control.init();
 
-    radios.init();
+    # Radios
+    channels.init();
 
     if (!variant.JA) {
       # CI display

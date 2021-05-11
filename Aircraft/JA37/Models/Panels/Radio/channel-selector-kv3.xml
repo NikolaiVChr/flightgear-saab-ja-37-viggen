@@ -109,7 +109,7 @@
             </mod-up>
             <binding>
                 <command>nasal</command>
-                <script>radios.kv3_clear();</script>
+                <script>freq_sel.kv3_clear();</script>
             </binding>
         </action>
         <hovered>

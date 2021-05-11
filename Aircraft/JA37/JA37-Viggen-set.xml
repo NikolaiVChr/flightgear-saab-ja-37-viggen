@@ -336,6 +336,9 @@
         <faf>
             <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
         </faf>
+        <freq_sel>
+            <file>Aircraft/JA37/Nasal/radios/ja-freq-selector.nas</file>
+        </freq_sel>
         <datalink>
             <file>Aircraft/JA37/Nasal/datalink.nas</file>
         </datalink>

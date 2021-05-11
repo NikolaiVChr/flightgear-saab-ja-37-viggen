@@ -1,7 +1,7 @@
 #### Saab 37 Viggen radio preset example file
 
 # This is an example file for documentation purpose.
-# See Nasal/channels-default.txt for the default configuration.
+# See Nasal/radios/channels-default.txt for the default configuration.
 
 
 ### Generalities

@@ -9,16 +9,16 @@
     <open>
       <![CDATA[
         var load_file = func(path) {
-          radios.Channels.read_file(path.getValue());
+          channels.read_file(path.getValue());
         }
         var load_group_file = func(path) {
-          radios.Channels.read_group_file(path.getValue());
+          channels.read_group_file(path.getValue());
         }
         var load_base_file = func(path) {
-          radios.Channels.read_base_file(path.getValue());
+          channels.read_base_file(path.getValue());
         }
         var load_group_default = func {
-          radios.Channels.read_group_file(radios.default_group_channels);
+          channels.read_group_file(radios.default_group_channels);
         }
 
         var default_dir = getprop("/sim/fg-home");

@@ -112,7 +112,7 @@
             </mod-up>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.bas();</script>
+                <script>freq_sel.me31.bas();</script>
             </binding>
         </action>
         <hovered>
@@ -160,7 +160,7 @@
             </mod-up>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.nr();</script>
+                <script>freq_sel.me31.nr();</script>
             </binding>
         </action>
         <hovered>
@@ -206,7 +206,7 @@
             </mod-up>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.mhz();</script>
+                <script>freq_sel.me31.mhz();</script>
             </binding>
         </action>
         <hovered>
@@ -245,7 +245,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(0)</script>
+                <script>freq_sel.me31.button(0)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -284,7 +284,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(1)</script>
+                <script>freq_sel.me31.button(1)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -323,7 +323,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(2)</script>
+                <script>freq_sel.me31.button(2)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -362,7 +362,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(3)</script>
+                <script>freq_sel.me31.button(3)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -401,7 +401,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(4)</script>
+                <script>freq_sel.me31.button(4)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -440,7 +440,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(5)</script>
+                <script>freq_sel.me31.button(5)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -479,7 +479,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(6)</script>
+                <script>freq_sel.me31.button(6)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -518,7 +518,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(7)</script>
+                <script>freq_sel.me31.button(7)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -557,7 +557,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(8)</script>
+                <script>freq_sel.me31.button(8)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -596,7 +596,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.button(9)</script>
+                <script>freq_sel.me31.button(9)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -635,7 +635,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>radios.me31.clear()</script>
+                <script>freq_sel.me31.clear()</script>
             </binding>
             <mod-up>
                 <binding>

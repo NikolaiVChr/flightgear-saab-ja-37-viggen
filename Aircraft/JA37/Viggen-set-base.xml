@@ -1787,9 +1787,15 @@
         <navigation>
             <file>Aircraft/JA37/Nasal/navigation.nas</file>
         </navigation>
-        <radios>
-            <file>Aircraft/JA37/Nasal/comm-radios.nas</file>
-        </radios>
+        <radio_buttons>
+            <file>Aircraft/JA37/Nasal/radio-buttons.nas</file>
+        </radio_buttons>
+        <channels>
+            <file>Aircraft/JA37/Nasal/radios/channels.nas</file>
+        </channels>
+        <comm>
+            <file>Aircraft/JA37/Nasal/radios/comm.nas</file>
+        </comm>
         <blackout>
             <file>Aircraft/JA37/Nasal/blackout.nas</file>
         </blackout>
