@@ -694,21 +694,19 @@ var Speed = {
         var mach = input.mach.getValue();
         var show_mach = (mach >= 0.5) and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM);
 
-        # Show mach indicator
-        if (show_mach) {
-            if (displays.metric) {
-                me.text.updateText(displays.sprintdec(mach, 2));
-                me.text.show();
-                me.text_low.hide();
-            } else {
-                # Interoperability, display mach number below airspeed.
-                me.text_low.updateText("M"~displays.sprintdec(mach, 2));
-                me.text_low.show();
-            }
+        # Lower indicator (Mach in interoperability mode)
+        if (!displays.metric and show_mach) {
+            me.text_low.updateText("M"~displays.sprintdec(mach, 2));
+            me.text_low.show();
+        } else {
+            me.text_low.hide();
         }
 
-        # Show airspeed
-        if (!displays.metric or !show_mach) {
+        # Main indicator (speed, or mach in metric mode)
+        if (displays.metric and show_mach) {
+            me.text.updateText(displays.sprintdec(mach, 2));
+            me.text.show();
+        } else {
             # Ground speed in attack mode
             if (TI.ti.ModeAttack and (modes.main_ja == modes.NAV or modes.main_ja == modes.AIMING)) {
                 # Enable below 800m, disable above 1000m
@@ -728,7 +726,7 @@ var Speed = {
             var speed = me.show_ground_speed ? input.groundspeed.getValue() : input.speed_kt.getValue();
             if (displays.metric) speed *= NM2M / 1000;
             speed = math.round(speed, displays.metric ? 5 : 2);
-            me.text.updateText(sprintf("%s%d", prefix, speed));
+            me.text.updateText(sprintf("%s%3d", prefix, speed));
             me.text.setVisible(speed >= (displays.metric ? 75 : 41));
         }
     },
