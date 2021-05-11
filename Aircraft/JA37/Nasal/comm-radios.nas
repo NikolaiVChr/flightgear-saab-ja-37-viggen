@@ -731,14 +731,7 @@ var InputScreen = {
     },
 };
 
-
-if (variant.JA) {
-}
-
-
-
-
-# FR29 / FR22 mode knob
+### FR29 / FR22 mode knob
 var MODE = {
     NORM_LARM: 0,
     NORM: 1,
@@ -1221,6 +1214,16 @@ if (variant.AJS) {
 
             # Input inactive
             if (me.pos < 0) return;
+
+            # Guard channel when pressing H as first input, regardless of mode.
+            # (none of the modes allow '9' as first digit).
+            if (me.pos == 0 and n == me.LETTER_TO_DIGIT["H"]) {
+                me.digits[0].setValue(me.LETTER_TO_DIGIT["H"]);
+                me.is_letter[0].setBoolValue(TRUE);
+                me.pos = -1;
+                fr31.set_freq(Channels.get("H"));
+                return;
+            }
 
             # Check input
             append(me.current_input, n);
