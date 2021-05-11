@@ -650,25 +650,29 @@ var Speed = {
     },
 
     initialize: func {
-        me.group = me.parent.createChild("group", "speed");
+        me.group = me.parent.createChild("group", "speed")
+            .setTranslation(0, 490);
+
         me.text = make_text(me.group);
         me.text.enableUpdate();
-        me.text.setTranslation(0, 490);
+        me.text_low = make_text(me.group);
+        me.text_low.enableUpdate();
+        me.text_low.setTranslation(0, 100);
 
         me.moved_up = FALSE;
+        me.show_ground_speed = FALSE;
     },
 
     set_mode: func(mode) {
         me.mode = mode;
 
         if (me.mode != HUD.MODE_FINAL_NAV and me.mode != HUD.MODE_FINAL_OPT) {
-            me.group.setTranslation(0, 0);
             me.move_up_landing(FALSE);
         }
         if (me.mode == HUD.MODE_AIM) {
-            me.text.setTranslation(0, 400);
+            me.group.setTranslation(0, 400);
         } else {
-            me.text.setTranslation(0, 490);
+            me.group.setTranslation(0, 490);
         }
     },
 
@@ -676,7 +680,7 @@ var Speed = {
         if (up == me.moved_up) return;
 
         me.moved_up = up;
-        me.text.setTranslation(0, up ? 300 : 490);
+        me.group.setTranslation(0, up ? 300 : 490);
     },
 
     update: func {
@@ -688,25 +692,44 @@ var Speed = {
         }
 
         var mach = input.mach.getValue();
-        if (mach >= 0.5) {
-            me.text.updateText(displays.sprintdec(mach, 2));
-            me.text.show();
-        } elsif (displays.metric) {
-            var speed = math.round(input.speed.getValue(), 5);
-            if (speed >= 75) {
-                me.text.updateText(sprintf("%d", speed));
+        var show_mach = (mach >= 0.5) and (me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM);
+
+        # Show mach indicator
+        if (show_mach) {
+            if (displays.metric) {
+                me.text.updateText(displays.sprintdec(mach, 2));
                 me.text.show();
+                me.text_low.hide();
             } else {
-                me.text.hide();
+                # Interoperability, display mach number below airspeed.
+                me.text_low.updateText("M"~displays.sprintdec(mach, 2));
+                me.text_low.show();
             }
-        } else {
-            var speed = math.round(input.speed_kt.getValue());
-            if (speed >= 40) {
-                me.text.updateText(sprintf("%d", speed));
-                me.text.show();
+        }
+
+        # Show airspeed
+        if (!displays.metric or !show_mach) {
+            # Ground speed in attack mode
+            if (TI.ti.ModeAttack and (modes.main_ja == modes.NAV or modes.main_ja == modes.AIMING)) {
+                # Enable below 800m, disable above 1000m
+                var alt = input.alt.getValue();
+                if (alt < 800) {
+                    me.show_ground_speed = TRUE;
+                } elsif (alt > 1000) {
+                    me.show_ground_speed = FALSE;
+                }
             } else {
-                me.text.hide();
+                me.show_ground_speed = FALSE;
             }
+
+            var prefix = "";
+            if (!displays.metric) prefix = me.show_ground_speed ? "GS" : "KT";
+
+            var speed = me.show_ground_speed ? input.groundspeed.getValue() : input.speed_kt.getValue();
+            if (displays.metric) speed *= NM2M / 1000;
+            speed = math.round(speed, displays.metric ? 5 : 2);
+            me.text.updateText(sprintf("%s%d", prefix, speed));
+            me.text.setVisible(speed >= (displays.metric ? 75 : 41));
         }
     },
 };
@@ -1045,30 +1068,46 @@ var RadarAltitude = {
     initialize: func {
         me.shown = FALSE;
         me.text = make_text(me.parent)
-            .setTranslation(-400, 600);
+            .setTranslation(-350, 600)
+            .setAlignment("right-baseline");
         me.text.enableUpdate();
         me.text.hide();
+
+        me.text_int = make_text(me.parent)
+            .setTranslation(-370, 520)
+            .setAlignment("right-baseline")
+            .setText("INT");
     },
 
     set_mode: func(mode) {},
 
     update: func {
-        if (modes.takeoff_30s_inhibit or modes.landing or !input.rad_alt_ready.getValue()) {
+        var terrain_height_mode = input.show_ground_h.getBoolValue();
+
+        if (modes.takeoff_30s_inhibit or modes.landing
+            or (!input.rad_alt_ready.getValue() and !terrain_height_mode)) {
             me.shown = FALSE;
+        } elsif (terrain_height_mode) {
+            # Display terrain height
+            var terrain_height = input.true_alt_ft.getValue() - input.true_alt_agl_ft.getValue();
+            if (displays.metric) terrain_height *= FT2M;
+            terrain_height = math.round(terrain_height, 100);
+            me.text.updateText(sprintf("%d", terrain_height));
+            me.shown = TRUE;
         } else {
+            # Display radar altitude
             var alt = input.rad_alt.getValue();
+            if (alt < 99.5) me.shown = TRUE;
+            elsif (alt > 109.5) me.shown = FALSE;
+
             if (!displays.metric) alt *= M2FT;
             alt = math.round(alt);
-            if (alt < (displays.metric ? 100 : 300)) me.shown = TRUE;
-            elsif (alt >= (displays.metric ? 110 : 350)) me.shown = FALSE;
-        }
 
-        if (me.shown) {
-            me.text.updateText(sprintf("R%3d", alt));
-            me.text.show();
-        } else {
-            me.text.hide();
+            if(me.shown) me.text.updateText(sprintf("R%3d", alt));
         }
+        me.text.setVisible(me.shown);
+
+        me.text_int.setVisible(!displays.metric);
     },
 };
 

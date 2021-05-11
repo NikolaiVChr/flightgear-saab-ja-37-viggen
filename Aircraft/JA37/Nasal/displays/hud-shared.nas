@@ -70,6 +70,10 @@ var input = {
     bright_hud:     "/ja37/hud/brightness-si",
     bright_bck:     "/ja37/hud/brightness-res",
     rotation_speed: "/fdm/jsbsim/systems/flight/rotation-speed-kmh",
+    show_ground_h:  "/ja37/hud/display-terrain-height",
+    true_alt_ft:    "/fdm/jsbsim/position/h-sl-ft",
+    true_alt_agl_ft:"/fdm/jsbsim/position/h-agl-ft",
+
 };
 
 foreach(var name; keys(input)) {

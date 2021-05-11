@@ -4769,11 +4769,10 @@ var TI = {
 	},
 
 	displayRadarTrack: func (contact) {
-		if (contact.type == "multiplayer") me.datalink_info = datalink.get_contact(contact.get_Callsign());
-		else me.datalink_info = nil;
+		me.on_dl = (contact.type == "multiplayer") and fighterlink.is_known(contact.get_Callsign());
 
 		# Show selected target, datalink contacts, and Rb 99
-		if (me.datalink_info == nil and contact != me.selection and contact.type != "rb-99") return;
+		if (contact != me.selection and !me.on_dl and contact.type != "rb-99") return;
 
 		me.texelDistance = contact.get_polar()[0]*M2TEX;
 		me.angle         = contact.get_polar()[1];
@@ -4830,39 +4829,24 @@ var TI = {
 
 			me.is_tgt = (contact == me.selection);
 			me.iff = (me.is_tgt and contact.getIFF());
-			me.has_dl = me.datalink_info != nil;
-			me.dl_buddy = me.has_dl and me.datalink_info.on_link;
+			me.dl_buddy = fighterlink.is_connected(contact.get_Callsign());
+			me.ident = fighterlink.get_identifier(contact.get_Callsign());
+			me.dl_iff = fighterlink.get_iff(contact.get_Callsign());
 
 			# Symbol type
 			if (me.is_tgt) {
-				if (me.iff or me.dl_buddy)    me.symbol = "friendly";
-				else                          me.symbol = "target";
+				if (me.iff or me.dl_buddy)  me.symbol = "friendly";
+				else                        me.symbol = "target";
 			} elsif (me.dl_buddy)           me.symbol = "datalink";
-			elsif (me.datalink_info != nil) me.symbol = "dl_tgt";
+			elsif (me.on_dl)                me.symbol = "dl_tgt";
 
 			# Color (IFF)
-			if (me.iff or me.dl_buddy or (me.has_dl and me.datalink_info.iff == datalink.IFF_FRIENDLY)) {
+			if (me.iff or me.dl_iff == fighterlink.IFF_FRIENDLY) {
 				me.color = COLOR_GREEN;
-			} elsif (me.is_tgt or (me.has_dl and me.datalink_info.iff == datalink.IFF_HOSTILE)) {
+			} elsif (me.is_tgt or me.dl_iff == fighterlink.IFF_HOSTILE) {
 				me.color = COLOR_RED;
 			} else {
 				me.color = COLOR_YELLOW;
-			}
-
-			# Datalink identifier
-			if (me.dl_buddy) {
-				# Connected to datalink: identifier of aircraft
-				me.ident = me.datalink_info.identifier;
-			} elsif (me.has_dl) {
-				# Contact from datalink: identifier of aircraft who transmitted
-				me.ident = me.datalink_info.from_ident;
-			} else {
-				me.ident = nil;
-			}
-			# Cleanup identifier: shorten to 1 character, delete if it is '0'.
-			if (me.ident != nil) {
-				me.ident = substr(me.ident, 0, 1);
-				if (me.ident == "0") me.ident = nil;
 			}
 
 			# Display correct symbol

@@ -606,6 +606,7 @@
             <sample-far type="double">1.0</sample-far><!-- was 2.5 -->
             <switch-slav type="bool">false</switch-slav>
             <switch-hojd type="bool">false</switch-hojd>
+            <display-terrain-height type="bool">false</display-terrain-height>
         </hud>
         <sound>
             <click-on type="bool">false</click-on>
@@ -1603,7 +1604,6 @@
         <datalink>
             <channel_prop type="string">/instrumentation/datalink/channel</channel_prop>
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
-            <identifier_prop type="string">/instrumentation/datalink/ident</identifier_prop>
             <on type="bool">false</on>
             <power type="bool">false</power>
             <channel type="int">0</channel>
