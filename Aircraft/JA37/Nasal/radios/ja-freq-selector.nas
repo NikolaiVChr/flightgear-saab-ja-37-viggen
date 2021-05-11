@@ -36,8 +36,6 @@ radio_buttons.RadioButtons.new([input.kv1_freq, input.kv1_group, input.kv1_base]
 # are redirected to this controller button() method, until it calls Keypad.release(),
 # or another controller calls take_focus(),
 # When a controller looses focus, this controller on_focus_lost() method is called.
-#
-# Arg: no_focus_callback: if non nil, called instead of controller.button() when no controller has focus.
 var KV1Keypad = {
     controller: nil,
 
@@ -74,11 +72,11 @@ var InputScreen = {
     # - digit_offset, blank, waiting, error: values to assign to the digit properties
     #   for the various symbols.
     # - input_callback: called on the array of values whenever a new full, valid input is done.
-    # - validate (optional): called on the array of values for each new partial input.
-    # - edit_last (default false): if true, pressing a button when input is complete will edit the last symbol.
+    # - validate: called on the array of values for each new partial input.
+    # - edit_last: if true, pressing a button when input is complete will edit the last symbol.
     new: func(digit_base_prop, n_digits, keypad,
               digit_offset, blank, waiting, error,
-              input_callback, validate=nil, edit_last=0) {
+              input_callback, validate, edit_last) {
         var s = {
             parents: [InputScreen],
             digit_base_prop: digit_base_prop,
@@ -99,32 +97,40 @@ var InputScreen = {
     init: func {
         me.focused = FALSE;
 
-        # Initialize digit properties
+        # Initialize property and content arrays.
         me.digit_base_prop = ensure_prop(me.digit_base_prop);
         var parent_prop = me.digit_base_prop.getParent();
         var prop_name = me.digit_base_prop.getName();
         me.digits = [];
+        me.last_input = [];
+        setsize(me.last_input, me.n_digits);
         setsize(me.digits, me.n_digits);
         forindex (var i; me.digits) {
             me.digits[i] = parent_prop.getChild(prop_name, i, 1);
-            me.digits[i].setValue(me.blank);
-        }
-
-        me.last_input = [];
-        setsize(me.last_input, me.n_digits);
-        forindex (var i; me.last_input) {
-            me.last_input[i] = me.blank;
+            me.digits[i].setValue(0 + me.digit_offset);
+            me.last_input[i] = 0;
         }
 
         me.current_input = [];
-        me.pos = 0;
+        me.pos = -1;
 
+        # Initialize blinking timers.
         me.blink_timer = maketimer(me.blink_period, me, me.blink);
         me.blink_timer.simulatedTime = TRUE;
 
         me.start_blink_timer = maketimer(me.blink_delay, me, me.start_blink);
         me.start_blink_timer.simulatedTime = TRUE;
         me.start_blink_timer.singleShot = TRUE;
+    },
+
+    # Externally set screen content.
+    set_content: func(content) {
+        forindex (var i; me.digits) {
+            me.digits[i].setValue(content[i] + me.digit_offset);
+            me.last_input[i] = content[i];
+        }
+        me.input_callback(me.last_input);
+        me.reset();
     },
 
     # Button press handling
@@ -261,12 +267,12 @@ var InputScreen = {
     },
 };
 
-## current frequency / channels
+
+## Convert input (vector of digits) to frequency or channel.
+
 var kv1_freq = 0;
 var kv1_group = "";
 var kv1_base = "";
-
-## Convert input (vector of digits) to frequency or channel.
 
 # Frequencies
 
@@ -525,6 +531,23 @@ var me31 = {
         me.mode = me.MODE.FREQ;
         me.presel_mode = me.MODE.FREQ;
 
+        me.current_input = [];
+        me.pos = -1;
+    },
+
+    set_content: func(mode, content) {
+        me.presel_mode = mode;
+        me.clear();
+        setsize(me.current_input, size(content));
+        forindex (var i; content) {
+            me.current_input[i] = content[i];
+            me.digits[i].setValue(content[i]+me.DIGITS_OFFSET);
+        }
+        if (me.mode == me.MODE.BASE and me.digits[me.input_size-1] == me.LETTER_TO_DIGIT["C2"]) {
+            me.digits[me.input_size-1].setValue(me.LETTER_TO_DIGIT["C"]);
+            me.digits[me.input_size].setValue(2 + me.DIGITS_OFFSET);
+        }
+        me.set_freq(me.current_input);
         me.pos = -1;
     },
 
@@ -629,7 +652,7 @@ var me31 = {
         me.pos += 1;
         if (me.pos >= me.input_size) {
             # End of input
-            me.set_freq(me.current_input, me.mode);
+            me.set_freq(me.current_input);
 
             if (me.mode == me.MODE.GROUP or me.mode == me.MODE.BASE) {
                 # Get ready to edit the last digit on the next button press
@@ -684,11 +707,20 @@ var me31 = {
     },
 };
 
-me31.init();
-
 
 
 var channel_update_callback = func {
     update_fr29_freq();
     # todo FR31
+}
+
+
+
+var init = func {
+    me31.init();
+    kv1_freq_input.set_content([1,1,8,3,0]);
+    kv1_group_input.set_content([0,0,0]);
+    kv1_base_input.set_content([0,0,0]);
+    kv3_input.set_content([0,0,0,0]);
+    me31.set_content(me31.MODE.FREQ, [1,1,8,3,0]);
 }

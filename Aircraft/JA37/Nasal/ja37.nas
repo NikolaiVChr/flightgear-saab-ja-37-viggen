@@ -903,6 +903,7 @@ var Saab37 = {
 
     # Radios
     channels.init();
+    if (variant.JA) freq_sel.init();
 
     if (!variant.JA) {
       # CI display
@@ -1029,6 +1030,7 @@ var Saab37 = {
 
     # Radios
     channels.init();
+    if (variant.JA) freq_sel.init();
 
     if (!variant.JA) {
       # CI display
@@ -1286,8 +1288,8 @@ var test_support = func {
 var rand_bool = func (p=0.5) {
   return rand() < p;
 }
-var rand_int = func (min, max) {
-  return min + math.floor(rand() * (max - min + 1));
+var rand_int = func (min, max, step) {
+  return min + math.floor(rand() * ((max - min)/step + 1)) * step;
 }
 var rand_double = func (min, max) {
   return min + rand() * (max - min);
@@ -1304,6 +1306,7 @@ var random_switches = {
   "controls/engines/engine/reverser-cmd": 0.5,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
+  "instrumentation/comm[0]/transmitter": 0.5,
   # Not used under normal operation: usual position with high probability.
   "controls/engines/engine[0]/cutoff-augmentation": 0.2,
   "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
@@ -1323,8 +1326,19 @@ var random_multipos = {
   "controls/electric/lights-ext-nav": [-1,1],
   "controls/electric/lights-land-switch": [-1,1],
   "controls/electric/lights-ext-form-bright": [0,3],
+  "instrumentation/radio/mode": [0,7],
+  "instrumentation/fr22/frequency-10mhz": [10,39],
+  "instrumentation/fr22/frequency-1mhz": [0,9],
+  "instrumentation/fr22/frequency-100khz": [0,9],
+  "instrumentation/fr22/frequency-1khz": [0,75,25],
+  "instrumentation/fr22/button-selected": [0,19],
+  "instrumentation/fr22/group": [1,41],
+  "instrumentation/fr22/base-knob": [0,83],
+  "instrumentation/kv1/button-selected": [0,2],
   "instrumentation/iff/power-knob": [0,2],
   "instrumentation/iff/channel": [1,11],
+  "instrumentation/datalink/channel": [0,999],
+  "instrumentation/datalink/ident": [0,9],
 };
 
 var random_continuous = {
@@ -1342,7 +1356,8 @@ var random_cockpit_state = func {
     setprop(prop, rand_bool(random_switches[prop]));
   }
   foreach (var prop; keys(random_multipos)) {
-    setprop(prop, rand_int(random_multipos[prop][0], random_multipos[prop][1]));
+    var step = size(random_multipos[prop]) == 3 ? random_multipos[prop][2] : 1;
+    setprop(prop, rand_int(random_multipos[prop][0], random_multipos[prop][1], step));
   }
   foreach (var prop; keys(random_continuous)) {
     setprop(prop, rand_double(random_continuous[prop][0], random_continuous[prop][1]));

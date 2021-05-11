@@ -1438,9 +1438,9 @@
             <!-- frequency selector panel -->
             <am type="bool">true</am>
             <!-- selected frequency, divided among the 4 knobs -->
-            <frequency-10mhz type="int">12</frequency-10mhz>
-            <frequency-1mhz type="int">1</frequency-1mhz>
-            <frequency-100khz type="int">5</frequency-100khz>
+            <frequency-10mhz type="int">11</frequency-10mhz>
+            <frequency-1mhz type="int">8</frequency-1mhz>
+            <frequency-100khz type="int">3</frequency-100khz>
             <frequency-1khz type="int">0</frequency-1khz>
             <!-- channel selector panel -->
             <button-selected type="int">19</button-selected><!-- '-' button (use frequency selector) -->
@@ -1452,6 +1452,9 @@
             <button-nr type="bool">false</button-nr>
             <button-mhz type="bool">true</button-mhz>
             <button-selected type="int">0</button-selected><!-- MHz selected -->
+            <nr type="int">0</nr>
+            <base type="int">0</base>
+            <freq type="int">118.3</freq>
         </kv1>
         <radio>
             <!-- FR29 / FR22 main operation mode knob -->
