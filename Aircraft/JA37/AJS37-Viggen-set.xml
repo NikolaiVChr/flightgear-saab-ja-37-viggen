@@ -289,13 +289,6 @@
         <comm n="1">
             <!-- transmission power (W), used by FGCom-mumble. -->
             <tx-power type="double">3</tx-power> <!-- FR24 -->
-            <frequencies>
-                <selected-mhz>121.5</selected-mhz><!-- fixed to guard channel for now -->
-            </frequencies>
-        </comm>
-        <comm n="2">
-            <!-- Used for JA backup receiver, disabled in AJS -->
-            <power-btn type="bool">false</power-btn>
         </comm>
     </instrumentation>
 

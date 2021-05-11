@@ -794,11 +794,12 @@
            - FR29 main radio -> comm[0]
              (FR29 consists of two FR28 emitters/receivers, but only one active at a time, other for DL)
            - FR31 secondary radio -> comm[1]
-           - guard channel receiver integrated in FR28 -> comm[2]
+           - FR28 integrated guard channel receiver -> comm[2]
 
            AJS37:
            - FR22 main radio -> comm[0]
            - FR24 backup radio -> comm[1]
+           - FR24 guard channel receiver -> comm[2]
 
           References:
             JA37D SFI chap. 3 (elec power) and chap. 19 (communication)
@@ -850,12 +851,12 @@
             <output>/instrumentation/comm[0]/tx-power</output>
         </switch>
 
-        <switch name="instruments/radio/comm1-power-on">
+        <switch name="instruments/radio/comm0-power-on">
             <!-- A negative frequency is set to indicate invalid frequency. Turn off in this case -->
             <test value="0">
                 /instrumentation/comm[0]/frequencies/selected-mhz lt 0
             </test>
-            <!-- FR22 is inactive in modes other than NORM and NORM+ALARM -->
+            <!-- FR22 is inactive in modes other than NORM and NORM+LARM -->
             <test logic="AND" value="0">
                 /ja37/systems/variant ne 0
                 /instrumentation/radio/mode ge 2
@@ -882,27 +883,30 @@
             <test value="0">
                 /instrumentation/comm[1]/frequencies/selected-mhz lt 0
             </test>
-            <!-- FR24 is inactive in mode NORM -->
+            <!-- FR24 is inactive in mode NORM, NORM+LARM (in mode NORM+LARM, FR24 guard receiver is comm[2]) -->
             <test logic="AND" value="0">
                 /ja37/systems/variant ne 0
-                /instrumentation/radio/mode eq 1
+                /instrumentation/radio/mode lt 2
             </test>
             <default value="1"/>
             <output>/instrumentation/comm[1]/power-btn</output>
         </switch>
 
 
-        <!-- JA FR28 integrated guard channel receiver -->
+        <!-- guard channel receiver -->
 
         <switch name="instruments/radio/comm2-power">
+            <!-- part of FR28 on JA, FR24 on AJS -->
+            <test value="instruments/radio/comm1-power">
+                /ja37/systems/variant ne 0
+            </test>
             <default value="instruments/radio/comm0-power"/>
             <output>/instrumentation/comm[2]/power</output>
         </switch>
 
-        <!-- only active in mode NORM+ALARM -->
         <switch name="instruments/radio/comm2-power-on">
+            <!-- only active in mode NORM+ALARM -->
             <test logic="AND" value="1">
-                /ja37/systems/variant eq 0
                 /instrumentation/radio/mode eq 0
             </test>
             <default value="0"/>

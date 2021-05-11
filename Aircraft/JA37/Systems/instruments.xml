@@ -65,7 +65,7 @@
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </comm-radio>
 
-  <!-- Backup receiver for JA FR28 radio -->
+  <!-- Guard channel receiver for JA FR28 radio -->
   <comm-radio>
     <name>comm</name>
     <number>2</number>

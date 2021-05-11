@@ -1406,6 +1406,7 @@
             AJS37:
             - FR22 main radio -> comm[0]
             - FR24 backup radio -> comm[1]
+            - FR24 guar channel receiver -> comm[2]
         -->
         <!-- JA FR29 / AJS FR22 -->
         <comm n="0">
@@ -1421,7 +1422,7 @@
             <!-- transmission power (W), used by FGCom-mumble. -->
             <tx-power type="double">10</tx-power><!-- FR31 (AM) -->
         </comm>
-        <!-- JA only FR28 guard channel receiver -->
+        <!-- guard channel receiver -->
         <comm n="2">
             <tx-power type="double">0</tx-power><!-- no transmission -->
             <frequencies>

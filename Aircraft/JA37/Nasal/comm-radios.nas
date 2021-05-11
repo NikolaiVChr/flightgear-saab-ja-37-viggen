@@ -874,15 +874,9 @@ if (variant.AJS) {
     var update_fr24_freq = func {
         var mode = input.radio_mode.getValue();
         var freq = 0;
-
-        if (mode == MODE.NORM_LARM) {
-            freq = Channels.guard();
-        } else {
-            foreach (var chan; ["E", "F", "G", "H"]) {
-                if (mode == MODE[chan]) freq = Channels.get(chan);
-            }
+        foreach (var chan; ["E", "F", "G", "H"]) {
+            if (mode == MODE[chan]) freq = Channels.get(chan);
         }
-
         fr24.set_freq(freq);
     }
 
@@ -1326,6 +1320,7 @@ if (variant.JA) {
 } else {
     # AJS uses the same volume knob for FR22 and FR24.
     prop_link("instrumentation/comm[0]/volume", "instrumentation/comm[1]/volume");
+    prop_link("instrumentation/comm[0]/volume", "instrumentation/comm[2]/volume");
 }
 
 # Link nav[2-3] to comm[0-1] (volume, frequency, power button).
