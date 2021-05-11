@@ -7,6 +7,8 @@
 # They respect guard channel separation (nothing between 121.4 and 121.6), and avoid the VOR band.
 #
 # Summary of defined channels:
+# - guard channel H = 121.5 is set by default.
+# - global airbase channels E,F,G (VHF)
 # - AJS special channels 1 (VHF), 2 (UHF), 3 (UHF),
 #   and same frequencies for JA channels 001-003
 # - JA preset positions M,L (VHF)
@@ -14,6 +16,9 @@
 
 
 ### Special channels
+E       127.000
+F       118.500
+G       125.500
 S1      135.425
 S2      285.150
 S3      240.550

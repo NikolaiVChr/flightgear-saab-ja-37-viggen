@@ -139,12 +139,7 @@ var is_whitespace = func(c) {
 var Channels = {
     ## Channels table
     channels: {
-        # Global fixed channels.
-        # Randomly chosen, no idea what were the historical channels.
-        E: 127000,
-        F: 118500,
-        G: 125500,
-        # Guard, don't change this one.
+        # Guard channel, only one set by default.
         H: 121500,
     },
 
@@ -155,6 +150,7 @@ var Channels = {
     base_channel_names: ["A", "B", "C", "C2", "D"],
     # Global configurable channels
     special_channels: ["M", "L", "S1", "S2", "S3"],
+    special_base_channels: ["E", "F", "G"],
 
     # ASCII characters for prefixes
     base_prefix: 66,    # 'B'
@@ -176,6 +172,10 @@ var Channels = {
 
     # Test if 'str' is a valid airbase channel name.
     is_base_channel: func(str) {
+        foreach (var channel; me.special_base_channels) {
+            if (str == channel) return TRUE;
+        }
+
         if (size(str) != 5 and size(str) != 6) return FALSE;
         if (str[0] != me.base_prefix) return FALSE;
         for (var i=1; i<4; i+=1) {
@@ -1345,19 +1345,11 @@ var init = func {
     var base_path = input.preset_base_file.getValue();
 
     # Load default channels configuration
-    if (path == nil and group_path == nil) {
-        Channels.read_group_file(default_group_channels);
-    }
+    Channels.read_file(default_group_channels);
     # Load custom ones
-    if (path != nil and (group_path == nil or base_path == nil)) {
-        Channels.read_file(path);
-    }
-    if (group_path != nil) {
-        Channels.read_group_file(group_path);
-    }
-    if (base_path != nil) {
-        Channels.read_base_file(base_path);
-    }
+    if (path != nil)        Channels.read_file(path);
+    if (group_path != nil)  Channels.read_group_file(group_path);
+    if (base_path != nil)   Channels.read_base_file(base_path);
 
     # Initial frequencies update.
     if (variant.AJS) {

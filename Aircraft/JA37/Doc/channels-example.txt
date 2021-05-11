@@ -6,6 +6,8 @@
 
 ### Generalities
 #
+## Syntax
+#
 # Each line in this file is a pair
 # CHANNEL   FREQUENCY
 # Empty lines are ignored. Comments starting with '#' are allowed.
@@ -17,6 +19,8 @@
 # The exact frequency must be given, e.g. 120.025 can not be abbreviated to 120.02
 # There is no restriction on the formatting of frequencies, e.g. 120.000 and 0120 are equivalent.
 # For style, it is recommended to stick to the format XXX.XXX
+#
+## Frequency restrictions
 #
 # Any frequency can be assigned to a channel in the configuration file,
 # but that does not mean the aircraft radio will be able to use it.
@@ -36,17 +40,26 @@
 # Note that the VHF bands contain the usual NAV band.
 # Don't be surprised to hear a VOR identifier if you tune to its frequency.
 #
+## Channels
+#
 # Not all radios can use all channels. Restrictions are detailled in the rest of this file.
 #
 # There are three types of channels: airbase channels (prefixed by B in this file),
 # group channels (prefixed by N in this file), and other 'special' channels.
 #
+## Loading configuration files
+#
 # Channels configuration files can be loaded in FlightGear using the 'load radio channels' dialog.
 # When loading a channels configuration file, any previously existing channel is erased.
+#
 # However it is possible to load two separate configuration files:
-# one for group and special channels, and one for airbase channels.
+# one for group channels, and one for airbase channels.
 # When loading e.g. a file for group/special channels, all currently loaded
 # airbase channels are preserved, and all airbase channels in this file are ignored.
+#
+# When using two configuration files, airbase global channels E,F,G are loaded
+# from the airbase channels file, while special channels S1,S2,S3,M,L are loaded
+# from the group channels file.
 #
 # The following properties can be set to load configuration files at startup:
 # - ja37/radio/channels-file
@@ -56,6 +69,12 @@
 
 
 ### Special channels
+
+# Global airbase channels
+E       127.000
+F       118.500
+G       125.500
+# H is guard channel 121.5
 
 # JA preset channels (last two positions of the FR29 knob, unavailable on AJS)
 M       132.850
