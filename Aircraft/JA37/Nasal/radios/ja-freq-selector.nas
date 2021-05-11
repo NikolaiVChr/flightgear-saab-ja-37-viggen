@@ -642,20 +642,20 @@ var me31 = {
         }
     },
 
-    clear: func {
-        if (!me.power()) return;
-
-        # The MHz/NR/BAS buttons only preselect a mode, which activates when clearing.
+    # The MHz/NR/BAS buttons only preselect a mode, this function activates it.
+    # It is activated when clearing the screen, or when pushing a MHz/NR/BAS button
+    # with empty screen (not sure if the second part is accurate, but it makes it much more intuitive).
+    update_mode: func {
         me.mode = me.presel_mode;
         me.input_size = me.input_sizes[me.mode];
-
-        forindex (var i; me.digits) {
-            me.digits[i].setValue(me.BLANK);
-            me.is_letter[i].setBoolValue(FALSE);
-        }
         # Last character in mode BAS is the channel letter.
-        if (me.mode == me.MODE.BASE) me.is_letter[me.input_size-1].setBoolValue(TRUE);
+        me.is_letter[me.input_sizes[me.MODE.BASE]-1].setBoolValue(me.mode == me.MODE.BASE);
+    },
 
+    clear: func {
+        if (!me.power()) return;
+        me.update_mode();
+        forindex (var i; me.digits) me.digits[i].setValue(me.BLANK);
         me.current_input = [];
         me.pos = 0;
     },
@@ -663,16 +663,19 @@ var me31 = {
     mhz: func {
         if (!me.power()) return;
         me.presel_mode = me.MODE.FREQ;
+        if (me.pos == 0) me.update_mode();
     },
 
     nr: func {
         if (!me.power()) return;
         me.presel_mode = me.MODE.GROUP;
+        if (me.pos == 0) me.update_mode();
     },
 
     bas: func {
         if (!me.power()) return;
         me.presel_mode = me.MODE.BASE;
+        if (me.pos == 0) me.update_mode();
     },
 
     # Power condition
