@@ -604,7 +604,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>tp</tooltip-id>
-                <label>Enter new airbase channel</label>
+                <label>Enter airbase channel</label>
             </binding>
         </hovered>
     </animation>

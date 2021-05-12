@@ -49,7 +49,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>freq-selector</tooltip-id>
-        <label>Comm radio frequency selector</label>
+        <label>FR22 frequency selector</label>
       </binding>
     </hovered>
   </animation>
