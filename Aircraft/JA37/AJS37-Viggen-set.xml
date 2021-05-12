@@ -171,6 +171,14 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Load radio channels</label>
+                        <name>comm-channels</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>comm-channels</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Toggle chocks</label>
                         <binding>
                             <command>nasal</command>
@@ -279,8 +287,8 @@
             <max-usable-altitude-m type="double">600</max-usable-altitude-m>
         </radar-altimeter>
         <comm n="1">
-            <!-- Used for JA FR31 radio, disabled in AJS -->
-            <power-btn type="bool">false</power-btn>
+            <!-- transmission power (W), used by FGCom-mumble. -->
+            <tx-power type="double">3</tx-power> <!-- FR24 -->
         </comm>
     </instrumentation>
 
@@ -293,9 +301,11 @@
             <file>Aircraft/JA37/Nasal/displays/ajs-hud.nas</file>
         </hud>
         <ground_panel>
-          <file>Aircraft/JA37/Nasal/payload/ground-crew-panel.nas</file>
+            <file>Aircraft/JA37/Nasal/payload/ground-crew-panel.nas</file>
         </ground_panel>
-
+        <freq_sel>
+            <file>Aircraft/JA37/Nasal/radios/ajs-freq-selector.nas</file>
+        </freq_sel>
     </nasal>
 
 </PropertyList>

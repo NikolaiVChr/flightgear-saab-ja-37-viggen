@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <PropertyList>
-
     <path>channel-selector-me31.ac</path>
 
     <effect>
@@ -25,7 +24,7 @@
         <object-name>vol</object-name>
         <object-name>Switch</object-name>
     </effect>
-    
+
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
         <object-name>botDig1</object-name>
@@ -54,60 +53,18 @@
 
     <animation>
         <type>pick</type>
-        <object-name>BAS</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>property-assign</command>
-                <property>ja37/radio/me31/button-bas</property>
-                <value>1</value>
-            </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/me31/button-bas</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>Bas</tooltip-id>
-                <label>Set to BASE freq (not funtional)</label>
-            </binding>
-        </hovered>
-    </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>BAS</object-name>
-	   <property>ja37/radio/me31/button-bas</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
-
-    <animation>
-        <type>pick</type>
         <object-name>SM</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-ms</property>
+                <property>instrumentation/fr31/button-ptt</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-ms</property>
+                    <property>instrumentation/fr31/button-ptt</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -115,15 +72,61 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>SM</tooltip-id>
-                <label>SM (not funtional)</label>
+                <tooltip-id>fr31-sm</tooltip-id>
+                <label>Backup PTT (not implemented)</label>
             </binding>
         </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>SM</object-name>
-       <property>ja37/radio/me31/button-ms</property>
+       <property>instrumentation/fr31/button-ptt</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>BAS</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/fr31/button-bas</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>instrumentation/fr31/button-bas</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+            <binding>
+                <command>nasal</command>
+                <script>freq_sel.me31.bas();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fr31-bas</tooltip-id>
+                <label>Set airbase channel</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+       <type>translate</type>
+       <object-name>BAS</object-name>
+       <property>instrumentation/fr31/button-bas</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
        <axis>
@@ -137,491 +140,507 @@
     </animation>
 
 
-	<animation>
+
+    <animation>
         <type>pick</type>
         <object-name>NR</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-nr</property>
+                <property>instrumentation/fr31/button-nr</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-nr</property>
+                    <property>instrumentation/fr31/button-nr</property>
                     <value>0</value>
                 </binding>
             </mod-up>
+            <binding>
+                <command>nasal</command>
+                <script>freq_sel.me31.nr();</script>
+            </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>Nr</tooltip-id>
-                <label>Set to preset freq (not funtional)</label>
+                <tooltip-id>fr31-nr</tooltip-id>
+                <label>Set channel</label>
             </binding>
         </hovered>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>NR</object-name>
-	   <property>ja37/radio/me31/button-nr</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>NR</object-name>
+       <property>instrumentation/fr31/button-nr</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>MHz</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-mhz</property>
+                <property>instrumentation/fr31/button-mhz</property>
                 <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>instrumentation/fr31/button-mhz</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+            <binding>
+                <command>nasal</command>
+                <script>freq_sel.me31.mhz();</script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Mhz</tooltip-id>
-                <label>Set to freq</label>
+                <label>Set frequency</label>
             </binding>
         </hovered>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>MHz</object-name>
-	   <property>ja37/radio/me31/button-mhz</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>MHz</object-name>
+       <property>instrumentation/fr31/button-mhz</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>0</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-0</property>
+                <property>instrumentation/fr31/button[0]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(0)</script>
+                <script>freq_sel.me31.button(0)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-0</property>
+                    <property>instrumentation/fr31/button[0]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>0</object-name>
-	   <property>ja37/radio/me31/button-0</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>0</object-name>
+       <property>instrumentation/fr31/button[0]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>1</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-1</property>
+                <property>instrumentation/fr31/button[1]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(1)</script>
+                <script>freq_sel.me31.button(1)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-1</property>
+                    <property>instrumentation/fr31/button[1]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>1</object-name>
-	   <property>ja37/radio/me31/button-1</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>1</object-name>
+       <property>instrumentation/fr31/button[1]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>2</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-2</property>
+                <property>instrumentation/fr31/button[2]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(2)</script>
+                <script>freq_sel.me31.button(2)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-2</property>
+                    <property>instrumentation/fr31/button[2]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>2</object-name>
-	   <property>ja37/radio/me31/button-2</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>2</object-name>
+       <property>instrumentation/fr31/button[2]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>3</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-3</property>
+                <property>instrumentation/fr31/button[3]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(3)</script>
+                <script>freq_sel.me31.button(3)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-3</property>
+                    <property>instrumentation/fr31/button[3]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>3</object-name>
-	   <property>ja37/radio/me31/button-3</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>3</object-name>
+       <property>instrumentation/fr31/button[3]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>4</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-4</property>
+                <property>instrumentation/fr31/button[4]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(4)</script>
+                <script>freq_sel.me31.button(4)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-4</property>
+                    <property>instrumentation/fr31/button[4]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>4</object-name>
-	   <property>ja37/radio/me31/button-4</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>4</object-name>
+       <property>instrumentation/fr31/button[4]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>5</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-5</property>
+                <property>instrumentation/fr31/button[5]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(5)</script>
+                <script>freq_sel.me31.button(5)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-5</property>
+                    <property>instrumentation/fr31/button[5]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>5</object-name>
-	   <property>ja37/radio/me31/button-5</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>5</object-name>
+       <property>instrumentation/fr31/button[5]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>6</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-6</property>
+                <property>instrumentation/fr31/button[6]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(6)</script>
+                <script>freq_sel.me31.button(6)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-6</property>
+                    <property>instrumentation/fr31/button[6]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>6</object-name>
-	   <property>ja37/radio/me31/button-6</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>6</object-name>
+       <property>instrumentation/fr31/button[6]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>7</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-7</property>
+                <property>instrumentation/fr31/button[7]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(7)</script>
+                <script>freq_sel.me31.button(7)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-7</property>
+                    <property>instrumentation/fr31/button[7]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>7</object-name>
-	   <property>ja37/radio/me31/button-7</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>7</object-name>
+       <property>instrumentation/fr31/button[7]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>8</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-8</property>
+                <property>instrumentation/fr31/button[8]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(8)</script>
+                <script>freq_sel.me31.button(8)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-8</property>
+                    <property>instrumentation/fr31/button[8]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>8</object-name>
-	   <property>ja37/radio/me31/button-8</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>8</object-name>
+       <property>instrumentation/fr31/button[8]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>9</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-9</property>
+                <property>instrumentation/fr31/button[9]</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.button(9)</script>
+                <script>freq_sel.me31.button(9)</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-9</property>
+                    <property>instrumentation/fr31/button[9]</property>
                     <value>0</value>
                 </binding>
             </mod-up>
         </action>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>9</object-name>
-	   <property>ja37/radio/me31/button-9</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>9</object-name>
+       <property>instrumentation/fr31/button[9]</property>
+       <factor>0.005</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>pick</type>
         <object-name>CL3</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>ja37/radio/me31/button-cl3</property>
+                <property>instrumentation/fr31/button-cl3</property>
                 <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>me31.cl3()</script>
+                <script>freq_sel.me31.clear()</script>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>ja37/radio/me31/button-cl3</property>
+                    <property>instrumentation/fr31/button-cl3</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -634,98 +653,153 @@
             </binding>
         </hovered>
     </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>CL3</object-name>
-	   <property>ja37/radio/me31/button-cl3</property>
-	   <factor>0.0025</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+    <animation>
+       <type>translate</type>
+       <object-name>CL3</object-name>
+       <property>instrumentation/fr31/button-cl3</property>
+       <factor>0.0025</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
 
-	<animation>
+    <animation>
         <type>material</type>
-		<object-name>botDig1</object-name>
-		<object-name>botDig2</object-name>
-		<object-name>botDig3</object-name>
-		<object-name>botDig4</object-name>
-		<object-name>botDig5</object-name>
+        <object-name>botDig1</object-name>
+        <object-name>botDig2</object-name>
+        <object-name>botDig3</object-name>
+        <object-name>botDig4</object-name>
+        <object-name>botDig5</object-name>
         <emission>
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>controls/lighting/fr31-norm</factor-prop>
         </emission>
     </animation>
 
-	<animation>
-		<type>textranslate</type>
-		<object-name>botDig1</object-name>
-		<property>ja37/radio/me31/digit-bottom-1</property>
-		<bias>0</bias>
-		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
-		<step>1</step>
-		<axis>
-		<x>1</x>
-		<y>0</y>
-		</axis>
-	</animation>
-	<animation>
-		<type>textranslate</type>
-		<object-name>botDig2</object-name>
-		<property>ja37/radio/me31/digit-bottom-2</property>
-		<bias>0</bias>
-		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
-		<step>1</step>
-		<axis>
-			<x>1</x>
-			<y>0</y>
-		</axis>
-	</animation>
-	<animation>
-		<type>textranslate</type>
-		<object-name>botDig3</object-name>
-		<property>ja37/radio/me31/digit-bottom-3</property>
-		<bias>0</bias>
-		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
-		<step>1</step>
-		<axis>
-			<x>1</x>
-			<y>0</y>
-		</axis>
-	</animation>
-	<animation>
-		<type>textranslate</type>
-		<object-name>botDig4</object-name>
-		<property>ja37/radio/me31/digit-bottom-4</property>
-		<bias>0</bias>
-		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
-		<step>1</step>
-		<axis>
-		<x>1</x>
-		<y>0</y>
-		</axis>
-	</animation>
-	<animation>
-		<type>textranslate</type>
-		<object-name>botDig5</object-name>
-		<property>ja37/radio/me31/digit-bottom-5</property>
-		<bias>0</bias>
-		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
-		<step>1</step>
-		<axis>
-			<x>1</x>
-			<y>0</y>
-		</axis>
-	</animation>
+    <!-- LCD texture.
+        letter[i] (bool) selects the digits or letters row.
+        digit[i] (int) selects the character in that row.
 
+        factor for column is 0.07617 = 39px/512px
+    -->
+    <animation>
+        <type>texmultiple</type>
+        <object-name>botDig1</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/digit[0]</property>
+            <factor>0.07617</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/letter[0]</property>
+            <factor>0.5</factor>
+            <axis>
+                <x>0</x>
+                <y>1</y>
+            </axis>
+        </transform>
+    </animation>
+    <animation>
+        <type>texmultiple</type>
+        <object-name>botDig2</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/digit[1]</property>
+            <factor>0.07617</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/letter[1]</property>
+            <factor>0.5</factor>
+            <axis>
+                <x>0</x>
+                <y>1</y>
+            </axis>
+        </transform>
+    </animation>
+    <animation>
+        <type>texmultiple</type>
+        <object-name>botDig3</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/digit[2]</property>
+            <factor>0.07617</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/letter[2]</property>
+            <factor>0.5</factor>
+            <axis>
+                <x>0</x>
+                <y>1</y>
+            </axis>
+        </transform>
+    </animation>
+    <animation>
+        <type>texmultiple</type>
+        <object-name>botDig4</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/digit[3]</property>
+            <factor>0.07617</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/letter[3]</property>
+            <factor>0.5</factor>
+            <axis>
+                <x>0</x>
+                <y>1</y>
+            </axis>
+        </transform>
+    </animation>
+    <animation>
+        <type>texmultiple</type>
+        <object-name>botDig5</object-name>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/digit[4]</property>
+            <factor>0.07617</factor>
+            <axis>
+                <x>1</x>
+                <y>0</y>
+            </axis>
+        </transform>
+        <transform>
+            <subtype>textranslate</subtype>
+            <property>instrumentation/fr31/letter[4]</property>
+            <factor>0.5</factor>
+            <axis>
+                <x>0</x>
+                <y>1</y>
+            </axis>
+        </transform>
+    </animation>
 
   <animation>
     <type>knob</type>

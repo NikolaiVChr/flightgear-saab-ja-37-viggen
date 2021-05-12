@@ -1,0 +1,121 @@
+#### Saab 37 Viggen radio preset default configuration
+
+# See Doc/channels-example.txt for a description of the file syntax and content.
+
+# This file defines a number of generic channels with randomly chosen frequencies.
+# All frequencies are within the FR22 band, so as to be usable by all radios.
+# They respect guard channel separation (nothing between 121.4 and 121.6), and avoid the VOR band.
+#
+# Summary of defined channels:
+# - guard channel H = 121.5 is set by default.
+# - global airbase channels E,F,G (VHF)
+# - AJS special channels 1 (VHF), 2 (UHF), 3 (UHF),
+#   and same frequencies for JA channels 001-003
+# - JA preset positions M,L (VHF)
+# - groups 01 to 08, channels 0-3 (VHF) and 4-9 (UHF),
+
+
+### Special channels
+E       127.000
+F       118.500
+G       125.500
+S1      135.425
+S2      285.150
+S3      240.550
+M       132.850
+L       122.950
+
+### Group channels
+N00     Special channels    # Copy of AJS S1-S3
+N001    135.425
+N002    285.150
+N003    240.550
+
+N01     Group 1
+N010    129.200
+N011    132.950
+N012    154.375
+N013    132.925
+N014    374.350
+N015    347.000
+N016    387.900
+N017    308.950
+N018    269.800
+N019    350.050
+N02     Group 2
+N020    129.550
+N021    143.675
+N022    104.250
+N023    142.700
+N024    398.350
+N025    277.100
+N026    344.650
+N027    257.100
+N028    265.800
+N029    387.400
+N03     Group 3
+N030    124.700
+N031    137.500
+N032    140.425
+N033    106.850
+N034    351.450
+N035    356.550
+N036    231.450
+N037    293.200
+N038    393.400
+N039    390.100
+N04     Group 4
+N040    122.275
+N041    107.275
+N042    122.500
+N043    135.225
+N044    334.500
+N045    311.350
+N046    251.000
+N047    365.450
+N048    263.950
+N049    314.400
+N05     Group 5
+N050    134.975
+N051    123.975
+N052    137.600
+N053    130.825
+N054    294.750
+N055    234.100
+N056    230.400
+N057    380.550
+N058    225.800
+N059    247.650
+N06     Group 6
+N060    151.825
+N061    141.200
+N062    133.900
+N063    146.275
+N064    395.500
+N065    282.400
+N066    349.700
+N067    396.350
+N068    309.950
+N069    238.250
+N07     Group 7
+N070    123.825
+N071    126.450
+N072    142.900
+N073    129.750
+N074    239.150
+N075    247.900
+N076    250.700
+N077    268.850
+N078    230.300
+N079    263.900
+N08     Group 8
+N080    132.700
+N081    136.850
+N082    147.875
+N083    142.375
+N084    343.050
+N085    236.250
+N086    327.900
+N087    328.850
+N088    359.650
+N089    316.150

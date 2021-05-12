@@ -76,7 +76,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>rdioVol</tooltip-id>
+                <tooltip-id>warning-vol</tooltip-id>
                 <label>Warnings volume</label>
             </binding>
         </hovered>
@@ -111,7 +111,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>rdioVol</tooltip-id>
+                <tooltip-id>comm-vol</tooltip-id>
                 <label>FR 29 comm volume</label>
             </binding>
         </hovered>
@@ -120,7 +120,7 @@
     <animation>
         <type>knob</type>
         <object-name>knobLetters</object-name>
-        <property>ja37/radio/fr31/knob-l</property>
+        <property>instrumentation/radio/mode</property>
         <factor>30</factor>
         <offset-deg>-60</offset-deg>
         <center>
@@ -132,22 +132,29 @@
             <x>0</x>
             <y>0</y>
             <z>-1</z>
-        </axis>        
+        </axis>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-l</property>
+                <property>instrumentation/radio/mode</property>
                 <min>0</min>
-                <max>7</max>                
+                <max>7</max>
                 <wrap>false</wrap>
            </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>radio-mode</tooltip-id>
+                <label>Radio operation mode</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
         <type>knob</type>
         <object-name>knobTal</object-name>
-        <property>ja37/radio/fr31/knob-t</property>
+        <property>instrumentation/comm[0]/transmitter</property>
         <factor>50</factor>
         <center>
             <x-m>  -0.03417 </x-m>
@@ -158,16 +165,23 @@
             <x>0</x>
             <y>0</y>
             <z>-1</z>
-        </axis>        
+        </axis>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-t</property>
+                <property>instrumentation/comm[0]/transmitter</property>
                 <min>0</min>
-                <max>1</max>                
+                <max>1</max>
                 <wrap>false</wrap>
            </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fr28-transmitter</tooltip-id>
+                <label>FR28 transmitter A/B selection</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>

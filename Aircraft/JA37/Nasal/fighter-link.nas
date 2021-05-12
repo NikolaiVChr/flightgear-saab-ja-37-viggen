@@ -6,7 +6,7 @@
 var input = {
     on:             "instrumentation/datalink/on",
     power:          "instrumentation/datalink/power",
-    identifier:     "ja37/radio/kv3/ident",
+    identifier:     "instrumentation/datalink/ident",
 };
 
 foreach (var name; keys(input)) {

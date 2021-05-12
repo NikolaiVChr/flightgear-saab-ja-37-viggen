@@ -688,24 +688,6 @@
             <battery-recharge-rate type="double">0.001666</battery-recharge-rate>
             <battery-reinit type="bool">false</battery-reinit>
         </systems>
-        <radio>
-            <kv1>
-                <button-mhz type="bool">true</button-mhz>
-                <switch type="bool">true</switch><!-- set to FM per default -->
-            </kv1>
-            <kv3>
-                <code type="int">0</code>
-                <ident type="int">0</ident>
-            </kv3>
-            <me31>
-                <button-mhz type="bool">true</button-mhz>
-            </me31>
-            <fr31>
-                <knob-l type="int">0</knob-l>
-                <knob-t type="int">0</knob-t>
-                <s-m type="int">0</s-m>
-            </fr31>
-        </radio>
         <faf>
           <!-- populated by Nasal/radar/faf.nas -->
         </faf>
@@ -1415,30 +1397,68 @@
         <gps n="0">
 		    <indicated-vertical-speed type="double">0</indicated-vertical-speed>
         </gps>
+        <!-- comm radios summary
+            JA37D:
+            - FR29 main radio -> comm[0]
+              (FR29 consists of two FR28 emitters/receivers, but only one active at a time, other for DL)
+            - FR31 secondary radio -> comm[1]
+            - guard channel receiver integrated in FR28 -> comm[2]
+
+            AJS37:
+            - FR22 main radio -> comm[0]
+            - FR24 backup radio -> comm[1]
+            - FR24 guar channel receiver -> comm[2]
+        -->
+        <!-- JA FR29 / AJS FR22 -->
         <comm n="0">
-            <power-btn type="bool">true</power-btn>
-            <power-good type="bool">false</power-good>
-            <!-- transmission power (W), used by FGCom-mumble. JA37 FR28 value -->
-            <tx-power type="double">50</tx-power>
+            <!-- Flag for UHF frequencies. Used in JSBSim to compute power output -->
+            <uhf type="bool">false</uhf>
+            <!-- JA37 transmitter A/B choice -->
+            <transmitter type="bool">false</transmitter>
+            <!-- transmission power (W), used by FGCom-mumble. -->
+            <tx-power type="double">25</tx-power><!-- set in JSBSim (depends on variant and VHF/UHF) -->
         </comm>
+        <!-- JA37D FR31 / AJS FR24 -->
         <comm n="1">
-            <!-- JA37 FR31 -->
-            <tx-power type="double">15</tx-power>
+            <!-- transmission power (W), used by FGCom-mumble. -->
+            <tx-power type="double">10</tx-power><!-- FR31 (AM) -->
+        </comm>
+        <!-- guard channel receiver -->
+        <comm n="2">
+            <tx-power type="double">0</tx-power><!-- no transmission -->
+            <frequencies>
+                <selected-mhz>121.5</selected-mhz><!-- fixed to guard channel -->
+            </frequencies>
         </comm>
         <nav n="0">
             <has-gs type="bool">false</has-gs>
             <gs-in-range type="bool">false</gs-in-range>
         </nav>
+        <fr22>
+            <!-- frequency selector panel -->
+            <am type="bool">true</am>
+            <!-- selected frequency, divided among the 4 knobs -->
+            <frequency-10mhz type="int">11</frequency-10mhz>
+            <frequency-1mhz type="int">8</frequency-1mhz>
+            <frequency-100khz type="int">3</frequency-100khz>
+            <frequency-1khz type="int">0</frequency-1khz>
+            <!-- channel selector panel -->
+            <button-selected type="int">19</button-selected><!-- '-' button (use frequency selector) -->
+            <group type="int">1</group>
+            <base-knob type="int">1</base-knob>
+        </fr22>
+        <kv1>
+            <button-bas type="bool">false</button-bas>
+            <button-nr type="bool">false</button-nr>
+            <button-mhz type="bool">true</button-mhz>
+            <button-selected type="int">0</button-selected><!-- MHz selected -->
+            <nr type="int">0</nr>
+            <base type="int">0</base>
+            <freq type="int">118.3</freq>
+        </kv1>
         <radio>
-            <!-- AJS frequency selector panel -->
-            <frequency-selector>
-                <am type="bool">false</am>
-                <!-- selected frequency, divided among the 4 knobs -->
-                <frequency-10mhz type="int">12</frequency-10mhz>
-                <frequency-1mhz type="int">1</frequency-1mhz>
-                <frequency-100khz type="int">5</frequency-100khz>
-                <frequency-1khz type="int">0</frequency-1khz>
-            </frequency-selector>
+            <!-- FR29 / FR22 main operation mode knob -->
+            <mode type="int">0</mode>
         </radio>
         <instrumentation-light>
             <serviceable type="bool">true</serviceable>
@@ -1585,10 +1605,12 @@
             <power_prop type="string">/instrumentation/iff/power</power_prop>
         </iff>
         <datalink>
-            <channel_prop type="string">/ja37/radio/kv3/code</channel_prop>
+            <channel_prop type="string">/instrumentation/datalink/channel</channel_prop>
             <power_prop type="string">/instrumentation/datalink/power</power_prop>
             <on type="bool">false</on>
             <power type="bool">false</power>
+            <channel type="int">0</channel>
+            <ident type="int">0</ident>
         </datalink>
         <gunsight>
             <distance-m type="double">600</distance-m>
@@ -1768,18 +1790,18 @@
         <navigation>
             <file>Aircraft/JA37/Nasal/navigation.nas</file>
         </navigation>
-        <radios>
-            <file>Aircraft/JA37/Nasal/comm-radios.nas</file>
-        </radios>
+        <radio_buttons>
+            <file>Aircraft/JA37/Nasal/radio-buttons.nas</file>
+        </radio_buttons>
+        <channels>
+            <file>Aircraft/JA37/Nasal/radios/channels.nas</file>
+        </channels>
+        <comm>
+            <file>Aircraft/JA37/Nasal/radios/comm.nas</file>
+        </comm>
         <blackout>
             <file>Aircraft/JA37/Nasal/blackout.nas</file>
         </blackout>
-        <ch_select>
-            <file>Aircraft/JA37/Nasal/channel-selector.nas</file>
-        </ch_select>
-        <me31>
-            <file>Aircraft/JA37/Nasal/channel-selector-me31.nas</file>
-        </me31>
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>

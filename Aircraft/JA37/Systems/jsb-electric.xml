@@ -789,7 +789,133 @@
 
 
     <channel execrate="4" name="Instruments">
-        <switch name="/instrumentation/iff/power">
+        <!-- Comm radios summary
+           JA37D:
+           - FR29 main radio -> comm[0]
+             (FR29 consists of two FR28 emitters/receivers, but only one active at a time, other for DL)
+           - FR31 secondary radio -> comm[1]
+           - FR28 integrated guard channel receiver -> comm[2]
+
+           AJS37:
+           - FR22 main radio -> comm[0]
+           - FR24 backup radio -> comm[1]
+           - FR24 guard channel receiver -> comm[2]
+
+          References:
+            JA37D SFI chap. 3 (elec power) and chap. 19 (communication)
+            AJS SFI chap. 3 (elec power) and chap. 14 (communication)
+        -->
+
+
+        <!-- JA37D FR28 main radio / AJS FR22 radio -->
+
+        <switch name="instruments/radio/comm0-power">
+            <!-- JA FR28 transmitter B can be DC powered from either the main DC bus or the battery bus 3 -->
+            <test logic="AND" value="/ja37/elec/dc-bus-battery-3-bool">
+                /ja37/systems/variant eq 0                  <!-- JA -->
+                /instrumentation/comm[0]/transmitter eq 1   <!-- transmitter B -->
+                systems/electrical/relay-lr-1 eq 0          <!-- no AC power -->
+                /controls/electric/main eq 0                <!-- main power off -->
+            </test>
+            <test logic="AND" value="/ja37/elec/dc-bus-main-bool">
+                /ja37/systems/variant eq 0                  <!-- JA -->
+                /instrumentation/comm[0]/transmitter eq 1   <!-- transmitter B -->
+                systems/electrical/relay-lr-1 eq 0          <!-- no AC power -->
+            </test>
+            <!-- Normally, main AC bus -->
+            <default value="/ja37/elec/ac-bus-main-bool"/>
+            <output>/instrumentation/comm[0]/power</output>
+        </switch>
+
+        <!-- Transmission power (W). Used by fgcom-mumble. Values from manual for AM. -->
+        <switch name="instruments/radio/comm0-tx-power">
+            <!-- AJS FR22 emitter -->
+            <test logic="AND" value="10">       <!-- UHF -->
+                /ja37/systems/variant ne 0
+                /instrumentation/comm[0]/uhf eq 1
+            </test>
+            <test logic="AND" value="20">       <!-- VHF -->
+                /ja37/systems/variant ne 0
+            </test>
+            <!-- JA37 FR28 low power while on battery (made up value) -->
+            <test logic="AND" value="5">
+                /ja37/systems/variant eq 0                  <!-- JA -->
+                /instrumentation/comm[0]/transmitter eq 1   <!-- transmitter B -->
+                systems/electrical/relay-lr-1 eq 0          <!-- no AC power -->
+            </test>
+            <!-- JA37 FR28 emitter -->
+            <test logic="AND" value="15">       <!-- UHF -->
+                /instrumentation/comm[0]/uhf eq 1
+            </test>
+            <default value="25"/>               <!-- VHF -->
+            <output>/instrumentation/comm[0]/tx-power</output>
+        </switch>
+
+        <switch name="instruments/radio/comm0-power-on">
+            <!-- A negative frequency is set to indicate invalid frequency. Turn off in this case -->
+            <test value="0">
+                /instrumentation/comm[0]/frequencies/selected-mhz lt 0
+            </test>
+            <!-- FR22 is inactive in modes other than NORM and NORM+LARM -->
+            <test logic="AND" value="0">
+                /ja37/systems/variant ne 0
+                /instrumentation/radio/mode ge 2
+            </test>
+            <default value="1"/>
+            <output>/instrumentation/comm[0]/power-btn</output>
+        </switch>
+
+
+        <!-- JA37D FR31 secondary radio / AJS FR24 backup radio -->
+
+        <switch name="instruments/radio/comm1-power">
+            <!-- FR24 battery powered -->
+            <test value="/ja37/elec/dc-bus-battery-3-bool">
+                /ja37/systems/variant ne 0
+            </test>
+            <!-- FR31 DC powered -->
+            <default value="/ja37/elec/dc-bus-secondary-bool"/>
+            <output>/instrumentation/comm[1]/power</output>
+        </switch>
+
+        <switch name="instruments/radio/comm1-power-on">
+            <!-- A negative frequency is set to indicate invalid frequency. Turn off in this case -->
+            <test value="0">
+                /instrumentation/comm[1]/frequencies/selected-mhz lt 0
+            </test>
+            <!-- FR24 is inactive in mode NORM, NORM+LARM (in mode NORM+LARM, FR24 guard receiver is comm[2]) -->
+            <test logic="AND" value="0">
+                /ja37/systems/variant ne 0
+                /instrumentation/radio/mode lt 2
+            </test>
+            <default value="1"/>
+            <output>/instrumentation/comm[1]/power-btn</output>
+        </switch>
+
+
+        <!-- guard channel receiver -->
+
+        <switch name="instruments/radio/comm2-power">
+            <!-- part of FR28 on JA, FR24 on AJS -->
+            <test value="instruments/radio/comm1-power">
+                /ja37/systems/variant ne 0
+            </test>
+            <default value="instruments/radio/comm0-power"/>
+            <output>/instrumentation/comm[2]/power</output>
+        </switch>
+
+        <switch name="instruments/radio/comm2-power-on">
+            <!-- only active in mode NORM+ALARM -->
+            <test logic="AND" value="1">
+                /instrumentation/radio/mode eq 0
+            </test>
+            <default value="0"/>
+            <output>/instrumentation/comm[2]/power-btn</output>
+        </switch>
+
+
+
+        <switch name="instruments/radio/iff-power">
             <default value="0"/>
             <test logic="AND" value="1">
                 /ja37/elec/ac-bus-main-bool == 1
@@ -800,14 +926,16 @@
                 /instrumentation/iff/power-knob == 1
                 gear/unit[0]/WOW == 0
             </test>
+            <output>/instrumentation/iff/power</output>
         </switch>
 
-        <switch name="/instrumentation/datalink/power">
+        <switch name="instruments/radio/datalink-power">
             <default value="0"/>
             <test logic="AND" value="1">
                 /instrumentation/datalink/on == 1
                 /ja37/elec/ac-bus-main-bool == 1
             </test>
+            <output>/instrumentation/datalink/power</output>
         </switch>
 
         <switch name="names/electrical/landing-light">
@@ -918,6 +1046,94 @@
             </clipto>
             <output>/controls/lighting/instruments-norm</output>
         </fcs_function>
+
+        <fcs_function name="names/electrical/display-light-norm">
+            <description>
+                    Displays light power
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <!-- controlled by instruments light knob, but can not drop to 0 -->
+                    <table>
+                        <independentVar>/controls/lighting/instruments-knob</independentVar>
+                        <tableData>
+                            0   0.3
+                            1   1.0
+                        </tableData>
+                    </table>
+                    <property>/systems/electrical/dc-light</property>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/displays-norm</output>
+        </fcs_function>
+
+        <fcs_function name="names/electrical/fr29-light-norm">
+            <description>
+                    FR29 radio panel light power (uses battery bus 2)
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <!-- controlled by instruments light knob, but can not drop to 0 -->
+                    <table>
+                        <independentVar>/controls/lighting/instruments-knob</independentVar>
+                        <tableData>
+                            0   0.3
+                            1   1.0
+                        </tableData>
+                    </table>
+                    <table>
+                        <independentVar>/ja37/elec/dc-bus-battery-2-volt</independentVar>
+                        <tableData>
+                            10   0.0
+                            24   1.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/fr29-norm</output>
+        </fcs_function>
+
+        <fcs_function name="names/electrical/fr31-light-norm">
+            <description>
+                    FR31 radio panel light power (uses DC secondary bus)
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <!-- controlled by instruments light knob, but can not drop to 0 -->
+                    <table>
+                        <independentVar>/controls/lighting/instruments-knob</independentVar>
+                        <tableData>
+                            0   0.3
+                            1   1.0
+                        </tableData>
+                    </table>
+                    <table>
+                        <independentVar>/ja37/elec/dc-bus-secondary-volt</independentVar>
+                        <tableData>
+                            10   0.0
+                            28   1.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/fr31-norm</output>
+        </fcs_function>
+
 
         <fcs_function name="names/electrical/flood-light-norm">
             <description>
