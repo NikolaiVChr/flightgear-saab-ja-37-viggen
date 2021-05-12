@@ -29,6 +29,8 @@
 # - FR22 main radio:
 #   VHF 103.000MHz - 155.975MHz, 25KHz separation
 #   UHF 225.000MHz - 399.950MHz, 50KHz separation
+# - FR24 backup radio:
+#   VHF 110.000MHz - 147.000MHz, 50KHz separation
 # JA37D:
 # - FR29 main radio:
 #   VHF 103.000MHz - 159.975MHz, 25KHz separation
