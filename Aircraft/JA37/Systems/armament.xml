@@ -4,9 +4,6 @@
     <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
     <modelsUseCase type="bool">true</modelsUseCase>
     <modelsUpperCase type="bool">true</modelsUpperCase>
-    <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
-    <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
-    <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
     <enable-craters type="bool">true</enable-craters>
     <pylon-offset type="int">1</pylon-offset>
     <pylon-stations>controls/armament</pylon-stations>
@@ -18,6 +15,7 @@
     <MLW-launcher type="string"></MLW-launcher>
     <MAW-bearing type="double">0</MAW-bearing>
     <MAW-active type="bool">false</MAW-active>
+    <spectator type="bool">false</spectator>
     <!-- A/A IR -->
     <rb-24>                    <!-- RB-24 (Swedish version of aim-9b sidewinder) mach 1.5 -->
         <type-id type="int">86</type-id>

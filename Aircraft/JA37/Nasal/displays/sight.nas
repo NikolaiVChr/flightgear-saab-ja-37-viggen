@@ -23,6 +23,7 @@ var input = {
     grd_speed:  "/velocities/groundspeed-kt",
     fpv_pitch:  "/instrumentation/fpv/pitch-deg",
     safety_dist: "/controls/armament/safety-distance",
+    arak_long:  "/controls/armament/weapon-panel/switch-impulse",
 };
 
 foreach (var prop; keys(input)) {
@@ -56,7 +57,7 @@ var AAsight = {
 
 
 # Return pitch angle (in world frame) of vector traj (given in body frame).
-traj_pitch = func(traj) {
+var traj_pitch = func(traj) {
     var pitch = input.pitch_rad.getValue();
     var roll = input.roll_rad.getValue();
     # Apply roll
@@ -260,7 +261,7 @@ var AG_computer = {
 # The various guns and rockets.
 var M75AGsight = AG_computer.new(0.36, 1030, 0.193, 0.000126677, 0, 8000);
 var M55sight = AG_computer.new(0.22, 741, 0.193, 0.00012667701, -0.0265, 8000);
-var M70sight = AG_computer.new(45.4, 600, 0.0001, 0.005, 0.0677, 8000);
+var M70sight = AG_computer.new(45.4, 450, 0.0001, 0.005, 0.0677, 8000);
 
 
 
@@ -295,22 +296,32 @@ var DistanceComputer = {
     },
 
     # Takes a trajectory in aircraft body frame along which to compute distance.
-    # Returns [distance, ranging_used, radar_used]
+    # Returns [distance, ranging_used, radar_used, pitch]
     # - ranging_used is false when ranging was not performed, and a fixed distance was returned.
     # - radar_used is true if radar was used to compute range.
-    update: func(traj) {
+    update: func(traj, arak_long=0) {
         var pitch = traj_pitch(traj);
+
+        if (arak_long) {
+            # AJS ARAK long range mode. Triangulation only, when pitch < -3
+            me.ranging_enabled = (pitch <= -3);
+            if (me.ranging_enabled) {
+                return [me.triang_dist(pitch), TRUE, FALSE, pitch];
+            } else {
+                return [me.default_dist, FALSE, FALSE, pitch];
+            }
+        }
 
         # AJS SFI part 3: triangulation ranging enabled at 5deg down, disabled at 3deg (hysteresis).
         if (pitch < -5) me.ranging_enabled = TRUE;
         elsif (pitch > -3) me.ranging_enabled = FALSE;
-        if (!me.ranging_enabled) return [me.default_dist, FALSE, FALSE];
+        if (!me.ranging_enabled) return [me.default_dist, FALSE, FALSE, pitch];
 
         # To simplify, JA always uses radar distance.
         if (variant.JA) {
             var dist = me.radar_dist(traj);
-            if (dist != nil) return [dist, TRUE, TRUE];
-            else return [me.default_dist, FALSE, FALSE];
+            if (dist != nil) return [dist, TRUE, TRUE, pitch];
+            else return [me.default_dist, FALSE, FALSE, pitch];
         }
 
         var trg_dist = me.triang_dist(pitch);
@@ -320,9 +331,9 @@ var DistanceComputer = {
         if (trg_dist <= 7000 and modes.selector_ajs == modes.COMBAT
             and (fire_control.is_armed() or (roll <= 45 and roll >= -45))) {
             var rdr_dist = me.radar_dist(traj);
-            if (rdr_dist != nil) return [rdr_dist, TRUE, TRUE];
+            if (rdr_dist != nil) return [rdr_dist, TRUE, TRUE, pitch];
         }
-        return [trg_dist, TRUE, FALSE];
+        return [trg_dist, TRUE, FALSE, pitch];
     },
 
     reset: func { me.ranging_enabled = FALSE; },
@@ -422,6 +433,7 @@ var AGsight = {
     # Previous weapon type, to reset state appropriately.
     last_type: nil,
     m55_AA_mode: FALSE, # AJS AKAN A/A mode. Closer to an A/G sight than an A/A sight (no lead etc.)
+    arak_long: FALSE,   # AJS ARAK long range mode.
     active: FALSE,
     # Computed firing distance (minimum distance for safe evasion).
     min_dist: 0,
@@ -467,7 +479,13 @@ var AGsight = {
             me.last_type = type;
         }
 
-        if (m55_AA_mode != me.m55_AA_mode) {
+        var arak_long = input.arak_long.getBoolValue();
+        if (variant.AJS and type == "M70" and arak_long != me.arak_long) {
+            me.reset();
+            me.arak_long = arak_long;
+        }
+
+        if (variant.AJS and type == "M55" and m55_AA_mode != me.m55_AA_mode) {
             me.reset();
             me.m55_AA_mode = m55_AA_mode;
         }
@@ -487,10 +505,11 @@ var AGsight = {
             sight_dist += (input.grd_speed.getValue()*KT2MPS - 100) * me.time;
         } else {
             # Compute distance using trajectory from previous loop (feedback).
-            var res = DistanceComputer.update(me.traj);
+            var res = DistanceComputer.update(me.traj, me.arak_long);
             me.dist = res[0];
             me.has_range = res[1];
             me.has_radar_range = res[2];
+            me.pitch = res[3];
             # Distance used for sight computation.
             var sight_dist = me.dist;
 
@@ -500,7 +519,10 @@ var AGsight = {
                 me.min_dist = res[0];
                 me.opt_dist = res[1];
 
-                if (!variant.JA) {
+                if (arak_long) {
+                    # ARAK long range mode, computes distance up to 7000m.
+                    sight_dist = math.min(sight_dist, 7000);
+                } elsif (variant.AJS) {
                     # For AJS, sight is computed for 3s before firing time.
                     sight_dist = math.min(sight_dist, me.opt_dist + 3*input.grd_speed.getValue()*KT2MPS);
                 }
@@ -524,6 +546,16 @@ var AGsight = {
     get_dist: func {
         if (!me.has_range) return nil;
         return [me.dist, me.min_dist, me.opt_dist, me.has_radar_range];
+    },
+
+    # Returns estimated projectile flight time.
+    get_time: func {
+        return me.time;
+    },
+
+    # Get reticle pitch angle
+    get_pitch: func {
+        return me.pitch;
     },
 };
 

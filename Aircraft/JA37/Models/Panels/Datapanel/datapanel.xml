@@ -512,7 +512,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
     </animation>
 	
@@ -855,9 +855,9 @@
         <type>material</type>
         <object-name>dPos</object-name>
         <emission>
-            <red-prop>controls/lighting/instruments-norm</red-prop>
-            <green-prop>controls/lighting/instruments-norm</green-prop>
-            <blue-prop>controls/lighting/instruments-norm</blue-prop>
+            <red-prop>controls/lighting/displays-norm</red-prop>
+            <green-prop>controls/lighting/displays-norm</green-prop>
+            <blue-prop>controls/lighting/displays-norm</blue-prop>
             <factor-prop>ja37/dap/pos</factor-prop>
         </emission>
     </animation>
@@ -866,9 +866,9 @@
         <type>material</type>
         <object-name>dM</object-name>
         <emission>
-            <red-prop>controls/lighting/instruments-norm</red-prop>
-            <green-prop>controls/lighting/instruments-norm</green-prop>
-            <blue-prop>controls/lighting/instruments-norm</blue-prop>
+            <red-prop>controls/lighting/displays-norm</red-prop>
+            <green-prop>controls/lighting/displays-norm</green-prop>
+            <blue-prop>controls/lighting/displays-norm</blue-prop>
             <factor-prop>ja37/dap/msda</factor-prop>
         </emission>
     </animation>
@@ -877,9 +877,9 @@
         <type>material</type>
         <object-name>dIn</object-name>
         <emission>
-            <red-prop>controls/lighting/instruments-norm</red-prop>
-            <green-prop>controls/lighting/instruments-norm</green-prop>
-            <blue-prop>controls/lighting/instruments-norm</blue-prop>
+            <red-prop>controls/lighting/displays-norm</red-prop>
+            <green-prop>controls/lighting/displays-norm</green-prop>
+            <blue-prop>controls/lighting/displays-norm</blue-prop>
             <factor-prop>ja37/dap/in</factor-prop>
         </emission>
     </animation>
@@ -888,9 +888,9 @@
         <type>material</type>
         <object-name>dOut</object-name>
         <emission>
-            <red-prop>controls/lighting/instruments-norm</red-prop>
-            <green-prop>controls/lighting/instruments-norm</green-prop>
-            <blue-prop>controls/lighting/instruments-norm</blue-prop>
+            <red-prop>controls/lighting/displays-norm</red-prop>
+            <green-prop>controls/lighting/displays-norm</green-prop>
+            <blue-prop>controls/lighting/displays-norm</blue-prop>
             <factor-prop>ja37/dap/out</factor-prop>
         </emission>
     </animation>

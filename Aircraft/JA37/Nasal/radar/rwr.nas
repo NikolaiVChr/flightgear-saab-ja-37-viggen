@@ -116,7 +116,8 @@ var radar_types = {
     # Scan: P-40, lock: SNR-125
     "buk-m2":           { scan_freq: 400, scan_period: 3.7, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
     # Scan: P-37, lock: SNR-75
-    "s-300":            { scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
+    "S-75":             { scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
+    "s-300":            "S-75",
     # Scan: AN/MPQ-35, lock: AN/
     "MIM104D":          { scan_freq: 800, scan_period: 7, scan_length: 0.8, lock_freq: 2000, half_angle: 180 },
     "ZSU-23-4M":        { scan_freq: 700, scan_period: 3, scan_length: 0.5, lock_freq: 2400, half_angle: 180 },

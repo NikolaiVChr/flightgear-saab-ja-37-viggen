@@ -210,9 +210,9 @@
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
   	</animation>
 
@@ -273,7 +273,7 @@
 	   <red>1.0</red> 
 	   <green>0.0</green> 
 	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
+	   <factor-prop>controls/lighting/displays-norm</factor-prop>
 	  </emission>
 	</animation>
 
@@ -297,7 +297,7 @@
 	   <red>1.0</red> 
 	   <green>0.0</green> 
 	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
+	   <factor-prop>controls/lighting/displays-norm</factor-prop>
 	  </emission>
 	</animation>
 
@@ -321,7 +321,7 @@
 	   <red>1.0</red> 
 	   <green>0.0</green> 
 	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
+	   <factor-prop>controls/lighting/displays-norm</factor-prop>
 	  </emission>
 	</animation>
 
@@ -345,7 +345,7 @@
 	   <red>1.0</red>
 	   <green>0.0</green>
 	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
+	   <factor-prop>controls/lighting/displays-norm</factor-prop>
 	  </emission>
 	</animation>
 
@@ -400,7 +400,7 @@
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
    			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
   	</animation>
 
@@ -428,7 +428,7 @@
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
    			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
   	</animation>
 
@@ -521,7 +521,7 @@
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
    			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
   	</animation>
 
@@ -538,7 +538,7 @@
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
    			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
   	</animation>
 
@@ -555,7 +555,7 @@
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
    			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
         </emission>
   	</animation>
 

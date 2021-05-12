@@ -289,6 +289,17 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Panels/Radio/fr22.xml</path>
+    <name>fr22</name>
+    <offsets>
+      <heading-deg>0</heading-deg>
+      <x-m>0.315</x-m>
+      <y-m>0.065</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Panels/Radar/radar-panel-ja.xml</path>
     <name>radar-panel-ja</name>
     <offsets>
@@ -374,6 +385,7 @@
   <animation>
     <type>select</type>
     <object-name>radar-panel-ajs</object-name>
+    <object-name>fr22</object-name>
     <condition>
       <greater-than>
         <property>ja37/systems/variant</property>

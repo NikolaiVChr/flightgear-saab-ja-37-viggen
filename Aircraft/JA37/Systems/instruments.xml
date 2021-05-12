@@ -53,15 +53,23 @@
   <comm-radio>
     <name>comm</name>
     <number>0</number>
-    <power-supply>/ja37/elec/dc-bus-main-bool</power-supply><!-- manual: transciever B uses AC or DC, A uses AC only -->
+    <power-supply>/instrumentation/comm[0]/power</power-supply>
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </comm-radio>
 
-  <!-- FR31 (JA) -->
+  <!-- FR31 secondary radio (JA) / FR24 backup radio (AJS) -->
   <comm-radio>
     <name>comm</name>
     <number>1</number>
-    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+    <power-supply>/instrumentation/comm[1]/power</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
+  </comm-radio>
+
+  <!-- Guard channel receiver for JA FR28 radio -->
+  <comm-radio>
+    <name>comm</name>
+    <number>2</number>
+    <power-supply>/instrumentation/comm[2]/power</power-supply>
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </comm-radio>
 
@@ -82,14 +90,25 @@
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </nav-radio>
 
-  <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
-
-  <adf>
-    <name>adf</name>
-    <number>0</number>
-    <power-supply>/ja37/elec/ac-bus-main-bool</power-supply>
+  <!-- Nav radios 2,3 correspond to comm radios 0,1.
+       They are here for the sole purpose of hearing VOR Morse identifier when tuning to a VOR frequency.
+       (Not needed for comm[2], as it is fixed to the guard channel).
+    -->
+  <nav-radio>
+    <name>nav</name>
+    <number>2</number>
+    <power-supply>/instrumentation/comm[0]/power</power-supply>
     <minimum-supply-volts>1.0</minimum-supply-volts>
-  </adf>
+  </nav-radio>
+
+  <nav-radio>
+    <name>nav</name>
+    <number>3</number>
+    <power-supply>/instrumentation/comm[1]/power</power-supply>
+    <minimum-supply-volts>1.0</minimum-supply-volts>
+  </nav-radio>
+
+  <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
 
   <attitude-indicator>
     <name>attitude-indicator</name>

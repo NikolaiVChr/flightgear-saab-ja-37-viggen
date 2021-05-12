@@ -1,6 +1,8 @@
 #
 # Install: Include this code into an aircraft to make it damagable. (remember to add it to the -set file)
 #          for damage to be recognised, the property /payload/armament/msg must be 1
+#          if /payload/armament/spectator is 1 and /payload/armament/msg is 0, missile trails, craters, flares,
+#          and missile warnings will be received, but not actual damage.
 #
 # Authors: Nikolai V. Chr., Pinto and Richard (with improvement by Onox)
 #
@@ -66,7 +68,7 @@ var shells = {
 
 var warheads = {
     # [id,lbs,anti surface,cluster,(name)]
-    "AGM-65":            [ 0,  126.00,1,0],
+    "AGM-65B":           [ 0,  126.00,1,0],
     "AGM-84":            [ 1,  488.00,1,0],
     "AGM-88":            [ 2,  146.00,1,0],
     "MK-82SE":           [ 3,  192.00,1,0],# snake eye
@@ -75,12 +77,12 @@ var warheads = {
     "AGM-158":           [ 6, 1000.00,1,0],
     "ALARM":             [ 7,  450.00,1,0],
     "AM 39 Exocet":      [ 8,  364.00,1,0], 
-    "AS 37 Martel":      [ 9,  330.00,1,0], 
+    "AS 37 Martel":      [ 9,  330.00,1,0],# Also : AJ 168 Martel 
     "AS30L":             [10,  529.00,1,0],
     "BL755":             [11,  100.00,1,1],# 800lb bomblet warhead. Mix of armour piecing and HE. 100 due to need to be able to kill buk-m2.    
     "CBU-87":            [12,  100.00,1,1],# bomblet warhead. Mix of armour piecing and HE. 100 due to need to be able to kill buk-m2.    
     "CBU-105":           [13,  100.00,1,1],# bomblet warhead. Mix of armour piecing and HE. 100 due to need to be able to kill buk-m2.    
-    "AJ 168 Martel":     [14,  330.00,1,0],
+    "AS 37 Armat":       [14,  330.00,1,0],
     "FAB-100":           [15,   92.59,1,0],
     "FAB-250":           [16,  202.85,1,0],
     "FAB-500":           [17,  564.38,1,0],
@@ -124,14 +126,14 @@ var warheads = {
     "AIM-7F":            [55,   88.00,0,0],
     "AGM-62":            [56, 2000.00,1,0],
     "AIM-9L":            [57,   20.80,0,0],
-    "d-7":               [58,   44.00,0,0],#deprecated
+    "AGM-65D":           [58,  126.00,1,0],
     "AIM-132":           [59,   22.05,0,0],
-    "d-8":               [60,   20.80,0,0],#deprecated
+    "Apache AP":         [60,  110.23,0,1],# Real mass of bomblet. (x 10). Anti runway.
     "KN-06":             [61,  315.00,0,0],
     "9M317":             [62,  145.00,0,0],
-    "d9":                [63,   27.00,0,0],#deprecated 
+    "GEM":               [63,  185.00,0,0],#MIM-104D 
     "R.550 Magic":       [64,   26.45,0,0],# also called majic
-    "d-0":               [65,   30.00,0,0],#deprecated
+    "5Ya23":             [65,  414.00,0,0],#Volga-M
     "R.550 Magic 2":     [66,   27.00,0,0],
     "R.530":             [67,   55.00,0,0],
     "d-a":               [68,   30.00,0,0],#deprecated
@@ -167,7 +169,7 @@ var warheads = {
 var id2warhead = [];
 var launched = {};# callsign: elapsed-sec
 var approached = {};# callsign: uniqueID
-var heavy_smoke = [61,62,92];
+var heavy_smoke = [61,62,63,65,92];
 
 var k = keys(warheads);
 
@@ -256,7 +258,7 @@ var DamageRecipient =
                   notification.Flags = 0;
                   notification.RemoteCallsign = "";
                 }
-                if(getprop("payload/armament/msg") == 0 and notification.RemoteCallsign != notification.Callsign) {
+                if(getprop("payload/armament/msg") == 0 and getprop("payload/armament/spectator") != 1 and notification.RemoteCallsign != notification.Callsign) {
                   return emesary.Transmitter.ReceiptStatus_NotProcessed;
                 }
                                 
@@ -488,7 +490,7 @@ var DamageRecipient =
                 return emesary.Transmitter.ReceiptStatus_OK;
             }
             if (notification.NotificationType == "StaticNotification") {
-                if(getprop("payload/armament/msg") == 0) {
+                if(getprop("payload/armament/msg") == 0 and getprop("payload/armament/spectator") != 1) {
                   return emesary.Transmitter.ReceiptStatus_NotProcessed;
                 }
                 if (notification.Kind == CREATE and getprop("payload/armament/enable-craters") == 1 and statics["obj_"~notification.UniqueIdentity] == nil) {
@@ -919,11 +921,15 @@ setlistener("payload/armament/msg", func {
   check_for_Request();
 },0,0);
 
+setlistener("payload/armament/spectator", func {
+  check_for_Request();
+},0,0);
+
 var last_check = -65;
 
 var check_for_Request = func {
   # This sends out a notification to ask other aircraft for all craters
-  if (getprop("payload/armament/enable-craters") == 1 and getprop("sim/multiplay/online") and getprop("payload/armament/msg") and systime()-last_check > 60) {
+  if (getprop("payload/armament/enable-craters") == 1 and getprop("sim/multiplay/online") and (getprop("payload/armament/spectator") or getprop("payload/armament/msg")) and systime()-last_check > 60) {
     last_check = systime();
     var msg = notifications.StaticNotification.new("stat", int(rand()*15000000), REQUEST_ALL, 0);
     msg.IsDistinct = 0;

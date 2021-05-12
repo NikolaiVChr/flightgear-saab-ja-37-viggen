@@ -215,6 +215,14 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Load radio channels</label>
+                        <name>comm-channels</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>comm-channels</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Friends (IFF)</label>
                         <name>faf</name>
                         <binding>
@@ -328,9 +336,15 @@
         <faf>
             <file>Aircraft/JA37/Nasal/radar/faf.nas</file>
         </faf>
+        <freq_sel>
+            <file>Aircraft/JA37/Nasal/radios/ja-freq-selector.nas</file>
+        </freq_sel>
         <datalink>
             <file>Aircraft/JA37/Nasal/datalink.nas</file>
         </datalink>
+        <fighterlink>
+            <file>Aircraft/JA37/Nasal/fighter-link.nas</file>
+        </fighterlink>
         <hud>
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>

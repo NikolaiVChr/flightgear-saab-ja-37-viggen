@@ -220,12 +220,32 @@ var MI = {
 			.horiz(radar_area_width*1.3)
 			.setStrokeLineWidth(0.7)
 			.setColor(r,g,b,a);
-		me.horizon_alt = me.horizon_group2.createChild("text");
-		me.horizon_alt.enableUpdate();
-		me.horizon_alt.updateText("")
-			.setFontSize(6, 1.0)
-			.setAlignment("center-center")
-			.setTranslation(-radar_area_width/3, -6)
+
+		me.horizon_alt = me.horizon_group2.createChild("group")
+			.setTranslation(-0.36*radar_area_width, -2);
+		# text for metric mode, and interoperability values below 1000
+		me.horizon_alt1 = me.horizon_alt.createChild("text");
+		me.horizon_alt1.enableUpdate();
+		me.horizon_alt1.updateText("-000")
+			.setFontSize(7, 1.0)
+			.setAlignment("right-baseline")
+			.setTranslation(0.08*radar_area_width, 0)
+			.setColor(r,g,b,a);
+		# text for interoperability mode above 1000, first two digits
+		me.horizon_alt2 = me.horizon_alt.createChild("text");
+		me.horizon_alt2.enableUpdate();
+		me.horizon_alt2.updateText("0,0")
+			.setFontSize(7, 1.0)
+			.setAlignment("right-baseline")
+			.setTranslation(0, 0)
+			.setColor(r,g,b,a);
+		# text for interoperability mode above 1000, last three digits
+		me.horizon_alt3 = me.horizon_alt.createChild("text");
+		me.horizon_alt3.enableUpdate();
+		me.horizon_alt3.updateText("000")
+			.setFontSize(5, 1.0)
+			.setAlignment("left-baseline")
+			.setTranslation(0, 0)
 			.setColor(r,g,b,a);
 
 		# alt lines
@@ -287,7 +307,9 @@ var MI = {
 		# Altitude scale (right side)
 		me.alt_scale = me.rootCenter.createChild("group")
 			.setTranslation(radar_area_width/2 + 3, radar_area_width/2);
-		me.alt_scale_marks = me.alt_scale.createChild("path")
+
+		me.alt_scale_metric = me.alt_scale.createChild("group");
+		me.alt_scale_marks = me.alt_scale_metric.createChild("path")
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
 		for (var i=1; i<=19; i+=1) {
@@ -295,20 +317,20 @@ var MI = {
 			me.alt_scale_marks.moveTo(0, -radar_area_width*i/20)
 				.horiz(ticksMed);
 		}
+		me.alt_scale_text = [];
 		for (var i=0; i<=4; i+=1) {
 			me.alt_scale_marks.moveTo(0, -radar_area_width*i/4)
-				.horiz(ticksLong)
-		}
-		me.alt_scale_texts = [];
-		for (var i=1; i<=4; i+=1) {
-			me.alt_scale_text = me.alt_scale.createChild("text");
-			me.alt_scale_text.enableUpdate();
-			me.alt_scale_text.updateText(sprintf("%d", i*4))
+				.horiz(ticksLong);
+
+			if (i == 0) continue;
+			var text = me.alt_scale_metric.createChild("text");
+			text.enableUpdate();
+			text.updateText(sprintf("%d", i*5))
 				.setFontSize(5, 1.0)
 				.setAlignment("left-bottom")
 				.setTranslation(ticksMed, -radar_area_width*i/4 - 1)
 				.setColor(r,g,b,a);
-			append(me.alt_scale_texts, me.alt_scale_text);
+			append(me.alt_scale_text, text);
 		}
 
 		me.alt_cursor = me.alt_scale.createChild("path")
@@ -321,10 +343,36 @@ var MI = {
 				.setStrokeLineWidth(w)
 				.setColor(r,g,b, a);
 
+		# Interoperability altitude scale
+		me.alt_scale_int = me.alt_scale.createChild("group");
+		# Scale is slightly shorter than metric one, as it goes up to 60000ft instead of 20km.
+		me.alt_scale_int_size = radar_area_width * FT2M * 60 / 20;
+		me.alt_scale_int_marks = me.alt_scale_int.createChild("path")
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		me.alt_scale_int_text = [];
+		# Only 6 marks, all with text
+		for (var i=0; i<=6; i+=1) {
+			me.alt_scale_int_marks.moveTo(0, -me.alt_scale_int_size*i/6)
+				.horiz(ticksLong);
+
+			if (i == 0) continue;
+			var text = me.alt_scale_int.createChild("text");
+			text.enableUpdate();
+			text.updateText(sprintf("%d0", i))
+				.setFontSize(5, 1.0)
+				.setAlignment("left-bottom")
+				.setTranslation(ticksMed, -me.alt_scale_int_size*i/6 - 1)
+				.setColor(r,g,b,a);
+			append(me.alt_scale_text, text);
+		}
+
 		# Distance scale (left side)
 		me.dist_scale = me.rootCenter.createChild("group")
 			.setTranslation(-radar_area_width/2 - 3, radar_area_width/2);
-		me.dist_scale_marks = me.dist_scale.createChild("path")
+
+		me.dist_scale_metric = me.dist_scale.createChild("group");
+		me.dist_scale_marks = me.dist_scale_metric.createChild("path")
 			.moveTo(0, 0).vert(-radar_area_width)
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
@@ -332,21 +380,21 @@ var MI = {
 			me.dist_scale_marks.moveTo(0, -radar_area_width*i/6)
 				.horiz(-ticksMed);
 		}
-		me.dist_scale_text_1 = me.dist_scale.createChild("text");
+		me.dist_scale_text_1 = me.dist_scale_metric.createChild("text");
 		me.dist_scale_text_1.enableUpdate();
 		me.dist_scale_text_1.updateText("5")
 			.setFontSize(5, 1.0)
 			.setAlignment("right-bottom")
 			.setTranslation(-ticksMed, -radar_area_width*1/3-1)
 			.setColor(r,g,b,a);
-		me.dist_scale_text_2 = me.dist_scale.createChild("text");
+		me.dist_scale_text_2 = me.dist_scale_metric.createChild("text");
 		me.dist_scale_text_2.enableUpdate();
 		me.dist_scale_text_2.updateText("10")
 			.setFontSize(5, 1.0)
 			.setAlignment("right-bottom")
 			.setTranslation(-ticksMed, -radar_area_width*2/3-1)
 			.setColor(r,g,b,a);
-		me.dist_scale_text_3 = me.dist_scale.createChild("text");
+		me.dist_scale_text_3 = me.dist_scale_metric.createChild("text");
 		me.dist_scale_text_3.enableUpdate();
 		me.dist_scale_text_3.updateText("15")
 			.setFontSize(5, 1.0)
@@ -354,6 +402,29 @@ var MI = {
 			.setAlignment("left-bottom")
 			.setTranslation(0, -radar_area_width*3/3)
 			.setColor(r,g,b,a);
+
+		# Interoperability distance scale
+		me.dist_scale_int = me.dist_scale.createChild("group");
+		# Scale is slightly shorter than metric one, as it goes up to 64nm instead of 120Km
+		me.dist_scale_int_size = radar_area_width * NM2M * 64 / 120000;
+		me.dist_scale_int_marks = me.dist_scale_int.createChild("path")
+			.moveTo(0, 0).vert(-me.dist_scale_int_size)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		me.dist_scale_int_text = [];
+		# Only 4 marks, all with text
+		for (var i=0; i<=4; i+=1) {
+			me.dist_scale_int_marks.moveTo(0, -me.dist_scale_int_size*i/4)
+				.horiz(-ticksMed);
+			var text = me.dist_scale_int.createChild("text");
+			text.enableUpdate();
+			text.updateText(2*i)
+				.setFontSize(5, 1.0)
+				.setAlignment("right-bottom")
+				.setTranslation(-ticksMed, -me.dist_scale_int_size*i/4 - 1)
+				.setColor(r,g,b,a);
+			append(me.dist_scale_int_text, text);
+		}
 
 		# Heading scale (top side)
 		me.heading_scale = me.rootCenter.createChild("group")
@@ -525,27 +596,86 @@ var MI = {
 
 		me.machT = me.target_info.createChild("text");
 		me.machT.enableUpdate();
-		me.machT.updateText("M    ")
+		me.machT.updateText("0,00")
 			.setColor(r,g,b, a)
-			.setAlignment("center-top")
-			.setTranslation(-radar_area_width/3, 0)
+			.setAlignment("left-baseline")
+			.setTranslation(-0.45*radar_area_width, 10)
 			.setFontSize(9, 1);
 
-		me.distT = me.target_info.createChild("text");
+		me.target_info_metric = me.target_info.createChild("group");
+		me.target_info_metric.createChild("text")
+			.setText("M")
+			.setColor(r,g,b, a)
+			.setAlignment("right-baseline")
+			.setTranslation(-0.45*radar_area_width, 10)
+			.setFontSize(9, 1);
+		me.target_info_metric.createChild("text")
+			.setText("A")
+			.setColor(r,g,b, a)
+			.setAlignment("right-baseline")
+			.setTranslation(-0.1*radar_area_width, 10)
+			.setFontSize(9, 1);
+		me.target_info_metric.createChild("text")
+			.setText("H")
+			.setColor(r,g,b, a)
+			.setAlignment("right-baseline")
+			.setTranslation(0.25*radar_area_width, 10)
+			.setFontSize(9, 1);
+		me.distT = me.target_info_metric.createChild("text");
 		me.distT.enableUpdate();
-		me.distT.updateText("A   ")
+		me.distT.updateText("000")
 			.setColor(r,g,b, a)
-			.setAlignment("center-top")
-			.setTranslation(0, 0)
+			.setAlignment("left-baseline")
+			.setTranslation(-0.1*radar_area_width, 10)
+			.setFontSize(9, 1);
+		me.altT = me.target_info_metric.createChild("text");
+		me.altT.enableUpdate();
+		me.altT.updateText("00,0")
+			.setColor(r,g,b, a)
+			.setAlignment("left-baseline")
+			.setTranslation(0.25*radar_area_width, 10)
 			.setFontSize(9, 1);
 
-		me.altT = me.target_info.createChild("text");
-		me.altT.enableUpdate();
-		me.altT.updateText("H    ")
+		me.target_info_int = me.target_info.createChild("group");
+		me.target_info_int.createChild("text")
+			.setText("M")
 			.setColor(r,g,b, a)
-			.setAlignment("center-top")
-			.setTranslation(radar_area_width/3, 0)
+			.setAlignment("right-baseline")
+			.setTranslation(-0.45*radar_area_width, 10)
+			.setFontSize(6, 1);
+		me.target_info_int.createChild("text")
+			.setText("NM")
+			.setColor(r,g,b, a)
+			.setAlignment("right-baseline")
+			.setTranslation(-0.1*radar_area_width, 10)
+			.setFontSize(6, 1);
+		me.target_info_int.createChild("text")
+			.setText("FT")
+			.setColor(r,g,b, a)
+			.setAlignment("right-baseline")
+			.setTranslation(0.25*radar_area_width, 10)
+			.setFontSize(6, 1);
+		me.distT_int = me.target_info_int.createChild("text");
+		me.distT_int.enableUpdate();
+		me.distT_int.updateText("000")
+			.setColor(r,g,b, a)
+			.setAlignment("left-baseline")
+			.setTranslation(-0.1*radar_area_width, 10)
 			.setFontSize(9, 1);
+		me.altT_int = me.target_info_int.createChild("text");
+		me.altT_int.enableUpdate();
+		me.altT_int.updateText("000")
+			.setColor(r,g,b, a)
+			.setAlignment("left-baseline")
+			.setTranslation(0.25*radar_area_width, 10)
+			.setFontSize(9, 1);
+		me.altT_int2 = me.target_info_int.createChild("text");
+		me.altT_int2.enableUpdate();
+		me.altT_int2.updateText("000")
+			.setColor(r,g,b, a)
+			.setAlignment("left-baseline")
+			.setTranslation(0.37*radar_area_width, 10)
+			.setFontSize(6, 1);
 
 		me.nameT = me.target_info.createChild("text");
 		me.nameT.enableUpdate();
@@ -553,7 +683,7 @@ var MI = {
 			.setColor(r,g,b, a)
 			.setAlignment("center-top")
 			.setTranslation(0, 12)
-			.setFontSize(9, 1);
+			.setFontSize(8, 1);
 
 		# QFE, or selected weapon, or Mach
 		me.botl_text = me.rootCenter.createChild("text");
@@ -716,7 +846,35 @@ var MI = {
 	},
 
 	displayDigitalAlt: func {
-		me.horizon_alt.updateText(displays.sprintalt(me.input.alt_m.getValue()));
+		var alt = me.input.alt_m.getValue();
+		if (displays.metric) {
+			alt = math.round(alt, 10);
+			if (alt <= 990) {
+				alt = math.max(alt, -50);
+				me.horizon_alt1.updateText(sprintf("%.3d", alt));
+				me.horizon_alt2.updateText("");
+				me.horizon_alt3.updateText("");
+			} else {
+				alt = math.round(alt, 100) / 1000;
+				me.horizon_alt1.updateText(displays.sprintdec(alt, 1));
+				me.horizon_alt2.updateText("");
+				me.horizon_alt3.updateText("");
+			}
+		} else {
+			alt *= M2FT;
+			alt = math.round(alt, 10);
+			if (alt <= 990) {
+				alt = math.max(alt, -50);
+				me.horizon_alt1.updateText(sprintf("%.3d", alt));
+				me.horizon_alt2.updateText("");
+				me.horizon_alt3.updateText("");
+			} else {
+				alt = math.round(alt, 100);
+				me.horizon_alt1.updateText("");
+				me.horizon_alt2.updateText(sprintf("%2d", math.floor(alt/1000)));
+				me.horizon_alt3.updateText(sprintf("%.3d", math.mod(alt, 1000)));
+			}
+		}
 	},
 
 	displayGround: func () {
@@ -745,32 +903,27 @@ var MI = {
 		me.alt = me.input.alt_m.getValue();
 		me.alt_cursor.setTranslation(0, -me.alt/20000*radar_area_width);
 
-		if (displays.metric) {
-			for(var i=1; i<=4; i+=1) {
-				me.alt_scale_texts[i-1].updateText(sprintf("%d", 5*i));
-			}
-		} else {
-			for(var i=1; i<=4; i+=1) {
-				me.alt_scale_texts[i-1].updateText(sprintf("%d", math.round(5*i*M2FT)));
-			}
-		}
-	},
-
-	imperial_range_text: func(dist) {
-		return displays.sprintdec(dist, dist>=10 ? 0 : 1);
+		me.alt_scale_metric.setVisible(displays.metric);
+		me.alt_scale_int.setVisible(!displays.metric);
 	},
 
 	displayDistScale: func {
 		if (displays.metric) {
+			me.dist_scale_metric.show();
+			me.dist_scale_int.hide();
+
 			me.radar_displayed_range = me.radar_range * 0.001;
 			me.dist_scale_text_1.updateText(sprintf("%d", me.radar_displayed_range/3));
 			me.dist_scale_text_2.updateText(sprintf("%d", me.radar_displayed_range*2/3));
 			me.dist_scale_text_3.updateText(sprintf("%d", me.radar_displayed_range));
 		} else {
-			me.radar_displayed_range = me.radar_range * M2NM;
-			me.dist_scale_text_1.updateText(me.imperial_range_text(me.radar_displayed_range/3));
-			me.dist_scale_text_2.updateText(me.imperial_range_text(me.radar_displayed_range*2/3));
-			me.dist_scale_text_3.updateText(me.imperial_range_text(me.radar_displayed_range));
+			me.dist_scale_metric.hide();
+			me.dist_scale_int.show();
+
+			me.radar_displayed_range = math.floor(me.radar_range * M2NM);
+			for (var i=1; i<=4; i+=1) {
+				me.dist_scale_int_text[i].updateText(sprintf("%d", me.radar_displayed_range*i/4));
+			}
 		}
 	},
 
@@ -887,30 +1040,49 @@ var MI = {
 			return;
 		}
 		me.target_info.show();
-
-		me.tgt_dist = radar_logic.selection.get_range();
-		if (displays.metric) {
-			me.tgt_dist *= NM2M / 1000;
-			me.distT.updateText(sprintf("A%3d", me.tgt_dist));
-		} else {
-			me.distT.updateText(sprintf("D%3d", me.tgt_dist));
-		}
-
-		me.tgt_alt = radar_logic.selection.get_indicated_altitude();
-		if (displays.metric) {
-			me.tgt_alt *= FT2M;
-			me.tgt_alt = math.round(me.tgt_alt, 100);
-			me.altT.updateText(sprintf("H%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
-		} else {
-			me.tgt_alt = math.round(me.tgt_alt, 100);
-			me.altT.updateText(sprintf("A%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
-		}
+		me.target_info_metric.setVisible(displays.metric);
+		me.target_info_int.setVisible(!displays.metric);
 
 		me.tgt_speed = radar_logic.selection.get_Speed();
 		me.rs = armament.AIM.rho_sndspeed(radar_logic.selection.get_altitude());
 		me.sound_fps = me.rs[1];
 		me.tgt_mach = me.tgt_speed * KT2FPS / me.sound_fps;
-		me.machT.updateText("M"~displays.sprintdec(me.tgt_mach, 2));
+		me.machT.updateText(displays.sprintdec(me.tgt_mach, 2));
+
+		me.tgt_dist = radar_logic.selection.get_range();
+		if (displays.metric) {
+			me.tgt_dist *= NM2M / 1000;
+			me.tgt_dist = math.min(me.tgt_dist, 999);
+			me.distT.updateText(sprintf("%3d", me.tgt_dist));
+		} else {
+			me.tgt_dist = math.min(me.tgt_dist, 999);
+			if (me.tgt_dist <= 9.95) {
+				me.distT_int.updateText(" "~displays.sprintdec(me.tgt_dist, 1));
+			} else {
+				me.distT_int.updateText(sprintf("%3d", me.tgt_dist));
+			}
+		}
+
+		me.tgt_alt = radar_logic.selection.get_indicated_altitude();
+		me.tgt_alt = math.max(me.tgt_alt, 0);
+		if (displays.metric) {
+			me.tgt_alt *= FT2M;
+			me.tgt_alt = math.round(me.tgt_alt, 100);
+			if (me.tgt_alt <= 900) {
+				me.altT.updateText(sprintf("%3d", me.tgt_alt));
+			} else {
+				me.altT.updateText(sprintf("%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
+			}
+		} else {
+			me.tgt_alt = math.round(me.tgt_alt, 100);
+			if (me.tgt_alt <= 900) {
+				me.altT_int.updateText(sprintf("%3d", me.tgt_alt));
+				me.altT_int2.updateText("");
+			} else {
+				me.altT_int.updateText(sprintf("%2d", math.floor(me.tgt_alt/1000)));
+				me.altT_int2.updateText(sprintf("%.3d", math.mod(me.tgt_alt, 1000)));
+			}
+		}
 
 		if (me.input.callsign.getBoolValue()) {
 			me.nameT.updateText(radar_logic.selection.get_Callsign());

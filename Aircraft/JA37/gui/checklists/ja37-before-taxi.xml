@@ -193,13 +193,13 @@
         </marker>
         <condition>
             <equals>
-                <property>ja37/radio/fr31/knob-t</property>
+                <property>instrumentation/comm[0]/transmitter</property>
                 <value>0</value>
             </equals>
         </condition>
         <binding>
             <command>property-assign</command>
-            <property>ja37/radio/fr31/knob-t</property>
+            <property>instrumentation/comm[0]/transmitter</property>
             <value>0</value>
         </binding>
     </item>
