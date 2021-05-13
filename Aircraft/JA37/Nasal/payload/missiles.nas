@@ -214,6 +214,7 @@ var contactPoint = nil;
 # isVirtual()     - Tells if the target is just a position, and should not be considered for damage.
 
 var AIM = {
+	lowestETA: nil,
 	#done
 	new : func (p, type = "AIM-9", sign = "Sidewinder", midFlightFunction = nil, nasalPosition = nil) {
 		if(AIM.active[p] != nil) {
@@ -319,6 +320,7 @@ var AIM = {
 		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
 		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/level/gyro-pitch/radiation/inertial/remote/remote-stable
 		m.guidanceLaw           = getprop(m.nodeString~"navigation");                 # guidance-law: direct/PN/APN/PNxxyy/APNxxyy (use direct for gravity bombs, use PN for very old missiles, use APN for modern missiles, use PNxxyy/APNxxyy for surface to air where xx is degrees to aim above target, yy is seconds it will do that). GPN is APN for winged glidebombs.
+		m.guidanceLawHorizInit  = getprop(m.nodeString~"navigation-init-pure-15");    # Bool. Guide in horizontal plane using pure pursuit until target with 15 deg of nose, before switching to <navigation>
 		m.pro_constant          = getprop(m.nodeString~"proportionality-constant");   # Constant for how sensitive proportional navigation is to target speed/acc. Normally between 3-6. [optional]
 		m.all_aspect            = getprop(m.nodeString~"all-aspect");                 # bool. set to false if missile only locks on reliably to rear of target aircraft
 		m.angular_speed         = getprop(m.nodeString~"seeker-angular-speed-dps");   # only for heat/vision seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
@@ -480,6 +482,9 @@ var AIM = {
         }
         if (m.guidanceLaw == nil) {
 			m.guidanceLaw = "APN";
+		}
+		if (m.guidanceLawHorizInit == nil) {
+			m.guidanceLawHorizInit = 0;
 		}
         if (m.pro_constant == nil) {
         	if (find("APN", m.guidanceLaw)!=-1) {
@@ -850,6 +855,7 @@ var AIM = {
 		} else {
 			delete(AIM.active, me.ID);
 		}
+		AIM.setETA(nil);
 		me.SwSoundVol.setDoubleValue(0);
 	},
 
@@ -1965,6 +1971,7 @@ var AIM = {
 				append(AIM.timerQueue, [me,me.del,[],0]);
 				append(AIM.timerQueue, [me,me.log,[me.callsign~" logged off. Deleting "~me.typeLong],0]);
 				thread.unlock(mutexTimer);
+				AIM.setETA(nil);
 				return;
 			} else {
 				me.Tgt = nil;
@@ -2126,6 +2133,8 @@ var AIM = {
 			} else {
 				me.remoteControl();
 			}
+			AIM.setETA(nil);
+		    me.prevETA = nil;
 		} elsif (me.Tgt != nil and me.t_coord !=nil and me.free == FALSE and me.guidance != "unguided"
 			and (me.rail == FALSE or me.rail_passed == TRUE) and me.guidanceEnabled) {
 				#
@@ -2133,12 +2142,20 @@ var AIM = {
 				#
 				if (me.guidance == "level") {
 					me.level();
+					AIM.setETA(nil);
+			        me.prevETA = nil;
 				} elsif (me.guidance == "gyro-pitch") {
 					me.pitchGyro();
+					AIM.setETA(nil);
+			        me.prevETA = nil;
 				} else {
 					me.guide();
+					if (!me.guiding) {
+			            AIM.setETA(nil);
+			            me.prevETA = nil;
+			        }
 				}
-	            me.observing = me.guidance;
+	            me.observing = me.guidance;	            
 	    } elsif (me.guidance != "unguided" and (me.rail == FALSE or me.rail_passed == TRUE) and me.guidanceEnabled and me.free == FALSE and me.t_coord == nil
 	    		and (me.newTargetAssigned or (me.canSwitch and (me.fovLost or me.lostLOS or me.radLostLock or me.semiLostLock or me.heatLostLock) or (me.loal and me.maddog)))) {
 	    	# check for too low speed not performed on purpuse, difference between flying straight on A/P and making manouvres.
@@ -2159,12 +2176,16 @@ var AIM = {
 				me.track_signal_h = 0;
 			}
             me.observing = me.standbyFlight;
+            AIM.setETA(nil);
+            me.prevETA = nil;
 		} else {
 			me.observing = "unguided";
 			me.track_signal_e = 0;
 			me.track_signal_h = 0;
 			me.printGuide("Unguided");
 			#me.printGuideDetails(sprintf("not guiding %d %d %d %d %d",me.Tgt != nil,me.free == FALSE,me.guidance != "unguided",me.rail == FALSE,me.rail_passed == TRUE));
+			AIM.setETA(nil);
+			me.prevETA = nil;
 		}
 
 		if(me.tooLowSpeed) {
@@ -2394,6 +2415,7 @@ var AIM = {
 					append(AIM.timerQueue, [me,me.del,[],10]);
 					thread.unlock(mutexTimer);
 				}
+				AIM.setETA(nil);
 				return;
 			}
 		} else {
@@ -2468,6 +2490,7 @@ var AIM = {
 
 		# telemetry
 		if (me.data == TRUE) {
+			
 			me.eta = me.free == TRUE or me.horz_closing_rate_fps == -1?-1:(me["t_go"]!=nil?me.t_go:(me.dist_curr*M2FT)/me.horz_closing_rate_fps);
 			if (me.eta < 0) me.eta = -1;
 			me.hit = 50;# in percent
@@ -2509,6 +2532,15 @@ var AIM = {
 				setprop("sam/impact"~me.ID,me.eta);
 				setprop("sam/hit"~me.ID,me.hit);
 			}
+
+			if (me["prevETA"] != nil) {
+				if (me.prevETA < me.eta) {
+					# reset the lowest eta to allow it to increase.
+					AIM.setETA(nil);
+				}
+				AIM.setETA(me.eta, me["prevETA"]);
+			}
+			me.prevETA = me["eta"];
 		}
 		
 		#if (me.dist_curr != nil and me.dist_curr != 0 and me.dist_curr*M2NM < 1) {
@@ -2888,6 +2920,10 @@ var AIM = {
 		me.printFlightDetails("Altitude. Target %07.1f. Missile %07.1f. Atan2 %04.1f degs", me.t_coord.alt()*M2FT, me.coord.alt()*M2FT, math.atan2( me.t_coord.alt()-me.coord.alt(), me.dist_curr ) * R2D);
 
 		me.curr_deviation_h = geo.normdeg180(me.curr_deviation_h);
+
+		if (math.abs(me.curr_deviation_h) < 15) {
+			me.guidanceLawHorizInit = 0;
+		}
 
 		me.checkForLOS();
 
@@ -3624,6 +3660,11 @@ var AIM = {
 				me.raw_steer_signal_head  = me.dt*me.radians_lateral_per_sec*R2D;
 			}
 			#printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
+
+			if (me.guidanceLawHorizInit) {
+				# pure horiz pursuit 
+				me.raw_steer_signal_head = me.curr_deviation_h;
+			}
 
 			# now translate that sideways acc to an angle:
 			
@@ -5289,6 +5330,27 @@ var AIM = {
 
 	active: {},
 	flying: {},
+
+	setETA: func (eta, prev = -1) {
+		# Class method
+		thread.lock(mutexETA);
+		if (eta == -1 and prev == AIM.lowestETA) {
+			AIM.lowestETA = nil;
+		} elsif (eta == nil) {
+			AIM.lowestETA = nil;
+		} elsif (AIM.lowestETA == nil or eta < AIM.lowestETA and eta < 1800) {
+			AIM.lowestETA = eta;
+		}
+		thread.unlock(mutexETA);
+	},
+	getETA: func {
+		# Class method
+		var retur = 0;
+		thread.lock(mutexETA);
+		retur = AIM.lowestETA;
+		thread.unlock(mutexETA);
+		return retur;
+	},
 };
 var backtrace = func(desc = nil, dump_vars = 1, skip_level = 0, levels = 3) {
     var d = (desc == nil) ? "" : " '" ~ desc ~ "'";
@@ -5392,6 +5454,7 @@ var spams = 0;
 var spamList = [];
 var mutexMsg = thread.newlock();
 var mutexTimer = thread.newlock();
+var mutexETA = thread.newlock();
 
 var defeatSpamFilter = func (str) {
   thread.lock(mutexMsg);
