@@ -1624,6 +1624,19 @@
 
     <payload>
         <armament include="Systems/armament.xml"/>
+        <d-config>
+            <full_damage_dist_m type="double">0</full_damage_dist_m>
+            <use_hitpoints_instead_of_failure_modes_bool type="bool">false</use_hitpoints_instead_of_failure_modes_bool>
+            <hp_max type="double">80</hp_max><!-- unused, but still needs to be set and non-zero -->
+            <hitable_by_air_munitions type="bool">true</hitable_by_air_munitions>
+            <hitable_by_cannon type="bool">true</hitable_by_cannon>
+            <is_fleet type="bool">false</is_fleet>
+            <rwr_to_screen type="bool">false</rwr_to_screen>
+            <tacview_supported type="bool">false</tacview_supported>
+            <m28_auto type="bool">false</m28_auto>
+            <mlw_max type="double">2.25</mlw_max>
+            <auto_flare_caller type="bool">false</auto_flare_caller>
+        </d-config>
         <weight n="6">
             <name type="string">C7</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
