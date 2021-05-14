@@ -1514,9 +1514,9 @@
             <freq n="9" type="double">1000</freq>
           </sound>
         </rwr>
-        <head-up-display>
+        <displays>
             <serviceable type="bool">true</serviceable>
-        </head-up-display>
+        </displays>
         <fpv>
             <!-- Flight path vector (relative to ground). Includes stabilization on the ground at low speed. -->
             <!-- Angle from aircraft forward axis -->

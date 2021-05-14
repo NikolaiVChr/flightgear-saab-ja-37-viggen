@@ -39,7 +39,7 @@
         </signal>
         <signal>
             <type>bool</type>
-            <property type="string">instrumentation/head-up-display/serviceable</property>
+            <property type="string">instrumentation/displays/serviceable</property>
         </signal>
         <signal>
             <type>float</type>

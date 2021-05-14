@@ -87,6 +87,7 @@ var Common = {
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
 			displays_on:      "ja37/displays/on",
+			displays_serv:    "instrumentation/displays/serviceable",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -156,14 +157,14 @@ var Common = {
 	powerJA: func {
 		var time = me.input.time.getValue();
 
-		# Remeber last time that power/displays were off, to know since how long they have on.
-		if (!power.prop.acSecond.getBoolValue()) {
+		# Remeber last time that power/displays were off, to know since how long they have been on.
+		if (!power.prop.acSecond.getBoolValue() or !me.input.displays_serv.getBoolValue()) {
 			me.power_time = time;
 			me.ep12_on = FALSE;
 		}
 		# Display turn on automatically at 90% RPM, if on internal power
-		if (power.prop.acSecond.getBoolValue() and !me.input.ext_power_used.getBoolValue()
-			and me.input.rpm.getValue() >= 90) {
+		if (power.prop.acSecond.getBoolValue() and me.input.displays_serv.getBoolValue()
+			and !me.input.ext_power_used.getBoolValue() and me.input.rpm.getValue() >= 90) {
 			me.ep12_on = TRUE;
 		}
 		if (!me.ep12_on or testing.ongoing) {
@@ -182,8 +183,8 @@ var Common = {
 	powerAJS: func {
 		var time = me.input.time.getValue();
 
-		# Remeber last time that power/displays were off, to know since how long they have on.
-		if (!power.prop.acSecond.getBoolValue()) {
+		# Remeber last time that power/displays were off, to know since how long they have been on.
+		if (!power.prop.acSecond.getBoolValue() or !me.input.displays_serv.getBoolValue()) {
 			me.power_time = time;
 		}
 		if (modes.selector_ajs <= modes.STBY or testing.ongoing) {

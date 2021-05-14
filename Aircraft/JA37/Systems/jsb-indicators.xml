@@ -1185,10 +1185,7 @@
 
         <fcs_function name="systems/indicators/primary-data-primary">
             <function>
-                <eq>
-                    <property>/instrumentation/head-up-display/serviceable</property>
-                    <value>0</value>
-                </eq>
+                <value>0</value>
             </function>
         </fcs_function>
         
