@@ -146,7 +146,7 @@ var FPV = {
 
             # Target distance
             var dist = radar_logic.selection.get_range()*NM2M/1000;
-            me.dist_tgt.updateText(displays.sprintdist(dist, 1));
+            me.dist_tgt.updateText(displays.sprintdist(dist));
             # Circular target index/line
             var index_angle = math.min(dist/1.6*math.pi, 2*math.pi);
             if (dist <= 3.2) {
@@ -181,7 +181,7 @@ var FPV = {
             me.wingspan_l.setTranslation(-offset, 0);
             me.wingspan_r.setTranslation(offset, 0);
             me.wingspan_txt.updateText(sprintf("%d", wingspan));
-            me.dist_txt.updateText(displays.sprintdist(dist, 1));
+            me.dist_txt.updateText(displays.sprintdist(dist));
             me.wingspan_txt.setTranslation(offset + 30, 0);
             me.dist_txt.setTranslation(offset + 60, 250);
         }
@@ -1287,7 +1287,7 @@ var Distance = {
 
         # Digital distance
         me.dist = make_text(me.group)
-            .setTranslation(340, 20)
+            .setTranslation(340, 40)
             .setAlignment("right-top");
         me.dist.enableUpdate();
     },
@@ -1352,7 +1352,7 @@ var Distance = {
                 me.cursorM.setTranslation(dist[2] / scale_dist * 300, 0);
                 me.cursorR.setTranslation(max_dist / scale_dist * 300, 0);
                 me.index.setTranslation(dist[0] / scale_dist * 300, 0);
-                me.dist.updateText(displays.sprintdist(dist[0]/1000, 1));
+                me.dist.updateText(displays.sprintdist(dist[0]/1000));
 
                 if (dist[0] >= dist[1] and dist[0] <= max_dist) {
                     me.index_norm.hide();
@@ -1391,8 +1391,8 @@ var Distance = {
                     me.index_fire.hide();
                 }
 
-                # Convert scale to Km (or NM) for numerical display
-                if (displays.metric) max_dist *= NM2M / 1000;
+                # Convert scale to Km for numerical display
+                max_dist *= NM2M / 1000;
             } else {
                 # Line length indicates radar range.
                 var max_dist = input.radar_range.getValue();
@@ -1402,12 +1402,10 @@ var Distance = {
                 me.index_fire.hide();
 
                 # Convert scale to Km (or NM) for numerical display.
-                if (displays.metric) max_dist /= 1000;
-                else max_dist *= M2NM;
+                max_dist /= 1000;
             }
 
-            # Print with 0 or 1 decimal places. Disable conversion, it is already done.
-            me.dist.updateText(displays.sprintdist(max_dist, max_dist>=10 ? 0 : 1, TRUE));
+            me.dist.updateText(displays.sprintdist(max_dist));
         } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and input.rm_active.getBoolValue()) {
             var dist = displays.metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
             dist = math.round(dist);
@@ -1417,7 +1415,7 @@ var Distance = {
                 me.index.setTranslation(300,0).show();
                 me.index_norm.show();
                 me.index_fire.hide();
-                me.dist.updateText(sprintf("%d", dist));
+                me.dist.updateText(sprintf("%s%d", displays.metric ? "" : "NM ", dist));
                 me.dist.show();
                 me.line.hide();
                 me.cursorL.hide();

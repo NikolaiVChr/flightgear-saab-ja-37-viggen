@@ -37,11 +37,12 @@ var sprintdec = func(x, places) {
     }
 }
 
-# Print a distance with 'places' decimal places.
+# 'Standard' formatting of distances: 1 decimal place below 10, 0 above 10.
+# Prefix 'NM' in interoperability mode.
 # Input is km, it is converted to NM if in interoperability mode, unless no_convert is set.
-var sprintdist = func(dist, places, no_convert=0) {
+var sprintdist = func(dist, no_convert=0) {
     if (!metric and !no_convert) dist *= 1000*M2NM;
-    return sprintdec(dist, places);
+    return (metric ? "" : "NM ") ~ sprintdec(dist, (dist >= 9.95) ? 0 : 1);
 }
 
 # Print an altitude in 'standard format':
