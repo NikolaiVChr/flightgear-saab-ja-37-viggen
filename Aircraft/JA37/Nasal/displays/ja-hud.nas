@@ -750,6 +750,11 @@ var Altitude = {
                 .setAlignment("left-center")
                 .setTranslation(70, 0);
             me.text.enableUpdate();
+            me.text2 = make_text(me.group)
+                .setAlignment("left-center")
+                .setTranslation(120, 8)
+                .setFontSize(60, 1);
+            me.text2.enableUpdate();
             me.long = TRUE;
         },
 
@@ -771,9 +776,21 @@ var Altitude = {
             # Text
             if (!show_text) {
                 me.text.hide();
-            } else {
-                me.text.updateText(displays.sprintalt(alt, TRUE));  # second arg disables conversion
+                me.text2.hide();
+            } elsif (displays.metric) {
+                me.text.updateText(displays.sprintalt(alt));
                 me.text.show();
+                me.text2.hide();
+            } elsif (alt < 1000) {
+                me.text.updateText(sprintf("%.3d", alt));
+                me.text.show();
+                me.text2.hide();
+            } else {
+                me.text.updateText(sprintf("%d", math.floor(alt/1000)));
+                me.text2.updateText(sprintf("%.3d", math.mod(alt, 1000)));
+                me.text2.setTranslation(alt >= 10000 ? 160 : 115, 10);
+                me.text.show();
+                me.text2.show();
             }
 
             # update() required: otherwise show()/hide() applies immediately,
@@ -799,7 +816,7 @@ var Altitude = {
 
         # At sufficient altitude, the linear part of the scale contains 9 markers.
         me.lin_markers = [];
-        setsize(me.lin_markers, 11);
+        setsize(me.lin_markers, 9);
         forindex(var i; me.lin_markers) {
             me.lin_markers[i] = Altitude.Marker.new(me.group);
         }
@@ -841,28 +858,42 @@ var Altitude = {
     set_ac_alt: func(ac_alt) {
         me.ac_alt = ac_alt;
 
-        # Parameters
-        # - scale_{low,high}_limit: when ac_alt is between them, the scaling factor is proportional
-        #   to ac_alt, so that ac_alt is displayed as 3deg.
-        #   Outside of these limits, the scaling factor remains constant.
+        # Sets variables:
+        # - zero_pos: position of the 0 marker
         # - lin_limit: within this distance of ac_alt, the altitude scale is linear.
         # - lin_limit_0: below this altitude, the altitude scale is linear (relative to 0 marker).
+        # - spacing: separation between minor marks.
+        # - mark_limit: altitude difference from center-most mark to top/bottom most marks.
+        # - min_alt: minimum altitude of displayed graduations
+        # Units are m in metric mode, ft in interoperability mode.
 
         if (displays.metric) {
-            # In m
-            me.scale_low_limit = 50;
-            me.scale_high_limit = 300;
+            # Scaling factor in meter per HUD unit (for the part of the altitude scale close to the index).
+            # Between 50 and 300 meters, there is 3deg between the 0 graduation and the aircraft altitude.
+            # Beyond these limits, the scaling factor doesn't change.
+            me.scale_factor = math.clamp(ac_alt, 50, 300) / 300;
             me.lin_limit = 225;
             me.lin_limit_0 = 40;
+            me.full_lin = (ac_alt <= 300);  # Scale is entirely linear when the aircraft is below 300m.
+            me.spacing = 50;
+            me.min_alt = 0;
+        } elsif (ac_alt < 6000) {
+            me.scale_factor = 400 / 300;
+            me.lin_limit = 225;
+            me.lin_limit_0 = 50;
+            me.full_lin = (ac_alt <= 400);
+            me.spacing = 50;
+            me.min_alt = -600;
         } else {
-            # In ft
-            me.scale_low_limit = 200;
-            me.scale_high_limit = 1000;
-            me.lin_limit = 550;
-            me.lin_limit_0 = 150;
+            me.scale_factor = 2000 / 300;
+            me.lin_limit = 1125;
+            me.lin_limit_0 = 250;
+            me.full_lin = FALSE;
+            me.spacing = 250;
+            me.min_alt = 0;
         }
-        # Scaling factor in meter per HUD unit. (for the part of the altitude scale close to the index)
-        me.scale_factor = math.clamp(ac_alt, me.scale_low_limit, me.scale_high_limit) / 300;
+
+        me.zero_pos = math.min(300, ac_alt/me.scale_factor);
     },
 
     # Map an altitude to a position of the scale, relative to the reading index.
@@ -876,16 +907,16 @@ var Altitude = {
     # Aircraft altitude must be set through set_ac_alt() prior to using this function.
     alt2pos: func(alt) {
         # When aircraft is sufficiently low, the entire scale is linear.
-        if (me.ac_alt <= me.scale_high_limit) return me.lin_alt2pos(alt);
+        if (me.full_lin) return me.lin_alt2pos(alt);
 
         # Close to ac_alt, the scale is linear.
         if (alt >= me.ac_alt - me.lin_limit) return me.lin_alt2pos(alt);
         # Close to 0, the scale is linear.
-        elsif (alt <= me.lin_limit_0) return 300 - alt/me.scale_factor;
+        elsif (alt <= me.lin_limit_0) return me.zero_pos - alt/me.scale_factor;
         else {
             # Extrapolate between the two.
             return extrapolate(alt, me.lin_limit_0, me.ac_alt - me.lin_limit,
-                               300 - me.lin_limit_0/me.scale_factor, me.lin_limit/me.scale_factor);
+                               me.zero_pos - me.lin_limit_0/me.scale_factor, me.lin_limit/me.scale_factor);
         }
     },
 
@@ -906,48 +937,31 @@ var Altitude = {
         me.set_ac_alt(ac_alt);
 
         # Markers for the linear part of the scale.
-        var spacing = displays.metric ? 50 : 100;
-        var center_mark = math.round(me.ac_alt, spacing);
-        var mark_limit = displays.metric ? 200 : 500;
+        var center_mark = math.round(me.ac_alt, me.spacing);
+        var alt = center_mark - 4*me.spacing;
 
-        var i = 0;
-        for (var alt = center_mark - mark_limit; alt <= center_mark + mark_limit; alt += spacing) {
+        forindex (var i; me.lin_markers) {
             var pos = me.lin_alt2pos(alt);
             # Too high or too low
-            if (alt <= 0 or pos < me.upper_limit) {
+            if (alt < me.min_alt or pos < me.upper_limit) {
                 me.lin_markers[i].hide();
             } else {
-                if (displays.metric) {
-                    # Long mark for every 100m, plus 50m when below 100m.
-                    var long_mark = math.mod(alt, 100) == 0 or (me.ac_alt <= 100 and alt == 50);
-                    # Text for every 200m, plus 100m when below 225m, plus 50m when below 100m.
-                    var show_text = math.mod(alt, 200) == 0
-                        or (me.ac_alt <= 225 and alt == 100)
-                        or (me.ac_alt <= 100 and alt == 50);
-                } else {
-                    # In imperial units, long mark every 500ft, plus 200ft below 500ft
-                    # Same for text
-                    var long_mark = math.mod(alt, 500) == 0
-                        or (me.ac_alt <= 500 and alt == 200)
-                        or (me.ac_alt <= 200 and alt == 100);
-                    var show_text = long_mark;
-                }
-
+                # Every second mark is long, plus 50m when below 100m in metric mode.
+                var long_mark = math.mod(alt, me.spacing*2) == 0
+                    or (displays.metric and me.ac_alt <= 100 and alt == 50);
+                # Every fourth mark has text, plus 100m when besow 225m, plus 50m when below 100m (in metric mode).
+                var show_text = math.mod(alt, me.spacing*4) == 0
+                    or (displays.metric and me.ac_alt <= 225 and alt == 100)
+                    or (displays.metric and me.ac_alt <= 100 and alt == 50);
                 me.lin_markers[i].update(pos, alt, long_mark, show_text);
                 me.lin_markers[i].show();
             }
-            i += 1;
-        }
-        # Hide remaining markers.
-        for (; i<size(me.lin_markers); i+=1) {
-            me.lin_markers[i].hide();
+            alt += me.spacing;
         }
 
         # 10m markers at low altitude, plus one at 75m.
-        # Imperial: 50ft markers.
-        if (me.ac_alt <= (displays.metric ? 100 : 200)) {
-            var spacing = displays.metric ? 10 : 20;
-            var alt = spacing;
+        if (displays.metric and me.ac_alt <= 100) {
+            var alt = 10;
             forindex (var i; me.low_markers) {
                 var pos = me.lin_alt2pos(alt);
                 if (pos < me.upper_limit) {
@@ -956,10 +970,10 @@ var Altitude = {
                     me.low_markers[i].setTranslation(0, me.lin_alt2pos(alt));
                     me.low_markers[i].show();
                 }
-                alt += spacing;
+                alt += 10;
             }
 
-            var pos = me.lin_alt2pos(displays.metric ? 75 : 150);
+            var pos = me.lin_alt2pos(75);
             if (pos < me.upper_limit) {
                 me.marker_75.hide();
             } else {
@@ -973,21 +987,14 @@ var Altitude = {
 
         # 0 marker
         if (me.ac_alt <= me.lin_limit) {
-            # Displayed as a regular marker.
-            var pos = me.lin_alt2pos(0);
-            if (pos < me.upper_limit) {
-                me.marker_0.hide();
-            } else {
-                me.marker_0.setTranslation(0, pos);
-                me.marker_0.show();
-                me.non_lin_mark.hide();
-            }
+            # Displayed as a regular marker instead;
+            me.marker_0.hide();
         } elsif(input.rad_alt_ready.getBoolValue()) {
             # Displayed together with radar altimeter index.
             # Fixed 3deg below index.
-            me.marker_0.setTranslation(0, 300);
+            me.marker_0.setTranslation(0, me.zero_pos);
             me.marker_0.show();
-            me.non_lin_mark.show();
+            me.non_lin_mark.setVisible(!me.full_lin);
         } else {
             me.marker_0.hide();
         }
