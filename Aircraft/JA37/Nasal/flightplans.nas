@@ -11,7 +11,7 @@ var FALSE = 0;
 var maxArea = 8;# max number of polygon areas
 var maxSteers = 48;# max number of steers in each plan
 
-var debugAll = FALSE;
+var debugAll = TRUE;
 
 setprop("sim/fg-home-export", getprop("sim/fg-home")~"/export");
 

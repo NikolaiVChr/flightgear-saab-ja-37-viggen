@@ -246,7 +246,7 @@
                         <value>202.5</value>
                     </lt>
                     <lt>
-                        <property>/instrumentation/altimeter/indicated-altitude-meter</property>
+                        <property>/instrumentation/altimeter/indicated-altitude-aal-meter</property>
                         <value>500</value>
                     </lt>
                 </and>

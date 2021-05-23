@@ -1532,6 +1532,10 @@
         <dme>
             <switch-position type="int">0</switch-position>
         </dme>
+        <altimeter n="0">
+            <!-- Altitude above airport level (AAL) for QNH mode (interoperability) -->
+            <airbase-altitude-meter type="double">0</airbase-altitude-meter>  <!-- set in nasal -->
+        </altimeter>
         <altimeter n="1">
             <serviceable type="bool">true</serviceable>
         </altimeter>

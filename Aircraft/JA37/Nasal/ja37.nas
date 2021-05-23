@@ -75,6 +75,7 @@ input = {
   indAlt:           "/instrumentation/altitude-indicator",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
+  indAltAALMeter:   "instrumentation/altimeter/indicated-altitude-aal-meter",
   indAT:            "fdm/jsbsim/autoflight/athr",
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
@@ -98,7 +99,7 @@ input = {
   explode:          "damage/sounds/explode-on",
   pilotG:           "ja37/accelerations/pilot-G",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
-  rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
+  rad_alt_m:        "instrumentation/radar-altimeter/radar-altitude-m",
   rad_alt_ready:    "instrumentation/radar-altimeter/ready",
   rainNorm:         "environment/rain-norm",
   rainVol:          "ja37/sound/rain-volume",
@@ -231,9 +232,9 @@ var Saab37 = {
     # low speed warning (as per manual page 279 in JA37C part 1)
     me.lowSpeed = FALSE;
     if (!input.indAT.getBoolValue() and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
-      if (input.indAltMeter.getValue() < 1200) {
+      if (input.indAltAALMeter.getValue() < 1200) {
         if (
-          (input.gearsPos.getValue() == 1 and (input.rad_alt_ready.getBoolValue()?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
+          (input.gearsPos.getValue() == 1 and (input.rad_alt_ready.getBoolValue() ? input.rad_alt_m.getValue() : input.indAltAALMeter.getValue()) > 30)
           or input.gearsPos.getValue() != 1) {
           if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") < 19 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             me.lowSpeed = TRUE;
@@ -867,6 +868,9 @@ var Saab37 = {
     me.loop_modes    = maketimer(0.22, modes.update);
     me.loop_modes.start();
 
+    # flightplans
+    route.poly_start();
+
     # displays commons
     displays.common.loop();
     displays.common.loopFast();
@@ -911,9 +915,6 @@ var Saab37 = {
       me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
       me.loop_radar_screen.start();
     }
-
-    # flightplans
-    route.poly_start();
 
     if (variant.JA) {
       # TI
@@ -994,6 +995,9 @@ var Saab37 = {
     me.loop_modes    = maketimer(0.22, func {timer.timeLoop("modes", modes.update, nil);});
     me.loop_modes.start();
 
+    # flightplans
+    route.poly_start();
+
     # displays commons
     displays.common.loop();
     displays.common.loopFast();
@@ -1038,9 +1042,6 @@ var Saab37 = {
       me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
       me.loop_radar_screen.start();
     }
-
-    # flightplans
-    route.poly_start();
 
     if (variant.JA) {
       # TI

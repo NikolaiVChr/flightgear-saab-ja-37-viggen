@@ -31,6 +31,8 @@ var input = {
     high_alpha:     "/fdm/jsbsim/autoflight/high-alpha",
     approach_alpha: "/fdm/jsbsim/systems/flight/approach-alpha",
     alt:            "/instrumentation/altimeter/displays-altitude-meter",
+    alt_aal:        "/instrumentation/altimeter/indicated-altitude-aal-meter",
+    airbase_alt_ft: "/instrumentation/altimeter/airbase-altitude-ft",
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
     ref_alt:        "/ja37/displays/reference-altitude-m",
@@ -73,7 +75,7 @@ var input = {
     show_ground_h:  "/ja37/hud/display-terrain-height",
     alt_window:     "/ja37/hud/display-alt-window",
     qnh_mode:       "/ja37/hud/qnh-mode",
-    airbase_alt:    "/ja37/hud/display-alt-base",
+    airbase_index:  "/ja37/hud/display-alt-base",
     true_alt_ft:    "/fdm/jsbsim/position/h-sl-ft",
     true_alt_agl_ft:"/fdm/jsbsim/position/h-agl-ft",
 
