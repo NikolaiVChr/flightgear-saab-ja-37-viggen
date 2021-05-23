@@ -71,6 +71,9 @@ var input = {
     bright_bck:     "/ja37/hud/brightness-res",
     rotation_speed: "/fdm/jsbsim/systems/flight/rotation-speed-kmh",
     show_ground_h:  "/ja37/hud/display-terrain-height",
+    alt_window:     "/ja37/hud/display-alt-window",
+    qnh_mode:       "/ja37/hud/qnh-mode",
+    airbase_alt:    "/ja37/hud/display-alt-base",
     true_alt_ft:    "/fdm/jsbsim/position/h-sl-ft",
     true_alt_agl_ft:"/fdm/jsbsim/position/h-agl-ft",
 

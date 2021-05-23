@@ -752,7 +752,7 @@ var Altitude = {
             me.text.enableUpdate();
             me.text2 = make_text(me.group)
                 .setAlignment("left-center")
-                .setTranslation(120, 8)
+                .setTranslation(115, 8)
                 .setFontSize(60, 1);
             me.text2.enableUpdate();
             me.long = TRUE;
@@ -843,6 +843,23 @@ var Altitude = {
 
         # Markers above this are not displayed.
         me.upper_limit = -320;
+
+        # Window (interoperability mode)
+        me.window_grp = me.group.createChild("group");
+        me.window = make_path(me.window_grp)
+            .moveTo(35,0).line(50,50).horiz(200).vert(-100).horiz(-200).close();
+        me.window_text = make_text(me.window_grp)
+            .setAlignment("left-center")
+            .setTranslation(70, 0);
+        me.window_text.enableUpdate();
+        me.window_text2 = make_text(me.window_grp)
+            .setAlignment("left-center")
+            .setTranslation(160, 0)
+            .setFontSize(60, 1);
+        me.window_text2.enableUpdate();
+
+        # Marker within this distance of the center are hidden if the altitude window is enabled.
+        me.window_limit = 90;
     },
 
     set_mode: func(mode) {
@@ -878,14 +895,14 @@ var Altitude = {
             me.spacing = 50;
             me.min_alt = 0;
         } elsif (ac_alt < 6000) {
-            me.scale_factor = 400 / 300;
+            me.scale_factor = 1;    # 1 deg = 100ft
             me.lin_limit = 225;
             me.lin_limit_0 = 50;
             me.full_lin = (ac_alt <= 400);
             me.spacing = 50;
             me.min_alt = -600;
         } else {
-            me.scale_factor = 2000 / 300;
+            me.scale_factor = 5;    # 1 deg = 500ft
             me.lin_limit = 1125;
             me.lin_limit_0 = 250;
             me.full_lin = FALSE;
@@ -936,13 +953,16 @@ var Altitude = {
         if (!displays.metric) ac_alt *= M2FT;
         me.set_ac_alt(ac_alt);
 
+        # Current altitude window in interoperability mode. If enabled, some of the altitude markers must be hidden.
+        var show_window = !displays.metric and input.alt_window.getBoolValue();
+
         # Markers for the linear part of the scale.
         var center_mark = math.round(me.ac_alt, me.spacing);
         var alt = center_mark - 4*me.spacing;
 
         forindex (var i; me.lin_markers) {
             var pos = me.lin_alt2pos(alt);
-            # Too high or too low
+            # Too high or too low.
             if (alt < me.min_alt or pos < me.upper_limit) {
                 me.lin_markers[i].hide();
             } else {
@@ -953,6 +973,9 @@ var Altitude = {
                 var show_text = math.mod(alt, me.spacing*4) == 0
                     or (displays.metric and me.ac_alt <= 225 and alt == 100)
                     or (displays.metric and me.ac_alt <= 100 and alt == 50);
+                # If the altitude window is enabled, text which would overlap it is disabled.
+                if (show_window and pos < me.window_limit and pos > -me.window_limit) show_text = FALSE;
+
                 me.lin_markers[i].update(pos, alt, long_mark, show_text);
                 me.lin_markers[i].show();
             }
@@ -1011,6 +1034,23 @@ var Altitude = {
             }
         } else {
             me.rhm_index.hide();
+        }
+
+        # Altitude window
+        if (show_window) {
+            var dig_alt = math.round(me.ac_alt, 10);
+            if (dig_alt < 1000) {
+                me.window_text.updateText(sprintf("%.3d", dig_alt));
+                me.window_text2.hide();
+            } else {
+                me.window_text.updateText(sprintf("%d", math.floor(dig_alt/1000)));
+                me.window_text2.updateText(sprintf("%.3d", math.mod(dig_alt, 1000)));
+                me.window_text2.setTranslation(dig_alt >= 10000 ? 160 : 115, 10);
+                me.window_text2.show();
+            }
+            me.window_grp.show();
+        } else {
+            me.window_grp.hide();
         }
     },
 
