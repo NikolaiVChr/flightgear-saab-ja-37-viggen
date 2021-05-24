@@ -52,8 +52,8 @@
         /instrumentation/gunsight[0]/use-target-distance ne 0
       </test>
       <clipto>
-        <min>1000</min><!-- 300m -->
-        <max>4000</max><!-- 1200m -->
+        <min>650</min> <!-- 200m -->
+        <max>3300</max><!-- 1000m -->
       </clipto>
     </switch>
 

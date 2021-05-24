@@ -152,7 +152,7 @@ var FPV = {
             if (dist <= 3.2) {
                 me.dist_index.setRotation(-index_angle);
                 me.dist_index.show();
-                if (dist >= 0.3 and dist <= 1.2) {
+                if (dist >= 0.2 and dist <= 1.0) {
                     me.dist_index_fire.show();
                     me.dist_index_norm.hide();
                 } else {
