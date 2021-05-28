@@ -238,10 +238,6 @@
             <property type="string">sim/multiplay/generic/float[3]</property>
         </signal>
         <signal>
-            <type>float</type><!-- translucency of afterburner flame -->
-            <property type="string">sim/multiplay/generic/float[2]</property>
-        </signal>
-        <signal>
             <type>bool</type>
             <property type="string">engines/engine[0]/augmentation</property>
         </signal>

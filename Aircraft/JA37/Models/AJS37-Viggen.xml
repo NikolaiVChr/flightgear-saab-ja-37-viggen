@@ -506,18 +506,6 @@
 
         var livery_update = aircraft.livery_update.new("Aircraft/JA37/Models/Liveries");
 
-        var color_loop = func () {
-          var red = getprop("/rendering/scene/diffuse/red");
-          setprop("sim/model/j37/effect/flame-low-color-r",  0.863+(1-red));
-          setprop("sim/model/j37/effect/flame-low-color-g",  0.347+(1-red));
-          setprop("sim/model/j37/effect/flame-low-color-b",  0.238+(1-red));
-          setprop("sim/model/j37/effect/flame-high-color-r", 0.863+(1-red));
-          setprop("sim/model/j37/effect/flame-high-color-g", 0.238+(1-red));
-          setprop("sim/model/j37/effect/flame-high-color-b", 0.347+(1-red));
-        }
-        var color_timer = maketimer(1, color_loop);
-        color_timer.start();
-
         # Aliases for MP properties
         var prop_aliases = {
           "sim/multiplay/generic/float[0]":   "gear/gear[0]/steering-norm",
@@ -576,13 +564,6 @@
 
       <unload><![CDATA[
         livery_update.stop();
-        color_timer.stop();
-
-        var objModel = objs["first"];
-        if (objModel != nil) {
-          objModel.remove();
-          delete(objs, "first");
-        }
 
         # Remove aliases
         foreach (var path; keys(prop_aliases)) {

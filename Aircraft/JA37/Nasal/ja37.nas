@@ -90,8 +90,6 @@ input = {
   lampXTank:        "ja37/avionics/xtank",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
-  MPfloat2:         "sim/multiplay/generic/float[2]",
-  MPfloat9:         "sim/multiplay/generic/float[9]",
   MPbool4:          "sim/multiplay/generic/bool[4]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
@@ -109,6 +107,14 @@ input = {
   rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
+  sceneRed2:        "/rendering/scene/diffuse/red-unbound",
+  flameLowR:        "sim/model/ja37/effect/flame-low-color-r",
+  flameLowG:        "sim/model/ja37/effect/flame-low-color-g",
+  flameLowB:        "sim/model/ja37/effect/flame-low-color-b",
+  flameHighR:       "sim/model/ja37/effect/flame-high-color-r",
+  flameHighG:       "sim/model/ja37/effect/flame-high-color-g",
+  flameHighB:       "sim/model/ja37/effect/flame-high-color-b",
+  flameDensity:     "sim/model/ja37/effect/flame-density",
   servFire:         "engines/engine[0]/fire/serviceable",
   serviceElec:      "systems/electrical/serviceable",
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
@@ -175,29 +181,19 @@ var Saab37 = {
     # breath sound volume
     input.breathVol.setDoubleValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
-    #augmented flame translucency
-    me.red = input.sceneRed.getValue();
-    setprop("rendering/scene/diffuse/red-unbound", me.red);
-    # normal effect
-    #var angle = input.sunAngle.getValue();# 1.25 - 2.45
-    #var newAngle = (1.2 -(angle-1.25))*0.8333;
-    #input.MPfloat2.setValue(newAngle);
-    me.translucency = clamp(me.red, 0.35, 1);
-    input.MPfloat2.setDoubleValue(me.translucency);
+    # Properties to adjust color depending on scene light.
+    var red = input.sceneRed.getValue();
+    # Effect don't work well with tied properties. This is just a copy to work around that.
+    input.sceneRed2.setValue(red);
+    # Flame intensity
+    input.flameLowR.setValue(0.863+(1-red));
+    input.flameLowG.setValue(0.347+(1-red));
+    input.flameLowB.setValue(0.238+(1-red));
+    input.flameHighR.setValue(0.863+(1-red));
+    input.flameHighG.setValue(0.238+(1-red));
+    input.flameHighB.setValue(0.347+(1-red));
+    input.flameDensity.setValue(math.clamp(1-red, 0.25, 1));
 
-    # ALS effect
-    me.red2 = clamp(1 - me.red, 0.25, 1);
-    input.MPfloat9.setDoubleValue(me.red2);
-
-    # set afterburner white at night:
-    setprop("sim/model/j37/effect/flame-low-color-r",  0.863+(1-me.red));
-    setprop("sim/model/j37/effect/flame-low-color-g",  0.347+(1-me.red));
-    setprop("sim/model/j37/effect/flame-low-color-b",  0.238+(1-me.red));
-    setprop("sim/model/j37/effect/flame-high-color-r", 0.863+(1-me.red));
-    setprop("sim/model/j37/effect/flame-high-color-g", 0.238+(1-me.red));
-    setprop("sim/model/j37/effect/flame-high-color-b", 0.347+(1-me.red));
-
-    # End stuff
 
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
