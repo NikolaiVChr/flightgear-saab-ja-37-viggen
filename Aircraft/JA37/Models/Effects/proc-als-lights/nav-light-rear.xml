@@ -52,7 +52,17 @@
         <product>
           <!-- /ja37/effect/navigation-light (0-100 scale) -->
           <property>sim/multiplay/generic/short[2]</property>
-          <value>0.01</value>
+          <value>0.02</value>
+          <table>
+            <!-- adjust intensity depending on surrounding light 
+            for reference, time of day corresponding to the value is indicated
+            (late spring, clear weather, around 45deg latitude) -->
+            <property>/rendering/scene/diffuse/red</property>
+            <entry><ind>0.0</ind><dep>1.0</dep></entry><!-- night -->
+            <entry><ind>0.7</ind><dep>0.8</dep></entry><!-- dusk -->
+            <entry><ind>0.9</ind><dep>0.3</dep></entry><!-- afternoon -->
+            <entry><ind>1.0</ind><dep>0.2</dep></entry><!-- noon -->
+          </table>
         </product>
       </expression>
     </dim-factor>

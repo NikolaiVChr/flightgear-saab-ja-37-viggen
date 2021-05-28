@@ -46,15 +46,30 @@
       <a>1</a>
     </specular>
     <attenuation>
-      <c>0.05</c>
-      <l>0.027</l>
-      <q>0.0028</q>
+      <c>1.0</c>
+      <l>0.07</l>
+      <q>0.017</q>
     </attenuation>
-    <spot-cutoff>60</spot-cutoff>
-    <spot-exponent>10</spot-exponent><!-- Lose half intensity at 20deg -->
-    <range-m>100</range-m>
+    <spot-cutoff>80</spot-cutoff>
+    <spot-exponent>2</spot-exponent><!-- Lose half intensity at 45deg -->
+    <range-m>60</range-m>
     <dim-factor>
-      <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
+      <expression>
+        <product>
+          <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
+          <value>3</value>
+          <table>
+            <!-- adjust intensity depending on surrounding light 
+            for reference, time of day corresponding to the value is indicated
+            (late spring, clear weather, around 45deg latitude) -->
+            <property>/rendering/scene/diffuse/red</property>
+            <entry><ind>0.0</ind><dep>1.0</dep></entry><!-- night -->
+            <entry><ind>0.7</ind><dep>0.8</dep></entry><!-- dusk -->
+            <entry><ind>0.9</ind><dep>0.3</dep></entry><!-- afternoon -->
+            <entry><ind>1.0</ind><dep>0.2</dep></entry><!-- noon -->
+          </table>
+        </product>
+      </expression>
     </dim-factor>
   </light>
    
