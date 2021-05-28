@@ -1640,6 +1640,7 @@
             <m28_auto type="bool">false</m28_auto>
             <mlw_max type="double">2.25</mlw_max>
             <auto_flare_caller type="bool">false</auto_flare_caller>
+            <rwr_audio_extended type="bool">false</rwr_audio_extended>
         </d-config>
         <weight n="6">
             <name type="string">C7</name>
