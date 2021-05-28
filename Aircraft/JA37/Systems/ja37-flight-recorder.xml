@@ -39,7 +39,7 @@
         </signal>
         <signal>
             <type>bool</type>
-            <property type="string">instrumentation/head-up-display/serviceable</property>
+            <property type="string">instrumentation/displays/serviceable</property>
         </signal>
         <signal>
             <type>float</type>
@@ -236,10 +236,6 @@
         <signal>
             <type>float</type><!-- afterburner flame size -->
             <property type="string">sim/multiplay/generic/float[3]</property>
-        </signal>
-        <signal>
-            <type>float</type><!-- translucency of afterburner flame -->
-            <property type="string">sim/multiplay/generic/float[2]</property>
         </signal>
         <signal>
             <type>bool</type>

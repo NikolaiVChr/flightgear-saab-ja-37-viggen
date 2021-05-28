@@ -64,13 +64,16 @@
   </axis>
  </animation>
 
- <animation>
-  <type>blend</type>
-  <object-name>ExternalFlamePoly</object-name>
-  <property>/sim/multiplay/generic/float[2]</property><!-- sun angle from nasal -->
-  <factor>1.0</factor>
-  <min>0.60</min>
-  <max>0.95</max>
- </animation>
+  <animation>
+    <type>blend</type>
+    <object-name>ExternalFlamePoly</object-name>
+    <expression>
+      <table>
+        <property>/rendering/scene/diffuse/red</property>
+        <entry><ind>0.6</ind><dep>0.6</dep></entry>
+        <entry><ind>0.95</ind><dep>0.95</dep></entry>
+      </table>
+    </expression>
+  </animation>
 
 </PropertyList>

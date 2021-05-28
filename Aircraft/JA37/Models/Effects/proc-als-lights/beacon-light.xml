@@ -41,13 +41,30 @@
       <a>1</a>
     </specular>
     <attenuation>
-      <c>0.2</c>
-      <l>0.2</l>
-      <q>0.2</q>
+      <c>1.0</c>
+      <l>0.14</l>
+      <q>0.07</q>
     </attenuation>
     <spot-cutoff>30</spot-cutoff>
     <spot-exponent>30</spot-exponent><!-- Lose half intensity at 12deg -->
     <range-m>30</range-m>
+    <dim-factor>
+      <expression>
+        <product>
+          <value>3</value>
+          <table>
+            <!-- adjust intensity depending on surrounding light 
+            for reference, time of day corresponding to the value is indicated
+            (late spring, clear weather, around 45deg latitude) -->
+            <property>/rendering/scene/diffuse/red</property>
+            <entry><ind>0.0</ind><dep>1.0</dep></entry><!-- night -->
+            <entry><ind>0.7</ind><dep>0.8</dep></entry><!-- dusk -->
+            <entry><ind>0.9</ind><dep>0.3</dep></entry><!-- afternoon -->
+            <entry><ind>1.0</ind><dep>0.2</dep></entry><!-- noon -->
+          </table>
+        </product>
+      </expression>
+    </dim-factor>
   </light>
 
   <!-- Hide in internal view, otherwise it illuminates the dashboard,

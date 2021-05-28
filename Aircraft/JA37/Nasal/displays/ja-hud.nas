@@ -146,13 +146,13 @@ var FPV = {
 
             # Target distance
             var dist = radar_logic.selection.get_range()*NM2M/1000;
-            me.dist_tgt.updateText(displays.sprintdist(dist, 1));
+            me.dist_tgt.updateText(displays.sprintdist(dist));
             # Circular target index/line
             var index_angle = math.min(dist/1.6*math.pi, 2*math.pi);
             if (dist <= 3.2) {
                 me.dist_index.setRotation(-index_angle);
                 me.dist_index.show();
-                if (dist >= 0.3 and dist <= 1.2) {
+                if (dist >= 0.2 and dist <= 1.0) {
                     me.dist_index_fire.show();
                     me.dist_index_norm.hide();
                 } else {
@@ -181,7 +181,7 @@ var FPV = {
             me.wingspan_l.setTranslation(-offset, 0);
             me.wingspan_r.setTranslation(offset, 0);
             me.wingspan_txt.updateText(sprintf("%d", wingspan));
-            me.dist_txt.updateText(displays.sprintdist(dist, 1));
+            me.dist_txt.updateText(displays.sprintdist(dist));
             me.wingspan_txt.setTranslation(offset + 30, 0);
             me.dist_txt.setTranslation(offset + 60, 250);
         }
@@ -473,7 +473,7 @@ var Horizon = {
                 if (input.rad_alt_ready.getBoolValue()) {
                     var flare = input.rad_alt.getValue() < 15;
                 } else {
-                    var flare = input.alt.getValue() < 35;
+                    var flare = input.alt_aal.getValue() < 35;
                 }
                 # During flare, glideslope moves up to indicate maximal acceptable vertical speed (2.8m/s)
                 if (flare) {
@@ -750,6 +750,11 @@ var Altitude = {
                 .setAlignment("left-center")
                 .setTranslation(70, 0);
             me.text.enableUpdate();
+            me.text2 = make_text(me.group)
+                .setAlignment("left-center")
+                .setTranslation(115, 8)
+                .setFontSize(60, 1);
+            me.text2.enableUpdate();
             me.long = TRUE;
         },
 
@@ -771,9 +776,21 @@ var Altitude = {
             # Text
             if (!show_text) {
                 me.text.hide();
-            } else {
-                me.text.updateText(displays.sprintalt(alt, TRUE));  # second arg disables conversion
+                me.text2.hide();
+            } elsif (displays.metric) {
+                me.text.updateText(displays.sprintalt(alt));
                 me.text.show();
+                me.text2.hide();
+            } elsif (alt < 1000) {
+                me.text.updateText(sprintf("%.3d", alt));
+                me.text.show();
+                me.text2.hide();
+            } else {
+                me.text.updateText(sprintf("%d", math.floor(alt/1000)));
+                me.text2.updateText(sprintf("%.3d", math.mod(alt, 1000)));
+                me.text2.setTranslation(alt >= 10000 ? 160 : 115, 10);
+                me.text.show();
+                me.text2.show();
             }
 
             # update() required: otherwise show()/hide() applies immediately,
@@ -799,7 +816,7 @@ var Altitude = {
 
         # At sufficient altitude, the linear part of the scale contains 9 markers.
         me.lin_markers = [];
-        setsize(me.lin_markers, 11);
+        setsize(me.lin_markers, 9);
         forindex(var i; me.lin_markers) {
             me.lin_markers[i] = Altitude.Marker.new(me.group);
         }
@@ -826,6 +843,44 @@ var Altitude = {
 
         # Markers above this are not displayed.
         me.upper_limit = -320;
+
+        # Window (interoperability mode)
+        me.window_grp = me.group.createChild("group");
+        make_path(me.window_grp)
+            .moveTo(35,0).line(50,50).horiz(200).vert(-100).horiz(-200).close();
+        me.window_text = make_text(me.window_grp)
+            .setAlignment("left-center")
+            .setTranslation(70, 0);
+        me.window_text.enableUpdate();
+        me.window_text2 = make_text(me.window_grp)
+            .setAlignment("left-center")
+            .setTranslation(115, 10)
+            .setFontSize(60, 1);
+        me.window_text2.enableUpdate();
+
+        # Marker within this distance of the center have no text if the altitude window is enabled.
+        me.window_limit = 90;
+
+        # Airbase altitude index (QNH mode)
+        me.airbase_grp = me.group.createChild("group");
+        make_path(me.airbase_grp)
+            .moveTo(0,100).vert(-100).horiz(200).vert(100);
+        me.airbase_text = make_text(me.airbase_grp)
+            .setAlignment("right-top")
+            .setTranslation(190, 10);
+        me.airbase_text.enableUpdate();
+        me.airbase_text2 = make_text(me.airbase_grp)
+            .setAlignment("right-top")
+            .setTranslation(90, 10);
+        me.airbase_text2.enableUpdate();
+        me.airbase_text3 = make_text(me.airbase_grp)
+            .setAlignment("right-top")
+            .setTranslation(190, 30)
+            .setFontSize(60, 1);
+        me.airbase_text3.enableUpdate();
+
+        # Marker within this distance of the airbase index have no text.
+        me.airbase_limit = 40;
     },
 
     set_mode: func(mode) {
@@ -838,31 +893,51 @@ var Altitude = {
     },
 
     # Set aircraft altitude, used by function alt2pos() to compute position of other altitude markers.
-    set_ac_alt: func(ac_alt) {
+    set_ac_alt: func(ac_alt, airbase_index=0, airbase_alt=0) {
         me.ac_alt = ac_alt;
+        me.zero_offset = airbase_index ? airbase_alt : 0;
 
-        # Parameters
-        # - scale_{low,high}_limit: when ac_alt is between them, the scaling factor is proportional
-        #   to ac_alt, so that ac_alt is displayed as 3deg.
-        #   Outside of these limits, the scaling factor remains constant.
+        # Sets variables:
+        # - zero_offset: altitude of the 0 marker (which is not 0 when using airbase index).
+        # - zero_pos: position of the 0 marker
         # - lin_limit: within this distance of ac_alt, the altitude scale is linear.
         # - lin_limit_0: below this altitude, the altitude scale is linear (relative to 0 marker).
+        # - spacing: separation between minor marks.
+        # - mark_limit: altitude difference from center-most mark to top/bottom most marks.
+        # - min_alt: minimum altitude of displayed graduations
+        # Units are m in metric mode, ft in interoperability mode.
 
         if (displays.metric) {
-            # In m
-            me.scale_low_limit = 50;
-            me.scale_high_limit = 300;
+            # Scaling factor in meter per HUD unit (for the part of the altitude scale close to the index).
+            # Between 50 and 300 meters, there is 3deg between the 0 graduation and the aircraft altitude.
+            # Beyond these limits, the scaling factor doesn't change.
+            me.scale_factor = math.clamp(ac_alt, 50, 300) / 300;
             me.lin_limit = 225;
             me.lin_limit_0 = 40;
+            me.spacing = 50;
+            me.min_alt = 0;
+        } elsif (ac_alt < 6000) {
+            me.scale_factor = 1;    # 1 deg = 100ft
+            me.lin_limit = 225;
+            me.lin_limit_0 = 50;
+            me.spacing = 50;
+            me.min_alt = airbase_index ? airbase_alt+10 : -600;
         } else {
-            # In ft
-            me.scale_low_limit = 200;
-            me.scale_high_limit = 1000;
-            me.lin_limit = 550;
-            me.lin_limit_0 = 150;
+            me.scale_factor = 5;    # 1 deg = 500ft
+            me.lin_limit = 1125;
+            me.lin_limit_0 = 250;
+            me.full_lin = FALSE;
+            me.spacing = 250;
+            me.min_alt = airbase_index ? airbase_alt+50 : 0;
         }
-        # Scaling factor in meter per HUD unit. (for the part of the altitude scale close to the index)
-        me.scale_factor = math.clamp(ac_alt, me.scale_low_limit, me.scale_high_limit) / 300;
+
+        # Position of zero marker
+        me.zero_pos = (ac_alt - me.zero_offset)/me.scale_factor;
+        # Clamp it to within 3 degree of current altitude marker.
+        # If it doesn't need clamping, it means the altitude scale is linear in its entirety.
+        # Otherwise, it will be compressed between the 0 section and the current altitude section.
+        me.full_lin = (me.zero_pos <= 300);
+        if (!me.full_lin) me.zero_pos = 300;
     },
 
     # Map an altitude to a position of the scale, relative to the reading index.
@@ -876,16 +951,16 @@ var Altitude = {
     # Aircraft altitude must be set through set_ac_alt() prior to using this function.
     alt2pos: func(alt) {
         # When aircraft is sufficiently low, the entire scale is linear.
-        if (me.ac_alt <= me.scale_high_limit) return me.lin_alt2pos(alt);
+        if (me.full_lin) return me.lin_alt2pos(alt);
 
         # Close to ac_alt, the scale is linear.
         if (alt >= me.ac_alt - me.lin_limit) return me.lin_alt2pos(alt);
         # Close to 0, the scale is linear.
-        elsif (alt <= me.lin_limit_0) return 300 - alt/me.scale_factor;
+        elsif (alt <= me.zero_offset + me.lin_limit_0) return me.zero_pos - (alt - me.zero_offset) / me.scale_factor;
         else {
             # Extrapolate between the two.
-            return extrapolate(alt, me.lin_limit_0, me.ac_alt - me.lin_limit,
-                               300 - me.lin_limit_0/me.scale_factor, me.lin_limit/me.scale_factor);
+            return extrapolate(alt, me.zero_offset + me.lin_limit_0, me.ac_alt - me.lin_limit,
+                               me.zero_pos - me.lin_limit_0/me.scale_factor, me.lin_limit/me.scale_factor);
         }
     },
 
@@ -901,53 +976,49 @@ var Altitude = {
             me.group.setTranslation(380, 0);
         }
 
-        var ac_alt = input.alt.getValue();
-        if (!displays.metric) ac_alt *= M2FT;
-        me.set_ac_alt(ac_alt);
+        # Current altitude window in interoperability mode.
+        var show_window = !displays.metric and input.alt_window.getBoolValue();
+        # Airbase index in QNH mode.
+        var airbase_index =
+            !displays.metric and input.qnh_mode.getBoolValue() and input.airbase_index.getBoolValue()
+            and (modes.takeoff or modes.landing);
+
+        me.set_ac_alt(
+            input.alt.getValue() * (displays.metric ? 1 : M2FT),
+            airbase_index,
+            input.airbase_alt_ft.getValue(),
+        );
 
         # Markers for the linear part of the scale.
-        var spacing = displays.metric ? 50 : 100;
-        var center_mark = math.round(me.ac_alt, spacing);
-        var mark_limit = displays.metric ? 200 : 500;
+        var center_mark = math.round(me.ac_alt, me.spacing);
+        var alt = center_mark - 4*me.spacing;
 
-        var i = 0;
-        for (var alt = center_mark - mark_limit; alt <= center_mark + mark_limit; alt += spacing) {
+        forindex (var i; me.lin_markers) {
             var pos = me.lin_alt2pos(alt);
-            # Too high or too low
-            if (alt <= 0 or pos < me.upper_limit) {
+            # Too high or too low.
+            if (alt < me.min_alt or pos < me.upper_limit) {
                 me.lin_markers[i].hide();
             } else {
-                if (displays.metric) {
-                    # Long mark for every 100m, plus 50m when below 100m.
-                    var long_mark = math.mod(alt, 100) == 0 or (me.ac_alt <= 100 and alt == 50);
-                    # Text for every 200m, plus 100m when below 225m, plus 50m when below 100m.
-                    var show_text = math.mod(alt, 200) == 0
-                        or (me.ac_alt <= 225 and alt == 100)
-                        or (me.ac_alt <= 100 and alt == 50);
-                } else {
-                    # In imperial units, long mark every 500ft, plus 200ft below 500ft
-                    # Same for text
-                    var long_mark = math.mod(alt, 500) == 0
-                        or (me.ac_alt <= 500 and alt == 200)
-                        or (me.ac_alt <= 200 and alt == 100);
-                    var show_text = long_mark;
-                }
+                # Every second mark is long, plus 50m when below 100m in metric mode.
+                var long_mark = math.mod(alt, me.spacing*2) == 0
+                    or (displays.metric and me.ac_alt <= 100 and alt == 50);
+                # Every fourth mark has text, plus 100m when besow 225m, plus 50m when below 100m (in metric mode).
+                var show_text = math.mod(alt, me.spacing*4) == 0
+                    or (displays.metric and me.ac_alt <= 225 and alt == 100)
+                    or (displays.metric and me.ac_alt <= 100 and alt == 50);
+                # If the altitude window / airbase index is enabled, text which would overlap it is disabled.
+                if (show_window and pos < me.window_limit and pos > -me.window_limit) show_text = FALSE;
+                if (airbase_index and pos > me.zero_pos - me.airbase_limit) show_text = FALSE;
 
                 me.lin_markers[i].update(pos, alt, long_mark, show_text);
                 me.lin_markers[i].show();
             }
-            i += 1;
-        }
-        # Hide remaining markers.
-        for (; i<size(me.lin_markers); i+=1) {
-            me.lin_markers[i].hide();
+            alt += me.spacing;
         }
 
         # 10m markers at low altitude, plus one at 75m.
-        # Imperial: 50ft markers.
-        if (me.ac_alt <= (displays.metric ? 100 : 200)) {
-            var spacing = displays.metric ? 10 : 20;
-            var alt = spacing;
+        if (displays.metric and me.ac_alt <= 100) {
+            var alt = 10;
             forindex (var i; me.low_markers) {
                 var pos = me.lin_alt2pos(alt);
                 if (pos < me.upper_limit) {
@@ -956,10 +1027,10 @@ var Altitude = {
                     me.low_markers[i].setTranslation(0, me.lin_alt2pos(alt));
                     me.low_markers[i].show();
                 }
-                alt += spacing;
+                alt += 10;
             }
 
-            var pos = me.lin_alt2pos(displays.metric ? 75 : 150);
+            var pos = me.lin_alt2pos(75);
             if (pos < me.upper_limit) {
                 me.marker_75.hide();
             } else {
@@ -971,26 +1042,44 @@ var Altitude = {
             me.low_grp.hide();
         }
 
-        # 0 marker
-        if (me.ac_alt <= me.lin_limit) {
-            # Displayed as a regular marker.
-            var pos = me.lin_alt2pos(0);
-            if (pos < me.upper_limit) {
-                me.marker_0.hide();
-            } else {
-                me.marker_0.setTranslation(0, pos);
-                me.marker_0.show();
-                me.non_lin_mark.hide();
-            }
-        } elsif(input.rad_alt_ready.getBoolValue()) {
+        # 0 marker for radar altitude index.
+        # At low altitude, it is replaced by a regular marker.
+        # In QNH mode, it is disabled if the airbase altitude index is on.
+        if (input.rad_alt_ready.getBoolValue() and me.ac_alt > me.lin_limit and !airbase_index) {
             # Displayed together with radar altimeter index.
             # Fixed 3deg below index.
-            me.marker_0.setTranslation(0, 300);
+            me.marker_0.setTranslation(0, me.zero_pos);
             me.marker_0.show();
-            me.non_lin_mark.show();
+            me.non_lin_mark.setVisible(!me.full_lin);
         } else {
             me.marker_0.hide();
         }
+
+        # Airbase altitude index
+        if (airbase_index
+            # Displayed if close RHM is active, or when close to current altitude
+            and (input.rad_alt_ready.getBoolValue() or (me.ac_alt - me.zero_offset <= me.lin_limit))
+            # Hidden if too high.
+            and (me.zero_pos >= me.upper_limit)) {
+            var airbase_alt = math.round(me.zero_offset, 10);
+            if (airbase_alt < 1000) {
+                me.airbase_text.updateText(sprintf("%d", airbase_alt));
+                me.airbase_text.show();
+                me.airbase_text2.hide();
+                me.airbase_text3.hide();
+            } else {
+                me.airbase_text2.updateText(sprintf("%d", math.floor(airbase_alt/1000)));
+                me.airbase_text3.updateText(sprintf("%.3d", math.mod(airbase_alt, 1000)));
+                me.airbase_text.hide();
+                me.airbase_text2.show();
+                me.airbase_text3.show();
+            }
+            me.airbase_grp.setTranslation(0, me.zero_pos);
+            me.airbase_grp.show();
+        } else {
+            me.airbase_grp.hide();
+        }
+
 
         if (input.rad_alt_ready.getBoolValue()) {
             var rad_alt = input.rad_alt.getValue();
@@ -1004,6 +1093,23 @@ var Altitude = {
             }
         } else {
             me.rhm_index.hide();
+        }
+
+        # Altitude window
+        if (show_window) {
+            var dig_alt = math.round(me.ac_alt, 10);
+            if (dig_alt < 1000) {
+                me.window_text.updateText(sprintf("%.3d", dig_alt));
+                me.window_text2.hide();
+            } else {
+                me.window_text.updateText(sprintf("%d", math.floor(dig_alt/1000)));
+                me.window_text2.updateText(sprintf("%.3d", math.mod(dig_alt, 1000)));
+                me.window_text2.setTranslation(dig_alt >= 10000 ? 160 : 115, 10);
+                me.window_text2.show();
+            }
+            me.window_grp.show();
+        } else {
+            me.window_grp.hide();
         }
     },
 
@@ -1135,7 +1241,7 @@ var TextMessage = {
 
     update: func(fpv_mode) {
         if (input.qfe_warning.getBoolValue()) {
-            me.text.updateText("QFE");
+            me.text.updateText((!displays.metric and input.qnh_mode.getValue()) ? "QNH" : "QFE");
             me.text.setVisible(input.twoHz.getBoolValue());
         } elsif (modes.landing and (land.mode == 2 or land.mode == 3)
                  and (input.tils_steady.getBoolValue() or input.tils_blink.getBoolValue())) {
@@ -1287,7 +1393,7 @@ var Distance = {
 
         # Digital distance
         me.dist = make_text(me.group)
-            .setTranslation(340, 20)
+            .setTranslation(340, 40)
             .setAlignment("right-top");
         me.dist.enableUpdate();
     },
@@ -1352,7 +1458,7 @@ var Distance = {
                 me.cursorM.setTranslation(dist[2] / scale_dist * 300, 0);
                 me.cursorR.setTranslation(max_dist / scale_dist * 300, 0);
                 me.index.setTranslation(dist[0] / scale_dist * 300, 0);
-                me.dist.updateText(displays.sprintdist(dist[0]/1000, 1));
+                me.dist.updateText(displays.sprintdist(dist[0]/1000));
 
                 if (dist[0] >= dist[1] and dist[0] <= max_dist) {
                     me.index_norm.hide();
@@ -1391,8 +1497,8 @@ var Distance = {
                     me.index_fire.hide();
                 }
 
-                # Convert scale to Km (or NM) for numerical display
-                if (displays.metric) max_dist *= NM2M / 1000;
+                # Convert scale to Km for numerical display
+                max_dist *= NM2M / 1000;
             } else {
                 # Line length indicates radar range.
                 var max_dist = input.radar_range.getValue();
@@ -1402,12 +1508,10 @@ var Distance = {
                 me.index_fire.hide();
 
                 # Convert scale to Km (or NM) for numerical display.
-                if (displays.metric) max_dist /= 1000;
-                else max_dist *= M2NM;
+                max_dist /= 1000;
             }
 
-            # Print with 0 or 1 decimal places. Disable conversion, it is already done.
-            me.dist.updateText(displays.sprintdist(max_dist, max_dist>=10 ? 0 : 1, TRUE));
+            me.dist.updateText(displays.sprintdist(max_dist));
         } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and input.rm_active.getBoolValue()) {
             var dist = displays.metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
             dist = math.round(dist);
@@ -1417,7 +1521,7 @@ var Distance = {
                 me.index.setTranslation(300,0).show();
                 me.index_norm.show();
                 me.index_fire.hide();
-                me.dist.updateText(sprintf("%d", dist));
+                me.dist.updateText(sprintf("%s%d", displays.metric ? "" : "NM ", dist));
                 me.dist.show();
                 me.line.hide();
                 me.cursorL.hide();

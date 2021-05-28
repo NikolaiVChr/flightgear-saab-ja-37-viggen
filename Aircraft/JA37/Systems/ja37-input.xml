@@ -771,8 +771,8 @@
                 <command>property-multiply</command>
                 <property>instrumentation/gunsight/distance-m</property>
                 <factor>1.05</factor>
-                <min>300</min>
-                <max>1200</max>
+                <min>200</min>
+                <max>1000</max>
                 <wrap>false</wrap>
             </binding>
         </key>
@@ -791,8 +791,8 @@
                 <command>property-multiply</command>
                 <property>instrumentation/gunsight/distance-m</property>
                 <factor>0.9524</factor>
-                <min>300</min>
-                <max>1200</max>
+                <min>200</min>
+                <max>1000</max>
                 <wrap>false</wrap>
             </binding>
         </key>

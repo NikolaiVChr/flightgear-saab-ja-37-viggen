@@ -12,9 +12,9 @@ input = {
     nav0GSInRange:    	  "instrumentation/nav[0]/gs-in-range",
     nav0HasGS:        	  "instrumentation/nav[0]/has-gs",
     nav0InRange:       	  "instrumentation/nav[0]/in-range",
-    rad_alt:            "instrumentation/radar-altimeter/radar-altitude-ft",
+    rad_alt:            "instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:      "instrumentation/radar-altimeter/ready",
-    alt_ft:             "instrumentation/altimeter/indicated-altitude-ft",
+    alt_aal:            "instrumentation/altimeter/indicated-altitude-aal-meter",
 };
 
 # setup property nodes for the loop
@@ -386,10 +386,10 @@ var Landing = {
                 setprop("ja37/avionics/heading-indicator-target", 0);
             }
         }
-        me.alt             = input.alt_ft.getValue()*FT2M;
+        me.alt             = input.alt_aal.getValue();
         me.alt_rad_enabled = input.rad_alt_ready.getBoolValue();
-        me.alt_rad         = me.alt_rad_enabled ? input.rad_alt.getValue()*FT2M:100000;
-        if (getprop("ja37/hud/landing-mode")==TRUE and mode_OPT_active==FALSE and ((me.alt < 35) or (me.alt_rad_enabled and me.alt>60 and me.alt_rad<15))) {
+        me.alt_rad         = me.alt_rad_enabled ? input.rad_alt.getValue():100000;
+        if (getprop("ja37/hud/landing-mode")==TRUE and mode_OPT_active==FALSE and ((me.alt < 35) or (me.alt_rad_enabled and me.alt<60 and me.alt_rad<15))) {
             printDA("OPT: auto activated");
             mode = 4;
             mode_LA_active = FALSE;

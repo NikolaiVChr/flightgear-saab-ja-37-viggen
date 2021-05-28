@@ -153,6 +153,7 @@ var MI = {
 			radar_serv:           "instrumentation/radar/serviceable",
 			twoHz:                "ja37/blink/two-Hz/state",
 			qfeWarning:           "ja37/displays/qfe-warning",
+			qnhMode:              "ja37/hud/qnh-mode",
 			alphaJSB:             "fdm/jsbsim/aero/alpha-deg",
 			mach:                 "instrumentation/airspeed-indicator/indicated-mach",
 			wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
@@ -972,7 +973,7 @@ var MI = {
 		# Bottom left.
 		if (me.input.qfeWarning.getBoolValue()) {
 			me.qfe = TRUE;
-			me.botl_text.updateText("QFE");
+			me.botl_text.updateText((!displays.metric and me.input.qnhMode.getBoolValue()) ? "QNH" : "QFE");
 			me.blinkQFE();
 		} elsif (fire_control.weapon_ready()) {
 			me.qfe = FALSE;

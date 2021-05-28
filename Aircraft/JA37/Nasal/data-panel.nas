@@ -484,6 +484,22 @@ var main = func {
             } else {
               error = TRUE;
             }
+            # QNH/QFE mode
+            var io = num(substr(input,4,1));
+            if (io == 0 or io == 1) {
+              setprop("ja37/hud/qnh-mode", io);
+            } else {
+              error = TRUE;
+            }
+            # enable altitude scale details in interoperability mode
+            # bitfield: 1st bit = airbase altitude index, 2nd bit = altitude window
+            io = num(substr(input,2,1));
+            if (0 <= io and io <= 3) {
+              setprop("ja37/hud/display-alt-window", (io >= 2));
+              setprop("ja37/hud/display-alt-base", math.mod(io, 2));
+            } else {
+              error = TRUE;
+            }
             input = inputDefault;
             digit = 0;
             resetSign();
@@ -866,8 +882,12 @@ var disp = func {
     } elsif (settingKnob == KNOB_DATA) {
       var address = num(left(input,2));
       if (address != nil and address==15) {
-          # interoperability
-          display = sprintf("150%01d00", !getprop("ja37/hud/units-metric"));
+          display = sprintf("15%01d%01d%01d0",
+            # altitude scale features. 1st bit: airbase altitude index, 2nd bit: current altitude window
+            getprop("ja37/hud/display-alt-window")*2 + getprop("ja37/hud/display-alt-base"),
+            # interoperability
+            !getprop("ja37/hud/units-metric"),
+            getprop("ja37/hud/qnh-mode"));
       } elsif (address != nil and address==30) {
           # GPS Installed
           display = sprintf("30%01d000", getprop("ja37/navigation/gps-installed"));
@@ -1065,7 +1085,7 @@ var serialize = func(m) {
     ret = ret~sprintf("TI,179,%.6f,%.6f|",beLaLo[1],beLaLo[0]);
   }
   ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
-  ret = ret~sprintf("FPLDATA,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"));
+  ret = ret~sprintf("FPLDATA,%d,%d,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"),getprop("ja37/hud/qnh-mode"),getprop("ja37/hud/display-alt-window"),getprop("ja37/hud/display-alt-base"));
   ret = ret~sprintf("REG,%d,%d,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"),getprop("ja37/sound/loadfactor-percent"),getprop("ja37/hud/display-terrain-height"));
   ret = ret~sprintf("FUEL,%d|",getprop("ja37/systems/fuel-warning-extra-percent"));
   ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.displayFlight);
@@ -1095,6 +1115,9 @@ var unserialize = func(m) {
       } elsif (key == "FPLDATA") {
         setprop("ja37/hud/units-metric", num(items[1]));
         setprop("ja37/navigation/gps-installed", num(items[2]));
+        if (size(items) >= 4) setprop("ja37/hud/qnh-mode", num(items[3]));
+        if (size(items) >= 5) setprop("ja37/hud/display-alt-window", num(items[4]));
+        if (size(items) >= 6) setprop("ja37/hud/display-alt-base", num(items[5]));
       } elsif (key == "EP12") {
         # TI237 and MI settings:
         TI.ti.SVYactive     = num(items[1]);

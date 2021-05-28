@@ -37,11 +37,12 @@ var sprintdec = func(x, places) {
     }
 }
 
-# Print a distance with 'places' decimal places.
+# 'Standard' formatting of distances: 1 decimal place below 10, 0 above 10.
+# Prefix 'NM' in interoperability mode.
 # Input is km, it is converted to NM if in interoperability mode, unless no_convert is set.
-var sprintdist = func(dist, places, no_convert=0) {
+var sprintdist = func(dist, no_convert=0) {
     if (!metric and !no_convert) dist *= 1000*M2NM;
-    return sprintdec(dist, places);
+    return (metric ? "" : "NM ") ~ sprintdec(dist, (dist >= 9.95) ? 0 : 1);
 }
 
 # Print an altitude in 'standard format':
@@ -75,18 +76,20 @@ var Common = {
 			alt_m:            "instrumentation/altimeter/displays-altitude-meter",
 			alt_bar_m:        "instrumentation/altimeter/indicated-altitude-meter",
 			altimeter_std:    "instrumentation/altimeter/setting-std",
+			alt_airbase_m:    "instrumentation/altimeter/airbase-altitude-meter",
+			alt_aal_m:        "instrumentation/altimeter/indicated-altitude-aal-meter",
+			qnh_mode:         "ja37/hud/qnh-mode",
 			ref_alt:          "ja37/displays/reference-altitude-m",
 			switch_hojd:      "ja37/hud/switch-hojd",
 			APmode:           "fdm/jsbsim/autoflight/mode",
 			AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
 			units:            "ja37/hud/units-metric",
-			rad_alt:          "instrumentation/radar-altimeter/radar-altitude-ft",
-			rad_alt_ready:    "instrumentation/radar-altimeter/ready",
 			RMActive:         "autopilot/route-manager/active",
 			rmDist:           "autopilot/route-manager/wp/dist",
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
 			displays_on:      "ja37/displays/on",
+			displays_serv:    "instrumentation/displays/serviceable",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -143,27 +146,26 @@ var Common = {
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
-		me.groundCorrectedAltitude();
+		if (variant.AJS) me.groundCorrectedAltitude();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
 
 	loopFast: func {
-		me.QFE();
-		#settimer(func me.loopFast(), 0.05);
+		if (variant.JA) me.QFE();
 	},
 
 	powerJA: func {
 		var time = me.input.time.getValue();
 
-		# Remeber last time that power/displays were off, to know since how long they have on.
-		if (!power.prop.acSecond.getBoolValue()) {
+		# Remeber last time that power/displays were off, to know since how long they have been on.
+		if (!power.prop.acSecond.getBoolValue() or !me.input.displays_serv.getBoolValue()) {
 			me.power_time = time;
 			me.ep12_on = FALSE;
 		}
 		# Display turn on automatically at 90% RPM, if on internal power
-		if (power.prop.acSecond.getBoolValue() and !me.input.ext_power_used.getBoolValue()
-			and me.input.rpm.getValue() >= 90) {
+		if (power.prop.acSecond.getBoolValue() and me.input.displays_serv.getBoolValue()
+			and !me.input.ext_power_used.getBoolValue() and me.input.rpm.getValue() >= 90) {
 			me.ep12_on = TRUE;
 		}
 		if (!me.ep12_on or testing.ongoing) {
@@ -182,8 +184,8 @@ var Common = {
 	powerAJS: func {
 		var time = me.input.time.getValue();
 
-		# Remeber last time that power/displays were off, to know since how long they have on.
-		if (!power.prop.acSecond.getBoolValue()) {
+		# Remeber last time that power/displays were off, to know since how long they have been on.
+		if (!power.prop.acSecond.getBoolValue() or !me.input.displays_serv.getBoolValue()) {
 			me.power_time = time;
 		}
 		if (modes.selector_ajs <= modes.STBY or testing.ongoing) {
@@ -326,8 +328,16 @@ var Common = {
 	},
 
 	QFE: func {
+		# Update airbase altitude (only in QNH mode).
+		var airbase = route.Polygon.flyRTB.plan.destination;
+		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil) {
+			me.input.alt_airbase_m.setValue(airbase.elevation);
+		} else {
+			me.input.alt_airbase_m.setValue(0);
+		}
+
 		var time = me.input.time.getValue();
-		var alt = me.input.alt_m.getValue();
+		var alt = me.input.alt_aal_m.getValue();
 		var std = me.input.altimeter_std.getBoolValue();
 		var high = (alt > 1500);    # STD should be selected.
 
@@ -390,7 +400,7 @@ var Common = {
 		# NAV: can be modified with reference alt button, or ALT hold autopilot
 		# LANDING: defaults to 500m, but can be overriden as in NAV
 		if (modes.takeoff) {
-			me.ref_alt = 500;
+			me.ref_alt = 500 + me.input.alt_airbase_m.getValue();
 			me.ref_alt_ldg_override = FALSE;
 		} elsif (me.input.APmode.getValue() == 3) {
 			me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
@@ -403,7 +413,7 @@ var Common = {
 			# me.ref_alt_ldg_override indicates that the altitude was manually selected
 			# with the reference altitude button while in LANDING mode.
 			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
-			if (!me.ref_alt_ldg_override) me.ref_alt = 500;
+			if (!me.ref_alt_ldg_override) me.ref_alt = 500 + me.input.alt_airbase_m.getValue();
 		} else {
 			# navigation mode
 			me.ref_alt_ldg_override = FALSE;

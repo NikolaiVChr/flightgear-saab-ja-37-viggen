@@ -345,9 +345,7 @@
           <!--  int 2, float 2, float 3, float 9, string[4], string[6], string[7], string[8],
                 are controlled from nasal or JSB
 
-                float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
-                float[9] = inverted scene red color
 
                 string[4] = IFF
                 string[6] = radar selected target
@@ -383,7 +381,6 @@
                 <bool n="15" alias="/controls/gear/chocks"/>
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>       <!-- used for animation -->
-                <float n="2"/>                                                  <!-- afterburner flame translucency - nasal -->
                 <float n="3"/>                                                  <!-- afterburner flame - jsbsim -->
                 <float n="5" alias="/engines/engine/flame"/>                    <!-- to animate engine flame -->
                 <float n="7" alias="/velocities/mach"/>                         <!-- used for vapor-cone -->
@@ -392,7 +389,6 @@
                 <bool n="9" alias="/engines/engine/running"/>                   <!-- used for engine animations -->
                 <bool n="10" alias="/engines/engine/augmentation"/>             <!-- used for engine flame -->
                 <bool n="11" alias="/engines/engine/is-reversed"/>              <!-- to animate afterburner flame -->
-                <float n="9"/>                                                  <!-- inverted scene red color -->
                 <float n="0" alias="/gear/gear[0]/steering-norm"/>              <!-- nose wheel steering -->
                 <float n="4" alias="/surface-positions/left-inner-aileron-pos-norm"/>
                 <float n="6" alias="/surface-positions/right-inner-aileron-pos-norm"/>
@@ -493,7 +489,7 @@
         </failure-manager>
         <model>
             <fallback-model-index type="int">522</fallback-model-index>
-            <j37><!-- This will be written into the property tree of all that see this model, but it should not interfere with anything -->
+            <ja37>
                 <effect>
                     <flame-low-color-r type="double">0</flame-low-color-r>
                     <flame-low-color-g type="double">0</flame-low-color-g>
@@ -501,8 +497,9 @@
                     <flame-high-color-r type="double">0</flame-high-color-r>
                     <flame-high-color-g type="double">0</flame-high-color-g>
                     <flame-high-color-b type="double">0</flame-high-color-b>
+                    <flame-density type="double">0</flame-density>
                 </effect>
-            </j37>
+            </ja37>
         </model>
     </sim>
     <ja37>
@@ -607,6 +604,9 @@
             <switch-slav type="bool">false</switch-slav>
             <switch-hojd type="bool">false</switch-hojd>
             <display-terrain-height type="bool">false</display-terrain-height>
+            <qnh-mode type="bool">false</qnh-mode>
+            <display-alt-window type="bool">false</display-alt-window>
+            <display-alt-base type="bool">false</display-alt-base>
         </hud>
         <sound>
             <click-on type="bool">false</click-on>
@@ -1514,9 +1514,9 @@
             <freq n="9" type="double">1000</freq>
           </sound>
         </rwr>
-        <head-up-display>
+        <displays>
             <serviceable type="bool">true</serviceable>
-        </head-up-display>
+        </displays>
         <fpv>
             <!-- Flight path vector (relative to ground). Includes stabilization on the ground at low speed. -->
             <!-- Angle from aircraft forward axis -->
@@ -1529,6 +1529,10 @@
         <dme>
             <switch-position type="int">0</switch-position>
         </dme>
+        <altimeter n="0">
+            <!-- Altitude above airport level (AAL) for QNH mode (interoperability) -->
+            <airbase-altitude-meter type="double">0</airbase-altitude-meter>  <!-- set in nasal -->
+        </altimeter>
         <altimeter n="1">
             <serviceable type="bool">true</serviceable>
         </altimeter>
@@ -1624,6 +1628,19 @@
 
     <payload>
         <armament include="Systems/armament.xml"/>
+        <d-config>
+            <full_damage_dist_m type="double">0</full_damage_dist_m>
+            <use_hitpoints_instead_of_failure_modes_bool type="bool">false</use_hitpoints_instead_of_failure_modes_bool>
+            <hp_max type="double">80</hp_max><!-- unused, but still needs to be set and non-zero -->
+            <hitable_by_air_munitions type="bool">true</hitable_by_air_munitions>
+            <hitable_by_cannon type="bool">true</hitable_by_cannon>
+            <is_fleet type="bool">false</is_fleet>
+            <rwr_to_screen type="bool">false</rwr_to_screen>
+            <tacview_supported type="bool">false</tacview_supported>
+            <m28_auto type="bool">false</m28_auto>
+            <mlw_max type="double">2.25</mlw_max>
+            <auto_flare_caller type="bool">false</auto_flare_caller>
+        </d-config>
         <weight n="6">
             <name type="string">C7</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>

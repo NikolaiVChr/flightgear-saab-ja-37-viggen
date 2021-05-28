@@ -156,9 +156,9 @@ var install_failures = func {
 
     #some actuators initialized with empty triggers
 
-    prop = "/instrumentation/head-up-display";
-    var actuator_hud = compat_failure_modes.set_unserviceable(prop);
-    FailureMgr.add_failure_mode(prop, "Head Up Display", actuator_hud);
+    prop = "/instrumentation/displays";
+    var actuator_displays = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Displays", actuator_displays);
 
     prop = "/instrumentation/instrumentation-light";
     var actuator_instr_light = compat_failure_modes.set_unserviceable(prop);
