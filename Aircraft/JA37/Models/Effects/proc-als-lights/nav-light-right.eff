@@ -2,7 +2,7 @@
 <PropertyList>
 
     <name>procedural-light-nav-left</name>
-    <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/procedural-light-als-and-fixed-pipeline</inherits-from>
+    <inherits-from>Effects/procedural-light</inherits-from>
 
     <parameters>
         <light_color_base_r type="float">0.320</light_color_base_r>
