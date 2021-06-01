@@ -1263,7 +1263,7 @@ var test_support = func {
   setprop("ja37/supported/picking", lexi_compare(version, [2017,2]) >= 0);
   setprop("ja37/supported/multiple-flightplans", lexi_compare(version, [2017,3,1]) >= 0);
   setprop("ja37/supported/compositor", lexi_compare(version, [2020,4,0]) >= 0);
-  setprop("ja37/supported/canvas-arcs", lexi_compare(version, [2020,3,9]) >= 0);
+  setprop("ja37/supported/canvas-arcs", lexi_compare(version, [2020,4,0]) >= 0);
 
   if (lexi_compare(version, minVersion) < 0) {
     notice("Minimum supported Flightgear version for Saab 37 is "~minVersionString);
