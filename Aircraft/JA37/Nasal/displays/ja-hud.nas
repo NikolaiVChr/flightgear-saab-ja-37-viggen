@@ -1652,7 +1652,7 @@ var Targets = {
         if (fire_control.selected != nil and fire_control.selected["is_IR"]
             and (var weapon = fire_control.get_weapon()) != nil
             and (var pos = weapon.getSeekerInfo()) != nil
-            and (weapon.status == armament.MISSILE_LOCK or !weapon.isCaged() or !weapon.command_tgt)) {
+            and (weapon.status == armament.MISSILE_LOCK or weapon.isCaged())) {
             me.seeker.update(pos[0]*100, pos[1]*-100, fpv_pos);
             me.seeker.show();
         } else {

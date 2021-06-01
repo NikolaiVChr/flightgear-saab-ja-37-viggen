@@ -381,6 +381,7 @@ var Missile = {
 
         # IR weapons parameters.
         if (me.is_IR) {
+            me.weapon.setAutoUncage(FALSE);
             me._reset_seeker();
             # Radar command by default on JA
             if (variant.JA) me.IR_boresight = FALSE;
@@ -388,6 +389,7 @@ var Missile = {
         }
 
         if (me.is_rb75) {
+            me.weapon.setAutoUncage(FALSE);
             me.reset_rb75_seeker();
             # Make sure the Rb 75 seeker gets initialised in the seeker loop.
             me.rb75_last_seeker_on = FALSE;
@@ -409,36 +411,32 @@ var Missile = {
 
     # Allows the seeker to follow a target it is locked on.
     _uncage_seeker: func {
-        # With these specific parameters, the seeker is free to follow the target,
-        # but will become non-functioning and require reset if it looses lock.
-        # (alternative is it coming back to boresight or uncaged pattern after loosing lock...)
-        me.weapon.setAutoUncage(TRUE);
-        me.weapon.setSlave(FALSE);
+        me.weapon.setCaged(FALSE);
     },
 
     # Reset seeker after calling _uncage_seeker()
     _reset_seeker: func {
-        me.weapon.setAutoUncage(FALSE);
         me.weapon.setCaged(TRUE);
-        me.weapon.setSlave(TRUE);
     },
 
     # IR seeker manipulation
+
     uncage_IR_seeker: func {
-        if (me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK
-            or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        # This will not uncage for the Rb-24, because it is disabled by sw-expanded-acquisition-mode=0
+        if (!me.is_IR or me.weapon == nil or me.weapon.status != armament.MISSILE_LOCK) return;
         me._uncage_seeker();
     },
 
     reset_IR_seeker: func {
-        if (me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        if (!me.is_IR or me.weapon == nil) return;
         me._reset_seeker();
         me.update_IR_seeker_command();
     },
 
     toggle_IR_boresight: func {
-        if (me.weapon == nil or (me.weapon.type != "RB-24J" and me.weapon.type != "RB-74")) return;
+        if (!me.is_IR or me.weapon == nil) return;
         me.IR_boresight = !me.IR_boresight;
+        me.update_IR_seeker_command();
     },
 
     update_IR_seeker_command: func {
@@ -446,9 +444,9 @@ var Missile = {
             # JA: radar command by default, boresight if no radar target or manually selected.
             if (radar_logic.selection == nil or me.IR_boresight) {
                 # 0.8 deg down is from AJS
-                if (me.weapon.command_tgt) me.weapon.commandDir(0,-0.8);
+                if (me.weapon.isRadarSlaved()) me.weapon.commandDir(0,-0.8);
             } else {
-                if (!me.weapon.command_tgt) me.weapon.commandRadar();
+                if (!me.weapon.isRadarSlaved()) me.weapon.commandRadar();
             }
         } else {
             # For AJS, locked on bore. 0.8 deg down, except for outer pylons (AJS SFI part 3);
@@ -461,6 +459,7 @@ var Missile = {
     },
 
     reset_rb75_seeker: func {
+        if (!me.is_rb75 or me.weapon == nil) return;
         me._reset_seeker();
         me.rb75_lock = FALSE;
         me.rb75_pos_x = 0;
@@ -475,8 +474,6 @@ var Missile = {
         }
 
         # For JA IR, switch between bore sight and radar command automatically.
-        # Note: not using 'setBore()' for bore sight. Instead keeping 'setSlave()'
-        # and using 'commandDir()' to allow to adjust bore position, if we want to.
         if (me.is_IR and variant.JA and me.weapon.isCaged()) {
             me.update_IR_seeker_command();
         }
@@ -485,7 +482,7 @@ var Missile = {
         # For IR/Rb 75, don't do anything if the missile has already locked. It would mess with the lock.
         if ((!me.is_IR and !me.is_rb75) or me.weapon.status != armament.MISSILE_LOCK) {
             # IR missiles and Rb 75 can lock without radar command.
-            if ((me.is_IR or me.is_rb75) and (!me.weapon.isCaged() or !me.weapon.command_tgt)) {
+            if ((me.is_IR or me.is_rb75) and (!me.weapon.isCaged() or !me.weapon.isRadarSlaved())) {
                 # Send list of all contacts to allow searching.
                 me.weapon.setContacts(radar_logic.complete_list);
                 armament.contact = nil;
@@ -557,7 +554,10 @@ var Missile = {
         me.last_click = cursor[2];
     },
 
+    # Rb 75 specific firing restrictions.
     rb75_can_fire: func {
+        # weapon.status may not be armament.MISSILE_LOCK (if we lost lock),
+        # but this is already checked by set_trigger() due to need_lock=1.
         if (!me.rb75_lock) return FALSE;
         var seeker_pos = me.weapon.getSeekerInfo();
         return seeker_pos != nil
