@@ -1,8 +1,6 @@
 # $Id$
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
 
-var LOOP_SLOW_RATE     = 1.50;
-
 var FALSE = 0;
 var TRUE = 1;
 
@@ -612,7 +610,7 @@ var Saab37 = {
   },
 
   # slow updating loop
-  slow_loop: func {
+  slow_loop: func(dt) {
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
       return;
@@ -625,11 +623,11 @@ var Saab37 = {
       setprop("ja37/avionics/record-on", FALSE);
     }
 
-    me.environment();
+    me.environment(dt);
 
     # consume oxygen bottle pressure
     if (getprop("controls/oxygen") == TRUE) {
-      me.amount = getprop("ja37/systems/oxygen-bottle-pressure")-127/(27000/LOOP_SLOW_RATE);#7.5 hours to consume all 127 kpm2
+      me.amount = getprop("ja37/systems/oxygen-bottle-pressure")-127/(27000/dt);#7.5 hours to consume all 127 kpm2
       setprop("ja37/systems/oxygen-bottle-pressure", me.amount);
     }
 
@@ -661,7 +659,7 @@ var Saab37 = {
     }
   },
 
-  environment: func {
+  environment: func(dt) {
     ###########################################################
     #               Aircondition, frost, fog and rain         #
     ###########################################################
@@ -725,16 +723,16 @@ var Saab37 = {
     if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
       me.tempInside = getprop("environment/temperature-degc");
     } else {
-      me.tempInside += me.hotAirOnWindshield * (me.hotAir_deg_min/(60/LOOP_SLOW_RATE)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
+      me.tempInside += me.hotAirOnWindshield * (me.hotAir_deg_min/(60/dt)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
       if (me.tempInside < 37) {
-        me.tempInside += me.pilot_deg_min/(60/LOOP_SLOW_RATE); # pilot will also heat cockpit with 1 deg per 5 mins
+        me.tempInside += me.pilot_deg_min/(60/dt); # pilot will also heat cockpit with 1 deg per 5 mins
       }
       # outside temp ram air temp and static temp will influence inside temp:
-      me.coolingFactor = ((me.tempOutside+getprop("environment/temperature-degc"))*0.5-me.tempInside)*me.glass_deg_min_per_deg_diff/(60/LOOP_SLOW_RATE);# 1 degrees difference will cool/warm with 0.5 DegCelsius/min
+      me.coolingFactor = ((me.tempOutside+getprop("environment/temperature-degc"))*0.5-me.tempInside)*me.glass_deg_min_per_deg_diff/(60/dt);# 1 degrees difference will cool/warm with 0.5 DegCelsius/min
       me.tempInside += me.coolingFactor;
       if (me.ACRunning) {
         # AC is running and will work to influence the inside temperature
-        me.tempInside += (me.tempAC-me.tempInside)*me.AC_deg_min_per_deg_diff/(60/LOOP_SLOW_RATE);# (tempAC-tempInside) = degs/mins it should change
+        me.tempInside += (me.tempAC-me.tempInside)*me.AC_deg_min_per_deg_diff/(60/dt);# (tempAC-tempInside) = degs/mins it should change
       }
     }
 
@@ -847,22 +845,10 @@ var Saab37 = {
     }
   },
 
-  loopSystem: func {
-    #
-    # start all the loops in aircraft.
-    # Some loops are are not started here though, but most are.
-    # Notice some loop timers are slightly changed to spread out calls,
-    # so that many loops are not called in same frame.
-    #
-    me.loop_slow     = maketimer(LOOP_SLOW_RATE, me, func me.slow_loop());
-    me.loop_fast     = maketimer(0.06, me, func me.speed_loop());
-    me.loop_saab37   = maketimer(0.25, me, func me.update_loop());
-
+  startSystem: func {
     # aircraft/display modes
     modes.initialize();
     modes.update();
-    me.loop_modes    = maketimer(0.22, modes.update);
-    me.loop_modes.start();
 
     # flightplans
     route.poly_start();
@@ -870,36 +856,13 @@ var Saab37 = {
     # displays commons
     displays.common.loop();
     displays.common.loopFast();
-    me.loop_common   = maketimer(0.21, displays.common, func displays.common.loop());
-    me.loop_commonF  = maketimer(0.05, displays.common, func displays.common.loopFast());
-    me.loop_common.start();
-    me.loop_commonF.start();
-
-    me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
-
-    me.loop_saab37.start();
-    me.loop_fast.start();
-    me.loop_slow.start();
-    me.loop_land.start();
 
     # radar
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
-    me.loop_logic  = maketimer(0.24, radar_logic.radarLogic, func radar_logic.radarLogic.loop());
-    #me.loop_logic.start();
-
-    # immatriculation
-    call(func {# issue on some fast linux PCs..
-      callsign.callInit();
-      me.loop_callsign = maketimer(1, me, func callsign.loop_callsign());
-      me.loop_callsign.start();
-    },nil,var err=[]);
-    if(size(err)) {
-      foreach(var i;err) {
-        print(i);
-      }
-    }
 
     fire_control.init();
+
+    callsign.callInit();
 
     # Radios
     channels.init();
@@ -908,8 +871,6 @@ var Saab37 = {
     if (!variant.JA) {
       # CI display
       rdr.scope = rdr.radar.new();
-      me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
-      me.loop_radar_screen.start();
     }
 
     if (variant.JA) {
@@ -918,186 +879,29 @@ var Saab37 = {
       TI.setupCanvas();
       TI.ti = TI.TI.new();
       TI.ti.loop();#must be first due to me.rootCenterY
-      me.loop_ti  = maketimer(0.50, TI.ti, func TI.ti.loop());
-      me.loop_tiF = maketimer(0.05, TI.ti, func TI.ti.loopFast());
-      me.loop_tiS = maketimer(180, TI.ti, func TI.ti.loopSlow());
-      me.loop_ti.start();
-      me.loop_tiF.start();
-      me.loop_tiS.start();
 
       # MI
       # must be after TI
       MI.setupCanvas();
       MI.mi = MI.MI.new();
-      me.loop_mi  = maketimer(0.50, MI.mi, func MI.mi.loop());
-      me.loop_miF  = maketimer(0.05, MI.mi, func MI.mi.loopFast());
-      me.loop_mi.start();
-      me.loop_miF.start();
     }
 
     # HUD:
     hud.initialize();
-    me.loop_hud = maketimer(0.05, hud.update);
-    me.loop_hud.start();
-    if (variant.JA) {
-        me.loop_sight = maketimer(0.3, sight.loop);
-        me.loop_sight.start();
-    }
 
     if (variant.JA) {
       # data-panel
       dap.callInit();
-      me.loop_dap  = maketimer(1, me, func dap.loop_main());
-      me.loop_dap.start();
-      me.loop_plan  = maketimer(0.5, me, func route.Polygon.loop());
-      me.loop_plan.start();
-    }
-    # radar (must be called after TI)
-    me.loop_logic.start();
-
-    # datalink
-    if (variant.JA) {
-        me.loop_jl = maketimer(1.05, fighterlink.loop);
-        me.loop_jl.start();
     }
 
     # fire
     failureSys.init_fire();
-    me.loop_fire  = maketimer(1, me, func failureSys.loop_fire());
-    me.loop_fire.start();
-
-
-    me.loop_test  = maketimer(0.25, me, func testing.loop());
-    me.loop_test.start();
 
     # Old ALS landing/taxi lights
     if (!getprop("/ja37/supported/compositor")) lm.light_manager.init();
-  },
-  
-  loopSystem2: func {
-    #
-    # start all the loops in aircraft.
-    # Some loops are are not started here though, but most are.
-    # Notice some loop timers are slightly changed to spread out calls,
-    # so that many loops are not called in same frame.
-    #
-    me.loop_slow     = maketimer(LOOP_SLOW_RATE, me, func {timer.timeLoop("ja37-slow", me.slow_loop,me);});
-    me.loop_fast     = maketimer(0.06, me, func {timer.timeLoop("ja37-fast", me.speed_loop,me);});
-    me.loop_saab37   = maketimer(0.25, me, func {timer.timeLoop("ja37-medium", me.update_loop,me);});
 
-    # aircraft/display modes
-    modes.initialize();
-    modes.update();
-    me.loop_modes    = maketimer(0.22, func {timer.timeLoop("modes", modes.update, nil);});
-    me.loop_modes.start();
-
-    # flightplans
-    route.poly_start();
-
-    # displays commons
-    displays.common.loop();
-    displays.common.loopFast();
-    me.loop_common   = maketimer(0.21, displays.common, func {timer.timeLoop("common-slow", displays.common.loop,displays.common);});
-    me.loop_commonF  = maketimer(0.05, displays.common, func {timer.timeLoop("common-fast", displays.common.loopFast,displays.common);});
-    me.loop_common.start();
-    me.loop_commonF.start();
-
-    me.loop_land     = maketimer(0.27, land.lander, func {timer.timeLoop("landing-mode", land.lander.loop,land.lander);});
-
-    me.loop_saab37.start();
-    me.loop_fast.start();
-    me.loop_slow.start();
-    me.loop_land.start();
-
-    # radar
-    radar_logic.radarLogic = radar_logic.RadarLogic.new();
-    me.loop_logic  = maketimer(0.24, radar_logic.radarLogic, func {timer.timeLoop("Radar", radar_logic.radarLogic.loop,radar_logic.radarLogic);});
-    #me.loop_logic.start();
-
-    # immatriculation
-    call(func {# issue on some fast linux PCs..
-      callsign.callInit();
-      me.loop_callsign = maketimer(1, me, func {timer.timeLoop("Callsign", callsign.loop_callsign,me);});
-      me.loop_callsign.start();
-    },nil,var err=[]);
-    if(size(err)) {
-      foreach(var i;err) {
-        print(i);
-      }
-    }
-
-    fire_control.init();
-
-    # Radios
-    channels.init();
-    if (variant.JA) freq_sel.init();
-
-    if (!variant.JA) {
-      # CI display
-      rdr.scope = rdr.radar.new();
-      me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
-      me.loop_radar_screen.start();
-    }
-
-    if (variant.JA) {
-      # TI
-      # must not start looping before route has been init
-      TI.setupCanvas();
-      TI.ti = TI.TI.new();
-      TI.ti.loop();#must be first due to me.rootCenterY
-      me.loop_ti  = maketimer(0.50, TI.ti, func {timer.timeLoop("TI-medium", TI.ti.loop,    TI.ti);});
-      me.loop_tiF = maketimer(0.05, TI.ti, func {timer.timeLoop("TI-fast",   TI.ti.loopFast,TI.ti);});
-      me.loop_tiS = maketimer(180, TI.ti,  func {timer.timeLoop("TI-slow",   TI.ti.loopSlow,TI.ti);});
-      me.loop_ti.start();
-      me.loop_tiF.start();
-      me.loop_tiS.start();
-
-      # MI
-      # must be after TI
-      MI.setupCanvas();
-      MI.mi = MI.MI.new();
-      me.loop_mi  = maketimer(0.50, MI.mi, func {timer.timeLoop("MI", MI.mi.loop,MI.mi);});
-      me.loop_miF  = maketimer(0.05, MI.mi, func {timer.timeLoop("MI", MI.mi.loopFast,MI.mi);});
-      me.loop_mi.start();
-      me.loop_miF.start();
-    }
-
-    # HUD:
-    hud.initialize();
-    me.loop_hud = maketimer(0.05, func {timer.timeLoop("HUD", hud.update, nil);});
-    me.loop_hud.start();
-    if (variant.JA) {
-        me.loop_sight = maketimer(0.3, func{timer.timeLoop("sight", sight.loop, nil);});
-        me.loop_sight.start();
-    }
-
-    if (variant.JA) {
-      # data-panel
-      dap.callInit();
-      me.loop_dap  = maketimer(1, me, func {timer.timeLoop("DAP", dap.loop_main,me);});
-      me.loop_dap.start();
-      me.loop_plan  = maketimer(0.5, me, func {timer.timeLoop("Plans", route.Polygon.loop,me);});
-      me.loop_plan.start();
-    }
-    # radar (must be called after TI)
-    me.loop_logic.start();
-
-    # datalink
-    if (variant.JA) {
-        me.loop_jl = maketimer(1.05, me, func { timer.timeLoop("datalink", fighterlink.loop, me);});
-        me.loop_jl.start();
-    }
-
-    # fire
-    failureSys.init_fire();
-    me.loop_fire  = maketimer(1, me, func {timer.timeLoop("Failure", failureSys.loop_fire,me);});
-    me.loop_fire.start();
-
-    me.loop_test  = maketimer(0.25, me, func {timer.timeLoop("Test", testing.loop,me);});
-    me.loop_test.start();
-
-    # Old ALS landing/taxi lights
-    if (!getprop("/ja37/supported/compositor")) lm.light_manager.init();
+    # Startall the loops
+    scheduler.start();
   },
 };
 
@@ -1438,7 +1242,7 @@ var main_init = func {
   }
 
   # start the main loop
-  saab37.loopSystem();
+  saab37.startSystem();
 
   # Starting with all systems on.
   if (getprop("/ja37/avionics/init-done")) {

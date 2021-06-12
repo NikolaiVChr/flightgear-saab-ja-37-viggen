@@ -1732,15 +1732,15 @@
         <callsign>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </callsign>
-        <timer>
-            <file>Aircraft/JA37/Nasal/timer.nas</file>
-        </timer>
         <ja37>
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
             <file>Aircraft/JA37/Nasal/zoom-views.nas</file>
             <file>Aircraft/JA37/Nasal/ejection.nas</file>
         </ja37>
+        <scheduler>
+            <file>Aircraft/JA37/Nasal/scheduler.nas</file>
+        </scheduler>
         <modes>
             <file>Aircraft/JA37/Nasal/modes.nas</file>
         </modes>
