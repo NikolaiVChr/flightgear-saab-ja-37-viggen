@@ -63,7 +63,7 @@ var init_loops = func {
             { period: 8, offset: 1, function: sight.loop, name: "sight", },
             { period: 16, offset: 5, function: TI.ti.loop, self: TI.ti, name: "TI", },
             { period: 16, offset: 13, function: MI.mi.loop, self: MI.mi, name: "MI", },
-            { period: 16, offset: 7, function: route.Polygon.loop, name: "Plans", },
+            { period: 16, offset: 7, function: route.Polygon.loop, self: route.Polygon, name: "Plans", },
             { period: 32, offset: 31, function: dap.loop_main, name: "DAP", },
             { period: 32, offset: 31, function: fighterlink.loop, name: "datalink", },
             { period: 2048, offset: 0, function: TI.ti.loopSlow, self: TI.ti, name: "TI-slow", }
