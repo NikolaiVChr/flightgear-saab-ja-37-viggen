@@ -125,7 +125,6 @@ var scheduler_loop = func {
 }
 
 var scheduler_timer = maketimer(SCHEDULER_RATE, scheduler_loop);
-scheduler_timer.simulatedTime = 1;
 
 
 var start = func {
