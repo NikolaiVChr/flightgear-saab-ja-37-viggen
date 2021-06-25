@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <!-- ALS procedural light -->
+
   <path>Models/Effects/procedural_light.ac</path>
 
   <effect>
@@ -8,8 +10,59 @@
     <object-name>procedural_light</object-name>
   </effect>
 
+  <animation>
+    <type>select</type>
+    <object-name>procedural_light</object-name>
+    <condition>
+      <property>/sim/rendering/shaders/skydome</property>
+    </condition>
+  </animation>
+
+  <!-- Backup billboard model for low spec pipeline -->
+
+  <model>
+    <name>low_spec_light</name>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/light-green.ac</path>
+    <offsets>
+      <heading-deg>-60</heading-deg>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>flash</type>
+    <object-name>low_spec_light</object-name>
+    <offset>0</offset>
+    <factor>1.5</factor>
+    <power>1</power>
+    <two-sides>false</two-sides>
+    <min>0</min>
+    <max>1</max>
+    <axis>
+      <x>-0.5</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>low_spec_light</object-name>
+    <condition>
+      <not><property>/sim/rendering/shaders/skydome</property></not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
+  </animation>
+
+
+  <!-- Compositor light cone -->
+
   <light>
-    <name>nav_light</name>
+    <name>light_cone</name>
     <type>spot</type>
     <position>
       <x-m>0</x-m>
@@ -71,7 +124,8 @@
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
-    <object-name>nav_light</object-name>
+    <object-name>low_spec_light</object-name>
+    <object-name>light_cone</object-name>
     <condition>
       <or>
         <property>fdm/jsbsim/structural/wings/serviceable</property>
@@ -89,6 +143,7 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <property>ja37/effect/navigation-light</property><!-- (0-100 scale) -->
     <x-factor>0.01</x-factor>
     <y-factor>0.01</y-factor>
@@ -101,6 +156,7 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <x-offset>5</x-offset>
     <y-offset>5</y-offset>
     <z-offset>5</z-offset>
@@ -109,14 +165,10 @@
   <animation>
     <type>dist-scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <interpolation>
       <entry><ind>0</ind><dep>0.2</dep></entry>
       <entry><ind>3000</ind><dep>2.0</dep></entry>
     </interpolation>
-  </animation>
-  
-  <animation>
-    <type>noshadow</type>
-    <object-name>procedural_light</object-name>
   </animation>
 </PropertyList>

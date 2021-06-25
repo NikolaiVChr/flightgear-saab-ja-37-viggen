@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <!-- ALS procedural light -->
+
   <path>Models/Effects/procedural_light.ac</path>
 
   <effect>
@@ -8,8 +10,56 @@
     <object-name>procedural_light</object-name>
   </effect>
 
+  <animation>
+    <type>select</type>
+    <object-name>procedural_light</object-name>
+    <condition>
+      <property>/sim/rendering/shaders/skydome</property>
+    </condition>
+  </animation>
+
+  <!-- Backup billboard model for low spec pipeline -->
+
+  <model>
+    <name>low_spec_light</name>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/light-red.ac</path>
+  </model>
+
+  <animation>
+    <type>flash</type>
+    <object-name>low_spec_light</object-name>
+    <offset>0</offset>
+    <factor>2</factor>
+    <power>10</power>
+    <two-sides>false</two-sides>
+    <min>0</min>
+    <max>2</max>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>low_spec_light</object-name>
+    <condition>
+      <not><property>/sim/rendering/shaders/skydome</property></not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
+  </animation>
+
+
+  <!-- Compositor light cone -->
+
   <light>
-    <name>beacon_light</name>
+    <name>light_cone</name>
     <type>spot</type>
     <priority>medium</priority>
     <position>
@@ -71,7 +121,7 @@
     which is unrealistic (should be shadowed by fuselage) and anoying AF. -->
   <animation>
     <type>select</type>
-    <object-name>beacon_light</object-name>
+    <object-name>light_cone</object-name>
     <condition>
       <!-- Since this is a relative path, it should hide it for our aircraft, but not MP models. -->
       <not><property>sim/current-view/internal</property></not>
@@ -84,6 +134,7 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <x-offset>10</x-offset>
     <y-offset>10</y-offset>
     <z-offset>10</z-offset>
@@ -92,6 +143,7 @@
   <animation>
     <type>dist-scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <interpolation>
       <entry><ind>0</ind><dep>0.1</dep></entry>
       <entry><ind>3000</ind><dep>2.0</dep></entry>
@@ -101,14 +153,10 @@
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
-    <object-name>beacon_light</object-name>
+    <object-name>low_spec_light</object-name>
+    <object-name>light_cone</object-name>
     <condition>
       <property>ja37/effect/beacon-light</property>
     </condition>
-  </animation>
-
-  <animation>
-    <type>noshadow</type>
-    <object-name>procedural_light</object-name>
   </animation>
 </PropertyList>
