@@ -4045,3 +4045,146 @@ Sim: Simplify code for instruments power supply
 Sim: Fix initial view when starting in pause
 Sim: Rework in-air start states
 View: Do not force FOV on startup
+
+
+5.1.0 - 2021 June 25
+=====
+Major changes:
+- Rework of the right side panel. Many elements have been moved, some incorrect ones removed.
+  JA and AJS versions are now clearly different.
+  Chronometer added for the JA (just right of the fuel gauge).
+  New weapon panel for the AJS (more on that below).
+- Major rework of COM radios. Add FR 22 channel selector panel (AJS).
+  Small adjustments to other radio panel models.
+  Detailled frequency / channel selection, power, and volume logic.
+  Preset channels can be used, loaded from text configuration files.
+  See manual for details.
+- Custom Fuel and Equipment dialog. It merges the default dialog with the
+  previous custom payload dialog, and adds a graphical loadout preview.
+- Add AJS ground crew panel as canvas dialog (loadout selection and options, flaps setting).
+  Loadout knob / switch must be set properly in order to use weapons.
+  There is an option to have them automatically follow the loadout (on by default).
+  This imposes historical restrictions on weapon loadouts on the AJS.
+- New AJS weapon panel, with weapon selection knob, bomb interval / wingspan
+  knob, sequence release for Rb 04 / Rb 15 and long range ARAK mode.
+- Flight manual: added sections for COM radios, datalink, MI display,
+  AJS weapon panel, and AJS loadout restrictions.
+- Reworked JA HUD interoperability mode based on JA 37D flight manual, mostly small visual changes.
+  Added all features of datapanel ACDATA address 15. Added QNH mode, which accounts
+  for airbase altitude when an airbase is selected. See readme.ja37.txt for details.
+
+Things to be aware of / changes to controls:
+- Several new switches have randomized positions on startup (do cockpit checks properly!).
+- Reworked brake system. Hydraulic accumulator is now simulated (and its pressure gauge works).
+  Correct parking brakes operation: press brakes and pull the handle to set,
+  press again to release. Added chocks.
+- Heading indicators show true heading instead of magnetic.
+- Small adjustment to HUD positions and default view position.
+  AJS HUD can be moved up and down, but has a much smaller vertical field of view.
+- Datalink protocol was changed, and is incompatible with the v5.0.0 version.
+  On the KV3 display, the datalink channel is only the last 3 digits,
+  the first digit is an identifier shown on TI to help distinguish aircrafts in a flight
+  (each aircraft should set a different value).
+- On JA, trigger must be held for 0.5sec to fire a missile.
+- New / modified keybindings:
+  cockpit:
+    w = suppress master warning
+    W = start/stop/reset chronometer
+    (AJS) h = toggle HUD position
+  weapon selection:
+    (AJS) c/C = turn weapon selector (replaces c = cycle weapons)
+    (JA) * remove cycling through all weapons (It was 'c'. This means ARAK can only be selected through the TI).
+         * move missile quick select from 'u' to 'c'
+         * move autothrottle disengage from 'ctrl-G' to 'u'
+           (on AJS, 'u' is A/T disengage + missile quick select)
+       to summarize:
+         c/C = quick select missiles / cannon
+         u = disengage authrottle
+         ctrl-G is removed
+  IR seeker:
+    (JA) U = uncage IR seeker (same as AJS)
+    (JA) R (set reference altitude) doubles as 'toggle IR seeker boresight mode'
+    The corresponding TI menus are gone. The 'autouncage' mode no longer exists:
+    in boresight mode, 'U' must be used after lock to allow the seeker to follow the target.
+  aiming:
+    (JA) (/) = change wingspan for A/A gunsight without radar lock
+    (JA) {/} = change distance for A/A gunsight without radar lock
+    (AJS) {/} = turn wingspan and bomb interval selector
+  misc:
+    removed ctrl-n (target next waypoint) and f (radar target as destination), which were of dubious realism.
+
+Other changes:
+Sim: Add Compositor support test
+Model: Use compositor lights
+Model: Adjust some ALS lights parameters
+TI: Display own position from bullseye
+Model: Fix parking brake / pedals adjust handles
+Disable tutorials auto-generated from checklists
+Simplify model code using <overlay>
+Remove old 'bombable' addon code
+Model: Use aliases for generic MP properties
+Model: Fix control surfaces MP animations
+Help: Clarify description of seeker uncage key
+JA HUD: Adjust FPV vertical clamp limits
+Model: Remove TILS on/off switch
+Model: Update many tooltips
+Sound: Delete obsolete sound files
+Doc: Update readme.ja37.txt (updates, add datalink)
+JA37 Model: Remove animations for AJS CI
+Sim: Add rotation speed table from AJS manual
+Model: Improve altimeter knob animation
+Model: Disable shadows from small interior models
+Model: Use generic xml file for switches
+Sound: Cleanup 'avionics' tags
+Sound: Remove 'internal' test for avionics sounds
+Model: Properly close front of cockpit
+Sim: Improve approach alpha calculations
+Model: Remove contrail submodels
+View: Rewrite ejection / missile view
+View: Avoid references to /sim/current-view/view-number
+Autothrottle: Use g-load corrected alpha
+Particle: Reduce emission rates, adjust parameters
+MI: Add commanded heading index
+Sim: Implement safety distance switch
+Damage: Update cannon/rocket damage values
+Sim: Revise weapon names used in Nasal/payload/*
+Shaders: Remove empty technique in viggen-fuselage
+Fire control: Implement AJS left/right switch
+MI: Small improvements to buttons and lights
+Datalink: Fix datalink persisting after turned off
+Effects: Reduce A/B lightmap
+View: Add option to disable head shaking
+Sim: Fix error in FG version test code
+HUD: Correct JA backup sight
+Arms: {Nikolai and others} Several updates to missile and damage code
+Arms: {Nikolai} Sidewinders rework
+Update RCS and RWR databases (S-75, ZSU-23, MIM104)
+Sound: Fix vne/transonic warnings
+Sim: Remove manual fuel tank flow controls
+Sound: Simplify knob sounds code, add weapon knob
+Instruments: Make chronometer ticking
+Model: Fix roll trim switch direction
+Sound: Remove rb 99 / rb 71 lock sounds
+Sound: Add radar lock sound
+Keybindings: Remove 'target wpt' and 'tgt as dest'
+Sim: Remove ADF from standard instruments definitions
+Weapons: Reduce ARAK speed a bit
+Sim: Add spectator mode for MP missiles
+Model: Remove old MP missile model code
+Model: Fix variant specific animations on MP
+Model: Fix display lights intensity
+MI: Rework interoperability mode
+Datapanel: Training floor entered with factor 100
+HUD: Option to show terrain height instead of RHM
+GUI: {Megaf} Makes combat log resizeable
+Failure: Add displays failure node, instead of HUD
+JA HUD: Lower A/A gunsight max range
+Effects: Clean up brightness adjustments
+Effects: Clean up mach-cone
+TI: Mark VAP>RENS as functional
+Effects: Use FGData effect for ALS procedural lights
+Effects: Add lights w/o shaders for ALS off
+Sim: Rework nasal loops scheduling
+Effects: Do not force-enable ALS filters
+Metadata: Add urls and detailled authors list
+Readme: Add link to secondary sources repository
