@@ -12,6 +12,44 @@
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Josh Davidson (FCS/Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Colin Geniet, Nikolai V. Chr.</author>
         <minimum-fg-version>2020.3.1</minimum-fg-version>
 
+        <authors>
+            <author>
+                <name>Nikolai V. Chr.</name>
+                <description>FDM, systems, displays, modeling, effects, and others — former maintainer</description>
+                <nick>Leto</nick>
+            </author>
+            <author>
+                <name>Colin Geniet</name>
+                <description>systems, displays, some modeling, and others — current maintainer</description>
+            </author>
+            <author>
+                <name>Anders Lejczak</name>
+                <description>original 3D model and textures</description>
+            </author>
+            <author>
+                <name>Justin Nicholson</name>
+                <description>modeling, testing, and others</description>
+                <nick>Pinto</nick>
+            </author>
+            <author>
+                <name>Enrico Castaldi</name>
+                <description>liveries</description>
+            </author>
+            <author>
+                <name>Josh Davidson</name>
+                <description>FCS and autopilot</description>
+                <nick>Octal450</nick>
+            </author>
+            <author>
+                <name>Nicola B. Bernardelli</name>
+                <description>cockpit and testing</description>
+            </author>
+            <author>
+                <name>Isaac Protiva</name>
+                <description>cockpit and lightmap</description>
+            </author>
+        </authors>
+
         <tags>
             <tag>saab</tag>
             <tag>single-engine</tag>
@@ -31,6 +69,11 @@
             <tag>hud</tag>
             <tag>afterburner</tag>
         </tags>
+
+        <urls>
+            <support>https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen/issues</support>
+            <home-page>https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen</home-page>
+        </urls>
 
         <gui>
             <style>
