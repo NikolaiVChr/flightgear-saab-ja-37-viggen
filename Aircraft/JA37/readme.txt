@@ -35,6 +35,9 @@ Forum: https://forum.flightgear.org/viewtopic.php?f=4&t=19130
 Wiki: http://wiki.flightgear.org/Saab_JA-37_Viggen
 Discord: https://discord.gg/qB3Cg4A
 
+Secondary repo with sources for 3D models, textures, FDM, manual (lots of old / outdated stuff):
+https://github.com/NikolaiVChr/flightgear-viggen-masters
+
 
 Contact:
 ------------------
