@@ -4109,7 +4109,7 @@ Things to be aware of / changes to controls:
   aiming:
     (JA) (/) = change wingspan for A/A gunsight without radar lock
     (JA) {/} = change distance for A/A gunsight without radar lock
-    (AJS) {/} = turn wingspan and bomb interval selector
+    (AJS) (/) = turn wingspan and bomb interval selector
   misc:
     removed ctrl-n (target next waypoint) and f (radar target as destination), which were of dubious realism.
 
