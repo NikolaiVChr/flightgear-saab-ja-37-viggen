@@ -425,7 +425,8 @@ var Saab37 = {
     var flareCmd = getprop("ai/submodels/submodel[0]/flare-release-cmd");
     if (flareCmd and !getprop("ai/submodels/submodel[0]/flare-release")
                  and !getprop("ai/submodels/submodel[0]/flare-release-out-snd")
-                 and !getprop("ai/submodels/submodel[0]/flare-release-snd")) {
+                 and !getprop("ai/submodels/submodel[0]/flare-release-snd")
+                 and input.gearsPos.getValue() == 0) {
       flareCount = getprop("ai/submodels/submodel[0]/count");
       flareStart = input.elapsed.getValue();
       if (flareCount > 0) {
