@@ -10,6 +10,7 @@ var input = {
     damage:         "/payload/armament/msg",
     MLW_bearing:    "/payload/armament/MLW-bearing",
     MLW_count:      "/payload/armament/MLW-count",
+    gear_pos:       "/gear/gear/position-norm",
 };
 foreach (var name; keys(input)) {
     input[name] = props.globals.getNode(input[name], 1);
@@ -338,6 +339,16 @@ var bearing_to_ajs_rwr_sectors = func(bearing) {
 
 ### Update loop for lights/sounds
 var update_rwr = func() {
+    if (input.gear_pos.getValue() > 0
+        or (variant.AJS and modes.selector_ajs <= modes.STBY)) {
+        # RWR off
+        forindex (var i; ja_msl_sectors) input.ja_lights[i].setBoolValue(FALSE);
+        forindex (var i; ajs_rwr_sectors) input.ajs_lights[i].setBoolValue(FALSE);
+        input.sound_high_prf.setBoolValue(FALSE);
+        input.sound_incoming.setBoolValue(FALSE);
+        return;
+    }
+
     var time = input.time.getValue();
     forindex (var i; ja_rwr_sectors) ja_rwr_sectors[i] = 0;
     forindex (var i; ja_msl_sectors) ja_msl_sectors[i] = FALSE;

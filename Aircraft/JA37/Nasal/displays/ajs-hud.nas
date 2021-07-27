@@ -808,7 +808,9 @@ var AimingMode = {
             me.reticle_pos = [0,130];
             # Display seeker position with secondary reticle, to compensate for the lack of EP13.
             if ((var rb75 = fire_control.get_weapon()) != nil
-                and (var pos = rb75.getSeekerInfo()) != nil) {
+                and (var pos = rb75.getSeekerInfo()) != nil
+                # Don't display if lock was lost (uncaged + no lock).
+                and (rb75.isCaged() or rb75.status == armament.MISSILE_LOCK)) {
                 me.target.setTranslation(pos[0]*100, pos[1]*-100);
                 me.target.show();
             } else {

@@ -1,0 +1,23 @@
+AC3Db
+MATERIAL "light" rgb 0.000 0.000 0.000  amb 0.000 0.000 0.000  emis 1.000 1.000 1.000  spec 0.000 0.000 0.000  shi 10 trans 0.000
+OBJECT world
+name "Blender_export__RedLight2.ac"
+kids 1
+OBJECT poly
+name "Light"
+texture "lights.png"
+texrep 1 1
+numvert 4
+0.0000000 0.3000000 0.3000000
+0.0000000 -0.3000000 0.3000000
+0.0000000 -0.3000000 -0.3000000
+0.0000000 0.3000000 -0.3000000
+numsurf 1
+SURF 0X20
+mat 0
+refs 4
+0 0.448961 0.442462
+1 0.063538 0.442462
+2 0.063538 0.057039
+3 0.448961 0.057039
+kids 0

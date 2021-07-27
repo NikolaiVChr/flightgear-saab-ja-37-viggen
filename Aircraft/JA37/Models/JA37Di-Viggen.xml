@@ -2651,6 +2651,7 @@
       <x-m>-3.47732</x-m>
       <y-m>-0.000005</y-m>
       <z-m>-1.2121</z-m>
+      <pitch-deg>-2</pitch-deg>
     </offsets>
   </model>
 
@@ -2661,6 +2662,7 @@
       <x-m>-3.91114</x-m>
       <y-m>-0.137806</y-m>
       <z-m>-0.769589</z-m>
+      <pitch-deg>-7</pitch-deg>
     </offsets>
   </model>
 
@@ -2671,6 +2673,7 @@
       <x-m>-3.69526</x-m>
       <y-m>0.140439</y-m>
       <z-m>-0.769589</z-m>
+      <pitch-deg>-5.5</pitch-deg>
     </offsets>
   </model>
 

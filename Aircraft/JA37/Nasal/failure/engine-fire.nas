@@ -47,7 +47,6 @@ var last_serv_status = TRUE;
 
 var loop_fire = func {
 	if (input.replay.getValue() == TRUE) {
-		settimer(loop_fire, 1);
 		return;
 	}
 
@@ -70,7 +69,6 @@ var loop_fire = func {
     }
 
     last_serv_status = input.serv.getValue();
-    #settimer(loop_fire, 1);
 }
 
 var test_for_fire = func {
@@ -149,9 +147,6 @@ var init_fire = func {
 	foreach(var name; keys(input)) {
 	  input[name] = props.globals.getNode(input[name], 1);
 	}
-
-	# start the main loop
-	#settimer(func { loop_fire() }, 1);
 }
 
 # start the init function

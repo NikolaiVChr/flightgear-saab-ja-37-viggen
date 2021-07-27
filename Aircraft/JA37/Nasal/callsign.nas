@@ -1,4 +1,12 @@
 var signText = nil;
+
+var update_callsign = func(node) {
+    var callsign = ""~node.getValue();
+    if (callsign == "callsign") callsign = "";
+
+    signText.setText(callsign);
+}
+
 var callInit = func {
   canvasCallsign = canvas.new({
         "name": "Callsign",
@@ -6,7 +14,7 @@ var callInit = func {
         "view": [128, 16],
         "mipmapping": 1
   });
-      
+
   canvasCallsign.addPlacement({"node": "Callsign", "texture": "alu.png"});
   canvasCallsign.setColorBackground(0.10, 0.10, 0.10, 1.00);
 
@@ -18,15 +26,6 @@ var callInit = func {
         .setColor(0.85,0.85,0.85, 1)
         .setAlignment("center-center")
         .setTranslation(64, 8);
-};
 
-var loop_callsign = func {
-
-    var callsignTxt = props.globals.getNode("/sim/multiplay/callsign").getValue();
-
-    if (callsignTxt != "callsign") {
-      signText.setText(callsignTxt);
-    } else {
-      signText.setText("");
-    }
+  setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);
 };

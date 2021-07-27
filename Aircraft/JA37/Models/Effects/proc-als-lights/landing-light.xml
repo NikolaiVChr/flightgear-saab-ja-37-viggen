@@ -1,12 +1,62 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <!-- ALS procedural light -->
+
   <path>Models/Effects/procedural_light.ac</path>
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/proc-als-lights/landing-light</inherits-from>
     <object-name>procedural_light</object-name>
   </effect>
+
+  <animation>
+    <type>select</type>
+    <object-name>procedural_light</object-name>
+    <condition>
+      <property>/sim/rendering/shaders/skydome</property>
+    </condition>
+  </animation>
+
+  <!-- Backup model for low spec pipeline -->
+
+  <model>
+    <name>low_spec_light</name>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/light-white-strong.ac</path>
+  </model>
+
+  <animation>
+    <type>flash</type>
+    <object-name>low_spec_light</object-name>
+    <offset>0</offset>
+    <factor>2</factor>
+    <power>5</power>
+    <two-sides>false</two-sides>
+    <min>0</min>
+    <max>1.5</max>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>low_spec_light</object-name>
+    <condition>
+      <not><property>/sim/rendering/shaders/skydome</property></not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
+  </animation>
+
+
+  <!-- Compositor light cone -->
 
   <light>
     <name>landing_light</name>
@@ -18,9 +68,9 @@
       <z-m>0</z-m>
     </position>
     <direction>
-      <pitch-deg>84</pitch-deg>
-      <heading-deg>0</heading-deg>
-      <roll-deg>0</roll-deg>
+      <x>-1.0</x>
+      <y>0</y>
+      <z>0</z>
     </direction>
     <ambient>
       <r>0.0</r>
@@ -70,6 +120,7 @@
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <object-name>landing_light</object-name>
     <condition>
       <property>ja37/effect/landing-light</property>
@@ -82,6 +133,7 @@
   <animation>
     <type>scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <x-offset>5</x-offset>
     <y-offset>5</y-offset>
     <z-offset>5</z-offset>
@@ -90,14 +142,10 @@
   <animation>
     <type>dist-scale</type>
     <object-name>procedural_light</object-name>
+    <object-name>low_spec_light</object-name>
     <interpolation>
       <entry><ind>0</ind><dep>0.2</dep></entry>
       <entry><ind>3000</ind><dep>2.4</dep></entry>
     </interpolation>
-  </animation>
-
-  <animation>
-    <type>noshadow</type>
-    <object-name>procedural_light</object-name>
   </animation>
 </PropertyList>
