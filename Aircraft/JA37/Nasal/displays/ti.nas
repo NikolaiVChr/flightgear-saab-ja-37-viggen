@@ -103,7 +103,7 @@ var maps_base = getprop("/sim/fg-home") ~ '/cache/mapsTI';
 # dark_only_labels
 
 var makeUrl =
-  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/{type}/{z}/{x}/{y}.png');
+  string.compileTemplate('https://cartodb-basemaps-c.global.ssl.fastly.net/{type}/{z}/{x}/{y}.png');
 var makePath =
   string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
 var num_tiles = [5, 5];# must be uneven, 5x5 will ensure we never see edge of map tiles when canvas is 512px high.
