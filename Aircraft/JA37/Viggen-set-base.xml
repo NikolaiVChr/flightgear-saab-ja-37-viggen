@@ -642,8 +642,8 @@
             <mask type="bool">true</mask>
             <reflection type="bool">false</reflection>
             <emission type="double">1</emission>
-            <sample-res type="double">0.0009</sample-res><!-- was 0.0006-->
-            <sample-far type="double">1.0</sample-far><!-- was 2.5 -->
+            <sample-res type="double">0.0005</sample-res><!-- ~0.5 px at 1024x1024 -->
+            <sample-far type="double">2.0</sample-far>
             <switch-slav type="bool">false</switch-slav>
             <switch-hojd type="bool">false</switch-hojd>
             <display-terrain-height type="bool">false</display-terrain-height>

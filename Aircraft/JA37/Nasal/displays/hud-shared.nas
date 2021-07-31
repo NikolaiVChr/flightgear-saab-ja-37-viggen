@@ -241,7 +241,7 @@ var HUDCanvas = {
         var bright_hud = input.bright_hud.getValue();
         if (bright_hud != me.bright_hud) {
             me.bright_hud = bright_hud;
-            me.grp_hud.setColor(0,1,0,me.bright_hud);
+            me.grp_hud.setColor(0.5,1,0.5,me.bright_hud);
         }
 
         var bright_bck = input.bright_bck.getValue();
@@ -250,7 +250,7 @@ var HUDCanvas = {
             me.grp_backup.setColor(1,0.5,0,me.bright_bck);
         }
 
-        input.bright.setValue(math.max(me.bright_hud, me.bright_bck));
+        input.bright.setValue(math.max(me.bright_hud, me.bright_bck) * 1.2);
     },
 };
 
