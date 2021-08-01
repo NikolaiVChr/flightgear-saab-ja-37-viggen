@@ -7,13 +7,15 @@ var opts = {
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
     # HUD physical dimensions. This is the object on which the Canvas is applied.
-    # This values are only used for Nasal parallax correction (ALS off).
+    # These values are only used for Nasal parallax correction (ALS off).
     hud_center_y: nil,  # see update_hud_position below
     hud_center_z: nil,  # see update_hud_position below
     # Maximum of width/height (actually, the size to which the texture is mapped).
     hud_size: 0.14,
 
     placement: {"node": "aj37hud", "texture": "hud.png"},
+
+    color: "128,255,128",   # "R,G,B", 0 to 255
 };
 
 
