@@ -78,7 +78,7 @@ var input = {
     airbase_index:  "/ja37/hud/display-alt-base",
     true_alt_ft:    "/fdm/jsbsim/position/h-sl-ft",
     true_alt_agl_ft:"/fdm/jsbsim/position/h-agl-ft",
-
+    scene_red:      "/rendering/scene/diffuse/red",
 };
 
 foreach(var name; keys(input)) {
@@ -239,8 +239,8 @@ var HUDCanvas = {
         me.grp_hud = me.forward_axis.createChild("group", "HUD");
         me.grp_backup = me.forward_axis.createChild("group", "Backup sight");
 
-        me.bright_hud = -1;
-        me.bright_bck = -1;
+        me.bright_hud = 0;
+        me.bright_bck = 0;
     },
 
     add_placement: func(placement) {
@@ -296,15 +296,17 @@ var HUDCanvas = {
     },
 
     update_brightness: func {
-        var bright_hud = input.bright_hud.getValue();
-        if (bright_hud != me.bright_hud) {
-            me.bright_hud = bright_hud;
-            me.set_hud_brightness(me.bright_hud);
-        }
+        var scene_bright = input.scene_red.getValue();
+        # Brightness level from photocell
+        me.bright_hud = 0.7 + 0.3*scene_bright*scene_bright;
+        # Adjust with brightness knob.
+        me.bright_hud *= (0.7 + 0.6 * input.bright_hud.getValue());
+        me.bright_hud = math.clamp(me.bright_hud, 0, 1);
+        me.set_hud_brightness(me.bright_hud);
 
-        var bright_bck = input.bright_bck.getValue();
-        if (variant.JA and bright_bck != me.bright_bck) {
-            me.bright_bck = bright_bck;
+        if (variant.JA) {
+            me.bright_bck = input.bright_bck.getValue() * 0.4;
+            if (me.bright_bck > 0) me.bright_bck += 0.6;
             me.set_backup_brightness(me.bright_bck);
         }
 
@@ -333,10 +335,13 @@ var update = func {
     hud_canvas.update_parallax();
     hud.update();
     if (variant.JA) {
-        if (hud_canvas.bright_bck > 0 and power.prop.dcMainBool.getBoolValue()) {
-            hud_canvas.get_group_backup().show();
-        } else {
-            hud_canvas.get_group_backup().hide();
-        }
+        hud_canvas.get_group_backup().setVisible(
+            hud_canvas.bright_bck > 0 and power.prop.dcMainBool.getBoolValue()
+        );
     }
+}
+
+var loop_slow = func {
+    # For ambient light change.
+    hud_canvas.update_brightness();
 }

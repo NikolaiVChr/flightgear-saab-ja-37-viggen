@@ -1143,7 +1143,6 @@ var random_multipos = {
 };
 
 var random_continuous = {
-  "ja37/hud/brightness-si": [0.55,1],
   "controls/lighting/flood-knob": [0,1],
   "controls/lighting/instruments-knob": [0,1],
   "controls/ventilation/airconditioning-temperature": [12,26],
@@ -1441,7 +1440,7 @@ var autostart = func {
   setprop("instrumentation/iff/power-knob", 1);
   setprop("ja37/hud/switch-hojd", FALSE);
   setprop("ja37/hud/switch-slav", FALSE);
-  setprop("ja37/hud/brightness-si", 1);
+  setprop("ja37/hud/brightness-si", 0.5);
   setprop("/instrumentation/altimeter/setting-std", 0);
   setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-inhg"));
   setprop("/instrumentation/altimeter[1]/setting-inhg", getprop("/environment/pressure-inhg"));
