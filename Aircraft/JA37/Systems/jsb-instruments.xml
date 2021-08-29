@@ -1,117 +1,6 @@
 <?xml version="1.0"?>
 
 <system name="instruments">
-    <channel execrate="4" name="accelerometer">
-        <pure_gain name="instruments/g-force">
-            <input>accelerations/a-pilot-z-ft_sec2</input>
-            <gain>-0.031081</gain>
-            <output>/ja37/accelerations/pilot-G</output>
-        </pure_gain>
-
-        <pure_gain name="instruments/g-force-norm">
-            <input>instruments/g-force</input>
-            <gain>0.01</gain>
-            <output>/ja37/accelerations/pilot-G-norm</output>
-        </pure_gain>
-        
-        <!-- accelerometer animation -->
-        <lag_filter name="instruments/accelerometer">
-            <input>instruments/g-force</input>
-            <c1>5</c1>
-            <clipto>
-                <min>-2</min>
-                <max>9</max>
-            </clipto>
-            <output>/instrumentation/accelerometer/g-force-indicated</output>
-        </lag_filter>
-
-        <switch name="instruments/max-g-raw">
-            <default value="instruments/max-g-raw"/>
-            <test logic="OR" value="instruments/accelerometer">
-                instruments/accelerometer gt instruments/max-g-raw
-                /instrumentation/accelerometer/reset-button == 1
-                <!-- hack: high g-forces are registered during initialization, reset them -->
-                sim-time-sec lt 1
-            </test>
-        </switch>
-
-        <actuator name="instruments/max-g">
-            <input>instruments/max-g-raw</input>
-            <rate_limit>20</rate_limit>
-            <clipto>
-                <min>-2</min>
-                <max>9</max>
-            </clipto>
-            <output>/instrumentation/accelerometer/g-force-max</output>
-        </actuator>
-
-        <!-- g-force sounds -->
-        <switch name="names/sound/max-pos-g">
-            <default value="/ja37/sound/loadfactor-percent"/>
-            <test logic="OR" value="110">
-              /instrumentation/terrain-override == 1
-            </test>
-            <output>/ja37/sound/loadfactor-percent-used</output>
-        </switch>
-        
-        <fcs_function name="names/instruments/max-positive-g-set">
-            <function>
-                    <product>
-                        <v>0.01</v>                        
-                        <p>/ja37/sound/loadfactor-percent-used</p>
-                        <p>/limits/max-positive-g</p>
-                    </product>
-            </function>
-            <output>/limits/max-positive-g-set</output>
-        </fcs_function>
-        
-        <fcs_function name="names/instruments/sound-g-force-norm">
-            <function>
-                    <quotient>
-                        <p>/ja37/accelerations/pilot-G-lag</p>
-                        <p>/limits/max-positive-g-set</p>
-                    </quotient>
-            </function>
-            <output>/ja37/sound/pilot-G-norm</output>
-        </fcs_function>
-
-        <!--<washout_filter name="names/instruments/g-force-damped">
-          <input> /ja37/accelerations/pilot-G </input>
-          <c1> 1 </c1>
-          <output> /ja37/accelerations/pilot-G-damped </output>
-        </washout_filter>-->
-
-        <kinematic name="names/instruments/g-force-norm-damped">
-            <input>/ja37/accelerations/pilot-G-norm</input>
-            <traverse>
-                <setting>
-                    <position>-1</position>
-                    <time>0.0</time>
-                </setting>
-                <setting>
-                    <position>1</position>
-                    <time>10</time>
-                </setting>
-            </traverse>
-            <clipto>
-                <min>-1</min>
-                <max>1</max>
-            </clipto>
-            <output> /ja37/accelerations/pilot-G-norm-damped </output>
-        </kinematic>
-
-        <fcs_function name="names/instruments/g-force-damped">
-            <function>
-                    <product>
-                        <p>/ja37/accelerations/pilot-G-norm-damped</p>
-                        <v>100</v>
-                    </product>
-            </function>
-            <output>/ja37/accelerations/pilot-G-damped</output>
-        </fcs_function>
-    </channel>
-
-
     <channel execrate="4" name="engine-instruments">
         <!-- Engine pressure ratio -->
         <fcs_function name="propulsion/engine/mil-rate">
@@ -497,9 +386,69 @@
     </channel>
 
 
+    <channel execrate="4" name="accelerometer">
+        <accelerometer name="instruments/accelerometer/a-z-ft_sec2">
+            <location unit="M">
+                <x>-4.05</x>
+                <y>0</y> <!-- should be -0.2 for JA, +0.2 for AJS -->
+                <z>0.43</z>
+            </location>
+            <axis>Z</axis>
+            <lag>5</lag>
+            <noise variation="ABSOLUTE" distribution="GAUSSIAN">0.2</noise>
+        </accelerometer>
+
+        <pure_gain name="instruments/accelerometer/indicated-g">
+            <input>instruments/accelerometer/a-z-ft_sec2</input>
+            <gain>-0.031081</gain>
+            <clipto>
+                <min>-2</min>
+                <max>9</max>
+            </clipto>
+            <output>/instrumentation/accelerometer/g-force-indicated</output>
+        </pure_gain>
+
+        <switch name="instruments/accelerometer/max-g-raw">
+            <default value="instruments/accelerometer/max-g-raw"/>
+            <test logic="OR" value="instruments/accelerometer/indicated-g">
+                instruments/accelerometer/indicated-g gt instruments/accelerometer/max-g-raw
+                /instrumentation/accelerometer/reset-button == 1
+                <!-- hack: high g-forces are registered during initialization, reset them -->
+                sim-time-sec lt 1
+            </test>
+        </switch>
+
+        <actuator name="instruments/accelerometer/max-g">
+            <input>instruments/accelerometer/max-g-raw</input>
+            <rate_limit sense="decr">20</rate_limit>
+            <clipto>
+                <min>-2</min>
+                <max>9</max>
+            </clipto>
+            <output>/instrumentation/accelerometer/g-force-max</output>
+        </actuator>
+
+        <pure_gain name="instruments/g-force">
+            <input>accelerations/a-pilot-z-ft_sec2</input>
+            <gain>-0.031081</gain>
+            <output>/ja37/accelerations/pilot-G</output>
+        </pure_gain>
+    </channel>
+
+
     <channel name="aoa-indicator">
-        <switch name="instruments/aoa/indicator-raw">
-            <default value="aero/alpha-deg"/>
+        <sensor name="instruments/aoa/alpha-deg">
+            <input>aero/alpha-deg</input>
+            <lag>5</lag>
+            <noise variation="ABSOLUTE" distribution="GAUSSIAN">0.02</noise>
+            <clipto>
+                <min>-10</min>
+                <max>40</max>
+            </clipto>
+        </sensor>
+
+        <switch name="instruments/aoa/indicator-target-deg">
+            <default value="instruments/aoa/alpha-deg"/>
             <test value="-4">
                 /ja37/elec/dc-bus-main-bool == 0
             </test>
@@ -508,8 +457,8 @@
             </test>
         </switch>
 
-        <actuator name="instruments/aoa/indicator">
-            <input>instruments/aoa/indicator-raw</input>
+        <actuator name="instruments/aoa/indicator-deg">
+            <input>instruments/aoa/indicator-target-deg</input>
             <rate_limit>100</rate_limit>
             <clipto>
                 <min>-4</min>
@@ -742,6 +691,179 @@
         </lag_filter>
     </channel>
 
+    <channel execrate="4" name="GVV">
+        <!-- Stall warning (high alpha / high G-load / low speed)
+            JA manual part 1 section 11.7
+            AJS manual part 1 section 12.6 (AJS only has high alpha warning)
+        -->
+
+        <switch name="systems/sound/gvv/inhibit">
+            <test logic="OR" value="1">
+                gear/unit[0]/WOW eq 1
+                /ja37/fuses/gvv eq 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <!-- Alpha warning -->
+
+        <fcs_function name="systems/sound/gvv/alpha-warning-limit-JA-gear-up-deg">
+            <function>
+                <table>
+                    <independentVar lookup="row">/position/altitude-ft</independentVar>
+                    <tableData>
+                        32808  23.00
+                        41010  20.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <!-- AoA at which alpha warning triggers in stable flight -->
+        <switch name="systems/sound/gvv/alpha-warning-limit">
+            <!-- AJS: 15° in autopilot hold mode, or with gear down (except if α15.5° selected). Otherwise 18°. -->
+            <test logic="AND" value="15">
+                /ja37/systems/variant ne 0
+                autoflight/mode ge 2
+            </test>
+            <test logic="AND" value="15">
+                /ja37/systems/variant ne 0
+                gear/gear-pos-norm gt 0
+                autoflight/high-alpha eq 0
+            </test>
+            <test value="18">
+                /ja37/systems/variant ne 0
+            </test>
+            <!-- JA: with gear up, depends on altitude. With gear down, 15°, or 18° if α15.5° selected. -->
+            <test logic="AND" value="18">
+                gear/gear-pos-norm gt 0
+                autoflight/high-alpha eq 1
+            </test>
+            <test logic="AND" value="15">
+                gear/gear-pos-norm gt 0
+            </test>
+            <default value="systems/sound/gvv/alpha-warning-limit-JA-gear-up-deg"/>
+        </switch>
+
+        <!-- Pre-warnings, 3° and 6° before warning (JA only, with gear up) -->
+        <summer name="systems/sound/gvv/alpha-pre-warn-1-limit">
+            <input>systems/sound/gvv/alpha-warning-limit</input>
+            <bias>-6</bias>
+        </summer>
+
+        <summer name="systems/sound/gvv/alpha-pre-warn-2-limit">
+            <input>systems/sound/gvv/alpha-warning-limit</input>
+            <bias>-3</bias>
+        </summer>
+
+        <pure_gain name="systems/sound/gvv/alpha-predicted">
+            <input>instruments/aoa/alpha-deg</input>
+            <gain>1.0</gain>
+        </pure_gain>
+
+        <!-- 0: no warning, 1: pre-warning 1, 2: pre-warning 2, 3: warning -->
+        <switch name="systems/sound/gvv/alpha-warning-level">
+            <test value="0">
+                systems/sound/gvv/inhibit eq 1
+            </test>
+            <test value="3">
+                systems/sound/gvv/alpha-predicted ge systems/sound/gvv/alpha-warning-limit
+            </test>
+            <!-- pre-warning only with gear up -->
+            <test logic="AND" value="2">
+                systems/sound/gvv/alpha-predicted ge systems/sound/gvv/alpha-pre-warn-2-limit
+                gear/gear-pos-norm eq 0
+            </test>
+            <test logic="AND" value="1">
+                systems/sound/gvv/alpha-predicted ge systems/sound/gvv/alpha-pre-warn-1-limit
+                gear/gear-pos-norm eq 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <!-- G-load warning -->
+
+        <!-- Factor applied to maximum allowed load (set through datapanel) -->
+        <switch name="systems/sound/gvv/loadfactor-percent">
+            <default value="/ja37/sound/loadfactor-percent"/>
+            <test logic="OR" value="110">
+              /instrumentation/terrain-override == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/sound/gvv/loadfactor-limit">
+            <function>
+                <product>
+                    <v>0.01</v>
+                    <p>systems/sound/gvv/loadfactor-percent</p>
+                    <p>/limits/max-positive-g</p>
+                </product>
+            </function>
+        </fcs_function>
+
+        <pure_gain name="systems/sound/gvv/loadfactor-predicted">
+            <input>instruments/accelerometer/indicated-g</input>
+            <gain>1</gain>
+        </pure_gain>
+
+        <fcs_function name="systems/sound/gvv/loadfactor-predicted-norm">
+            <function>
+                <quotient>
+                    <p>systems/sound/gvv/loadfactor-predicted</p>
+                    <p>systems/sound/gvv/loadfactor-limit</p>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <!-- 0: no warning, 1: pre-warning 1, 2: pre-warning 2, 3: warning -->
+        <switch name="systems/sound/gvv/loadfactor-warning-level">
+            <test value="0">
+                systems/sound/gvv/inhibit eq 1
+            </test>
+            <test value="3">
+                systems/sound/gvv/loadfactor-predicted-norm ge 1
+            </test>
+            <!-- pre-warning values are guesses -->
+            <test logic="AND" value="2">
+                systems/sound/gvv/loadfactor-predicted-norm ge 0.92
+            </test>
+            <test logic="AND" value="1">
+                systems/sound/gvv/loadfactor-predicted-norm ge 0.85
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <!-- Low speed warning
+          Only partially implemented: warning when below flight idle at low speed.
+          The warning should also come up when speed is so low that MIL power will give insufficient acceleration.
+        -->
+
+        <switch name="systems/sound/gvv/speed-warning">
+            <test value="0">
+                systems/sound/gvv/inhibit eq 1
+            </test>
+            <test logic="AND" value="1">
+                instruments/airspeed/airspeed-kmh lt 375
+                instruments/altimeter/altitude-aal-m lt 1200
+                <test logic="OR"><!-- above 30m at landing (radar alt, or altimeter if unavailable) -->
+                    /ja37/hud/landing-mode eq 0
+                    <test logic="AND">
+                        instruments/radar-altimeter/ready eq 1
+                        instruments/radar-altimeter/radar-altitude-m gt 30
+                    </test>
+                    <test logic="AND">
+                        instruments/radar-altimeter/ready eq 0
+                        instruments/altimeter/altitude-aal-m gt 30
+                    </test>
+                </test>
+                fcs/throttle-pos-deg lt 19                <!-- below flight idle -->
+                autoflight/athr eq 0                      <!-- inhibited by A/T -->
+            </test>
+            <default value="0"/>
+        </switch>
+    </channel>
+
+
     <channel execrate="4" name="instruments">
 
         <switch name="systems/ins/time-steady">
@@ -883,57 +1005,6 @@
 
 
         
-        <fcs_function name="systems/sound/alpha-limit-low-ja">
-            <description>When 3hz tone comes</description>
-            <function>
-                <table>
-                    <independentVar lookup="row">/position/altitude-ft</independentVar>
-                    <tableData>
-                        32808  17.00 
-                        41010  14.00
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/sound/alpha-limit-low-aj">
-            <description>When 3hz tone comes, guesses</description>
-            <function>
-                <table>
-                    <independentVar lookup="row">/position/altitude-ft</independentVar>
-                    <tableData>
-                        32808  14.00
-                        41010  11.00
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-        
-        <switch name="systems/sound/alpha-limit-low">
-            <default value="systems/sound/alpha-limit-low-ja"/>
-            <test logic="AND" value="systems/sound/alpha-limit-low-aj">
-                /ja37/systems/variant gt 0
-            </test>
-        </switch>
-        
-        <fcs_function name="systems/sound/alpha-limit-medium">
-            <function>
-                    <sum>
-                        <p>systems/sound/alpha-limit-low</p>
-                        <v>3</v>
-                    </sum>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/sound/alpha-limit-high">
-            <function>
-                    <sum>
-                        <p>systems/sound/alpha-limit-low</p>
-                        <v>6</v>
-                    </sum>
-            </function>
-        </fcs_function>
-
 
         <!-- The ratio between N2 and N1 is approx 1:0.7184 -->
 
