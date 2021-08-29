@@ -101,7 +101,7 @@
         </signal>
         <signal>
             <type>float</type>
-            <property type="string">ja37/accelerations/pilot-G-lag</property>
+            <property type="string">instrumentation/accelerometer/g-force-indicated</property>
         </signal>
         <signal>
             <type>float</type>
