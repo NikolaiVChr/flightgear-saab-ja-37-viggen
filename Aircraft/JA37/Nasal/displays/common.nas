@@ -330,7 +330,8 @@ var Common = {
 	QFE: func {
 		# Update airbase altitude (only in QNH mode).
 		var airbase = route.Polygon.flyRTB.plan.destination;
-		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil) {
+		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil
+				and (modes.main_ja == modes.TAKEOFF or modes.main_ja == modes.LANDING)) {
 			me.input.alt_airbase_m.setValue(airbase.elevation);
 		} else {
 			me.input.alt_airbase_m.setValue(0);
