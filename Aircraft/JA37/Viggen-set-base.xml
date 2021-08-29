@@ -123,11 +123,14 @@
             <path>ja37/effect/g-suit</path>
             <path>ja37/effect/swedish-labels</path>
             <path>ja37/effect/headshake</path>
+            <path>/ja37/displays/show-full-menus</path>
             <path>ja37/displays/live-map</path>
             <path>controls/displays/arrows-controls-cursor</path>
             <path>controls/armament/ground-panel/automatic-settings</path>
             <path>payload/armament/spectator</path>
             <!--<path>sim/model/livery/file</path>-->
+            <path>/ja37/effect/rust-outside</path>
+            <path>/ja37/effect/rust-inside</path>
         </aircraft-data>
 
         <airport>

@@ -1182,9 +1182,6 @@ var main_init = func {
   hack.init();
   #setprop("ja37/avionics/master-warning-button", 0);# for when starting up with engines running, to prevent master warning.
 
-#  aircraft.data.add("ja37/hud/units-metric",
-#                    "ja37/autoReverseThrust",
-#                    "ja37/hud/stroke-linewidth");
   #aircraft.data.save();
   aircraft.data.save(0.5);#every 30 seconds
 
