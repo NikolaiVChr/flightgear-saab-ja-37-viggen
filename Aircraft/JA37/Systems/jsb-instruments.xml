@@ -705,6 +705,28 @@
             <default value="0"/>
         </switch>
 
+        <!-- Inputs -->
+
+        <pid name="systems/sound/gvv/alpha-dot-deg_sec">
+            <input>instruments/aoa/alpha-deg</input>
+            <kd>1</kd>
+        </pid>
+
+        <lag_filter name="systems/sound/gvv/alpha-dot-filter-deg_sec">
+            <input>systems/sound/gvv/alpha-dot-deg_sec</input>
+            <c1>4</c1>
+        </lag_filter>
+
+        <pid name="systems/sound/gvv/stick-dot-norm_sec">
+            <input>fcs/elevator/input</input>
+            <kd>-1</kd> <!-- positive = nose up -->
+        </pid>
+
+        <lag_filter name="systems/sound/gvv/stick-dot-filter-norm_sec">
+            <input>systems/sound/gvv/stick-dot-norm_sec</input>
+            <c1>4</c1>
+        </lag_filter>
+
         <!-- Alpha warning -->
 
         <fcs_function name="systems/sound/gvv/alpha-warning-limit-JA-gear-up-deg">
@@ -756,10 +778,21 @@
             <bias>-3</bias>
         </summer>
 
-        <pure_gain name="systems/sound/gvv/alpha-predicted">
-            <input>instruments/aoa/alpha-deg</input>
-            <gain>1.0</gain>
-        </pure_gain>
+        <fcs_function name="systems/sound/gvv/alpha-predicted">
+            <function>
+                <sum>
+                    <property>instruments/aoa/alpha-deg</property>
+                    <product>
+                        <property>systems/sound/gvv/alpha-dot-filter-deg_sec</property>
+                        <value>0.5</value>
+                    </product>
+                    <product>
+                        <property>systems/sound/gvv/stick-dot-filter-norm_sec</property>
+                        <value>5</value>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
 
         <!-- 0: no warning, 1: pre-warning 1, 2: pre-warning 2, 3: warning -->
         <switch name="systems/sound/gvv/alpha-warning-level">
@@ -801,10 +834,23 @@
             </function>
         </fcs_function>
 
-        <pure_gain name="systems/sound/gvv/loadfactor-predicted">
-            <input>instruments/accelerometer/indicated-g</input>
-            <gain>1</gain>
-        </pure_gain>
+        <fcs_function name="systems/sound/gvv/loadfactor-predicted">
+            <function>
+                <sum>
+                    <property>instruments/accelerometer/indicated-g</property>
+                    <!-- Same predictive correction as for alpha.
+                         The manual specifies that loadfactor warning uses alpha-dot, and not nz-dot. -->
+                    <product>
+                        <property>systems/sound/gvv/alpha-dot-filter-deg_sec</property>
+                        <value>0.08</value>
+                    </product>
+                    <product>
+                        <property>systems/sound/gvv/stick-dot-filter-norm_sec</property>
+                        <value>0.8</value>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
 
         <fcs_function name="systems/sound/gvv/loadfactor-predicted-norm">
             <function>
