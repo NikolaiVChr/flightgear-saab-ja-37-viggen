@@ -218,4 +218,59 @@
       <default value="0"/>
     </switch>
   </channel>
+
+
+  <channel execrate="4" name="MKV">
+    <!-- Ground proximity / collision warning.
+      JA37D SFI part 1 sec 16.5 / AJS37 SFI part 1 sec 23
+    -->
+
+    <!-- Terrain proximity warning
+      Indicates that radar altitude is significantly lower than indicated altitude.
+    -->
+
+    <pure_gain name="systems/mkv/terrain-warning-limit">
+      <!-- terrain warning triggers at radar-alt < baro-alt/2 -->
+      <input>instruments/altimeter/altitude-aal-m</input>
+      <gain>0.5</gain>
+    </pure_gain>
+
+    <switch name="systems/mkv/terrain-warning-enable-ja">
+      <!-- inhibit by takeoff mode, and control switch -->
+      <test logic="OR" value="0">
+        /ja37/avionics/collision-warning eq 0
+        /ja37/mode/takeoff eq 1
+      </test>
+      <!-- gear down, LB, LF, or L+within 40km of airbase -->
+      <test logic="OR" value="1">
+        gear/gear-pos-norm eq 1
+        ja37/hud/landing-mode eq 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/terrain-warning">
+      <!-- JA: enable conditions above -->
+      <test logic="AND" value="0">
+        /ja37/systems/variant eq 0
+        systems/mkv/terrain-warning-enable-ja eq 0
+      </test>
+      <!-- AJS: requires LD mode -->
+      <test logic="AND" value="0">
+        /ja37/systems/variant ne 0
+        /ja37/hud/switch-hojd eq 1
+      </test>
+      <!-- inhibit at low altitude with gear down (landing) -->
+      <test logic="AND" value="0">
+        gear/gear-pos-norm eq 1
+        instruments/radar-altimeter/radar-altitude-m lt 50
+      </test>
+      <test logic="AND" value="1">
+        instruments/radar-altimeter/ready eq 1
+        instruments/radar-altimeter/radar-altitude-m lt 150
+        instruments/radar-altimeter/radar-altitude-m lt systems/mkv/terrain-warning-limit
+      </test>
+      <default value="0"/>
+    </switch>
+  </channel>
 </system>
