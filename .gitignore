@@ -1,3 +1,7 @@
 Thumbs.db
 *.blend*
 *.xcf
+
+# STRM DEM source files
+*.DEM
+*.dem.zip
