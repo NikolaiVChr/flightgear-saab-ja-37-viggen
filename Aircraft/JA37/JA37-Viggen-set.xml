@@ -361,5 +361,8 @@
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>
         </hud>
+        <elev>
+            <file>Aircraft/JA37/Nasal/terrain-profile.nas</file>
+        </elev>
     </nasal>
 </PropertyList>

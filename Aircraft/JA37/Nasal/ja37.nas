@@ -607,6 +607,9 @@ var Saab37 = {
       setprop("ja37/avionics/record-on", FALSE);
     }
 
+    # terrain profile map
+    if (variant.JA) elev.loop();
+
     me.environment(dt);
 
     # consume oxygen bottle pressure
@@ -862,6 +865,8 @@ var Saab37 = {
       dap.callInit();
       # fighterlink
       fighterlink.init();
+      # terrain profile map
+      elev.init();
     }
 
     # fire

@@ -680,6 +680,7 @@
             <collision-warning type="bool">true</collision-warning>
             <!-- LB, LF, or (L and within 40km of destination). Used by MKV and QFE warnings. -->
             <landing-warnings-enable type="bool">false</landing-warnings-enable>
+            <terrain-height-m type="double">0</terrain-height-m>
         </avionics>
         <displays>
             <on type="bool">false</on>  <!-- nasal controlled -->
