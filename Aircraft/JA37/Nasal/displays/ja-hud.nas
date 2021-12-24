@@ -1196,8 +1196,8 @@ var RadarAltitude = {
             me.shown = FALSE;
         } elsif (terrain_height_mode) {
             # Display terrain height
-            var terrain_height = input.true_alt_ft.getValue() - input.true_alt_agl_ft.getValue();
-            if (displays.metric) terrain_height *= FT2M;
+            var terrain_height = input.terrain_hgt.getValue();
+            if (!displays.metric) terrain_height *= M2FT;
             terrain_height = math.round(terrain_height, 100);
             me.text.updateText(sprintf("%d", terrain_height));
             me.shown = TRUE;

@@ -36,6 +36,7 @@ var input = {
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
     ref_alt:        "/ja37/displays/reference-altitude-m",
+    terrain_hgt:    "/ja37/avionics/terrain-height-m",
     rm_active:      "/autopilot/route-manager/active",
     wp_bearing:     "/autopilot/route-manager/wp/true-bearing-deg",
     eta:            "/instrumentation/waypoint-indicator/eta-s",
