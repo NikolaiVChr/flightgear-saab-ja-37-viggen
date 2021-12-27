@@ -250,6 +250,10 @@
     </switch>
 
     <switch name="systems/mkv/terrain-warning">
+      <!-- Requires radar altimeter -->
+      <test logic="OR" value="0">
+        instruments/radar-altimeter/ready eq 0
+      </test>
       <!-- JA: enable conditions above -->
       <test logic="AND" value="0">
         /ja37/systems/variant eq 0
@@ -266,9 +270,24 @@
         instruments/radar-altimeter/radar-altitude-m lt 50
       </test>
       <test logic="AND" value="1">
-        instruments/radar-altimeter/ready eq 1
         instruments/radar-altimeter/radar-altitude-m lt 150
         instruments/radar-altimeter/radar-altitude-m lt systems/mkv/terrain-warning-limit
+      </test>
+      <default value="0"/>
+    </switch>
+
+
+    <!-- AJS output -->
+    <switch name="systems/mkv/ajs-light">
+      <test logic="OR" value="systems/flight/blink/five">
+        systems/mkv/terrain-warning eq 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ajs-alt-bars-blink">
+      <test logic="OR" value="1">
+        systems/mkv/terrain-warning eq 1
       </test>
       <default value="0"/>
     </switch>

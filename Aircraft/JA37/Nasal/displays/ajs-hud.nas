@@ -246,7 +246,8 @@ var AltitudeBars = {
     # Their length corresponds to 100m.
     update_ref_bars: func(ref_alt) {
         if (ref_alt <= 500) {
-            me.ref_bars.show();
+            # MKV blinking
+            me.ref_bars.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
             me.ref_bars.setScale(1, 100/ref_alt);
         } else {
             me.ref_bars.hide();
@@ -276,7 +277,8 @@ var AltitudeBars = {
         # Clamp (max: top of outer altitude bars, min: length of alt bars below the bottom of bars).
         rhm_pos = math.clamp(rhm_pos, 0, 2);
         me.rhm_index.setTranslation(0, 300 * rhm_pos);
-        me.rhm_index.show();
+        # MKV blinking
+        me.rhm_index.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
     },
 
     # All altitudes in meters

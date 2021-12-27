@@ -61,6 +61,7 @@ var input = {
     radar_range:    "/instrumentation/radar/range",
     APmode:         "/fdm/jsbsim/autoflight/mode",
     alt_bars_flash: "/fdm/jsbsim/systems/indicators/flashing-alt-bars",
+    ajs_bars_flash: "/fdm/jsbsim/systems/mkv/ajs-alt-bars-blink",
     gpw:            "/instrumentation/terrain-warning",
     twoHz:          "/ja37/blink/two-Hz/state",
     fourHz:         "/ja37/blink/four-Hz/state",
