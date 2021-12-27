@@ -162,6 +162,7 @@ var Common = {
 		if (variant.JA) {
 			me.ja_nav();
 			me.landWarningsCondition();
+			me.airbaseAlt();
 		} else {
 			me.hojd_switch();
 			me.launch_altitude();
@@ -362,15 +363,6 @@ var Common = {
 	},
 
 	QFE: func {
-		# Update airbase altitude (only in QNH mode).
-		var airbase = route.Polygon.flyRTB.plan.destination;
-		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil
-				and (modes.main_ja == modes.TAKEOFF or modes.main_ja == modes.LANDING)) {
-			me.input.alt_airbase_m.setValue(airbase.elevation);
-		} else {
-			me.input.alt_airbase_m.setValue(0);
-		}
-
 		var time = me.input.time.getValue();
 		var alt = me.input.alt_aal_m.getValue();
 		var std = me.input.altimeter_std.getBoolValue();
@@ -427,7 +419,16 @@ var Common = {
 		me.qfe_warn = (me.qfe_warn_takeoff_time != nil and time - me.qfe_warn_takeoff_time <= 10)
 			or (me.qfe_warn_time != nil and time - me.qfe_warn_time <= 10);
 		me.input.qfeWarning.setValue(me.qfe_warn);
-    },
+	},
+
+	airbaseAlt: func {
+		var airbase = route.Polygon.flyRTB.plan.destination;
+		if (airbase != nil) {
+			me.input.alt_airbase_m.setValue(airbase.elevation);
+		} else {
+			me.input.alt_airbase_m.setValue(0);
+		}
+	},
 
 	referenceAlt: func {
 		# Reference (target) altitude displayed on HUD and other displays.
