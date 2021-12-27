@@ -300,6 +300,8 @@
         systems/mkv/global-inhibit eq 1
         <!-- disabled with radar off -->
         /ja37/radar/active eq 0
+        <!-- disabled for A/G aiming -->
+        /ja37/hud/ground-aiming eq 1
       </test>
       <!-- inhibit at low altitude with gear down -->
       <test logic="AND" value="0">
