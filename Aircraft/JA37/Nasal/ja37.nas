@@ -29,6 +29,7 @@ input = {
   airspeed:         "velocities/airspeed-kt",
   alpha:            "orientation/alpha-deg",
   alt:              "position/altitude-ft",
+  annunc_serv:      "ja37/avionics/annunciator/serviceable",
   apLockAlt:        "autopilot/locks/altitude",
   apLockHead:       "autopilot/locks/heading",
   apLockSpeed:      "autopilot/locks/speed",
@@ -436,13 +437,23 @@ var Saab37 = {
       flareCount = -1;
     }
   },
-  
+
   aural: func {
+    if (!variant.JA) {
+      # AJS only has high alpha sound warning
+      input.toneGVV.setBoolValue(
+        power.prop.dcMainBool.getBoolValue()
+        and input.annunc_serv.getBoolValue()
+        and input.GVValpha.getValue() == 3
+      );
+      return;
+    }
+
     # CK37 issued aural warnings (minus master-warning, as its played seperate)
     #
     # at MKV ground collision warning the load-factor warning is force set at 110. (until 10 secs after)
     me.warnGiven = 0;
-    if (!power.prop.dcMainBool.getValue() or !getprop("ja37/avionics/annunciator/serviceable")) {
+    if (!power.prop.dcMainBool.getValue() or !input.annunc_serv.getBoolValue()) {
       me.warnGiven = 1;
     }
     if (!me.warnGiven and getprop("ja37/sound/terrain-on")) {
