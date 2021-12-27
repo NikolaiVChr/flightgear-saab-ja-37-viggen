@@ -70,6 +70,7 @@ var input = {
     wingspan:       "/controls/armament/wingspan",
     gunsight_dist:  "/instrumentation/gunsight[0]/distance-m",
     arak_long:      "/controls/armament/weapon-panel/switch-impulse",
+    gnd_aiming:     "/ja37/hud/ground-aiming",
     bright:         "/ja37/hud/brightness",
     bright_hud:     "/ja37/hud/brightness-si",
     bright_bck:     "/ja37/hud/brightness-res",

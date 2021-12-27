@@ -651,6 +651,7 @@
             <qnh-mode type="bool">false</qnh-mode>
             <display-alt-window type="bool">false</display-alt-window>
             <display-alt-base type="bool">false</display-alt-base>
+            <ground-aiming type="bool">false</ground-aiming>
         </hud>
         <sound>
             <click-on type="bool">false</click-on>

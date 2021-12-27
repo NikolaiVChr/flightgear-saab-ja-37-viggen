@@ -676,7 +676,13 @@ var AimingMode = {
         } else {
             me.group.hide();
             me.target.hide();
+            me.set_AG_flag(FALSE);
         }
+    },
+
+    # External A/G aiming flag, used for ground collision warning
+    set_AG_flag: func(b) {
+        input.gnd_aiming.setBoolValue(b);
     },
 
     ## AA sight. Radar lock not implemented yet.
@@ -750,6 +756,8 @@ var AimingMode = {
             or (type == "M55" and input.wpn_knob.getValue() == fire_control.WPN_SEL.AKAN_JAKT)) {
             me.update_AA(type);
         } elsif (type == "M55" or type == "M70") {
+            me.set_AG_flag(TRUE);
+
             var arak_long = (type == "M70" and input.arak_long.getBoolValue());
 
             sight.AGsight.update();
@@ -786,6 +794,8 @@ var AimingMode = {
             me.reticle_pos[0] = pos[0] * MIL2HUD;
             me.reticle_pos[1] = pos[1] * MIL2HUD;
         } elsif (type == "M71" or type == "M71R") {
+            me.set_AG_flag(TRUE);
+
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
@@ -802,6 +812,8 @@ var AimingMode = {
                 me.reticle_pos = [0,300];
             }
         } elsif (type == "RB-75") {
+            me.set_AG_flag(FALSE);
+
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
