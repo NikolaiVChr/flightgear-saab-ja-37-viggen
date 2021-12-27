@@ -480,7 +480,7 @@ var DistanceLine = {
                 var speed = input.groundspeed.getValue() * KT2MPS;
                 # Blink 2s before firing
                 if (dist[0] >= dist[2] and dist[0] <= dist[2] + speed*2) {
-                    me.group.setVisible(input.fourHz.getBoolValue());
+                    me.group.setVisible(input.fiveHz.getBoolValue());
                 } else {
                     me.group.show();
                 }
@@ -592,7 +592,7 @@ var FPV = {
     # Display 'fin' (speed error indicator)
     # pos: normalised in [-1,1], 0: correct speed, -1: speed is too low
     set_fin: func(show, pos=0, blink=0) {
-        if (show and (!blink or input.fourHz.getBoolValue())) {
+        if (show and (!blink or input.fiveHz.getBoolValue())) {
             me.tail.show();
             me.tail.setTranslation(0, -50*pos);
         } else {
@@ -718,7 +718,7 @@ var AimingMode = {
         me.reticle.setVisible(type == "M55");
         me.set_wingspan(input.wingspan.getValue(), shoot_dist);
         me.wing.show();
-        me.firing_mark.setVisible(g_warning and input.fourHz.getBoolValue());
+        me.firing_mark.setVisible(g_warning and input.fiveHz.getBoolValue());
 
         if (type == "M55") {
             # A/G sight computer is used for this, and this is essentially what the real AJS does too
@@ -772,13 +772,13 @@ var AimingMode = {
                     # Time <= 18s and >= 0.5s
                     and time <= 18 and time >= 0.5
                     # Blinking 2s before last firing point
-                    and (dist[0] > dist[2] + speed*2 or input.fourHz.getBoolValue()));
+                    and (dist[0] > dist[2] + speed*2 or input.fiveHz.getBoolValue()));
             } else {
                 # Firing mark 0.5s before firing.
                 me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
             }
             # Pull up bars flashing after evade distance.
-            me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fourHz.getBoolValue());
+            me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fiveHz.getBoolValue());
             me.target.hide();
 
             me.reticle_pos[0] = pos[0] * MIL2HUD;

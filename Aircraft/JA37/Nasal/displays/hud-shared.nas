@@ -64,6 +64,7 @@ var input = {
     gpw:            "/instrumentation/terrain-warning",
     twoHz:          "/ja37/blink/two-Hz/state",
     fourHz:         "/ja37/blink/four-Hz/state",
+    fiveHz:         "/ja37/blink/five-Hz/state",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     wingspan:       "/controls/armament/wingspan",
     gunsight_dist:  "/instrumentation/gunsight[0]/distance-m",
