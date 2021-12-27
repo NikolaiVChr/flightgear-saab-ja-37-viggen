@@ -225,6 +225,10 @@
       JA37D SFI part 1 sec 16.5 / AJS37 SFI part 1 sec 23
     -->
 
+    <switch name="systems/mkv/global-inhibit">
+      <default value="gear/unit[2]/WOW"/>
+    </switch>
+
     <!-- Terrain proximity warning
       Indicates that radar altitude is significantly lower than indicated altitude.
     -->
@@ -250,8 +254,9 @@
     </switch>
 
     <switch name="systems/mkv/terrain-warning">
-      <!-- Requires radar altimeter -->
       <test logic="OR" value="0">
+        systems/mkv/global-inhibit eq 1
+        <!-- Requires radar altimeter -->
         instruments/radar-altimeter/ready eq 0
       </test>
       <!-- JA: enable conditions above -->
@@ -277,10 +282,42 @@
     </switch>
 
 
+    <!-- AJS ground collision warning -->
+    <switch name="systems/mkv/ajs-collision-altitude">
+      <test value="instruments/radar-altimeter/radar-altitude-m">
+        instruments/radar-altimeter/ready eq 1
+      </test>
+      <default value="instruments/altimeter/altitude-m"/>
+    </switch>
+
+    <pure_gain name="systems/mkv/ajs-collision-sink-rate-7s">
+      <input>/instrumentation/vertical-speed-indicator/indicated-speed-mps</input>
+      <gain>-7</gain>
+    </pure_gain>
+
+    <switch name="systems/mkv/ajs-collision-warning">
+      <test logic="OR" value="0">
+        systems/mkv/global-inhibit eq 1
+        <!-- disabled with radar off -->
+        /ja37/radar/active eq 0
+      </test>
+      <!-- inhibit at low altitude with gear down -->
+      <test logic="AND" value="0">
+        gear/gear-pos-norm eq 1
+        instruments/altimeter/displays-altitude-m lt 50
+      </test>
+      <test value="1">
+        systems/mkv/ajs-collision-altitude lt systems/mkv/ajs-collision-sink-rate-7s
+      </test>
+      <default value="0"/>
+    </switch>
+
+
     <!-- AJS output -->
     <switch name="systems/mkv/ajs-light">
       <test logic="OR" value="systems/flight/blink/five">
         systems/mkv/terrain-warning eq 1
+        systems/mkv/ajs-collision-warning eq 1
       </test>
       <default value="0"/>
     </switch>
@@ -288,6 +325,7 @@
     <switch name="systems/mkv/ajs-alt-bars-blink">
       <test logic="OR" value="1">
         systems/mkv/terrain-warning eq 1
+        systems/mkv/ajs-collision-warning eq 1
       </test>
       <default value="0"/>
     </switch>
