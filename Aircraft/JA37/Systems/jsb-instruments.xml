@@ -122,12 +122,20 @@
         </pure_gain>
 
         <!-- Radar altimeter -->
-        <switch name="instruments/radar-altimeter/enabled">
+        <switch name="instruments/radar-altimeter/functional">
             <default value="1"/>
             <test logic="OR" value="0">
                 /instrumentation/radar-altimeter/serviceable == 0
                 /ja37/elec/dc-bus-main-bool == 0
                 /controls/altimeter-radar == 0
+            </test>
+            <output>/instrumentation/radar-altimeter/functional</output>
+        </switch>
+
+        <switch name="instruments/radar-altimeter/enabled">
+            <default value="1"/>
+            <test logic="OR" value="0">
+                instruments/radar-altimeter/functional == 0
                 gear/unit[1]/WOW == 1
                 /instrumentation/attitude-indicator/indicated-pitch-deg gt 45
                 /instrumentation/attitude-indicator/indicated-pitch-deg lt -45
