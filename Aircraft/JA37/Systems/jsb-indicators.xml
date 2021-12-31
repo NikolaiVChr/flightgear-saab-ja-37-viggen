@@ -1417,48 +1417,54 @@
             </test>
         </switch>
 
-        <fcs_function name="systems/indicators/low-fuel-secondary">
-            <function>
-                <lt>
-                    <property>instruments/fuel/ratio</property>
-                    <quotient>
-                        <property>/ja37/systems/fuel-warning-extra-percent</property>
-                        <value>100</value>
-                    </quotient>
-                </lt>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/low-fuel-extra-changed">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /ja37/systems/fuel-warning-extra-percent ne systems/indicators/low-fuel-extra-old
+            </test>
+        </switch>
 
-        <fcs_function name="systems/indicators/low-fuel">
-            <function>
-                <or>
-                    <and>
-                        <eq>
-                            <property>systems/indicators/low-fuel-secondary</property>
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <!-- delicate but works. If master-warning has been acknowledged this warning goes away -->
-                            <property>systems/indicators/master-warning/fuel-low-2</property>
-                            <value>3</value>
-                        </eq>
-                    </and>
-                    <and>
-                        <or>
-                            <eq>
-                                <property>systems/indicators/low-fuel-primary</property>
-                                <value>1</value>
-                            </eq>
-                            <property>/controls/lighting/test-indicator-panels</property>
-                        </or>
-                        <eq>
-                            <property>/ja37/blink/four-Hz/state</property>
-                            <value>1</value>
-                        </eq>
-                    </and>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/low-fuel-extra-old">
+            <default value="/ja37/systems/fuel-warning-extra-percent"/>
+            <test logic="OR" value="0">
+                /ja37/systems/fuel-warning-extra-percent == -2 <!-- will never happen -->
+            </test>
+        </switch>
+
+        <pure_gain name="systems/indicators/low-fuel-extra-ratio">
+            <input>/ja37/systems/fuel-warning-extra-percent</input>
+            <gain>0.01</gain>
+        </pure_gain>
+
+        <!-- This warning goes away entirely when acknowledge. -->
+        <switch name="systems/indicators/low-fuel-secondary-acknowledged">
+            <test logic="OR" value="0">
+                instruments/fuel/ratio ge systems/indicators/low-fuel-extra-ratio
+                systems/indicators/low-fuel-extra-changed == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/low-fuel-secondary == 1
+                /ja37/avionics/master-warning-button == 1
+            </test>
+            <default value="systems/indicators/low-fuel-secondary-acknowledged"/>
+        </switch>
+
+        <switch name="systems/indicators/low-fuel-secondary">
+            <test logic="AND" value="1">
+                instruments/fuel/ratio lt systems/indicators/low-fuel-extra-ratio
+                systems/indicators/low-fuel-secondary-acknowledged == 0
+                gear/gear-pos-norm == 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/low-fuel">
+            <default value="systems/indicators/low-fuel-secondary"/>
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                systems/indicators/low-fuel-primary == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
 
 
         <!-- Swedish: ANP 37 (blinking)
@@ -2446,25 +2452,10 @@
             </test>
         </switch>
 
-        <switch name="systems/indicators/master-warning/fuel-low-2-changed">
-            <default value="0"/>
-            <test logic="OR" value="1">
-                /ja37/systems/fuel-warning-extra-percent ne systems/indicators/master-warning/fuel-low2-old
-            </test>
-        </switch>
-
-        <switch name="systems/indicators/master-warning/fuel-low2-old">
-            <default value="/ja37/systems/fuel-warning-extra-percent"/>
-            <test logic="OR" value="0">
-                /ja37/systems/fuel-warning-extra-percent == -2 <!-- will never happen -->
-            </test>
-        </switch>
-
         <switch name="systems/indicators/master-warning/fuel-low-2">
             <default value="0"/>
             <test logic="OR" value="0">
                 systems/indicators/low-fuel-secondary == 0
-                systems/indicators/master-warning/fuel-low-2-changed == 1
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/fuel-low-2 == 1
@@ -2509,98 +2500,45 @@
             </test>
         </switch>
 
+        <fcs_function name="systems/indicators/master-warning/max-level">
+            <function>
+                <max>
+                    <property>systems/indicators/master-warning/engine-off</property>
+                    <property>systems/indicators/master-warning/electrical-problem</property>
+                    <property>systems/indicators/master-warning/electrical-reserve-problem</property>
+                    <property>systems/indicators/master-warning/canopy-alert</property>
+                    <property>systems/indicators/master-warning/hydr-1-low</property>
+                    <property>systems/indicators/master-warning/hydr-2-low</property>
+                    <property>systems/indicators/master-warning/hydr-reserve-low</property>
+                    <property>systems/indicators/master-warning/cabin-pressure-low</property>
+                    <property>systems/indicators/master-warning/stuck-in-forward</property>
+                    <property>systems/indicators/master-warning/no-reverse</property>
+                    <property>systems/indicators/master-warning/fuel-distr-problem</property>
+                    <property>systems/indicators/master-warning/fuel-pump-problem</property>
+                    <property>systems/indicators/master-warning/radar-problem</property>
+                    <property>systems/indicators/master-warning/data-problem</property>
+                    <property>systems/indicators/master-warning/elevator-gearing</property>
+                    <property>systems/indicators/master-warning/outlet-temp-high</property>
+                    <property>systems/indicators/master-warning/oxygen-low</property>
+                    <property>systems/indicators/master-warning/oil-pressure-low</property>
+                    <property>systems/indicators/master-warning/gears-problem</property>
+                    <property>systems/indicators/master-warning/auto-throttle-issue</property>
+                    <property>systems/indicators/master-warning/auto-att-issue</property>
+                    <property>systems/indicators/master-warning/auto-alt-issue</property>
+                    <property>systems/indicators/master-warning/stick-problem</property>
+                    <property>systems/indicators/master-warning/fuel-low</property>
+                    <property>systems/indicators/master-warning/fuel-low-2</property>
+                    <property>systems/indicators/master-warning/fire</property>
+                    <property>systems/indicators/master-warning/ap-downgrade</property>
+                </max>
+            </function>
+        </fcs_function>
+
         <switch name="systems/indicators/master-warning/warning">
-            <default value="0"/>
             <test logic="AND" value="0">
                 systems/indicators/master-warning/engine-startup == 1
             </test>
-            <test logic="OR" value="3">
-                systems/indicators/master-warning/engine-off gt 2
-                systems/indicators/master-warning/electrical-problem gt 2
-                systems/indicators/master-warning/electrical-reserve-problem gt 2
-                systems/indicators/master-warning/canopy-alert gt 2
-                systems/indicators/master-warning/hydr-1-low gt 2
-                systems/indicators/master-warning/hydr-2-low gt 2
-                systems/indicators/master-warning/hydr-reserve-low gt 2
-                systems/indicators/master-warning/cabin-pressure-low gt 2
-                systems/indicators/master-warning/stuck-in-forward gt 2
-                systems/indicators/master-warning/no-reverse gt 2
-                systems/indicators/master-warning/fuel-distr-problem gt 2
-                systems/indicators/master-warning/fuel-pump-problem gt 2
-                systems/indicators/master-warning/radar-problem gt 2
-                systems/indicators/master-warning/data-problem gt 2
-                systems/indicators/master-warning/elevator-gearing gt 2
-                systems/indicators/master-warning/outlet-temp-high gt 2
-                systems/indicators/master-warning/oxygen-low gt 2
-                systems/indicators/master-warning/oil-pressure-low gt 2
-                systems/indicators/master-warning/gears-problem gt 2
-                systems/indicators/master-warning/auto-throttle-issue gt 2
-                systems/indicators/master-warning/auto-att-issue gt 2
-                systems/indicators/master-warning/auto-alt-issue gt 2
-                systems/indicators/master-warning/stick-problem gt 2
-                systems/indicators/master-warning/fuel-low gt 2
-                systems/indicators/master-warning/fuel-low-2 gt 2
-                systems/indicators/master-warning/fire gt 2
-                systems/indicators/master-warning/ap-downgrade gt 2
-            </test>
-            <test logic="OR" value="2">
-                systems/indicators/master-warning/engine-off gt 1
-                systems/indicators/master-warning/electrical-problem gt 1
-                systems/indicators/master-warning/electrical-reserve-problem gt 1
-                systems/indicators/master-warning/canopy-alert gt 1
-                systems/indicators/master-warning/hydr-1-low gt 1
-                systems/indicators/master-warning/hydr-2-low gt 1
-                systems/indicators/master-warning/hydr-reserve-low gt 1
-                systems/indicators/master-warning/cabin-pressure-low gt 1
-                systems/indicators/master-warning/stuck-in-forward gt 1
-                systems/indicators/master-warning/no-reverse gt 1
-                systems/indicators/master-warning/fuel-distr-problem gt 1
-                systems/indicators/master-warning/fuel-pump-problem gt 1
-                systems/indicators/master-warning/radar-problem gt 1
-                systems/indicators/master-warning/data-problem gt 1
-                systems/indicators/master-warning/elevator-gearing gt 1
-                systems/indicators/master-warning/outlet-temp-high gt 1
-                systems/indicators/master-warning/oxygen-low gt 1
-                systems/indicators/master-warning/oil-pressure-low gt 1
-                systems/indicators/master-warning/gears-problem gt 1
-                systems/indicators/master-warning/auto-throttle-issue gt 1
-                systems/indicators/master-warning/auto-att-issue gt 1
-                systems/indicators/master-warning/auto-alt-issue gt 1
-                systems/indicators/master-warning/stick-problem gt 1
-                systems/indicators/master-warning/fuel-low gt 1
-                systems/indicators/master-warning/fuel-low-2 gt 1
-                systems/indicators/master-warning/fire gt 1
-                systems/indicators/master-warning/ap-downgrade gt 1
-            </test>
-            <test logic="OR" value="1">
-                systems/indicators/master-warning/engine-off gt 0
-                systems/indicators/master-warning/electrical-problem gt 0
-                systems/indicators/master-warning/electrical-reserve-problem gt 0
-                systems/indicators/master-warning/canopy-alert gt 0
-                systems/indicators/master-warning/hydr-1-low gt 0
-                systems/indicators/master-warning/hydr-2-low gt 0
-                systems/indicators/master-warning/hydr-reserve-low gt 0
-                systems/indicators/master-warning/cabin-pressure-low gt 0
-                systems/indicators/master-warning/stuck-in-forward gt 0
-                systems/indicators/master-warning/no-reverse gt 0
-                systems/indicators/master-warning/fuel-distr-problem gt 0
-                systems/indicators/master-warning/fuel-pump-problem gt 0
-                systems/indicators/master-warning/radar-problem gt 0
-                systems/indicators/master-warning/data-problem gt 0
-                systems/indicators/master-warning/elevator-gearing gt 0
-                systems/indicators/master-warning/outlet-temp-high gt 0
-                systems/indicators/master-warning/oxygen-low gt 0
-                systems/indicators/master-warning/oil-pressure-low gt 0
-                systems/indicators/master-warning/gears-problem gt 0
-                systems/indicators/master-warning/auto-throttle-issue gt 0
-                systems/indicators/master-warning/auto-att-issue gt 0
-                systems/indicators/master-warning/auto-alt-issue gt 0
-                systems/indicators/master-warning/stick-problem gt 0
-                systems/indicators/master-warning/fuel-low gt 0
-                <!--systems/indicators/master-warning/fuel-low-2 gt 0-->
-                systems/indicators/master-warning/fire gt 0
-                systems/indicators/master-warning/ap-downgrade gt 0
-            </test>
+            <default value="systems/indicators/master-warning/max-level"/>
         </switch>
 
         <switch name="systems/indicators/master-warning/lamp1">
