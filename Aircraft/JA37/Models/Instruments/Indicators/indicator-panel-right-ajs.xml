@@ -28,52 +28,53 @@
       <object-name>indicatorRight10</object-name>
     </animation>
 
+    <!-- Same 3D model as left panel, texture shifted to the right half -->
     <animation>
-      <type>material</type>
+      <type>textranslate</type>
       <object-name>labels</object-name>
-      <condition>
-        <and>
-          <property>/ja37/effect/swedish-labels</property>
-          <not><property>ja37/systems/variant</property></not>
-        </and>
-      </condition>
-      <texture>indicator-panels-ja-se.png</texture>
+      <offset>0.5</offset>
+      <axis>
+        <x>1</x>
+        <y>0</y>
+      </axis>
     </animation>
 
     <animation>
       <type>material</type>
       <object-name>labels</object-name>
-      <condition>
-        <and>
-          <not><property>/ja37/effect/swedish-labels</property></not>
-          <property>ja37/systems/variant</property>
-        </and>
-      </condition>
+      <condition><not><property>/ja37/effect/swedish-labels</property></not></condition>
       <texture>indicator-panels-ajs.png</texture>
     </animation>
 
     <animation>
       <type>material</type>
       <object-name>labels</object-name>
-      <condition>
-        <and>
-          <property>/ja37/effect/swedish-labels</property>
-          <property>ja37/systems/variant</property>
-        </and>
-      </condition>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
       <texture>indicator-panels-ajs-se.png</texture>
     </animation>
 
 
-    <!-- Swedish: BRAND (sound, blinking)
-    -->
     <animation>
-        <name>Fire</name>
+        <name>Flightstick</name>
         <object-name>indicatorLeft1</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/flightstick</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>a/p att</name>
         <object-name>indicatorLeft2</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/fire</property>
+            <property>fdm/jsbsim/systems/indicators/auto-attitude</property>
         </condition>
         <emission>
             <red>1</red>
@@ -83,14 +84,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: BRÄ UPPF (blinking, suppression of blinking if secondary from Hydr-1)
-    -->
     <animation>
-        <name>Fuel flow distributor</name>
+        <name>a/p alt</name>
         <object-name>indicatorLeft3</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/fuel-flow</property>
+            <property>fdm/jsbsim/systems/indicators/auto-altitude</property>
         </condition>
         <emission>
             <red>1</red>
@@ -100,14 +99,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: X-TANK BRÄ (steady)
-    -->
     <animation>
-        <name>X-tank good</name>
+        <name>Fire in engine starter</name>
         <object-name>indicatorLeft4</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/xtank</property>
+            <property>fdm/jsbsim/systems/indicators/fire-in-starter</property>
         </condition>
         <emission>
             <red>1</red>
@@ -117,14 +114,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: TANKPUMP (blinking, suppression of blinking if secondary from Electrical)
-    -->
     <animation>
-        <name>Fuel pump</name>
+        <name>Pitch gearing</name>
         <object-name>indicatorLeft5</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/fuel-pump</property>
+            <property>fdm/jsbsim/systems/indicators/pitch-gearing</property>
         </condition>
         <emission>
             <red>1</red>
@@ -134,14 +129,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: LANDSTÄLL (blinking/steady, sound)
-    -->
     <animation>
-        <name>gears</name>
+        <name>Cabin pressure</name>
         <object-name>indicatorLeft6</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/gears</property>
+            <property>fdm/jsbsim/systems/indicators/cabin-pressure</property>
         </condition>
         <emission>
             <red>1</red>
@@ -151,14 +144,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: FÖRV FÖRBJ (blinking)
-    -->
     <animation>
-        <name>no forward thrust</name>
+        <name>Canopy and seat</name>
         <object-name>indicatorLeft7</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/forward-thrust</property>
+            <property>fdm/jsbsim/systems/indicators/canopy-and-seat</property>
         </condition>
         <emission>
             <red>1</red>
@@ -168,14 +159,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: NOSSTÄLL (steady)
-    -->
     <animation>
-        <name>front gear</name>
+        <name>Ignition sys</name>
         <object-name>indicatorLeft8</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/gear-nose</property>
+            <property>fdm/jsbsim/systems/indicators/ignition-system</property>
         </condition>
         <emission>
             <red>1</red>
@@ -185,14 +174,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: V STÄLL (steady)
-    -->
     <animation>
-        <name>left gear</name>
+        <name>Start sys</name>
         <object-name>indicatorLeft9</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/gear-left</property>
+            <property>fdm/jsbsim/systems/indicators/start-system</property>
         </condition>
         <emission>
             <red>1</red>
@@ -202,14 +189,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: H STÄLL (steady)
-    -->
     <animation>
-        <name>right gear</name>
+        <name>Ext power</name>
         <object-name>indicatorLeft10</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/gear-right</property>
+            <property>fdm/jsbsim/systems/indicators/manual-fuel-regulation</property>
         </condition>
         <emission>
             <red>1</red>
@@ -219,14 +204,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: LUFTBROMS (steady)
-    -->
     <animation>
-        <name>electrical</name>
+        <name>Central CPU</name>
         <object-name>indicatorRight1</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/speedbrake</property>
+            <property>fdm/jsbsim/systems/indicators/central-cpu</property>
         </condition>
         <emission>
             <red>1</red>
@@ -236,14 +219,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: ELFÖRS (blinking)
-    -->
     <animation>
-        <name>electrical</name>
+        <name>Primary data</name>
         <object-name>indicatorRight2</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/electrical</property>
+            <property>fdm/jsbsim/systems/indicators/primary-data</property>
         </condition>
         <emission>
             <red>1</red>
@@ -253,14 +234,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: ELRESERV (blinking)
-    -->
     <animation>
-        <name>electrical reserve (Ram Air Turbine)</name>
+        <name>Inertia navigation</name>
         <object-name>indicatorRight3</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
+            <property>fdm/jsbsim/systems/indicators/inertia-navigation</property>
         </condition>
         <emission>
             <red>1</red>
@@ -270,14 +249,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: HYDR-TR2 (blinking)
-    -->
     <animation>
-        <name>hydr 2</name>
+        <name>Radar</name>
         <object-name>indicatorRight4</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/hydr-2</property>            
+            <property>fdm/jsbsim/systems/indicators/radar</property>
         </condition>
         <emission>
             <red>1</red>
@@ -287,14 +264,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: HYDR-TR1 (blinking, sound)
-    -->
     <animation>
-        <name>hydr 1</name>
+        <name>IKS</name>
         <object-name>indicatorRight5</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/hydr-1</property>  
+            <property>fdm/jsbsim/systems/indicators/transponder</property>
         </condition>
         <emission>
             <red>1</red>
@@ -304,14 +279,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: AFK (blinking/steady, sound)
-    -->
     <animation>
-        <name>Auto throttle</name>
+        <name>Alpha</name>
         <object-name>indicatorRight6</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/auto-throttle</property>  
+            <property>fdm/jsbsim/systems/indicators/alpha</property>
         </condition>
         <emission>
             <red>1</red>
@@ -321,14 +294,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: EJ REV (blinking)
-    -->
     <animation>
-        <name>no reversing</name>
+        <name>Oxygen</name>
         <object-name>indicatorRight7</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/no-reverse</property>  
+            <property>fdm/jsbsim/systems/indicators/oxygen</property>
         </condition>
         <emission>
             <red>1</red>
@@ -338,14 +309,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: HYDRRESERV (blinking)
-    -->
     <animation>
-        <name>hydr reserve</name>
+        <name>Outlet temperature</name>
         <object-name>indicatorRight8</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>  
+            <property>fdm/jsbsim/systems/indicators/outlet-temperature</property>
         </condition>
         <emission>
             <red>1</red>
@@ -355,14 +324,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: OLJETRYCK (blinking, sound)
-    -->
     <animation>
-        <name>oil pressure</name>
+        <name>low on fuel</name>
         <object-name>indicatorRight9</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/oil-pressure</property>  
+            <property>fdm/jsbsim/systems/indicators/low-fuel</property>
         </condition>
         <emission>
             <red>1</red>
@@ -372,14 +339,12 @@
         </emission>
     </animation>
 
-    <!-- Swedish: OLJETEMP (blinking)
-    -->
     <animation>
-        <name>Oil temp</name>
+        <name>Weapons</name>
         <object-name>indicatorRight10</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/oil-temperature</property>  
+            <property>fdm/jsbsim/systems/indicators/weapons</property>
         </condition>
         <emission>
             <red>1</red>

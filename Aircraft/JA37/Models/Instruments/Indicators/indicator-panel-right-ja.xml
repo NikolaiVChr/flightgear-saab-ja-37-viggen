@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0"?>
+
 <PropertyList>
     <path>indicator-panel.ac</path>
 
-    <!-- Same 3D model, texture shifted to the right half -->
+    <!-- I've heard object groups have tricky issues, but using them here seems well worth it -->
     <animation>
-      <type>textranslate</type>
+      <name>labels</name>
       <object-name>indicatorLeft1</object-name>
       <object-name>indicatorLeft2</object-name>
       <object-name>indicatorLeft3</object-name>
@@ -25,12 +26,26 @@
       <object-name>indicatorRight8</object-name>
       <object-name>indicatorRight9</object-name>
       <object-name>indicatorRight10</object-name>
+    </animation>
+
+    <!-- Same 3D model as left panel, texture shifted to the right half -->
+    <animation>
+      <type>textranslate</type>
+      <object-name>labels</object-name>
       <offset>0.5</offset>
       <axis>
         <x>1</x>
         <y>0</y>
       </axis>
     </animation>
+
+    <animation>
+      <type>material</type>
+      <object-name>labels</object-name>
+      <condition><property>/ja37/effect/swedish-labels</property></condition>
+      <texture>indicator-panels-ja-se.png</texture>
+    </animation>
+
 
     <animation>
         <name>Flightstick</name>

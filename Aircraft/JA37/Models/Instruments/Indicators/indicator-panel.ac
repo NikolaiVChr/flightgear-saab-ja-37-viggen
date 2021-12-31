@@ -9,7 +9,7 @@ name "indicatorLeft1"
 data 19
 indicatorLeft1.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.06622 0.00395 0.01435
 -0.06622 0.00395 0.04495
@@ -37,7 +37,7 @@ name "indicatorLeft10"
 data 20
 indicatorLeft10.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.06622 0.00395 0.01435
 0.06622 0.00395 0.04495
@@ -65,7 +65,7 @@ name "indicatorLeft2"
 data 19
 indicatorLeft2.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.0504 0.00395 0.01435
 -0.0504 0.00395 0.04495
@@ -93,7 +93,7 @@ name "indicatorLeft3"
 data 19
 indicatorLeft3.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.04336 0.00395 0.04942
 -0.04448 0.00395 0.04495
@@ -121,7 +121,7 @@ name "indicatorLeft4"
 data 19
 indicatorLeft4.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.02866 0.00395 0.04495
 -0.02866 0.00395 0.01435
@@ -149,7 +149,7 @@ name "indicatorLeft5"
 data 19
 indicatorLeft5.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.01285 0.00395 0.04495
 -0.01173 0.00395 0.04942
@@ -177,7 +177,7 @@ name "indicatorLeft6"
 data 19
 indicatorLeft6.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.00296 0.00395 0.04495
 0.00408 0.00395 0.04942
@@ -205,7 +205,7 @@ name "indicatorLeft7"
 data 19
 indicatorLeft7.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.01878 0.00395 0.04495
 0.01989 0.00395 0.04942
@@ -233,7 +233,7 @@ name "indicatorLeft8"
 data 19
 indicatorLeft8.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.03459 0.00395 0.04495
 0.03571 0.00395 0.04942
@@ -261,7 +261,7 @@ name "indicatorLeft9"
 data 19
 indicatorLeft9.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.05917 0.00395 0.04942
 0.06029 0.00395 0.04495
@@ -289,7 +289,7 @@ name "indicatorRight1"
 data 20
 indicatorRight1.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.07499 0.00395 -0.04942
 -0.0761 0.00395 -0.04495
@@ -317,7 +317,7 @@ name "indicatorRight10"
 data 21
 indicatorRight10.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.07499 0.00395 -0.04942
 0.0761 0.00395 -0.04495
@@ -345,7 +345,7 @@ name "indicatorRight2"
 data 20
 indicatorRight2.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.05152 0.00395 -0.00988
 -0.05917 0.00395 -0.00988
@@ -373,7 +373,7 @@ name "indicatorRight3"
 data 20
 indicatorRight3.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.03571 0.00395 -0.00988
 -0.04336 0.00395 -0.00988
@@ -401,7 +401,7 @@ name "indicatorRight4"
 data 20
 indicatorRight4.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.02866 0.00395 -0.01435
 -0.02866 0.00395 -0.04495
@@ -429,7 +429,7 @@ name "indicatorRight5"
 data 20
 indicatorRight5.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 -0.00296 0.00395 -0.04495
 -0.00296 0.00395 -0.01435
@@ -457,7 +457,7 @@ name "indicatorRight6"
 data 20
 indicatorRight6.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.01285 0.00395 -0.04495
 0.01173 0.00395 -0.04942
@@ -485,7 +485,7 @@ name "indicatorRight7"
 data 20
 indicatorRight7.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.01878 0.00395 -0.04495
 0.01989 0.00395 -0.04942
@@ -513,7 +513,7 @@ name "indicatorRight8"
 data 20
 indicatorRight8.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.04336 0.00395 -0.04942
 0.04448 0.00395 -0.04495
@@ -541,7 +541,7 @@ name "indicatorRight9"
 data 20
 indicatorRight9.mesh
 crease 35.0
-texture "indicator-panels.png"
+texture "indicator-panels-ja.png"
 numvert 8
 0.06029 0.00395 -0.04495
 0.05917 0.00395 -0.04942
