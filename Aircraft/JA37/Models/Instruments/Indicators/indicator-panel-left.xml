@@ -219,14 +219,15 @@
         </emission>
     </animation>
 
-    <!-- Swedish: LUFTBROMS (steady)
+    <!-- Swedish: TIPP VÄXEL (blinking) (AJS only)
     -->
     <animation>
         <name>electrical</name>
         <object-name>indicatorRight1</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/speedbrake</property>
+            <property>ja37/systems/variant</property>
+            <property>fdm/jsbsim/systems/indicators/pitch-gearing</property>
         </condition>
         <emission>
             <red>1</red>
@@ -338,14 +339,15 @@
         </emission>
     </animation>
 
-    <!-- Swedish: HYDRRESERV (blinking)
+    <!-- Swedish: HYDRRESERV (blinking) (JA only)
     -->
     <animation>
         <name>hydr reserve</name>
         <object-name>indicatorRight8</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>  
+            <not><property>ja37/systems/variant</property></not>
+            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>
         </condition>
         <emission>
             <red>1</red>
