@@ -91,6 +91,7 @@ var Common = {
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
 			displays_on:      "ja37/displays/on",
 			displays_serv:    "instrumentation/displays/serviceable",
+			land_warn_on:     "ja37/avionics/landing-warnings-enable",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -148,8 +149,7 @@ var Common = {
 		me.flighttime();
 		me.referenceAlt();
 		if (variant.AJS) me.hojd_switch();
-		#me.rate = getprop("sim/frame-rate-worst");
-		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
+		if (variant.JA) me.landWarningsCondition();
 	},
 
 	loopFast: func {
@@ -328,6 +328,19 @@ var Common = {
 		else return me.arm_name_short[me.armamentp];
 	},
 
+	landWarningsCondition: func {
+		# Condition: landing mode LB, LF, or (L and within 40km of destination)
+		# Used by MKV and QFE warnings
+		var res = 0;
+		if (land.mode_LB_active or land.mode_LF_active) res = 1;
+		if (land.mode_L_active
+			and (var airbase = route.Polygon.flyRTB.plan.destination) != nil) {
+			res = (geo.Coord.new().set_latlon(airbase.lat, airbase.lon, 0)
+				.distance_to(geo.aircraft_position()) < 40000);
+		}
+		me.input.land_warn_on.setBoolValue(res);
+	},
+
 	QFE: func {
 		# Update airbase altitude (only in QNH mode).
 		var airbase = route.Polygon.flyRTB.plan.destination;
@@ -371,8 +384,8 @@ var Common = {
 				if (!std) me.qfe_warn_time = time;
 			}
 
-			# In landing mode. TODO: only within 40km of destination for mode L.
-			if (modes.landing or land.mode_L_active) {
+			# In landing mode (LB, LF, or (L and within 40km of destination))
+			if (me.input.land_warn_on.getBoolValue()) {
 				if (me.qfe_warn_land_armed) {
 					me.qfe_warn_land_armed = FALSE;
 					# First warning when entering land mode if STD is not set properly.

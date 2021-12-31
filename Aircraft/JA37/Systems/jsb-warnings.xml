@@ -244,7 +244,7 @@
       <!-- gear down, LB, LF, or L+within 40km of airbase -->
       <test logic="OR" value="1">
         gear/gear-pos-norm eq 1
-        ja37/hud/landing-mode eq 1
+        /ja37/avionics/landing-warnings-enable eq 1   <!-- test in displays/common.nas -->
       </test>
       <default value="0"/>
     </switch>
