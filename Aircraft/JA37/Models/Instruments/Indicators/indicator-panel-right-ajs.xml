@@ -92,8 +92,7 @@
         <object-name>indicatorLeft3</object-name>
         <type>material</type>
         <condition>
-            <property>ja37/blink/four-Hz/state</property>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/radar-altimeter</property>
         </condition>
         <emission>
             <red>1</red>
@@ -108,8 +107,7 @@
         <object-name>indicatorLeft4</object-name>
         <type>material</type>
         <condition>
-            <property>ja37/blink/four-Hz/state</property>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/roll-gearing</property>
         </condition>
         <emission>
             <red>1</red>
@@ -259,7 +257,7 @@
         <object-name>indicatorRight4</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>instrumentation/TLS-light</property>
         </condition>
         <emission>
             <red>1</red>
@@ -274,7 +272,7 @@
         <object-name>indicatorRight5</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/navigation-systems</property>
         </condition>
         <emission>
             <red>1</red>
@@ -289,7 +287,7 @@
         <object-name>indicatorRight6</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/flares-out</property>
         </condition>
         <emission>
             <red>1</red>
@@ -304,7 +302,7 @@
         <object-name>indicatorRight7</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/flares-out</property>
         </condition>
         <emission>
             <red>1</red>
@@ -319,7 +317,7 @@
         <object-name>indicatorRight8</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/flares-out</property>
         </condition>
         <emission>
             <red>1</red>
@@ -334,7 +332,7 @@
         <object-name>indicatorRight9</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/countermeasures</property>
         </condition>
         <emission>
             <red>1</red>

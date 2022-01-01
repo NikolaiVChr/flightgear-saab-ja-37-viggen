@@ -10,7 +10,7 @@
          When lamptest button is pressed all light go on and blinking lights will blink. Master-warning also goes on.
      -->
 
-    <channel execrate="4" name="Left indicator panel logic">
+    <channel execrate="4" name="Indicator panel logic">
 
 
         <!-- Swedish: BRAND (sound, blinking)
@@ -757,26 +757,23 @@
         </fcs_function>
 
 
-        <!-- Swedish: HYDRRESERV (blinking)
+        <!-- Swedish: HYDRRESERV (blinking) (JA only)
         -->
 
-        <fcs_function name="systems/indicators/hydr-reserve">
-            <function>
-                <and>
-                    <or>
-                        <eq>
-                            <property>systems/hydraulics/system2/pressure-reserve</property>
-                            <value>0</value>
-                        </eq>
-                        <property>/controls/lighting/test-indicator-panels</property>
-                    </or>
-                    <eq>
-                        <property>/ja37/blink/four-Hz/state</property>
-                        <value>1</value>
-                    </eq>
-                </and>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/hydr-reserve-primary">
+            <test logic="AND" value="1">
+                systems/hydraulics/system2/pressure-reserve == 0
+                /ja37/systems/variant == 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/hydr-reserve">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                systems/indicators/hydr-reserve-primary == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
 
 
         <!-- Swedish: OLJETRYCK (blinking, sound)
@@ -836,15 +833,6 @@
             </function>
         </fcs_function>
 
-    </channel>
-
-
-
-
-
-    
-
-    <channel execrate="4" name="Right indicator panel logic">
 
         <!-- Swedish: SPAK (blinking, sound)
 
@@ -942,6 +930,25 @@
         </switch>
 
 
+        <!-- Swedish: RHM FEL (blinking, sound) (AJS only)
+        -->
+
+        <switch name="systems/indicators/radar-altimeter-primary">
+            <test logic="AND" value="1">
+                instruments/radar-altimeter/functional == 0
+                /ja37/systems/variant ne 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/radar-altimeter">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/radar-altimeter-primary == 1
+            </test>
+        </switch>
+
+
         <!-- Swedish: BRAND GTS  (blinking, sound)
         -->
         
@@ -962,7 +969,7 @@
 
             not authentic implemented
         -->
-        
+
         <fcs_function name="systems/indicators/pitch-gearing-primary">
             <function>
                 <eq>
@@ -989,6 +996,17 @@
                 </and>
             </function>
         </fcs_function>
+
+
+        <!-- Swedish: ROLLVÄXEL (blinking, sound)
+        -->
+
+        <switch name="systems/indicators/roll-gearing">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <default value="0"/>
+        </switch>
 
 
         <!-- Swedish: KABINHÖJD (blinking)
@@ -1180,7 +1198,7 @@
         </fcs_function>
 
 
-        <!-- Swedish: PRIMÄRDATA (blinking, supp )
+        <!-- Swedish: PRIMÄRDATA (blinking, supp ) (JA only)
         -->
 
         <fcs_function name="systems/indicators/primary-data-primary">
@@ -1212,7 +1230,7 @@
         </fcs_function>
 
 
-        <!-- Swedish: TN (steady)
+        <!-- Swedish: TN (steady) (JA only)
         -->
         
         <fcs_function name="systems/indicators/inertia-navigation">
@@ -1228,36 +1246,28 @@
         </fcs_function>
 
 
-        <!-- Swedish: RADAR (blinking, supp: el, cd, primär, hydr-1)
+        <!-- Swedish: RADAR (blinking, supp: el, cd, primär, hydr-1) (JA only)
         -->
         
-        <fcs_function name="systems/indicators/radar-secondary">
-            <function>
-                <or>
-                    <lt>
-                        <property>/ja37/elec/dc-bus-main-volt</property>
-                        <value>20</value>
-                    </lt>
-                    <lt>
-                        <property>/ja37/elec/ac-bus-secondary-volt</property>
-                        <value>180</value>
-                    </lt>
-                    <nq>
-                        <property>systems/hydraulics/system1/pressure</property>
-                        <value>1</value>
-                    </nq>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/radar-secondary">
+            <test value="0">
+                /ja37/systems/variant ne 0
+            </test>
+            <test logic="OR" value="1">
+                /ja37/elec/dc-bus-main-volt lt 20
+                /ja37/elec/ac-bus-secondary-volt lt 180
+                systems/hydraulics/system1/pressure ne 1
+            </test>
+            <default value="0"/>
+        </switch>
 
-        <fcs_function name="systems/indicators/radar-primary">
-            <function>
-                <nq>
-                    <property>/instrumentation/radar/serviceable</property>
-                    <value>1</value>
-                </nq>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/radar-primary">
+            <test logic="AND" value="1">
+                /instrumentation/radar/serviceable ne 1
+                /ja37/systems/variant eq 0
+            </test>
+            <default value="0"/>
+        </switch>
 
         <switch name="systems/indicators/radar">
             <default value="systems/indicators/radar-secondary"/>
@@ -1268,7 +1278,7 @@
         </switch>
 
 
-        <!-- Swedish: IKS (steady)
+        <!-- Swedish: IKS (steady) (JA only)
         -->
         
         <fcs_function name="systems/indicators/transponder">
@@ -1278,7 +1288,7 @@
         </fcs_function>
 
 
-        <!-- Swedish: ALFA (blinking)
+        <!-- Swedish: ALFA (blinking) (JA only)
         -->
         
         <fcs_function name="systems/indicators/alpha">
@@ -1375,17 +1385,17 @@
         </fcs_function>
 
 
-        <!-- Swedish: UTL TEMP (blinking, sound)
+        <!-- Swedish: UTL TEMP (blinking, sound) (JA only)
         -->
         
-        <fcs_function name="systems/indicators/outlet-temperature-primary">
-            <function>
-                <gt>
-                    <property>propulsion/engine/outlet-temperature-degc</property>
-                    <value>890</value><!-- about 861 at mach 2 at 35000ft and 877 at mach 2.21 at 35000ft -->
-                </gt>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/outlet-temperature-primary">
+            <test logic="AND" value="1">
+                <!-- about 861 at mach 2 at 35000ft and 877 at mach 2.21 at 35000ft -->
+                propulsion/engine/outlet-temperature-degc gt 890
+                /ja37/systems/variant == 0
+            </test>
+            <default value="0"/>
+        </switch>
 
         <fcs_function name="systems/indicators/outlet-temperature">
             <function>
@@ -1467,7 +1477,7 @@
         </switch>
 
 
-        <!-- Swedish: ANP 37 (blinking)
+        <!-- Swedish: ANP 37 (blinking) (JA only)
 
         TODO: Make weapons depend properly on voltage.
 
@@ -1484,6 +1494,62 @@
                 </and>
             </function>
         </fcs_function>
+
+
+        <!-- Swedish: NAV-SYST (steady) (AJS only)
+        -->
+
+        <switch name="systems/indicators/navigation-systems">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <!-- Swedish: KB-V SLUT, KB-H/KA SL, FACKL SL (steady/blinking) (AJS only)
+
+            Blinking below 10% flares / chaff, steady when empty.
+            ref: AJ37 SFI part 2, very end (missing from my version of the AJS37 SFI)
+        -->
+
+        <!-- flashing mode, can be acknowledged -->
+        <switch name="systems/indicators/flares-out-secondary">
+            <test logic="OR" value="0">
+                /ai/submodels/submodel[0]/count gt 6
+                /ai/submodels/submodel[0]/count eq 0
+            </test>
+            <test value="2">
+                systems/indicators/flares-out-secondary == 0
+            </test>
+            <!-- acknowledged -->
+            <test logic="AND" value="1">
+                systems/indicators/flares-out-secondary == 2
+                /ja37/avionics/master-warning-button == 1
+            </test>
+            <default value="systems/indicators/flares-out-secondary"/>
+        </switch>
+
+        <switch name="systems/indicators/flares-out">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/flares-out-secondary == 2
+            </test>
+            <test value="1">
+                /ai/submodels/submodel[0]/count eq 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <!-- Swedish: MOTVERK (steady) (AJS only) -->
+
+        <switch name="systems/indicators/countermeasures">
+            <test logic="OR" value="1">
+                /controls/lighting/test-indicator-panels == 1
+                /ai/submodels/submodel[0]/flare-release-snd == 1
+            </test>
+            <default value="0"/>
+        </switch>
+
 
     </channel>
 
@@ -2141,7 +2207,7 @@
         <switch name="systems/indicators/master-warning/hydr-reserve-low">
             <default value="0"/>
             <test logic="OR" value="0">
-                systems/hydraulics/system2/pressure-reserve == 1
+                systems/indicators/hydr-reserve-primary == 0
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/hydr-reserve-low == 1
@@ -2151,7 +2217,7 @@
                 /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
-                systems/hydraulics/system2/pressure-reserve == 0
+                systems/indicators/hydr-reserve-primary == 1
             </test>
         </switch>
 
@@ -2350,6 +2416,23 @@
             </test>
         </switch>
 
+        <switch name="systems/indicators/master-warning/radar-altimeter">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/radar-altimeter-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/radar-altimeter == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/radar-altimeter gt 1
+                /ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/radar-altimeter-primary == 1
+            </test>
+        </switch>
+
         <switch name="systems/indicators/master-warning/elevator-gearing">
             <default value="0"/>
             <test logic="OR" value="0">
@@ -2517,6 +2600,7 @@
                     <property>systems/indicators/master-warning/fuel-pump-problem</property>
                     <property>systems/indicators/master-warning/radar-problem</property>
                     <property>systems/indicators/master-warning/data-problem</property>
+                    <property>systems/indicators/master-warning/radar-altimeter</property>
                     <property>systems/indicators/master-warning/elevator-gearing</property>
                     <property>systems/indicators/master-warning/outlet-temp-high</property>
                     <property>systems/indicators/master-warning/oxygen-low</property>
