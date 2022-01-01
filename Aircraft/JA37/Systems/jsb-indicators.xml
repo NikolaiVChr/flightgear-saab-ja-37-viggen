@@ -1479,19 +1479,16 @@
 
 
         <!-- Swedish: TN (steady) (JA only)
+
+            not implemented
         -->
 
-        <fcs_function name="systems/indicators/inertia-navigation">
-            <function>
-                <or>
-                        <eq>
-                            <property>/ja37/avionics/ins</property><!-- involves timer when starting engine -->
-                            <value>0</value>
-                        </eq>
-                    <property>/controls/lighting/test-indicator-panels</property>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/inertia-navigation">
+            <test logic="OR" value="1">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <default value="0"/>
+        </switch>
 
 
         <!-- Swedish: RADAR (blinking, supp: el, cd, primär, hydr-1) (JA only)
