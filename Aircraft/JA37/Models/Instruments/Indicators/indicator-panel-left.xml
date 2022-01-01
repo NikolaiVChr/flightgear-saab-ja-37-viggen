@@ -154,11 +154,11 @@
     <!-- Swedish: FÖRV FÖRBJ (blinking)
     -->
     <animation>
-        <name>no forward thrust</name>
+        <name>reverser preselection forbidden</name>
         <object-name>indicatorLeft7</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/forward-thrust</property>
+            <property>fdm/jsbsim/systems/indicators/no-reverse-preselect</property>
         </condition>
         <emission>
             <red>1</red>

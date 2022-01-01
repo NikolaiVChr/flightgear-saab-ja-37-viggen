@@ -328,45 +328,12 @@
        <!-- Swedish: FÖRV FÖRBJ (blinking)
         -->
 
-        <fcs_function name="systems/indicators/forward-thrust-primary">
-            <function>
-                <and>
-                    <or>
-                        <eq>
-                            <property>systems/hydraulics/system1/pressure</property>
-                            <value>0</value>
-                        </eq>
-                        <lt>
-                            <property>/ja37/elec/dc-bus-main-volt</property>
-                            <value>20</value>
-                        </lt>
-                        <eq>
-                            <property>/controls/engines/engine/reverse-system/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                    </or>
-                    <eq>
-                        <property>/engines/engine/is-reversed</property>
-                        <value>1</value>
-                    </eq>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/forward-thrust">
-            <function>
-                <and>
-                    <or>
-                        <eq>
-                            <property>systems/indicators/forward-thrust-primary</property>
-                            <value>1</value>
-                        </eq>
-                        <property>/controls/lighting/test-indicator-panels</property>
-                    </or>
-                    <p>/ja37/blink/four-Hz/state</p>             
-                </and>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/no-reverse-preselect">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <default value="0"/>
+        </switch>
 
 
         <!-- Swedish: NOSSTÄLL (steady)
@@ -724,36 +691,16 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="systems/indicators/no-reverse-primary">
-            <function>
-                <or>
-                    <and>
-                        <or>
-                            <eq>
-                                <property>systems/hydraulics/system1/pressure</property>
-                                <value>0</value>
-                            </eq>
-                            <lt>
-                                <property>/ja37/elec/dc-bus-main-volt</property>
-                                <value>20</value>
-                            </lt>
-                            <eq>
-                                <property>/controls/engines/engine/reverse-system/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                        </or>
-                        <eq>
-                            <property>/engines/engine/is-reversed</property>
-                            <value>0</value>
-                        </eq>
-                    </and>
-                    <lt>
-                        <property>systems/indicators/no-reverse-tertiary-times-up</property>
-                        <property>sim-time-sec</property>
-                    </lt>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/no-reverse-primary">
+            <test logic="AND" value="1">
+                /controls/engines/engine/reverse-system/serviceable == 0
+                /controls/engines/engine[0]/reverser-cmd == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/no-reverse-tertiary-times-up lt sim-time-sec
+            </test>
+            <default value="0"/>
+        </switch>
 
         <fcs_function name="systems/indicators/no-reverse">
             <function>
@@ -2272,23 +2219,6 @@
             </test>
         </switch>
 
-        <switch name="systems/indicators/master-warning/stuck-in-forward">
-            <default value="0"/>
-            <test logic="OR" value="0">
-                systems/indicators/forward-thrust-primary == 0
-            </test>
-            <test logic="OR" value="1">
-                systems/indicators/master-warning/stuck-in-forward == 1
-            </test>
-            <test logic="AND" value="1">
-                systems/indicators/master-warning/stuck-in-forward gt 1
-                /ja37/avionics/master-warning-button == 1
-            </test>
-            <test logic="AND" value="2">
-                systems/indicators/forward-thrust-primary == 1
-            </test>
-        </switch>
-
         <switch name="systems/indicators/master-warning/no-reverse">
             <default value="0"/>
             <test logic="OR" value="0">
@@ -2629,7 +2559,6 @@
                     <property>systems/indicators/master-warning/hydr-2-low</property>
                     <property>systems/indicators/master-warning/hydr-reserve-low</property>
                     <property>systems/indicators/master-warning/cabin-pressure-low</property>
-                    <property>systems/indicators/master-warning/stuck-in-forward</property>
                     <property>systems/indicators/master-warning/no-reverse</property>
                     <property>systems/indicators/master-warning/fuel-distr-problem</property>
                     <property>systems/indicators/master-warning/fuel-pump-problem</property>
