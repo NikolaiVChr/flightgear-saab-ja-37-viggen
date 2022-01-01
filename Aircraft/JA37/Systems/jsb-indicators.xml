@@ -514,63 +514,34 @@
         </switch>
 
 
-        <!-- Swedish: ELRESERV (blinking)
+        <!-- Swedish: ELRESERV (blinking) (JA only)
         -->
 
-        <fcs_function name="systems/indicators/electrical-reserve-primary">
-            <function>
-                <or>
-                    <and>
-                        <eq>
-                            <property>systems/electrical/generator-reserve-supplying</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>systems/electrical/generator-running-norm</property>
-                            <value>0</value>
-                        </eq>
-                    </and>
-                    <and>
-                        <eq>
-                            <property>systems/electrical/generator-reserve-deploy-emergency-cmd</property><!-- should really be RAT extended but dont make sense.. -->
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <property>systems/electrical/generator-running-norm</property>
-                            <value>1</value>
-                        </eq>
-                    </and>
-                    <and>
-                        <lt>
-                            <property>systems/electrical/generator-reserve-pos-norm</property>
-                            <value>1</value>
-                        </lt>
-                        <eq>
-                            <property>propulsion/starter_cmd</property>
-                            <value>1</value>
-                        </eq>
-                    </and>
-                    <and>
-                        <eq>
-                            <property>systems/electrical/generator-reserve-supplying</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>/gear/gear[0]/wow</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>/gear/gear[0]/position-norm</property>
-                            <value>1</value>
-                        </eq>                        
-                        <eq>
-                            <property>propulsion/starter_cmd</property>
-                            <value>1</value>
-                        </eq>
-                    </and>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/electrical-reserve-primary">
+            <test value="0">
+                /ja37/systems/variant ne 0
+            </test>
+            <test logic="AND" value="1">
+                systems/electrical/generator-reserve-supplying == 0
+                systems/electrical/generator-running-norm == 0
+            </test>
+            <test logic="AND" value="1">
+                <!-- should really be RAT extended but dont make sense.. -->
+                systems/electrical/generator-reserve-deploy-emergency-cmd == 1
+                systems/electrical/generator-running-norm == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/electrical/generator-reserve-pos-norm lt 1
+                propulsion/starter_cmd == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/electrical/generator-reserve-supplying == 0
+                gear/unit[0]/WOW == 0
+                gear/gear-pos-norm == 1
+                propulsion/starter_cmd == 1
+            </test>
+            <default value="0"/>
+        </switch>
 
         <fcs_function name="systems/indicators/electrical-reserve">
             <function>
@@ -590,6 +561,52 @@
             </function>
         </fcs_function>
 
+
+        <!-- Swedish: RESERVEEFF (reserveffekt) (blinking, sound) (AJS only)
+        -->
+
+        <switch name="systems/indicators/reserve-primary">
+            <test value="0">
+                /ja37/systems/variant eq 0
+            </test>
+            <!-- This test should be (primary pump 2 pressure XOR reserve pump pressure)
+                (AJS reserve pump is electrical, and only engages in case of low pressure in hyrdaulics 2)
+                However the JA hydraulics system is modelled, which has the reserve pump (engine driven)
+                running all the time.
+                So this is replaced by "low pressure in reserve hydraulics".
+            -->
+            <test logic="AND" value="1">
+                systems/hydraulics/system2/pressure-reserve == 0
+            </test>
+            <!-- not implemented: gear compression sensors failure with reverser armed. -->
+            <test logic="AND" value="1">
+                gear/gear-pos-norm lt 1
+                systems/electrical/generator-reserve-pos-norm == 1
+                /ja37/elec/ac-bus-secondary-bool == 1
+            </test>
+            <test logic="AND" value="1">
+                <test logic="OR">
+                    /ja37/elec/ac-bus-secondary-bool lt 1
+                    propulsion/starter_cmd == 1
+                </test>
+                <test logic="OR">
+                    systems/electrical/generator-reserve-pos-norm lt 1
+                    <test logic="AND">
+                        gear/unit[0]/WOW == 0
+                        systems/electrical/generator-reserve-supplying == 0
+                    </test>
+                </test>
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/reserve">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                systems/indicators/reserve-primary == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <default value="0"/>
+        </switch>
 
 
         <!-- Swedish: HYDR-TR2 (blinking)
@@ -2170,6 +2187,23 @@
             </test>
         </switch>
 
+        <switch name="systems/indicators/master-warning/reserve-problem">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/reserve-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/reserve-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/reserve-problem gt 1
+                /ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/reserve-primary == 1
+            </test>
+        </switch>
+
         <switch name="systems/indicators/master-warning/hydr-1-low">
             <default value="0"/>
             <test logic="OR" value="0">
@@ -2589,6 +2623,7 @@
                     <property>systems/indicators/master-warning/engine-off</property>
                     <property>systems/indicators/master-warning/electrical-problem</property>
                     <property>systems/indicators/master-warning/electrical-reserve-problem</property>
+                    <property>systems/indicators/master-warning/reserve-problem</property>
                     <property>systems/indicators/master-warning/canopy-alert</property>
                     <property>systems/indicators/master-warning/hydr-1-low</property>
                     <property>systems/indicators/master-warning/hydr-2-low</property>

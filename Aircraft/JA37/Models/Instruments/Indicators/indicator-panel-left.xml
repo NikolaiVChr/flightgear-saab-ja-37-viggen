@@ -254,14 +254,23 @@
         </emission>
     </animation>
 
-    <!-- Swedish: ELRESERV (blinking)
+    <!-- Swedish: ELRESERV (blinking) (JA) / RESERVEFF (blinking) (AJS)
     -->
     <animation>
         <name>electrical reserve (Ram Air Turbine)</name>
         <object-name>indicatorRight3</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
+            <or>
+                <and>
+                    <not><property>ja37/systems/variant</property></not>
+                    <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
+                </and>
+                <and>
+                    <property>ja37/systems/variant</property>
+                    <property>fdm/jsbsim/systems/indicators/reserve</property>
+                </and>
+            </or>
         </condition>
         <emission>
             <red>1</red>
