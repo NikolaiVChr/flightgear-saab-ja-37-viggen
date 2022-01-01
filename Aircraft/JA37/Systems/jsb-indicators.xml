@@ -1684,11 +1684,21 @@
         <!-- Swedish: BRÄ MÄNGD (blinking, sound)
         -->
 
+        <switch name="systems/indicators/low-fuel-extra-percent">
+            <!-- extra fuel is removed when acknowledging low fuel warning -->
+            <test logic="AND" value="0">
+                systems/indicators/low-fuel-level ge 3
+                /ja37/avionics/master-warning-button == 1
+            </test>
+            <default value="/ja37/systems/fuel-warning-extra-percent"/>
+            <output>/ja37/systems/fuel-warning-extra-percent</output>
+        </switch>
+
         <fcs_function name="systems/indicators/low-fuel-limit-ratio">
             <function>
                 <sum>
                     <product>
-                        <property>/ja37/systems/fuel-warning-extra-percent</property>
+                        <property>systems/indicators/low-fuel-extra-percent</property>
                         <value>0.01</value>
                     </product>
                     <value>0.24</value>

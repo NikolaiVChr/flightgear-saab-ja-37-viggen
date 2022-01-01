@@ -725,7 +725,7 @@
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
             <oxygen-manometer type="double">0.0</oxygen-manometer>
             <tertiary-opening type="double">1.0</tertiary-opening>
-            <fuel-warning-extra-percent type="int">-1</fuel-warning-extra-percent>
+            <fuel-warning-extra-percent type="int">0</fuel-warning-extra-percent>
             <state type="string">parked</state>
             <battery-discharge-rate type="double">0.001666</battery-discharge-rate><!-- 0.001666 = 10 mins -->
             <battery-recharge-rate type="double">0.001666</battery-recharge-rate>
