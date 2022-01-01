@@ -533,44 +533,19 @@
         <!-- Swedish: ELFÖRS (blinking)
         -->
 
-        <fcs_function name="systems/indicators/electrical-primary">
-            <function>
-                <or>
-                    <eq>
-                        <property>/systems/electrical/serviceable</property>
-                        <value>0</value>
-                    </eq>
-                    <lt>
-                        <property>systems/electrical/generator-output</property>
-                        <value>0.99</value>
-                    </lt>
-                    <lt>
-                        <property>/ja37/elec/dc-bus-battery-3-volt</property>
-                        <value>20</value>
-                    </lt>
-                    <and>
-                        <or>
-                            <eq>
-                                <property>/gear/gear[1]/position-norm</property>
-                                <value>1</value>
-                            </eq>
-                            <eq>
-                                <property>/gear/gear[2]/position-norm</property>
-                                <value>1</value>
-                            </eq>
-                        </or>
-                        <eq>
-                            <property>systems/electrical/generator-reserve-deploy-emergency-cmd</property>
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <property>/systems/electrical/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                    </and>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/electrical-primary">
+            <test logic="OR" value="1">
+                <!-- generator failure -->
+                systems/electrical/generator-state == -1
+                <!-- low rectifiers output -->
+                systems/electrical/relay-rectifiers-undercurrent == 0
+                <!-- not implemented:
+                    - battery malfunction on ground
+                    - GPU failed to disconnect
+                -->
+            </test>
+            <default value="0"/>
+        </switch>
 
         <switch name="systems/indicators/electrical-level">
             <test logic="AND" value="0">
