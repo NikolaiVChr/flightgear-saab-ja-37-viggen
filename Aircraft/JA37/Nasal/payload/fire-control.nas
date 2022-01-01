@@ -23,7 +23,7 @@ var input = {
     speed_kt:       "/velocities/groundspeed-kt",
     gear_pos:       "/gear/gear/position-norm",
     nose_WOW:       "fdm/jsbsim/gear/unit[0]/WOW",
-    generator:      "fdm/jsbsim/systems/electrical/generator-running-norm",
+    generator:      "fdm/jsbsim/systems/electrical/generator-output",
     time:           "/sim/time/elapsed-sec",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     bomb_int:       "/controls/armament/wingspan",

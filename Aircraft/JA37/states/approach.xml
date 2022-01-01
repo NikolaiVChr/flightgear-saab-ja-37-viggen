@@ -35,11 +35,6 @@
                         <cutoff-commanded type="bool">false</cutoff-commanded>
                     </engine>
                 </propulsion>
-                <systems>
-                    <electrical>
-                        <generator-takeoff type="bool">true</generator-takeoff>
-                    </electrical>
-                </systems>
             </jsbsim>
         </fdm>
         <controls>

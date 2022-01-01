@@ -16,7 +16,10 @@
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <property>fdm/jsbsim/systems/electrical/generator-ready</property>
+            <greater-than-equals>
+                <property>fdm/jsbsim/systems/electrical/generator-state</property>
+                <value>0</value>
+            </greater-than-equals>
         </condition>
         <binding>
             <command>nasal</command>

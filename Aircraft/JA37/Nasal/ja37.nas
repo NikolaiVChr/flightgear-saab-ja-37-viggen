@@ -60,7 +60,6 @@ input = {
   gearSteerNorm:    "/gear/gear[0]/steering-norm",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
-  generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
   GVValpha:         "fdm/jsbsim/systems/sound/gvv/alpha-warning-level",
   GVVload:          "fdm/jsbsim/systems/sound/gvv/loadfactor-warning-level",

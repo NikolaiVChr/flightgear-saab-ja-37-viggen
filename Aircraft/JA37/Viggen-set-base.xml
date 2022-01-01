@@ -947,9 +947,7 @@
                     <battery-charge-norm type="double">1.0</battery-charge-norm>
                     <battery-charging-norm type="double">1.0</battery-charging-norm>
                     <battery-active type="bool">false</battery-active>
-                    <generator-reserve-pos-norm type="double">0.0</generator-reserve-pos-norm>
-                    <generator-running-norm type="double">0.0</generator-running-norm>
-                    <generator-takeoff type="bool">false</generator-takeoff>
+                    <generator-reserve-pos-norm type="double">1.0</generator-reserve-pos-norm>
                     <external>
                         <available type="bool">false</available>
                     </external>

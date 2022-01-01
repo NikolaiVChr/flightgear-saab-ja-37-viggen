@@ -35,85 +35,60 @@
             </test>
             <output>systems/electrical/external/available</output>
         </switch>
-        
+
         <switch name="systems/electrical/external/supplying">
             <description>
                       External AC supplying
             </description>
             <default value="0"/>
             <test logic="AND" value="1">
-                systems/electrical/generator-running-norm lt 1
+                systems/electrical/generator-output lt 1
                 systems/electrical/external/available == 1
             </test>
         </switch>
-        
-        <switch name="systems/electrical/generator-cycled">
-            <description>
-                      Generator cycle mechanism
-            </description>
-            <default value="systems/electrical/generator-cycled"/>
-            <test logic="AND" value="1">
+
+        <fcs_function name="systems/electrical/generator-rpm-norm">
+            <function>
+                <table>
+                    <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                    <tableData>
+                        <!-- complete guess -->
+                        0   0
+                        40  1
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/electrical/generator-state">
+            <!-- 0: off, -1: disengaged after failure, 1: running -->
+            <test value="0">
                 /controls/electric/engine/generator == 0
             </test>
             <test logic="AND" value="0">
-                systems/electrical/generator-running-norm gt 0.95
-            </test>
-        </switch>
-        
-        <switch name="systems/electrical/generator-ready">
-            <description>
-                      Generator restart mechanism
-            </description>
-            <default value="0"/>
-            <test logic="AND" value="1">
-                /controls/electric/engine/generator == 1
-                systems/electrical/generator-cycled == 1
+                <!-- normal disengagement at low rpm -->
+                systems/electrical/generator-state == 1
+                systems/electrical/generator-rpm-norm lt 0.95
             </test>
             <test logic="AND" value="1">
-                systems/electrical/generator-takeoff == 1
+                systems/electrical/generator-state == 0
+                systems/electrical/generator-rpm-norm gt 0.97
             </test>
-            <test logic="AND" value="systems/electrical/generator-ready">
-                /controls/electric/engine/generator == 1
-                systems/electrical/generator-running-norm ge 0.90
+            <test logic="AND" value="-1">
+                <!-- anormal disengagement, requires to cycle generator switch to restart -->
+                systems/electrical/generator-state == 1
+                /systems/electrical/serviceable == 0
             </test>
+            <default value="systems/electrical/generator-state"/>
         </switch>
-        
-        <scheduled_gain name="systems/electrical/generator-cmd">
-            <description>
-                      Generator running command
-                      
-                      TODO: 25-50% N2 is just a guess
-            </description>
-            <input>/systems/electrical/serviceable</input>
-            <table>
-                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
-                <independentVar lookup="column">systems/electrical/generator-ready</independentVar>
-                <tableData>
-                     0   1
-                25   0   0
-                50   0   1
-            </tableData>
-            </table>
-        </scheduled_gain>
 
-        <kinematic name="systems/electrical/generator-running-norm">
-            <description>
-                      Generator running normalized
-                      
-                      TODO: Why 1.0 seconds, wont it just spin up with engine? What did I think..
-            </description>
-            <input>systems/electrical/generator-cmd</input>
-            <traverse>
-                <setting>
-                    <position>  0.0 </position>
-                    <time>      0.0 </time>
-                </setting>
-                <setting>
-                    <position>  1.0 </position>
-                    <time>      1.0 </time>
-                </setting>
-            </traverse>
-        </kinematic>
+        <switch name="systems/electrical/generator-output">
+            <test value="1">
+                systems/electrical/generator-state == 1
+            </test>
+            <default value="0"/>
+        </switch>
+
 
         <switch name="systems/electrical/generator-reserve-deploy-runway-cmd">
             <description>
@@ -268,7 +243,7 @@
             <description>
                       Have AC supply, normalized
             </description>
-            <default value="systems/electrical/generator-running-norm"/>
+            <default value="systems/electrical/generator-output"/>
             <test logic="AND" value="1">
                 systems/electrical/external/supplying == 1
             </test>
@@ -323,13 +298,13 @@
                       JA-37C manual page 90
             </description>
             <default value="/ja37/elec/ac-bus-main-volt"/>
+            <!-- disable when supplied on RAT and gear down and locked -->
             <test logic="AND" value="0">
                 gear/gear-pos-norm == 1
                 systems/electrical/generator-reserve-deploy-emergency-cmd == 1
-                /systems/electrical/serviceable == 0
             </test>
         </switch>
-        
+
     </channel>
     
     

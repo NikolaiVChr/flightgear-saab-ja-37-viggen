@@ -541,7 +541,7 @@
                         <value>0</value>
                     </eq>
                     <lt>
-                        <property>systems/electrical/generator-running-norm</property>
+                        <property>systems/electrical/generator-output</property>
                         <value>0.99</value>
                     </lt>
                     <lt>
@@ -607,12 +607,12 @@
             </test>
             <test logic="AND" value="1">
                 systems/electrical/generator-reserve-supplying == 0
-                systems/electrical/generator-running-norm == 0
+                systems/electrical/generator-state == -1
             </test>
             <test logic="AND" value="1">
                 <!-- should really be RAT extended but dont make sense.. -->
                 systems/electrical/generator-reserve-deploy-emergency-cmd == 1
-                systems/electrical/generator-running-norm == 1
+                systems/electrical/generator-output == 1
             </test>
             <test logic="AND" value="1">
                 systems/electrical/generator-reserve-pos-norm lt 1
