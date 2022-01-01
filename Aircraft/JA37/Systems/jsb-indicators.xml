@@ -1287,40 +1287,38 @@
         <!-- Swedish: HUV o STOL (blinking)
         -->
 
-        <fcs_function name="systems/indicators/canopy-and-seat-primary">
-            <function>
-                <or>
-                    <eq>
-                        <property>fcs/canopy/has-power</property>
-                        <value>0</value>
-                    </eq>
-                    <and>
-                        <nq>
-                            <property>/canopy/position-norm</property>
-                            <value>0</value>
-                        </nq>
-                        <or>
-                            <nq>
-                                <property>/gear/gear[0]/wow</property>
-                                <value>1</value>
-                            </nq>
-                            <gt>
-                                <property>/engines/engine[0]/n2</property>
-                                <value>88.5</value>
-                            </gt>
-                        </or>
-                    </and>
-                    <nq>
-                        <property>fcs/canopy/serviceable</property>
-                        <value>1</value>
-                    </nq>
-                    <nq>
-                        <property>fcs/canopy/hinges/serviceable</property>
-                        <value>1</value>
-                    </nq>
-                </or>
-            </function>
-        </fcs_function>
+        <!-- warning restarts upon mode != BER (AJS) / throttle >50° (JA)-->
+        <switch name="systems/indicators/canopy-and-seat-restart-condition">
+            <test logic="AND" value="1">
+                /ja37/systems/variant == 0
+                fcs/throttle-pos-deg gt 50
+            </test>
+            <test logic="AND" value="1">
+                /ja37/systems/variant ne 0
+                /ja37/mode/selector-ajs ne 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/canopy-and-seat-restart">
+            <test logic="AND" value="1">
+                systems/indicators/canopy-and-seat-restart-condition == 1
+                systems/indicators/canopy-and-seat-restart-condition-old == 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/canopy-and-seat-restart-condition-old">
+            <default value="systems/indicators/canopy-and-seat-restart-condition"/>
+        </switch>
+
+        <switch name="systems/indicators/canopy-and-seat-primary">
+            <test logic="OR" value="1">
+                /canopy/position-norm gt 0
+                fcs/canopy/serviceable == 0
+                fcs/canopy/hinges/serviceable == 0
+            </test>
+            <default value="0"/>
+        </switch>
 
         <switch name="systems/indicators/canopy-and-seat-level">
             <test logic="AND" value="0">
@@ -1329,6 +1327,7 @@
             <test logic="OR" value="3">
                 systems/indicators/canopy-and-seat-level lt 2
                 systems/indicators/reset-acknowledged == 1
+                systems/indicators/canopy-and-seat-restart == 1
             </test>
             <test value="2">
                 /ja37/avionics/master-warning-button == 1
