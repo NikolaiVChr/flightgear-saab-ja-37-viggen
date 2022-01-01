@@ -73,8 +73,30 @@
     <channel execrate="4" name="Indicator panel logic">
 
         <!-- Conditions which cause all acknowledged warnings to restart. -->
-        <switch name="systems/indicators/reset-acknowledged">
+        <switch name="systems/indicators/reset-acknowledged-condition">
+            <test logic="AND" value="1">
+                /ja37/systems/variant == 0
+                /canopy/position-norm gt 0
+                fcs/throttle-pos-deg lt 50
+            </test>
+            <test logic="AND" value="1">
+                /ja37/systems/variant ne 0
+                /canopy/position-norm gt 0
+                /ja37/mode/selector-ajs == 1
+            </test>
             <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/reset-acknowledged">
+            <test logic="AND" value="1">
+                systems/indicators/reset-acknowledged-condition == 1
+                systems/indicators/reset-acknowledged-condition-old == 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <switch name="systems/indicators/reset-acknowledged-condition-old">
+            <default value="systems/indicators/reset-acknowledged-condition"/>
         </switch>
 
 
