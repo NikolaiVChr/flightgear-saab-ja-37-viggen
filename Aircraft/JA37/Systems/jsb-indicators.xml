@@ -1010,22 +1010,33 @@
             and they remain on until acknowledged by pressing any A/P button.
             They are partially controlled by Nasal/autoflight.nas
 
-            To simplify, HALLFUNK (AJS) is implemented as (ALT OR HÖJD)
+            The JA warning are implemented reasonably well.
+            AJS isn't very accurate.
+            HALLFUNK (AJS) is simply implemented as (ALT OR HÖJD)
         -->
 
+        <!-- For JA, no bliking if simultaneous hydraulics or primary data computer failure -->
+        <switch name="systems/indicators/autoflight-suppress-blinking">
+            <test value="0">
+                /ja37/systems/variant ne 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/hydr-1-primary == 1
+                systems/indicators/primary-data-primary == 1
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <!-- Only SPAK warning in case of AC failure -->
+        <switch name="systems/indicators/autoflight-spak-only">
+            <test value="1">
+                autoflight/ac-bus-main-bool-timer-6s == 0
+            </test>
+            <default value="0"/>
+        </switch>
+
+
         <switch name="systems/indicators/flightstick-level">
-            <!-- secondary warning suppressing primary (JA only) -->
-            <test logic="AND" value="1">
-                /ja37/systems/variant == 0
-                <test logic="OR">
-                    systems/indicators/hydr-1-primary == 1
-                    systems/indicators/primary-data-primary == 1
-                </test>
-            </test>
-            <!-- end of secondary warning -->
-            <test logic="AND" value="0">
-                systems/indicators/flightstick-level == 1
-            </test>
             <!-- warning restarts -->
             <test logic="AND" value="4">
                 systems/indicators/flightstick-level == 2
@@ -1035,6 +1046,11 @@
             <test logic="AND" value="2">
                 systems/indicators/flightstick-level == 4
                 /ja37/avionics/master-warning-button == 1
+            </test>
+            <!-- stop blinking (faked as acknowledgment) if secondary form hydr-1 / primary data -->
+            <test logic="AND" value="2">
+                systems/indicators/flightstick-level == 4
+                systems/indicators/autoflight-suppress-blinking == 1
             </test>
             <!--
                 State transitions from nasal:
@@ -1057,17 +1073,9 @@
 
 
         <switch name="systems/indicators/auto-attitude-level">
-            <!-- secondary warning suppressing primary (JA only) -->
-            <test logic="AND" value="1">
-                /ja37/systems/variant == 0
-                <test logic="OR">
-                    systems/indicators/hydr-1-primary == 1
-                    systems/indicators/primary-data-primary == 1
-                </test>
-            </test>
-            <!-- end of secondary warning -->
-            <test logic="AND" value="0">
-                systems/indicators/auto-attitude-level == 1
+            <!-- disabled by AC failure -->
+            <test value="0">
+                systems/indicators/autoflight-spak-only == 1
             </test>
             <!-- warning restarts -->
             <test logic="AND" value="4">
@@ -1078,6 +1086,11 @@
             <test logic="AND" value="2">
                 systems/indicators/auto-attitude-level == 4
                 /ja37/avionics/master-warning-button == 1
+            </test>
+            <!-- stop blinking (faked as acknowledgment) if secondary form hydr-1 / primary data -->
+            <test logic="AND" value="2">
+                systems/indicators/flightstick-level == 4
+                systems/indicators/autoflight-suppress-blinking == 1
             </test>
             <!--
                 State transitions from nasal:
@@ -1100,17 +1113,9 @@
 
 
         <switch name="systems/indicators/auto-altitude-level">
-            <!-- secondary warning suppressing primary (JA only) -->
-            <test logic="AND" value="1">
-                /ja37/systems/variant == 0
-                <test logic="OR">
-                    systems/indicators/hydr-1-primary == 1
-                    systems/indicators/primary-data-primary == 1
-                </test>
-            </test>
-            <!-- end of secondary warning -->
-            <test logic="AND" value="0">
-                systems/indicators/auto-altitude-level == 1
+            <!-- disabled by AC failure -->
+            <test value="0">
+                systems/indicators/autoflight-spak-only == 1
             </test>
             <!-- warning restarts -->
             <test logic="AND" value="4">
@@ -1121,6 +1126,11 @@
             <test logic="AND" value="2">
                 systems/indicators/auto-altitude-level == 4
                 /ja37/avionics/master-warning-button == 1
+            </test>
+            <!-- stop blinking (faked as acknowledgment) if secondary form hydr-1 / primary data -->
+            <test logic="AND" value="2">
+                systems/indicators/flightstick-level == 4
+                systems/indicators/autoflight-suppress-blinking == 1
             </test>
             <!--
                 State transitions from nasal:
@@ -2371,9 +2381,9 @@
 
         <!-- normal autopilot downgrade warning (JA only) -->
         <switch name="systems/indicators/master-warning/ap-downgrade-level">
-            <default value="0"/>
-            <test value="0">
+            <test logic="OR" value="0">
                 /ja37/avionics/master-warning-button == 1
+                /ja37/systems/variant ne 0
             </test>
             <test value="4">
                 autoflight/mode lt autoflight/mode-last

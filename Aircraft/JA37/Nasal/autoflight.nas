@@ -28,8 +28,13 @@ var System = {
 			if(warning.getValue() == 2) warning.setValue(0);
 		}
 
-		if (m <= maxMode.getValue()) {
+		max = maxMode.getValue();
+		if (m <= max) {
 			mode.setValue(m);
+		} else {
+			for (var i=max; i<m; i+=1) {
+				downgradeWarning[i].setValue(4);
+			}
 		}
 	},
 	highAlphaToggle: func() {
