@@ -1,0 +1,266 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>CI.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>mount</object-name>
+    <object-name>filter_wheel</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+    <object-name>headingScale</object-name>
+    <object-name>headingIndicator</object-name>
+    <object-name>waypointHeading</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>glass</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+    <object-name>groundWarnLight</object-name>
+    <object-name>RWR1</object-name>
+    <object-name>RWR3</object-name>
+    <object-name>RWR5</object-name>
+    <object-name>RWR7</object-name>
+    <object-name>RWR9</object-name>
+    <object-name>RWR11</object-name>
+    <object-name>light15</object-name>
+    <object-name>light30</object-name>
+    <object-name>light60</object-name>
+    <object-name>light120</object-name>
+  </effect>
+
+  <animation>
+    <type>material</type>
+    <object-name>headingScale</object-name>
+    <object-name>headingIndicator</object-name>
+    <object-name>waypointHeading</object-name>
+    <emission>
+      <red-prop>instrumentation/instrumentation-light/r</red-prop>
+      <green-prop>instrumentation/instrumentation-light/g</green-prop>
+      <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+      <factor-prop>controls/lighting/instruments-norm</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>radarScreen</object-name>
+    <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>1</blue>
+      <factor-prop>controls/lighting/instruments-norm</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>headingScale</object-name>
+    <property>instrumentation/heading-indicator/indicator-pos-deg</property>
+    <factor>-1.0</factor>
+    <center>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>waypointHeading</object-name>
+    <!-- Waypoint bearing indicator moves relative to the heading ring -->
+    <expression>
+      <difference>
+        <property>instrumentation/waypoint-indicator/bearing-index</property>
+        <property>instrumentation/heading-indicator/indicator-pos-deg</property>
+      </difference>
+    </expression>
+    <center>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>groundWarnLight</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>fdm/jsbsim/systems/mkv/ajs-light</factor-prop>
+    </emission>
+  </animation>
+
+  <!-- radar range indicators -->
+  <animation>
+    <type>material</type>
+    <object-name>light15</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/radar/range</property>
+        <value>15000</value>
+      </equals>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>light30</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/radar/range</property>
+        <value>30000</value>
+      </equals>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>light60</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/radar/range</property>
+        <value>60000</value>
+      </equals>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>light120</object-name>
+    <condition>
+      <equals>
+        <property>instrumentation/radar/range</property>
+        <value>120000</value>
+      </equals>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <!-- RWR indicators -->
+  <animation>
+    <type>material</type>
+    <object-name>RWR1</object-name>
+    <condition>
+      <property>instrumentation/rwr/ajs-lights/sector[0]</property>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>RWR3</object-name>
+    <condition>
+      <property>instrumentation/rwr/ajs-lights/sector[1]</property>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>RWR5</object-name>
+    <condition>
+      <property>instrumentation/rwr/ajs-lights/sector[2]</property>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>RWR7</object-name>
+    <condition>
+      <property>instrumentation/rwr/ajs-lights/sector[3]</property>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>RWR9</object-name>
+    <condition>
+      <property>instrumentation/rwr/ajs-lights/sector[4]</property>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>RWR11</object-name>
+    <condition>
+      <property>instrumentation/rwr/ajs-lights/sector[5]</property>
+    </condition>
+    <emission>
+      <red>1.0</red>
+      <green>0.0</green>
+      <blue>0.0</blue>
+      <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+</PropertyList>
