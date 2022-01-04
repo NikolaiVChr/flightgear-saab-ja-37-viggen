@@ -34,6 +34,7 @@
     <object-name>light30</object-name>
     <object-name>light60</object-name>
     <object-name>light120</object-name>
+    <object-name>screen</object-name>
   </effect>
 
   <animation>
@@ -45,17 +46,6 @@
       <red-prop>instrumentation/instrumentation-light/r</red-prop>
       <green-prop>instrumentation/instrumentation-light/g</green-prop>
       <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-      <factor-prop>controls/lighting/instruments-norm</factor-prop>
-    </emission>
-  </animation>
-
-  <animation>
-    <type>material</type>
-    <object-name>radarScreen</object-name>
-    <emission>
-      <red>1</red>
-      <green>1</green>
-      <blue>1</blue>
       <factor-prop>controls/lighting/instruments-norm</factor-prop>
     </emission>
   </animation>

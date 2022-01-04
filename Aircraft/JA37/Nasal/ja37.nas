@@ -808,7 +808,7 @@ var Saab37 = {
 
     if (!variant.JA) {
       # CI display
-      rdr.scope = rdr.Radar.new();
+      ci.init();
     }
 
     if (variant.JA) {

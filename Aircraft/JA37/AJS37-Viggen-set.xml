@@ -304,13 +304,13 @@
             <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
             <file>Aircraft/JA37/Nasal/radar/ps37.nas</file>
         </radar>
-        <rdr>
-            <file>Aircraft/JA37/Nasal/displays/radar.nas</file>
-        </rdr>
         <hud>
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ajs-hud.nas</file>
         </hud>
+        <ci>
+            <file>Aircraft/JA37/Nasal/displays/ci.nas</file>
+        </ci>
         <ground_panel>
             <file>Aircraft/JA37/Nasal/payload/ground-crew-panel.nas</file>
         </ground_panel>

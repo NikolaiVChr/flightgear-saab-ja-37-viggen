@@ -174,6 +174,8 @@ var Horizon = {
 
 # Altitude bars, indicate altitude relative to commanded altitude.
 var AltitudeBars = {
+    alt_bars_length: 300,
+
     new: func(parent) {
         var m = { parents: [AltitudeBars], parent: parent, mode: -1 };
         m.initialize();
@@ -192,8 +194,8 @@ var AltitudeBars = {
         me.outer_bars_group = me.group.createChild("group");
 
         me.ref_bars = make_path(me.outer_bars_group)
-            .setTranslation(0, 300) # bottom of outer bars
-            .moveTo(-330, 0).vert(-300).moveTo(330,0).vert(-300);
+            .setTranslation(0, me.alt_bars_length) # bottom of outer bars
+            .moveTo(-330, 0).vert(-me.alt_bars_length).moveTo(330,0).vert(-me.alt_bars_length);
         me.rhm_index = make_path(me.outer_bars_group)
             .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
         me.rhm_shown = FALSE;
@@ -207,7 +209,7 @@ var AltitudeBars = {
         for (var i=1; i<=3; i+=1) {
             me.bars[i-1].setTranslation(0, 100 * i * pos);
         }
-        me.outer_bars_group.setTranslation(0, 300 * pos);
+        me.outer_bars_group.setTranslation(0, me.alt_bars_length * pos);
     },
 
     set_mode: func(mode) {
@@ -278,7 +280,7 @@ var AltitudeBars = {
         rhm_pos -= bars_pos;
         # Clamp (max: top of outer altitude bars, min: length of alt bars below the bottom of bars).
         rhm_pos = math.clamp(rhm_pos, 0, 2);
-        me.rhm_index.setTranslation(0, 300 * rhm_pos);
+        me.rhm_index.setTranslation(0, me.alt_bars_length * rhm_pos);
         # MKV blinking
         me.rhm_index.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
     },
@@ -321,7 +323,7 @@ var AltitudeBars = {
     # relative to the horizon line, in the HUD coordonate units.
     # Used to position the heading and time line just below the altitude bars.
     get_base_pos: func {
-        return 300 * (me.bars_pos + 1);
+        return me.alt_bars_length * (me.bars_pos + 1);
     },
 };
 
