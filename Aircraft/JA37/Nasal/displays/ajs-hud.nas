@@ -194,8 +194,7 @@ var AltitudeBars = {
         me.outer_bars_group = me.group.createChild("group");
 
         me.ref_bars = make_path(me.outer_bars_group)
-            .setTranslation(0, me.alt_bars_length) # bottom of outer bars
-            .moveTo(-330, 0).vert(-me.alt_bars_length).moveTo(330,0).vert(-me.alt_bars_length);
+            .setTranslation(0, me.alt_bars_length); # bottom of outer bars
         me.rhm_index = make_path(me.outer_bars_group)
             .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
         me.rhm_shown = FALSE;
@@ -210,6 +209,14 @@ var AltitudeBars = {
             me.bars[i-1].setTranslation(0, 100 * i * pos);
         }
         me.outer_bars_group.setTranslation(0, me.alt_bars_length * pos);
+    },
+
+    # height=1 = length of outer altitude bars
+    set_ref_bars_height: func(height) {
+        me.ref_bars
+            .reset()
+            .moveTo(-330, 0).vert(-me.alt_bars_length * height)
+            .moveTo(330,0).vert(-me.alt_bars_length * height);
     },
 
     set_mode: func(mode) {
@@ -252,7 +259,7 @@ var AltitudeBars = {
         if (ref_alt <= 500) {
             # MKV blinking
             me.ref_bars.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
-            me.ref_bars.setScale(1, 100/ref_alt);
+            me.set_ref_bars_height(100/ref_alt);
         } else {
             me.ref_bars.hide();
         }

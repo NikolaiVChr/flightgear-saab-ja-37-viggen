@@ -197,9 +197,7 @@ var Horizon = {
             .moveTo(57,0).vert(me.alt_bars_length)
             .moveTo(-57,0).vert(me.alt_bars_length);
         me.ref_bars = me.alt_bars_group.createChild("path")
-            .setTranslation(0,me.alt_bars_length) # bottom of altitude bars
-            .moveTo(60,0).vert(-me.alt_bars_length)
-            .moveTo(-60,0).vert(-me.alt_bars_length);
+            .setTranslation(0,me.alt_bars_length); # bottom of altitude bars
         me.rhm_index = me.alt_bars_group.createChild("path")
             .moveTo(57,0).horiz(6)
             .moveTo(-57,0).horiz(-6);
@@ -208,6 +206,14 @@ var Horizon = {
 
         # HUD mode for altitude bars, not CI mode
         me.mode = -1;
+    },
+
+    # height=1 = length of outer altitude bars
+    set_ref_bars_height: func(height) {
+        me.ref_bars
+            .reset()
+            .moveTo(60, 0).vert(-me.alt_bars_length * height)
+            .moveTo(-60,0).vert(-me.alt_bars_length * height);
     },
 
     update: func {
