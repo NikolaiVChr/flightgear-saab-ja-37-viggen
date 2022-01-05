@@ -29,6 +29,7 @@ input = {
   airspeed:         "velocities/airspeed-kt",
   alpha:            "orientation/alpha-deg",
   alt:              "position/altitude-ft",
+  annunc_serv:      "ja37/avionics/annunciator/serviceable",
   apLockAlt:        "autopilot/locks/altitude",
   apLockHead:       "autopilot/locks/heading",
   apLockSpeed:      "autopilot/locks/speed",
@@ -60,8 +61,10 @@ input = {
   gearSteerNorm:    "/gear/gear[0]/steering-norm",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
-  generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
+  GVValpha:         "fdm/jsbsim/systems/sound/gvv/alpha-warning-level",
+  GVVload:          "fdm/jsbsim/systems/sound/gvv/loadfactor-warning-level",
+  GVVspeed:         "fdm/jsbsim/systems/sound/gvv/speed-warning",
   headshake:        "ja37/effect/headshake",
   heading:          "/instrumentation/heading-indicator/indicated-heading-deg",
   hz05:             "ja37/blink/five-Hz/state",
@@ -73,8 +76,6 @@ input = {
   indAlt:           "/instrumentation/altitude-indicator",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
-  indAltAALMeter:   "instrumentation/altimeter/indicated-altitude-aal-meter",
-  indAT:            "fdm/jsbsim/autoflight/athr",
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
   indRev:           "/instrumentation/reverse-indicator",
@@ -95,8 +96,6 @@ input = {
   explode:          "damage/sounds/explode-on",
   pilotG:           "ja37/accelerations/pilot-G",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
-  rad_alt_m:        "instrumentation/radar-altimeter/radar-altitude-m",
-  rad_alt_ready:    "instrumentation/radar-altimeter/ready",
   rainNorm:         "environment/rain-norm",
   rainVol:          "ja37/sound/rain-volume",
   replay:           "sim/replay/replay-state",
@@ -118,7 +117,6 @@ input = {
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedTrueKt:      "fdm/jsbsim/velocities/vtrue-kts",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
-  speedWarn:        "ja37/sound/speed-on",
   starter:          "controls/engines/engine[0]/starter-cmd",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
@@ -138,7 +136,6 @@ input = {
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
-  terrainOverr:     "instrumentation/terrain-override",
   fuseGVV:          "ja37/fuses/gvv",
   inputCursor:      "controls/displays/stick-controls-cursor",
   terrainWarn:      "instrumentation/terrain-warning",
@@ -221,22 +218,6 @@ var Saab37 = {
 
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
-
-
-    # low speed warning (as per manual page 279 in JA37C part 1)
-    me.lowSpeed = FALSE;
-    if (!input.indAT.getBoolValue() and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
-      if (input.indAltAALMeter.getValue() < 1200) {
-        if (
-          (input.gearsPos.getValue() == 1 and (input.rad_alt_ready.getBoolValue() ? input.rad_alt_m.getValue() : input.indAltAALMeter.getValue()) > 30)
-          or input.gearsPos.getValue() != 1) {
-          if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") < 19 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
-            me.lowSpeed = TRUE;
-          }
-        }
-      }
-    }
-    input.speedWarn.setBoolValue(me.lowSpeed);
 
     # main electrical turned on
     me.timer = input.elapsed.getValue();
@@ -370,7 +351,7 @@ var Saab37 = {
     }
 
     # RWR
-    rwr.update_rwr();
+    rwr.loop();
 
     # Animating engine fire
     if (me.n1 > 100) me.n1 = 100;
@@ -456,13 +437,23 @@ var Saab37 = {
       flareCount = -1;
     }
   },
-  
+
   aural: func {
+    if (!variant.JA) {
+      # AJS only has high alpha sound warning
+      input.toneGVV.setBoolValue(
+        power.prop.dcMainBool.getBoolValue()
+        and input.annunc_serv.getBoolValue()
+        and input.GVValpha.getValue() == 3
+      );
+      return;
+    }
+
     # CK37 issued aural warnings (minus master-warning, as its played seperate)
     #
     # at MKV ground collision warning the load-factor warning is force set at 110. (until 10 secs after)
     me.warnGiven = 0;
-    if (!power.prop.dcMainBool.getValue() or !getprop("ja37/avionics/annunciator/serviceable")) {
+    if (!power.prop.dcMainBool.getValue() or !input.annunc_serv.getBoolValue()) {
       me.warnGiven = 1;
     }
     if (!me.warnGiven and getprop("ja37/sound/terrain-on")) {
@@ -483,7 +474,7 @@ var Saab37 = {
     } else {
       input.toneCM.setBoolValue(0);
     }
-    if (!me.warnGiven and input.fuseGVV.getValue() and ((input.alpha.getValue()>getprop("fdm/jsbsim/systems/sound/alpha-limit-high") and !input.gearsPos.getValue()) or getprop("ja37/sound/pilot-G-norm")>1 or getprop("ja37/sound/speed-on") or (input.alpha.getValue()>18 and getprop("gear/gear/position-norm") and !getprop("fdm/jsbsim/gear/unit[0]/WOW") and !getprop("fdm/jsbsim/gear/unit[2]/WOW")))) {
+    if (!me.warnGiven and (input.GVValpha.getValue() == 3 or input.GVVload.getValue() == 3 or input.GVVspeed.getBoolValue())) {
       input.toneGVV.setBoolValue(1);
       me.warnGiven = 1;
     } else {
@@ -521,25 +512,25 @@ var Saab37 = {
       me.floor = 0;
       #setprop("ja37/sound/tones/floor",0);
     }
-    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and input.alpha.getValue() > getprop("fdm/jsbsim/systems/sound/alpha-limit-medium") and input.alpha.getValue() < getprop("fdm/jsbsim/systems/sound/alpha-limit-high")) {
+    if (!me.warnGiven and input.GVValpha.getValue() == 2) {
       input.tonePreA2.setBoolValue(1);
       me.warnGiven = 1;
     } else {
       input.tonePreA2.setBoolValue(0);
     }
-    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and input.alpha.getValue() > getprop("fdm/jsbsim/systems/sound/alpha-limit-low") and input.alpha.getValue() < getprop("fdm/jsbsim/systems/sound/alpha-limit-medium")) {
+    if (!me.warnGiven and input.GVValpha.getValue() == 1) {
       input.tonePreA1.setBoolValue(1);
       me.warnGiven = 1;
     } else {
       input.tonePreA1.setBoolValue(0);
     }
-    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and getprop("ja37/sound/pilot-G-norm") > 0.92 and getprop("ja37/sound/pilot-G-norm") < 1) {
+    if (!me.warnGiven and input.GVVload.getValue() == 2) {
       input.tonePreL2.setBoolValue(1);
       me.warnGiven = 1;
     } else {
       input.tonePreL2.setBoolValue(0);
     }
-    if (!me.warnGiven and input.fuseGVV.getValue() and !input.gearsPos.getValue() and getprop("ja37/sound/pilot-G-norm") > 0.85 and getprop("ja37/sound/pilot-G-norm") < 0.92) {
+    if (!me.warnGiven and input.GVVload.getValue() == 1) {
       input.tonePreL1.setBoolValue(1);
       me.warnGiven = 1;
     } else {
@@ -858,6 +849,7 @@ var Saab37 = {
     displays.common.loopFast();
 
     # radar
+    rwr.init();
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
 
     fire_control.init();
@@ -1143,7 +1135,6 @@ var random_multipos = {
 };
 
 var random_continuous = {
-  "ja37/hud/brightness-si": [0.55,1],
   "controls/lighting/flood-knob": [0,1],
   "controls/lighting/instruments-knob": [0,1],
   "controls/ventilation/airconditioning-temperature": [12,26],
@@ -1183,9 +1174,6 @@ var main_init = func {
   hack.init();
   #setprop("ja37/avionics/master-warning-button", 0);# for when starting up with engines running, to prevent master warning.
 
-#  aircraft.data.add("ja37/hud/units-metric",
-#                    "ja37/autoReverseThrust",
-#                    "ja37/hud/stroke-linewidth");
   #aircraft.data.save();
   aircraft.data.save(0.5);#every 30 seconds
 
@@ -1441,7 +1429,7 @@ var autostart = func {
   setprop("instrumentation/iff/power-knob", 1);
   setprop("ja37/hud/switch-hojd", FALSE);
   setprop("ja37/hud/switch-slav", FALSE);
-  setprop("ja37/hud/brightness-si", 1);
+  setprop("ja37/hud/brightness-si", 0.5);
   setprop("/instrumentation/altimeter/setting-std", 0);
   setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-inhg"));
   setprop("/instrumentation/altimeter[1]/setting-inhg", getprop("/environment/pressure-inhg"));

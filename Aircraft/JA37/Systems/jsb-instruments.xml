@@ -1,117 +1,6 @@
 <?xml version="1.0"?>
 
 <system name="instruments">
-    <channel execrate="4" name="accelerometer">
-        <pure_gain name="instruments/g-force">
-            <input>accelerations/a-pilot-z-ft_sec2</input>
-            <gain>-0.031081</gain>
-            <output>/ja37/accelerations/pilot-G</output>
-        </pure_gain>
-
-        <pure_gain name="instruments/g-force-norm">
-            <input>instruments/g-force</input>
-            <gain>0.01</gain>
-            <output>/ja37/accelerations/pilot-G-norm</output>
-        </pure_gain>
-        
-        <!-- accelerometer animation -->
-        <lag_filter name="instruments/accelerometer">
-            <input>instruments/g-force</input>
-            <c1>5</c1>
-            <clipto>
-                <min>-2</min>
-                <max>9</max>
-            </clipto>
-            <output>/instrumentation/accelerometer/g-force-indicated</output>
-        </lag_filter>
-
-        <switch name="instruments/max-g-raw">
-            <default value="instruments/max-g-raw"/>
-            <test logic="OR" value="instruments/accelerometer">
-                instruments/accelerometer gt instruments/max-g-raw
-                /instrumentation/accelerometer/reset-button == 1
-                <!-- hack: high g-forces are registered during initialization, reset them -->
-                sim-time-sec lt 1
-            </test>
-        </switch>
-
-        <actuator name="instruments/max-g">
-            <input>instruments/max-g-raw</input>
-            <rate_limit>20</rate_limit>
-            <clipto>
-                <min>-2</min>
-                <max>9</max>
-            </clipto>
-            <output>/instrumentation/accelerometer/g-force-max</output>
-        </actuator>
-
-        <!-- g-force sounds -->
-        <switch name="names/sound/max-pos-g">
-            <default value="/ja37/sound/loadfactor-percent"/>
-            <test logic="OR" value="110">
-              /instrumentation/terrain-override == 1
-            </test>
-            <output>/ja37/sound/loadfactor-percent-used</output>
-        </switch>
-        
-        <fcs_function name="names/instruments/max-positive-g-set">
-            <function>
-                    <product>
-                        <v>0.01</v>                        
-                        <p>/ja37/sound/loadfactor-percent-used</p>
-                        <p>/limits/max-positive-g</p>
-                    </product>
-            </function>
-            <output>/limits/max-positive-g-set</output>
-        </fcs_function>
-        
-        <fcs_function name="names/instruments/sound-g-force-norm">
-            <function>
-                    <quotient>
-                        <p>/ja37/accelerations/pilot-G-lag</p>
-                        <p>/limits/max-positive-g-set</p>
-                    </quotient>
-            </function>
-            <output>/ja37/sound/pilot-G-norm</output>
-        </fcs_function>
-
-        <!--<washout_filter name="names/instruments/g-force-damped">
-          <input> /ja37/accelerations/pilot-G </input>
-          <c1> 1 </c1>
-          <output> /ja37/accelerations/pilot-G-damped </output>
-        </washout_filter>-->
-
-        <kinematic name="names/instruments/g-force-norm-damped">
-            <input>/ja37/accelerations/pilot-G-norm</input>
-            <traverse>
-                <setting>
-                    <position>-1</position>
-                    <time>0.0</time>
-                </setting>
-                <setting>
-                    <position>1</position>
-                    <time>10</time>
-                </setting>
-            </traverse>
-            <clipto>
-                <min>-1</min>
-                <max>1</max>
-            </clipto>
-            <output> /ja37/accelerations/pilot-G-norm-damped </output>
-        </kinematic>
-
-        <fcs_function name="names/instruments/g-force-damped">
-            <function>
-                    <product>
-                        <p>/ja37/accelerations/pilot-G-norm-damped</p>
-                        <v>100</v>
-                    </product>
-            </function>
-            <output>/ja37/accelerations/pilot-G-damped</output>
-        </fcs_function>
-    </channel>
-
-
     <channel execrate="4" name="engine-instruments">
         <!-- Engine pressure ratio -->
         <fcs_function name="propulsion/engine/mil-rate">
@@ -233,12 +122,20 @@
         </pure_gain>
 
         <!-- Radar altimeter -->
-        <switch name="instruments/radar-altimeter/enabled">
+        <switch name="instruments/radar-altimeter/functional">
             <default value="1"/>
             <test logic="OR" value="0">
                 /instrumentation/radar-altimeter/serviceable == 0
                 /ja37/elec/dc-bus-main-bool == 0
                 /controls/altimeter-radar == 0
+            </test>
+            <output>/instrumentation/radar-altimeter/functional</output>
+        </switch>
+
+        <switch name="instruments/radar-altimeter/enabled">
+            <default value="1"/>
+            <test logic="OR" value="0">
+                instruments/radar-altimeter/functional == 0
                 gear/unit[1]/WOW == 1
                 /instrumentation/attitude-indicator/indicated-pitch-deg gt 45
                 /instrumentation/attitude-indicator/indicated-pitch-deg lt -45
@@ -497,9 +394,69 @@
     </channel>
 
 
+    <channel execrate="4" name="accelerometer">
+        <accelerometer name="instruments/accelerometer/a-z-ft_sec2">
+            <location unit="M">
+                <x>-4.05</x>
+                <y>0</y> <!-- should be -0.2 for JA, +0.2 for AJS -->
+                <z>0.43</z>
+            </location>
+            <axis>Z</axis>
+            <lag>5</lag>
+            <noise variation="ABSOLUTE" distribution="GAUSSIAN">0.2</noise>
+        </accelerometer>
+
+        <pure_gain name="instruments/accelerometer/indicated-g">
+            <input>instruments/accelerometer/a-z-ft_sec2</input>
+            <gain>-0.031081</gain>
+            <clipto>
+                <min>-2</min>
+                <max>9</max>
+            </clipto>
+            <output>/instrumentation/accelerometer/g-force-indicated</output>
+        </pure_gain>
+
+        <switch name="instruments/accelerometer/max-g-raw">
+            <default value="instruments/accelerometer/max-g-raw"/>
+            <test logic="OR" value="instruments/accelerometer/indicated-g">
+                instruments/accelerometer/indicated-g gt instruments/accelerometer/max-g-raw
+                /instrumentation/accelerometer/reset-button == 1
+                <!-- hack: high g-forces are registered during initialization, reset them -->
+                sim-time-sec lt 1
+            </test>
+        </switch>
+
+        <actuator name="instruments/accelerometer/max-g">
+            <input>instruments/accelerometer/max-g-raw</input>
+            <rate_limit sense="decr">20</rate_limit>
+            <clipto>
+                <min>-2</min>
+                <max>9</max>
+            </clipto>
+            <output>/instrumentation/accelerometer/g-force-max</output>
+        </actuator>
+
+        <pure_gain name="instruments/g-force">
+            <input>accelerations/a-pilot-z-ft_sec2</input>
+            <gain>-0.031081</gain>
+            <output>/ja37/accelerations/pilot-G</output>
+        </pure_gain>
+    </channel>
+
+
     <channel name="aoa-indicator">
-        <switch name="instruments/aoa/indicator-raw">
-            <default value="aero/alpha-deg"/>
+        <sensor name="instruments/aoa/alpha-deg">
+            <input>aero/alpha-deg</input>
+            <lag>5</lag>
+            <noise variation="ABSOLUTE" distribution="GAUSSIAN">0.02</noise>
+            <clipto>
+                <min>-10</min>
+                <max>40</max>
+            </clipto>
+        </sensor>
+
+        <switch name="instruments/aoa/indicator-target-deg">
+            <default value="instruments/aoa/alpha-deg"/>
             <test value="-4">
                 /ja37/elec/dc-bus-main-bool == 0
             </test>
@@ -508,8 +465,8 @@
             </test>
         </switch>
 
-        <actuator name="instruments/aoa/indicator">
-            <input>instruments/aoa/indicator-raw</input>
+        <actuator name="instruments/aoa/indicator-deg">
+            <input>instruments/aoa/indicator-target-deg</input>
             <rate_limit>100</rate_limit>
             <clipto>
                 <min>-4</min>
@@ -883,57 +840,6 @@
 
 
         
-        <fcs_function name="systems/sound/alpha-limit-low-ja">
-            <description>When 3hz tone comes</description>
-            <function>
-                <table>
-                    <independentVar lookup="row">/position/altitude-ft</independentVar>
-                    <tableData>
-                        32808  17.00 
-                        41010  14.00
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/sound/alpha-limit-low-aj">
-            <description>When 3hz tone comes, guesses</description>
-            <function>
-                <table>
-                    <independentVar lookup="row">/position/altitude-ft</independentVar>
-                    <tableData>
-                        32808  14.00
-                        41010  11.00
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
-        
-        <switch name="systems/sound/alpha-limit-low">
-            <default value="systems/sound/alpha-limit-low-ja"/>
-            <test logic="AND" value="systems/sound/alpha-limit-low-aj">
-                /ja37/systems/variant gt 0
-            </test>
-        </switch>
-        
-        <fcs_function name="systems/sound/alpha-limit-medium">
-            <function>
-                    <sum>
-                        <p>systems/sound/alpha-limit-low</p>
-                        <v>3</v>
-                    </sum>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/sound/alpha-limit-high">
-            <function>
-                    <sum>
-                        <p>systems/sound/alpha-limit-low</p>
-                        <v>6</v>
-                    </sum>
-            </function>
-        </fcs_function>
-
 
         <!-- The ratio between N2 and N1 is approx 1:0.7184 -->
 

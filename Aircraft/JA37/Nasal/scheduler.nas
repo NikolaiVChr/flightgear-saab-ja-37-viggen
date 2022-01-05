@@ -54,6 +54,7 @@ var init_loops = func {
         { period: 8, offset: 3, function: radar_logic.radarLogic.loop, self: radar_logic.radarLogic, name: "radar", },
         { period: 32, offset: 15, function: ja37.saab37.slow_loop, self: ja37.saab37, name: "ja37-slow", arg_dt: 1, },
         { period: 32, offset: 31, function: failureSys.loop_fire, name: "Failure", },
+        { period: 32, offset: 31, function: hud.loop_slow, name: "HUD-slow", },
     ];
 
     if (variant.JA) {

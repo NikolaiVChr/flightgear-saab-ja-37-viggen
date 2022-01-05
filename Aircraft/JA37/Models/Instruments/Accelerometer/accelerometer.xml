@@ -43,7 +43,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>accelerometer</tooltip-id>
                 <label>Pulling %2.1fG</label>
-                <property>ja37/accelerations/pilot-G</property>
+                <property>instrumentation/accelerometer/g-force-indicated</property>
             </binding>
         </hovered>
     </animation>

@@ -18,8 +18,8 @@
         <object-name>knobHeadSI</object-name>
         <object-name>knobBaseSI</object-name>
         <property>ja37/hud/brightness-si</property>
-        <factor>-240</factor>
-        <offset-deg>212</offset-deg>
+        <factor>-150</factor>
+        <offset-deg>75</offset-deg>
         <center>
             <x-m> -4.0 </x-m>
             <y-m> -0.03 </y-m>
@@ -34,9 +34,9 @@
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/brightness-si</property>
-                <factor>0.05</factor>
-                <min>0.55</min>
-                <max>1.00</max>                
+                <factor>0.1</factor>
+                <min>0.0</min>
+                <max>1.0</max>
                 <wrap>false</wrap>
            </binding>
         </action>
@@ -54,8 +54,8 @@
         <object-name>knobHeadRES</object-name>
         <object-name>knobBaseRES</object-name>
         <property>ja37/hud/brightness-res</property>
-        <factor>-120</factor>
-        <offset-deg>80</offset-deg>
+        <factor>-150</factor>
+        <offset-deg>75</offset-deg>
         <center>
             <x-m> -4.0 </x-m>
             <y-m>  0.03 </y-m>
@@ -70,9 +70,9 @@
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/brightness-res</property>
-                <factor>0.10</factor>
-                <min>0.00</min>
-                <max>0.90</max>                
+                <factor>0.1</factor>
+                <min>0.0</min>
+                <max>1.0</max>
                 <wrap>false</wrap>
            </binding>
         </action>
@@ -80,7 +80,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>knob-hud-brightness-res</tooltip-id>
-                <label>HUD Backup brightness</label>
+                <label>HUD backup sight brightness</label>
             </binding>
         </hovered>
     </animation>

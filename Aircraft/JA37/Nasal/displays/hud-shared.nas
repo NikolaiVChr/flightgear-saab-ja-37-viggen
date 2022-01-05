@@ -61,13 +61,16 @@ var input = {
     radar_range:    "/instrumentation/radar/range",
     APmode:         "/fdm/jsbsim/autoflight/mode",
     alt_bars_flash: "/fdm/jsbsim/systems/indicators/flashing-alt-bars",
+    ajs_bars_flash: "/fdm/jsbsim/systems/mkv/ajs-alt-bars-blink",
     gpw:            "/instrumentation/terrain-warning",
     twoHz:          "/ja37/blink/two-Hz/state",
     fourHz:         "/ja37/blink/four-Hz/state",
+    fiveHz:         "/ja37/blink/five-Hz/state",
     wpn_knob:       "/controls/armament/weapon-panel/selector-knob",
     wingspan:       "/controls/armament/wingspan",
     gunsight_dist:  "/instrumentation/gunsight[0]/distance-m",
     arak_long:      "/controls/armament/weapon-panel/switch-impulse",
+    gnd_aiming:     "/ja37/hud/ground-aiming",
     bright:         "/ja37/hud/brightness",
     bright_hud:     "/ja37/hud/brightness-si",
     bright_bck:     "/ja37/hud/brightness-res",
@@ -78,7 +81,7 @@ var input = {
     airbase_index:  "/ja37/hud/display-alt-base",
     true_alt_ft:    "/fdm/jsbsim/position/h-sl-ft",
     true_alt_agl_ft:"/fdm/jsbsim/position/h-agl-ft",
-
+    scene_red:      "/rendering/scene/diffuse/red",
 };
 
 foreach(var name; keys(input)) {
@@ -86,15 +89,52 @@ foreach(var name; keys(input)) {
 }
 
 
+### /!\ NOTE ON CANVAS STYLE PROPERTIES
+#
+# Goal: setting the HUD colour globally (with a single property on the root group).
+#
+# Canvas has cascading (a style set on a group propagates to its children),
+# which can be used to accomplish this goal.
+#
+# Problem is, path elements require to set the colour with "stroke",
+# while text elements require to set it with "fill".
+# And if you set "fill" on a (closed) path, or "stroke" on text, it looks wrong.
+# Which means you can't just set "fill" and "stroke" at the root.
+# The Canvas nasal API has a method .setColor() for this reason:
+# it sets "fill" on text, "stroke" on colour, and on groups it propagates
+# to all text and path descendants, which is stupid and horribly slow.
+#
+# Having separate groups for text and paths is also out of the question,
+# it would mean duplicating all the group transformations logic.
+#
+# So here's my stupid solution to this problem:
+# 1. Set "fill" and "stroke" to the desired colour on the root group.
+# 2. Set "fill": "none" on all paths, and "stroke": "none" on all text individually,
+#    to mask the undesired global style.
+#
+# Step 2 is slow and stupid (equivalent to calling .setColor() on the root),
+# but it only needs to be done when creating the canvas, so it's fine.
+# Afterwards, to change the colour, you only need to change the "fill" and "stroke"
+# styles of the root, which is _way_ faster than calling .setColor() on the root.
+#
+# Setting "fill"/"stroke": "none" is done by the constructors make_path() and make_text() below.
+#
+# If you ever need a filled path, it suffice to not add "fill": "none" on that path.
+# The second (optional) argument of make_path() does exactly that.
+#
+#
+# All of the above means that any setColor() or setFillColor()
+# in the HUD code is almost certainly an error.
 
-### Canvas elements creators with default options
 
-# Create a new path with default options
-var make_path = func(parent) {
-    return parent.createChild("path")
-        .setStrokeLineWidth(opts.line_width)
-        .setStrokeLineJoin("round")
-        .setStrokeLineCap("round");
+### Canvas elements creators
+
+# Create a new path.
+var make_path = func(parent, fill=0) {
+    var p = parent.createChild("path");
+    # Mask the global "fill" colour, cf. remarks above.
+    if (!fill) p.set("fill", "none");
+    return p;
 }
 
 # Create a new path and draw a circle, with center (x,y) and diameter d
@@ -110,7 +150,7 @@ var make_circle = func(parent, x, y, d) {
 var make_dot = func(parent, x, y, d) {
     return make_path(parent)
         # Hack
-        .moveTo(x,y).line(0.001,0)
+        .moveTo(x,y).line(0.001*d,0)
         .setStrokeLineWidth(d)
         .setStrokeLineCap("round");
 }
@@ -118,8 +158,8 @@ var make_dot = func(parent, x, y, d) {
 # Create a new text element with default options.
 var make_text = func(parent) {
     return parent.createChild("text")
-        .setAlignment("center-bottom")
-        .setFontSize(80, 1);
+        # Mask the global "stroke" colour, cf. remarks above.
+        .set("stroke", "none");
 }
 
 # Create a new text element, and initialize its position and content.
@@ -165,8 +205,17 @@ var HUDCanvas = {
         me.canvas = canvas.new(me.canvas_opts);
         me.canvas.setColorBackground(0, 0, 0, 0);
         me.root = me.canvas.createGroup("root");
-        me.root.set("font", "LiberationFonts/LiberationSans-Bold.ttf")
-            .setTranslation(canvas_width/2, canvas_width/2);
+        me.root.setTranslation(canvas_width/2, canvas_width/2)
+            # Default options
+            # Text
+            .set("font", "LiberationFonts/LiberationSans-Bold.ttf")
+            .set("character-size", 80)
+            .set("character-aspect-ratio", 1)
+            .set("alignment", "center-bottom")
+            # Paths
+            .set("stroke-width", opts.line_width)
+            .set("stroke-linecap", "round")
+            .set("stroke-linejoin", "round");
 
         # Group centered on the HUD optical axis.
         # (Used with HUD shader off, when simulating parallax in Nasal).
@@ -193,8 +242,8 @@ var HUDCanvas = {
         me.grp_hud = me.forward_axis.createChild("group", "HUD");
         me.grp_backup = me.forward_axis.createChild("group", "Backup sight");
 
-        me.bright_hud = -1;
-        me.bright_bck = -1;
+        me.bright_hud = 0;
+        me.bright_bck = 0;
     },
 
     add_placement: func(placement) {
@@ -237,20 +286,34 @@ var HUDCanvas = {
         me.centered = FALSE;
     },
 
+    set_hud_brightness: func(brightness) {
+        var color = sprintf("rgba(%s,%f)", opts.color, brightness);
+        me.grp_hud.set("stroke", color);
+        me.grp_hud.set("fill", color);
+    },
+
+    set_backup_brightness: func(brightness) {
+        var color = sprintf("rgba(%s,%f)", opts.backup_color, brightness);
+        me.grp_backup.set("stroke", color);
+        me.grp_backup.set("fill", color);
+    },
+
     update_brightness: func {
-        var bright_hud = input.bright_hud.getValue();
-        if (bright_hud != me.bright_hud) {
-            me.bright_hud = bright_hud;
-            me.grp_hud.setColor(0,1,0,me.bright_hud);
+        var scene_bright = input.scene_red.getValue();
+        # Brightness level from photocell
+        me.bright_hud = 0.7 + 0.3*scene_bright*scene_bright;
+        # Adjust with brightness knob.
+        me.bright_hud *= (0.7 + 0.6 * input.bright_hud.getValue());
+        me.bright_hud = math.clamp(me.bright_hud, 0, 1);
+        me.set_hud_brightness(me.bright_hud);
+
+        if (variant.JA) {
+            me.bright_bck = input.bright_bck.getValue() * 0.4;
+            if (me.bright_bck > 0) me.bright_bck += 0.6;
+            me.set_backup_brightness(me.bright_bck);
         }
 
-        var bright_bck = input.bright_bck.getValue();
-        if (bright_bck != me.bright_bck) {
-            me.bright_bck = bright_bck;
-            me.grp_backup.setColor(1,0.5,0,me.bright_bck);
-        }
-
-        input.bright.setValue(math.max(me.bright_hud, me.bright_bck));
+        input.bright.setValue(math.max(me.bright_hud, me.bright_bck) * 1.2);
     },
 };
 
@@ -275,10 +338,13 @@ var update = func {
     hud_canvas.update_parallax();
     hud.update();
     if (variant.JA) {
-        if (hud_canvas.bright_bck > 0 and power.prop.dcMainBool.getBoolValue()) {
-            hud_canvas.get_group_backup().show();
-        } else {
-            hud_canvas.get_group_backup().hide();
-        }
+        hud_canvas.get_group_backup().setVisible(
+            hud_canvas.bright_bck > 0 and power.prop.dcMainBool.getBoolValue()
+        );
     }
+}
+
+var loop_slow = func {
+    # For ambient light change.
+    hud_canvas.update_brightness();
 }

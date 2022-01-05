@@ -7,13 +7,15 @@ var opts = {
     optical_axis_pitch_offset: 7.3,
     line_width: 10,
     # HUD physical dimensions. This is the object on which the Canvas is applied.
-    # This values are only used for Nasal parallax correction (ALS off).
+    # These values are only used for Nasal parallax correction (ALS off).
     hud_center_y: nil,  # see update_hud_position below
     hud_center_z: nil,  # see update_hud_position below
     # Maximum of width/height (actually, the size to which the texture is mapped).
     hud_size: 0.14,
 
     placement: {"node": "aj37hud", "texture": "hud.png"},
+
+    color: "128,255,128",   # "R,G,B", 0 to 255
 };
 
 
@@ -244,7 +246,8 @@ var AltitudeBars = {
     # Their length corresponds to 100m.
     update_ref_bars: func(ref_alt) {
         if (ref_alt <= 500) {
-            me.ref_bars.show();
+            # MKV blinking
+            me.ref_bars.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
             me.ref_bars.setScale(1, 100/ref_alt);
         } else {
             me.ref_bars.hide();
@@ -274,7 +277,8 @@ var AltitudeBars = {
         # Clamp (max: top of outer altitude bars, min: length of alt bars below the bottom of bars).
         rhm_pos = math.clamp(rhm_pos, 0, 2);
         me.rhm_index.setTranslation(0, 300 * rhm_pos);
-        me.rhm_index.show();
+        # MKV blinking
+        me.rhm_index.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
     },
 
     # All altitudes in meters
@@ -478,7 +482,7 @@ var DistanceLine = {
                 var speed = input.groundspeed.getValue() * KT2MPS;
                 # Blink 2s before firing
                 if (dist[0] >= dist[2] and dist[0] <= dist[2] + speed*2) {
-                    me.group.setVisible(input.fourHz.getBoolValue());
+                    me.group.setVisible(input.fiveHz.getBoolValue());
                 } else {
                     me.group.show();
                 }
@@ -590,7 +594,7 @@ var FPV = {
     # Display 'fin' (speed error indicator)
     # pos: normalised in [-1,1], 0: correct speed, -1: speed is too low
     set_fin: func(show, pos=0, blink=0) {
-        if (show and (!blink or input.fourHz.getBoolValue())) {
+        if (show and (!blink or input.fiveHz.getBoolValue())) {
             me.tail.show();
             me.tail.setTranslation(0, -50*pos);
         } else {
@@ -672,7 +676,13 @@ var AimingMode = {
         } else {
             me.group.hide();
             me.target.hide();
+            me.set_AG_flag(FALSE);
         }
+    },
+
+    # External A/G aiming flag, used for ground collision warning
+    set_AG_flag: func(b) {
+        input.gnd_aiming.setBoolValue(b);
     },
 
     ## AA sight. Radar lock not implemented yet.
@@ -716,7 +726,7 @@ var AimingMode = {
         me.reticle.setVisible(type == "M55");
         me.set_wingspan(input.wingspan.getValue(), shoot_dist);
         me.wing.show();
-        me.firing_mark.setVisible(g_warning and input.fourHz.getBoolValue());
+        me.firing_mark.setVisible(g_warning and input.fiveHz.getBoolValue());
 
         if (type == "M55") {
             # A/G sight computer is used for this, and this is essentially what the real AJS does too
@@ -746,6 +756,8 @@ var AimingMode = {
             or (type == "M55" and input.wpn_knob.getValue() == fire_control.WPN_SEL.AKAN_JAKT)) {
             me.update_AA(type);
         } elsif (type == "M55" or type == "M70") {
+            me.set_AG_flag(TRUE);
+
             var arak_long = (type == "M70" and input.arak_long.getBoolValue());
 
             sight.AGsight.update();
@@ -770,18 +782,20 @@ var AimingMode = {
                     # Time <= 18s and >= 0.5s
                     and time <= 18 and time >= 0.5
                     # Blinking 2s before last firing point
-                    and (dist[0] > dist[2] + speed*2 or input.fourHz.getBoolValue()));
+                    and (dist[0] > dist[2] + speed*2 or input.fiveHz.getBoolValue()));
             } else {
                 # Firing mark 0.5s before firing.
                 me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
             }
             # Pull up bars flashing after evade distance.
-            me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fourHz.getBoolValue());
+            me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fiveHz.getBoolValue());
             me.target.hide();
 
             me.reticle_pos[0] = pos[0] * MIL2HUD;
             me.reticle_pos[1] = pos[1] * MIL2HUD;
         } elsif (type == "M71" or type == "M71R") {
+            me.set_AG_flag(TRUE);
+
             me.reticle.show();
             me.bars.show();
             me.wing.hide();
@@ -798,6 +812,8 @@ var AimingMode = {
                 me.reticle_pos = [0,300];
             }
         } elsif (type == "RB-75") {
+            me.set_AG_flag(FALSE);
+
             me.reticle.show();
             me.bars.show();
             me.wing.hide();

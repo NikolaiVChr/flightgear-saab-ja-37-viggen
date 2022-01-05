@@ -1,6 +1,69 @@
 ﻿<?xml version="1.0"?>
+
 <PropertyList>
-    <path>indicator-panel-left.ac</path>
+    <path>indicator-panel.ac</path>
+
+    <!-- I've heard object groups have tricky issues, but using them here seems well worth it -->
+    <animation>
+      <name>labels</name>
+      <object-name>indicatorLeft1</object-name>
+      <object-name>indicatorLeft2</object-name>
+      <object-name>indicatorLeft3</object-name>
+      <object-name>indicatorLeft4</object-name>
+      <object-name>indicatorLeft5</object-name>
+      <object-name>indicatorLeft6</object-name>
+      <object-name>indicatorLeft7</object-name>
+      <object-name>indicatorLeft8</object-name>
+      <object-name>indicatorLeft9</object-name>
+      <object-name>indicatorLeft10</object-name>
+      <object-name>indicatorRight1</object-name>
+      <object-name>indicatorRight2</object-name>
+      <object-name>indicatorRight3</object-name>
+      <object-name>indicatorRight4</object-name>
+      <object-name>indicatorRight5</object-name>
+      <object-name>indicatorRight6</object-name>
+      <object-name>indicatorRight7</object-name>
+      <object-name>indicatorRight8</object-name>
+      <object-name>indicatorRight9</object-name>
+      <object-name>indicatorRight10</object-name>
+    </animation>
+
+    <animation>
+      <type>material</type>
+      <object-name>labels</object-name>
+      <condition>
+        <and>
+          <property>/ja37/effect/swedish-labels</property>
+          <not><property>ja37/systems/variant</property></not>
+        </and>
+      </condition>
+      <texture>indicator-panels-ja-se.png</texture>
+    </animation>
+
+    <animation>
+      <type>material</type>
+      <object-name>labels</object-name>
+      <condition>
+        <and>
+          <not><property>/ja37/effect/swedish-labels</property></not>
+          <property>ja37/systems/variant</property>
+        </and>
+      </condition>
+      <texture>indicator-panels-ajs.png</texture>
+    </animation>
+
+    <animation>
+      <type>material</type>
+      <object-name>labels</object-name>
+      <condition>
+        <and>
+          <property>/ja37/effect/swedish-labels</property>
+          <property>ja37/systems/variant</property>
+        </and>
+      </condition>
+      <texture>indicator-panels-ajs-se.png</texture>
+    </animation>
+
 
     <!-- Swedish: BRAND (sound, blinking)
     -->
@@ -91,11 +154,11 @@
     <!-- Swedish: FÖRV FÖRBJ (blinking)
     -->
     <animation>
-        <name>no forward thrust</name>
+        <name>reverser preselection forbidden</name>
         <object-name>indicatorLeft7</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/forward-thrust</property>
+            <property>fdm/jsbsim/systems/indicators/no-reverse-preselect</property>
         </condition>
         <emission>
             <red>1</red>
@@ -156,14 +219,15 @@
         </emission>
     </animation>
 
-    <!-- Swedish: LUFTBROMS (steady)
+    <!-- Swedish: TIPP VÄXEL (blinking) (AJS only)
     -->
     <animation>
         <name>electrical</name>
         <object-name>indicatorRight1</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/speedbrake</property>
+            <property>ja37/systems/variant</property>
+            <property>fdm/jsbsim/systems/indicators/pitch-gearing</property>
         </condition>
         <emission>
             <red>1</red>
@@ -190,14 +254,23 @@
         </emission>
     </animation>
 
-    <!-- Swedish: ELRESERV (blinking)
+    <!-- Swedish: ELRESERV (blinking) (JA) / RESERVEFF (blinking) (AJS)
     -->
     <animation>
         <name>electrical reserve (Ram Air Turbine)</name>
         <object-name>indicatorRight3</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
+            <or>
+                <and>
+                    <not><property>ja37/systems/variant</property></not>
+                    <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
+                </and>
+                <and>
+                    <property>ja37/systems/variant</property>
+                    <property>fdm/jsbsim/systems/indicators/reserve</property>
+                </and>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -275,14 +348,15 @@
         </emission>
     </animation>
 
-    <!-- Swedish: HYDRRESERV (blinking)
+    <!-- Swedish: HYDRRESERV (blinking) (JA only)
     -->
     <animation>
         <name>hydr reserve</name>
         <object-name>indicatorRight8</object-name>
         <type>material</type>
         <condition>
-            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>  
+            <not><property>ja37/systems/variant</property></not>
+            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>
         </condition>
         <emission>
             <red>1</red>

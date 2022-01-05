@@ -288,6 +288,7 @@
   <system file="jsb-flight"/>
   <system file="jsb-electric"/>
   <system file="jsb-instruments"/>
+  <system file="jsb-warnings"/>
   <system file="jsb-indicators"/>
   <system file="jsb-cannon_recoil"/>
   <system file="jsb-fuel"/>

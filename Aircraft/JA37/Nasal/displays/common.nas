@@ -81,6 +81,7 @@ var Common = {
 			qnh_mode:         "ja37/hud/qnh-mode",
 			ref_alt:          "ja37/displays/reference-altitude-m",
 			switch_hojd:      "ja37/hud/switch-hojd",
+			rhm_functional:   "instrumentation/radar-altimeter/functional",
 			APmode:           "fdm/jsbsim/autoflight/mode",
 			AP_alt_ft:        "fdm/jsbsim/autoflight/pitch/alt/target",
 			units:            "ja37/hud/units-metric",
@@ -90,6 +91,7 @@ var Common = {
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
 			displays_on:      "ja37/displays/on",
 			displays_serv:    "instrumentation/displays/serviceable",
+			land_warn_on:     "ja37/avionics/landing-warnings-enable",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -146,9 +148,8 @@ var Common = {
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
-		if (variant.AJS) me.groundCorrectedAltitude();
-		#me.rate = getprop("sim/frame-rate-worst");
-		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
+		if (variant.AJS) me.hojd_switch();
+		if (variant.JA) me.landWarningsCondition();
 	},
 
 	loopFast: func {
@@ -327,10 +328,24 @@ var Common = {
 		else return me.arm_name_short[me.armamentp];
 	},
 
+	landWarningsCondition: func {
+		# Condition: landing mode LB, LF, or (L and within 40km of destination)
+		# Used by MKV and QFE warnings
+		var res = 0;
+		if (land.mode_LB_active or land.mode_LF_active) res = 1;
+		if (land.mode_L_active
+			and (var airbase = route.Polygon.flyRTB.plan.destination) != nil) {
+			res = (geo.Coord.new().set_latlon(airbase.lat, airbase.lon, 0)
+				.distance_to(geo.aircraft_position()) < 40000);
+		}
+		me.input.land_warn_on.setBoolValue(res);
+	},
+
 	QFE: func {
 		# Update airbase altitude (only in QNH mode).
 		var airbase = route.Polygon.flyRTB.plan.destination;
-		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil) {
+		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil
+				and (modes.main_ja == modes.TAKEOFF or modes.main_ja == modes.LANDING)) {
 			me.input.alt_airbase_m.setValue(airbase.elevation);
 		} else {
 			me.input.alt_airbase_m.setValue(0);
@@ -369,8 +384,8 @@ var Common = {
 				if (!std) me.qfe_warn_time = time;
 			}
 
-			# In landing mode. TODO: only within 40km of destination for mode L.
-			if (modes.landing or land.mode_L_active) {
+			# In landing mode (LB, LF, or (L and within 40km of destination))
+			if (me.input.land_warn_on.getBoolValue()) {
 				if (me.qfe_warn_land_armed) {
 					me.qfe_warn_land_armed = FALSE;
 					# First warning when entering land mode if STD is not set properly.
@@ -449,13 +464,19 @@ var Common = {
 		}
 	},
 
-	# Logic for AJS switch HÖJD CI/SI (radar altitude correction mode).
-	# The ground corrected altitude is computed in JSBSim.
-	groundCorrectedAltitude: func {
-		if (me.input.switch_hojd.getBoolValue()
+	hojd_switch: func {
+		# Move switch HÖJD CI/SI to LD (barometric) if necessary.
+
+		if (!me.input.switch_hojd.getBoolValue()) return;
+		# Guess: the switch stays in place without electrical power.
+		if (!power.prop.dcMainBool.getBoolValue()) return;
+
+		# Disengagement conditions
+		if (!me.input.rhm_functional.getBoolValue()
 			# Should be standard pressure altitude, but it would make it unusable in high terrain.
-			and (me.input.alt_bar_m.getValue() > 2450
-				or (modes.landing and land.mode >= 2 and land.mode <= 3))) {
+			or me.input.alt_bar_m.getValue() > 2450
+			or (modes.landing and land.mode >= 2 and land.mode <= 3))
+		{
 			me.input.switch_hojd.setValue(FALSE);
 			ja37.click();
 		}
