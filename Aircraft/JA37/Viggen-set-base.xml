@@ -1494,7 +1494,7 @@
             <!-- JA stuff -->
             <iff type="bool">false</iff>
             <!-- AJS stuff -->
-            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI (2 should be B-scope) -->
+            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI, 2=B-scope -->
             <range type="int">15000</range>             <!-- for 3D model only -->
         </radar>
         <rwr>

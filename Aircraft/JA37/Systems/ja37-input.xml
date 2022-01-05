@@ -490,8 +490,11 @@
                         <value>0</value>
                     </not-equals>
                 </condition>
-                <command>property-toggle</command>
+                <command>property-cycle</command>
                 <property>instrumentation/radar/mode</property>
+                <value>0</value>
+                <value>1</value>
+                <value>2</value>
             </binding>
             <binding>
                 <command>nasal</command>
