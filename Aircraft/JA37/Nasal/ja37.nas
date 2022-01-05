@@ -351,7 +351,7 @@ var Saab37 = {
     }
 
     # RWR
-    rwr.update_rwr();
+    rwr.loop();
 
     # Animating engine fire
     if (me.n1 > 100) me.n1 = 100;
@@ -849,6 +849,7 @@ var Saab37 = {
     displays.common.loopFast();
 
     # radar
+    rwr.init();
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
 
     fire_control.init();
