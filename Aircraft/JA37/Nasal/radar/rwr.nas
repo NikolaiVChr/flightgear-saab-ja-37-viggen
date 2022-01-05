@@ -185,10 +185,30 @@ var RWRSignal = {
         me.lifetime = lifetime;
         me.delete_timer.restart(me.lifetime);
     },
+
+    is_beeping: func {
+        return me.sound != nil and me.sound >= 0;
+    },
+
+    start_beep: func {
+        if (me.is_beeping()) return;
+        if (me.type == RWR_LOCK) {
+            var freq = me.radar_info.lock_freq;
+        }  elsif (me.type == RWR_SCAN) {
+            var freq = me.radar_info.scan_freq;
+        } else return;
+
+        me.sound = start_beep(freq);
+    },
+
+    stop_beep: func {
+        if (!me.is_beeping()) return;
+        stop_beep(me.sound);
+        me.sound = nil;
+    },
+
     del: func() {
-        if (me.sound != nil and me.sound >= 0) {
-            stop_beep(me.sound);
-        }
+        me.stop_beep();
         me.delete_timer.stop();
         if(me.UID != nil) delete(signals_list, me.UID);
     },
@@ -339,13 +359,13 @@ var bearing_to_ajs_rwr_sectors = func(bearing) {
 
 ### Update loop for lights/sounds
 var update_rwr = func() {
-    if (input.gear_pos.getValue() > 0
-        or (variant.AJS and modes.selector_ajs <= modes.STBY)) {
+    if (input.gear_pos.getValue() > 0 or (variant.AJS and modes.selector_ajs <= modes.STBY)) {
         # RWR off
         forindex (var i; ja_msl_sectors) input.ja_lights[i].setBoolValue(FALSE);
         forindex (var i; ajs_rwr_sectors) input.ajs_lights[i].setBoolValue(FALSE);
         input.sound_high_prf.setBoolValue(FALSE);
         input.sound_incoming.setBoolValue(FALSE);
+        foreach (var uid; keys(signals_list)) signals_list[uid].stop_beep();
         return;
     }
 
@@ -387,22 +407,14 @@ var update_rwr = func() {
         }
 
         # Sounds
-        if (signal.type == RWR_LAUNCH) sound_incoming = variant.JA; # missile launch, JA only
-        elsif (signal.type == RWR_MISSILE) sound_high_prf = TRUE;
-        elsif (signal.type == RWR_LOCK or (signal.type == RWR_SCAN and signal.scan_active(time))) {
-            # Beep sound.
-            if (signal.sound == nil or signal.sound < 0) {
-                # start beeping
-                var freq = (signal.type == RWR_LOCK) ? signal.radar_info.lock_freq : signal.radar_info.scan_freq;
-                var i = start_beep(freq);
-                if (i >= 0) signal.sound = i;
-            }
+        if (signal.type == RWR_LAUNCH) {
+            sound_incoming = variant.JA; # missile launch, JA only
+        } elsif (signal.type == RWR_MISSILE) {
+            sound_high_prf = TRUE;
+        } elsif (signal.type == RWR_LOCK or (signal.type == RWR_SCAN and signal.scan_active(time))) {
+            signal.start_beep();
         } else {
-            # No sound, disable beep if required.
-            if (signal.sound != nil and signal.sound >= 0) {
-                stop_beep(signal.sound);
-                signal.sound = nil;
-            }
+            signal.stop_beep();
         }
     }
 
