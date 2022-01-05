@@ -96,6 +96,29 @@
     </emission>
   </animation>
 
+  <animation>
+    <type>knob</type>
+    <object-name>filter_hotspot</object-name>
+    <drag-direction>vertical</drag-direction>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/radar/polaroid-filter</property>
+        <factor>0.1</factor>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ci-filter</tooltip-id>
+        <label>Radar polarizing filter</label>
+      </binding>
+    </hovered>
+  </animation>
+
   <!-- radar range indicators -->
   <animation>
     <type>material</type>

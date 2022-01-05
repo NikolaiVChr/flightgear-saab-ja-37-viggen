@@ -15,6 +15,7 @@ var input = {
     radar_range:    "instrumentation/radar/range",
     radar_mode:     "instrumentation/radar/mode",
     radar_passive:  "ja37/radar/panel/passive",
+    radar_filter:   "instrumentation/radar/polaroid-filter",
 };
 
 foreach(var name; keys(input)) {
@@ -132,6 +133,40 @@ var RadarMarks = {
 };
 
 
+### Waypoint circle and other navigation related symbols
+
+var NavSymbols = {
+    new: func(parent) {
+        var m = { parents: [Horizon], parent: parent, };
+        m.init();
+        return m;
+    },
+
+    init: func {
+        me.root = me.parent.createChild("group", "nav symbols");
+
+        me.circle = me.root.createChild("path")
+            .moveTo(-12,0).arcSmallCW(12,12,0,24,0).arcSmallCW(12,12,0,-24,0);
+        me.line = me.root.createChild("path")
+            .vertTo(100);
+        me.cross = me.root.createChild("path")
+            .moveTo(-15,0).horizTo(15)
+            .moveTo(0,-15).vertTo(15);
+
+        me.display = -1;
+    },
+
+    set_mode: func(mode, display) {
+        me.display = display;
+        me.root.setVisible(display == CI.DISPLAY_PPI);
+    },
+
+    update: func {
+        if (me.display != CI.DISPLAY_PPI) return;
+    },
+};
+
+
 ### Artificial horizon
 
 var Horizon = {
@@ -201,16 +236,12 @@ var Horizon = {
 };
 
 
-### Layers of display
 
-var symbols_color = "rgba(192,255,192,1)";
-var symbols_width = 1.5;
 
-var radar_bg_color = "rgba(50,200,50,1)";
 
-var radar_symbols_color = "rgba(0,0,0,1)";
-var radar_symbols_width = 0.8;
 var CI = {
+    symbols_width: 1.5,
+    radar_symbols_width: 0.8,
 
     ## CI mode
     # Separated in type of display (PPI vs B-scope), type of symbology.
@@ -248,30 +279,30 @@ var CI = {
             .setScale(1,-1);
 
         me.PPI_bg_grp = me.PPI_root.createChild("group", "background")
-            .set("fill", radar_bg_color)
             .set("z-index", 0);
         me.B_bg_grp = me.B_root.createChild("group", "background")
-            .set("fill", radar_bg_color)
             .set("z-index", 0);
 
         me.PPI_symbols_grp = me.PPI_root.createChild("group", "radar_symbols")
             .set("stroke", "rgba(0,0,0,1)")
-            .set("stroke-width", radar_symbols_width)
+            .set("stroke-width", me.radar_symbols_width)
             .set("z-index", 200);
         me.B_symbols_grp = me.B_root.createChild("group", "radar_symbols")
             .set("stroke", "rgba(0,0,0,1)")
-            .set("stroke-width", radar_symbols_width)
+            .set("stroke-width", me.radar_symbols_width)
             .set("z-index", 200);
 
         me.nav_symbols_grp = me.PPI_root.createChild("group", "symbols")
-            .set("stroke", symbols_color)
-            .set("stroke-width", symbols_width)
+            .set("stroke-width", me.symbols_width)
             .set("z-index", 201);
 
         me.horizon_grp = me.root.createChild("group", "horizon")
-            .set("stroke", symbols_color)
-            .set("stroke-width", symbols_width)
+            .set("stroke-width", me.symbols_width)
             .set("z-index", 202);
+
+        me.color_listener = setlistener(input.radar_filter, func {
+            me.update_colors();
+        }, 1, 0);
 
         me.radar_bg = RadarBackground.new(me.PPI_bg_grp, me.B_bg_grp);
         me.radar_marks = RadarMarks.new(me.PPI_symbols_grp);
@@ -279,6 +310,47 @@ var CI = {
 
         me.mode = -1;
         me.display = -1;
+    },
+
+    update_colors: func {
+        filter = input.radar_filter.getValue();
+
+        # from 0=red to 1=green
+        var hue = 1 / (1 + math.exp(-10 * (filter - 0.5)));
+        var G_factor = math.min(1, 2*hue);
+        var R_factor = math.min(1, 2 - 2*hue);
+
+        # Radar background
+        var bg_value = math.pow(filter, 0.8) * 0.8;
+        var bg_desat = filter * 0.3;                # 1-saturation
+
+        var bg_rgb = [
+            bg_value * (R_factor + bg_desat * (1 - R_factor)),
+            bg_value * (G_factor + bg_desat * (1 - G_factor)),
+            bg_value * bg_desat,
+        ];
+        forindex (var i; bg_rgb) {
+            bg_rgb[i] = int(bg_rgb[i] * 255);
+        }
+        var bg_str = sprintf("rgba(%d,%d,%d,1)", bg_rgb[0], bg_rgb[1], bg_rgb[2]);
+        me.PPI_bg_grp.set("fill", bg_str);
+        me.B_bg_grp.set("fill", bg_str);
+
+        # Bright symbols layer
+        var smb_value = math.pow(filter, 0.6);
+        var smb_desat = math.pow(filter, 1.3) * 0.8;
+
+        var smb_rgb = [
+            smb_value * (R_factor + smb_desat * (1 - R_factor)),
+            smb_value * (G_factor + smb_desat * (1 - G_factor)),
+            smb_value * smb_desat,
+        ];
+        forindex (var i; smb_rgb) {
+            smb_rgb[i] = int(smb_rgb[i] * 255);
+        }
+        var smb_str = sprintf("rgba(%d,%d,%d,1)", smb_rgb[0], smb_rgb[1], smb_rgb[2]);
+        me.nav_symbols_grp.set("stroke", smb_str);
+        me.horizon_grp.set("stroke", smb_str);
     },
 
     set_mode: func(mode, display) {

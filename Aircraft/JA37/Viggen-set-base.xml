@@ -1496,6 +1496,7 @@
             <!-- AJS stuff -->
             <mode type="int">0</mode>                   <!-- 0=off, 1=PPI, 2=B-scope -->
             <range type="int">15000</range>             <!-- for 3D model only -->
+            <polaroid-filter type="double">1</polaroid-filter>
         </radar>
         <rwr>
           <ajs-lights>
