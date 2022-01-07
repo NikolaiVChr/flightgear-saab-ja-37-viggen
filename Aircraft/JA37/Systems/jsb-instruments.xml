@@ -661,6 +661,9 @@
     <channel execrate="4" name="transponder">
         <switch name="instruments/transponder/time-power">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test value="instruments/transponder/time-power">
                 /ja37/elec/ac-bus-main-bool eq 1
             </test>
@@ -703,6 +706,9 @@
 
         <switch name="systems/ins/time-steady">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="AND" value="sim-time-sec">
                 /ja37/avionics/button-snabbresn == 1
             </test>
@@ -749,6 +755,9 @@
 
         <switch name="systems/gps/time-steady">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="AND" value="systems/gps/time-steady">
                 /ja37/avionics/gps-cmd == 1
                 /ja37/navigation/gps-installed == 1
