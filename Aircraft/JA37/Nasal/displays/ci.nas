@@ -67,11 +67,14 @@ var RadarBackground = {
 
     init: func {
         me.PPI = me.parent.createChild("path")
-            .moveTo(0,0)
-            .lineTo(PPI_side_bot,PPI_side)
-            .lineTo(PPI_side_top,PPI_side)
+            .moveTo(-canvas_size/2, canvas_size/2)
+            .lineTo(canvas_size / 2 / math.tan(PPI_half_angle * D2R), canvas_size/2)
+            .lineTo(PPI_side_bot, PPI_side)
+            .lineTo(PPI_side_top, PPI_side)
             .arcSmallCCW(PPI_radius, PPI_radius, 0, 0, -2*PPI_side)
-            .lineTo(PPI_side_bot,-PPI_side)
+            .lineTo(PPI_side_bot, -PPI_side)
+            .lineTo(canvas_size / 2 / math.tan(PPI_half_angle * D2R), -canvas_size/2)
+            .lineTo(-canvas_size/2, -canvas_size/2)
             .close();
 
         me.B_scope = me.parent.createChild("path")
