@@ -62,8 +62,6 @@ var main = func {
 			setprop("ja37/test/fk-steady", 1);
 			state = 1;
 			ongoing = 1;
-			MI.mi.off = 1;
-			TI.ti.off = 1;
 		}
 	} else {
 		# nop
@@ -81,10 +79,26 @@ var doTest = func {
 	iteration = 0;
 }
 
+var test_conditions = func {
+	if (!getprop("fdm/jsbsim/gear/unit[1]/WOW")) return 0;
+	if (getprop("controls/engines/engine[0]/starter-cmd")) return 0;
+
+	if (variant.JA and getprop("ja37/avionics/ins-init")) return 0;
+	if (variant.AJS and modes.selector_ajs != modes.TEST) return 0;
+
+	if (getprop("fdm/jsbsim/systems/electrical/external/supplying")) return 1;
+
+	if (!power.prop.acSecondBool.getBoolValue()) return 0;
+	if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") == 0) return 0;
+	if (getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") >= 0.9) return 0;
+
+	return 1;
+}
+
 var loop = func {
 	if (ongoing) {
 		# check if should abort
-		if (getprop("ja37/avionics/ins-init") == 0 and getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and getprop("/controls/engines/engine[0]/starter-cmd") == 0 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") == 1 or (power.prop.acSecondBool.getValue() and getprop("fdm/jsbsim/fcs/throttle-pos-deg") > 0 and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9))) {
+		if (test_conditions()) {
 			# test can continue
 			if (state == 1) {
 				dap.testDisplay = sprintf("%02d0000",program);
@@ -126,10 +140,7 @@ var loop = func {
 		}
 	} else {
 		# check if ready for testing
-		if (getprop("ja37/avionics/ins-init") == 0 and getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") > 0.9
-		    or (power.prop.acSecondBool.getValue()
-		        and getprop("fdm/jsbsim/fcs/throttle-pos-deg") > 0
-		        and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9))) {
+		if (test_conditions()) {
 			# test can be started
 			ready = 1;
 			#print("ready");
@@ -165,8 +176,6 @@ var stopTest = func {
 	#stop indicator lights
 	setprop("ja37/test/green", 0);
 	setprop("ja37/test/red", 0);
-	MI.mi.off = 0;
-	TI.ti.off = 0;
 }
 
 # 1 CD - CPU
