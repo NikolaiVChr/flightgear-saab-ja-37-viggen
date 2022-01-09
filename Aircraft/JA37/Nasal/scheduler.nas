@@ -16,7 +16,6 @@ var SCHEDULER_RATE = 0.033;  # 30 Hz
 #   offset:     time offset to run this loop, with 0 <= offset < period (unit SCHEDULER_RATE)
 #   function:   the actual loop, a function object
 #   self:       (optional) 'me' reference for function call
-#   locals:     (optional) namespace for function call
 #   arg_dt:     (default 0) bool, if true the function receives a single argument
 #               which is the time (sec) since its last execution
 #   name:       (optional) a name used for debugging
@@ -86,7 +85,6 @@ var scheduler_loop = func {
     var time = input.time.getValue();
     var args = [];
     var self = nil;
-    var locals = nil;
 
     foreach (var loop; loops) {
         # Timing code
@@ -103,13 +101,12 @@ var scheduler_loop = func {
             }
             loop.last_time = time;
         } else {
-            args = [];
+            args = nil;
         }
 
-        if (contains(loop, "self")) self = loop.self;
-        if (contains(loop, "locals")) locals = loop.locals;
+        self = contains(loop, "self") ? loop.self : nil;
 
-        call(loop.function, args, self, locals);
+        call(loop.function, args, self);
 
         # Timing code
         #var t2 = systime();
