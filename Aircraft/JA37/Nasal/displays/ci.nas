@@ -237,6 +237,53 @@ var RadarMarks = {
 };
 
 
+### Sweeping beam
+
+var RadarBeam = {
+    new: func(dim_grp, bright_grp) {
+        var m = { parents: [RadarBeam], dim_grp: dim_grp, bright_grp: bright_grp, };
+        m.init();
+        return m;
+    },
+
+    init: func {
+        me.dim_beam = me.dim_grp.createChild("path")
+            .moveTo(0,0).line(0,7).line(canvas_size,0).line(0,-7).close();
+        me.bright_beam = me.bright_grp.createChild("path")
+            .moveTo(0,7).line(canvas_size,0);
+
+        me.display = -1;
+        me.last_pos = 0;
+        me.dir = 1;
+    },
+
+    set_pos: func(angle, dir) {
+        me.dim_beam.setRotation(angle * dir * D2R);
+        me.dim_beam.setScale(1, dir);
+        me.bright_beam.setRotation(angle * dir * D2R);
+        me.bright_beam.setScale(1, dir);
+    },
+
+    set_mode: func(mode, display) {
+        me.display = display;
+
+        var visible = display == CI.DISPLAY_PPI;
+        me.dim_beam.setVisible(visible);
+        me.bright_beam.setVisible(visible);
+    },
+
+    update: func {
+        if (me.display != CI.DISPLAY_PPI) return;
+
+        var pos = radar.ps37.getCaretPosition()[0] * radar.ps37.fieldOfRegardMaxAz;
+        if (pos > me.last_pos) me.dir = 1;
+        elsif (pos < me.last_pos) me.dir = -1;
+        me.last_pos = pos;
+        me.set_pos(pos, me.dir);
+    },
+};
+
+
 ### Waypoint circle and other navigation related symbols
 
 var NavSymbols = {
@@ -438,13 +485,16 @@ var CI = {
             .set("stroke-width", me.radar_symbols_width)
             .set("z-index", 200);
 
+        me.beam_grp = me.PPI_root.createChild("group", "symbols")
+            .set("z-index", 201);
+
         me.symbols_grp = me.PPI_root.createChild("group", "symbols")
             .set("stroke-width", me.symbols_width)
-            .set("z-index", 201);
+            .set("z-index", 202);
 
         me.horizon_grp = me.root.createChild("group", "horizon")
             .set("stroke-width", me.symbols_width)
-            .set("z-index", 201);
+            .set("z-index", 202);
 
         me.color_listener = setlistener(input.radar_filter, func {
             me.update_colors();
@@ -453,6 +503,7 @@ var CI = {
         me.radar_bg = RadarBackground.new(me.bg_grp);
         me.radar_img = RadarImage.new(me.img_grp);
         me.radar_marks = RadarMarks.new(me.marks_grp);
+        me.radar_beam = RadarBeam.new(me.beam_grp, me.symbols_grp);
         me.nav_symbols = NavSymbols.new(me.symbols_grp);
         me.horizon = Horizon.new(me.horizon_grp);
 
@@ -482,6 +533,7 @@ var CI = {
         }
         var bg_str = sprintf("rgba(%d,%d,%d,1)", bg_rgb[0], bg_rgb[1], bg_rgb[2]);
         me.bg_grp.set("fill", bg_str);
+        me.beam_grp.set("fill", bg_str);
 
         # Bright symbols layer
         var smb_value = math.pow(filter, 0.6);
@@ -511,8 +563,9 @@ var CI = {
 
         # For MODE_STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
         me.radar_bg.set_mode(mode, display);
-        me.radar_marks.set_mode(mode, display);
         me.radar_img.set_mode(mode, display);
+        me.radar_marks.set_mode(mode, display);
+        me.radar_beam.set_mode(mode, display);
         me.nav_symbols.set_mode(mode, display);
 
         me.root.setVisible(mode != CI.MODE_STBY);
@@ -535,6 +588,7 @@ var CI = {
 
         me.radar_marks.update();
         me.radar_img.update();
+        me.radar_beam.update();     # must be after radar_img.update()
         me.nav_symbols.update();
         me.horizon.update();
     },
