@@ -264,15 +264,6 @@ var radar = {
      .setColor(black_r, black_g, black_b)
      .set("z-index", 4);
 
-    # range text
-    m.rangeText = m.lineGroup.createChild("text")
-      .setText("120")
-      .setAlignment("center-center")
-      .setFontSize((64/1024)*pixels_max, 1.0)
-      .setTranslation((280/1024)*pixels_max, (-80/1024)*pixels_max)
-      .setColor(black_r, black_g, black_b)
-      .set("z-index", 4);
-
     # upper arc
     m.lineGroup.createChild("path")
                .moveTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.8982873)
@@ -429,7 +420,6 @@ var radar = {
         (me.input.radarActive.getBoolValue() or modes.landing or me.input.radarPassive.getBoolValue())) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
-      me.rangeText.setText(sprintf("%3d",me.radarRange/1000));
       me.dt = me.input.timeElapsed.getValue();
 
 
