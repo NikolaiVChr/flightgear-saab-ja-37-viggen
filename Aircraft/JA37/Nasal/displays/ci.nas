@@ -2,7 +2,6 @@ var TRUE = 1;
 var FALSE = 0;
 
 var input = {
-    time:           "sim/time/elapsed-sec",
     heading:        "instrumentation/heading-indicator/indicated-heading-deg",
     roll:           "instrumentation/attitude-indicator/indicated-roll-deg",
     fpv_pitch:      "instrumentation/fpv/pitch-deg",
@@ -523,8 +522,8 @@ var CI = {
         var R_factor = math.min(1, 2 - 2*hue);
 
         # Radar background
-        var bg_value = math.pow(filter, 0.8) * 0.8;
-        var bg_desat = filter * 0.3;                # 1-saturation
+        var bg_value = 2*math.pow(filter, 0.9) - math.pow(filter, 1.3);
+        var bg_desat = math.pow(filter, 3) * 0.3;
 
         var bg_rgb = [
             bg_value * (R_factor + bg_desat * (1 - R_factor)),
@@ -539,8 +538,8 @@ var CI = {
         me.beam_grp.set("fill", bg_str);
 
         # Bright symbols layer
-        var smb_value = math.pow(filter, 0.6);
-        var smb_desat = math.pow(filter, 1.3) * 0.8;
+        var smb_value = 2*math.pow(filter, 0.7) - math.pow(filter, 1.4);
+        var smb_desat = math.pow(filter, 1.8) * 0.9;
 
         var smb_rgb = [
             smb_value * (R_factor + smb_desat * (1 - R_factor)),
