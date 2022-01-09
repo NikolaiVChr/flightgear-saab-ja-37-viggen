@@ -52,19 +52,21 @@ var PPI_side_top = math.sqrt(PPI_radius * PPI_radius - PPI_side * PPI_side);
 
 var B_scope_half_width = 52;
 var B_scope_height = 92;
+# B scope bottom relative to PPI origin
+var B_scope_origin = (PPI_radius - B_scope_height) / 2;
 
 
 ### Radar image green background
 
 var RadarBackground = {
-    new: func(PPI_root, B_root) {
-        var m = { parents: [RadarBackground], PPI_root: PPI_root, B_root: B_root, };
+    new: func(parent) {
+        var m = { parents: [RadarBackground], parent: parent, };
         m.init();
         return m;
     },
 
     init: func {
-        me.PPI = me.PPI_root.createChild("path")
+        me.PPI = me.parent.createChild("path")
             .moveTo(0,0)
             .lineTo(PPI_side_bot,PPI_side)
             .lineTo(PPI_side_top,PPI_side)
@@ -72,11 +74,11 @@ var RadarBackground = {
             .lineTo(PPI_side_bot,-PPI_side)
             .close();
 
-        me.B_scope = me.B_root.createChild("path")
-            .moveTo(0,-B_scope_half_width)
-            .lineTo(B_scope_height,-B_scope_half_width)
-            .lineTo(B_scope_height,B_scope_half_width)
-            .lineTo(0,B_scope_half_width)
+        me.B_scope = me.parent.createChild("path")
+            .moveTo(B_scope_origin, -B_scope_half_width)
+            .line(B_scope_height, 0)
+            .line(0, 2*B_scope_half_width)
+            .line(-B_scope_height, 0)
             .close();
     },
 
@@ -424,23 +426,14 @@ var CI = {
         me.PPI_root = me.root.createChild("group", "PPI")
             .setTranslation(0,PPI_base_offset)
             .setRotation(-math.pi/2);
-        me.B_root = me.root.createChild("group", "B-scope")
-            .setTranslation(0,B_scope_height/2)
-            .setRotation(-math.pi/2);
 
-        me.PPI_bg_grp = me.PPI_root.createChild("group", "background")
-            .set("z-index", 0);
-        me.B_bg_grp = me.B_root.createChild("group", "background")
+        me.bg_grp = me.PPI_root.createChild("group", "background")
             .set("z-index", 0);
 
-        me.PPI_img_grp = me.PPI_root.createChild("group", "radar image")
+        me.img_grp = me.PPI_root.createChild("group", "radar image")
             .set("z-index", 100);
 
-        me.PPI_marks_grp = me.PPI_root.createChild("group", "radar symbols")
-            .set("stroke", "rgba(0,0,0,1)")
-            .set("stroke-width", me.radar_symbols_width)
-            .set("z-index", 200);
-        me.B_marks_grp = me.B_root.createChild("group", "radar symbols")
+        me.marks_grp = me.PPI_root.createChild("group", "radar marks")
             .set("stroke", "rgba(0,0,0,1)")
             .set("stroke-width", me.radar_symbols_width)
             .set("z-index", 200);
@@ -457,9 +450,9 @@ var CI = {
             me.update_colors();
         }, 1, 0);
 
-        me.radar_bg = RadarBackground.new(me.PPI_bg_grp, me.B_bg_grp);
-        me.radar_img = RadarImage.new(me.PPI_img_grp);
-        me.radar_marks = RadarMarks.new(me.PPI_marks_grp);
+        me.radar_bg = RadarBackground.new(me.bg_grp);
+        me.radar_img = RadarImage.new(me.img_grp);
+        me.radar_marks = RadarMarks.new(me.marks_grp);
         me.nav_symbols = NavSymbols.new(me.symbols_grp);
         me.horizon = Horizon.new(me.horizon_grp);
 
@@ -488,8 +481,7 @@ var CI = {
             bg_rgb[i] = int(bg_rgb[i] * 255);
         }
         var bg_str = sprintf("rgba(%d,%d,%d,1)", bg_rgb[0], bg_rgb[1], bg_rgb[2]);
-        me.PPI_bg_grp.set("fill", bg_str);
-        me.B_bg_grp.set("fill", bg_str);
+        me.bg_grp.set("fill", bg_str);
 
         # Bright symbols layer
         var smb_value = math.pow(filter, 0.6);
