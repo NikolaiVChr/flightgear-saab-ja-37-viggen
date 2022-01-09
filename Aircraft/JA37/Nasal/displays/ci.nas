@@ -250,20 +250,27 @@ var RadarBeam = {
 
     init: func {
         me.dim_beam = me.dim_grp.createChild("path")
-            .moveTo(0,0).line(0,7).line(canvas_size,0).line(0,-7).close();
+            .moveTo(-3,0).line(0,7).line(canvas_size,0).line(0,-7).close();
         me.bright_beam = me.bright_grp.createChild("path")
-            .moveTo(0,7).line(canvas_size,0);
+            .moveTo(-3,7).line(canvas_size,0);
 
         me.display = -1;
         me.last_pos = 0;
         me.dir = 1;
     },
 
-    set_pos: func(angle, dir) {
+    show_beam: func(angle, dir) {
         me.dim_beam.setRotation(angle * dir * D2R);
         me.dim_beam.setScale(1, dir);
+        me.dim_beam.show();
         me.bright_beam.setRotation(angle * dir * D2R);
         me.bright_beam.setScale(1, dir);
+        me.bright_beam.show();
+    },
+
+    hide_beam: func {
+        me.dim_beam.hide();
+        me.bright_beam.hide();
     },
 
     set_mode: func(mode, display) {
@@ -281,7 +288,7 @@ var RadarBeam = {
         if (pos > me.last_pos) me.dir = 1;
         elsif (pos < me.last_pos) me.dir = -1;
         me.last_pos = pos;
-        me.set_pos(pos, me.dir);
+        me.show_beam(pos, me.dir);
     },
 };
 
