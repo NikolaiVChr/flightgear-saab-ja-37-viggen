@@ -1,5 +1,5 @@
 var input = {
-    time:   "fdm/jsbsim/sim-time-sec",
+    time:   "sim/time/elapsed-sec",
 };
 
 foreach (var name; keys(input)) {
@@ -18,7 +18,7 @@ var SCHEDULER_RATE = 0.033;  # 30 Hz
 #   self:       (optional) 'me' reference for function call
 #   locals:     (optional) namespace for function call
 #   arg_dt:     (default 0) bool, if true the function receives a single argument
-#               which is the simulated time (sec) since its last execution
+#               which is the time (sec) since its last execution
 #   name:       (optional) a name used for debugging
 #
 # Within the same scheduler loop, functions to be executed are run in the order of the following array.
@@ -95,11 +95,10 @@ var scheduler_loop = func {
         if (math.mod(iteration, loop.period) != loop.offset) continue;
 
         if (loop["arg_dt"]) {
-            if (contains(loop, "last_time") and loop.last_time <= time) {
-                # This loop has already run since the last reset
+            if (contains(loop, "last_time")) {
                 args = [time - loop.last_time];
             } else {
-                # Fake dt for first iteration
+                # Fake dt for first loop
                 args = [SCHEDULER_RATE * loop.period];
             }
             loop.last_time = time;
