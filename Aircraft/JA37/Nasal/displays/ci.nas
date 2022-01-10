@@ -178,7 +178,7 @@ var RadarImage = {
                 if (dist >= PPI_radius) continue;
 
                 var val = data[math.floor(dist / PPI_radius * size(data))];
-                val = math.clamp(val * 0.25, 0, 1);
+                val = math.clamp(val, 0, 1);
                 me.img.setPixel(x, y + me.img_full_res/2, [val, val, val, 1]);
             }
         }

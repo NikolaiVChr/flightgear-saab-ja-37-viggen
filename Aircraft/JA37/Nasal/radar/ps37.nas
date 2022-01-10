@@ -31,6 +31,8 @@
 
 ### Radar beam
 #
+# Frequency: 8.6-9.5GHz (microwaves, X-band)
+#
 # The radar has 4 transceivers in the antenna, in a square pattern
 #  1 2
 #  3 4
@@ -44,7 +46,7 @@
 #
 # Angle from beam centerline giving 10dB below centerline return strength, from diagrams:
 #   Σ alone : around 3-4°
-#   Σ - Δ   : around 2-3°
+#   Σ - Δ   : around 2-3° (and sharper falloff)
 
 ### Signal processing
 #
@@ -62,11 +64,15 @@ var TRUE = 1;
 
 var input = {
     radar_serv:         "instrumentation/radar/serviceable",
-    radar_mode:         "instrumentation/radar/mode",
-    radar_range:        "instrumentation/radar/range",
+    mode:               "instrumentation/radar/mode",
+    range:              "instrumentation/radar/range",
     antenna_angle:      "instrumentation/radar/antenna-angle-norm",
     nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
     gear_pos:           "gear/gear/position-norm",
+    quality:            "instrumentation/radar/ground-radar-quality",
+    linear_gain:        "ja37/radar/panel/linear",
+    gain:               "ja37/radar/panel/gain",
+    display_alt:        "instrumentation/altimeter/displays-altitude-meter",
 };
 
 foreach(var name; keys(input)) {
@@ -87,7 +93,7 @@ var PS37 = {
     timeToKeepBleps: 5,
 
     isEnabled: func {
-        return input.radar_mode.getBoolValue() and input.radar_serv.getBoolValue()
+        return input.mode.getBoolValue() and input.radar_serv.getBoolValue()
           and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
           and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue();
     },
@@ -119,19 +125,22 @@ var PS37Map = {
 
     scanGM: func(azimuth, elevation, vert_radius, horiz_radius) {
         # Restrict range to what can be displayed on the CI.
-        var clipped_buf_size = math.ceil(ci.azimuth_range(azimuth, me.buffer_size, FALSE));
+        var clipped_buf_size = math.ceil(ci.azimuth_range(abs(azimuth) - horiz_radius, me.buffer_size, FALSE));
         var range = me.radar.getRangeM() * clipped_buf_size / me.buffer_size;
 
-        gnd_rdr.radar_query(
-            self.getCoord(), self.getHeading(), azimuth,
-            elevation-vert_radius, elevation+vert_radius, 0, range,
-            me.buffer, clipped_buf_size
-        );
+        gnd_rdr.radar_query(self.getCoord(), self.getHeading(), azimuth, elevation,
+                            range, FALSE, me.buffer, clipped_buf_size);
 
-        ci.ci.radar_img.draw_azimuth_data(azimuth, horiz_radius*2, me.buffer);
         for (var i = clipped_buf_size; i < me.buffer_size; i+=1) {
             me.buffer[i] = 0.0;
         }
+
+        # Do not use clipped range / buffer size here, it affects normalisation
+        gnd_rdr.signal_norm_distance(me.buffer, me.buffer_size, me.radar.getRangeM(), input.display_alt.getValue());
+
+        gnd_rdr.signal_gain(me.buffer, me.buffer_size, input.gain.getValue(), input.linear_gain.getBoolValue());
+
+        ci.ci.radar_img.draw_azimuth_data(azimuth, horiz_radius*2, me.buffer);
     },
 
     # required by AirborneRadar, unused
@@ -263,12 +272,12 @@ var ps37 = nil;
 
 var increaseRange = func {
     ps37.increaseRange();
-    input.radar_range.setValue(ps37.getRangeM());
+    input.range.setValue(ps37.getRangeM());
 }
 
 var decreaseRange = func {
     ps37.decreaseRange();
-    input.radar_range.setValue(ps37.getRangeM());
+    input.range.setValue(ps37.getRangeM());
 }
 
 
@@ -278,5 +287,5 @@ var init = func {
     init_generic();
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
-    input.radar_range.setValue(ps37.getRangeM());
+    input.range.setValue(ps37.getRangeM());
 }

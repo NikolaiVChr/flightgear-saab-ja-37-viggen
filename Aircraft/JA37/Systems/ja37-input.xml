@@ -796,7 +796,7 @@
 
         <key n="125">
             <name>}</name>
-            <desc>Increase A/A sight distance</desc>
+            <desc>Increase A/A sight distance / Increase radar gain</desc>
             <repeatable>true</repeatable>
             <binding>
                 <condition>
@@ -812,11 +812,38 @@
                 <max>1000</max>
                 <wrap>false</wrap>
             </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>ja37/radar/panel/gain</property>
+                <step>0.1</step>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+            <!-- center position click -->
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>nasal</command>
+                <script>
+                  if (abs(getprop("ja37/radar/panel/gain")) &lt; 0.01) ja37.click();
+                </script>
+            </binding>
         </key>
 
         <key n="123">
             <name>{</name>
-            <desc>Decrease A/A sight distance</desc>
+            <desc>Decrease A/A sight distance / decrease radar gain</desc>
             <repeatable>true</repeatable>
             <binding>
                 <condition>
@@ -831,6 +858,33 @@
                 <min>200</min>
                 <max>1000</max>
                 <wrap>false</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>ja37/radar/panel/gain</property>
+                <step>-0.1</step>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+            <!-- center position click -->
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>nasal</command>
+                <script>
+                  if (abs(getprop("ja37/radar/panel/gain")) &lt; 0.01) ja37.click();
+                </script>
             </binding>
         </key>
 

@@ -110,6 +110,10 @@
         <desc>Radar antenna down / up</desc>
     </key>
     <key>
+        <name>{ / }</name>
+        <desc>Decrease / increase radar gain</desc>
+    </key>
+    <key>
         <name>H</name>
         <desc>HUD Brightness</desc>
     </key>

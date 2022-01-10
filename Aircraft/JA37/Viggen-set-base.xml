@@ -541,7 +541,9 @@
         </failures>
         <radar>
             <panel>
+                <linear type="bool">false</linear>
                 <passive type="bool">false</passive>
+                <gain type="double">0</gain>
             </panel>
         </radar>
         <effect>
