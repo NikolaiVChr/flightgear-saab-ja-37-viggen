@@ -280,6 +280,12 @@ var decreaseRange = func {
     input.range.setValue(ps37.getRangeM());
 }
 
+var memory_mode = func {
+}
+
+var terrain_mode = func {
+}
+
 
 ### Initialization
 
