@@ -89,26 +89,26 @@ var refl_factor = func(info) {
 # Signal strength function of object angular size.
 #
 # I'm using the following functions for signal strength factor function of angle off beam centerline:
-# - wide beam (no Δ compensation):  1 - (x/5)**2    (= 1 - x**2 / 25)       range [-5:5]
-# - narrow beam (Δ compensation):   1 - (x/3)**4    (= 1 - x**4 / 81)       range [-3:3]
+# - wide beam (no Δ compensation):  1 - (x/4)**2    (= 1 - x**2 / 16)       range [-4:4]
+# - narrow beam (Δ compensation):   1 - (x/2.5)**4  (= 1 - x**4 / 39.0625)  range [-2.5:2.5]
 # (x = angle in degree)
 # These are eyeballed to look a bit like fig. 6, AJS 37 SFI part 3 chapter 2 page 9.
 #
 # This gives integrals:
-# - wide:   x - x**3 / 75
-# - narrow: x - x**5 / 405
+# - wide:   x - x**3 / 48
+# - narrow: x - x**5 / 195.3125
 
-var wide_beam_half_angle = 5;
-var narrow_beam_half_angle = 3;
+var wide_beam_half_angle = 4;
+var narrow_beam_half_angle = 2.5;
 
 var wide_beam_signal_int = func(angle) {
     angle = math.clamp(angle, -wide_beam_half_angle, wide_beam_half_angle);
-    return angle - math.pow(angle, 3) / 75;
+    return angle - math.pow(angle, 3) / 48;
 }
 
 var narrow_beam_signal_int = func(angle) {
     angle = math.clamp(angle, -narrow_beam_half_angle, narrow_beam_half_angle);
-    return angle - math.pow(angle, 5) / 405;
+    return angle - math.pow(angle, 5) / 195.3125;
 }
 
 var wide_beam_signal = func(start_angle, end_angle) {
