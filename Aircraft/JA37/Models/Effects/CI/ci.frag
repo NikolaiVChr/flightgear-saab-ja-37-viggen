@@ -192,8 +192,6 @@ vec4 CI_screen_color() {
             if (age <= TIME1_FACTOR * 0.9) {
                 age = fract(current_time1 - time1) * TIME1_FACTOR;
             }
-            // noise from radar
-            radar = clamp(radar + 0.12 * Noise3D(vec3(PPI_pos.xy, time1), 0.006) - 0.06, 0.0, 1.0);
 
             float range = get_metadata(PPI_pos, INFO_RANGE);
             radar = max(radar, get_lines_PPI(PPI_pos, range));

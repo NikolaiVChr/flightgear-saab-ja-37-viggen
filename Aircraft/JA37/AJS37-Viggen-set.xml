@@ -299,6 +299,9 @@
     </instrumentation>
 
     <nasal>
+        <noise>
+            <file>Aircraft/JA37/Nasal/noise.nas</file>
+        </noise>
         <gnd_rdr>
             <file>Aircraft/JA37/Nasal/radar/ground-radar.nas</file>
         </gnd_rdr>

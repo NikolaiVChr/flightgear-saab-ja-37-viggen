@@ -7,19 +7,47 @@
 var FALSE = 0;
 var TRUE = 1;
 
+var input = {
+    time:           "sim/time/elapsed-sec",
+    rain:           "environment/rain-norm",
+    wind_srfc_E:    "environment/sea/surface/wind-from-east-fps",
+    wind_srfc_N:    "environment/sea/surface/wind-from-north-fps",
+};
+
+foreach(var name; keys(input)) {
+    input[name] = props.globals.getNode(input[name], 1);
+}
+
+
+# Environment info (for noise)
+
+var env = {
+    rain: 0,
+    waves: 0,
+    wind_dir: 0,
+
+    update: func(dt) {
+        if (dt > 0.0001) {
+            # Slowly interpolate, because that property has a silly rate of change
+            var t = math.pow(0.2, dt);
+            me.rain = t * math.clamp(input.rain.getValue() or 0, 0, 1) + (1-t) * me.rain;
+        }
+
+        var wind_E = input.wind_srfc_E.getValue() or 0;
+        var wind_N = input.wind_srfc_N.getValue() or 0;
+        me.waves = math.clamp(math.sqrt(wind_E * wind_E + wind_N * wind_N) / 100, 0, 1);
+        me.wind_dir = math.atan2(wind_E, wind_N) * R2D;
+    },
+};
+
 
 ### geodinfo() helpers
 
-# Call geodinfo() at a given azimuth and distance from the given position.
-var geodinfo_at = func(ac_pos, heading, azimuth, distance) {
+# Convert azimuth/distance from aircraft to lat/lon
+var polar_to_latlon = func(ac_pos, heading, azimuth, distance) {
     var pos = geo.Coord.new(ac_pos);
-    pos.apply_course_distance(heading+azimuth, distance);
-    return geodinfo(pos.lat(), pos.lon());
-}
-
-# Extract altitude from geodinfo()
-var geodinfo_to_alt = func(info) {
-    return info==nil ? 0 : info[0];
+    pos.apply_course_distance(heading + azimuth, distance);
+    return [pos.lat(), pos.lon()];
 }
 
 # Angle from horizon
@@ -67,22 +95,36 @@ var bumpiness = func(info) {
 # In reality it would be compensated during post-processing.
 # For simulation it seems silly to add it and remove it later.
 
+
+# Extract altitude from geodinfo()
+var geodinfo_to_alt = func(info, lat, lon) {
+    if (info == nil) return 0;
+    var alt = info[0];
+
+    if (is_urban(info)) {
+        # add randomized altitude to simulate buildings
+        var r = noise.geoNoise2D(lat, lon, 100);
+        alt += math.floor(r*r * 4) * 5;
+    }
+    return alt;
+}
+
 # Reflectance factor of terrain.
 #
 # A bit of info on how different terrain reflect radar waves:
 # https://www.microimages.com/documentation/Tutorials/radar.pdf
 # (no numbers though, values in the function are just picked to look nice)
 #
-var refl_factor = func(info) {
+var refl_factor = func(info, lat, lon) {
     if (is_water(info)) {
         # water absorbs a lot at this wavelength
-        return 0.05;
+        return 0.05 + env.waves * 0.8 * noise.wavesNoise2D(lat, lon, input.time.getValue(), 5, env.wind_dir, env.waves * 200);
     } elsif (is_urban(info)) {
         # buildings can act as corner reflectors, giving very strong echoes
         return 5.0;
     } else {
         # rough terrain scatters more, giving stronger echoes
-        return 1 + bumpiness(info);
+        return 0.8 + bumpiness(info) * (0.7 + noise.geoNoise2D(lat, lon, 50));
     }
 }
 
@@ -160,20 +202,27 @@ var radar_query = func(ac_pos, heading, azimuth, elev, max_range, narrow_beam, b
     var range_step = max_range / buf_size;
     var range = 0;
 
-    var info = geodinfo_at(ac_pos, heading, azimuth, range);
-    var last_angle = math.clamp(elevation(ac_pos, range, geodinfo_to_alt(info)) - elev, min_angle, max_angle);
-    var last_refl_factor = refl_factor(info);
+    var lalo = polar_to_latlon(ac_pos, heading, azimuth, range);
+    var info = geodinfo(lalo[0], lalo[1]);
+    var alt = geodinfo_to_alt(info, lalo[0], lalo[1]);
+    var last_angle = math.clamp(elevation(ac_pos, range, alt) - elev, min_angle, max_angle);
+    var last_refl_factor = refl_factor(info, lalo[0], lalo[1]);
 
     var next_angle = 0;
     var next_refl_factor = 1;
 
     for (var i = 0; i < buf_size; i += 1) {
         range += range_step;
-        info = geodinfo_at(ac_pos, heading, azimuth, range);
-        next_angle = math.clamp(elevation(ac_pos, range, geodinfo_to_alt(info)) - elev, last_angle, max_angle);
-        next_refl_factor = refl_factor(info);
+        lalo = polar_to_latlon(ac_pos, heading, azimuth, range);
+        info = geodinfo(lalo[0], lalo[1]);
+        alt = geodinfo_to_alt(info, lalo[0], lalo[1]);
+        next_angle = math.clamp(elevation(ac_pos, range, alt) - elev, last_angle, max_angle);
+        next_refl_factor = refl_factor(info, lalo[0], lalo[1]);
 
         buffer[i] = beam_signal(last_angle, next_angle) * (next_refl_factor + last_refl_factor) / 2;
+        # noise and signal decrease due to rain
+        buffer[i] = (buffer[i] + math.pow(rand(), 3) * env.rain * 0.002)
+            * math.pow(1 - 0.8 * env.rain, range / 120000);
 
         last_angle = next_angle;
         last_refl_factor = next_refl_factor;
@@ -274,4 +323,12 @@ var signal_gain = func(buffer, buf_size, gain, linear) {
             buffer[i] = math.ln(1 + buffer[i] * 2) / 2;
         }
     }
+}
+
+
+
+### Environment update loop
+
+var slow_loop = func(dt) {
+    env.update(dt);
 }
