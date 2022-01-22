@@ -1485,8 +1485,9 @@ var Distance = {
 
             if (fire_control.get_weapon() != nil
                 and (var dlz = fire_control.get_weapon().getDLZ(TRUE)) != nil and size(dlz) > 0) {
-                # Cursors indicate missile dynamic launch zone.
-                var max_dist = dlz[0];
+                # Cursors indicate missile dynamic launch zone (all values in nm)
+                # Scale is weapon max firing range, or radar range if the target is beyond that.
+                var max_dist = dlz[4] > dlz[0] ? input.radar_range.getValue()*M2NM : dlz[0];
                 me.index.setTranslation(math.clamp(dlz[4] / max_dist * 300, 0, 300), 0);
                 me.cursorL.setTranslation(dlz[3] / max_dist * 300, 0).show();
                 me.cursorM.setTranslation(dlz[1] / max_dist * 300, 0);
