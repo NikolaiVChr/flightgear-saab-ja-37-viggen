@@ -54,8 +54,8 @@
         <y> -5.09762 </y>
         <z> -0.3954 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -66,8 +66,8 @@
         <y> 5.09763 </y>
         <z> -0.3954 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -78,8 +78,8 @@
         <y> 0 </y>
         <z> 3.41594 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -90,8 +90,8 @@
         <y> 0 </y>
         <z> -0.53892 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -102,8 +102,8 @@
         <y> 0 </y>
         <z> 0.8438 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -114,8 +114,8 @@
         <y> -2.56202 </y>
         <z> 0.14643 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -126,8 +126,8 @@
         <y> 2.56202 </y>
         <z> 0.14643 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -138,8 +138,8 @@
         <y> 0 </y>
         <z> -0.59328 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
@@ -150,8 +150,8 @@
         <y> 0 </y>
         <z> -0.98881 </z>
       </location>
-      <static_friction> 5.0 </static_friction>
-      <dynamic_friction> 4.0 </dynamic_friction>
+      <static_friction>2.0</static_friction>
+      <dynamic_friction>1.3</dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
       <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
