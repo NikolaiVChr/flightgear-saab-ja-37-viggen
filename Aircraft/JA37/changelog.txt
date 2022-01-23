@@ -4234,3 +4234,8 @@ Model: Fix CI lights materials
 Self test: Fix for AJS
 JA HUD: Dynamic distance scale for missiles
 FDM: Reduce contact points friction
+
+
+5.2.1 - 2022 January 23
+=====
+update manual
