@@ -4188,3 +4188,49 @@ Sim: Rework nasal loops scheduling
 Effects: Do not force-enable ALS filters
 Metadata: Add urls and detailled authors list
 Readme: Add link to secondary sources repository
+
+
+5.2.0 - 2022 January 23
+=====
+Major changes:
+- New textures for warning panels by valtsu41.
+  More accurate wording and visuals of warnings.
+  A number of correction to warning conditions, and to the master warning logic.
+  Add Swedish variants of the textures.
+  Different panels for the AJS (particularly on the right side).
+- Changes to audio warnings.
+  All audio warnings except for high-alpha have been removed from the AJS.
+  Fixes and more accurate conditions for high-alpha / high G-load warnings.
+  The AJS keeps a terrain warning, but visual (blinking HUD bars / CI light).
+  It has limited functionalities compared to the old "magic" terrain warning:
+  * indicate if radar altitude is much lower than barometric altitude
+  * warn 7sec before predicted ground collision, based only on descent rate
+    and current altitude (ignores terrain profile, etc.)
+
+
+Other changes:
+TI: Use https to download map
+RWR: Disable if gear is down, and in AJS STBY mode
+Sim: Disable flares when gear is down
+HUD: Adapt brightness to light conditions
+GUI: Make all settings persistant
+Sim: JA QNH mode is only used at takeoff/landing
+Flight recorder: Fix property for accelerometer
+Model: Fix accelerometer tooltip property
+Sim: Cleanup stall warning system
+Sim: Predictive correction for alpha/load warning
+checklists: Fix marker mix up
+checklists: Fix parking brakes item for takeoff
+Sim: set AJS HUD to baro alt when rhm is disabled
+Sim: Fix extra fuel for low fuel warning
+Sim: Rework main generator
+RWR: Fix beeps continuing after RWR off
+RWR: Account for aircraft attitude
+Sim: Properly reinit all JSBSim timers
+Model: Rework CI
+old CI: Remove canvas range indicator
+Scheduler: Remove 'locals' loop parameter
+Model: Fix CI lights materials
+Self test: Fix for AJS
+JA HUD: Dynamic distance scale for missiles
+FDM: Reduce contact points friction
