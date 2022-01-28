@@ -333,7 +333,7 @@ var Missile = {
         }
         fireLog.push("Self: "~phrase);
 
-        me.station.fireWeapon(0, me.at_everything ? radar_logic.complete_list : nil);
+        me.station.fireWeapon(0, me.at_everything ? radar.get_complete_list() : nil);
 
         me.weapon = nil;
         me.fired = TRUE;
@@ -484,7 +484,7 @@ var Missile = {
             # IR missiles and Rb 75 can lock without radar command.
             if ((me.is_IR or me.is_rb75) and (!me.weapon.isCaged() or !me.weapon.isRadarSlaved())) {
                 # Send list of all contacts to allow searching.
-                me.weapon.setContacts(radar_logic.complete_list);
+                me.weapon.setContacts(radar.get_complete_list());
                 armament.contact = nil;
             } else {
                 # Slave onto radar target.
@@ -600,7 +600,7 @@ var Rb05 = {
 
         fireLog.push("Self: "~me.weapon.brevity);
 
-        me.station.fireWeapon(0, radar_logic.complete_list);
+        me.station.fireWeapon(0, radar.get_complete_list());
 
         me.weapon = nil;
         me.fired = TRUE;
@@ -795,7 +795,7 @@ var Bomb = {
     },
 
     drop_bomb_pos: func(pos) {
-        pylons.station_by_id(pos[0]).fireWeapon(pos[1], radar_logic.complete_list);
+        pylons.station_by_id(pos[0]).fireWeapon(pos[1], radar.get_complete_list());
     },
 
     get_bomb_pos: func(pos) {
