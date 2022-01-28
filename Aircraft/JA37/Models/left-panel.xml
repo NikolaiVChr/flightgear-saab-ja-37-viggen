@@ -168,17 +168,6 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/radar.xml</path>
-    <name>radar</name>
-    <offsets>
-      <heading-deg>90</heading-deg>
-      <x-m>  0.590</x-m>
-      <y-m> -0.040</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
       <path>Aircraft/JA37/Models/Panels/Datapanel/trim-reset.xml</path>
       <name>reset trim</name>
       <offsets>
