@@ -875,9 +875,6 @@ var flare_sorter = func(a, b) {
 
 var animate_flare = func {
   # Send out notifications about own flare positions every 0.4s
-  if (!getprop("payload/armament/msg")) {
-    return;
-  }
   var stime = systime();
   # old flares
   var old_flares = [];
@@ -940,9 +937,6 @@ var auto_flare_released = func {
 }
 
 var flare_released = func {
-    if (!getprop("payload/armament/msg")) {
-      return;
-    }
     # We released a flare. If you call this method manually, then make sure 'auto_flare_caller' is false.
     var stime = systime();
     var flare =[stime, stime,
