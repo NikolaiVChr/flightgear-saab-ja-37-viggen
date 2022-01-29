@@ -1,3 +1,6 @@
+#### Generic radar systems by Nikolai V. Chr.
+
+
 # Field of regard requests
 var FOR_ROUND  = 0;# TODO: be able to ask noseradar for round field of regard.
 var FOR_SQUARE = 1;

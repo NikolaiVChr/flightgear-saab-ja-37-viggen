@@ -1,4 +1,6 @@
 #### JA 37D PS/46A radar
+#
+# Based on Nikolai V. Chr. F-16 radar
 
 var FALSE = 0;
 var TRUE = 1;
@@ -170,7 +172,7 @@ var ScanMode = {
 
     designate: func (contact) {
         if (contact == nil) return;
-        STT(contact);
+        STT(me, contact);
     },
 
     designatePriority: func (contact) {
@@ -216,18 +218,17 @@ var DiskSearchMode = {
     longName: "Disk Search",
 
     rangeM: 15000,
-    minRangeM: 15000,
-    maxRangeM: 15000,
 
     discSpeed_dps: 90,
     rcsFactor: 0.9,
 
-    # scan patterns (~ 20x20 deg square)
+    # scan patterns (~ 20x20 deg disk)
+    az: 10,
     bars: 1,            # pattern index (1 based)
     # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
     # A pattern is a vector of points
     # This is a vector of patterns (one per "scan mode")
-    barPattern: [ [[-1,5],[1,5],[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3],[1,-5],[-1,-5]] ],
+    barPattern: [ [[-1,1],[1,1],[0.8,3],[-0.8,3],[-0.5,5],[0.5,5],[0.5,-5],[-0.5,-5],[-0.8,-3],[0.8,-3],[1,-1],[-1,-1]] ],
     barHeight: 0.9,
     barPatternMin: [-5],
     barPatternMax: [5],
@@ -235,20 +236,32 @@ var DiskSearchMode = {
     preStep: func {
         me.radar.horizonStabilized = 0;
         me.azimuthTilt = 0;
-        me.elevationTilt = -7;
+        me.elevationTilt = -5;
     },
 
     designate: func (contact) {
+        if (contact == nil) return;
+        STT(me, contact);
     },
 
-    designatePriority: func (contact) {
-    },
+    designatePriority: func (contact) {},
 
-    undesignate: func {
+    undesignate: func {},
+
+    increaseRange: func {
+        return 0;
+    },
+    decreaseRange: func {
+        return 0;
+    },
+    setRange: func {
+        return 0;
     },
 
     getSearchInfo: func (contact) {
-        return nil;
+        # This gets called as soon as the radar finds something -> autolock
+        me.designate(contact);
+        return [1,1,1,1,1,1];
     },
 };
 
@@ -278,6 +291,8 @@ var STTMode = {
     timeToKeepBleps: 5,
     painter: 1,
     priorityTarget: nil,
+
+    parent_mode: nil,
 
     preStep: func {
         if (me.priorityTarget == nil or me.priorityTarget.getLastBlep() == nil
@@ -312,12 +327,32 @@ var STTMode = {
 
     undesignate: func {
         me.priorityTarget = nil;
-        quit_STT();
+        me.radar.setMode(me.parent_mode);
     },
 
     # Cursor is ignored (internal cursor = target)
     setCursorDistance: func(nm) {},
     setCursorDeviation: func(az) {},
+
+    # Range logic is from parent mode
+    getRange: func {
+        return me.parent_mode.getRange();
+    },
+    setRange: func(nm) {
+        return me.parent_mode.setRange(nm);
+    },
+    getRangeM: func {
+        return me.parent_mode.getRangeM();
+    },
+    setRangeM: func(m) {
+        return me.parent_mode.setRangeM(m);
+    },
+    increaseRange: func {
+        return me.parent_mode.increaseRange();
+    },
+    decreaseRange: func {
+        return me.parent_mode.decreaseRange();
+    },
 
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
@@ -346,28 +381,24 @@ var ps46 = nil;
 
 ### Controls
 
-var tws = FALSE;   # Rember last main mode (Scan or TWS)
-
-
-# Used for designate() / undesignate()
-var STT = func(contact) {
+# Parent mode is the current mode calling STT.
+# STT mode will return to parent when losing lock.
+# STT mode also uses the parent mode logic for range.
+var STT = func(parent_mode, contact) {
+    STTMode.parent_mode = parent_mode;
     ps46.setMode(STTMode, contact);
 }
 
-var quit_STT = func {
-    if (tws) TWS();
-    else scan();
-}
 
 # Throttle buttons
 
 var scan = func {
-    tws = FALSE;
+    main_mode = ScanMode;
     ps46.setMode(ScanMode);
 }
 
 var TWS = func {
-    tws = TRUE;
+    main_mode = TWSMode;
     ps46.setMode(TWSMode, nil, TRUE);   # keep track from previous mode
 }
 
@@ -382,11 +413,11 @@ var toggle_radar_on = func {
 
 var disk_search = func {
     # aiming mode, radar on, disk search
-    if (modes.main_ja != modes.NAV or modes.main_ja != modes.AIMING) return;
     if (input.gear_pos.getValue() > 0) return;
 
     modes.main_ja = modes.AIMING;
     ps46.enable();
+    main_mode = DiskSearchMode;
     ps46.setMode(DiskSearchMode);
 }
 
