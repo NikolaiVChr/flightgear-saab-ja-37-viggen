@@ -146,7 +146,6 @@ var MI = {
 			alphaJSB:             "fdm/jsbsim/aero/alpha-deg",
 			mach:                 "instrumentation/airspeed-indicator/indicated-mach",
 			wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
-			cursor_iff:           "controls/displays/cursor-iff",
 		};
 
 		foreach(var name; keys(mi.input)) {
@@ -164,7 +163,7 @@ var MI = {
 		# Add to convert true alt -> indicated alt
 		mi.indicated_alt_offset = (mi.input.alt_ft.getValue() - mi.input.alt_true_ft.getValue()) * FT2M;
 		mi.qfe = FALSE;
-		mi.n_tracks = 0;
+		mi.n_contacts = 0;
 
 		return mi;
 	},
@@ -238,9 +237,9 @@ var MI = {
 	# Tracking symbology (TWS and STT)
 	ContactTrack: {
 		new: func(radar_grp) {
-			var e = { parents: [MI.ContactTrack], parent: radar_grp, };
-			e.init();
-			return e;
+			var c = { parents: [MI.ContactTrack], parent: radar_grp, };
+			c.init();
+			return c;
 		},
 
 		init: func {
@@ -301,9 +300,11 @@ var MI = {
 				me.iff.hide();
 			}
 
-			me.track.setRotation((track.getHeading() - head_true) * D2R);
-			me.track.reset()
-				.moveTo(0,-4).vert(-info.getSpeed() / 75);
+			me.track.setRotation((contact.getHeading() - head_true) * D2R);
+			me.track.reset();
+			me.track.moveTo(0,-4).vert(-info.getSpeed() / 75);
+
+			me.grp.show();
 
 			return TRUE;
 		},
@@ -624,11 +625,11 @@ var MI = {
 
 		# Top and bottom lines indicating search width
 		me.scan_width_line_bot = me.radar_group.createChild("path")
-			.setStrokeLineWidth(w)
+			.setStrokeLineWidth(1.5*w)
 			.setColor(r,g,b,a);
 		me.scan_width_line_top = me.radar_group.createChild("path")
 			.setTranslation(0, -radar_area_width)
-			.setStrokeLineWidth(w)
+			.setStrokeLineWidth(1.5*w)
 			.setColor(r,g,b,a);
 
 		me.scan_sweep_mark = me.radar_group.createChild("path")
@@ -883,7 +884,7 @@ var MI = {
 		me.displayGroundCollisionArrow();
 		me.displayHeadingScale();
 		me.displayScanInfo();
-		#me.displayCursor();
+		me.displayCursor();
 		me.displaySelectionAziElev();
 		me.blinkQFE();
 	},
@@ -1163,11 +1164,12 @@ var MI = {
 		me.tgt_dist = info.getRangeDirect();
 		if (me.tgt_dist != nil) {
 			if (displays.metric) {
-				me.tgt_dist *= NM2M / 1000;
+				me.tgt_dist /= 1000;
 				me.tgt_dist = math.min(me.tgt_dist, 999);
 				me.distT.updateText(sprintf("%3d", me.tgt_dist));
 				me.distT.show();
 			} else {
+				me.tgt_dist *= M2NM;
 				me.tgt_dist = math.min(me.tgt_dist, 999);
 				if (me.tgt_dist <= 9.95) {
 					me.distT_int.updateText(" "~displays.sprintdec(me.tgt_dist, 1));
@@ -1351,12 +1353,29 @@ var MI = {
 		var contact_idx = 0;
 		var track_idx = 0;
 
+		# Used for cursor lock
+		me.radar_contacts = [];
+		me.radar_contacts_pos = [];
+		me.n_contacts = 0;
+
 		foreach (var contact; radar.ps46.getActiveBleps()) {
 			if (contact_idx < max_contacts) {
-				if (me.echoes[contact_idx].display(contact, me.radar_range, me.time))
+				if (me.echoes[contact_idx].display(contact, me.radar_range, me.time)) {
+					# track is valid / not too old
+					append(me.radar_contacts, contact);
+					append(me.radar_contacts_pos, [
+						contact.getLastBlep().getAZDeviation() * heading_deg_to_mm,
+						-contact.getLastBlep().getRangeNow() / me.radar_range * radar_area_width
+					]);
+					me.n_contacts += 1;
+
 					contact_idx += 1;
+				}
 			}
-			if (track_idx < max_tracks and contact.hasTrackInfo()) {
+
+			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT")
+				and track_idx < max_tracks and contact.hasTrackInfo())
+			{
 				if (me.tracks[track_idx].display(contact, me.radar_range, me.time, me.head_true))
 					track_idx += 1;
 			}
@@ -1391,15 +1410,17 @@ var MI = {
 	},
 
 	distCursorTrack: func(i) {
-		return math.sqrt((me.cursor_pos[0] - me.radar_tracks_pos[i][0]) * (me.cursor_pos[0] - me.radar_tracks_pos[i][0])
-						+ (me.cursor_pos[1] - me.radar_tracks_pos[i][1]) * (me.cursor_pos[1] - me.radar_tracks_pos[i][1]));
+		return math.sqrt(
+			math.pow(me.cursor_pos[0] - me.radar_contacts_pos[i][0], 2)
+			+ math.pow(me.cursor_pos[1] - me.radar_contacts_pos[i][1], 2)
+		);
 	},
 
 	findCursorTrack: func() {
 		var closest_i = nil;
 		var min_dist = 100000;
 
-		for (var i=0; i<me.n_tracks; i+=1) {
+		for (var i=0; i<me.n_contacts; i+=1) {
 			var dist = me.distCursorTrack(i);
 			if (dist < min_dist) {
 				closest_i = i;
@@ -1407,7 +1428,7 @@ var MI = {
 			}
 		}
 
-		if (min_dist < 8) return me.radar_tracks[closest_i];
+		if (min_dist < 8) return me.radar_contacts[closest_i];
 		else return nil;
 	},
 
@@ -1430,40 +1451,19 @@ var MI = {
 		me.cursor.show();
 		me.cursor.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 
+		radar.ps46.setCursorDistance(-me.cursor_pos[1] / radar_area_width * me.radar_range * M2NM);
+		radar.ps46.setCursorDeviation(me.cursor_pos[0] / heading_deg_to_mm);
+
 		if (me.cursor_mov[2] and !me.cursorTriggerPrev) {
 			var new_sel = me.findCursorTrack();
 			if (new_sel != nil) {
-				radar_logic.setSelection(new_sel);
+				radar.ps46.designate(new_sel);
 			} else {
-				radar_logic.unlockSelection();
+				radar.ps46.undesignate();
 			}
-		} elsif (me.input.cursor_iff.getBoolValue()) {
-			me.cursor_iff.hide();
-			me.displayCursorIFF(me.findCursorTrack());
-		} elsif (me.cursor_iff_time + 2 < me.input.timeElapsed.getValue()) {
-			me.cursor_iff.hide();
 		}
-
 
 		me.cursorTriggerPrev = me.cursor_mov[2];
-	},
-
-	displayCursorIFF: func(track) {
-		if (track == nil) return;
-		var pos = me.trackToRadarPosition(track);
-		if (!me.isInRadarScreen(pos)) return;
-
-		me.cursor_iff.setTranslation(pos[0], pos[1]).show();
-
-		if (track.getIFF()) {
-			me.cursor_iff_pos.show();
-			me.cursor_iff_neg.hide();
-		} else {
-			me.cursor_iff_pos.hide();
-			me.cursor_iff_neg.show();
-		}
-
-		me.cursor_iff_time = me.input.timeElapsed.getValue();
 	},
 };
 

@@ -47,6 +47,14 @@ var PS46 = {
     getTiltKnob: func {
         return input.antenna_angle.getValue();
     },
+
+    # Similar to setCurrentMode, but remembers current target and range
+    setMode: func(newMode, priority=nil) {
+        newMode.setRange(me.currentMode.getRange());
+        if (priority == nil) priority = me.currentMode["priorityTarget"];
+        me.currentMode.leaveMode();
+        me.setCurrentMode(newMode, priority);
+    },
 };
 
 
@@ -131,6 +139,11 @@ var PS46Mode = {
         return me._decreaseRange();
     },
 
+    setCursorDistance: func(nm) {
+        me.cursorNm = math.clamp(nm, 0, me.getRange());
+        return 0;
+    },
+
     # Must be defined by each mode, used to set azimuth / elevation offset
     preStep: func {
         var az_limit = me.radar.fieldOfRegardMaxAz - me.az;
@@ -153,6 +166,8 @@ var ScanMode = {
     longName: "Wide Scan",
 
     designate: func (contact) {
+        if (contact == nil) return;
+        STT(contact);
     },
 
     designatePriority: func (contact) {
@@ -209,7 +224,7 @@ var DiskSearchMode = {
     # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
     # A pattern is a vector of points
     # This is a vector of patterns (one per "scan mode")
-    barPattern: [ [-1,5],[1,5],[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3],[1,-5],[-1,-5] ],
+    barPattern: [ [[-1,5],[1,5],[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3],[1,-5],[-1,-5]] ],
     barHeight: 0.9,
     barPatternMin: [-5],
     barPatternMax: [5],
@@ -242,7 +257,7 @@ var STTMode = {
     longName: "Single Target Track",
 
     rcsFactor: 1.1,
-    az: PS46.instantFoVradius * 0.7,
+    az: PS46.instantFoVradius * 0.8,
 
     discSpeed_dps: 90,
 
@@ -251,8 +266,8 @@ var STTMode = {
     # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
     # A pattern is a vector of points
     # This is a vector of patterns (one per "scan mode")
-    barPattern: [ [-1,-1],[1,-1],[1,1],[-1,1] ],
-    barHeight: 0.7,
+    barPattern: [ [[-1,-1],[1,-1],[1,1],[-1,1]] ],
+    barHeight: 0.8,
     barPatternMin: [-1],
     barPatternMax: [1],
 
@@ -263,16 +278,24 @@ var STTMode = {
 
     preStep: func {
         if (me.priorityTarget == nil or me.priorityTarget.getLastBlep() == nil
-            # is that necessary ?
             or !me.radar.containsVectorContact(me.radar.vector_aicontacts_bleps, me.priorityTarget))
         {
             me.undesignate();
             return;
         }
 
-        me.lastBlep = me.priorityTarget.getLastBlep();
-        me.azimuthTilt = me.lastBlep.getAZDeviation();
-        me.elevationTilt = me.lastBlep.getElev(); # tilt here is in relation to horizon
+        var lastBlep = me.priorityTarget.getLastBlep();
+        var range = lastBlep.getRangeNow() * M2NM;
+        if (range > me.getRange()) {
+            me.undesignate();
+            return;
+        }
+
+        me.azimuthTilt = lastBlep.getAZDeviation();
+        me.elevationTilt = lastBlep.getElev(); # tilt here is in relation to horizon
+
+        me.cursorAz = me.azimuthTilt;
+        me.cursorNm = range;
 
         var az_limit = me.radar.fieldOfRegardMaxAz - me.az;
         me.azimuthTilt = math.clamp(me.azimuthTilt, -az_limit, az_limit);
@@ -286,7 +309,12 @@ var STTMode = {
 
     undesignate: func {
         me.priorityTarget = nil;
+        quit_STT();
     },
+
+    # Cursor is ignored (internal cursor = target)
+    setCursorDistance: func(nm) {},
+    setCursorDeviation: func(az) {},
 
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
@@ -317,27 +345,25 @@ var ps46 = nil;
 
 var main_mode = ScanMode;   # Scan or TWS, remember setting when switching to disk search or STT.
 
-# Change mode while maintaining lock when possible
-var setRadarMode = func (mode) {
-    var contact = ps46.getPriorityTarget();
-    ps46.setCurrentMode(mode, contact);
+# Used for designate() / undesignate()
+var STT = func(contact) {
+    ps46.setMode(STTMode, contact);
 }
 
-# Used for undesignate()
 var quit_STT = func {
-    setRadarMode(main_mode);
+    ps46.setMode(main_mode);
 }
 
 # Throttle buttons
 
 var scan = func {
     main_mode = ScanMode;
-    setRadarMode(ScanMode);
+    ps46.setMode(ScanMode);
 }
 
 var TWS = func {
     main_mode = TWSMode;
-    setRadarMode(TWSMode);
+    ps46.setMode(TWSMode);
 }
 
 var toggle_radar_on = func {
@@ -356,7 +382,7 @@ var disk_search = func {
 
     modes.main_ja = modes.AIMING;
     ps46.enable();
-    setRadarMode(DiskSearchMode);
+    ps46.setMode(DiskSearchMode);
 }
 
 
