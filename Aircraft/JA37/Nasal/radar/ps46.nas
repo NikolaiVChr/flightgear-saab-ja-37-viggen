@@ -1,11 +1,10 @@
 #### JA 37D PS/46A radar
 
-
 var input = {
     radar_serv:         "instrumentation/radar/serviceable",
     antenna_angle:      "instrumentation/radar/antenna-angle",
-    tracks_enabled:     "ja37/hud/tracks-enabled",
     nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
+    gear_pos:           "gear/gear/position-norm",
 };
 
 foreach(var name; keys(input)) {
@@ -26,10 +25,23 @@ var PS46 = {
     rcsRefValue: 3.2,
     maxTilt: 60,
 
+    # If radar get turned off by WoW (or failure) it stays off.
     isEnabled: func {
-        return input.tracks_enabled.getBoolValue() and input.radar_serv.getBoolValue()
+        return me.enabled and input.radar_serv.getBoolValue()
           and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
           and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue();
+    },
+
+    enable: func {
+        me.enabled = 1;
+        me.enabled = me.isEnabled();
+    },
+    disable: func {
+        me.enabled = 0;
+    },
+    toggle: func {
+        if (me.enabled) me.disable();
+        else me.enable();
     },
 
     getTiltKnob: func {
@@ -292,6 +304,76 @@ var STTMode = {
 
 var ps46_modes = [
     [ScanMode],
+    [TWSMode],
+    [DiskSearchMode],
+    [STTMode],
 ];
 
-var ps46 = AirborneRadar.newAirborne(ps46_modes, PS46);
+var ps46 = nil;
+
+
+
+### Controls
+
+var main_mode = ScanMode;   # Scan or TWS, remember setting when switching to disk search or STT.
+
+# Change mode while maintaining lock when possible
+var setRadarMode = func (mode) {
+    var contact = ps46.getPriorityTarget();
+    ps46.setCurrentMode(mode, contact);
+}
+
+# Used for undesignate()
+var quit_STT = func {
+    setRadarMode(main_mode);
+}
+
+# Throttle buttons
+
+var scan = func {
+    main_mode = ScanMode;
+    setRadarMode(ScanMode);
+}
+
+var TWS = func {
+    main_mode = TWSMode;
+    setRadarMode(TWSMode);
+}
+
+var toggle_radar_on = func {
+    if (modes.main_ja == modes.AIMING) {
+        # In aiming mode, this button turns radar off instead
+        ps46.disable();
+    } else {
+        ps46.toggle();
+    }
+}
+
+var disk_search = func {
+    # aiming mode, radar on, disk search
+    if (modes.main_ja != modes.NAV or modes.main_ja != modes.AIMING) return;
+    if (input.gear_pos.getValue() > 0) return;
+
+    modes.main_ja = modes.AIMING;
+    ps46.enable();
+    setRadarMode(DiskSearchMode);
+}
+
+
+
+var increaseRange = func {
+    ps46.increaseRange();
+}
+
+var decreaseRange = func {
+    ps46.decreaseRange();
+}
+
+
+
+### Initialization
+
+var init = func {
+    init_generic();
+    ps46 = AirborneRadar.newAirborne(ps46_modes, PS46);
+}

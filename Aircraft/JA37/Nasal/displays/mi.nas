@@ -55,7 +55,8 @@ var b = 0.0;
 var a = 1.0;#alpha
 var w = 0.5;#stroke width
 
-var maxTracks = 32;# how many radar tracks can be shown at once in the MI (was 16)
+var max_contacts = 16;  # max nb of aircrafts for which radar echoes can be displayed
+var max_tracks = 4;     # max nb of tracked aircrafts in TWS
 
 var roundabout = func(x) {
   var y = x - int(x);
@@ -106,19 +107,8 @@ var pressX2 = func {
 	TI.ti.showLNK();
 };
 
-var cursor = func {
-	cursorOn = !cursorOn;
-	displays.common.resetCursorDelta();
-	mi.cursor_pos = [0,-radar_area_width/2];
-	if (!cursorOn) {
-		if (getprop("controls/displays/stick-controls-cursor")) {
-			ja37.notice("Cursor OFF. Flight ctrl ON.");
-		}
-		setprop("controls/displays/stick-controls-cursor", 0);
-	}
-}
+var cursor = func {}
 
-var cursorOn = TRUE;
 
 var MI = {
 
@@ -127,15 +117,15 @@ var MI = {
 	  	mi.input = {
 			APmode:               "fdm/jsbsim/autoflight/mode",
 			alt_m:                "instrumentation/altimeter/indicated-altitude-meter",
+			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
+			alt_true_ft:          "position/altitude-ft",
 			brightnessSetting:    "ja37/avionics/brightness-mi-knob",
 			flash_alt_bars:       "fdm/jsbsim/systems/indicators/flashing-alt-bars",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
 			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
-			radar_active:         "ja37/radar/active",
-			radarRange:           "instrumentation/radar/range",
-			radarServ:            "instrumentation/radar/serviceable",
+			radar_stby:           "instrumentation/radar/radar-standby",
 			ref_alt:              "ja37/displays/reference-altitude-m",
 			rm_active:            "autopilot/route-manager/active",
 			wp_bearing:           "/autopilot/route-manager/wp/true-bearing-deg",
@@ -146,7 +136,6 @@ var MI = {
 			fpv_up:               "instrumentation/fpv/angle-up-deg",
 			fpv_right:            "instrumentation/fpv/angle-right-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
-			callsign:             "ja37/hud/callsign",
 			hdgReal:              "orientation/heading-deg",
 			terrain_warning:      "/instrumentation/terrain-warning",
 			gpws_time:            "fdm/jsbsim/systems/indicators/time-till-crash",
@@ -169,13 +158,157 @@ var MI = {
 		mi.helpTime = -5;
 		mi.cursor_pos = [0,-radar_area_width/2];
 		mi.cursorTriggerPrev = FALSE;
-		mi.radar_range = mi.input.radarRange.getValue();
+		mi.radar_range = radar.ps46.currentMode.getRangeM();
 		mi.head_true = mi.input.headTrue.getValue();
+		mi.time = mi.input.timeElapsed.getValue();
+		# Add to convert true alt -> indicated alt
+		mi.indicated_alt_offset = (mi.input.alt_ft.getValue() - mi.input.alt_true_ft.getValue()) * FT2M;
 		mi.qfe = FALSE;
 		mi.n_tracks = 0;
 
 		return mi;
 	},
+
+
+	# Trail of radar echoes corresponding to a contact.
+	ContactEchoes: {
+		max_echoes: 12,
+
+		new: func(radar_grp) {
+			var e = { parents: [MI.ContactEchoes], parent: radar_grp, };
+			e.init();
+			return e;
+		},
+
+		init: func {
+			me.grp = me.parent.createChild("group");
+
+			me.echoes = [];
+			for (var i=0; i<me.max_echoes; i+=1) {
+				append(me.echoes, me.grp.createChild("path")
+					.moveTo(-0.7,0)
+					.horizTo(0.7)
+					.setStrokeLineWidth(1)
+					.setColor(r,g,b,a));
+			}
+		},
+
+		hide: func {
+			me.grp.hide();
+		},
+
+		display: func(contact, radar_range, current_time) {
+			var echoes = contact.getBleps();
+			var n_echoes = size(echoes);
+
+			var max_echo_time = radar.ps46.currentMode.timeToKeepBleps;
+
+			if (n_echoes == 0 or current_time - echoes[n_echoes-1].getBlepTime() > max_echo_time) {
+				me.hide();
+				return FALSE;
+			}
+
+			for (var i=0; i<me.max_echoes; i+=1) {
+				if (i >= n_echoes) {
+					me.echoes[i].hide();
+					continue;
+				}
+
+				var echo = echoes[n_echoes-i-1];
+				if (current_time - echo.getBlepTime() > max_echo_time) {
+					me.echoes[i].hide();
+					continue;
+				}
+
+				me.echoes[i].setTranslation(
+					echo.getAZDeviation() * heading_deg_to_mm,
+					-echo.getRangeNow() / radar_range * radar_area_width
+				);
+				var strength = 1 - (current_time - echo.getBlepTime()) / max_echo_time;
+				strength = math.pow(strength, 1.6);
+				me.echoes[i].setColor(r,g,b,a*strength);
+				me.echoes[i].show();
+			}
+
+			me.grp.show();
+			return TRUE;
+		},
+	},
+
+	# Tracking symbology (TWS and STT)
+	ContactTrack: {
+		new: func(radar_grp) {
+			var e = { parents: [MI.ContactTrack], parent: radar_grp, };
+			e.init();
+			return e;
+		},
+
+		init: func {
+			me.grp = me.parent.createChild("group");
+
+			me.primary = me.grp.createChild("path")
+				.moveTo(-4,2).horiz(8)
+				.moveTo(-4,-2).horiz(8)
+				.moveTo(2,-4).vert(8)
+				.moveTo(-2,-4).vert(8)
+				.setStrokeLineWidth(w)
+				.setColor(r,g,b,a);
+
+			me.secondary = me.grp.createChild("path")
+				.moveTo(4,2).lineTo(2,2).lineTo(2,4)
+				.moveTo(-4,2).lineTo(-2,2).lineTo(-2,4)
+				.moveTo(4,-2).lineTo(2,-2).lineTo(2,-4)
+				.moveTo(-4,-2).lineTo(-2,-2).lineTo(-2,-4)
+				.setStrokeLineWidth(w)
+				.setColor(r,g,b,a);
+
+			me.iff = me.grp.createChild("path")
+				.moveTo(-4,-4).lineTo(4,4)
+				.moveTo(-4,4).lineTo(4,-4)
+				.setStrokeLineWidth(1.5*w)
+				.setColor(r,g,b,a);
+
+			me.track = me.grp.createChild("path")
+				.setStrokeLineWidth(2*w)
+				.setColor(r,g,b,a);
+		},
+
+		hide: func {
+			me.grp.hide();
+		},
+
+		display: func (contact, radar_range, current_time, head_true) {
+			var info = contact.getLastBlep();
+			if (info == nil or !info.hasTrackInfo()
+				or current_time - info.getBlepTime() > radar.ps46.currentMode.timeToKeepBleps) {
+				me.hide();
+				return FALSE;
+			}
+
+			me.grp.setTranslation(
+				info.getAZDeviation() * heading_deg_to_mm,
+				-info.getRangeNow() / radar_range * radar_area_width
+			);
+
+			# todo: iff
+			if (contact.equalsFast(radar.ps46.getPriorityTarget())) {
+				me.primary.show();
+				me.secondary.hide();
+				me.iff.hide();
+			} else {
+				me.primary.hide();
+				me.secondary.show();
+				me.iff.hide();
+			}
+
+			me.track.setRotation((track.getHeading() - head_true) * D2R);
+			me.track.reset()
+				.moveTo(0,-4).vert(-info.getSpeed() / 75);
+
+			return TRUE;
+		},
+	},
+
 
 	setupCanvasSymbols: func {
 
@@ -344,6 +477,11 @@ var MI = {
 				.setStrokeLineWidth(w)
 				.setColor(r,g,b, a);
 
+		me.scan_height_line = me.alt_scale.createChild("path")
+				.setTranslation(ticksMed, 0)
+				.setStrokeLineWidth(3*w)
+				.setColor(r,g,b,a);
+
 		# Interoperability altitude scale
 		me.alt_scale_int = me.alt_scale.createChild("group");
 		# Scale is slightly shorter than metric one, as it goes up to 60000ft instead of 20km.
@@ -471,51 +609,42 @@ var MI = {
 			.moveTo(0,-ticksMed).vert(2*ticksMed)
 			.setColor(r,g,b,a);
 
-		# Center Marker at the bottom of the screen.
-		me.rootCenter.createChild("path")
-			.moveTo(0, radar_area_width/2)
-			.line(5,5)
-			.moveTo(0, radar_area_width/2)
-			.line(-5,5)
-			.setStrokeLineWidth(w)
-			.setColor(r,g,b,a);
-
-
 		# Radar display area
 		me.radar_group = me.rootCenter.createChild("group")
 			.setTranslation(0, radar_area_width/2);
 
-		me.echoes_group = me.radar_group.createChild("group");
-		me.echoes  = [];
-		for(var i = 0; i < maxTracks; i += 1) {
-			append(me.echoes, me.echoes_group.createChild("path")
-				.moveTo(-1,0)
-				.horiz(3)
-				.setStrokeLineWidth(1.5)
-				.setColor(r,g,b,a));
-		}
-
-		me.selection = me.echoes_group.createChild("group");
-		me.selection_mark = me.selection.createChild("path")
-			.moveTo(-4,2).horiz(8)
-			.moveTo(-4,-2).horiz(8)
-			.moveTo(2,-4).vert(8)
-			.moveTo(-2,-4).vert(8)
+		# Center Marker at the bottom of the screen.
+		me.radar_group.createChild("path")
+			.moveTo(0,0)
+			.line(5,5)
+			.moveTo(0,0)
+			.line(-5,5)
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
 
-		me.selection_heading = me.selection.createChild("group");
-		me.selection_speed_vector = me.selection_heading.createChild("path")
-			.setTranslation(0,-4)
-			.moveTo(0,0).vert(-8)
-			.setStrokeLineWidth(2*w)
+		# Top and bottom lines indicating search width
+		me.scan_width_line_bot = me.radar_group.createChild("path")
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		me.scan_width_line_top = me.radar_group.createChild("path")
+			.setTranslation(0, -radar_area_width)
+			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
 
-		me.selection_iff = me.selection.createChild("path")
-			.moveTo(-4,-4).lineTo(4,4)
-			.moveTo(4,-4).lineTo(-4,4)
+		me.scan_sweep_mark = me.radar_group.createChild("path")
+			.moveTo(0,0).vert(-10)
 			.setStrokeLineWidth(1.5*w)
 			.setColor(r,g,b,a);
+
+		me.echoes_group = me.radar_group.createChild("group");
+		me.echoes = [];
+		for(var i = 0; i < max_contacts; i += 1) {
+			append(me.echoes, me.ContactEchoes.new(me.echoes_group));
+		}
+		me.tracks = [];
+		for(var i = 0; i < max_tracks; i += 1) {
+			append(me.tracks, me.ContactTrack.new(me.echoes_group));
+		}
 
 		# Big dot showing selected target azimuth/elevation
 		me.selection_dot_radius = 2;
@@ -532,22 +661,6 @@ var MI = {
 			.moveTo(0,-3).vert(-8)
 			.moveTo(3,0).horiz(8)
 			.moveTo(-3,0).horiz(-8)
-			.setStrokeLineWidth(w)
-			.setColor(r,g,b,a);
-
-		# IFF a contact under cursor without selecting it.
-		me.cursor_iff_time = -10;  # Time of IFF
-
-		me.cursor_iff = me.radar_group.createChild("group") .hide();
-
-		me.cursor_iff_pos = me.cursor_iff.createChild("path")
-			.moveTo(-4,-4).lineTo(4,4)
-			.moveTo(4,-4).lineTo(-4,4)
-			.setStrokeLineWidth(1.5*w)
-			.setColor(r,g,b,a);
-
-		me.cursor_iff_neg = me.cursor_iff.createChild("path")
-			.moveTo(-2,-2).horiz(4).vert(4).horiz(-4).close()
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
 
@@ -678,14 +791,6 @@ var MI = {
 			.setTranslation(0.37*radar_area_width, 10)
 			.setFontSize(6, 1);
 
-		me.nameT = me.target_info.createChild("text");
-		me.nameT.enableUpdate();
-		me.nameT.updateText("")
-			.setColor(r,g,b, a)
-			.setAlignment("center-top")
-			.setTranslation(0, 12)
-			.setFontSize(8, 1);
-
 		# QFE, or selected weapon, or Mach
 		me.botl_text = me.rootCenter.createChild("text");
 		me.botl_text.enableUpdate();
@@ -744,25 +849,20 @@ var MI = {
 	########################################################################################################
 	########################################################################################################
 	loop: func {
-		if (cursorOn == FALSE) {
-			radar_logic.unlockSelection();
-		}
-
 		if (!displays.common.mi_ti_on) {
 			setprop("ja37/avionics/brightness-mi", 0);
-			setprop("ja37/avionics/cursor-on", FALSE);
 
 			# Reset state
 			mi.cursor_pos = [0,-radar_area_width/2];
-			radar_logic.unlockSelection();
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-mi", me.input.brightnessSetting.getValue());
-			setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 
-		me.radar_range = me.input.radarRange.getValue();
+		me.radar_range = radar.ps46.currentMode.getRangeM();
+		me.time = me.input.timeElapsed.getValue();
 		me.head_true = me.input.headTrue.getValue();
+		me.indicated_alt_offset_ft = me.input.alt_ft.getValue() - me.input.alt_true_ft.getValue();
 
 		me.displayAltScale();
 		me.displayDistScale();
@@ -782,7 +882,8 @@ var MI = {
 		me.displayGround();
 		me.displayGroundCollisionArrow();
 		me.displayHeadingScale();
-		me.displayCursor();
+		me.displayScanInfo();
+		#me.displayCursor();
 		me.displaySelectionAziElev();
 		me.blinkQFE();
 	},
@@ -950,12 +1051,12 @@ var MI = {
 		} else {
 			me.heading_index.hide();
 		}
+
 	},
 
 	displayText: func {
 		# TYST/SILENT
-		if (!me.input.radar_active.getBoolValue()) {
-			# radar is off, so silent mode
+		if (me.input.radar_stby.getBoolValue()) {
 			me.text_silent.show();
 			me.text_silent.updateText(displays.metric ? "TYST" : "SILENT");
 		} else {
@@ -1010,7 +1111,7 @@ var MI = {
 			}
 			me.help_text.show();
 			me.lnk99_grp.hide();
-		} elsif (size(me.tele) > 0) {
+		} elsif (0 and size(me.tele) > 0) {
 			me.help_text.hide();
 			me.lnk99_grp.show();
 
@@ -1036,59 +1137,80 @@ var MI = {
 	},
 
 	displayTargetInfo: func {
-		if (radar_logic.selection == nil) {
+		if ((var target = radar.ps46.getPriorityTarget()) == nil
+			or (var info = target.getLastBlep()) == nil
+			or !info.hasTrackInfo())
+		{
 			me.target_info.hide();
 			return;
 		}
+
 		me.target_info.show();
 		me.target_info_metric.setVisible(displays.metric);
 		me.target_info_int.setVisible(!displays.metric);
 
-		me.tgt_speed = radar_logic.selection.get_Speed();
-		me.rs = armament.AIM.rho_sndspeed(radar_logic.selection.get_altitude());
-		me.sound_fps = me.rs[1];
-		me.tgt_mach = me.tgt_speed * KT2FPS / me.sound_fps;
-		me.machT.updateText(displays.sprintdec(me.tgt_mach, 2));
-
-		me.tgt_dist = radar_logic.selection.get_range();
-		if (displays.metric) {
-			me.tgt_dist *= NM2M / 1000;
-			me.tgt_dist = math.min(me.tgt_dist, 999);
-			me.distT.updateText(sprintf("%3d", me.tgt_dist));
+		me.tgt_speed = info.getSpeed();
+		if (me.tgt_speed != nil) {
+			me.rs = armament.AIM.rho_sndspeed(info.getAltitude());
+			me.sound_fps = me.rs[1];
+			me.tgt_mach = me.tgt_speed * KT2FPS / me.sound_fps;
+			me.machT.updateText(displays.sprintdec(me.tgt_mach, 2));
+			me.machT.show();
 		} else {
-			me.tgt_dist = math.min(me.tgt_dist, 999);
-			if (me.tgt_dist <= 9.95) {
-				me.distT_int.updateText(" "~displays.sprintdec(me.tgt_dist, 1));
-			} else {
-				me.distT_int.updateText(sprintf("%3d", me.tgt_dist));
-			}
+			me.machT.hide();
 		}
 
-		me.tgt_alt = radar_logic.selection.get_indicated_altitude();
-		me.tgt_alt = math.max(me.tgt_alt, 0);
-		if (displays.metric) {
-			me.tgt_alt *= FT2M;
-			me.tgt_alt = math.round(me.tgt_alt, 100);
-			if (me.tgt_alt <= 900) {
-				me.altT.updateText(sprintf("%3d", me.tgt_alt));
+		me.tgt_dist = info.getRangeDirect();
+		if (me.tgt_dist != nil) {
+			if (displays.metric) {
+				me.tgt_dist *= NM2M / 1000;
+				me.tgt_dist = math.min(me.tgt_dist, 999);
+				me.distT.updateText(sprintf("%3d", me.tgt_dist));
+				me.distT.show();
 			} else {
-				me.altT.updateText(sprintf("%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
+				me.tgt_dist = math.min(me.tgt_dist, 999);
+				if (me.tgt_dist <= 9.95) {
+					me.distT_int.updateText(" "~displays.sprintdec(me.tgt_dist, 1));
+				} else {
+					me.distT_int.updateText(sprintf("%3d", me.tgt_dist));
+				}
+				me.distT_int.show();
 			}
 		} else {
-			me.tgt_alt = math.round(me.tgt_alt, 100);
-			if (me.tgt_alt <= 900) {
-				me.altT_int.updateText(sprintf("%3d", me.tgt_alt));
-				me.altT_int2.updateText("");
-			} else {
-				me.altT_int.updateText(sprintf("%2d", math.floor(me.tgt_alt/1000)));
-				me.altT_int2.updateText(sprintf("%.3d", math.mod(me.tgt_alt, 1000)));
-			}
+			me.distT.hide();
+			me.distT_int.hide();
 		}
 
-		if (me.input.callsign.getBoolValue()) {
-			me.nameT.updateText(radar_logic.selection.get_Callsign());
+		me.tgt_alt = info.getAltitude();
+		if (me.tgt_alt != nil) {
+			# convert relative to indicated altitude
+			me.tgt_alt += me.indicated_alt_offset_ft;
+			me.tgt_alt = math.max(me.tgt_alt, 0);
+			if (displays.metric) {
+				me.tgt_alt *= FT2M;
+				me.tgt_alt = math.round(me.tgt_alt, 100);
+				if (me.tgt_alt <= 900) {
+					me.altT.updateText(sprintf("%3d", me.tgt_alt));
+				} else {
+					me.altT.updateText(sprintf("%2d,%d", math.floor(me.tgt_alt/1000), math.mod(me.tgt_alt, 1000)/100));
+				}
+				me.altT.show();
+			} else {
+				me.tgt_alt = math.round(me.tgt_alt, 100);
+				if (me.tgt_alt <= 900) {
+					me.altT_int.updateText(sprintf("%3d", me.tgt_alt));
+					me.altT_int2.updateText("");
+				} else {
+					me.altT_int.updateText(sprintf("%2d", math.floor(me.tgt_alt/1000)));
+					me.altT_int2.updateText(sprintf("%.3d", math.mod(me.tgt_alt, 1000)));
+				}
+				me.altT_int.show();
+				me.altT_int2.show();
+			}
 		} else {
-			me.nameT.updateText(radar_logic.selection.get_model());
+			me.altT.hide();
+			me.altT_int.hide();
+			me.altT_int2.hide();
 		}
 	},
 
@@ -1151,21 +1273,39 @@ var MI = {
 		me.a2a_cross.hide();
 	},
 
-	# Convert bearing/distance to position on radar display (in group me.radar_group)
-	# bearing is absolute, distance in meter
-	bearingDistToRadarPosition: func(bearing, distance) {
-		return [geo.normdeg180(bearing - me.head_true) * heading_deg_to_mm,
-				-distance/me.radar_range * radar_area_width];
-	},
+	displayScanInfo: func {
+		var alt_limits = radar.ps46.getCursorAltitudeLimits();
+		if (alt_limits != nil) {
+			alt_limits[0] += me.indicated_alt_offset_ft;
+			alt_limits[1] += me.indicated_alt_offset_ft;
 
-	# Convert a track object to position on radar display (in group me.radar_group)
-	trackToRadarPosition: func(track) {
-		return me.bearingDistToRadarPosition(track.get_bearing(), track.get_range()*NM2M);
-	},
+			me.scan_height_line.reset();
+			me.scan_height_line
+				.moveTo(0, -alt_limits[1]*FT2M/20000*radar_area_width)
+				.vertTo(-alt_limits[0]*FT2M/20000*radar_area_width);
+			me.scan_height_line.show();
+		} else {
+			me.scan_height_line.hide();
+		}
 
-	isInRadarScreen: func(pos) {
-		return pos[0] >= -radar_area_width/2 and pos[0] <= radar_area_width/2
-			and pos[1] <= 0 and pos[1] >= -radar_area_width;
+		var scan_center = radar.ps46.getDeviation();
+		var scan_half_width = radar.ps46.getAzimuthRadius();
+		var scan_min = scan_center - scan_half_width;
+		var scan_max = scan_center + scan_half_width;
+		me.scan_width_line_top.reset()
+			.moveTo(scan_min * heading_deg_to_mm, 0)
+			.horizTo(scan_max * heading_deg_to_mm);
+		me.scan_width_line_bot.reset()
+			.moveTo(scan_min * heading_deg_to_mm, 0)
+			.horizTo(scan_max * heading_deg_to_mm);
+
+		if (!me.input.radar_stby.getBoolValue()) {
+			var caret = radar.ps46.getCaretPosition();
+			me.scan_sweep_mark.setTranslation(caret[0] * radar_area_width / 2, 0);
+			me.scan_sweep_mark.show();
+		} else {
+			me.scan_sweep_mark.hide();
+		}
 	},
 
 	displayRadarTrack: func(track) {
@@ -1187,7 +1327,7 @@ var MI = {
 		}
 
 		# Rest of the function is for the selected track.
-		if (track != radar_logic.selection) return;
+		if (track != selection) return;
 
 		me.selection_updated = TRUE;
 		me.selection.setTranslation(pos[0], pos[1]);
@@ -1208,32 +1348,30 @@ var MI = {
 	},
 
 	displayRadarTracks: func {
-		me.radar_tracks = [];
-		me.radar_tracks_pos = [];
-		me.n_tracks = 0;
+		var contact_idx = 0;
+		var track_idx = 0;
 
-		me.tele = [];
-
-		if (!me.input.radar_active.getBoolValue()) {
-			me.echoes_group.hide();
-			return;
-		}
-		me.echoes_group.show();
-
-		me.selection_updated = FALSE;
-		foreach (track; radar_logic.tracks) {
-			me.displayRadarTrack(track);
+		foreach (var contact; radar.ps46.getActiveBleps()) {
+			if (contact_idx < max_contacts) {
+				if (me.echoes[contact_idx].display(contact, me.radar_range, me.time))
+					contact_idx += 1;
+			}
+			if (track_idx < max_tracks and contact.hasTrackInfo()) {
+				if (me.tracks[track_idx].display(contact, me.radar_range, me.time, me.head_true))
+					track_idx += 1;
+			}
 		}
 
-		# Hide remaining echoes
-		for (var i = me.n_tracks; i < maxTracks; i += 1) me.echoes[i].hide();
-		if (!me.selection_updated) {
-			me.selection.hide();
+		for (; contact_idx < max_contacts; contact_idx += 1) {
+			me.echoes[contact_idx].hide();
+		}
+		for (; track_idx < max_tracks; track_idx += 1) {
+			me.tracks[track_idx].hide();
 		}
 	},
 
 	displaySelectionAziElev: func {
-		if (radar_logic.selection == nil) {
+		if (1 or radar_logic.selection == nil) {
 			me.selection_azi_elev.hide();
 			return;
 		}
@@ -1274,7 +1412,7 @@ var MI = {
 	},
 
 	displayCursor: func {
-		if (!cursorOn or displays.common.cursor != displays.MI) {
+		if (displays.common.cursor != displays.MI) {
 			me.cursor.hide();
 			return;
 		}

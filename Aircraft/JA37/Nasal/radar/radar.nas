@@ -1027,11 +1027,19 @@ var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
 # These objects are not directly used.
 # They communicate through emesary notifications and modify the AI list appropriately.
 
-var AIlist = AIToNasal.new();
-var nose_radar = NoseRadar.new();
-var omni = OmniRadar.new(1.0, 150, 55);
-var terrain = TerrainChecker.new(0.05, 1, 30);  # 0.05 or 0.10 is fine here (only one aircraft per loop)
-var ecm = ECMChecker.new(0.05, 6);
+var AIlist = nil;
+var nose_radar = nil;
+var omni = nil;
+var terrain = nil;
+var ecm = nil;
+
+var init_generic = func {
+    AIlist = AIToNasal.new();
+    nose_radar = NoseRadar.new();
+    omni = OmniRadar.new(1.0, 150, 55);
+    terrain = TerrainChecker.new(0.05, 1, 30);  # 0.05 or 0.10 is fine here (only one aircraft per loop)
+    ecm = ECMChecker.new(0.05, 6);
+}
 
 
 # Vector containing all AI models as nasal AIContacts objects
