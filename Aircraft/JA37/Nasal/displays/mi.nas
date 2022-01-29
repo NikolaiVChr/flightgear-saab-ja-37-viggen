@@ -161,7 +161,7 @@ var MI = {
 		mi.head_true = mi.input.headTrue.getValue();
 		mi.time = mi.input.timeElapsed.getValue();
 		# Add to convert true alt -> indicated alt
-		mi.indicated_alt_offset = (mi.input.alt_ft.getValue() - mi.input.alt_true_ft.getValue()) * FT2M;
+		mi.indicated_alt_offset_ft = (mi.input.alt_ft.getValue() - mi.input.alt_true_ft.getValue()) * FT2M;
 		mi.qfe = FALSE;
 		mi.n_contacts = 0;
 
