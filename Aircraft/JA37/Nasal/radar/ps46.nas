@@ -1,8 +1,11 @@
 #### JA 37D PS/46A radar
 
+var FALSE = 0;
+var TRUE = 1;
+
 var input = {
     radar_serv:         "instrumentation/radar/serviceable",
-    antenna_angle:      "instrumentation/radar/antenna-angle",
+    antenna_angle:      "instrumentation/radar/antenna-angle-norm",
     nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
     gear_pos:           "gear/gear/position-norm",
 };
@@ -45,13 +48,13 @@ var PS46 = {
     },
 
     getTiltKnob: func {
-        return input.antenna_angle.getValue();
+        return input.antenna_angle.getValue() * 10;
     },
 
     # Similar to setCurrentMode, but remembers current target and range
-    setMode: func(newMode, priority=nil) {
+    setMode: func(newMode, priority=nil, old_priority=0) {
         newMode.setRange(me.currentMode.getRange());
-        if (priority == nil) priority = me.currentMode["priorityTarget"];
+        if (priority == nil and old_priority) priority = me.currentMode["priorityTarget"];
         me.currentMode.leaveMode();
         me.setCurrentMode(newMode, priority);
     },
@@ -343,7 +346,8 @@ var ps46 = nil;
 
 ### Controls
 
-var main_mode = ScanMode;   # Scan or TWS, remember setting when switching to disk search or STT.
+var tws = FALSE;   # Rember last main mode (Scan or TWS)
+
 
 # Used for designate() / undesignate()
 var STT = func(contact) {
@@ -351,19 +355,20 @@ var STT = func(contact) {
 }
 
 var quit_STT = func {
-    ps46.setMode(main_mode);
+    if (tws) TWS();
+    else scan();
 }
 
 # Throttle buttons
 
 var scan = func {
-    main_mode = ScanMode;
+    tws = FALSE;
     ps46.setMode(ScanMode);
 }
 
 var TWS = func {
-    main_mode = TWSMode;
-    ps46.setMode(TWSMode);
+    tws = TRUE;
+    ps46.setMode(TWSMode, nil, TRUE);   # keep track from previous mode
 }
 
 var toggle_radar_on = func {

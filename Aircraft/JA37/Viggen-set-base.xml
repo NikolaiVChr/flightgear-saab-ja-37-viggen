@@ -1525,9 +1525,8 @@
             <switch-mode type="bool">true</switch-mode>
         </transponder>
         <radar>
-            <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
-            <range>15000</range>            <!-- 15 Km -->
-            <antenna-angle type="double">0</antenna-angle>
+            <range type="int">15000</range>            <!-- 15 Km -->
+            <antenna-angle-norm type="double">0</antenna-angle-norm>
             <serviceable type="bool">true</serviceable>
             <radar-standby type="int">1</radar-standby> <!-- set by radar/radar.nas -->
         </radar>

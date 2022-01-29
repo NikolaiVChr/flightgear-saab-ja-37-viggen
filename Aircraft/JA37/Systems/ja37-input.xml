@@ -80,9 +80,9 @@
                 </binding>
             </mod-up>
         </key>
-        <key n="78">
-            <name>N</name>
-            <desc>Select centermost</desc>
+        <key n="102">
+            <name>f</name>
+            <desc>Radar scan mode</desc>
             <binding>
                 <condition>
                     <equals>
@@ -91,12 +91,12 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar_logic.centerTarget()</script>
+                <script>radar.scan();</script>
             </binding>
         </key>
         <key n="70">
             <name>F</name>
-            <desc>Unlock selected target</desc>
+            <desc>Radar track while scan</desc>
             <binding>
                 <condition>
                     <equals>
@@ -105,12 +105,12 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar_logic.unlockSelection()</script>
+                <script>radar.TWS();</script>
             </binding>
         </key>
-        <key n="6">
-            <name>Ctrl-F</name>
-            <desc>IFF radar track under cursor</desc>
+        <key n="78">
+            <name>N</name>
+            <desc>Dogfight mode</desc>
             <binding>
                 <condition>
                     <equals>
@@ -118,23 +118,9 @@
                         <value>0</value>
                     </equals>
                 </condition>
-                <command>property-assign</command>
-                <property>/controls/displays/cursor-iff</property>
-                <value>1</value>
+                <command>nasal</command>
+                <script>radar.disk_search();</script>
             </binding>
-            <mod-up>
-                <binding>
-                    <condition>
-                        <equals>
-                            <property>/ja37/systems/variant</property>
-                            <value>0</value>
-                        </equals>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>/controls/displays/cursor-iff</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
         </key>
         <key n="83">
             <name>S</name>
@@ -458,8 +444,14 @@
             <name>r</name>
             <desc>Toggle radar</desc>
             <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
                 <command>nasal</command>
-                <script>ja37.toggleTracks()</script>
+                <script>radar.toggle_radar_on()</script>
             </binding>
         </key>
         <key n="80">
@@ -649,43 +641,21 @@
                 </script>
             </binding>
         </key>
+
         <key n="91">
             <name>[</name>
             <desc>Decrease radar range</desc>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-cycle</command>
-                <property>/instrumentation/radar/range</property>
-                <!--<value type="int">180000</value>-->
-                <value type="int">120000</value>
-                <value type="int">60000</value>
-                <value type="int">30000</value>
-                <value type="int">15000</value>
-                <wrap>false</wrap>
-            </binding>
             <binding>
                 <command>nasal</command>
-                <script>ja37.click()</script>
+                <script>ja37.click(); radar.decreaseRange();</script>
             </binding>
         </key>
-        
         <key n="93">
             <name>]</name>
             <desc>Increase radar range</desc>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-cycle</command>
-                <property>/instrumentation/radar/range</property>
-                <value type="int">15000</value>
-                <value type="int">30000</value>
-                <value type="int">60000</value>
-                <value type="int">120000</value>
-                <!--<value type="int">180000</value>-->
-                <wrap>false</wrap>
-            </binding>
             <binding>
                 <command>nasal</command>
-                <script>ja37.click()</script>
+                <script>ja37.click(); radar.increaseRange();</script>
             </binding>
         </key>
 
@@ -793,6 +763,34 @@
                 <factor>0.9524</factor>
                 <min>200</min>
                 <max>1000</max>
+                <wrap>false</wrap>
+            </binding>
+        </key>
+
+        <key n="62">
+            <name>&gt;</name>
+            <desc>Radar antenna up</desc>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/radar/antenna-angle-norm</property>
+                <step>0.05</step>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </key>
+
+        <key n="60">
+            <name>&lt;</name>
+            <desc>Radar antenna down</desc>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/radar/antenna-angle-norm</property>
+                <step>-0.05</step>
+                <min>-1</min>
+                <max>1</max>
                 <wrap>false</wrap>
             </binding>
         </key>

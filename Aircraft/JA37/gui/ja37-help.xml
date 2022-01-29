@@ -75,7 +75,7 @@
     </key>
     <key>
         <name>r</name>
-        <desc>Toggle radar</desc>
+        <desc>Toggle radar (in aiming mode: radar off)</desc>
     </key>
     <key>
         <name>[ / ]</name>
@@ -90,16 +90,16 @@
         <desc>Cursor click / select</desc>
     </key>
     <key>
-        <name>N</name>
-        <desc>Select radar track center most in HUD</desc>
+        <name>f</name>
+        <desc>Radar search mode</desc>
     </key>
     <key>
         <name>F</name>
-        <desc>Unlock selected radar track</desc>
+        <desc>Radar Track While Scan mode</desc>
     </key>
     <key>
-        <name>Ctrl-f</name>
-        <desc>IFF interrogation of radar track under the MI cursor</desc>
+        <name>N</name>
+        <desc>Aiming mode and radar disk search</desc>
     </key>
     <key>
         <name>I</name>
