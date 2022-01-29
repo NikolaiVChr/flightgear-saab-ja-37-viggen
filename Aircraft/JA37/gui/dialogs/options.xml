@@ -425,7 +425,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label>Show flares, missiles trails, craters, etc. from MP aircraft with damage off.</label>
+      <label>Show flares, missiles trails, craters, etc. from MP aircraft even when damage is off.</label>
       <enable><not><property>/payload/armament/msg</property></not></enable>
     </text>
   </group>
