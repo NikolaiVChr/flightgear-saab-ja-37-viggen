@@ -40,10 +40,18 @@ var PS46 = {
     },
 
     enable: func {
+        if (me.enabled) return;
         me.enabled = 1;
+        # Check if the conditions to turn on are met.
         me.enabled = me.isEnabled();
+        if (me.enabled) {
+            ecmLog.push("Radar switched active");
+        }
     },
     disable: func {
+        if (me.enabled) {
+            ecmLog.push("Radar switched silent");
+        }
         me.enabled = 0;
     },
     toggle: func {
@@ -262,6 +270,8 @@ var TWSMode = {
             }
         }
 
+        lockLog.push(sprintf("Radar lock on to %s", contact.getCallsign()));
+
         if (size(me.tracks) < me.max_tracks) {
             me.priority_index = size(me.tracks);
             me.priorityTarget = contact;
@@ -448,6 +458,7 @@ var STTMode = {
 
     designatePriority: func (contact) {
         me.priorityTarget = contact;
+        lockLog.push(sprintf("Radar lock on to %s", contact.getCallsign()));
     },
 
     undesignate: func {
@@ -581,6 +592,11 @@ var IFF = func(on) {
     iffProp.setBoolValue(TRUE);
     iff_timer.restart(10);
 }
+
+
+### TI stuff
+var lockLog  = events.LogBuffer.new(echo: 0);
+var ecmLog = events.LogBuffer.new(echo: 0);
 
 
 ### Initialization

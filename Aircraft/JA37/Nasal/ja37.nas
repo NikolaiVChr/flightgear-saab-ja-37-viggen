@@ -1597,19 +1597,6 @@ var toggleSpeedbrakesSimplified = func (pos) {
   }
 }
 
-var toggleTracks = func {
-  ja37.click();
-  var enabled = getprop("ja37/hud/tracks-enabled");
-  setprop("ja37/hud/tracks-enabled", !enabled);
-  if(enabled == FALSE) {
-    notice("Radar ON");
-    radar_logic.ecmLog.push("Radar switched active.");
-  } else {
-    notice("Radar OFF");
-    radar_logic.ecmLog.push("Radar switched silent.");
-  }
-}
-
 # Override default function
 controls.applyParkingBrake = func(v) {
   # /controls/gear/brake-parking indicates that the pilot is pulling the handle.

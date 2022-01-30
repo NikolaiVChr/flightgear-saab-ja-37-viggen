@@ -1907,7 +1907,7 @@ var TI = {
 						me.bufferStr = "       Manual event log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapLock == TRUE) {
-					me.buffer = radar_logic.lockLog;
+					me.buffer = radar.lockLog;
 					if (me.swedishMode)
 						me.bufferStr = "       Registrerede inl\xC3\xA5sninger:\n";
 					else
@@ -1921,14 +1921,14 @@ var TI = {
 						me.bufferStr = "       Landing log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapECM == TRUE) {
-					me.buffer = radar_logic.ecmLog;
+					me.buffer = radar.ecmLog;
 					if (me.swedishMode)
 						me.bufferStr = "       Registrerede motmedelsf\xC3\xA4llninger:\n";
 					else
 						me.bufferStr = "       ECM log:\n";
 					me.drawLog = TRUE;
 				} elsif (me.trapAll == TRUE) {
-					me.bufferContent = events.combineBuffers([radar_logic.ecmLog.get_buffer(), me.logLand.get_buffer(), radar_logic.lockLog.get_buffer(), me.logEvents.get_buffer(), fire_control.fireLog.get_buffer()]);
+					me.bufferContent = events.combineBuffers([radar.ecmLog.get_buffer(), me.logLand.get_buffer(), radar.lockLog.get_buffer(), me.logEvents.get_buffer(), fire_control.fireLog.get_buffer()]);
 					if (me.swedishMode)
 						me.bufferStr = "       Alla h\xC3\xA4ndelser:\n";
 					else
@@ -5388,8 +5388,8 @@ var TI = {
 				me.logEvents.clear();
 				me.logBIT.clear();
 				me.logLand.clear();
-				radar_logic.lockLog.clear();
-				radar_logic.ecmLog.clear();
+				radar.lockLog.clear();
+				radar.ecmLog.clear();
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 

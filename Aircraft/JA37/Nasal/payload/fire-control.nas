@@ -497,7 +497,7 @@ var Missile = {
         if (me.is_IR and variant.JA) {
             if (me.weapon.status == armament.MISSILE_LOCK) {
                 if (me.last_IR_lock != me.weapon.callsign) {
-                    radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)", me.weapon.callsign, me.weapon.type));
+                    radar.lockLog.push(sprintf("IR lock on to %s (%s)", me.weapon.callsign, me.weapon.type));
                     me.last_IR_lock = me.weapon.callsign;
                 }
             } else {

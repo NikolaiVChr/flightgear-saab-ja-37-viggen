@@ -512,7 +512,7 @@ var RWRRecipient = {
                     if (notification.Position.direct_distance_to(ac_pos)*M2NM < damage.mlw_max) {
                         signal(rand(), RWR_LAUNCH, notification.Position);
                         bearing = geo.normdeg(ac_pos.course_to(notification.Position) - input.heading.getValue());
-                        radar_logic.ecmLog.push("Missile launch warning from %03d deg.", bearing);
+                        radar.ecmLog.push("Missile launch warning from %03d deg.", bearing);
                     }
                 }
             }
