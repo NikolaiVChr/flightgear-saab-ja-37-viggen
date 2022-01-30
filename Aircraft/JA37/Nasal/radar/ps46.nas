@@ -29,6 +29,8 @@ var PS46 = {
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
     maxTilt: 60,
+    tiedIFF: TRUE,
+    IFFFoVradius: 5.0,
 
     # If radar get turned off by WoW (or failure) it stays off.
     isEnabled: func {
@@ -569,6 +571,19 @@ var decreaseRange = func {
     ps46.decreaseRange();
 }
 
+
+var iff_timer = maketimer(10, func {
+    iffProp.setBoolValue(FALSE);
+});
+iff_timer.singleShot = TRUE;
+iff_timer.simulatedTime = TRUE;
+
+var IFF = func(on) {
+    if (!on) return;
+    if (!ps46.enabled) return;
+    iffProp.setBoolValue(TRUE);
+    iff_timer.restart(10);
+}
 
 
 ### Initialization

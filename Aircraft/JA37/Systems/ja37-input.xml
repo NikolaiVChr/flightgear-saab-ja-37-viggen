@@ -122,6 +122,32 @@
                 <script>radar.STT();</script>
             </binding>
         </key>
+        <key n="110">
+            <name>n</name>
+            <desc>IFF</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>radar.IFF(1);</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <condition>
+                        <equals>
+                            <property>/ja37/systems/variant</property>
+                            <value>0</value>
+                        </equals>
+                    </condition>
+                    <command>nasal</command>
+                    <script>radar.IFF(0);</script>
+                </binding>
+            </mod-up>
+        </key>
         <key n="78">
             <name>N</name>
             <desc>Dogfight mode</desc>

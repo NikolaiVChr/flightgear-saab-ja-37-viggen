@@ -189,6 +189,12 @@ var MI = {
 					.setStrokeLineWidth(1)
 					.setColor(r,g,b,a));
 			}
+
+			me.iff = me.grp.createChild("path")
+				.moveTo(-3,-3).lineTo(3,3)
+				.moveTo(-3,3).lineTo(3,-3)
+				.setStrokeLineWidth(1.5*w)
+				.setColor(r,g,b,a);
 		},
 
 		hide: func {
@@ -226,6 +232,17 @@ var MI = {
 				strength = math.pow(strength, 1.6);
 				me.echoes[i].setColor(r,g,b,a*strength);
 				me.echoes[i].show();
+			}
+
+			if (contact.iff != nil and contact.iff > 0 and current_time - contact.iff < 10) {
+				var echo = echoes[size(echoes)-1];
+				me.iff.setTranslation(
+					echo.getAZDeviation() * heading_deg_to_mm,
+					-echo.getRangeNow() / radar_range * radar_area_width
+				);
+				me.iff.show();
+			} else {
+				me.iff.hide();
 			}
 
 			me.grp.show();
@@ -273,12 +290,6 @@ var MI = {
 				.setStrokeLineWidth(w)
 				.setColor(r,g,b,a);
 
-			me.iff = me.grp.createChild("path")
-				.moveTo(-4,-4).lineTo(4,4)
-				.moveTo(-4,4).lineTo(4,-4)
-				.setStrokeLineWidth(1.5*w)
-				.setColor(r,g,b,a);
-
 			me.track = me.grp.createChild("path")
 				.setStrokeLineWidth(2*w)
 				.setColor(r,g,b,a);
@@ -309,13 +320,11 @@ var MI = {
 				me.primary_lost.setVisible(!tracking);
 				me.secondary.hide();
 				me.secondary_lost.hide();
-				me.iff.hide();
 			} else {
 				me.primary.hide();
 				me.primary_lost.hide();
 				me.secondary.setVisible(tracking);
 				me.secondary_lost.setVisible(!tracking);
-				me.iff.hide();
 			}
 
 			if (tracking) {
@@ -883,7 +892,7 @@ var MI = {
 		}
 
 		me.radar_range = radar.ps46.currentMode.getRangeM();
-		me.time = me.input.timeElapsed.getValue();
+		me.current_time = me.input.timeElapsed.getValue();
 		me.head_true = me.input.headTrue.getValue();
 		me.indicated_alt_offset_ft = me.input.alt_ft.getValue() - me.input.alt_true_ft.getValue();
 
@@ -1388,7 +1397,7 @@ var MI = {
 
 		foreach (var contact; radar.ps46.getActiveBleps()) {
 			if (contact_idx < max_contacts) {
-				if (me.echoes[contact_idx].display(contact, me.radar_range, me.time)) {
+				if (me.echoes[contact_idx].display(contact, me.radar_range, me.current_time)) {
 					# track is valid / not too old
 					append(me.radar_contacts, contact);
 					append(me.radar_contacts_pos, [
@@ -1403,7 +1412,7 @@ var MI = {
 
 			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT") and track_idx < max_tracks)
 			{
-				if (me.tracks[track_idx].display(contact, me.radar_range, me.time, me.head_true))
+				if (me.tracks[track_idx].display(contact, me.radar_range, me.current_time, me.head_true))
 					track_idx += 1;
 			}
 		}

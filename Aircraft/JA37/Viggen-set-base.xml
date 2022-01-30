@@ -1529,6 +1529,7 @@
             <antenna-angle-norm type="double">0</antenna-angle-norm>
             <serviceable type="bool">true</serviceable>
             <radar-standby type="int">1</radar-standby> <!-- set by radar/radar.nas -->
+            <iff type="bool">false</iff>
         </radar>
         <rwr>
           <ajs-lights>

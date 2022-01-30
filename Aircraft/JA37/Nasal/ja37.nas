@@ -852,7 +852,10 @@ var Saab37 = {
     rwr.init();
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
 
-    if (variant.JA) radar.init();
+    if (variant.JA) {
+      faf.init();
+      radar.init();
+    }
 
     fire_control.init();
 
