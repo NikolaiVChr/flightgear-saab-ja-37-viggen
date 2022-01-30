@@ -1700,7 +1700,6 @@ var TI = {
 		
 		# RB99 datalink
 		ti.lnk99   = FALSE;
-		ti.tele    = [];
 
 		# cursor
 		ti.cursorPosX  = 0;
@@ -4576,18 +4575,19 @@ var TI = {
 			me.textBWeight.setText(me.weightT);
 			me.textBAlpha.setText(me.alphaT);
 		} elsif (me.lnk99 == TRUE) {
+			me.rb99_list = radar.rb99_datalink.getMissileList();
 			me.weightT = "";
 			for (var i = 0; i < 2; i+=1) {
-				if (size(me.tele) > i) {
-					me.weightT = me.weightT~sprintf("|%2ds%2d%%", clamp(me.tele[i][1],-9,99),me.tele[i][0]);
+				if (size(me.rb99_list) > i) {
+					me.weightT = me.weightT~"|"~radar.rb99_datalink.display_str(me.rb99_list[i]);
 				} else {
 					me.weightT = me.weightT~"|      ";
 				}
 			}
 			me.alphaT = "";
 			for (var i = 2; i < 4; i+=1) {
-				if (size(me.tele) > i) {
-					me.alphaT = me.alphaT~sprintf("|%2ds%2d%%", clamp(me.tele[i][1],-9,99),me.tele[i][0]);
+				if (size(me.rb99_list) > i) {
+					me.alphaT = me.alphaT~"|"~radar.rb99_datalink.display_str(me.rb99_list[i]);
 				} else {
 					me.alphaT  =  me.alphaT~"|      ";
 				}
@@ -4726,7 +4726,6 @@ var TI = {
 		me.isGPS = FALSE;
 		me.tgt_dist = 1000000;
 		me.tgt_callsign = "";
-		me.tele = [];
 		me.rrSymbol.hide();
 		me.gpsSymbol.hide();
 
@@ -4797,11 +4796,6 @@ var TI = {
 			}
 		} elsif (me.ordn and me.missile_index != -1) {
 			# RB 99
-			me.eta99 = contact.getETA();
-			me.hit99 = contact.getHitChance();
-			if (me.eta99 != nil) {
-				append(me.tele, [me.hit99, me.eta99]);
-			}
 			me.missiles[me.missile_index].setTranslation(me.pos_xx, me.pos_yy);
 			me.missiles[me.missile_index].setRotation(me.relHeading * D2R);
 			me.missilesVector[me.missile_index].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 750*MM2TEX));

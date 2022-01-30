@@ -1139,6 +1139,8 @@ var MI = {
 		}
 
 		# Bottom text. Buttons help or Rb 99 telemetry.
+		me.rb99_list = radar.rb99_datalink.getMissileList();
+
 		if (helpOn or me.input.timeElapsed.getValue() - me.helpTime < 5) {
 			if (displays.metric) {
 				me.help_text_1.updateText(" D   -   -  SVY  -   -  BIT LNK");
@@ -1149,13 +1151,14 @@ var MI = {
 			}
 			me.help_text.show();
 			me.lnk99_grp.hide();
-		} elsif (0 and size(me.tele) > 0) {
+		} elsif (size(me.rb99_list) > 0) {
 			me.help_text.hide();
 			me.lnk99_grp.show();
 
 			var i = 0;
-			forindex (i; me.tele) {
-				me.lnk99[i].updateText(sprintf("%2ds %2d%%", math.clamp(me.tele[i][1],-9,99), me.tele[i][0]));
+			forindex (i; me.rb99_list) {
+				if (i >= 4) break; # could happen with reloading in air
+				me.lnk99[i].updateText(radar.rb99_datalink.display_str(me.rb99_list[i]));
 				me.lnk99[i].show();
 			}
 			i += 1;
@@ -1345,45 +1348,6 @@ var MI = {
 		} else {
 			me.scan_sweep_mark.hide();
 		}
-	},
-
-	displayRadarTrack: func(track) {
-		if (me.n_tracks >= maxTracks) return;
-		var pos = me.trackToRadarPosition(track);
-		if (!me.isInRadarScreen(pos)) return;
-
-		append(me.radar_tracks, track);
-		append(me.radar_tracks_pos, pos);
-		me.echoes[me.n_tracks].setTranslation(pos[0], pos[1]).show();
-		me.n_tracks += 1;
-
-		if (track.get_type() == radar_logic.ORDNANCE) {
-			var eta = track.getETA();
-			var hit = track.getHitChance();
-			if (eta != nil) {
-				append(me.tele, [hit, eta]);
-			}
-		}
-
-		# Rest of the function is for the selected track.
-		if (track != selection) return;
-
-		me.selection_updated = TRUE;
-		me.selection.setTranslation(pos[0], pos[1]);
-		me.selection_heading.setRotation((track.get_heading() - me.head_true) * D2R);
-		me.selection_speed_vector.setScale(1, track.get_Speed()/600);
-		if (track.getIFF()) {
-			me.selection_iff.show();
-			me.selection_mark.hide();
-		} else {
-			me.selection_iff.hide();
-			me.selection_mark.show();
-		}
-		me.selection.show();
-
-		# This indicator is enabled here, not in its own update function
-		# because otherwise it shows up before the rest due to higher refresh rate.
-		me.selection_azi_elev.show();
 	},
 
 	displayRadarTracks: func {
