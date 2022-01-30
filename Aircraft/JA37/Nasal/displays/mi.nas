@@ -942,6 +942,7 @@ var MI = {
 		if (radar.ps46.getMode() != "STT") {
 			me.displayRadarTracks();
 			me.displayTargetInfo();
+			me.displayTargetAziElev();
 		}
 		me.displayArmCircle();
 	},
@@ -958,11 +959,12 @@ var MI = {
 		me.displayHeadingScale();
 		me.displayScanInfo();
 		if (radar.ps46.getMode() == "STT") {
+			# Faster update in STT mode (affordable since there should be only one contact to show)
 			me.displayRadarTracks();
 			me.displayTargetInfo();
+			me.displayTargetAziElev();
 		}
 		me.displayCursor();
-		me.displaySelectionAziElev();
 		me.blinkQFE();
 	},
 
@@ -1442,24 +1444,21 @@ var MI = {
 		}
 	},
 
-	displaySelectionAziElev: func {
-		if (1 or radar_logic.selection == nil) {
+	displayTargetAziElev: func {
+		if ((var tgt = radar.ps46.getPriorityTarget()) == nil or (var pos = tgt.getLastCoord()) == nil) {
 			me.selection_azi_elev.hide();
 			return;
 		}
 
-		# 'show()' is not done here but in the displayRadarTracks() loop.
-		# Otherwise the different refresh rates make this indicator appear
-		# before other selected target indicators, which looks weird.
-		#me.selection_azi_elev.show();
-		me.sel_pos = radar_logic.selection.get_cartesian();
-		me.sel_pos[0] -= me.input.fpv_right.getValue();
-		me.sel_pos[1] += me.input.fpv_up.getValue();
-		me.sel_pos[0] *= heading_deg_to_mm;
-		me.sel_pos[1] *= heading_deg_to_mm;
-		me.sel_pos[0] = math.clamp(me.sel_pos[0], -radar_area_width/2, radar_area_width/2);
-		me.sel_pos[1] = math.clamp(me.sel_pos[1], -radar_area_width/2, radar_area_width/2);
-		me.selection_azi_elev.setTranslation(me.sel_pos[0], me.sel_pos[1]);
+		pos = vector.AircraftPosition.coordToLocalAziElev(pos);
+		pos[0] -= me.input.fpv_right.getValue();
+		pos[1] -= me.input.fpv_up.getValue();
+		pos[0] *= heading_deg_to_mm;
+		pos[1] *= heading_deg_to_mm;
+		pos[0] = math.clamp(pos[0], -radar_area_width/2, radar_area_width/2);
+		pos[1] = math.clamp(pos[1], -radar_area_width/2, radar_area_width/2);
+		me.selection_azi_elev.setTranslation(pos[0], -pos[1]);
+		me.selection_azi_elev.show();
 	},
 
 	distCursorTrack: func(i) {
