@@ -631,7 +631,7 @@ var AIM = {
 		m.ai.getNode("valid", 1).setBoolValue(0);
 		m.ai.getNode("name", 1).setValue(type);
 		m.ai.getNode("sign", 1).setValue(sign);
-		m.ai.getNode("callsign", 1).setValue(type);
+		m.ai.getNode("callsign", 1).setValue(sprintf("%s_%d", type, m.unique_id));
 		m.ai.getNode("missile", 1).setBoolValue(1);
 		
 		
