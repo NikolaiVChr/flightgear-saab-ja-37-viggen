@@ -2543,9 +2543,10 @@ var AIM = {
 		
 		me.prevGuidance = me.guidance;
 		
-		if (me.counter > -1) {
+		if (me.counter > -1 and !me.ai.getNode("valid").getBoolValue()) {
 			# TODO: Why is this placed so late? Don't remember.
 			me.ai.getNode("valid").setBoolValue(1);
+			setprop("ai/models/model-added", me.ai.getPath());
 		}
 		#############################################################################################################
 		#
@@ -4094,6 +4095,7 @@ var AIM = {
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
+		setprop("/ai/models/model-removed", me.ai.getPath());
 		if (event == "exploded" and !me.inert and wh_mass > 0) {
 			me.animate_explosion(hitGround);
 			me.explodeSound = TRUE;
