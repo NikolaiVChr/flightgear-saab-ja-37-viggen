@@ -58,7 +58,6 @@ var input = {
     nav_gs_defl:    "/instrumentation/nav[0]/gs-needle-deflection-deg",
     tils_steady:    "/instrumentation/TLS-light-steady",
     tils_blink:     "/instrumentation/TLS-light-blink",
-    radar_range:    "/instrumentation/radar/range",
     APmode:         "/fdm/jsbsim/autoflight/mode",
     alt_bars_flash: "/fdm/jsbsim/systems/indicators/flashing-alt-bars",
     ajs_bars_flash: "/fdm/jsbsim/systems/mkv/ajs-alt-bars-blink",

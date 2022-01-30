@@ -236,7 +236,7 @@ var MI = {
 				me.echoes[i].show();
 			}
 
-			if (contact.iff != nil and contact.iff > 0 and current_time - contact.iff < 10) {
+			if (radar.test_iff(contact)) {
 				var echo = echoes[size(echoes)-1];
 				me.iff.setTranslation(
 					echo.getAZDeviation() * heading_deg_to_mm,
@@ -931,7 +931,7 @@ var MI = {
 			setprop("ja37/avionics/brightness-mi", me.input.brightnessSetting.getValue());
 		}
 
-		me.radar_range = radar.ps46.currentMode.getRangeM();
+		me.radar_range = radar.ps46.getRangeM();
 		me.current_time = me.input.timeElapsed.getValue();
 		me.head_true = me.input.headTrue.getValue();
 		me.indicated_alt_offset_ft = me.input.alt_ft.getValue() - me.input.alt_true_ft.getValue();

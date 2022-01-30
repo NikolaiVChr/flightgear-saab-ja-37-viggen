@@ -35,9 +35,9 @@ foreach (var prop; keys(input)) {
 var AAsight = {
     # Update loop, simply to feed distance to the JSBSim system.
     update: func {
-        if (radar_logic.selection != nil) {
+        if ((var tgt = radar.ps46.getPriorityTarget()) != nil and (var dist = tgt.getLastRangeDirect()) != nil) {
             input.use_tgt.setValue(1);
-            input.dist_tgt.setValue(radar_logic.selection.get_range() * NM2M);
+            input.dist_tgt.setValue(dist);
         } else {
             input.use_tgt.setValue(0);
         }

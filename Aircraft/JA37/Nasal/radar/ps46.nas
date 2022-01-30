@@ -71,6 +71,10 @@ var PS46 = {
         me.setCurrentMode(newMode, priority);
     },
 
+    getRangeM: func {
+        return me.currentMode.getRangeM();
+    },
+
     isTracking: func(contact) {
         return me.currentMode.isTracking(contact);
     },
@@ -499,6 +503,13 @@ var STTMode = {
         return nil;
     },
 };
+
+
+
+# Conditions to report as friendly (for displays)
+var test_iff = func(contact) {
+    return contact.iff != nil and contact.iff > 0 and elapsedProp.getValue() - contact.iff < 10;
+}
 
 
 
