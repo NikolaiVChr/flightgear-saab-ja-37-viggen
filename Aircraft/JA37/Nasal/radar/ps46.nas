@@ -185,7 +185,7 @@ var ScanMode = {
 
     designate: func (contact) {
         if (contact == nil) return;
-        STT(me, contact);
+        STT_contact(me, contact);
     },
 
     designatePriority: func (contact) {
@@ -248,7 +248,7 @@ var TWSMode = {
         if (contact == nil) return;
 
         if (contact.equals(me.priorityTarget)) {
-            STT(me, contact);
+            STT_contact(me, contact);
             return;
         }
 
@@ -373,7 +373,7 @@ var DiskSearchMode = {
 
     designate: func (contact) {
         if (contact == nil) return;
-        STT(me, contact);
+        STT_contact(me, contact);
     },
 
     designatePriority: func (contact) {},
@@ -514,7 +514,7 @@ var ps46 = nil;
 # Parent mode is the current mode calling STT.
 # STT mode will return to parent when losing lock.
 # STT mode also uses the parent mode logic for range.
-var STT = func(parent_mode, contact) {
+var STT_contact = func(parent_mode, contact) {
     STTMode.parent_mode = parent_mode;
     ps46.setMode(STTMode, contact);
 }
@@ -530,6 +530,12 @@ var scan = func {
 var TWS = func {
     main_mode = TWSMode;
     ps46.setMode(TWSMode, nil, TRUE);   # keep track from previous mode
+}
+
+var STT = func {
+    var contact = ps46.getPriorityTarget();
+    if (contact == nil) return;
+    STT_contact(ps46.currentMode, contact);
 }
 
 var toggle_radar_on = func {

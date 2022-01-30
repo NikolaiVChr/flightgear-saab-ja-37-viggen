@@ -108,6 +108,20 @@
                 <script>radar.TWS();</script>
             </binding>
         </key>
+        <key n="6">
+            <name>Ctrl-F</name>
+            <desc>Radar single target track</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>radar.STT();</script>
+            </binding>
+        </key>
         <key n="78">
             <name>N</name>
             <desc>Dogfight mode</desc>
