@@ -252,11 +252,24 @@ var MI = {
 				.setStrokeLineWidth(w)
 				.setColor(r,g,b,a);
 
+			me.primary_lost = me.grp.createChild("path")
+				.moveTo(-4,-4).lineTo(-4,4).lineTo(4,4).lineTo(4,-4).close()
+				.setStrokeLineWidth(w)
+				.setColor(r,g,b,a);
+
 			me.secondary = me.grp.createChild("path")
 				.moveTo(4,2).lineTo(2,2).lineTo(2,4)
 				.moveTo(-4,2).lineTo(-2,2).lineTo(-2,4)
 				.moveTo(4,-2).lineTo(2,-2).lineTo(2,-4)
 				.moveTo(-4,-2).lineTo(-2,-2).lineTo(-2,-4)
+				.setStrokeLineWidth(w)
+				.setColor(r,g,b,a);
+
+			me.secondary_lost = me.grp.createChild("path")
+				.moveTo(4,2).lineTo(4,4).lineTo(2,4)
+				.moveTo(-4,2).lineTo(-4,4).lineTo(-2,4)
+				.moveTo(4,-2).lineTo(4,-4).lineTo(2,-4)
+				.moveTo(-4,-2).lineTo(-4,-4).lineTo(-2,-4)
 				.setStrokeLineWidth(w)
 				.setColor(r,g,b,a);
 
@@ -277,11 +290,13 @@ var MI = {
 
 		display: func (contact, radar_range, current_time, head_true) {
 			var info = contact.getLastBlep();
-			if (info == nil or !info.hasTrackInfo()
-				or current_time - info.getBlepTime() > radar.ps46.currentMode.timeToKeepBleps) {
+			if (!radar.ps46.isTracking(contact) or info == nil) {
 				me.hide();
 				return FALSE;
 			}
+
+			var tracking = info.hasTrackInfo()
+				and current_time - info.getBlepTime() < radar.ps46.currentMode.timeToKeepBleps;
 
 			me.grp.setTranslation(
 				info.getAZDeviation() * heading_deg_to_mm,
@@ -289,19 +304,28 @@ var MI = {
 			);
 
 			# todo: iff
-			if (contact.equalsFast(radar.ps46.getPriorityTarget())) {
-				me.primary.show();
+			if (radar.ps46.isPrimary(contact)) {
+				me.primary.setVisible(tracking);
+				me.primary_lost.setVisible(!tracking);
 				me.secondary.hide();
+				me.secondary_lost.hide();
 				me.iff.hide();
 			} else {
 				me.primary.hide();
-				me.secondary.show();
+				me.primary_lost.hide();
+				me.secondary.setVisible(tracking);
+				me.secondary_lost.setVisible(!tracking);
 				me.iff.hide();
 			}
 
-			me.track.setRotation((contact.getHeading() - head_true) * D2R);
-			me.track.reset();
-			me.track.moveTo(0,-4).vert(-info.getSpeed() / 75);
+			if (tracking) {
+				me.track.setRotation((contact.getHeading() - head_true) * D2R);
+				me.track.reset();
+				me.track.moveTo(0,-4).vert(-info.getSpeed() / 75);
+				me.track.show();
+			} else {
+				me.track.hide();
+			}
 
 			me.grp.show();
 
@@ -1377,8 +1401,7 @@ var MI = {
 				}
 			}
 
-			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT")
-				and track_idx < max_tracks and contact.hasTrackInfo())
+			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT") and track_idx < max_tracks)
 			{
 				if (me.tracks[track_idx].display(contact, me.radar_range, me.time, me.head_true))
 					track_idx += 1;

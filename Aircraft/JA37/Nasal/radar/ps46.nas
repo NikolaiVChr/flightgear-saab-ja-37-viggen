@@ -60,6 +60,14 @@ var PS46 = {
         me.currentMode.leaveMode();
         me.setCurrentMode(newMode, priority);
     },
+
+    isTracking: func(contact) {
+        return me.currentMode.isTracking(contact);
+    },
+
+    isPrimary: func(contact) {
+        return contact.equals(me.getPriorityTarget());
+    },
 };
 
 
@@ -129,6 +137,10 @@ var PS46Mode = {
 
     setCursorDistance: func(nm) {
         me.cursorNm = math.clamp(nm, 0, me.getRange());
+        return 0;
+    },
+
+    isTracking: func(contact) {
         return 0;
     },
 
@@ -278,8 +290,9 @@ var TWSMode = {
         me._removeTrack(contact);
     },
 
-    enterMode: func {
+    leaveMode: func {
         me.tracks = [];
+        me.priority_index = -1;
     },
 
     cycleDesignate: func {
@@ -312,6 +325,13 @@ var TWSMode = {
 
         me.cursorAz = me.azimuthTilt;
         me.cursorNm = range;
+    },
+
+    isTracking: func(contact) {
+        foreach (var track; me.tracks) {
+            if (contact.equals(track)) return 1;
+        }
+        return 0;
     },
 
     # type of information given by this mode
@@ -458,6 +478,10 @@ var STTMode = {
     },
     decreaseRange: func {
         return me.parent_mode.decreaseRange();
+    },
+
+    isTracking: func(contact) {
+        return contact.equals(me.priorityTarget);
     },
 
     # type of information given by this mode
