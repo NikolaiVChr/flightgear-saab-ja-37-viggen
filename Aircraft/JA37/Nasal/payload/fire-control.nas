@@ -442,7 +442,7 @@ var Missile = {
     update_IR_seeker_command: func {
         if (variant.JA) {
             # JA: radar command by default, boresight if no radar target or manually selected.
-            if (radar_logic.selection == nil or me.IR_boresight) {
+            if (radar.ps46.getPriorityTarget() == nil or me.IR_boresight) {
                 # 0.8 deg down is from AJS
                 if (me.weapon.isRadarSlaved()) me.weapon.commandDir(0,-0.8);
             } else {
@@ -489,7 +489,7 @@ var Missile = {
             } else {
                 # Slave onto radar target.
                 me.weapon.setContacts([]);
-                armament.contact = radar_logic.selection;
+                armament.contact = radar.ps46.getPriorityTarget();
             }
         }
 
