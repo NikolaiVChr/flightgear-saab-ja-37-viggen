@@ -257,11 +257,6 @@ var TWSMode = {
     designate: func(contact) {
         if (contact == nil) return;
 
-        if (contact.equals(me.priorityTarget)) {
-            STT_contact(me, contact);
-            return;
-        }
-
         forindex (var i; me.tracks) {
             if (contact.equals(me.tracks[i])) {
                 me.priorityTarget = me.tracks[i];
@@ -305,6 +300,7 @@ var TWSMode = {
     leaveMode: func {
         me.tracks = [];
         me.priority_index = -1;
+        me.priorityTarget = nil;
     },
 
     cycleDesignate: func {
