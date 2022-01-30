@@ -146,6 +146,8 @@ var MI = {
 			alphaJSB:             "fdm/jsbsim/aero/alpha-deg",
 			mach:                 "instrumentation/airspeed-indicator/indicated-mach",
 			wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
+			flares_n:             "ai/submodels/submodel[0]/count",
+			msl_warn_light:       "instrumentation/rwr/ja-lights",
 		};
 
 		foreach(var name; keys(mi.input)) {
@@ -724,7 +726,7 @@ var MI = {
 		me.text_silent.updateText("")
 			.setColor(r,g,b,a)
 			.setAlignment("center-bottom")
-			.setTranslation(0, radar_area_width/2)
+			.setTranslation(0, radar_area_width/2 - 2)
 			.setFontSize(13, 1);
 
 		# SIKT (aiming mode), top of radar area.
@@ -828,26 +830,27 @@ var MI = {
 		me.botl_text.enableUpdate();
 		me.botl_text.updateText("QFE")
 			.setColor(r,g,b,a)
-			.setAlignment("left-top")
-			.setTranslation(-radar_area_width/2 + 5, radar_area_width/2 + 5)
-			.setFontSize(9, 1);
+			.setAlignment("right-top")
+			.setTranslation(radar_area_width * -0.3, radar_area_width/2 + 4)
+			.setFontSize(8, 1);
 
 		me.ti_msg = me.rootCenter.createChild("text");
 		me.ti_msg.enableUpdate();
 		me.ti_msg.updateText("MREG")
 			.setColor(r,g,b,a)
-			.setAlignment("right-top")
-			.setTranslation(radar_area_width/2 - 5, radar_area_width/2 + 5)
-			.setFontSize(9, 1);
+			.setAlignment("left-top")
+			.setTranslation(radar_area_width * 0.3, radar_area_width/2 + 4)
+			.setFontSize(8, 1);
 
 		me.help_text = me.rootCenter.createChild("group")
-			.setTranslation(0, height_mm - center_y - 12);
+			.setTranslation(0, height_mm - center_y - 5);
 
 		me.help_text_1 = me.help_text.createChild("text");
 		me.help_text_1.enableUpdate();
 		me.help_text_1.updateText(" D   -   -  SVY  -   -  BIT LNK")
 			.setColor(r,g,b,a)
 			.setAlignment("center-bottom")
+			.setTranslation(0, -7)
 			.setFontSize(5, 1);
 
 		me.help_text_2 = me.help_text.createChild("text");
@@ -855,20 +858,57 @@ var MI = {
 		me.help_text_2.updateText(" -   -   -  VMI  -  TNF HÄN  - ")
 			.setColor(r,g,b,a)
 			.setAlignment("center-bottom")
-			.setTranslation(0, 7)
 			.setFontSize(5, 1);
 
 		me.lnk99_grp = me.rootCenter.createChild("group")
-			.setTranslation(0, height_mm - center_y - 12);
+			.setTranslation(0, height_mm - center_y - 5);
 		me.lnk99 = [];
 		for (var i=0; i<4; i+=1) {
 			append(me.lnk99, me.lnk99_grp.createChild("text"));
 			me.lnk99[i].enableUpdate();
-			me.lnk99[i].updateText("")
+			me.lnk99[i].updateText("10s99%")
 				.setColor(r,g,b,a)
 				.setFontSize(5, 1)
 				.setAlignment("left-bottom")
-				.setTranslation((math.mod(i, 2) == 0 ? -35 : 5), (i >= 2 ? 7 : 0));
+				.setTranslation((math.mod(i, 2) == 0 ? 10 : 30), (i >= 2 ? 0 : -8));
+		}
+
+		me.flares_grp = me.rootCenter.createChild("group")
+			.setTranslation(0, height_mm - center_y - 5);
+		me.flares = me.flares_grp.createChild("text");
+		me.flares.enableUpdate();
+		me.flares.updateText("F2  48")
+			.setColor(r,g,b,a)
+			.setTranslation(-45, -8)
+			.setAlignment("left-bottom")
+			.setFontSize(8, 1);
+		me.chaff = me.flares_grp.createChild("text");
+		me.chaff.enableUpdate();
+		me.chaff.updateText("R2  320")
+			.setColor(r,g,b,a)
+			.setTranslation(-45, 0)
+			.setAlignment("left-bottom")
+			.setFontSize(8, 1);
+
+		me.rwr_cross_grp = me.rootCenter.createChild("group")
+			.setTranslation(0, height_mm - center_y - 12);
+		me.rwr_cross_grp.createChild("path")
+			.moveTo(0,-7).vertTo(7)
+			.moveTo(-7,0).horizTo(7)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
+		me.rwr_cross = [];
+		for (var i=0; i<4; i+=1) {
+			append(me.rwr_cross, me.rwr_cross_grp.createChild("text")
+				.setText("M")
+				.setColor(r,g,b,a)
+				.setFontSize(8,1)
+				.setAlignment("center-center")
+				.setTranslation(
+					i <= 1 ? 3.5 : -3.5,
+					(i == 1 or i == 2) ? 3.5 : -3.5,
+				)
+			);
 		}
 	},
 
@@ -1116,7 +1156,7 @@ var MI = {
 			me.blinkQFE();
 		} elsif (fire_control.weapon_ready()) {
 			me.qfe = FALSE;
-			me.botl_text.updateText(displays.common.armNameShort());
+			me.botl_text.updateText(displays.common.armNameMedium());
 			me.botl_text.show();
 		} elsif ((me.mach = me.input.mach.getValue()) > 0.4) {
 			me.qfe = FALSE;
@@ -1138,7 +1178,7 @@ var MI = {
 			me.ti_msg.hide();
 		}
 
-		# Bottom text. Buttons help or Rb 99 telemetry.
+		# Bottom text. Buttons help or Rb 99 telemetry + flares / chaff.
 		me.rb99_list = radar.rb99_datalink.getMissileList();
 
 		if (helpOn or me.input.timeElapsed.getValue() - me.helpTime < 5) {
@@ -1150,24 +1190,37 @@ var MI = {
 				me.help_text_2.updateText(" -   -   -  RWR  -  INN EVN  - ");
 			}
 			me.help_text.show();
+			me.flares_grp.hide();
+			me.rwr_cross_grp.hide();
 			me.lnk99_grp.hide();
-		} elsif (size(me.rb99_list) > 0) {
-			me.help_text.hide();
-			me.lnk99_grp.show();
-
-			var i = 0;
-			forindex (i; me.rb99_list) {
-				if (i >= 4) break; # could happen with reloading in air
-				me.lnk99[i].updateText(radar.rb99_datalink.display_str(me.rb99_list[i]));
-				me.lnk99[i].show();
-			}
-			i += 1;
-			for (; i<4; i+=1) {
-				me.lnk99[i].hide();
-			}
 		} else {
 			me.help_text.hide();
-			me.lnk99_grp.hide();
+
+			me.flares.updateText(sprintf("F2  %2d", me.input.flares_n.getValue()));
+			me.chaff.updateText(sprintf("%s2  %3d", displays.metric ? "R" : "C", me.input.flares_n.getValue() * 6));
+			me.flares_grp.show();
+
+			forindex (var i; me.rwr_cross) {
+				me.rwr_cross[i].setVisible(me.input.msl_warn_light.getChild("sector", i, 1).getBoolValue());
+			}
+			me.rwr_cross_grp.show();
+
+			if (size(me.rb99_list) > 0) {
+				me.lnk99_grp.show();
+
+				var i = 0;
+				forindex (i; me.rb99_list) {
+					if (i >= 4) break; # could happen with reloading in air
+					me.lnk99[i].updateText(radar.rb99_datalink.display_str(me.rb99_list[i]));
+					me.lnk99[i].show();
+				}
+				i += 1;
+				for (; i<4; i+=1) {
+					me.lnk99[i].hide();
+				}
+			} else {
+				me.lnk99_grp.hide();
+			}
 		}
 	},
 
