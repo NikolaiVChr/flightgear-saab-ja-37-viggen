@@ -228,38 +228,6 @@ var RWRSignal = {
 # Does not contain signals without UID
 var signals_list = {};
 
-# Aircraft position, updated by loop (rather than doing it for each signal)
-var ac_pos = nil;
-var xyz_vec_fwd = nil;     # aircraft forward vector converted to xyz coordinates
-var xyz_vec_up = nil;      # aircraft up vector converted to xyz coordinates
-
-var update_aircraft_pos = func {
-    ac_pos = geo.aircraft_position();
-    var tmp = aircraftToCart({x: 1000, y: 0, z: 0, });
-    xyz_vec_fwd = [
-        tmp.x - ac_pos.x(),
-        tmp.y - ac_pos.y(),
-        tmp.z - ac_pos.z(),
-    ];
-    var tmp = aircraftToCart({x: 0, y: 0, z: -1000, });
-    xyz_vec_up = [
-        tmp.x - ac_pos.x(),
-        tmp.y - ac_pos.y(),
-        tmp.z - ac_pos.z(),
-    ];
-}
-
-# [bearing,pitch] to a signal (given as geo.Coord), in aircraft local coordinates
-var pos_to_bearing_pitch = func(signal_pos) {
-    vec_to_signal = vector.Math.minus(signal_pos.xyz(), ac_pos.xyz());
-    var pitch = 90 - vector.Math.angleBetweenVectors(vec_to_signal, xyz_vec_up);
-
-    vec_to_signal = vector.Math.projVectorOnPlane(xyz_vec_up, vec_to_signal);
-    var bearing = vector.Math.angleBetweenVectors(vec_to_signal, xyz_vec_fwd);
-    var sign = vector.Math.dotProduct(xyz_vec_up, vector.Math.crossProduct(vec_to_signal, xyz_vec_fwd));
-    if (sign < 0) bearing = -bearing;
-    return [bearing, pitch];
-}
 
 # Register a RWR signal
 #
@@ -268,7 +236,7 @@ var pos_to_bearing_pitch = func(signal_pos) {
 # If a previous signal was given with the same UID, then this signal is
 # updated instead of creating a new one.
 var signal = func(UID, type, pos, lifetime=2, aircraft="default") {
-    var angles = pos_to_bearing_pitch(pos);
+    var angles = vector.AircraftPosition.coordToLocalAziElev(pos);
 
     if (contains(signals_list, UID)) {
         var s = signals_list[UID];
@@ -471,7 +439,7 @@ var handle_aircraft = func(UID, node, model, aircraft_pos) {
 
     if (test_radar_lock(node)) {
         signal(UID, RWR_LOCK, aircraft_pos, 2, model);
-    } elsif (test_radar_scan(node, ac_pos.course_to(aircraft_pos), radar_types[model].half_angle)) {
+    } elsif (test_radar_scan(node, geo.aircraft_position().course_to(aircraft_pos), radar_types[model].half_angle)) {
         signal(UID, RWR_SCAN, aircraft_pos, 2, model);
     }
 }
@@ -509,6 +477,7 @@ var RWRRecipient = {
                 if (launch == nil or elapsed - launch > 300) {
                     launched[notification.Callsign~notification.UniqueIdentity] = elapsed;
 
+                    var ac_pos = geo.aircraft_position();
                     if (notification.Position.direct_distance_to(ac_pos)*M2NM < damage.mlw_max) {
                         signal(rand(), RWR_LAUNCH, notification.Position);
                         bearing = geo.normdeg(ac_pos.course_to(notification.Position) - input.heading.getValue());
@@ -529,11 +498,6 @@ emesary.GlobalTransmitter.Register(RWR_recipient);
 
 
 
-var init = func {
-    update_aircraft_pos();
-}
-
 var loop = func {
-    update_aircraft_pos();
     update_rwr();
 }
