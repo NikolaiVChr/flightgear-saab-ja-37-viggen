@@ -1035,6 +1035,83 @@ DatalinkRadar = {
 
 
 
+
+### Missile datalink
+#
+# Maintains a list of missiles of the specified types.
+# Adds getETA() and getHitPercent() methods on the corresponding objects.
+# Requires line of sight
+
+var MissileDatalink = {
+	max_range: 50,
+	missile_types: {},
+
+	new: func(child) {
+		var dl = { parents: [child, MissileDatalink, Radar], };
+
+		dl.vector_aicontacts = [];
+		dl.missiles = [];
+
+		dl.recipient = emesary.Recipient.new("MissileDatalinkRecipient");
+		dl.recipient.Receive = func(notification) {
+			if (notification.NotificationType != "AINotification")
+				return emesary.Transmitter.ReceiptStatus_NotProcessed;
+
+			dl.vector_aicontacts = notification.vector;
+			dl.scan();
+			return emesary.Transmitter.ReceiptStatus_OK;
+		}
+		emesary.GlobalTransmitter.Register(dl.recipient);
+
+		return dl;
+	},
+
+	isEnabled: func {
+		return 1;
+	},
+
+	scan: func {
+		if (!me.isEnabled()) {
+			me.missiles = [];
+			return;
+		}
+
+		me.missiles = [];
+		foreach (var contact; me.vector_aicontacts) {
+			if (contact.getType() != ORDNANCE) continue;
+			var msl_type = contact.prop.getName();
+			if (!contains(me.missile_types, msl_type)) continue;
+			if (!contact.isVisible()) continue;
+
+			if (!contains(contact, "getETA")) {
+				contact.eta_node = contact.prop.getNode("ETA");
+				contact.getETA = func {
+					if (me.eta_node == nil) return nil;
+					me.eta = me.eta_node.getValue();
+					return me.eta < 0 ? nil : me.eta;
+				}
+			}
+
+			if (!contains(contact, "getHitPercent")) {
+				contact.hit_node = contact.prop.getNode("hit");
+				contact.getHitPercent = func {
+					if (me.hit_node == nil) return nil;
+					me.hit = me.hit_node.getValue();
+					return me.hit < 0 ? nil : me.hit;
+				}
+			}
+
+			append(me.missiles, contact);
+		}
+	},
+
+	getMissileList: func {
+		return me.missiles;
+	},
+};
+
+
+
 # Some global properties and parameters
 
 var scanInterval = 0.05;
