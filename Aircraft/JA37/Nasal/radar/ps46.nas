@@ -373,10 +373,7 @@ var DiskSearchMode = {
         me.elevationTilt = -5;
     },
 
-    designate: func (contact) {
-        if (contact == nil) return;
-        STT_contact(me, contact);
-    },
+    designate: func (contact) {},
 
     designatePriority: func (contact) {},
 
@@ -394,7 +391,7 @@ var DiskSearchMode = {
 
     getSearchInfo: func (contact) {
         # This gets called as soon as the radar finds something -> autolock
-        me.designate(contact);
+        STT_contact(me, contact);
         return [1,1,1,1,1,1];
     },
 };

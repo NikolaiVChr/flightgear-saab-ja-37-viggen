@@ -1497,6 +1497,11 @@ var MI = {
 			return;
 		}
 
+		if (radar.ps46.getMode() == "Disk") {
+			me.cursor.hide();
+			return;
+		}
+
 		# 1.5 seconds to cover the entire screen.
 		me.cursor_pos[0] += cursor_mov[0] * radar_area_width * 2/3;
 		me.cursor_pos[1] += cursor_mov[1] * radar_area_width * 2/3;
