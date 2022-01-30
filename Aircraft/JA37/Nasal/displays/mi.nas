@@ -185,8 +185,7 @@ var MI = {
 			me.echoes = [];
 			for (var i=0; i<me.max_echoes; i+=1) {
 				append(me.echoes, me.grp.createChild("path")
-					.moveTo(-0.7,0)
-					.horizTo(0.7)
+					.moveTo(-1,0).horizTo(1)
 					.setStrokeLineWidth(1)
 					.setColor(r,g,b,a));
 			}
@@ -660,9 +659,8 @@ var MI = {
 		me.cursor = me.radar_group.createChild("path")
 			.moveTo(0,3).vert(8)
 			.moveTo(0,-3).vert(-8)
-			.moveTo(3,0).horiz(8)
-			.moveTo(-3,0).horiz(-8)
-			.setStrokeLineWidth(w)
+			.moveTo(-5,5).lineTo(0,0).lineTo(5,5)
+			.setStrokeLineWidth(1.5*w)
 			.setColor(r,g,b,a);
 
 
@@ -867,9 +865,11 @@ var MI = {
 
 		me.displayAltScale();
 		me.displayDistScale();
-		me.displayRadarTracks();
 		me.displayText();
-		me.displayTargetInfo();
+		if (radar.ps46.getMode() != "STT") {
+			me.displayRadarTracks();
+			me.displayTargetInfo();
+		}
 		me.displayArmCircle();
 	},
 
@@ -884,6 +884,10 @@ var MI = {
 		me.displayGroundCollisionArrow();
 		me.displayHeadingScale();
 		me.displayScanInfo();
+		if (radar.ps46.getMode() == "STT") {
+			me.displayRadarTracks();
+			me.displayTargetInfo();
+		}
 		me.displayCursor();
 		me.displaySelectionAziElev();
 		me.blinkQFE();
@@ -1439,12 +1443,31 @@ var MI = {
 		}
 
 		# Retrieve cursor movement from JSBSim
-		me.cursor_mov = displays.common.getCursorDelta();
+		var cursor_mov = displays.common.getCursorDelta();
 		displays.common.resetCursorDelta();
+		var click = cursor_mov[2] and !me.cursorTriggerPrev;
+		me.cursorTriggerPrev = cursor_mov[2];
+
+		if (radar.ps46.getPriorityTarget() != nil) {
+			me.cursor.hide();
+			# clicking unlocks
+			if (click) {
+				# cursor restarts from current target position
+				var info = radar.ps46.getPriorityTarget().getLastBlep();
+				if (info != nil) {
+					me.cursor_pos[0] = info.getAZDeviation() * heading_deg_to_mm;
+					me.cursor_pos[1] = -info.getRangeNow() / me.radar_range * radar_area_width;
+					me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -radar_area_width/2, radar_area_width/2);
+					me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -radar_area_width, 0);
+				}
+				radar.ps46.undesignate();
+			}
+			return;
+		}
 
 		# 1.5 seconds to cover the entire screen.
-		me.cursor_pos[0] += me.cursor_mov[0] * radar_area_width * 2/3;
-		me.cursor_pos[1] += me.cursor_mov[1] * radar_area_width * 2/3;
+		me.cursor_pos[0] += cursor_mov[0] * radar_area_width * 2/3;
+		me.cursor_pos[1] += cursor_mov[1] * radar_area_width * 2/3;
 		me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -radar_area_width/2, radar_area_width/2);
 		me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -radar_area_width, 0);
 
@@ -1454,16 +1477,10 @@ var MI = {
 		radar.ps46.setCursorDistance(-me.cursor_pos[1] / radar_area_width * me.radar_range * M2NM);
 		radar.ps46.setCursorDeviation(me.cursor_pos[0] / heading_deg_to_mm);
 
-		if (me.cursor_mov[2] and !me.cursorTriggerPrev) {
+		if (click) {
 			var new_sel = me.findCursorTrack();
-			if (new_sel != nil) {
-				radar.ps46.designate(new_sel);
-			} else {
-				radar.ps46.undesignate();
-			}
+			if (new_sel != nil) radar.ps46.designate(new_sel);
 		}
-
-		me.cursorTriggerPrev = me.cursor_mov[2];
 	},
 };
 

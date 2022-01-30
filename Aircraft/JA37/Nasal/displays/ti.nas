@@ -1768,12 +1768,10 @@ var TI = {
 
 		if (!me.on) {
 			setprop("ja37/avionics/brightness-ti", 0);
-			#setprop("ja37/avionics/cursor-on", FALSE);
 			
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-ti", me.brightness);
-			#setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 		if (me.day == TRUE) {
 			mycanvas.setColorBackground(0.3, 0.3, 0.3, 1.0);
@@ -2884,7 +2882,7 @@ var TI = {
 
 	showCursor: func {
 		# this function is called more often than regular overlays
-		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
+		if (displays.common.cursor == displays.TI) {
 			# Retrieve cursor movement from JSBSim
 			me.cursorMov = displays.common.getCursorDelta();
 			displays.common.resetCursorDelta();
@@ -4182,7 +4180,7 @@ var TI = {
 			me.beTextField.show();
 
 			me.tgtBeTextDesc.updateText(me.swedishMode ? "M\xC3\x85L" : "TGT");
-  			if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
+  			if (displays.common.cursor == displays.TI) {
   				# bearing and distance from Bulls-Eye to cursor
 				#
   				me.cursorLaLo = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);

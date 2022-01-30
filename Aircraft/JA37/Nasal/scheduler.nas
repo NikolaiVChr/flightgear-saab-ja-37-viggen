@@ -31,10 +31,8 @@ var init_loops = func {
     # |- all fast loops
     # |--- 3.75Hz each
     #   |- generic medium + modes + displays common + sight + testing + landing mode
-    #   |- radar
-    #   |--- ~2Hz each
-    #   | |- TI
-    #   | |- MI
+    #   |- MI
+    #   |- TI
     #   |--- ~2Hz each
     #     |- flightplans
     #     |--- ~1Hz each
@@ -61,8 +59,8 @@ var init_loops = func {
             { period: 2, offset: 0, function: TI.ti.loopFast, self: TI.ti, name: "TI-fast", },
             { period: 2, offset: 0, function: MI.mi.loopFast, self: MI.mi, name: "MI-fast", },
             { period: 8, offset: 1, function: sight.loop, name: "sight", },
-            { period: 16, offset: 5, function: TI.ti.loop, self: TI.ti, name: "TI", },
-            { period: 16, offset: 13, function: MI.mi.loop, self: MI.mi, name: "MI", },
+            { period: 8, offset: 3, function: MI.mi.loop, self: MI.mi, name: "MI", },
+            { period: 8, offset: 5, function: TI.ti.loop, self: TI.ti, name: "TI", },
             { period: 16, offset: 7, function: route.Polygon.loop, self: route.Polygon, name: "Plans", },
             { period: 32, offset: 31, function: dap.loop_main, name: "DAP", },
             { period: 32, offset: 31, function: fighterlink.loop, name: "datalink", },

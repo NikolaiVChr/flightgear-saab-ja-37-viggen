@@ -577,7 +577,17 @@
         </key>
         <key n="109">
             <name>m</name>
-            <desc>Next AJS main mode</desc>
+            <desc>Cycle TWS target / Next AJS main mode</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>radar.cycle_target();</script>
+            </binding>
             <binding>
                 <condition>
                     <not-equals>
@@ -594,7 +604,17 @@
         </key>
         <key n="77">
             <name>M</name>
-            <desc>Previous AJS main mode</desc>
+            <desc>Toggle MI cursor / Previous AJS main mode</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>displays.common.toggleCursorDisplay();</script>
+            </binding>
             <binding>
                 <condition>
                     <not-equals>

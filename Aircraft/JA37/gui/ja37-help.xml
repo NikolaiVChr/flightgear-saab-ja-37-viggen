@@ -90,12 +90,20 @@
         <desc>Cursor click / select</desc>
     </key>
     <key>
+        <name>M</name>
+        <desc>Toggle cursor on TI or MI</desc>
+    </key>
+    <key>
         <name>f</name>
         <desc>Radar search mode</desc>
     </key>
     <key>
         <name>F</name>
         <desc>Radar Track While Scan mode</desc>
+    </key>
+    <key>
+        <name>m</name>
+        <desc>Cycle TWS target</desc>
     </key>
     <key>
         <name>N</name>

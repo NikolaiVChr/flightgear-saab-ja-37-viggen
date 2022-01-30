@@ -79,23 +79,6 @@ var PS46Mode = {
     maxRange: nil,
     range: nil,
 
-    az: 60,             # width of search (matches MI)
-    discSpeed_dps: 60,  # sweep speed (estimated from MI video)
-
-    # scan patterns
-    bars: 1,            # pattern index (1 based)
-    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
-    # A pattern is a vector of points
-    # This is a vector of patterns (one per "scan mode")
-    #
-    # From a MI video, the vertical scan is around 1/10 radian ~= 6deg
-    barPattern: [ [[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3]] ],
-    barHeight: 0.75,
-    barPatternMin: [-3],
-    barPatternMax: [3],
-
-    timeToKeepBleps: 13,
-
     rcsFactor: 1,
 
     rootName: "PS46",
@@ -151,8 +134,8 @@ var PS46Mode = {
 
     # Must be defined by each mode, used to set azimuth / elevation offset
     preStep: func {
-        var az_limit = me.radar.fieldOfRegardMaxAz - me.az;
-        me.azimuthTilt = math.clamp(me.cursorAz, -az_limit, az_limit);
+        me.azimuthTilt = me.cursorAz;
+        me.constrainAz();
         me.elevationTilt = me.radar.getTiltKnob();
     },
 
@@ -170,6 +153,24 @@ var ScanMode = {
     shortName: "Scan",
     longName: "Wide Scan",
 
+    az: 60,             # width of search (matches MI)
+    discSpeed_dps: 60,  # sweep speed (estimated from MI video)
+
+    # scan patterns
+    bars: 1,            # pattern index (1 based)
+    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
+    # A pattern is a vector of points
+    # This is a vector of patterns (one per "scan mode")
+    #
+    # From a MI video, the vertical scan is around 1/10 radian ~= 6deg
+    barPattern: [ [[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3]] ],
+    barHeight: 0.8,
+    barPatternMin: [-3],
+    barPatternMax: [3],
+
+    timeToKeepBleps: 13,
+
+
     designate: func (contact) {
         if (contact == nil) return;
         STT(me, contact);
@@ -180,6 +181,11 @@ var ScanMode = {
     },
 
     undesignate: func {},
+
+    preStep: func {
+        me.azimuthTilt = 0;
+        me.elevationTilt = me.radar.getTiltKnob();
+    },
 };
 
 
@@ -190,22 +196,131 @@ var TWSMode = {
     longName: "Track While Scan",
 
     az: 30,
+    discSpeed_dps: 60,
+
+    bars: 1,
+    barPattern: [ [[1,0],[-1,0],[-1,2],[1,2],[1,0],[-1,0],[-1,-2],[1,-2]] ],
+    barHeight: 0.8,
+    barPatternMin: [-2],
+    barPatternMax: [2],
+
+    timeToKeepBleps: 13,
+    max_scan_interval: 6.5,
     priorityTarget: nil,
+    # Tracks, sorted from oldest to newest
     tracks: [],
+    priority_index: -1,
     max_tracks: 4,
 
-    designate: func (contact) {
+
+    _removeTrack: func(contact) {
+        forindex (var i; me.tracks) {
+            if (contact.equals(me.tracks[i])) {
+                me._removeTrackIndex(i);
+                return;
+            }
+        }
     },
 
-    designatePriority: func (contact) {
+    _removeTrackIndex: func(i) {
+        if (i >= size(me.tracks)) return;
+        var tmp = [];
+        forindex (var j; me.tracks) {
+            if (i == j) continue;
+            append(tmp, me.tracks[j]);
+        }
+        me.tracks = tmp;
+    },
+
+    designate: func(contact) {
+        if (contact == nil) return;
+
+        if (contact.equals(me.priorityTarget)) {
+            STT(me, contact);
+            return;
+        }
+
+        forindex (var i; me.tracks) {
+            if (contact.equals(me.tracks[i])) {
+                me.priorityTarget = me.tracks[i];
+                me.priority_index = i;
+                return;
+            }
+        }
+
+        if (size(me.tracks) < me.max_tracks) {
+            me.priority_index = size(me.tracks);
+            me.priorityTarget = contact;
+            append(me.tracks, contact);
+            return;
+        }
+
+        me.priority_index += 1;
+        if (me.priority_index >= me.max_tracks) me.priority_index = 0;
+        me.tracks[me.priority_index] = contact;
+        me.priorityTarget = contact;
+    },
+
+    designatePriority: func(contact) {
+        me.designate(contact);
     },
 
     undesignate: func {
+        me.priorityTarget = nil;
+        me.priority_index = -1;
+    },
+
+    prunedContact: func(contact) {
+        if (contact.equals(me.priorityTarget)) {
+            me.priorityTarget = nil;
+            me.priority_index = -1;
+        }
+        me._removeTrack(contact);
+    },
+
+    enterMode: func {
+        me.tracks = [];
+    },
+
+    cycleDesignate: func {
+        if (size(me.tracks) == 0) return;
+
+        if (me.priorityTarget == nil) {
+            me.priority_index = 0;
+        } else {
+            me.priority_index += 1;
+            if (me.priority_index >= size(me.tracks)) me.priority_index = 0;
+        }
+
+        me.priorityTarget = me.tracks[me.priority_index];
+    },
+
+    preStep: func {
+        if (me.priorityTarget == nil) {
+            me.azimuthTilt = me.cursorAz;
+            me.elevationTilt = me.radar.getTiltKnob();
+            me.constrainAz();
+            return;
+        }
+
+        var lastBlep = me.priorityTarget.getLastBlep();
+        var range = lastBlep.getRangeNow() * M2NM;
+
+        me.azimuthTilt = lastBlep.getAZDeviation();
+        me.elevationTilt = lastBlep.getElev(); # tilt here is in relation to horizon
+        me.constrainAz();
+
+        me.cursorAz = me.azimuthTilt;
+        me.cursorNm = range;
     },
 
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
+        foreach (var track; me.tracks) {
+            if (contact.equals(track) and me.radar.elapsed - contact.getLastBlepTime() < me.max_scan_interval)
+                return [1,1,1,1,1,1];
+        }
         return [1,0,1,0,0,1];
     },
 };
@@ -224,10 +339,7 @@ var DiskSearchMode = {
 
     # scan patterns (~ 20x20 deg disk)
     az: 10,
-    bars: 1,            # pattern index (1 based)
-    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
-    # A pattern is a vector of points
-    # This is a vector of patterns (one per "scan mode")
+    bars: 1,
     barPattern: [ [[-1,1],[1,1],[0.8,3],[-0.8,3],[-0.5,5],[0.5,5],[0.5,-5],[-0.5,-5],[-0.8,-3],[0.8,-3],[1,-1],[-1,-1]] ],
     barHeight: 0.9,
     barPatternMin: [-5],
@@ -304,19 +416,13 @@ var STTMode = {
 
         var lastBlep = me.priorityTarget.getLastBlep();
         var range = lastBlep.getRangeNow() * M2NM;
-        if (range > me.getRange()) {
-            me.undesignate();
-            return;
-        }
 
         me.azimuthTilt = lastBlep.getAZDeviation();
         me.elevationTilt = lastBlep.getElev(); # tilt here is in relation to horizon
+        me.constrainAz();
 
         me.cursorAz = me.azimuthTilt;
         me.cursorNm = range;
-
-        var az_limit = me.radar.fieldOfRegardMaxAz - me.az;
-        me.azimuthTilt = math.clamp(me.azimuthTilt, -az_limit, az_limit);
     },
 
     designate: func (contact) {},
@@ -421,7 +527,9 @@ var disk_search = func {
     ps46.setMode(DiskSearchMode);
 }
 
-
+var cycle_target = func {
+    ps46.cycleDesignate();
+}
 
 var increaseRange = func {
     ps46.increaseRange();
