@@ -539,6 +539,8 @@ var TWS = func {
 }
 
 var STT = func {
+    if (ps46.getMode() != "TWS") return;
+
     var contact = ps46.getPriorityTarget();
     if (contact == nil) return;
     STT_contact(ps46.currentMode, contact);
