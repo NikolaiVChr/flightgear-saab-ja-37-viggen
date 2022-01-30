@@ -839,7 +839,7 @@ var Contact = {
         obj.shorter         = c.getNode("model-shorter");
         obj.orig_callsign   = obj.callsign.getValue();
         obj.name            = c.getNode("name");
-        obj.sign            = c.getNode("sign",1);
+        obj.sign            = c.getNode("sign");
         obj.valid           = c.getNode("valid");
         obj.painted         = c.getNode("painted");
         obj.unique          = c.getNode("unique");
@@ -986,7 +986,7 @@ var Contact = {
         if(n != "" and n != nil) {
             return n;
         }
-        n = me.sign.getValue();
+        n = me.sign == nil ? "" : me.sign.getValue();
         if(n != "" and n != nil) {
             return n;
         }
@@ -1004,7 +1004,7 @@ var Contact = {
         if(n != "" and n != nil) {
             return n;
         }
-        n = me.sign.getValue();
+        n = me.sign == nil ? "" : me.sign.getValue();
         if(n != "" and n != nil) {
             return n;
         }
