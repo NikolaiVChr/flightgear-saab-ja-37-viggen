@@ -58,6 +58,16 @@ var AirborneRadar = {
 	elapsed: elapsedProp.getValue(),
 	lastElapsed: elapsedProp.getValue(),
 	debug: 0,
+
+	# IFF controls:
+	# - If tiedIFF = 0, setting instrumentation/radar/iff = 1 triggers an IFF query to everyone in the FoR.
+	#   (simulating a sweep of the IFF interrogator)
+	#   instrumentation/radar/iff is reset to 0 when done.
+	# - If tiedIFF = 1, as long as instrumentation/radar/iff = 1, the radar does IFF queries while sweeping.
+	#
+	tiedIFF: 0, # whether the IFF interrogator is physically tied to the radar dish
+	IFFFoVradius: 5.0, # IFF interrogator beam width. Only used if tiedIFF = 1
+
 	newAirborne: func (mainModes, child) {
 		var rdr = {parents: [child, AirborneRadar, Radar]};
 
@@ -329,9 +339,12 @@ var AirborneRadar = {
 		# Here we test for IFF and test the radar beam against targets to see if the radar picks them up.
 		#
 		# Note that this can happen in aircraft coords (ACM modes) or in landscape coords (the other modes).
-		me.doIFF = getprop("instrumentation/radar/iff");
-    	setprop("instrumentation/radar/iff",0);
-    	if (me.doIFF) iff.last_interogate = systime();
+		me.doIFF = iffProp.getBoolValue();
+		if (!me.tiedIFF and me.doIFF) {
+			iffProp.setBoolValue(0);
+			iff.last_interogate = systime();
+		}
+
     	if (me["gmapper"] != nil) me.gmapper.scanGM(me.eulerX, me.eulerY, me.instantVertFoVradius, me.instantFoVradius,
     		 me.currentMode.bars == 1 or (me.currentMode.bars == 4 and me.currentMode["nextPatternNode"] == 0) or (me.currentMode.bars == 3 and me.currentMode["nextPatternNode"] == 7) or (me.currentMode.bars == 2 and me.currentMode["nextPatternNode"] == 1),
     		 me.currentMode.bars == 1 or (me.currentMode.bars == 4 and me.currentMode["nextPatternNode"] == 2) or (me.currentMode.bars == 3 and me.currentMode["nextPatternNode"] == 3) or (me.currentMode.bars == 2 and me.currentMode["nextPatternNode"] == 3));# The last two parameter is hack
@@ -368,7 +381,7 @@ var AirborneRadar = {
 
     	me.testedPrio = 0;
 		foreach(var contact ; me.vector_aicontacts_for) {
-			if (me.doIFF == 1) {
+			if (!me.tiedIFF and me.doIFF) {
 	            me.iffr = iff.interrogate(contact.prop);
 	            if (me.iffr) {
 	                contact.iff = me.elapsed;
@@ -376,6 +389,7 @@ var AirborneRadar = {
 	                contact.iff = -me.elapsed;
 	            }
 	        }
+
 			if (me.elapsed - contact.getLastBlepTime() < me.currentMode.minimumTimePerReturn) {
 				if(me.debug > 1 and me.currentMode.painter and contact == me.getPriorityTarget()) {
 					me.testedPrio = 1;
@@ -405,6 +419,9 @@ var AirborneRadar = {
 				# This is too detailed for most debugging, remove later
 				setprop("debug-radar/main-beam-deviation", me.beamDeviation);
 				me.testedPrio = 1;
+			}
+			if (me.tiedIFF and me.doIFF and me.beamDeviation < me.IFFFoVradius) {
+				contact.iff = iff.interrogate(contact.prop) ? me.elapsed : -me.elapsed;
 			}
 			if (me.beamDeviation < me.instantFoVradius and (me.dev.rangeDirect_m < me.closestChaff or rand() < me.chaffFilter) ) {#  and (me.closureReject == -1 or me.dev.closureSpeed > me.closureReject)
 				# TODO: Refine the chaff conditional (ALOT)
@@ -1023,6 +1040,7 @@ DatalinkRadar = {
 var scanInterval = 0.05;
 
 var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
+var iffProp = props.globals.getNode("instrumentation/radar/iff",1);
 
 
 #### Generic radar systems
