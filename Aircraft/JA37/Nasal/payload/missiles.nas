@@ -2546,7 +2546,9 @@ var AIM = {
 		if (me.counter > -1 and !me.ai.getNode("valid").getBoolValue()) {
 			# TODO: Why is this placed so late? Don't remember.
 			me.ai.getNode("valid").setBoolValue(1);
-			setprop("ai/models/model-added", me.ai.getPath());
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [me, me.setModelAdded, [], -1]);
+			thread.unlock(mutexTimer);
 		}
 		#############################################################################################################
 		#
@@ -4095,7 +4097,9 @@ var AIM = {
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
-		setprop("/ai/models/model-removed", me.ai.getPath());
+		thread.lock(mutexTimer);
+		append(AIM.timerQueue, [me, me.setModelRemoved, [], -1]);
+		thread.unlock(mutexTimer);
 		if (event == "exploded" and !me.inert and wh_mass > 0) {
 			me.animate_explosion(hitGround);
 			me.explodeSound = TRUE;
@@ -5429,6 +5433,14 @@ var AIM = {
 		retur = AIM.lowestETA;
 		thread.unlock(mutexETA);
 		return retur;
+	},
+
+	setModelAdded: func {
+		setprop("ai/models/model-added", me.ai.getPath());
+	},
+
+	setModelRemoved: func {
+		setprop("ai/models/model-removed", me.ai.getPath());
 	},
 };
 var backtrace = func(desc = nil, dump_vars = 1, skip_level = 0, levels = 3) {
