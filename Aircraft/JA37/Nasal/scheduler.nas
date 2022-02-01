@@ -48,7 +48,6 @@ var init_loops = func {
         { period: 8, offset: 1, function: displays.common.loop, self: displays.common, name: "common-slow", },
         { period: 8, offset: 1, function: land.lander.loop, self: land.lander, name: "landing-mode", },
         { period: 8, offset: 1, function: testing.loop, name: "test", },
-        { period: 8, offset: 3, function: radar_logic.radarLogic.loop, self: radar_logic.radarLogic, name: "radar", },
         { period: 32, offset: 15, function: ja37.saab37.slow_loop, self: ja37.saab37, name: "ja37-slow", arg_dt: 1, },
         { period: 32, offset: 31, function: failureSys.loop_fire, name: "Failure", },
         { period: 32, offset: 31, function: hud.loop_slow, name: "HUD-slow", },
