@@ -1140,7 +1140,7 @@ var init_generic = func {
     nose_radar = NoseRadar.new();               # radar backend
     terrain = TerrainChecker.new(0.05, 1, 30);  # LoS test
     ecm = ECMChecker.new(0.05, 6);              # chaff / flare test
-    omni = OmniRadar.new(1.0, 150, 55);         # for RWR
+    omni = OmniRadar.new(1.0, 125, 0);          # for RWR
 }
 
 
