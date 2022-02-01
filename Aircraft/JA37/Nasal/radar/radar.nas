@@ -7,9 +7,8 @@ var FOR_SQUARE = 1;
 #Pulses
 var DOPPLER = 1;
 var MONO = 0;
-#var CONICAL = -1;
 
-var overlapHorizontal = 1.75;
+var overlapHorizontal = 1.5;
 
 
 #   █████  ██ ██████  ██████   ██████  ██████  ███    ██ ███████     ██████   █████  ██████   █████  ██████  
@@ -29,6 +28,7 @@ var AirborneRadar = {
 	fieldOfRegardType: FOR_SQUARE,
 	fieldOfRegardMaxAz: 60,
 	fieldOfRegardMaxElev: 60,
+	fieldOfRegardMinElev: -60,
 	currentMode: nil, # vector of cascading modes ending with current submode
 	currentModeIndex: 0,
 	rootMode: 0,
@@ -39,7 +39,6 @@ var AirborneRadar = {
 	rcsRefDistance: 70,
 	rcsRefValue: 3.2,
 	#closureReject: -1, # The minimum kt closure speed it will pick up, else rejected.
-	maxTilt: 60,
 	#positionEuler: [0,0,0,0],# euler direction
 	positionDirection: [1,0,0],# vector direction
 	positionCart: [0,0,0,0],
@@ -52,9 +51,9 @@ var AirborneRadar = {
 	chaffSeenList: [],
 	chaffFilter: 0.60,# 1=filters all chaff, 0=sees all chaff all the time
 	timer: nil,
-	pulse: DOPPLER, # MONO or DOPPLER
 	timerMedium: nil,
 	timerSlow: nil,
+	timeToKeepBleps: 13,
 	elapsed: elapsedProp.getValue(),
 	lastElapsed: elapsedProp.getValue(),
 	debug: 0,
@@ -331,7 +330,7 @@ var AirborneRadar = {
 		# Here we ask the NoseRadar for a slice of the sky once in a while.
 		#
 		if (me.enabled and !(me.currentMode.painter and me.currentMode.detectAIR)) {
-			emesary.GlobalTransmitter.NotifyAll(me.SliceNotification.slice(self.getPitch(), self.getHeading(), me.fieldOfRegardMaxElev*1.414, me.fieldOfRegardMaxAz*1.414, me.getRange()*NM2M, !me.currentMode.detectAIR, !me.currentMode.detectSURFACE, !me.currentMode.detectMARINE));
+			emesary.GlobalTransmitter.NotifyAll(me.SliceNotification.slice(self.getPitch(), self.getHeading(), math.max(-me.fieldOfRegardMinElev, me.fieldOfRegardMaxElev)*1.414, me.fieldOfRegardMaxAz*1.414, me.getRange()*NM2M, !me.currentMode.detectAIR, !me.currentMode.detectSURFACE, !me.currentMode.detectMARINE));
 		}
 	},
 	scanFOV: func {
@@ -389,7 +388,6 @@ var AirborneRadar = {
 	                contact.iff = -me.elapsed;
 	            }
 	        }
-
 			if (me.elapsed - contact.getLastBlepTime() < me.currentMode.minimumTimePerReturn) {
 				if(me.debug > 1 and me.currentMode.painter and contact == me.getPriorityTarget()) {
 					me.testedPrio = 1;
@@ -425,7 +423,7 @@ var AirborneRadar = {
 			}
 			if (me.beamDeviation < me.instantFoVradius and (me.dev.rangeDirect_m < me.closestChaff or rand() < me.chaffFilter) ) {#  and (me.closureReject == -1 or me.dev.closureSpeed > me.closureReject)
 				# TODO: Refine the chaff conditional (ALOT)
-				me.registerBlep(contact, me.dev, me.currentMode.painter, me.pulse);
+				me.registerBlep(contact, me.dev, me.currentMode.painter, me.currentMode.pulse);
 				#print("REGISTER BLEP");
 
 				# Return here, so that each instant FoV max gets 1 target:
@@ -438,10 +436,15 @@ var AirborneRadar = {
 			setprop("debug-radar/main-beam-deviation", "--unseen-lock--");
 		}
 	},
-	registerBlep: func (contact, dev, stt, pulse = 1) {
+	registerBlep: func (contact, dev, stt, doppler = 1) {
 		if (!contact.isVisible()) return 0;
-		if (contact.isHiddenFromDoppler(pulse)) {
-			return 0;
+		if (doppler) {
+			if (contact.isHiddenFromDoppler()) {
+				return 0;
+			}
+			if (math.abs(dev.closureSpeed) < me.currentMode.minClosure) {
+				return 0;
+			}
 		}
 
 		me.maxDistVisible = me.currentMode.rcsFactor * me.targetRCSSignal(self.getCoord(), dev.coord, contact.model, dev.heading, dev.pitch, dev.roll,me.rcsRefDistance*NM2M,me.rcsRefValue);
@@ -473,7 +476,7 @@ var AirborneRadar = {
 		foreach(var contact ; me.vector_aicontacts_bleps) {
 			me.bleps_cleaned = [];
 			foreach (me.blep;contact.getBleps()) {
-				if (me.elapsed - me.blep.getBlepTime() < me.currentMode.timeToKeepBleps) {
+				if (me.elapsed - me.blep.getBlepTime() < math.max(me.timeToKeepBleps, me.currentMode.timeToFadeBleps)) {
 					append(me.bleps_cleaned, me.blep);
 				}
 			}
@@ -501,7 +504,7 @@ var AirborneRadar = {
 
 		me.chaffSeenList_tmp = [];
 		foreach(me.evilchaff ; me.chaffSeenList) {
-			if (me.elapsed - me.evilchaff.releaseTime < me.chaffLifetime or me.elapsed - me.evilchaff.seenTime < me.currentMode.timeToKeepBleps) {
+			if (me.elapsed - me.evilchaff.releaseTime < me.chaffLifetime or me.elapsed - me.evilchaff.seenTime < me.timeToKeepBleps) {
 				append(me.chaffSeenList_tmp, me.evilchaff);
 			}
 		}
@@ -644,13 +647,13 @@ var RadarMode = {
 	bars: 1,
 	azimuthTilt: 0,# modes set these depending on where they want the pattern to be centered.
 	elevationTilt: 0,
-	barHeight: 0.95,# multiple of instantFoVradius
+	barHeight: 0.80,# multiple of instantFoVradius
 	barPattern:  [ [[-1,0],[1,0]] ],     # The second is multitude of instantFoVradius, the first is multitudes of me.az
 	barPatternMin: [0],
 	barPatternMax: [0],
 	nextPatternNode: 0,
 	scanPriorityEveryFrame: 0,# Related to SPOT_SCAN.
-	timeToKeepBleps: 13,
+	timeToFadeBleps: 13,
 	rootName: "Base",
 	shortName: "",
 	longName: "",
@@ -662,6 +665,8 @@ var RadarMode = {
 	detectAIR: 1,
 	detectSURFACE: 0,
 	detectMARINE: 0,
+	pulse: DOPPLER, # MONO or DOPPLER
+	minClosure: 0, # kt
 	cursorAz: 0,
 	cursorNm: 20,
 	upperAngle: 10,
@@ -770,7 +775,7 @@ var RadarMode = {
 		me.gimbalInBounds = 1;
 		if (me.radar.horizonStabilized) {
 			# figure out if we reach the gimbal limit
-	 		me.actualMin = self.getPitch()-me.radar.fieldOfRegardMaxElev;
+	 		me.actualMin = self.getPitch()+me.radar.fieldOfRegardMinElev;
 	 		me.actualMax = self.getPitch()+me.radar.fieldOfRegardMaxElev;
 	 		if (me.targetElevationTilt < me.actualMin) {
 	 			me.gimbalInBounds = 0;
@@ -890,7 +895,6 @@ var RadarMode = {
 	leaveMode: func {
 		# Warning: In this method do not set anything on me.radar only on me.
 		me.lastFrameStart = -1;
-		me.timeToKeepBleps = 13;
 	},
 	enterMode: func {
 		# Warning: This gets called BEFORE previous mode's leaveMode()
@@ -1127,16 +1131,16 @@ var iffProp = props.globals.getNode("instrumentation/radar/iff",1);
 
 var AIlist = nil;
 var nose_radar = nil;
-var omni = nil;
 var terrain = nil;
 var ecm = nil;
+var omni = nil;
 
 var init_generic = func {
-    AIlist = AIToNasal.new();
-    nose_radar = NoseRadar.new();
-    omni = OmniRadar.new(1.0, 150, 55);
-    terrain = TerrainChecker.new(0.05, 1, 30);  # 0.05 or 0.10 is fine here (only one aircraft per loop)
-    ecm = ECMChecker.new(0.05, 6);
+    AIlist = AIToNasal.new();                   # parse AI list
+    nose_radar = NoseRadar.new();               # radar backend
+    terrain = TerrainChecker.new(0.05, 1, 30);  # LoS test
+    ecm = ECMChecker.new(0.05, 6);              # chaff / flare test
+    omni = OmniRadar.new(1.0, 150, 55);         # for RWR
 }
 
 

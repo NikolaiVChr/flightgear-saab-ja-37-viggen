@@ -207,7 +207,7 @@ var MI = {
 			var echoes = contact.getBleps();
 			var n_echoes = size(echoes);
 
-			var max_echo_time = radar.ps46.currentMode.timeToKeepBleps;
+			var max_echo_time = radar.ps46.currentMode.timeToFadeBleps;
 
 			if (n_echoes == 0 or current_time - echoes[n_echoes-1].getBlepTime() > max_echo_time) {
 				me.hide();
@@ -309,7 +309,7 @@ var MI = {
 			}
 
 			var tracking = info.hasTrackInfo()
-				and current_time - info.getBlepTime() < radar.ps46.currentMode.timeToKeepBleps;
+				and current_time - info.getBlepTime() < radar.ps46.currentMode.timeToFadeBleps;
 
 			me.grp.setTranslation(
 				info.getAZDeviation() * heading_deg_to_mm,

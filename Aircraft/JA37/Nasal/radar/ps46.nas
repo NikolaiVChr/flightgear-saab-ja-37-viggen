@@ -23,12 +23,14 @@ var PS46 = {
     # need source for all of these
     fieldOfRegardMaxAz: 60,     # to match MI
     fieldOfRegardMaxElev: 60,
+    fieldOfRegardMinElev: -60,
     instantFoVradius: 2.0,
     instantVertFoVradius: 2.5,  # unused (could be used by ground mapper)
     instantHoriFoVradius: 1.5,  # unused
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
     maxTilt: 60,
+    timeToKeepBleps: 13,
     tiedIFF: TRUE,
     IFFFoVradius: 5.0,
 
@@ -102,6 +104,9 @@ var PS46Mode = {
     range: nil,
 
     rcsFactor: 1,
+
+    timeToFadeBleps: 13,
+    pulse: DOPPLER,
 
     rootName: "PS46",
     shortName: "",
@@ -194,8 +199,6 @@ var ScanMode = {
     barPatternMin: [-3],
     barPatternMax: [3],
 
-    timeToKeepBleps: 13,
-
 
     designate: func (contact) {
         if (contact == nil) return;
@@ -230,7 +233,6 @@ var TWSMode = {
     barPatternMin: [-2],
     barPatternMax: [2],
 
-    timeToKeepBleps: 13,
     max_scan_interval: 6.5,
     priorityTarget: nil,
     # Tracks, sorted from oldest to newest
@@ -429,7 +431,7 @@ var STTMode = {
     barPatternMax: [1],
 
     minimumTimePerReturn: 0.10,
-    timeToKeepBleps: 5,
+    timeToFadeBleps: 5,
     painter: 1,
     priorityTarget: nil,
 
