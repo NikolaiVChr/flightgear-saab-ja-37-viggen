@@ -455,6 +455,13 @@ RWRRecipient.Receive = func(notification) {
 
 # Missile launch and radar warning, bit of code extracted from damage.nas
 
+var callsign = "";
+var update_callsign = func(n) {
+    callsign = ""~n.getValue(); # ensure that it is a string
+    if(size(callsign) > 7) callsign = left(callsign, 7);
+}
+setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);
+
 var launched = {};
 var mlw_max=getprop("payload/d-config/mlw_max");
 
