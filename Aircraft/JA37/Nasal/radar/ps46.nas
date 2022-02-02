@@ -323,22 +323,28 @@ var TWSMode = {
     },
 
     preStep: func {
-        if (me.priorityTarget == nil) {
+        var lastBlep = nil;
+
+        # Retrieve last target info, or remove priority target
+        if (me.priorityTarget != nil) {
+            lastBlep = me.priorityTarget.getLastBlep();
+            if (lastBlep == nil) me.priorityTarget = nil;
+        }
+
+        if (me.priorityTarget != nil) {
+            var range = lastBlep.getRangeNow() * M2NM;
+
+            me.azimuthTilt = lastBlep.getAZDeviation();
+            me.elevationTilt = lastBlep.getElev(); # tilt here is in relation to horizon
+            me.constrainAz();
+
+            me.cursorAz = me.azimuthTilt;
+            me.cursorNm = range;
+        } else {
             me.azimuthTilt = me.cursorAz;
             me.elevationTilt = me.radar.getTiltKnob();
             me.constrainAz();
-            return;
         }
-
-        var lastBlep = me.priorityTarget.getLastBlep();
-        var range = lastBlep.getRangeNow() * M2NM;
-
-        me.azimuthTilt = lastBlep.getAZDeviation();
-        me.elevationTilt = lastBlep.getElev(); # tilt here is in relation to horizon
-        me.constrainAz();
-
-        me.cursorAz = me.azimuthTilt;
-        me.cursorNm = range;
     },
 
     isTracking: func(contact) {
