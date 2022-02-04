@@ -170,6 +170,19 @@ var MI = {
 		return mi;
 	},
 
+	# Converts azimuth/radar range to coordinates in radar group.
+	# Returns nil if outside of radar display area bounds.
+	azi_range_to_radar_pos: func(azimuth, range, radar_range) {
+		var pos = [
+			azimuth * heading_deg_to_mm,
+			- range / radar_range * radar_area_width
+		];
+		if (pos[0] < -radar_area_width/2 or pos[0] > radar_area_width/2
+			or pos[1] > 0 or pos[1] < -radar_area_width)
+			return nil;
+		else
+			return pos;
+	},
 
 	# Trail of radar echoes corresponding to a contact.
 	ContactEchoes: {
@@ -203,6 +216,23 @@ var MI = {
 			me.grp.hide();
 		},
 
+		display_iff: func(contact, radar_range) {
+			if (!radar.test_iff(contact)) {
+				me.iff.hide();
+				return;
+			}
+
+			var info = contact.getLastBlep();
+			var pos = MI.azi_range_to_radar_pos(info.getAZDeviation(), info.getRangeNow(), radar_range);
+			if (pos == nil) {
+				me.iff.hide();
+				return;
+			}
+
+			me.iff.setTranslation(pos[0], pos[1]);
+			me.iff.show();
+		},
+
 		display: func(contact, radar_range, current_time) {
 			var echoes = contact.getBleps();
 			var n_echoes = size(echoes);
@@ -220,33 +250,26 @@ var MI = {
 					continue;
 				}
 
-				var echo = echoes[n_echoes-i-1];
-				if (current_time - echo.getBlepTime() > max_echo_time) {
+				var info = echoes[n_echoes-i-1];
+				if (current_time - info.getBlepTime() > max_echo_time) {
 					me.echoes[i].hide();
 					continue;
 				}
 
-				me.echoes[i].setTranslation(
-					echo.getAZDeviation() * heading_deg_to_mm,
-					-echo.getRangeNow() / radar_range * radar_area_width
-				);
-				var strength = 1 - (current_time - echo.getBlepTime()) / max_echo_time;
+				var pos = MI.azi_range_to_radar_pos(info.getAZDeviation(), info.getRangeNow(), radar_range);
+				if (pos == nil) {
+					me.echoes[i].hide();
+					continue;
+				}
+
+				me.echoes[i].setTranslation(pos[0], pos[1]);
+				var strength = 1 - (current_time - info.getBlepTime()) / max_echo_time;
 				strength = math.pow(strength, 1.6);
 				me.echoes[i].setColor(r,g,b,a*strength);
 				me.echoes[i].show();
 			}
 
-			if (radar.test_iff(contact)) {
-				var echo = echoes[size(echoes)-1];
-				me.iff.setTranslation(
-					echo.getAZDeviation() * heading_deg_to_mm,
-					-echo.getRangeNow() / radar_range * radar_area_width
-				);
-				me.iff.show();
-			} else {
-				me.iff.hide();
-			}
-
+			me.display_iff(contact, radar_range);
 			me.grp.show();
 			return TRUE;
 		},
@@ -308,26 +331,21 @@ var MI = {
 				return FALSE;
 			}
 
+			var pos = MI.azi_range_to_radar_pos(info.getAZDeviation(), info.getRangeNow(), radar_range);
+			if (pos == nil) {
+				me.hide();
+				return FALSE;
+			}
+			me.grp.setTranslation(pos[0], pos[1]);
+
 			var tracking = info.hasTrackInfo()
 				and current_time - info.getBlepTime() < radar.ps46.currentMode.timeToFadeBleps;
+			var primary = radar.ps46.isPrimary(contact);
 
-			me.grp.setTranslation(
-				info.getAZDeviation() * heading_deg_to_mm,
-				-info.getRangeNow() / radar_range * radar_area_width
-			);
-
-			# todo: iff
-			if (radar.ps46.isPrimary(contact)) {
-				me.primary.setVisible(tracking);
-				me.primary_lost.setVisible(!tracking);
-				me.secondary.hide();
-				me.secondary_lost.hide();
-			} else {
-				me.primary.hide();
-				me.primary_lost.hide();
-				me.secondary.setVisible(tracking);
-				me.secondary_lost.setVisible(!tracking);
-			}
+			me.primary.setVisible(primary and tracking);
+			me.primary_lost.setVisible(primary and !tracking);
+			me.secondary.setVisible(!primary and tracking);
+			me.secondary_lost.setVisible(!primary and !tracking);
 
 			if (tracking) {
 				me.track.setRotation((contact.getHeading() - head_true) * D2R);
@@ -1417,20 +1435,19 @@ var MI = {
 		foreach (var contact; radar.ps46.getActiveBleps()) {
 			if (contact_idx < max_contacts) {
 				if (me.echoes[contact_idx].display(contact, me.radar_range, me.current_time)) {
-					# track is valid / not too old
-					append(me.radar_contacts, contact);
-					append(me.radar_contacts_pos, [
-						contact.getLastBlep().getAZDeviation() * heading_deg_to_mm,
-						-contact.getLastBlep().getRangeNow() / me.radar_range * radar_area_width
-					]);
-					me.n_contacts += 1;
-
 					contact_idx += 1;
+
+					# track is valid / not too old, remember it for cursor
+					var info = contact.getLastBlep();
+					var pos = me.azi_range_to_radar_pos(info.getAZDeviation(), info.getRangeNow(), me.radar_range);
+					if (pos == nil) continue;
+					append(me.radar_contacts, contact);
+					append(me.radar_contacts_pos, pos);
+					me.n_contacts += 1;
 				}
 			}
 
-			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT") and track_idx < max_tracks)
-			{
+			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT") and track_idx < max_tracks) {
 				if (me.tracks[track_idx].display(contact, me.radar_range, me.current_time, me.head_true))
 					track_idx += 1;
 			}
