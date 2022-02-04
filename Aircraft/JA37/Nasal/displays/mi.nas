@@ -689,6 +689,26 @@ var MI = {
 			.setStrokeLineWidth(1.5*w)
 			.setColor(r,g,b,a);
 
+		me.dlz_grp = me.radar_group.createChild("group");
+
+		me.dlz_bot_left = me.dlz_grp.createChild("path")
+			.moveTo(0,-2.5).vert(2.5).horiz(5)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+		me.dlz_bot_right = me.dlz_grp.createChild("path")
+			.moveTo(0,-2.5).vert(2.5).horiz(-5)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+		me.dlz_top_left = me.dlz_grp.createChild("path")
+			.moveTo(0,2.5).vert(-2.5).horiz(5)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+		me.dlz_top_right = me.dlz_grp.createChild("path")
+			.moveTo(0,2.5).vert(-2.5).horiz(-5)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+
+
 		me.echoes_group = me.radar_group.createChild("group");
 		me.echoes = [];
 		for(var i = 0; i < max_contacts; i += 1) {
@@ -976,6 +996,7 @@ var MI = {
 		me.displayGroundCollisionArrow();
 		me.displayHeadingScale();
 		me.displayScanInfo();
+		me.displayDLZ();
 		if (radar.ps46.getMode() == "STT") {
 			# Faster update in STT mode (affordable since there should be only one contact to show)
 			me.displayRadarTracks();
@@ -1389,6 +1410,7 @@ var MI = {
 	},
 
 	displayScanInfo: func {
+		# Vertical limits
 		var alt_limits = radar.ps46.getCursorAltitudeLimits();
 		if (alt_limits != nil) {
 			alt_limits[0] += me.indicated_alt_offset_ft;
@@ -1403,16 +1425,16 @@ var MI = {
 			me.scan_height_line.hide();
 		}
 
+		# Azimuth limits
 		var scan_center = radar.ps46.getDeviation();
 		var scan_half_width = radar.ps46.getAzimuthRadius();
-		var scan_min = scan_center - scan_half_width;
-		var scan_max = scan_center + scan_half_width;
+		var left = (scan_center - scan_half_width) * heading_deg_to_mm;
+		var right = (scan_center + scan_half_width) * heading_deg_to_mm;
+
 		me.scan_width_line_top.reset()
-			.moveTo(scan_min * heading_deg_to_mm, 0)
-			.horizTo(scan_max * heading_deg_to_mm);
+			.moveTo(left, 0).horizTo(right);
 		me.scan_width_line_bot.reset()
-			.moveTo(scan_min * heading_deg_to_mm, 0)
-			.horizTo(scan_max * heading_deg_to_mm);
+			.moveTo(left, 0).horizTo(right);
 
 		if (!me.input.radar_stby.getBoolValue()) {
 			var caret = radar.ps46.getCaretPosition();
@@ -1421,6 +1443,55 @@ var MI = {
 		} else {
 			me.scan_sweep_mark.hide();
 		}
+	},
+
+	displayDLZ: func {
+		var min_dist = nil;
+		var max_dist = nil;
+
+		var type = fire_control.get_type();
+		if (type == "M70" or (type == "M75" and TI.ti.ModeAttack)) {
+			# A/G
+			var dist = sight.AGsight.get_dist();
+			min_dist = dist != nil ? dist[1] : sight.FiringDistanceComputer.safety_distance(type);
+			max_dist = type == "M75" ? 5000 : 6000;
+		} elsif (type == "M75") {
+			# A/A
+			min_dist = 200;
+			max_dist = 3200;
+		} elsif ((var wpn = fire_control.get_weapon()) != nil) {
+			var dlz = wpn.getDLZ(TRUE);
+			if (dlz != nil and size(dlz) >= 4) {
+				min_dist = dlz[3] * NM2M;
+				max_dist = dlz[1] * NM2M;
+			} else {
+				min_dist = wpn.min_fire_range_nm * NM2M;
+				max_dist = wpn.max_fire_range_nm * NM2M;
+			}
+		}
+
+		if (min_dist == nil or max_dist == nil) {
+			me.dlz_grp.hide();
+			return;
+		}
+
+		# show DLZ vertically, scan width horizontally
+		var bot = - min_dist / me.radar_range * radar_area_width;
+		var top = - max_dist / me.radar_range * radar_area_width;
+		top = math.max(top, -radar_area_width + 2.5);
+		# scan width is clamped
+		var scan_center = radar.ps46.getDeviation();
+		var scan_half_width = math.max(radar.ps46.getAzimuthRadius(), 7.5);
+		var left = math.clamp(scan_center - scan_half_width, -50, 35);
+		var right = math.clamp(scan_center + scan_half_width, -35, 50);
+		left *= heading_deg_to_mm;
+		right *= heading_deg_to_mm;
+
+		me.dlz_bot_left.setTranslation(left, bot);
+		me.dlz_bot_right.setTranslation(right, bot);
+		me.dlz_top_left.setTranslation(left, top);
+		me.dlz_top_right.setTranslation(right, top);
+		me.dlz_grp.show();
 	},
 
 	displayRadarTracks: func {

@@ -399,6 +399,10 @@ var FiringDistanceComputer = {
             - math.sin(flight_path_angle)*pull_up_radius;
     },
 
+    safety_distance: func(type) {
+        return me.safety_dist[type][input.safety_dist.getValue()];
+    },
+
     # [minimum pull up distance, minimum firing distance]
     firing_distance: func(type, traj, radar_dist) {
         var speed = input.grd_speed.getValue() * KT2MPS;
@@ -409,7 +413,7 @@ var FiringDistanceComputer = {
         var aiming_pitch = traj_pitch(traj);
         var fpv_pitch = input.fpv_pitch.getValue();
 
-        var safety_dist = me.safety_dist[type][input.safety_dist.getValue()];
+        var safety_dist = me.safety_distance(type);
         var pull_up_dist = me.pull_up_dist(safety_dist, pull_up_rad, fpv_pitch-aiming_pitch);
 
         var tolerance = radar_dist ? 75 : 43 / math.sin(-aiming_pitch*D2R);
