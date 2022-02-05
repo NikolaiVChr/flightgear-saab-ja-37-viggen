@@ -381,13 +381,9 @@ var AirborneRadar = {
     	me.testedPrio = 0;
 		foreach(var contact ; me.vector_aicontacts_for) {
 			if (!me.tiedIFF and me.doIFF) {
-	            me.iffr = iff.interrogate(contact.prop);
-	            if (me.iffr) {
-	                contact.iff = me.elapsed;
-	            } else {
-	                contact.iff = -me.elapsed;
-	            }
-	        }
+				me.runIFF(contact);
+			}
+
 			if (me.elapsed - contact.getLastBlepTime() < me.currentMode.minimumTimePerReturn) {
 				if(me.debug > 1 and me.currentMode.painter and contact == me.getPriorityTarget()) {
 					me.testedPrio = 1;
@@ -419,7 +415,7 @@ var AirborneRadar = {
 				me.testedPrio = 1;
 			}
 			if (me.tiedIFF and me.doIFF and me.beamDeviation < me.IFFFoVradius) {
-				contact.iff = iff.interrogate(contact.prop) ? me.elapsed : -me.elapsed;
+				me.runIFF(contact);
 			}
 			if (me.beamDeviation < me.instantFoVradius and (me.dev.rangeDirect_m < me.closestChaff or rand() < me.chaffFilter) ) {#  and (me.closureReject == -1 or me.dev.closureSpeed > me.closureReject)
 				# TODO: Refine the chaff conditional (ALOT)
@@ -436,6 +432,11 @@ var AirborneRadar = {
 			setprop("debug-radar/main-beam-deviation", "--unseen-lock--");
 		}
 	},
+
+	runIFF: func(contact) {
+		contact.iff = iff.interrogate(contact.prop) ? me.elapsed : -me.elapsed;
+	},
+
 	registerBlep: func (contact, dev, stt, doppler = 1) {
 		if (!contact.isVisible()) return 0;
 		if (doppler) {
