@@ -1291,8 +1291,9 @@ var MI = {
 		me.target_info_int.setVisible(!displays.metric);
 
 		me.tgt_speed = info.getSpeed();
-		if (me.tgt_speed != nil) {
-			me.rs = armament.AIM.rho_sndspeed(info.getAltitude());
+		me.tgt_alt = info.getAltitude();
+		if (me.tgt_speed != nil and me.tgt_alt != nil) {
+			me.rs = armament.AIM.rho_sndspeed(me.tgt_alt);
 			me.sound_fps = me.rs[1];
 			me.tgt_mach = me.tgt_speed * KT2FPS / me.sound_fps;
 			me.machT.updateText(displays.sprintdec(me.tgt_mach, 2));
@@ -1301,7 +1302,7 @@ var MI = {
 			me.machT.hide();
 		}
 
-		me.tgt_dist = info.getRangeDirect();
+		me.tgt_dist = info.getRangeNow();
 		if (me.tgt_dist != nil) {
 			if (displays.metric) {
 				me.tgt_dist /= 1000;

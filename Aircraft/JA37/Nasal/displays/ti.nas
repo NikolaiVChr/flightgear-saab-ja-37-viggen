@@ -3537,71 +3537,80 @@ var TI = {
 	},
 
 	showTargetInfo: func {
-		if (me.mapshowing == TRUE and radar_logic.selection != nil and (me.tgt_dist != nil or me.tgt_alt != nil)) {
-			# this is a little infobox about the locked target.
-
-	  		if (me.tgt_dist != nil) {
-	  			# distance
-	  			if (me.swedishMode) {
-	  	  			me.tgtTextDistDesc.setText("A");
-					if (me.tgt_dist < 10000) {
-						me.distText = sprintf("%d", me.tgt_dist/1000);
-					} else {
-						me.distText = sprintf("%.1f", me.tgt_dist/1000);
-					}
-					me.tgtTextDist.setText(me.distText);
-	  			} else {
-	  				me.tgtTextDistDesc.setText("D");
-					if (me.tgt_dist*M2NM > 10) {
-						me.distText = sprintf("%d", me.tgt_dist*M2NM);
-					} else {
-						me.distText = sprintf("%.1f", me.tgt_dist*M2NM);
-					}
-					me.tgtTextDist.setText(me.distText);
-	  			}
-	  		} else {
-	  			me.tgtTextDist.setText("");
-	  		}
-
-	  		if (me.tgt_alt != nil) {
-	  			# altitude
-	  			me.alt = me.tgt_alt;
-	  			me.text = "";
-				if (me.swedishMode) {
-					me.tgtTextHeiDesc.setText("H");
-					if(me.alt < 1000) {
-						me.text = ""~int(roundabout(me.alt/10)*10);
-					} else {
-						me.text = sprintf("%.1f", me.alt/1000);
-					}
-				} else {
-					me.tgtTextHeiDesc.setText("A");
-					if(me.alt*M2FT < 1000) {
-						me.text = ""~int(roundabout(me.alt*M2FT/10)*10);
-					} else {
-						me.text = sprintf("%.1f", me.alt*M2FT/1000);
-					}
-				}
-	  	  		me.tgtTextHei.setText(me.text);
-
-	  	  		if (radar_logic.selection != nil) {
-		    		# speed
-		    		me.tgt_speed_kt = radar_logic.selection.get_Speed();
-		    		me.rs = armament.AIM.rho_sndspeed(me.alt*M2FT);
-					me.sound_fps = me.rs[1];
-		    		me.speed_m = (me.tgt_speed_kt*KT2FPS) / me.sound_fps;
-		  	  		me.tgtTextSpd.setText(sprintf("%.2f", me.speed_m));
-		  		} else {
-		  			me.tgtTextSpd.setText("");
-		  		}
-	  		} else {
-	  			me.tgtTextSpd.setText("");
-	  			me.tgtTextHei.setText("");
-	  		}
-			me.tgtTextField.show();
-		} else {
+		# this is a little infobox about the locked target.
+		if (!me.mapshowing
+			or (var tgt = radar.ps46.getPriorityTarget()) == nil
+			or (var info = tgt.getLastBlep()) == nil
+			or !info.hasTrackInfo())
+		{
 			me.tgtTextField.hide();
+			return;
 		}
+
+		me.tgt_dist = info.getRangeNow();
+		if (me.tgt_dist != nil) {
+			# distance
+			if (me.swedishMode) {
+				me.tgtTextDistDesc.setText("A");
+				if (me.tgt_dist < 10000) {
+					me.distText = sprintf("%d", me.tgt_dist/1000);
+				} else {
+					me.distText = sprintf("%.1f", me.tgt_dist/1000);
+				}
+				me.tgtTextDist.setText(me.distText);
+			} else {
+				me.tgtTextDistDesc.setText("D");
+				if (me.tgt_dist*M2NM > 10) {
+					me.distText = sprintf("%d", me.tgt_dist*M2NM);
+				} else {
+					me.distText = sprintf("%.1f", me.tgt_dist*M2NM);
+				}
+				me.tgtTextDist.setText(me.distText);
+			}
+		} else {
+			me.tgtTextDist.setText("");
+		}
+
+		me.tgt_alt = info.getAltitude();
+		if (me.tgt_alt != nil) {
+			# altitude
+			me.tgt_alt += me.indicated_alt_offset_ft;
+			me.tgt_alt = math.max(me.tgt_alt, 0);
+			me.text = "";
+			if (me.swedishMode) {
+				me.tgt_alt *= FT2M;
+				me.tgtTextHeiDesc.setText("H");
+				if(me.tgt_alt < 1000) {
+					me.text = ""~int(roundabout(me.tgt_alt/10)*10);
+				} else {
+					me.text = sprintf("%.1f", me.tgt_alt/1000);
+				}
+			} else {
+				me.tgtTextHeiDesc.setText("A");
+				if(me.tgt_alt < 1000) {
+					me.text = ""~int(roundabout(me.tgt_alt/10)*10);
+				} else {
+					me.text = sprintf("%.1f", me.tgt_alt/1000);
+				}
+			}
+			me.tgtTextHei.setText(me.text);
+		} else {
+			me.tgtTextHei.setText("");
+		}
+
+		me.tgt_speed = info.getSpeed();
+		me.tgt_alt = info.getAltitude();
+		if (me.tgt_speed != nil and me.tgt_alt != nil) {
+			# speed
+			me.rs = armament.AIM.rho_sndspeed(me.tgt_alt);
+			me.sound_fps = me.rs[1];
+			me.speed_m = me.tgt_speed * KT2FPS / me.sound_fps;
+			me.tgtTextSpd.setText(sprintf("%.2f", me.speed_m));
+		} else {
+			me.tgtTextSpd.setText("");
+		}
+
+		me.tgtTextField.show();
 	},
 
 	showSteerPointInfo: func {
