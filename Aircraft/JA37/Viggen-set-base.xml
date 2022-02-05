@@ -565,13 +565,10 @@
             <installed type="bool">false</installed>
         </failures>
         <radar>
-            <selectedMP type="int">-1</selectedMP>
-            <selected type="int">-1</selected>
             <look-through-terrain type="bool">true</look-through-terrain>
             <doppler-enabled type="bool">true</doppler-enabled>
             <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
             <time-till-crash type="double">15</time-till-crash>
-            <active type="bool">false</active>
             <panel>
                 <passive type="bool">false</passive>
             </panel>
@@ -1525,11 +1522,14 @@
             <switch-mode type="bool">true</switch-mode>
         </transponder>
         <radar>
-            <range type="int">15000</range>            <!-- 15 Km -->
             <antenna-angle-norm type="double">0</antenna-angle-norm>
             <serviceable type="bool">true</serviceable>
             <radar-standby type="int">1</radar-standby> <!-- set by radar/radar.nas -->
+            <!-- JA stuff -->
             <iff type="bool">false</iff>
+            <!-- AJS stuff -->
+            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI (2 should be B-scope) -->
+            <range type="int">15000</range>             <!-- for 3D model only -->
         </radar>
         <rwr>
           <ajs-lights>

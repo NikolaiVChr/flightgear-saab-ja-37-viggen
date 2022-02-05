@@ -803,11 +803,10 @@ var AimingMode = {
             me.firing_mark.hide();
             me.break_bars.hide();
             me.target.hide();
-            if ((var bomb = fire_control.get_weapon()) != nil
-                and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
-                var pos = radar_logic.ContactGPS.new("CCIP", ccip[0]).get_cartesian();
+            if ((var bomb = fire_control.get_weapon()) != nil and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
+                var pos = vector.AircraftPosition.coordToLocalAziElev(ccip[0]);
                 me.reticle_pos[0] = pos[0]*100;
-                me.reticle_pos[1] = pos[1]*100;
+                me.reticle_pos[1] = -pos[1]*100;
             } else {
                 me.reticle_pos = [0,300];
             }

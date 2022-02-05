@@ -30,15 +30,12 @@ var green_b = 0.2;
 var opaque = 1.0;
 
 
-var pixelXL = 0;
-var pixelYL = 0;
-
-var radar = {
+var Radar = {
   new: func()
   {
     #print("Powering up radar...");
 
-    var m = { parents: [radar] };
+    var m = { parents: [Radar] };
     
     # create a new canvas...
     m.canvas = canvas.new({
@@ -144,20 +141,6 @@ var radar = {
                .lineTo(pixels_max/2, m.strokeTopY-m.strokeHeight*0.09)
                .setStrokeLineWidth((8/1024)*pixels_max)
                .setColor(black_r, black_g, black_b);
-
-    ##############
-    # black lock #
-    ##############
-
-    m.lock = g.createChild("path")
-               .moveTo(-m.strokeHeight*0.04, 0)
-               .lineTo(m.strokeHeight*0.04, 0)
-               .moveTo(0, -m.strokeHeight*0.04)
-               .lineTo(0, m.strokeHeight*0.04)
-               .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b)
-               .set("z-index", 10);
-
 
     #####################
     # white destination #
@@ -392,9 +375,10 @@ var radar = {
       APTgtAlt:             "fdm/jsbsim/autoflight/pitch/alt/target",
       rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
       rad_alt_ready:        "instrumentation/radar-altimeter/ready",
-      radarActive:          "ja37/radar/active",
+      radarStandby:         "instrumentation/radar/radar-standby",
       radarPassive:         "ja37/radar/panel/passive",
       radarRange:           "instrumentation/radar/range",
+      antennaAngle:         "instrumentation/radar/antenna-angle-norm",
       rmActive:             "autopilot/route-manager/active",
       rmDist:               "autopilot/route-manager/wp/dist",
       rmId:                 "autopilot/route-manager/wp/id",
@@ -416,14 +400,13 @@ var radar = {
 
   update: func()
   {
-    if (displays.common.ci_on and
-        (me.input.radarActive.getBoolValue() or modes.landing or me.input.radarPassive.getBoolValue())) {
+    if (displays.common.ci_on and (!me.input.radarStandby.getBoolValue() or modes.landing or me.input.radarPassive.getBoolValue())) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.dt = me.input.timeElapsed.getValue();
 
 
-      if (me.input.radarActive.getBoolValue()) {
+      if (!me.input.radarStandby.getBoolValue()) {
         #Stroke animation
         if (me.dt == nil) {
           me.dt = 5;
@@ -492,9 +475,9 @@ var radar = {
               me.scale = (4100/me.radarRange) * me.strokeHeight/150;
               me.approach_circle.setStrokeLineWidth(((8/me.scale)/1024)*pixels_max);
               me.approach_circle.setScale(me.scale);
-              me.acir = radar_logic.ContactGPS.new("circle", land.approach_circle);
-              me.distance = me.acir.get_polar()[0];
-              me.xa_rad   = me.acir.get_polar()[1];
+              me.ac_pos = geo.aircraft_position();
+              me.distance = me.ac_pos.distance_to(land.approach_circle);
+              me.xa_rad   = (me.ac_pos.course_to(land.approach_circle) - me.input.heading.getValue()) * D2R;
               me.pixelDistance = -me.distance*((me.strokeOriginY-me.strokeTopY)/me.radarRange); #distance in pixels
               #translate from polar coords to cartesian coords
               me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2) + pixels_max/2;
@@ -519,15 +502,9 @@ var radar = {
 
 
       # show antanea height
-      if (radar_logic.selection != nil) {
-        me.elev = radar_logic.selection.getElevation();
-        me.elev = clamp(me.elev, -10, 10)/10;
-        me.xx = me.strokeHeight*0.18*me.elev;
-        me.ant_cursor.setTranslation(me.xx, 0);
-        me.ant_cursor.show();
-      } else {
-        me.ant_cursor.hide();
-      }
+      me.xx = me.strokeHeight*0.18*me.input.antennaAngle.getValue();
+      me.ant_cursor.setTranslation(me.xx, 0);
+      me.ant_cursor.show();
       me.ant.show();
 
       # show horizon lines
@@ -590,22 +567,16 @@ var radar = {
   
   update_blip: func(curr_angle, prev_angle) {
         me.b_i=0;
-        me.anyLock = FALSE;
-        me.currSelect = radar_logic.selection != nil?radar_logic.selection.getUnique():-1;
-        foreach (var mp; radar_logic.tracks) {
+        foreach (var contact; radar.ps37.getActiveBleps()) {
           # Node with valid position data (and "distance!=nil").
-
-          me.distance = mp.get_polar()[0];
-          me.xa_rad = mp.get_polar()[1];
+          var info = contact.getLastBlep();
+          if (info == nil) continue;
+          me.distance = info.getRangeDirect();
+          me.xa_rad = info.getDirection()[0] * D2R;
 
           #make blip
           if (me.b_i < me.no_blip and me.distance != nil and me.distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
               #aircraft is within the radar ray cone
-              me.locked = FALSE;
-              if (mp.getUnique() == me.currSelect) {
-                me.anyLock = TRUE;
-                me.locked = TRUE;
-              }
               if(curr_angle < prev_angle) {
                 me.crr_angle = curr_angle;
                 curr_angle = prev_angle;
@@ -622,10 +593,6 @@ var radar = {
                 me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2) + me.strokeOriginY;
                 #print("pixel blip ("~pixelX~", "~pixelY);
                 me.tfblip[me.b_i].setTranslation(me.pixelX, me.pixelY); 
-                if (me.locked == TRUE) {
-                  pixelXL = me.pixelX;
-                  pixelYL = me.pixelY;
-                }
               } else {
                 #aircraft is not near the stroke, fade it
                 me.blip_alpha[me.b_i] = me.blip_alpha[me.b_i]*0.90;
@@ -635,12 +602,6 @@ var radar = {
               me.blip[me.b_i].setColorFill(black_r, black_g, black_b, me.blip_alpha[me.b_i]);
               me.b_i=me.b_i+1;
           }
-        }
-        if (me.anyLock == FALSE) {
-          me.lock.hide();
-        } else {
-          me.lock.setTranslation(pixelXL, pixelYL);
-          me.lock.show();
         }
         for (var i = me.b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
     },

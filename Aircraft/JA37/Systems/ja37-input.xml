@@ -493,6 +493,16 @@
                 <command>nasal</command>
                 <script>radar.toggle_radar_on()</script>
             </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>instrumentation/radar/mode</property>
+            </binding>
         </key>
         <key n="80">
             <name>P</name>

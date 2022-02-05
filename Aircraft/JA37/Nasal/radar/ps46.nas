@@ -1,4 +1,4 @@
-#### JA 37D PS/46A radar
+#### JA 37D PS-46/A radar
 #
 # Based on Nikolai V. Chr. F-16 radar
 
@@ -29,7 +29,6 @@ var PS46 = {
     instantHoriFoVradius: 1.5,  # unused
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
-    maxTilt: 60,
     timeToKeepBleps: 13,
     tiedIFF: TRUE,
     IFFFoVradius: 5.0,
@@ -91,7 +90,7 @@ var PS46 = {
 };
 
 
-### Parent class for PS/46 modes
+### Parent class for radar modes
 
 var PS46Mode = {
     parents: [RadarMode],

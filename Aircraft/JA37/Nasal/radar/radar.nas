@@ -1139,7 +1139,7 @@ var omni = nil;
 var init_generic = func {
     AIlist = AIToNasal.new();                   # parse AI list
     nose_radar = NoseRadar.new();               # radar backend
-    terrain = TerrainChecker.new(0.05, 1, 30);  # LoS test
+    terrain = TerrainChecker.new(0.05, 30);     # LoS test
     ecm = ECMChecker.new(0.05, 6);              # chaff / flare test
     omni = OmniRadar.new(1.0, 125, 0);          # for RWR
 }

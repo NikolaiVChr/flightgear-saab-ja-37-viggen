@@ -849,13 +849,10 @@ var Saab37 = {
     displays.common.loopFast();
 
     # radar
+    if (variant.JA) faf.init();
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
+    radar.init();
     rwr.init();
-
-    if (variant.JA) {
-      faf.init();
-      radar.init();
-    }
 
     fire_control.init();
 
@@ -867,7 +864,7 @@ var Saab37 = {
 
     if (!variant.JA) {
       # CI display
-      rdr.scope = rdr.radar.new();
+      rdr.scope = rdr.Radar.new();
     }
 
     if (variant.JA) {
