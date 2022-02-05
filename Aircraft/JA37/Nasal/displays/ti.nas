@@ -4634,9 +4634,8 @@ var TI = {
 		      me.scale = 4100*M2TEX/100;
 		      me.approach_circle.setStrokeLineWidth(w/me.scale);
 		      me.approach_circle.setScale(me.scale);
-		      me.acir = radar_logic.ContactGPS.new("circle", land.approach_circle);
-		      me.distance = me.acir.get_polar()[0];
-		      me.xa_rad   = me.acir.get_polar()[1];
+		      me.distance = me.ac_pos.distance_to(land.approach_circle);
+		      me.xa_rad   = (me.ac_pos.course_to(land.approach_circle) - me.ind_head_true) * D2R;
 		      me.pixelDistance = -me.distance*M2TEX; #distance in pixels
 		      #translate from polar coords to cartesian coords
 		      me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2);
