@@ -1505,10 +1505,9 @@ var TI = {
 			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
 			alt_true_ft:          "position/altitude-ft",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
+			radarStandby:         "instrumentation/radar/radar-standby",
 			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
-			radarRange:           "instrumentation/radar/range",
-			radarActive:          "ja37/radar/active",
 			rmActive:             "autopilot/route-manager/active",
 			rmDist:               "autopilot/route-manager/wp/dist",
 			rmId:                 "autopilot/route-manager/wp/id",
@@ -1579,6 +1578,7 @@ var TI = {
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
 		ti.lastZ   = 0;
+		ti.lastScanW = 0;
 		
 		#grid
 		ti.last_lat = 0;
@@ -1797,6 +1797,7 @@ var TI = {
 		me.testLanding();
 		me.showCursor();
 		me.edgeButtons();
+		me.rotateRadarLimit();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#me.rate = me.rate !=nil?clamp(1/(me.rate+0.001), 0.05, 0.5):0.5;
 		#me.rate = 0.05;
@@ -3250,7 +3251,7 @@ var TI = {
 			me.SVYwidth   = width*0.90;#texel
 			me.SVYheight  = height*0.125+height*0.125*me.SVYsize-height*0.10;#texel
 			me.SVYalt     = me.swedishMode?me.SVYhmaxSE[me.SVYhmax]*1000:me.SVYhmaxEN[me.SVYhmax]*1000*FT2M;#meter
-			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?(me.swedishMode?me.SVYrmaxSE[me.SVYrmax]*1000:me.SVYrmaxEN[me.SVYrmax]*NM2M):me.SVYwidth/M2TEX);#meter
+			me.SVYrange   = me.SVYscale==SVY_MI?radar.ps46.getRangeM():(me.SVYscale==SVY_RMAX?(me.swedishMode?me.SVYrmaxSE[me.SVYrmax]*1000:me.SVYrmaxEN[me.SVYrmax]*NM2M):me.SVYwidth/M2TEX);#meter
 			me.SVYticksize= width*0.01;#texel
 
 			# not the most efficient code..
@@ -3300,10 +3301,10 @@ var TI = {
 			me.textY = "";
 
 			if (me.swedishMode) {
-				me.textX = sprintf("%d KM" ,me.SVYscale==SVY_MI?me.input.radarRange.getValue()*0.001:(me.SVYscale==SVY_RMAX?me.SVYrmaxSE[me.SVYrmax]:0.001*me.SVYwidth/M2TEX));
+				me.textX = sprintf("%d KM" ,me.SVYscale==SVY_MI?radar.ps46.getRangeM()*0.001:(me.SVYscale==SVY_RMAX?me.SVYrmaxSE[me.SVYrmax]:0.001*me.SVYwidth/M2TEX));
 				me.textY = sprintf("%d KM" ,me.SVYhmaxSE[me.SVYhmax]);
 			} else {
-				me.textX = sprintf("%d NM" ,me.SVYscale==SVY_MI?me.input.radarRange.getValue()*M2NM:(me.SVYscale==SVY_RMAX?me.SVYrmaxEN[me.SVYrmax]:M2NM*me.SVYwidth/M2TEX));
+				me.textX = sprintf("%d NM" ,me.SVYscale==SVY_MI?radar.ps46.getRangeM()*M2NM:(me.SVYscale==SVY_RMAX?me.SVYrmaxEN[me.SVYrmax]:M2NM*me.SVYwidth/M2TEX));
 				me.textY = sprintf("%d kFT" ,me.SVYhmaxEN[me.SVYhmax]);
 			}
 
@@ -4569,30 +4570,45 @@ var TI = {
 	},
 
 	showRadarLimit: func {
-		if (me.input.radarActive.getBoolValue()) {
-			if (me.lastZ != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
-				me.radar_limit_grp.removeAllChildren();
-				me.rdrField = 61.5*D2R;
-				me.radius = M2TEX*me.input.radarRange.getValue();
-				me.leftX = -math.sin(me.rdrField)*me.radius;
-				me.leftY = -math.cos(me.rdrField)*me.radius;
-				me.radarLimit = me.radar_limit_grp.createChild("path")
-					.moveTo(me.leftX, me.leftY)
-					.arcSmallCW(me.radius, me.radius, 0, -me.leftX*2, 0)
-					.moveTo(me.leftX, me.leftY)
-					.lineTo(me.leftX*0.80, me.leftY*0.80)
-					.moveTo(-me.leftX, me.leftY)
-					.lineTo(-me.leftX*0.80, me.leftY*0.80)
-					.setColor(COLOR_TYRK)
-			    	.setStrokeLineWidth(w);
-			    me.lastRRT = me.input.timeElapsed.getValue();
-			    me.lastRR  = me.input.radarRange.getValue();
-			    me.lastZ  = zoom_curr;
-			}
-			me.radar_limit_grp.show();
-	    } else {
-	    	me.radar_limit_grp.hide();
-	    }
+		if (me.input.radarStandby.getBoolValue()) {
+			me.radar_limit_grp.hide();
+			return;
+		}
+
+		if (me.lastZ != zoom_curr
+			or me.lastRR != radar.ps46.getRangeM()
+			or me.lastScanW != radar.ps46.getAzimuthRadius()
+			or me.input.timeElapsed.getValue() - me.lastRRT > 1600)
+		{
+			me.lastZ  = zoom_curr;
+			me.lastRR  = radar.ps46.getRangeM();
+			me.lastScanW = radar.ps46.getAzimuthRadius();
+			me.lastRRT = me.input.timeElapsed.getValue();
+
+			# Redraw radar arc
+			me.radar_limit_grp.removeAllChildren();
+			me.rdrField = me.lastScanW * D2R;
+			me.radius = me.lastRR * M2TEX;
+			me.leftX = -math.sin(me.rdrField)*me.radius;
+			me.leftY = -math.cos(me.rdrField)*me.radius;
+			me.radarLimit = me.radar_limit_grp.createChild("path")
+				.moveTo(me.leftX, me.leftY)
+				.arcSmallCW(me.radius, me.radius, 0, -me.leftX*2, 0)
+				.moveTo(me.leftX, me.leftY)
+				.lineTo(me.leftX*0.80, me.leftY*0.80)
+				.moveTo(-me.leftX, me.leftY)
+				.lineTo(-me.leftX*0.80, me.leftY*0.80)
+				.setColor(COLOR_TYRK)
+				.setStrokeLineWidth(w);
+		}
+
+		me.rotateRadarLimit();
+		me.radar_limit_grp.show();
+	},
+
+	rotateRadarLimit: func {
+		if (!me.input.radarStandby.getBoolValue())
+			me.radar_limit_grp.setRotation(radar.ps46.getDeviation() * D2R);
 	},
 
 	showRunway: func {
