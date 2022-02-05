@@ -2219,11 +2219,6 @@ var TI = {
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and (getprop("ja37/avionics/gps-nav") == TRUE or ((getprop("ja37/avionics/gps-bit") or getprop("ja37/avionics/gps-init")) and me.twoHz))) {
 			me.menuButtonBox[15].show();
 		}
-		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and getprop("ja37/avionics/gps-nav") == TRUE) {
-			if (radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
-				me.menuButtonBox[14].show();
-			}
-		}
 		if (me.menuMain == MAIN_WEAPONS) {
 			if (displays.common.armActive() == nil) {
 				me.menuButton[20].setText("");
@@ -5398,7 +5393,7 @@ var TI = {
 				radar.ecmLog.clear();
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
-
+				# toggle GPS automatic fixes, not implemented
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 				# svy scale
@@ -5444,10 +5439,6 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				setprop("ja37/avionics/gps-cmd", !getprop("ja37/avionics/gps-cmd"));
-				if (getprop("ja37/avionics/gps-cmd") == FALSE and radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
-					# clear the FIX if gps is turned off
-					radar_logic.setSelection(nil);
-				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 				me.SVYrmax += 1;
@@ -5483,11 +5474,6 @@ var TI = {
 				if (me.SVYhmax > 3) {
 					me.SVYhmax = 0;
 				}
-			}
-			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
-				# ghost target
-				me.contact = radar_logic.ContactGhost.new();
-				radar_logic.setSelection(me.contact);
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
