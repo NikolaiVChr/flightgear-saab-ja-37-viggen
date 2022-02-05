@@ -1537,6 +1537,7 @@ var TI = {
 	  	var ti = { parents: [TI] };
 	  	ti.input = {
 			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
+			alt_true_ft:          "position/altitude-ft",
 			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
 			rad_alt:              "instrumentation/radar-altimeter/radar-altitude-ft",
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
@@ -1764,6 +1765,10 @@ var TI = {
 		} elsif (me.brightness > 1) {
 			me.brightness = 1;
 		}
+
+		me.ac_pos = geo.aircraft_position();
+		me.ind_head_true = me.input.heading.getValue();
+		me.indicated_alt_offset_ft = me.input.alt_ft.getValue() - me.input.alt_true_ft.getValue();
 
 		if (!me.on) {
 			setprop("ja37/avionics/brightness-ti", 0);
@@ -3394,14 +3399,12 @@ var TI = {
 				if (base["icao"] != land.icao) {
 					me.coord = geo.Coord.new();
 					me.coord.set_latlon(base["lat"], base["lon"], base["elev"]);
-					if (me.coord.distance_to(geo.aircraft_position()) < height/M2TEX) {
+					me.distance = me.ac_pos.distance_to(me.coord);
+					if (me.distance < height/M2TEX) {
 			    		me.baseIcao = base["icao"];
 			    		if (size(me.baseIcao) != nil and me.baseIcao != "") {
 				    		me.small = base["small"];
-				    		me.baseGPS = radar_logic.ContactGPS.new(me.baseIcao, me.coord);
-				    		me.polar = me.baseGPS.get_polar();
-				    		me.distance = me.polar[0];
-				            me.xa_rad   = me.polar[1];
+							me.xa_rad = (me.ac_pos.course_to(me.coord) - me.ind_head_true) * D2R;
 				      		me.pixelDistance = -me.distance*M2TEX; #distance in pixels
 				      		#translate from polar coords to cartesian coords
 				      		me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2);
