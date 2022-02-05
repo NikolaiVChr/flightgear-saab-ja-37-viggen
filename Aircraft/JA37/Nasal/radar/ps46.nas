@@ -261,12 +261,10 @@ var TWSMode = {
 
     _removeTrackIndex: func(i) {
         if (i >= size(me.tracks)) return;
-        var tmp = [];
-        forindex (var j; me.tracks) {
-            if (i == j) continue;
-            append(tmp, me.tracks[j]);
-        }
-        me.tracks = tmp;
+        me.tracks = subvec(me.tracks, 0, i) ~ subvec(me.tracks, i+1);
+
+        if (i == me.priority_index) me.undesignate();
+        elsif (i < me.priority_index) me.priority_index -= 1;
     },
 
     designate: func(contact) {
@@ -282,17 +280,14 @@ var TWSMode = {
 
         lockLog.push(sprintf("Radar lock on to %s", contact.getCallsign()));
 
-        if (size(me.tracks) < me.max_tracks) {
-            me.priority_index = size(me.tracks);
-            me.priorityTarget = contact;
-            append(me.tracks, contact);
-            return;
+        if (size(me.tracks) == me.max_tracks) {
+            me._removeTrackIndex(0);    # remove oldest
         }
 
-        me.priority_index += 1;
-        if (me.priority_index >= me.max_tracks) me.priority_index = 0;
-        me.tracks[me.priority_index] = contact;
+        me.priority_index = size(me.tracks);
         me.priorityTarget = contact;
+        append(me.tracks, contact);
+        return;
     },
 
     designatePriority: func(contact) {
