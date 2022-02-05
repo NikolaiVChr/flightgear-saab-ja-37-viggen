@@ -530,6 +530,12 @@ var MI = {
 				.setStrokeLineWidth(w)
 				.setColor(r,g,b, a);
 
+		me.alt_tgt_cursor = me.alt_scale.createChild("path")
+				.moveTo(ticksMed, 0)
+				.horiz(ticksMed)
+				.setStrokeLineWidth(3*w)
+				.setColor(r,g,b,a);
+
 		me.scan_height_line = me.alt_scale.createChild("path")
 				.setTranslation(ticksMed, 0)
 				.setStrokeLineWidth(3*w)
@@ -1533,11 +1539,13 @@ var MI = {
 	},
 
 	displayTargetAziElev: func {
-		if ((var tgt = radar.ps46.getPriorityTarget()) == nil or (var pos = tgt.getLastCoord()) == nil) {
+		if ((var tgt = radar.ps46.getPriorityTarget()) == nil or tgt.getLastBlep() == nil) {
 			me.selection_azi_elev.hide();
+			me.alt_tgt_cursor.hide();
 			return;
 		}
 
+		var pos = tgt.getLastCoord();
 		pos = vector.AircraftPosition.coordToLocalAziElev(pos);
 		pos[0] -= me.input.fpv_right.getValue();
 		pos[1] -= me.input.fpv_up.getValue();
@@ -1547,6 +1555,10 @@ var MI = {
 		pos[1] = math.clamp(pos[1], -radar_area_width/2, radar_area_width/2);
 		me.selection_azi_elev.setTranslation(pos[0], -pos[1]);
 		me.selection_azi_elev.show();
+
+		var alt = (tgt.getLastAltitude() + me.indicated_alt_offset_ft) * FT2M;
+		me.alt_tgt_cursor.setTranslation(0, -alt / 20000 * radar_area_width);
+		me.alt_tgt_cursor.show();
 	},
 
 	distCursorTrack: func(i) {
