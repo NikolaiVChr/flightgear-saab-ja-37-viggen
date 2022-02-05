@@ -849,7 +849,6 @@ var Saab37 = {
     displays.common.loopFast();
 
     # radar
-    if (variant.JA) faf.init();
     radar_logic.radarLogic = radar_logic.RadarLogic.new();
     radar.init();
     rwr.init();

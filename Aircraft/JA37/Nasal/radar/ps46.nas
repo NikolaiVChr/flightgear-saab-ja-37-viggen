@@ -87,6 +87,28 @@ var PS46 = {
     isPrimary: func(contact) {
         return contact.equals(me.getPriorityTarget());
     },
+
+    runIFF: func(contact) {
+        var friendly = faf.is_friend(contact.getCallsign()) or iff.interrogate(contact.prop);
+        contact.iff_time = me.elapsed;
+        contact.iff = friendly ? 1 : -1;
+        if (me.isTracking(contact)) {
+            contact.last_tracking = me.elapsed;
+            contact.stored_iff = contact.iff;
+        }
+    },
+
+    updateStoredIFF: func(contact, tracking) {
+        if (!tracking) {
+            contact.stored_iff = 0;
+            return;
+        }
+
+        if (!contains(contact, "last_tracking") or me.elapsed - contact.last_tracking > 10) {
+            contact.stored_iff = 0; # lost track
+        }
+        contact.last_tracking = me.elapsed;
+    },
 };
 
 
@@ -176,6 +198,7 @@ var PS46Mode = {
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
+        ps46.updateStoredIFF(contact, 0);
         return [1,0,1,0,0,1];
     },
 
@@ -361,9 +384,12 @@ var TWSMode = {
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
         foreach (var track; me.tracks) {
-            if (contact.equals(track) and me.radar.elapsed - contact.getLastBlepTime() < me.max_scan_interval)
+            if (contact.equals(track) and me.radar.elapsed - contact.getLastBlepTime() < me.max_scan_interval) {
+                ps46.updateStoredIFF(contact, 1);
                 return [1,1,1,1,1,1];
+            }
         }
+        ps46.updateStoredIFF(contact, 0);
         return [1,0,1,0,0,1];
     },
 
@@ -417,6 +443,7 @@ var DiskSearchMode = {
     getSearchInfo: func (contact) {
         # This gets called as soon as the radar finds something -> autolock
         STT_contact(me, contact);
+        ps46.updateStoredIFF(contact, 1);
         return [1,1,1,1,1,1];
     },
 };
@@ -513,9 +540,12 @@ var STTMode = {
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
         if (me.priorityTarget != nil and contact.equals(me.priorityTarget)) {
+            ps46.updateStoredIFF(contact, 1);
             return [1,1,1,1,1,1];
+        } else {
+            ps46.updateStoredIFF(contact, 0);
+            return nil;
         }
-        return nil;
     },
 };
 
@@ -523,7 +553,19 @@ var STTMode = {
 
 # Conditions to report as friendly (for displays)
 var test_iff = func(contact) {
-    return contact.iff != nil and contact.iff > 0 and elapsedProp.getValue() - contact.iff < 10;
+    if (!contains(contact, "iff") or !contains(contact, "iff_time")
+        or elapsedProp.getValue() - contact.iff_time > 10)
+        return 0;
+    else
+        return contact.iff;
+}
+
+var stored_iff = func(contact) {
+    if (!contains(contact, "stored_iff") or !contains(contact, "last_tracking")
+        or elapsedProp.getValue() - contact.last_tracking > 10)
+        return 0;
+    else
+        return contact.stored_iff;
 }
 
 

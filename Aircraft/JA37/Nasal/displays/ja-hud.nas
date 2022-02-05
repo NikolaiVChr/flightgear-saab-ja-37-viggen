@@ -1668,11 +1668,11 @@ var Targets = {
             if (radar.ps46.isPrimary(tgt)) {
                 me.tgt.update(pos[0]*100, -pos[1]*100, fpv_pos);
                 me.tgt.show();
-                me.tgt_iff.setVisible(radar.test_iff(tgt));
+                me.tgt_iff.setVisible(radar.stored_iff(tgt) > 0);
             } elsif (i < me.max_sec_tgt) {
                 me.sec_tgt[i].update(pos[0]*100, -pos[1]*100, fpv_pos);
                 me.sec_tgt[i].show();
-                me.sec_tgt_iff[i].setVisible(radar.test_iff(tgt));
+                me.sec_tgt_iff[i].setVisible(radar.stored_iff(tgt) > 0);
                 i += 1;
             }
         }

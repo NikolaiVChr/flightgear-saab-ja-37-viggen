@@ -115,14 +115,4 @@ var Dialog = {
     },
 };
 
-
-var init = func {
-    Dialog.init();
-
-    # Hijack the IFF interrogate function to add our override logic.
-    iff._interrogate = iff.interrogate;
-    iff.interrogate = func(tgt) {
-        if (faf.is_friend(tgt.getValue("callsign"))) return 1;
-        else return iff._interrogate(tgt);
-    }
-}
+Dialog.init();

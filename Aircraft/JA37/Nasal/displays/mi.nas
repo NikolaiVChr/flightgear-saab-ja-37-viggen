@@ -217,7 +217,7 @@ var MI = {
 		},
 
 		display_iff: func(contact, radar_range) {
-			if (!radar.test_iff(contact)) {
+			if (radar.test_iff(contact) <= 0) {
 				me.iff.hide();
 				return;
 			}
