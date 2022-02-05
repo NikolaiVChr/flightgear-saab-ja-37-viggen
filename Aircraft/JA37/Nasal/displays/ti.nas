@@ -4156,11 +4156,10 @@ var TI = {
   					me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
   				}
   				me.beTextField.show();
-  			} elsif (radar_logic.selection != nil) {
+  			} elsif ((var tgt = radar.ps46.getPriorityTarget()) != nil and (var coord = tgt.getLastCoord()) != nil) {
   				# bearing and distance from Bulls-Eye to selected radar echo
 				#
-  				me.lck = radar_logic.selection.get_Coord();
-  				me.cs.set_latlon(me.lck.lat(), me.lck.lon(),0);
+  				me.cs.set_latlon(coord.lat(), coord.lon(),0);
   				me.bear = geo.normdeg(me.be.course_to(me.cs));
   				me.beDist = me.be.distance_to(me.cs);
   				me.beDist = me.swedishMode?0.001*me.beDist:M2NM*me.beDist;
