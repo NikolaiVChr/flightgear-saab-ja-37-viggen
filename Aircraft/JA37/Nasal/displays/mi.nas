@@ -326,7 +326,7 @@ var MI = {
 
 		display: func (contact, radar_range, current_time, head_true) {
 			var info = contact.getLastBlep();
-			if (!radar.ps46.isTracking(contact) or info == nil) {
+			if (info == nil) {
 				me.hide();
 				return FALSE;
 			}
@@ -1501,38 +1501,42 @@ var MI = {
 	},
 
 	displayRadarTracks: func {
-		var contact_idx = 0;
-		var track_idx = 0;
-
 		# Used for cursor lock
 		me.radar_contacts = [];
 		me.radar_contacts_pos = [];
 		me.n_contacts = 0;
 
+		# Display radar echoes
+		var contact_idx = 0;
 		foreach (var contact; radar.ps46.getActiveBleps()) {
-			if (contact_idx < max_contacts) {
-				if (me.echoes[contact_idx].display(contact, me.radar_range, me.current_time)) {
-					contact_idx += 1;
+			if (contact_idx >= max_contacts) break;
 
-					# track is valid / not too old, remember it for cursor
-					var info = contact.getLastBlep();
-					var pos = me.azi_range_to_radar_pos(info.getAZDeviation(), info.getRangeNow(), me.radar_range);
-					if (pos == nil) continue;
-					append(me.radar_contacts, contact);
-					append(me.radar_contacts_pos, pos);
-					me.n_contacts += 1;
-				}
-			}
+			if (me.echoes[contact_idx].display(contact, me.radar_range, me.current_time)) {
+				contact_idx += 1;
 
-			if ((radar.ps46.getMode() == "TWS" or radar.ps46.getMode() == "STT") and track_idx < max_tracks) {
-				if (me.tracks[track_idx].display(contact, me.radar_range, me.current_time, me.head_true))
-					track_idx += 1;
+				# track is valid / not too old, remember it for cursor
+				var info = contact.getLastBlep();
+				var pos = me.azi_range_to_radar_pos(info.getAZDeviation(), info.getRangeNow(), me.radar_range);
+				if (pos == nil) continue;
+				append(me.radar_contacts, contact);
+				append(me.radar_contacts_pos, pos);
+				me.n_contacts += 1;
 			}
 		}
 
+		# Hide remaining
 		for (; contact_idx < max_contacts; contact_idx += 1) {
 			me.echoes[contact_idx].hide();
 		}
+
+		# Display tracked aircrafts
+		var track_idx = 0;
+		foreach (var contact; radar.ps46.getTracks()) {
+			if (track_idx >= max_tracks) break;
+			if (me.tracks[track_idx].display(contact, me.radar_range, me.current_time, me.head_true))
+				track_idx += 1;
+		}
+		# Hide remaining
 		for (; track_idx < max_tracks; track_idx += 1) {
 			me.tracks[track_idx].hide();
 		}

@@ -77,6 +77,10 @@ var PS46 = {
         return me.currentMode.getRangeM();
     },
 
+    getTracks: func {
+        return me.currentMode.getTracks();
+    },
+
     isTracking: func(contact) {
         return me.currentMode.isTracking(contact);
     },
@@ -174,6 +178,11 @@ var PS46Mode = {
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
         return [1,0,1,0,0,1];
+    },
+
+    getTracks: func {
+        var prio = me.getPriority();
+        return prio != nil ? [prio] : [];
     },
 };
 
@@ -362,6 +371,10 @@ var TWSMode = {
                 return [1,1,1,1,1,1];
         }
         return [1,0,1,0,0,1];
+    },
+
+    getTracks: func {
+        return me.tracks;
     },
 };
 

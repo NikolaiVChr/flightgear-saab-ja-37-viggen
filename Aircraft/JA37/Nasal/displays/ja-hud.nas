@@ -1660,10 +1660,9 @@ var Targets = {
         me.tgt.hide();
         var i = 0;
 
-        foreach (var tgt; radar.ps46.getActiveBleps()) {
+        foreach (var tgt; radar.ps46.getTracks()) {
             var pos = tgt.getLastCoord();
             if (pos == nil) continue;
-            if (!radar.ps46.isTracking(tgt)) continue;
 
             pos = vector.AircraftPosition.coordToLocalAziElev(pos);
             if (radar.ps46.isPrimary(tgt)) {
