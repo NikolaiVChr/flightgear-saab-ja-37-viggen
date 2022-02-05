@@ -2517,41 +2517,30 @@ var TI = {
 		# SFI del 1 flik 20 sida 17:
 		# pos, speed, alt and course (same for any locks)
 		#
-		me.tgtC = "";
-		me.tgtS = "";
-		me.tgtA = "";
-		me.tgtLA = "";
-		me.tgtLO = "";
 		me.mreg = TRUE;
 		me.mreg_time = getprop("sim/time/elapsed-sec");
 		me.message = "";
-		if(radar_logic.selection != nil) {
-			me.tgtC = radar_logic.selection.get_Callsign()~" ("~radar_logic.selection.get_model()~")";
-			me.tgtS = sprintf("%d",radar_logic.selection.get_Speed());
-			me.tgtA = sprintf("%d",radar_logic.selection.get_indicated_altitude());
-			me.tgtLO = ja37.convertDegreeToStringLon(radar_logic.selection.get_Longitude());
-			me.tgtLA = ja37.convertDegreeToStringLat(radar_logic.selection.get_Latitude());
-			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: %s\n      Radar tgt. spd: %s kt\n      Radar tgt. alt: %s ft\n      Radar tgt. Lon: %s\n      Radar tgt. Lat: %s",
-				getprop("velocities/mach"),
-				me.input.heading.getValue(),
-				me.input.alt_ft.getValue(),
-				ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
-				ja37.convertDegreeToStringLat(me.input.latitude.getValue()),
-				me.tgtC,
-				me.tgtS,
-				me.tgtA,
-				me.tgtLO,
-				me.tgtLA
+		me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n",
+			getprop("velocities/mach"),
+			me.input.heading.getValue(),
+			me.input.alt_ft.getValue(),
+			ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
+			ja37.convertDegreeToStringLat(me.input.latitude.getValue()));
+
+		if ((var tgt = radar.ps46.getPriorityTarget()) != nil and (var info = tgt.getLastBlep()) != nil) {
+			if (info.hasTrackInfo()) {
+				me.message = me.message ~ sprintf("      Radar tgt. spd: %d kt\n      Radar tgt. heading: %d deg\n",
+					info.getSpeed(),
+					info.getHeading()
 				);
-		} else {
-			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: No selection.",
-				getprop("velocities/mach"),
-				me.input.heading.getValue(),
-				me.input.alt_ft.getValue(),
-				ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
-				ja37.convertDegreeToStringLat(me.input.latitude.getValue())
-				);
+			}
+			me.message = me.message ~ sprintf("      Radar tgt. alt: %d ft\n      Radar tgt. Lon: %s\n      Radar tgt. Lat: %s",
+				info.getAltitude() + me.indicated_alt_offset_ft,
+				ja37.convertDegreeToStringLon(info.getCoord().lon()),
+				ja37.convertDegreeToStringLat(info.getCoord().lat())
+			);
 		}
+
 		me.logEvents.push(me.message);
 	},
 
