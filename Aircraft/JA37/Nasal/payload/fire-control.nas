@@ -939,12 +939,10 @@ if (variant.JA) {
         JA_Missile.new("RB-74"),
         JA_Missile.new("RB-99"),
         JA_Missile.new("RB-71"),
-        JA_Missile.new("RB-24J"),
-        SubModelWeapon.new(type:"M70"),
     ];
 
     # Set of indices considered for quick_select_missile() (A/A missiles)
-    var quick_select = {1:1, 2:1, 3:1, 4:1,};
+    var quick_select = {1:1, 2:1, 3:1,};
 
     var internal_gun = weapons[0];
 

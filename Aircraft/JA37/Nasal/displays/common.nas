@@ -279,11 +279,9 @@ var Common = {
 	},
 
 	arm_name_medium: {
-		"RB-24J": "24J",
 		"RB-74": "74",
 		"RB-71": "71",
 		"RB-99": "99",
-		"M70": "ARAK",
 		"M75": "AKAN",
 	},
 
@@ -299,11 +297,9 @@ var Common = {
 	},
 
 	arm_name_short: {
-		"RB-24J": "24",
 		"RB-74": "74",
 		"RB-71": "71",
 		"RB-99": "99",
-		"M70": "AR",
 		"M75": "AK",
 	},
 

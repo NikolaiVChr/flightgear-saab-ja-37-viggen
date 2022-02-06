@@ -39,11 +39,10 @@ var loadouts = {
     "2x RB 99, 4x RB 74": ["RB-99", "RB-74", "RB-99", "RB-74", "RB-74", "RB-74"],
     "2x RB 99, 2x RB 74": ["RB-99", "RB-74", "RB-99", "RB-74", "none", "none"],
     "1x RB 99, 1x RB 74": ["none", "RB-74", "none", "RB-99", "none", "none"],
+    "2x RB 99, 2x RB 71, 2x RB 74": ["RB-71", "RB-99", "RB-71", "RB-99", "RB-74", "RB-74"],
     "2x RB 71, 4x RB 74": ["RB-71", "RB-74", "RB-71", "RB-74", "RB-74", "RB-74"],
-    "2x RB 71, 4x RB 24J": ["RB-71", "RB-24J", "RB-71", "RB-24J", "RB-24J", "RB-24J"],
-    "24x ARAK, 2x RB 74": ["M70", "M70", "M70", "M70", "RB-74", "RB-74"],
-    "12x ARAK, 2x RB 74": ["RB-74", "M70", "RB-74", "M70", "none", "none"],
-    "24x ARAK, 2x RB 24J": ["M70", "M70", "M70", "M70", "RB-24J", "RB-24J"],
+    "2x RB 71, 2x RB 74": ["RB-71", "RB-74", "RB-71", "RB-74", "none", "none"],
+
     # AJS
     # Skip outer pylons. They are taken care of by the 'load/unload RB-24J' buttons.
     "2x RB 05":             ["none", "RB-05A", "none", "RB-05A", "skip", "skip"],
@@ -71,11 +70,9 @@ var loadout_list = variant.JA ? [
     "2x RB 99, 4x RB 74",
     "2x RB 99, 2x RB 74",
     "1x RB 99, 1x RB 74",
-
+    "2x RB 99, 2x RB 71, 2x RB 74",
     "2x RB 71, 4x RB 74",
-    "2x RB 71, 4x RB 24J",
-    "24x ARAK, 2x RB 74",
-    "24x ARAK, 2x RB 24J",
+    "2x RB 71, 2x RB 74",
 ] : [
     # AJS loadouts
     "2x RB 04",
