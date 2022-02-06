@@ -1417,6 +1417,14 @@ var MI = {
 	},
 
 	displayScanInfo: func {
+		if (me.input.radar_stby.getBoolValue()) {
+			me.scan_height_line.hide();
+			me.scan_width_line_top.hide();
+			me.scan_width_line_bot.hide();
+			me.scan_sweep_mark.hide();
+			return;
+		}
+
 		# Vertical limits (doesn't work in disk search mode)
 		if (radar.ps46.getMode() != "Disk" and (var alt_limits = radar.ps46.getCursorAltitudeLimits()) != nil) {
 			alt_limits[0] += me.indicated_alt_offset_ft;
@@ -1441,16 +1449,14 @@ var MI = {
 
 		me.scan_width_line_top.reset()
 			.moveTo(left, 0).horizTo(right);
+		me.scan_width_line_top.show();
 		me.scan_width_line_bot.reset()
 			.moveTo(left, 0).horizTo(right);
+		me.scan_width_line_bot.show();
 
-		if (!me.input.radar_stby.getBoolValue()) {
-			var caret = radar.ps46.getCaretPosition();
-			me.scan_sweep_mark.setTranslation(caret[0] * radar_area_width / 2, 0);
-			me.scan_sweep_mark.show();
-		} else {
-			me.scan_sweep_mark.hide();
-		}
+		var caret = radar.ps46.getCaretPosition();
+		me.scan_sweep_mark.setTranslation(caret[0] * radar_area_width / 2, 0);
+		me.scan_sweep_mark.show();
 	},
 
 	displayDLZ: func {
