@@ -61,7 +61,7 @@ var PS46 = {
     },
 
     getTiltKnob: func {
-        return input.antenna_angle.getValue() * 10;
+        return input.antenna_angle.getValue() * 20;
     },
 
     # Similar to setCurrentMode, but remembers current target and range
