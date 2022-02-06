@@ -705,22 +705,34 @@ var TI = {
 			append(me.missilesSVY, missile);
 		}
 
-		me.selfSymbolSvy = me.svy_grp.createChild("path")
-		      .moveTo(-5*MM2TEX,  15*MM2TEX)
-		      .lineTo( 0,       0*MM2TEX)
-		      .moveTo( 5*MM2TEX,  15*MM2TEX)
-		      .lineTo( 0,       0*MM2TEX)
-		      .moveTo(-5*MM2TEX,  15*MM2TEX)
-		      .lineTo( 5*MM2TEX,  15*MM2TEX)
-		      .setColor(COLOR_WHITE)
-		      .set("z-index", 10)
-		      .setStrokeLineWidth(w);
-		me.selfVectorSvy = me.svy_grp.createChild("path")
-			  .moveTo(0,  0)
-			  .set("z-index", 10)
-			  .lineTo(1*MM2TEX, 0)
-			  .setColor(COLOR_WHITE)
-		      .setStrokeLineWidth(w);
+		me.selfGroupSvy = me.svy_grp.createChild("group");
+
+		me.selfSymbolSvy = me.selfGroupSvy.createChild("path")
+			.moveTo(-5*MM2TEX,  15*MM2TEX)
+			.lineTo( 0,       0*MM2TEX)
+			.moveTo( 5*MM2TEX,  15*MM2TEX)
+			.lineTo( 0,       0*MM2TEX)
+			.moveTo(-5*MM2TEX,  15*MM2TEX)
+			.lineTo( 5*MM2TEX,  15*MM2TEX)
+			.setColor(COLOR_WHITE)
+			.setRotation(90*D2R)
+			.set("z-index", 10)
+			.setStrokeLineWidth(w);
+		me.selfVectorSvy = me.selfGroupSvy.createChild("path")
+			.moveTo(0,  0)
+			.set("z-index", 10)
+			.lineTo(1*MM2TEX, 0)
+			.setColor(COLOR_WHITE)
+			.setStrokeLineWidth(w);
+
+		me.radarTopSvy = me.svy_grp.createChild("path")
+			.setColor(COLOR_WHITE)
+			.set("z-index", 10)
+			.setStrokeLineWidth(w);
+		me.radarBotSvy = me.svy_grp.createChild("path")
+			.setColor(COLOR_WHITE)
+			.set("z-index", 10)
+			.setStrokeLineWidth(w);
 
 		# SVY coordinate text
 		me.textSvyY = me.svy_grp.createChild("text")
@@ -3326,24 +3338,8 @@ var TI = {
 				.setStrokeLineWidth(w)
 				.setColor(COLOR_WHITE);
 
-			me.selfSvyPos = [me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt];
-			me.selfSymbolSvy.setTranslation(me.selfSvyPos);
-			me.selfSymbolSvy.setRotation(90*D2R);
-			me.selfVectorSvy.setTranslation(me.selfSvyPos);#scale is set elsewhere
-			
-			# this code works, but is kinda stupid as long as radar bar size is +/- 60 degs:
-			#me.svyRadarLowX = me.SVYoriginX+me.SVYwidth*(FT2M*-me.input.alt_ft.getValue()/math.tan(-60*D2R))/me.SVYrange;
-			#me.svyRadarLowY = me.SVYoriginY;
-			#me.svyRadarHighX = me.SVYoriginX+me.SVYwidth*((me.SVYalt-FT2M*me.input.alt_ft.getValue())/math.tan(60*D2R))/me.SVYrange;
-			#me.svyRadarHighY = me.SVYoriginY-me.SVYheight;
-			
-			#me.svy_grp2.createChild("path")
-			#	.moveTo(me.selfSvyPos)
-			#	.lineTo(me.svyRadarLowX,me.svyRadarLowY)
-			#	.moveTo(me.selfSvyPos)
-			#	.lineTo(me.svyRadarHighX,me.svyRadarHighY)
-			#	.setStrokeLineWidth(w)
-			#	.setColor(COLOR_WHITE);
+			me.selfSvyPos = [me.SVYoriginX, me.SVYoriginY - me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt];
+			me.selfGroupSvy.setTranslation(me.selfSvyPos);
 
 			me.textX = "";
 			me.textY = "";
@@ -4620,6 +4616,8 @@ var TI = {
 	showRadarLimit: func {
 		if (me.input.radarStandby.getBoolValue()) {
 			me.radar_limit_grp.hide();
+			me.radarTopSvy.hide();
+			me.radarBotSvy.hide();
 			return;
 		}
 
@@ -4652,6 +4650,53 @@ var TI = {
 
 		me.radar_limit_grp.setRotation(radar.ps46.getDeviation() * D2R);
 		me.radar_limit_grp.show();
+
+		# Rest is for sideview
+
+		# Do not hide the lines immediately when sideview turns off,
+		# it will be done with the rest of the sideview in updateSVY().
+		if (!me.SVYactive or me.menuMain == MAIN_MISSION_DATA) return;
+		# dirty hack to check updateSVY() ran at least once to set the required parameters
+		if (!contains(me, "selfSvyPos")) return;
+
+		if (radar.ps46.getMode() == "Disk") {
+			# radar angles don't work in this mode
+			me.radarTopSvy.hide();
+			me.radarBotSvy.hide();
+			return;
+		}
+
+		me.radar_elev = radar.ps46.currentMode.upperAngle;
+		me.radar_slope = math.tan(me.radar_elev * D2R);
+		me.radar_slope *= - me.SVYheight / me.SVYwidth / me.SVYalt * me.SVYrange;
+		me.line_end_x = me.SVYoriginX + me.SVYwidth;
+		me.line_end_y = me.selfSvyPos[1] + me.radar_slope * me.SVYwidth;
+		if (me.line_end_y > me.SVYoriginY) {
+			me.line_end_x -= (me.line_end_y - me.SVYoriginY) / me.radar_slope;
+			me.line_end_y = me.SVYoriginY;
+		} elsif (me.line_end_y < me.SVYoriginY - me.SVYheight) {
+			me.line_end_x -= (me.line_end_y - me.SVYoriginY + me.SVYheight) / me.radar_slope;
+			me.line_end_y = me.SVYoriginY - me.SVYheight;
+		}
+		me.radarTopSvy.reset();
+		me.radarTopSvy.moveTo(me.selfSvyPos).lineTo(me.line_end_x, me.line_end_y);
+		me.radarTopSvy.show();
+
+		me.radar_elev = radar.ps46.currentMode.lowerAngle;
+		me.radar_slope = math.tan(me.radar_elev * D2R);
+		me.radar_slope *= - me.SVYheight / me.SVYwidth / me.SVYalt * me.SVYrange;
+		me.line_end_x = me.SVYoriginX + me.SVYwidth;
+		me.line_end_y = me.selfSvyPos[1] + me.radar_slope * me.SVYwidth;
+		if (me.line_end_y > me.SVYoriginY) {
+			me.line_end_x -= (me.line_end_y - me.SVYoriginY) / me.radar_slope;
+			me.line_end_y = me.SVYoriginY;
+		} elsif (me.line_end_y < me.SVYoriginY - me.SVYheight) {
+			me.line_end_x -= (me.line_end_y - me.SVYoriginY + me.SVYheight) / me.radar_slope;
+			me.line_end_y = me.SVYoriginY - me.SVYheight;
+		}
+		me.radarBotSvy.reset();
+		me.radarBotSvy.moveTo(me.selfSvyPos).lineTo(me.line_end_x, me.line_end_y);
+		me.radarBotSvy.show();
 	},
 
 	showRunway: func {
