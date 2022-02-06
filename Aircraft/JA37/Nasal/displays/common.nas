@@ -496,7 +496,7 @@ var Common = {
 	},
 
 	launch_altitude: func {
-		if (!hud.HUD.aiming_mode_condition() or !fire_control.is_armed()) {
+		if (!fire_control.is_armed()) {
 			me.input.launch_alt_warn.setBoolValue(FALSE);
 			return;
 		}
