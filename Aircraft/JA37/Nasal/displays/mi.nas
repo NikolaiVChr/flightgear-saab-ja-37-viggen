@@ -159,6 +159,11 @@ var MI = {
 		mi.helpTime = -5;
 		mi.cursor_pos = [0,-radar_area_width/2];
 		mi.cursorTriggerPrev = FALSE;
+		# cursor position used by TI
+		mi.cursor_azi = 0;
+		mi.cursor_range = 30000;
+		mi.cursor_shown = TRUE;
+
 		mi.radar_range = radar.ps46.currentMode.getRangeM();
 		mi.head_true = mi.input.headTrue.getValue();
 		mi.time = mi.input.timeElapsed.getValue();
@@ -1598,6 +1603,7 @@ var MI = {
 
 	displayCursor: func {
 		if (displays.common.cursor != displays.MI) {
+			me.cursor_shown = FALSE;
 			me.cursor.hide();
 			return;
 		}
@@ -1609,6 +1615,7 @@ var MI = {
 		me.cursorTriggerPrev = cursor_mov[2];
 
 		if (radar.ps46.getPriorityTarget() != nil) {
+			me.cursor_shown = FALSE;
 			me.cursor.hide();
 			# clicking unlocks
 			if (click) {
@@ -1626,6 +1633,7 @@ var MI = {
 		}
 
 		if (radar.ps46.getMode() == "Disk") {
+			me.cursor_shown = FALSE;
 			me.cursor.hide();
 			return;
 		}
@@ -1639,8 +1647,12 @@ var MI = {
 		me.cursor.show();
 		me.cursor.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
 
-		radar.ps46.setCursorDistance(-me.cursor_pos[1] / radar_area_width * me.radar_range * M2NM);
-		radar.ps46.setCursorDeviation(me.cursor_pos[0] / heading_deg_to_mm);
+		me.cursor_azi = me.cursor_pos[0] / heading_deg_to_mm;
+		me.cursor_range = -me.cursor_pos[1] / radar_area_width * me.radar_range;
+		me.cursor_shown = TRUE;
+
+		radar.ps46.setCursorDistance(me.cursor_range * M2NM);
+		radar.ps46.setCursorDeviation(me.cursor_azi);
 
 		if (click) {
 			var new_sel = me.findCursorTrack();

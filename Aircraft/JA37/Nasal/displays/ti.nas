@@ -816,22 +816,30 @@ var TI = {
 		me.radar_limit_grp = me.radar_group.createChild("group");
 
 		var csize = 24;
-		me.cursor = root.createChild("path")# is off set 1 pixel to right
-				.moveTo(-csize*MM2TEX,0)
-				.horiz((csize-4)*MM2TEX)
-				.moveTo(0,0)
-				.horiz(1*MM2TEX)
-				.moveTo(6*MM2TEX,0)
-				.horiz((csize-4)*MM2TEX)
-				.moveTo(1*MM2TEX,-(csize+1)*MM2TEX)
-				.vert((csize-4)*MM2TEX)
-				.moveTo(1*MM2TEX,5*MM2TEX)
-				.vert((csize-4)*MM2TEX)
-				.setStrokeLineWidth(w*2)
-				.setTranslation(50*MM2TEX, height*0.5)
-				.setStrokeLineCap("butt")
-				.set("z-index", 25)#max
-		        .setColor(COLOR_WHITE);
+		me.cursor = root.createChild("path")
+			.moveTo(-csize*MM2TEX,0).horizTo(-4*MM2TEX)
+			.moveTo(csize*MM2TEX,0).horizTo(4*MM2TEX)
+			.moveTo(0,-csize*MM2TEX).vertTo(-4*MM2TEX)
+			.moveTo(0,csize*MM2TEX).vertTo(4*MM2TEX)
+			.moveTo(-w,0).horizTo(w)
+			.setStrokeLineWidth(w*2)
+			.setTranslation(50*MM2TEX, height*0.5)
+			.setStrokeLineCap("butt")
+			.set("z-index", 25)#max
+			.setColor(COLOR_WHITE);
+
+		var MI_csize = 18;
+		me.MI_cursor = me.radar_group.createChild("path")
+			.moveTo(-MI_csize*MM2TEX, -MI_csize*MM2TEX).lineTo(-3*MM2TEX, -3*MM2TEX)
+			.moveTo(-MI_csize*MM2TEX, MI_csize*MM2TEX).lineTo(-3*MM2TEX, 3*MM2TEX)
+			.moveTo(MI_csize*MM2TEX, -MI_csize*MM2TEX).lineTo(3*MM2TEX, -3*MM2TEX)
+			.moveTo(MI_csize*MM2TEX, MI_csize*MM2TEX).lineTo(3*MM2TEX, 3*MM2TEX)
+			.moveTo(-w,0).horizTo(w)
+			.setStrokeLineWidth(w*2)
+			.setTranslation(50*MM2TEX, height*0.5)
+			.setStrokeLineCap("butt")
+			.set("z-index", 25)#max
+			.setColor(COLOR_WHITE);
 
 		# bulls eye
 
@@ -2920,7 +2928,7 @@ var TI = {
 			me.cursorOPosY = me.cursorPosY + me.tempReal[1];# relative to rootCenter
 			#me.cursorRPosX = me.cursorPosX + me.rootCenterTranslation[0];
 			#me.cursorRPosY = me.cursorPosY + me.rootCenterTranslation[1];# relative to own position
-			me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
+			me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);
 			me.cursorTrigger = me.cursorMov[2];
 			if (me.lvffDrag == nil and me.sDrag == nil) {
 				me.cursorDidSomething = FALSE;
@@ -2974,11 +2982,23 @@ var TI = {
 				}
 			}
 			me.cursor.show();
+			me.MI_cursor.hide();
 		} else {
 			#me.cursorIsClicking = FALSE;
 			me.cursorTrigger = FALSE;
 			me.newSteerPos = nil;
 			me.cursor.hide();
+
+			if (MI.mi.cursor_shown) {
+				me.texelDistance = MI.mi.cursor_range * M2TEX;
+				me.angle = MI.mi.cursor_azi * D2R;
+				me.pos_xx = me.texelDistance * math.sin(me.angle);
+				me.pos_yy = -me.texelDistance * math.cos(me.angle);
+				me.MI_cursor.setTranslation(me.pos_xx, me.pos_yy);
+				me.MI_cursor.show();
+			} else {
+				me.MI_cursor.hide();
+			}
 		}
 		me.cursorTriggerPrev = me.cursorTrigger;
 	},
