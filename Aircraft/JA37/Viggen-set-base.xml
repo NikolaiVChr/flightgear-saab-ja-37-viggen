@@ -989,6 +989,11 @@
                     <auto-attitude-level type="int">0</auto-attitude-level>
                     <auto-altitude-level type="int">0</auto-altitude-level>
                 </indicators>
+                <mkv>
+                    <ajs-launch-altitude-enable type="bool">false</ajs-launch-altitude-enable>
+                    <ajs-launch-altitude-min type="double">0</ajs-launch-altitude-min>
+                    <ajs-launch-altitude-max type="double">0</ajs-launch-altitude-max>
+                </mkv>
             </systems>
             <aero>
                 <factor-axial-mach type="double">1</factor-axial-mach>

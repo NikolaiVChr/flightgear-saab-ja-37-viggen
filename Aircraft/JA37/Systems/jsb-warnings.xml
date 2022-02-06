@@ -315,11 +315,27 @@
     </switch>
 
 
+    <!-- AJS launch altitude warning (parameters set by Nasal/displays/common.nas) -->
+    <switch name="systems/mkv/ajs-launch-altitude-warning">
+      <test value="0">
+        systems/mkv/ajs-launch-altitude-enable eq 0
+      </test>
+      <test logic="OR" value="1">
+        instruments/altimeter/displays-altitude-m lt systems/mkv/ajs-launch-altitude-min
+        instruments/altimeter/displays-altitude-m gt systems/mkv/ajs-launch-altitude-max
+      </test>
+      <default value="0"/>
+    </switch>
+
+
     <!-- AJS output -->
     <switch name="systems/mkv/ajs-light">
       <test logic="OR" value="systems/flight/blink/five">
         systems/mkv/terrain-warning eq 1
         systems/mkv/ajs-collision-warning eq 1
+      </test>
+      <test logic="OR" value="1">
+        systems/mkv/ajs-launch-altitude-warning eq 1
       </test>
       <default value="0"/>
     </switch>

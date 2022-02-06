@@ -92,6 +92,9 @@ var Common = {
 			displays_on:      "ja37/displays/on",
 			displays_serv:    "instrumentation/displays/serviceable",
 			land_warn_on:     "ja37/avionics/landing-warnings-enable",
+			launch_alt_warn:  "fdm/jsbsim/systems/mkv/ajs-launch-altitude-enable",
+			launch_alt_min:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-min",
+			launch_alt_max:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-max",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -149,7 +152,10 @@ var Common = {
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
-		if (variant.AJS) me.hojd_switch();
+		if (variant.AJS) {
+			me.hojd_switch();
+			me.launch_altitude();
+		}
 		if (variant.JA) me.landWarningsCondition();
 	},
 
@@ -486,6 +492,27 @@ var Common = {
 		{
 			me.input.switch_hojd.setValue(FALSE);
 			ja37.click();
+		}
+	},
+
+	launch_altitude: func {
+		if (!hud.HUD.aiming_mode_condition() or !fire_control.is_armed()) {
+			me.input.launch_alt_warn.setBoolValue(FALSE);
+			return;
+		}
+		var type = fire_control.get_type();
+		if (type == "RB-04E") {
+			# manual: 240 +-190m
+			me.input.launch_alt_min.setValue(50);
+			me.input.launch_alt_max.setValue(330);
+			me.input.launch_alt_warn.setBoolValue(TRUE);
+		} elsif (type == "RB-15F") {
+			# manual: 50m-2000m
+			me.input.launch_alt_min.setValue(50);
+			me.input.launch_alt_max.setValue(2000);
+			me.input.launch_alt_warn.setBoolValue(TRUE);
+		} else {
+			me.input.launch_alt_warn.setBoolValue(TRUE);
 		}
 	},
 
