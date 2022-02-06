@@ -85,6 +85,7 @@ var scheduler_loop = func {
     var time = input.time.getValue();
     var args = [];
     var self = nil;
+    var err = [];
 
     foreach (var loop; loops) {
         # Timing code
@@ -105,8 +106,11 @@ var scheduler_loop = func {
         }
 
         self = contains(loop, "self") ? loop.self : nil;
-
-        call(loop.function, args, self);
+        err = [];
+        call(loop.function, args, self, nil, err);
+        if (size(err)) {
+            debug.printerror(err);
+        }
 
         # Timing code
         #var t2 = systime();
