@@ -120,7 +120,8 @@ var Common = {
 		co.distance_model = "";
       	co.error = FALSE;
       	co.cursor = MI;
-      	co.ref_alt = 500;
+		co.ref_alt = 500;
+      	co._ref_alt = 500; # internal value, used as memory in some conditions
       	co.ref_alt_ldg_override = FALSE;
 
       	co.wowPrev = 0;
@@ -410,25 +411,33 @@ var Common = {
 		# TAKEOFF mode: fixed, 500m
 		# NAV: can be modified with reference alt button, or ALT hold autopilot
 		# LANDING: defaults to 500m, but can be overriden as in NAV
+
+		var reset_ref_alt_ldg_override = TRUE;
+
 		if (modes.takeoff) {
-			me.ref_alt = 500 + me.input.alt_airbase_m.getValue();
-			me.ref_alt_ldg_override = FALSE;
+			me._ref_alt = 500 + me.input.alt_airbase_m.getValue();
 		} elsif (me.input.APmode.getValue() == 3) {
-			me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
+			me._ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
 			if (!variant.JA) {
 				# For AJS, autopilot uses barometric altitude, but displays use ground corrected altitude.
-				me.ref_alt += me.input.alt_m.getValue() - me.input.alt_bar_m.getValue();
+				me._ref_alt += me.input.alt_m.getValue() - me.input.alt_bar_m.getValue();
 			}
-			me.ref_alt_ldg_override = FALSE;
 		} elsif (modes.landing) {
 			# me.ref_alt_ldg_override indicates that the altitude was manually selected
 			# with the reference altitude button while in LANDING mode.
 			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
-			if (!me.ref_alt_ldg_override) me.ref_alt = 500 + me.input.alt_airbase_m.getValue();
-		} else {
-			# navigation mode
-			me.ref_alt_ldg_override = FALSE;
+			reset_ref_alt_ldg_override = FALSE;
+			if (!me.ref_alt_ldg_override) me._ref_alt = 500 + me.input.alt_airbase_m.getValue();
 		}
+
+		me.ref_alt = me._ref_alt;
+
+		# Rb 04 aiming mode sets reference altitude = 240m, but remember previous setting (with _ref_alt)
+		if (variant.AJS and hud.HUD.aiming_mode_condition() and fire_control.get_type() == "RB-04E") {
+			me.ref_alt = 240;
+		}
+
+		if (reset_ref_alt_ldg_override) me.ref_alt_ldg_override = FALSE;
 		me.input.ref_alt.setValue(me.ref_alt);
 	},
 
@@ -448,11 +457,13 @@ var Common = {
 		# Manual reference altitude setting is not available at takeoff,
 		# with ALT HOLD autopilot, and during the landing final phase.
 		if (modes.takeoff or me.input.APmode.getValue() == 3
-			or (modes.landing and land.mode != 1 and land.mode != 2)) return;
+			or (modes.landing and land.mode != 1 and land.mode != 2)
+			or (variant.AJS and hud.HUD.aiming_mode_condition() and fire_control.get_type() == "RB-04E"))
+			return;
 
-		me.ref_alt = me.input.alt_m.getValue();
-		if (me.ref_alt < 20) me.ref_alt = 20;
-		me.input.ref_alt.setValue(me.ref_alt);
+		me._ref_alt = me.input.alt_m.getValue();
+		if (me._ref_alt < 20) me._ref_alt = 20;
+		me.referenceAlt();
 
 		# Set flag if manually setting reference altitude during landing.
 		if (modes.landing) {

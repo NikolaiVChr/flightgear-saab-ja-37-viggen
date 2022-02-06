@@ -901,12 +901,21 @@ var HUD = {
         }
     },
 
-    # Separate function because it is _slightly_ complicated.
+    # Conditions to enable some kind of aiming mode, before considering selected weapon type.
+    # This is intended for external use as hud.HUD.aiming_mode_condition().
     aiming_mode_condition: func {
         if (input.gear_pos.getValue() > 0) return FALSE;
         if (fire_control.selected == nil) return FALSE;
         if (modes.selector_ajs < modes.NAV or modes.selector_ajs > modes.RECO) return FALSE;
         if (modes.selector_ajs != modes.COMBAT and !fire_control.is_armed()) return FALSE;
+        return TRUE;
+    },
+
+    # HUD internal test for aiming mode, weapon dependent.
+    # This is the HUD internal notion of aiming mode, which excludes
+    # "aiming modes that look like nav"
+    aiming_mode_test: func {
+        if (!me.aiming_mode_condition()) return FALSE;
 
         var type = fire_control.get_type();
         # Firing presentation is the same as navigation mode for these weapons.
@@ -933,7 +942,7 @@ var HUD = {
             } elsif (input.pitch.getValue() < 3) {
                 me.set_mode(HUD.MODE_TAKEOFF_ROLL);
             }
-        } elsif (me.aiming_mode_condition()) {
+        } elsif (me.aiming_mode_test()) {
             me.set_mode(HUD.MODE_AIM);
         } elsif (me.high_angle_off) {
             me.set_mode(HUD.MODE_STBY);
