@@ -885,6 +885,8 @@ var Saab37 = {
     if (variant.JA) {
       # data-panel
       dap.callInit();
+      # fighterlink
+      fighterlink.init();
     }
 
     # fire

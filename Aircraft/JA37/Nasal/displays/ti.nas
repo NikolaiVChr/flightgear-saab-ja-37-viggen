@@ -146,8 +146,8 @@ var SVY_ELKA = 0;
 var SVY_RMAX = 1;
 var SVY_MI   = 2;
 var SVY_ALL  = 0;
-var SVY_RR   = 1;
-var SVY_120  = 2;
+var SVY_120  = 1;
+var SVY_RR   = 2;
 
 var brightnessP = func {
 	if (ti.active == FALSE) return;
@@ -207,8 +207,9 @@ var COLOR_NIGHT = "rgb( 64, 64, 64)";
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
 
-var maxTracks   = 20;# how many radar tracks can be shown at once in the TI (was 32)
-var maxMissiles =  4;
+var maxTracks   = 4;
+var maxDLTracks = 20;
+var maxMissiles = 4;
 var maxSteers   = 48;#careful with this one
 var maxBases    = 50;
 
@@ -274,7 +275,7 @@ var dictSE = {
 	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [TRUE, "INIT"]},
 	'SVY': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'5': [TRUE, "F\xC3\x96ST"], '6': [FALSE, "VISA"], '7': [TRUE, "MENU"], '14': [TRUE, "SKAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "HMAX"]},
+			'5': [TRUE, "F\xC3\x96ST"], '6': [TRUE, "VISA"], '7': [TRUE, "MENU"], '14': [TRUE, "SKAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "HMAX"]},
 };
 
 #ÅPOL = Return to base polygon (RPOL)
@@ -305,7 +306,7 @@ var dictEN = {
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [TRUE, "INIT"]},
 	'SIDV': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'5': [TRUE, "WIN"], '6': [FALSE, "SHOW"], '7': [TRUE, "MENU"], '14': [TRUE, "SCAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "AMAX"]},
+			'5': [TRUE, "WIN"], '6': [TRUE, "SHOW"], '7': [TRUE, "MENU"], '14': [TRUE, "SCAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "AMAX"]},
 };
 
 var edgeButtonsStruct = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -506,17 +507,51 @@ var TI = {
 		me.radar_group = me.rootCenter.createChild("group")
 			.set("z-index", 5);
 
-		me.echoesAircraft = [];
+		me.tracks = [];
 		for (var i=0; i<maxTracks; i+=1) {
 			var echo = {};
 			echo.grp = me.radar_group.createChild("group")
 				.set("z-index", maxTracks-i);
-			echo.grp_vector = echo.grp.createChild("group")
-				.setTranslation(0, 0);
 			# Speed vector
-			echo.vector = echo.grp_vector.createChild("path")
+			echo.vector = echo.grp.createChild("path")
 				.moveTo(0, 0).vert(-1 * MM2TEX)
-				.setColor(COLOR_YELLOW)
+				.setStrokeLineWidth(w);
+			# Primary target symbol
+			echo.primary = echo.grp.createChild("path")
+				.moveTo(-8*MM2TEX, 4*MM2TEX).horiz(16*MM2TEX)
+				.moveTo(-8*MM2TEX, -4*MM2TEX).horiz(16*MM2TEX)
+				.moveTo(4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
+				.moveTo(-4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
+				.setStrokeLineWidth(w);
+			# Secondary target symbol
+			echo.secondary = echo.grp.createChild("path")
+				.moveTo(-8*MM2TEX, 4*MM2TEX).horiz(4*MM2TEX).vert(4*MM2TEX)
+				.moveTo(-8*MM2TEX, -4*MM2TEX).horiz(4*MM2TEX).vert(-4*MM2TEX)
+				.moveTo(8*MM2TEX, 4*MM2TEX).horiz(-4*MM2TEX).vert(4*MM2TEX)
+				.moveTo(8*MM2TEX, -4*MM2TEX).horiz(-4*MM2TEX).vert(-4*MM2TEX)
+				.setStrokeLineWidth(w);
+			# Targeted, IFF friendly
+			echo.friendly = echo.grp.createChild("path")
+				.moveTo(-8*MM2TEX, -8*MM2TEX).lineTo(8*MM2TEX, 8*MM2TEX)
+				.moveTo(-8*MM2TEX, 8*MM2TEX).lineTo(8*MM2TEX, -8*MM2TEX)
+				.setStrokeLineWidth(w);
+			# Text for datalink identifier
+			echo.datalink_id = echo.grp.createChild("text")
+				.setTranslation(0, 30*MM2TEX)
+				.setAlignment("center-bottom")
+				.setFontSize(15*MM2TEX, 1)
+				.setText("");
+			append(me.tracks, echo);
+		}
+
+		me.DLtracks = [];
+		for (var i=0; i<maxDLTracks; i+=1) {
+			var echo = {};
+			echo.grp = me.radar_group.createChild("group")
+				.set("z-index", maxTracks+maxDLTracks-i);
+			# Speed vector
+			echo.vector = echo.grp.createChild("path")
+				.moveTo(0, 0).vert(-1 * MM2TEX)
 				.setStrokeLineWidth(w);
 			# On datalink symbol
 			echo.datalink = echo.grp.createChild("path")
@@ -528,28 +563,6 @@ var TI = {
 				.lineTo(0, 0)
 				.moveTo(0, 15*MM2TEX)
 				.lineTo(0, 8*MM2TEX)
-				.setColor(COLOR_GREEN)
-				.setStrokeLineWidth(w);
-			# Text for datalink identifier
-			echo.datalink_id = echo.grp.createChild("text")
-				.setTranslation(0, 30*MM2TEX)
-				.setAlignment("center-bottom")
-				.setColor(COLOR_GREEN)
-				.setFontSize(15*MM2TEX, 1)
-				.setText("");
-			# Targeted symbol
-			echo.target = echo.grp.createChild("path")
-				.moveTo(-8*MM2TEX, 4*MM2TEX).horiz(16*MM2TEX)
-				.moveTo(-8*MM2TEX, -4*MM2TEX).horiz(16*MM2TEX)
-				.moveTo(4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
-				.moveTo(-4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
-				.setColor(COLOR_RED)
-				.setStrokeLineWidth(w);
-			# Targeted, IFF friendly
-			echo.friendly = echo.grp.createChild("path")
-				.moveTo(-8*MM2TEX, -8*MM2TEX).lineTo(8*MM2TEX, 8*MM2TEX)
-				.moveTo(-8*MM2TEX, 8*MM2TEX).lineTo(8*MM2TEX, -8*MM2TEX)
-				.setColor(COLOR_GREEN)
 				.setStrokeLineWidth(w);
 			# From datalink symbol
 			echo.dl_tgt = echo.grp.createChild("path")
@@ -559,9 +572,34 @@ var TI = {
 				.moveTo(-3.75, 11.25)
 				.arcSmallCW(3.75, 3.75, 0, 7.5, 0)
 				.arcSmallCW(3.75, 3.75, 0, -7.5, 0)
-				.setColor(COLOR_YELLOW)
 				.setStrokeLineWidth(w);
-			append(me.echoesAircraft, echo);
+			# Text for datalink identifier
+			echo.datalink_id = echo.grp.createChild("text")
+				.setTranslation(0, 30*MM2TEX)
+				.setAlignment("center-bottom")
+				.setFontSize(15*MM2TEX, 1)
+				.setText("");
+			append(me.DLtracks, echo);
+		}
+
+		# missiles
+		me.missiles = [];
+		for (var i = 0; i < maxMissiles; i += 1) {
+			var missile = {};
+			missile.grp = me.radar_group.createChild("group")
+				.set("z-index", maxTracks+maxDLTracks+maxMissiles-i);
+			missile.vector = missile.grp.createChild("path")
+				.moveTo(0, 0).vert(-1*MM2TEX)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(w);
+			missile.symbol = missile.grp.createChild("path")
+				.moveTo(0,0)
+				.lineTo(-2.5*MM2TEX,  15*MM2TEX)
+				.lineTo(2.5*MM2TEX,  15*MM2TEX)
+				.close()
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(w);
+			append(me.missiles, missile);
 		}
 
 		# SVY
@@ -572,17 +610,51 @@ var TI = {
 		me.svy_grp2 = me.svy_grp.createChild("group")
 			.set("z-index", 1);
 
-		me.echoesAircraftSvy = [];
+		me.tracksSVY = [];
 		for (var i=0; i<maxTracks; i+=1) {
 			var echo = {};
 			echo.grp = me.svy_radar_grp.createChild("group")
 				.set("z-index", maxTracks-i);
-			echo.grp_vector = echo.grp.createChild("group")
-				.setTranslation(0, 0);
 			# Speed vector
-			echo.vector = echo.grp_vector.createChild("path")
+			echo.vector = echo.grp.createChild("path")
 				.moveTo(0, 0).vert(-1 * MM2TEX)
-				.setColor(COLOR_YELLOW)
+				.setStrokeLineWidth(w);
+			# Primary target symbol
+			echo.primary = echo.grp.createChild("path")
+				.moveTo(-8*MM2TEX, 4*MM2TEX).horiz(16*MM2TEX)
+				.moveTo(-8*MM2TEX, -4*MM2TEX).horiz(16*MM2TEX)
+				.moveTo(4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
+				.moveTo(-4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
+				.setStrokeLineWidth(w);
+			# Secondary target symbol
+			echo.secondary = echo.grp.createChild("path")
+				.moveTo(-8*MM2TEX, 4*MM2TEX).horiz(4*MM2TEX).vert(4*MM2TEX)
+				.moveTo(-8*MM2TEX, -4*MM2TEX).horiz(4*MM2TEX).vert(-4*MM2TEX)
+				.moveTo(8*MM2TEX, 4*MM2TEX).horiz(-4*MM2TEX).vert(4*MM2TEX)
+				.moveTo(8*MM2TEX, -4*MM2TEX).horiz(-4*MM2TEX).vert(-4*MM2TEX)
+				.setStrokeLineWidth(w);
+			# Targeted, IFF friendly
+			echo.friendly = echo.grp.createChild("path")
+				.moveTo(-8*MM2TEX, -8*MM2TEX).lineTo(8*MM2TEX, 8*MM2TEX)
+				.moveTo(-8*MM2TEX, 8*MM2TEX).lineTo(8*MM2TEX, -8*MM2TEX)
+				.setStrokeLineWidth(w);
+			# Text for datalink identifier
+			echo.datalink_id = echo.grp.createChild("text")
+				.setTranslation(0, 30*MM2TEX)
+				.setAlignment("center-bottom")
+				.setFontSize(15*MM2TEX, 1)
+				.setText("");
+			append(me.tracksSVY, echo);
+		}
+
+		me.DLtracksSVY = [];
+		for (var i=0; i<maxDLTracks; i+=1) {
+			var echo = {};
+			echo.grp = me.svy_radar_grp.createChild("group")
+				.set("z-index", maxTracks+maxDLTracks-i);
+			# Speed vector
+			echo.vector = echo.grp.createChild("path")
+				.moveTo(0, 0).vert(-1 * MM2TEX)
 				.setStrokeLineWidth(w);
 			# On datalink symbol
 			echo.datalink = echo.grp.createChild("path")
@@ -594,21 +666,6 @@ var TI = {
 				.lineTo(0, 0)
 				.moveTo(0, 15*MM2TEX)
 				.lineTo(0, 8*MM2TEX)
-				.setColor(COLOR_GREEN)
-				.setStrokeLineWidth(w);
-			# Targeted symbol
-			echo.target = echo.grp.createChild("path")
-				.moveTo(-8*MM2TEX, 4*MM2TEX).horiz(16*MM2TEX)
-				.moveTo(-8*MM2TEX, -4*MM2TEX).horiz(16*MM2TEX)
-				.moveTo(4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
-				.moveTo(-4*MM2TEX, -8*MM2TEX).vert(16*MM2TEX)
-				.setColor(COLOR_RED)
-				.setStrokeLineWidth(w);
-			# Targeted, IFF friendly
-			echo.friendly = echo.grp.createChild("path")
-				.moveTo(-8*MM2TEX, -8*MM2TEX).lineTo(8*MM2TEX, 8*MM2TEX)
-				.moveTo(-8*MM2TEX, 8*MM2TEX).lineTo(8*MM2TEX, -8*MM2TEX)
-				.setColor(COLOR_GREEN)
 				.setStrokeLineWidth(w);
 			# From datalink symbol
 			echo.dl_tgt = echo.grp.createChild("path")
@@ -618,9 +675,34 @@ var TI = {
 				.moveTo(-3.75, 11.25)
 				.arcSmallCW(3.75, 3.75, 0, 7.5, 0)
 				.arcSmallCW(3.75, 3.75, 0, -7.5, 0)
-				.setColor(COLOR_YELLOW)
 				.setStrokeLineWidth(w);
-			append(me.echoesAircraftSvy, echo);
+			# Text for datalink identifier
+			echo.datalink_id = echo.grp.createChild("text")
+				.setTranslation(0, 30*MM2TEX)
+				.setAlignment("center-bottom")
+				.setFontSize(15*MM2TEX, 1)
+				.setText("");
+			append(me.DLtracksSVY, echo);
+		}
+
+		# missiles
+		me.missilesSVY = [];
+		for (var i = 0; i < maxMissiles; i += 1) {
+			var missile = {};
+			missile.grp = me.svy_radar_grp.createChild("group")
+				.set("z-index", maxTracks+maxDLTracks+maxMissiles-i);
+			missile.vector = missile.grp.createChild("path")
+				.moveTo(0, 0).vert(-1*MM2TEX)
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(w);
+			missile.symbol = missile.grp.createChild("path")
+				.moveTo(0,0)
+				.lineTo(-2.5*MM2TEX,  15*MM2TEX)
+				.lineTo(2.5*MM2TEX,  15*MM2TEX)
+				.close()
+				.setColor(COLOR_WHITE)
+				.setStrokeLineWidth(w);
+			append(me.missilesSVY, missile);
 		}
 
 		me.selfSymbolSvy = me.svy_grp.createChild("path")
@@ -639,6 +721,7 @@ var TI = {
 			  .lineTo(1*MM2TEX, 0)
 			  .setColor(COLOR_WHITE)
 		      .setStrokeLineWidth(w);
+
 		# SVY coordinate text
 		me.textSvyY = me.svy_grp.createChild("text")
     		.setText("40 KM")
@@ -709,49 +792,14 @@ var TI = {
 	    me.steerPoly = me.rootCenter.createChild("group")
 	    			.set("z-index", 6);
 
-	    # missiles
-	    me.missiles = [];
-	    me.missilesVector = [];
-	    for (var i = 0; i < maxMissiles; i += 1) {
-	    	var grp = me.radar_group.createChild("group")
-				.set("z-index", maxTracks-i);
-			var grp2 = grp.createChild("group")
-				.setTranslation(0,-10*MM2TEX);
-			var vector = grp2.createChild("path")
-			  .moveTo(0,  0)
-			  .lineTo(0, -1*MM2TEX)
-			  .setColor(COLOR_WHITE)
-		      .setStrokeLineWidth(w);
-			grp.createChild("path")
-		      .moveTo(-2.5*MM2TEX,  5*MM2TEX)
-		      .lineTo(   0,       -10*MM2TEX)
-		      .moveTo( 2.5*MM2TEX,  5*MM2TEX)
-		      .lineTo(   0,       -10*MM2TEX)
-		      .moveTo(-2.5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 2.5*MM2TEX,  5*MM2TEX)
-		      .setColor(COLOR_WHITE)
-		      .setStrokeLineWidth(w);
-		    append(me.missiles, grp);
-		    append(me.missilesVector, vector);
-	    }
 
-	    # gps symbol
-	    me.gpsSymbol = me.radar_group.createChild("path")
-		      .moveTo(-10*MM2TEX, 10*MM2TEX)
-		      .vert(            -20*MM2TEX)
-		      .horiz(            20*MM2TEX)
-		      .vert(             20*MM2TEX)
-		      .horiz(           -20*MM2TEX)
-		      .setColor(COLOR_TYRK)
-		      .setStrokeLineWidth(w);
-
-			me.rrSymbol = me.radar_group.createChild("path")
-				.moveTo(-15, 7.5)
-				.arcSmallCW(15, 15, 0, 30, 0)
-				.arcSmallCW(15, 15, 0, -30, 0)
-				.set("z-index", maxTracks-0) # same z-order as selection.
-				.setColor(COLOR_WHITE)
-				.setStrokeLineWidth(w);
+		me.rrSymbol = me.radar_group.createChild("path")
+			.moveTo(-15, 7.5)
+			.arcSmallCW(15, 15, 0, 30, 0)
+			.arcSmallCW(15, 15, 0, -30, 0)
+			.set("z-index", maxTracks-0) # same z-order as selection.
+			.setColor(COLOR_WHITE)
+			.setStrokeLineWidth(w);
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
 
@@ -1734,6 +1782,7 @@ var TI = {
 
 		me.ac_pos = geo.aircraft_position();
 		me.ind_head_true = me.input.heading.getValue();
+		me.head_true = me.input.headTrue.getValue();
 		me.indicated_alt_offset_ft = me.input.alt_ft.getValue() - me.input.alt_true_ft.getValue();
 
 		if (!me.on) {
@@ -1756,7 +1805,6 @@ var TI = {
 		me.showSelfVector();
 		me.displayRadarTracks();
 		me.showRunway();
-		me.showRadarLimit();
 		me.menuUpdate();
 		me.showTime();
 		me.showFlightTime();
@@ -1765,7 +1813,7 @@ var TI = {
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
 		me.showLVFF();
-		me.showTargetInfo();#must be after displayRadarTracks
+		me.showTargetInfo();
 		me.updateMapNames();
 		me.showBasesNear();
 		me.ecmOverlay();
@@ -1797,7 +1845,7 @@ var TI = {
 		me.testLanding();
 		me.showCursor();
 		me.edgeButtons();
-		me.rotateRadarLimit();
+		me.showRadarLimit();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#me.rate = me.rate !=nil?clamp(1/(me.rate+0.001), 0.05, 0.5):0.5;
 		#me.rate = 0.05;
@@ -4602,13 +4650,8 @@ var TI = {
 				.setStrokeLineWidth(w);
 		}
 
-		me.rotateRadarLimit();
+		me.radar_limit_grp.setRotation(radar.ps46.getDeviation() * D2R);
 		me.radar_limit_grp.show();
-	},
-
-	rotateRadarLimit: func {
-		if (!me.input.radarStandby.getBoolValue())
-			me.radar_limit_grp.setRotation(radar.ps46.getDeviation() * D2R);
 	},
 
 	showRunway: func {
@@ -4680,174 +4723,188 @@ var TI = {
 	},
 
 	displayRadarTracks: func () {
-
 		me.track_index = 0;
+		me.DLtrack_index = 0;
 		me.missile_index = 0;
-		me.isGPS = FALSE;
-		me.tgt_dist = 1000000;
-		me.tgt_callsign = "";
+
+		# This is to avoid displaying the same track twice with radar + datalink
+		me.displayed_id = {};
+
 		me.rrSymbol.hide();
-		me.gpsSymbol.hide();
 
 		me.radar_group.show();
 		me.svy_radar_grp.show();
 
-		me.selection = radar_logic.selection;
-		if (me.selection != nil) {
-			# Must be done outside of the complete_list / rb99_list in case it is a GPS point.
-			me.displayRadarTrack(me.selection);
-			me.tgt_dist = me.selection.get_range()*NM2M;
-			me.tgt_alt  = me.selection.get_indicated_altitude()*FT2M;
-		}
+		foreach (var contact; radar.ps46.getTracks()) {
+			var id = contact.getUnique();
+			if (me.track_index >= maxTracks or contains(me.displayed_id, id)) break;
 
-		foreach(var contact; radar_logic.complete_list) {
-			# Careful not to do selection twice
-			if (contact != me.selection) me.displayRadarTrack(contact);
-		}
-		# Missiles are not included in complete_list
-		foreach(contact; radar_logic.rb99_list) {
-			# Careful not to do selection twice
-			if (contact != me.selection) me.displayRadarTrack(contact);
-		}
-
-		#hide the the rest unused echoes
-		if(me.track_index != -1) {
-			for(var i = me.track_index; i<maxTracks; i+=1) {
-				me.echoesAircraft[i].grp.hide();
-				me.echoesAircraftSvy[i].grp.hide();
+			if (me.displayRadarTrack(contact)) {
+				me.displayed_id[id] = 1;
 			}
 		}
-		#hide the the rest unused missiles
-		if(me.missile_index != -1) {
-			for(var i = me.missile_index; i<maxMissiles; i+=1) {
-				me.missiles[i].hide();
+
+		foreach (var contact; fighterlink.dl_contacts) {
+			var id = contact.getUnique();
+			if (me.DLtrack_index >= maxDLTracks or contains(me.displayed_id, id)) break;
+
+			if (me.displayRadarTrack(contact, TRUE)) {
+				me.displayed_id[id] = 1;
 			}
+		}
+
+		foreach(var contact; radar.rb99_datalink.getMissileList()) {
+			if (me.missile_index >= maxMissiles) break;
+			me.displayRadarTrack(contact, FALSE, TRUE);
+		}
+
+		# hide the remaining unused echoes
+		for (; me.track_index < maxTracks; me.track_index += 1) {
+			me.tracks[me.track_index].grp.hide();
+			me.tracksSVY[me.track_index].grp.hide();
+		}
+		for (; me.DLtrack_index < maxDLTracks; me.DLtrack_index += 1) {
+			me.DLtracks[me.DLtrack_index].grp.hide();
+			me.DLtracksSVY[me.DLtrack_index].grp.hide();
+		}
+		for (; me.missile_index < maxMissiles; me.missile_index += 1) {
+			me.missiles[me.missile_index].grp.hide();
+			me.missilesSVY[me.missile_index].grp.hide();
 		}
 	},
 
-	displayRadarTrack: func (contact) {
-		me.on_dl = (contact.type == "multiplayer") and fighterlink.is_known(contact.get_Callsign());
-
-		# Show selected target, datalink contacts, and Rb 99
-		if (contact != me.selection and !me.on_dl and contact.type != "rb-99") return;
-
-		me.texelDistance = contact.get_polar()[0]*M2TEX;
-		me.angle         = contact.get_polar()[1];
-		me.pos_xx        = -me.texelDistance * math.cos(me.angle + math.pi/2);
-		me.pos_yy        = -me.texelDistance * math.sin(me.angle + math.pi/2);
-
-		me.ordn = contact.get_type() == radar_logic.ORDNANCE;
-		me.gps = contact.parents[0] == radar_logic.ContactGPS;
-		me.sel = contact == radar_logic.selection;
-
-		me.tgtHeading = contact.get_heading();
-		me.myHeading = me.input.headTrue.getValue();
-		me.relHeading = me.tgtHeading ? me.tgtHeading - me.myHeading : 0;
-		me.tgtSpeed = contact.get_Speed() or (60/NM2M/M2TEX);
-
-		if (me.gps) {
-			# GPS target. Not currently used.
-			me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);
-			me.gpsSymbol.show();
-			if (radar_logic.steerOrder == TRUE) {
-				me.rrSymbol.setTranslation(me.pos_xx, me.pos_yy-7.5);
-				me.rrSymbol.setRotation(0);
-				me.rrSymbol.show();
-			}
-		} elsif (me.ordn and me.missile_index != -1) {
-			# RB 99
-			me.missiles[me.missile_index].setTranslation(me.pos_xx, me.pos_yy);
-			me.missiles[me.missile_index].setRotation(me.relHeading * D2R);
-			me.missilesVector[me.missile_index].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 750*MM2TEX));
-
-			me.missiles[me.missile_index].show();
-			me.missiles[me.missile_index].update();
-
-			me.missile_index += 1;
-			# Indicates last displayable missile reached.
-			if (me.missile_index >= maxMissiles) me.missile_index = -1;
-		} elsif (me.track_index != -1) {
-			# Aircraft
-			me.echoesAircraft[me.track_index].grp.setTranslation(me.pos_xx, me.pos_yy);
-			me.echoesAircraft[me.track_index].grp.setRotation(me.relHeading * D2R);
-			me.echoesAircraft[me.track_index].vector.setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 750*MM2TEX));
-
-			# Steer order symbol
-			if (contact == me.selection and radar_logic.steerOrder == TRUE) {
-				me.rrSymbol.setTranslation(me.pos_xx, me.pos_yy);
-				me.rrSymbol.setRotation(me.relHeading * D2R);
-				me.rrSymbol.show();
-			}
-
-			me.is_tgt = (contact == me.selection);
-			me.iff = (me.is_tgt and contact.getIFF());
-			me.dl_buddy = fighterlink.is_connected(contact.get_Callsign());
-			me.ident = fighterlink.get_identifier(contact.get_Callsign());
-			me.dl_iff = fighterlink.get_iff(contact.get_Callsign());
-
-			# Symbol type
-			if (me.is_tgt) {
-				if (me.iff or me.dl_buddy)  me.symbol = "friendly";
-				else                        me.symbol = "target";
-			} elsif (me.dl_buddy)           me.symbol = "datalink";
-			elsif (me.on_dl)                me.symbol = "dl_tgt";
-
-			# Color (IFF)
-			if (me.iff or me.dl_iff == fighterlink.IFF_FRIENDLY) {
-				me.color = COLOR_GREEN;
-			} elsif (me.is_tgt or me.dl_iff == fighterlink.IFF_HOSTILE) {
-				me.color = COLOR_RED;
-			} else {
-				me.color = COLOR_YELLOW;
-			}
-
-			# Display correct symbol
-			me.echoesAircraft[me.track_index].datalink.setVisible(me.symbol == "datalink");
-			me.echoesAircraft[me.track_index].target.setVisible(me.symbol == "target");
-			me.echoesAircraft[me.track_index].friendly.setVisible(me.symbol == "friendly");
-			me.echoesAircraft[me.track_index].dl_tgt.setVisible(me.symbol == "dl_tgt");
-
-			me.echoesAircraft[me.track_index][me.symbol].setColor(me.color);
-			me.echoesAircraft[me.track_index].vector.setColor(me.color);
-			me.echoesAircraft[me.track_index].datalink_id.setColor(me.color);
-
-			if (me.ident != nil) {
-				me.echoesAircraft[me.track_index].datalink_id.setText(me.ident);
-				me.echoesAircraft[me.track_index].datalink_id.show();
-			} else {
-				me.echoesAircraft[me.track_index].datalink_id.hide();
-			}
-
-			me.echoesAircraft[me.track_index].grp.show();
-			me.echoesAircraft[me.track_index].grp.update();
-
-			# Same thing with sideview
-			if (me.SVYactive == TRUE and me.menuMain != MAIN_MISSION_DATA) {
-				me.altsvy  = contact.get_indicated_altitude()*FT2M;
-				me.distsvy = math.cos(me.angle)*contact.get_Coord().distance_to(geo.aircraft_position());
-				me.pos_xxx = me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange;
-				me.pos_yyy = me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt;
-				me.echoesAircraftSvy[me.track_index].grp.setTranslation(me.pos_xxx, me.pos_yyy);
-				me.rot = (math.abs(geo.normdeg180(me.relHeading)) > 90) ? -90 : 90;
-				me.echoesAircraftSvy[me.track_index].grp.setRotation(me.rot * D2R);
-				me.echoesAircraftSvy[me.track_index].vector.setScale(1, clamp(((me.tgtSpeed/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX));
-
-				me.echoesAircraftSvy[me.track_index].datalink.setVisible(me.symbol == "datalink");
-				me.echoesAircraftSvy[me.track_index].target.setVisible(me.symbol == "target");
-				me.echoesAircraftSvy[me.track_index].friendly.setVisible(me.symbol == "friendly");
-				me.echoesAircraftSvy[me.track_index].dl_tgt.setVisible(me.symbol == "dl_tgt");
-
-				me.echoesAircraftSvy[me.track_index][me.symbol].setColor(me.color);
-				me.echoesAircraftSvy[me.track_index].vector.setColor(me.color);
-
-				me.echoesAircraftSvy[me.track_index].grp.show();
-				me.echoesAircraftSvy[me.track_index].grp.update();
-			}
-
-			me.track_index += 1;
-			# Indicates last displayable track reached.
-			if (me.track_index >= maxTracks) me.track_index = -1;
+	# Returns whether or not the track was actually displayed
+	displayRadarTrack: func (contact, dl=0, missile=0) {
+		# Track parameters
+		me.coord = nil;
+		me.tgtSpeed = nil;
+		me.tgtHeading = nil;
+		if (missile or dl) {
+			me.coord = contact.getCoord();
+			me.tgtSpeed = contact.getSpeed();
+			me.tgtHeading = contact.getHeading();
+			me.tgtAlt = contact.getAltitude();
+		} else {
+			me.coord = contact.getLastCoord();
+			me.tgtSpeed = contact.getLastSpeed();
+			me.tgtHeading = contact.getLastHeading();
+			me.tgtAlt = contact.getLastAltitude();
 		}
+		if (me.coord == nil or me.tgtSpeed == nil or me.tgtHeading == nil) return FALSE;
+
+		me.texelDistance = me.ac_pos.distance_to(me.coord) * M2TEX;
+		me.angle         = (me.ac_pos.course_to(me.coord) - me.ind_head_true) * D2R;
+		me.pos_xx        = me.texelDistance * math.sin(me.angle);
+		me.pos_yy        = -me.texelDistance * math.cos(me.angle);
+		me.relHeading = me.tgtHeading - me.head_true;
+
+		# Object to show
+		if (missile) {
+			if (me.missile_index >= maxMissiles) return FALSE;
+			me.echo = me.missiles[me.missile_index];
+			me.echoSVY = me.missilesSVY[me.missile_index];
+			me.missile_index += 1;
+		} elsif (dl) {
+			if (me.DLtrack_index >= maxDLTracks) return FALSE;
+			me.echo = me.DLtracks[me.DLtrack_index];
+			me.echoSVY = me.DLtracksSVY[me.DLtrack_index];
+			me.DLtrack_index += 1;
+		} else {
+			if (me.track_index >= maxTracks) return FALSE;
+			me.echo = me.tracks[me.track_index];
+			me.echoSVY = me.tracksSVY[me.track_index];
+			me.track_index += 1;
+		}
+
+		me.on_svy = (me.SVYactive and me.menuMain != MAIN_MISSION_DATA);
+
+		# Placement
+		me.echo.grp.setTranslation(me.pos_xx, me.pos_yy);
+		me.echo.grp.setRotation(me.relHeading * D2R);
+		me.echo.vector.setScale(1, clamp(me.tgtSpeed/60.0*NM2M*M2TEX, 1, 750*MM2TEX));
+		me.echo.grp.show();
+
+		if (me.on_svy) {
+			# Compute sideview parameters
+			me.altsvy = (me.tgtAlt + me.indicated_alt_offset_ft) * FT2M;
+			me.distsvy = me.ac_pos.distance_to(me.coord);
+			me.anglesvy = me.ac_pos.course_to(me.coord) - me.ind_head_true;
+			me.center_angle = me.SVYinclude == SVY_RR ? radar.ps46.getDeviation() : 0;
+			me.angle_limit = me.SVYinclude == SVY_RR ? radar.ps46.getAzimuthRadius() : me.SVYinclude == SVY_120 ? 60 : 180;
+			# Check if it should really be displayed
+			me.on_svy = me.altsvy >= 0 and me.altsvy <= me.SVYalt
+				and me.distsvy <= me.SVYrange
+				and abs(me.anglesvy - me.center_angle) <= me.angle_limit;
+		}
+		if (me.on_svy) {
+			# Display on sideview
+			me.pos_xxx = me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange;
+			me.pos_yyy = me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt;
+			me.echoSVY.grp.setTranslation(me.pos_xxx, me.pos_yyy);
+			me.rot = (math.abs(geo.normdeg180(me.relHeading)) > 90) ? -90 : 90;
+			me.echoSVY.grp.setRotation(me.rot * D2R);
+			# Vector scale is the same as on the horizontal view, regardless of sideview scale
+			me.echoSVY.vector.setScale(1, clamp(me.tgtSpeed/60.0*NM2M*M2TEX, 1, 750*MM2TEX));
+
+			me.echoSVY.grp.show();
+		} else {
+			me.echoSVY.grp.hide();
+		}
+
+		# Symbols
+		if (missile) return TRUE; # nothing to do
+
+		# datalink information (check even if this is not from the datalink list)
+		if (contact["dl_known"]) {
+			me.dl_connected = contact.dl_connected;
+			me.dl_iff = contact.dl_iff;
+			me.dl_ident = contact.dl_ident;
+		} else {
+			me.dl_connected = FALSE;
+			me.dl_iff = 0;
+			me.dl_ident = nil;
+		}
+
+		if (dl) {
+			me.iff = me.dl_iff;
+
+			me.echo.datalink.setVisible(me.dl_connected);
+			me.echo.dl_tgt.setVisible(!me.dl_connected);
+
+			if (me.on_svy) {
+				me.echoSVY.datalink.setVisible(me.dl_connected);
+				me.echoSVY.dl_tgt.setVisible(!me.dl_connected);
+			}
+		} else {
+			me.primary = radar.ps46.isPrimary(contact);
+			me.iff = radar.stored_iff(contact);
+			# combine self and datalink iff info
+			if (me.dl_iff > 0) me.iff = 1;
+			elsif (me.dl_iff < 0 and me.iff == 0) me.iff = -1;
+
+			me.echo.primary.setVisible(me.primary);
+			me.echo.secondary.setVisible(!me.primary);
+			me.echo.friendly.setVisible(me.iff > 0);
+
+			if (me.on_svy) {
+				me.echoSVY.primary.setVisible(me.primary);
+				me.echoSVY.secondary.setVisible(!me.primary);
+				me.echoSVY.friendly.setVisible(me.iff > 0);
+			}
+		}
+
+		me.color = me.iff > 0 ? COLOR_GREEN : me.iff < 0 ? COLOR_RED : COLOR_YELLOW;
+		if (me.dl_ident == nil) me.dl_ident = "";
+
+		me.echo.grp.setColor(me.color);
+		me.echo.datalink_id.setText(me.dl_ident);
+
+		if (me.on_svy) {
+			me.echoSVY.grp.setColor(me.color);
+			me.echoSVY.datalink_id.setText(me.dl_ident);
+		}
+
+		return TRUE;
 	},
 
 	showSelfVector: func {
@@ -4855,7 +4912,8 @@ var TI = {
 		me.spd = me.input.tas.getValue();# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
 		me.selfVector.setScale(1, clamp((me.spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 		if (me.SVYactive == TRUE and me.menuMain != MAIN_MISSION_DATA) {
-			me.selfVectorSvy.setScale(clamp(((me.spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
+			# Vector scale is the same as on the horizontal view, regardless of sideview scale
+			me.selfVectorSvy.setScale(clamp((me.spd/60)*NM2M*M2TEX, 1, 750*MM2TEX), 1);
 		}
 		if (getprop("ja37/avionics/gps-nav") == TRUE) {
 			me.selfSymbol.hide();
