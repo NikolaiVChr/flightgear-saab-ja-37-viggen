@@ -31,13 +31,21 @@ var send_loop = func {
     # Do not send identifier if it is 0
     if (ident != "0") data.identifier = ident;
 
-    if (radar_logic.selection != nil and radar_logic.selection.type == "multiplayer") {
-        data.contacts = [
-            {
-                callsign: radar_logic.selection.get_Callsign(),
-                iff: radar_logic.selection.getIFF() ? IFF_FRIENDLY : IFF_HOSTILE,
-            },
-        ];
+    var contacts = [];
+    foreach (var track; radar.ps46.getTracks()) {
+        if (track.prop.getName() != "multiplayer") continue;
+        if (!track.hasTrackInfo()) continue;
+
+        var contact = { callsign: track.getCallsign() };
+        var iff = radar.stored_iff(track);
+        if (iff != 0) {
+            contact.iff = iff > 0 ? IFF_FRIENDLY : IFF_HOSTILE;
+        }
+        append(contacts, contact);
+    }
+
+    if (size(contacts) > 0) {
+        data.contacts = contacts;
     }
 
     datalink.send_data(data);
@@ -66,7 +74,7 @@ var get_iff = func(callsign) {
 }
 
 # If callsign is connected, return its datalink identifier.
-# If callsign is not connected but is tracked, return the identifier of whoever is tracking him
+# If callsign is not connected but is tracked, return the identifier of whoever is tracking them.
 # (unless argument only_connected:1 is set).
 # Return nil if no valid identifier is found.
 #
