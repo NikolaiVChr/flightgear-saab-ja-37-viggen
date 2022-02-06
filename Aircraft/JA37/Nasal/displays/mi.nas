@@ -1417,16 +1417,17 @@ var MI = {
 	},
 
 	displayScanInfo: func {
-		# Vertical limits
-		var alt_limits = radar.ps46.getCursorAltitudeLimits();
-		if (alt_limits != nil) {
+		# Vertical limits (doesn't work in disk search mode)
+		if (radar.ps46.getMode() != "Disk" and (var alt_limits = radar.ps46.getCursorAltitudeLimits()) != nil) {
 			alt_limits[0] += me.indicated_alt_offset_ft;
 			alt_limits[1] += me.indicated_alt_offset_ft;
+			alt_limits[0] *= FT2M/20000*radar_area_width;
+			alt_limits[1] *= FT2M/20000*radar_area_width;
+			alt_limits[0] = math.clamp(alt_limits[0], 5*w, radar_area_width);
+			alt_limits[1] = math.clamp(alt_limits[1], 0, radar_area_width - 5*w);
 
 			me.scan_height_line.reset();
-			me.scan_height_line
-				.moveTo(0, -alt_limits[1]*FT2M/20000*radar_area_width)
-				.vertTo(-alt_limits[0]*FT2M/20000*radar_area_width);
+			me.scan_height_line.moveTo(0, -alt_limits[0]).vertTo(-alt_limits[1]);
 			me.scan_height_line.show();
 		} else {
 			me.scan_height_line.hide();
