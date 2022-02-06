@@ -262,16 +262,6 @@ var Common = {
 	  		# nothing
 	  		me.distance_m = -1;
 	  	}
-	  	
-	  	if (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
-			# IFF
-			me.distance_name = radar_logic.selection.get_Callsign();
-			me.distance_model = radar_logic.selection.get_model();
-	    } else {
-	  		# nothing
-	  		me.distance_name = "";
-			me.distance_model = "";
-	  	}
 	},
 
 	armName: func {

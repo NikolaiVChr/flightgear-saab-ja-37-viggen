@@ -4605,12 +4605,8 @@ var TI = {
 			me.textBWeight.setText(me.weightT);
 			me.textBAlpha.setText(me.alphaT);
 		} else {
-			me.textBWeight.setText(displays.common.distance_name);
-			if (displays.common.distance_model != displays.common.distance_name) {
-				me.textBAlpha.setText(displays.common.distance_model);
-			} else {
-				me.textBAlpha.setText("");
-			}
+			me.textBWeight.setText("");
+			me.textBAlpha.setText("");
 		}
 		
 		if (displays.common.error == FALSE) {
