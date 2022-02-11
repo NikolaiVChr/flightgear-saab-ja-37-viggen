@@ -512,26 +512,6 @@ var STTMode = {
     setCursorDistance: func(nm) {},
     setCursorDeviation: func(az) {},
 
-    # Range logic is from parent mode
-    getRange: func {
-        return me.parent_mode.getRange();
-    },
-    setRange: func(nm) {
-        return me.parent_mode.setRange(nm);
-    },
-    getRangeM: func {
-        return me.parent_mode.getRangeM();
-    },
-    setRangeM: func(m) {
-        return me.parent_mode.setRangeM(m);
-    },
-    increaseRange: func {
-        return me.parent_mode.increaseRange();
-    },
-    decreaseRange: func {
-        return me.parent_mode.decreaseRange();
-    },
-
     isTracking: func(contact) {
         return contact.equals(me.priorityTarget);
     },
