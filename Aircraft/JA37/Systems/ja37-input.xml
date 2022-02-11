@@ -273,17 +273,7 @@
         </key>
         <key n="105">
             <name>i</name>
-            <desc>Toggle type/callsign / SLAV SI</desc>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>property-toggle</command>
-                <property>/ja37/hud/callsign</property>
-            </binding>
+            <desc>SLAV SI</desc>
             <binding>
                 <condition>
                     <not-equals>

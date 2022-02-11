@@ -1073,7 +1073,6 @@ var random_switches = {
   "controls/electric/lights-ext-form": 0.5,
   "controls/altimeter-radar": 0.5,
   "controls/electric/engine[0]/generator": 0.5,
-  "ja37/hud/tracks-enabled": 0.5,
   "controls/engines/engine/reverser-cmd": 0.5,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
@@ -1487,7 +1486,6 @@ var final_engine = func () {
     notice("Engine ready.");
     setprop("/controls/gear/chocks", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/available", FALSE);
-    setprop("ja37/hud/tracks-enabled", FALSE);
     if (variant.JA) {
         displays.common.toggleJAdisplays(TRUE);
     } else {

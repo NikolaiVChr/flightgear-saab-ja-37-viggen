@@ -122,10 +122,6 @@
         <desc>Toggle HUD units. Metric/imperial.</desc>
     </key>
     <key>
-        <name>i</name>
-        <desc>Toggle MI to show type or callsign for radar selection</desc>
-    </key>
-    <key>
         <name>( / )</name>
         <desc>Decrease/increase wingspan for gunsight</desc>
     </key>

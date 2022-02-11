@@ -1591,7 +1591,6 @@ var TI = {
 			roll:             	  "orientation/roll-deg",
 			pitch:             	  "orientation/pitch-deg",
 			units:                "ja37/hud/units-metric",
-			callsign:             "ja37/hud/callsign",
 			radar_serv:       	  "instrumentation/radar/serviceable",
 			tenHz:            	  "ja37/blink/four-Hz/state",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",

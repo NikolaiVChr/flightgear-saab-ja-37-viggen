@@ -917,28 +917,6 @@
         <!-- The remainder of the checklist is not in the real checklist.
              Some items should maybe be checked later (radar in particular ?) -->
         <item>
-            <name>Radar</name>
-            <value>ON</value>
-            <marker>
-                <x-m>-3.4959</x-m>
-                <y-m>-0.4397</y-m>
-                <z-m>0.0305</z-m>
-                <scale>1.3636</scale>
-            </marker>
-            <condition>
-                <property>ja37/hud/tracks-enabled</property>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>ja37/hud/tracks-enabled</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </item>
-        <item>
             <name>Pitch gearing</name>
             <value>ON</value>
             <marker>
