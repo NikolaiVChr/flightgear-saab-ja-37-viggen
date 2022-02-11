@@ -629,9 +629,9 @@ var Heading = {
         }
 
         if (me.mode != HUD.MODE_FINAL_NAV and me.mode != HUD.MODE_FINAL_OPT) {
-            if (input.rm_active.getBoolValue()
+            if (displays.common.heading != nil
                 and me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
-                var pos = geo.normdeg180(input.wp_bearing.getValue() - track);
+                var pos = geo.normdeg180(displays.common.heading - track);
                 pos *= me.scale_factor;
                 pos = math.clamp(pos, -200, 200);
                 me.index.setTranslation(pos, 0);
@@ -1516,8 +1516,10 @@ var Distance = {
             }
 
             me.dist.updateText(displays.sprintdist(max_dist));
-        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and input.rm_active.getBoolValue()) {
-            var dist = displays.metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
+        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and displays.common.distance_m) {
+            var dist = displays.common.distance_m;
+            if (displays.metric) dist /= 1000.0;
+            else dist *= M2NM;
             dist = math.round(dist);
 
             if (dist < 1000) {

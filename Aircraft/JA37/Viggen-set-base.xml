@@ -1643,6 +1643,8 @@
             <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
             <distance-unit-flag type="double">0</distance-unit-flag>
             <bearing-index type="double">0</bearing-index>
+            <ja-bearing-deg type="double">0</ja-bearing-deg>
+            <ja-tgt-heading-deg type="double">0</ja-tgt-heading-deg>
         </waypoint-indicator>
         <fuel>
             <ratio type="double">0</ratio>

@@ -283,6 +283,12 @@
             -->
             <indicated-ratio-factor>1.32</indicated-ratio-factor>
         </fuel>
+        <heading-indicator>
+            <max-speed-deg-sec type="double">30</max-speed-deg-sec><!-- from AJS37 beskrivning vol. 4 -->
+        </heading-indicator>
+        <waypoint-indicator>
+            <max-speed-deg-sec type="double">25</max-speed-deg-sec><!-- from AJS37 beskrivning vol. 4 -->
+        </waypoint-indicator>
         <radar-altimeter>
             <max-usable-altitude-m type="double">600</max-usable-altitude-m>
         </radar-altimeter>

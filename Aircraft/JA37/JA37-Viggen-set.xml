@@ -321,6 +321,12 @@
                  tanks, and 136% with external tank in addition. -->
             <indicated-ratio-factor>1.36</indicated-ratio-factor>
         </fuel>
+        <heading-indicator>
+            <max-speed-deg-sec type="double">90</max-speed-deg-sec><!-- made up -->
+        </heading-indicator>
+        <waypoint-indicator>
+            <max-speed-deg-sec type="double">90</max-speed-deg-sec><!-- made up -->
+        </waypoint-indicator>
         <radar-altimeter>
             <max-usable-altitude-m type="double">1375</max-usable-altitude-m>
         </radar-altimeter>

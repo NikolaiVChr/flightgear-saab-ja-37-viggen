@@ -87,6 +87,7 @@ var Common = {
 			units:            "ja37/hud/units-metric",
 			RMActive:         "autopilot/route-manager/active",
 			rmDist:           "autopilot/route-manager/wp/dist",
+			rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
 			displays_on:      "ja37/displays/on",
@@ -95,6 +96,8 @@ var Common = {
 			launch_alt_warn:  "fdm/jsbsim/systems/mkv/ajs-launch-altitude-enable",
 			launch_alt_min:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-min",
 			launch_alt_max:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-max",
+			ja_head_bug:      "instrumentation/waypoint-indicator/ja-bearing-deg",
+			ja_head_tgt:      "instrumentation/waypoint-indicator/ja-tgt-heading-deg",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -139,6 +142,8 @@ var Common = {
 		co.qfe_warn_takeoff_time = nil;
 		co.qfe_warn_time = nil;
 
+		co.ti_selection = nil;
+
       	return co;
 	},
 
@@ -148,15 +153,16 @@ var Common = {
 		me.armName();
 		me.armNameShort();
 		me.armNameMedium();
-		me.distance();
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
-		if (variant.AJS) {
+		if (variant.JA) {
+			me.ja_nav();
+			me.landWarningsCondition();
+		} else {
 			me.hojd_switch();
 			me.launch_altitude();
 		}
-		if (variant.JA) me.landWarningsCondition();
 	},
 
 	loopFast: func {
@@ -251,17 +257,34 @@ var Common = {
 		me.error = FALSE;
 	},
 
-	distance: func {
-		if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
-			# radar steer order
-			me.distance_m = radar_logic.selection.get_range()*NM2M;
-	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1) {
-	    	# next steerpoint
-	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
+	ja_nav: func {
+		# Information displayed on various waypoint range / bearing indicators.
+
+		if (me.ti_selection != nil and (var coord = me.ti_selection.getLastCoord()) != nil) {
+			var ac_pos = geo.aircraft_position();
+			me.distance_m = ac_pos.distance_to(coord);
+			me.heading = ac_pos.course_to(coord);
+			me.tgt_heading = me.ti_selection.getLastHeading();
+		} elsif (me.input.RMActive.getValue() == TRUE and getprop("autopilot/route-manager/current-wp") != -1) {
+			# next steerpoint
+			me.distance_m = me.input.rmDist.getValue();
+			if (me.distance_m != nil) me.distance_m *= NM2M;
+			me.heading = me.input.rmBearing.getValue();
+
+			if (land.show_runway_line) {
+				me.tgt_heading = land.head;
+			} else {
+				me.tgt_heading = nil;
+			}
 		} else {
-	  		# nothing
-	  		me.distance_m = -1;
-	  	}
+			# nothing
+			me.distance_m = nil;
+			me.heading = nil;
+			me.tgt_heading = nil;
+		}
+
+		me.input.ja_head_bug.setValue(me.heading or 0);
+		me.input.ja_head_tgt.setValue(me.tgt_heading or 0);
 	},
 
 	armName: func {
@@ -527,6 +550,14 @@ var Common = {
 		me.input.cursor_clicked.setBoolValue(0);
 	},
 
+	unsetTISelection: func {
+		me.setTISelection(nil);
+	},
+
+	setTISelection: func(s) {
+		me.ti_selection = s;
+		if (s != nil) land.RR();
+	},
 };
 
 var common = Common.new();

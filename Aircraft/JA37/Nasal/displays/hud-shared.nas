@@ -38,8 +38,6 @@ var input = {
     ref_alt:        "/ja37/displays/reference-altitude-m",
     rm_active:      "/autopilot/route-manager/active",
     wp_bearing:     "/autopilot/route-manager/wp/true-bearing-deg",
-    wp_dist:        "/autopilot/route-manager/wp/dist-km",
-    wp_dist_nm:     "/autopilot/route-manager/wp/dist",
     eta:            "/instrumentation/waypoint-indicator/eta-s",
     hud_slav:       "/ja37/hud/switch-slav",
     gear_pos:       "/gear/gear/position-norm",

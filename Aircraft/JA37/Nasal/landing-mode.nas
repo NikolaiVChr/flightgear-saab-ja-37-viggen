@@ -367,9 +367,6 @@ var Landing = {
                         icao   = me.wp[1].id;
                         runway = me.wp[0].id;
                         runway_rw = me.wp[0];
-                        if (!radar_logic.steerOrder) {
-                            setprop("ja37/avionics/heading-indicator-target", runway_rw.heading);
-                        }
                         if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
                             ils = runway_rw.ils.frequency/100;
                         }
@@ -379,11 +376,6 @@ var Landing = {
                 }
             } elsif (runway_dist != nil and me.bearing != nil and me.heading != nil) {
                 #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
-            }
-        }
-        if (has_waypoint != 2) {
-            if (!radar_logic.steerOrder) {
-                setprop("ja37/avionics/heading-indicator-target", 0);
             }
         }
         me.alt             = input.alt_aal.getValue();

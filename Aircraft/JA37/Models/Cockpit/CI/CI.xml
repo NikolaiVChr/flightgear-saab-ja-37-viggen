@@ -63,6 +63,8 @@
   <animation>
     <type>rotate</type>
     <object-name>headingScale</object-name>
+    <!-- Waypoint bearing indicator moves relative to the heading ring -->
+    <object-name>waypointHeading</object-name>
     <property>instrumentation/heading-indicator/indicator-pos-deg</property>
     <factor>-1.0</factor>
     <center>
@@ -80,13 +82,7 @@
   <animation>
     <type>rotate</type>
     <object-name>waypointHeading</object-name>
-    <!-- Waypoint bearing indicator moves relative to the heading ring -->
-    <expression>
-      <difference>
-        <property>instrumentation/waypoint-indicator/bearing-index</property>
-        <property>instrumentation/heading-indicator/indicator-pos-deg</property>
-      </difference>
-    </expression>
+    <property>instrumentation/waypoint-indicator/bearing-index</property>
     <center>
       <x-m>0.0</x-m>
       <y-m>0.0</y-m>

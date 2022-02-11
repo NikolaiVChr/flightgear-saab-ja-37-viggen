@@ -127,8 +127,6 @@ var MI = {
 			rad_alt_ready:        "instrumentation/radar-altimeter/ready",
 			radar_stby:           "instrumentation/radar/radar-standby",
 			ref_alt:              "ja37/displays/reference-altitude-m",
-			rm_active:            "autopilot/route-manager/active",
-			wp_bearing:           "/autopilot/route-manager/wp/true-bearing-deg",
 			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
 			timeElapsed:          "sim/time/elapsed-sec",
 			headTrue:             "orientation/heading-deg",
@@ -1172,8 +1170,8 @@ var MI = {
 			me.heading_scale_texts[i+1].updateText(sprintf("%.2d", math.mod(me.center_mark_text + 3*i, 36)));
 		}
 
-		if (me.input.rm_active.getBoolValue()) {
-			var pos = geo.normdeg180(me.input.wp_bearing.getValue() - me.heading);
+		if (displays.common.heading != nil) {
+			var pos = geo.normdeg180(displays.common.heading - me.heading);
 			pos = math.clamp(pos, -60, 60);
 			pos *= heading_deg_to_mm;
 			me.heading_index.setTranslation(pos, 0);

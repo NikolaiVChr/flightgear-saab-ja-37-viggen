@@ -11,7 +11,7 @@
     <input>
       <expression>
         <difference>
-          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <property>/instrumentation/heading-indicator/indicator-goal-deg</property>
           <property>/instrumentation/heading-indicator/indicator-pos-deg</property>
         </difference>
       </expression>
@@ -26,7 +26,7 @@
   <filter>
     <name>Heading indicator</name>
     <type>noise-spike</type>
-    <max-rate-of-change>30</max-rate-of-change>
+    <max-rate-of-change>/instrumentation/heading-indicator/max-speed-deg-sec</max-rate-of-change>
     <input>
       <expression>
         <sum>
@@ -71,6 +71,10 @@
     <max-rate-of-change>
       <!-- Low speed mode, for offset < 5deg -->
       <condition>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
         <less-than>
           <property>/instrumentation/waypoint-indicator/bearing-index-offset</property>
           <value>5</value>
@@ -82,9 +86,7 @@
       </condition>
       <value>3</value>
     </max-rate-of-change>
-    <max-rate-of-change>
-      <value>25</value>
-    </max-rate-of-change>
+    <max-rate-of-change>/instrumentation/waypoint-indicator/max-speed-deg-sec</max-rate-of-change>
     <input>
       <expression>
         <sum>
@@ -98,5 +100,44 @@
       <max>180</max>
     </period>
     <output>/instrumentation/waypoint-indicator/bearing-index</output>
+  </filter>
+
+
+  <filter>
+    <name>Target heading indicator offset</name>
+    <type>gain</type>
+    <gain>1</gain>
+    <input>
+      <expression>
+        <difference>
+          <property>/instrumentation/waypoint-indicator/tgt-heading-index-goal</property>
+          <property>/instrumentation/waypoint-indicator/tgt-heading-index</property>
+        </difference>
+      </expression>
+    </input>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <output>/instrumentation/waypoint-indicator/tgt-heading-index-offset</output>
+  </filter>
+
+  <filter>
+    <name>Target heading indicator</name>
+    <type>noise-spike</type>
+    <max-rate-of-change>/instrumentation/waypoint-indicator/max-speed-deg-sec</max-rate-of-change>
+    <input>
+      <expression>
+        <sum>
+          <property>/instrumentation/waypoint-indicator/tgt-heading-index</property>
+          <property>/instrumentation/waypoint-indicator/tgt-heading-index-offset</property>
+        </sum>
+      </expression>
+    </input>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <output>/instrumentation/waypoint-indicator/tgt-heading-index</output>
   </filter>
 </PropertyList>

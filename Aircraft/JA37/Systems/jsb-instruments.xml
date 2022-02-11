@@ -271,11 +271,23 @@
         </pure_gain>
 
         <switch name="instruments/heading/ja-indicated-heading">
-            <default value="/instrumentation/heading-indicator/indicated-heading-deg"/>
             <test value="/instrumentation/heading-indicator[1]/indicated-heading-deg">
                 /ja37/avionics/reservkurs eq 1
             </test>
+            <default value="/instrumentation/heading-indicator/indicated-heading-deg"/>
             <output>/instrumentation/heading-indicator/ja-indicated-heading-deg</output>
+        </switch>
+
+        <switch name="instruments/heading/indicator-goal-deg">
+            <test logic="OR" value="/instrumentation/heading-indicator/indicator-pos-deg">
+                /ja37/elec/ac-bus-main-bool == 0
+                /instrumentation/heading-indicator/serviceable == 0
+            </test>
+            <test value="instruments/heading/ja-indicated-heading">
+                /ja37/systems/variant eq 0
+            </test>
+            <default value="/instrumentation/heading-indicator/indicated-heading-deg"/>
+            <output>/instrumentation/heading-indicator/indicator-goal-deg</output>
         </switch>
     </channel>
 
@@ -297,22 +309,51 @@
 
     <channel execrate="4" name="waypoint-indicators">
         <!-- waypoint bearing indicator -->
-        <switch name="instruments/waypoint/bearing-index-goal">
-            <default value="/autopilot/route-manager/wp/true-bearing-deg"/>
+
+        <switch name="instruments/waypoint/ajs-bearing-index-goal">
             <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
                 /ja37/elec/ac-bus-main-bool == 0
                 /instrumentation/heading-indicator/serviceable == 0
                 /autopilot/route-manager/active == 0
                 /autopilot/route-manager/current-wp lt 0
             </test>
+            <default value="/autopilot/route-manager/wp/true-bearing-deg"/>
+        </switch>
+
+        <switch name="instruments/waypoint/ja-bearing-index-goal">
+            <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
+                /ja37/elec/ac-bus-main-bool == 0
+                /instrumentation/heading-indicator/serviceable == 0
+            </test>
+            <!-- nasal logic -->
+            <default value="/instrumentation/waypoint-indicator/ja-bearing-deg"/>
+        </switch>
+
+        <switch name="instruments/waypoint/bearing-index-goal">
+            <test value="instruments/waypoint/ja-bearing-index-goal">
+                /ja37/systems/variant eq 0
+            </test>
+            <default value="instruments/waypoint/ajs-bearing-index-goal"/>
             <output>/instrumentation/waypoint-indicator/bearing-index-goal</output>
         </switch>
+
+        <switch name="instruments/waypoint/target-heading-index-goal">
+            <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
+                /ja37/elec/ac-bus-main-bool == 0
+                /instrumentation/heading-indicator/serviceable == 0
+            </test>
+            <!-- nasal logic -->
+            <default value="/instrumentation/waypoint-indicator/ja-tgt-heading-deg"/>
+            <output>/instrumentation/waypoint-indicator/tgt-heading-index-goal</output>
+        </switch>
+
 
         <!-- the rest is done in instruments-rules.xml,
              because property rules are easier to use for cyclic values
         -->
 
-        <!-- waypoint distance indicator -->
+        <!-- AJS waypoint distance indicator -->
+
         <pure_gain name="instruments/waypoint/distance-km">
           <input>/autopilot/route-manager/wp/dist</input>
           <gain>1.852</gain>

@@ -4557,7 +4557,7 @@ var TI = {
 		}
 		me.textBMode.setText(me.mode);
 
-		if (displays.common.distance_m != -1) {
+		if (displays.common.distance_m != nil) {
 			if (me.swedishMode) {
 				me.distance_un = displays.common.distance_m/1000;
 				me.textBDistN.setText("A");
@@ -4986,15 +4986,9 @@ var TI = {
 	},
 
 	showHeadingBug: func {
-		me.desired_heading = nil;
-	    if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
-	    	me.desired_heading = radar_logic.selection.getInterceptBearing();
-	    } elsif (me.input.RMActive.getValue() == TRUE) {
-	    	me.desired_heading = me.input.rmBearing.getValue();
-	    }
-	    if (me.desired_heading != nil) {
+	    if (displays.common.heading != nil) {
 	    	me.myHdg  = me.input.heading.getValue();
-	    	me.bugOffset = geo.normdeg180(me.desired_heading-me.myHdg);
+	    	me.bugOffset = geo.normdeg180(displays.common.heading-me.myHdg);
 	    	if (math.abs(me.bugOffset) < 90) {
 	    		me.xxx       = math.tan(me.bugOffset*D2R)*(height*0.875-(height*0.875)*me.ownPosition)+width/2;
 	    		me.yyy       = 0;

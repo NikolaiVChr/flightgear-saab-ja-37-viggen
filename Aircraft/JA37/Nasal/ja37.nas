@@ -100,8 +100,6 @@ input = {
   rainVol:          "ja37/sound/rain-volume",
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
-  rmActive:         "/autopilot/route-manager/active",
-  rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   sceneRed2:        "/rendering/scene/diffuse/red-unbound",
@@ -397,7 +395,6 @@ var Saab37 = {
     }
     
     me.aural();
-    me.headingBug();
     me.flare();
   },
 
@@ -816,23 +813,6 @@ var Saab37 = {
           screen.log.write("You feel its too warm in the cabin", 1.0, 0.5, 0.0);
         }
       }
-    }
-  },
-  
-  headingBug: func () {
-    # for the heading indicator
-    me.desired_heading = nil;
-    if (radar_logic.steerOrder and radar_logic.selection != nil) {
-        me.desired_heading = radar_logic.selection.getInterceptBearing();
-        me.itsHead = radar_logic.selection.get_heading();
-        setprop("ja37/avionics/heading-indicator-target", me.itsHead);
-    } elsif(input.rmActive.getBoolValue()) {
-      me.desired_heading = input.rmBearing.getValue();
-    }
-    if(me.desired_heading != nil) {
-      setprop("ja37/avionics/heading-indicator-bug", me.desired_heading);
-    } else {
-      setprop("ja37/avionics/heading-indicator-bug", 0);
     }
   },
 
