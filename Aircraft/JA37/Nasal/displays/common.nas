@@ -267,19 +267,14 @@ var Common = {
 		me.tgt_heading = nil;
 
 		if (me.ti_selection != nil) {
-			var coord = nil;
-			if (me.ti_sel_type == TI_SEL_RADAR) {
-				coord = me.ti_selection.getLastCoord();
-				me.tgt_heading = me.ti_selection.getLastHeading();
+			if (me.ti_sel_type == TI_SEL_RADAR and (var info = me.ti_selection.getLastBlep()) != nil) {
+				me.distance_m = info.getRangeNow();
+				me.heading = info.getBearing();
+				me.tgt_heading = info.getHeading();
 			} elsif (me.ti_sel_type == TI_SEL_DL) {
-				coord = me.ti_selection.getCoord();
+				me.distance_m = me.ti_selection.getRange();
+				me.heading = me.ti_selection.getBearing();
 				me.tgt_heading = me.ti_selection.getHeading();
-			}
-
-			if (coord != nil) {
-				var ac_pos = geo.aircraft_position();
-				me.distance_m = ac_pos.distance_to(coord);
-				me.heading = ac_pos.course_to(coord);
 			}
 		} elsif (me.input.RMActive.getValue() == TRUE and getprop("autopilot/route-manager/current-wp") != -1) {
 			# next steerpoint
