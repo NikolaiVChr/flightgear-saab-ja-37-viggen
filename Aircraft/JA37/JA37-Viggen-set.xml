@@ -345,6 +345,11 @@
         <fighterlink>
             <file>Aircraft/JA37/Nasal/fighter-link.nas</file>
         </fighterlink>
+        <radar>
+            <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/ps46.nas</file>
+        </radar>
         <hud>
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>

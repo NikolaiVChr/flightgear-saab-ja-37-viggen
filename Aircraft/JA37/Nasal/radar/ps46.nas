@@ -1,0 +1,297 @@
+#### JA 37D PS/46A radar
+
+
+var input = {
+    radar_serv:         "instrumentation/radar/serviceable",
+    antenna_angle:      "instrumentation/radar/antenna-angle",
+    tracks_enabled:     "ja37/hud/tracks-enabled",
+    nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
+};
+
+foreach(var name; keys(input)) {
+    input[name] = props.globals.getNode(input[name], 1);
+};
+
+
+### Radar parameters (used as subclass of AirborneRadar from radar.nas)
+
+var PS46 = {
+    # need source for all of these
+    fieldOfRegardMaxAz: 60,     # to match MI
+    fieldOfRegardMaxElev: 60,
+    instantFoVradius: 2.0,
+    instantVertFoVradius: 2.5,  # unused (could be used by ground mapper)
+    instantHoriFoVradius: 1.5,  # unused
+    rcsRefDistance: 40,
+    rcsRefValue: 3.2,
+    maxTilt: 60,
+
+    isEnabled: func {
+        return input.tracks_enabled.getBoolValue() and input.radar_serv.getBoolValue()
+          and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
+          and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue();
+    },
+
+    getTiltKnob: func {
+        return input.antenna_angle.getValue();
+    },
+};
+
+
+### Parent class for PS/46 modes
+
+var PS46Mode = {
+    parents: [RadarMode],
+
+    radar: nil,
+
+    # ranges in meter (unlike generic RadarMode)
+    minRangeM: 15000,
+    maxRangeM: 120000,
+    rangeM: 60000,
+    # make sure these are never used
+    minRange: nil,
+    maxRange: nil,
+    range: nil,
+
+    az: 60,             # width of search (matches MI)
+    discSpeed_dps: 60,  # sweep speed (estimated from MI video)
+
+    # scan patterns
+    bars: 1,            # pattern index (1 based)
+    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
+    # A pattern is a vector of points
+    # This is a vector of patterns (one per "scan mode")
+    #
+    # From a MI video, the vertical scan is around 1/10 radian ~= 6deg
+    barPattern: [ [[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3]] ],
+    barHeight: 0.75,
+    barPatternMin: [-3],
+    barPatternMax: [3],
+
+    timeToKeepBleps: 13,
+
+    rcsFactor: 1,
+
+    rootName: "PS46",
+    shortName: "",
+    longName: "",
+
+
+    setRangeM: func (range) {
+        if (range < me.minRangeM or range > me.maxRangeM or math.mod(range, me.minRangeM) != 0) return 0;
+
+        me.rangeM = range;
+        return 1;
+    },
+    getRangeM: func {
+        return me.rangeM;
+    },
+
+    # These _must_ be in NM (used by the rest of the code)
+    setRange: func (range) {
+        me.setRangeM(int(range * NM2M));
+    },
+    getRange: func {
+        return me.rangeM * M2NM;
+    },
+
+    _increaseRange: func {
+        if (me.rangeM <= me.maxRangeM/2) {
+            me.rangeM *= 2;
+            return 1;
+        } else {
+            return 0;
+        }
+    },
+    _decreaseRange: func {
+        if (me.rangeM >= me.minRangeM*2) {
+            me.rangeM /= 2;
+            return 1;
+        } else {
+            return 0;
+        }
+    },
+    increaseRange: func {
+        return me._increaseRange();
+    },
+    decreaseRange: func {
+        return me._decreaseRange();
+    },
+
+    # Must be defined by each mode, used to set azimuth / elevation offset
+    preStep: func {
+        var az_limit = me.radar.fieldOfRegardMaxAz - me.az;
+        me.azimuthTilt = math.clamp(me.cursorAz, -az_limit, az_limit);
+        me.elevationTilt = me.radar.getTiltKnob();
+    },
+
+    # type of information given by this mode
+    # [dist, groundtrack, deviations, speed, closing-rate, altitude]
+    getSearchInfo: func (contact) {
+        return [1,0,1,0,0,1];
+    },
+};
+
+
+var ScanMode = {
+    parents: [PS46Mode],
+
+    shortName: "Scan",
+    longName: "Wide Scan",
+
+    designate: func (contact) {
+    },
+
+    designatePriority: func (contact) {
+        me.designate(contact);
+    },
+
+    undesignate: func {},
+};
+
+
+var TWSMode = {
+    parents: [PS46Mode],
+
+    shortName: "TWS",
+    longName: "Track While Scan",
+
+    az: 30,
+    priorityTarget: nil,
+    tracks: [],
+    max_tracks: 4,
+
+    designate: func (contact) {
+    },
+
+    designatePriority: func (contact) {
+    },
+
+    undesignate: func {
+    },
+
+    # type of information given by this mode
+    # [dist, groundtrack, deviations, speed, closing-rate, altitude]
+    getSearchInfo: func (contact) {
+        return [1,0,1,0,0,1];
+    },
+};
+
+
+var DiskSearchMode = {
+    parents: [PS46Mode],
+
+    shortName: "Disk",
+    longName: "Disk Search",
+
+    rangeM: 15000,
+    minRangeM: 15000,
+    maxRangeM: 15000,
+
+    discSpeed_dps: 90,
+    rcsFactor: 0.9,
+
+    # scan patterns (~ 20x20 deg square)
+    bars: 1,            # pattern index (1 based)
+    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
+    # A pattern is a vector of points
+    # This is a vector of patterns (one per "scan mode")
+    barPattern: [ [-1,5],[1,5],[1,3],[-1,3],[-1,1],[1,1],[1,-1],[-1,-1],[-1,-3],[1,-3],[1,-5],[-1,-5] ],
+    barHeight: 0.9,
+    barPatternMin: [-5],
+    barPatternMax: [5],
+
+    preStep: func {
+        me.radar.horizonStabilized = 0;
+        me.azimuthTilt = 0;
+        me.elevationTilt = -7;
+    },
+
+    designate: func (contact) {
+    },
+
+    designatePriority: func (contact) {
+    },
+
+    undesignate: func {
+    },
+
+    getSearchInfo: func (contact) {
+        return nil;
+    },
+};
+
+
+var STTMode = {
+    parents: [PS46Mode],
+
+    shortName: "STT",
+    longName: "Single Target Track",
+
+    rcsFactor: 1.1,
+    az: PS46.instantFoVradius * 0.7,
+
+    discSpeed_dps: 90,
+
+    # scan patterns
+    bars: 1,            # pattern index (1 based)
+    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
+    # A pattern is a vector of points
+    # This is a vector of patterns (one per "scan mode")
+    barPattern: [ [-1,-1],[1,-1],[1,1],[-1,1] ],
+    barHeight: 0.7,
+    barPatternMin: [-1],
+    barPatternMax: [1],
+
+    minimumTimePerReturn: 0.10,
+    timeToKeepBleps: 5,
+    painter: 1,
+    priorityTarget: nil,
+
+    preStep: func {
+        if (me.priorityTarget == nil or me.priorityTarget.getLastBlep() == nil
+            # is that necessary ?
+            or !me.radar.containsVectorContact(me.radar.vector_aicontacts_bleps, me.priorityTarget))
+        {
+            me.undesignate();
+            return;
+        }
+
+        me.lastBlep = me.priorityTarget.getLastBlep();
+        me.azimuthTilt = me.lastBlep.getAZDeviation();
+        me.elevationTilt = me.lastBlep.getElev(); # tilt here is in relation to horizon
+
+        var az_limit = me.radar.fieldOfRegardMaxAz - me.az;
+        me.azimuthTilt = math.clamp(me.azimuthTilt, -az_limit, az_limit);
+    },
+
+    designate: func (contact) {},
+
+    designatePriority: func (contact) {
+        me.priorityTarget = contact;
+    },
+
+    undesignate: func {
+        me.priorityTarget = nil;
+    },
+
+    # type of information given by this mode
+    # [dist, groundtrack, deviations, speed, closing-rate, altitude]
+    getSearchInfo: func (contact) {
+        if (me.priorityTarget != nil and contact.equals(me.priorityTarget)) {
+            return [1,1,1,1,1,1];
+        }
+        return nil;
+    },
+};
+
+
+
+### Array of main mode, each being an array of submodes.
+
+var ps46_modes = [
+    [ScanMode],
+];
+
+var ps46 = AirborneRadar.newAirborne(ps46_modes, PS46);

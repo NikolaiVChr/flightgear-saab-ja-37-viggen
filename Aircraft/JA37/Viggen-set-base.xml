@@ -1442,6 +1442,13 @@
     <timings>
         <aaaa type="bool">false</aaaa>
     </timings>
+
+    <debug-radar>
+        <debug-mapper type="int">0</debug-mapper>
+        <debug-main type="int">0</debug-main>
+        <debug-stt type="int">0</debug-stt>
+    </debug-radar>
+
     <instrumentation>
         <gps n="0">
 		    <indicated-vertical-speed type="double">0</indicated-vertical-speed>
@@ -1520,7 +1527,9 @@
         <radar>
             <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
             <range>15000</range>            <!-- 15 Km -->
+            <antenna-angle type="double">0</antenna-angle>
             <serviceable type="bool">true</serviceable>
+            <radar-standby type="int">1</radar-standby> <!-- set by radar/radar.nas -->
         </radar>
         <rwr>
           <ajs-lights>

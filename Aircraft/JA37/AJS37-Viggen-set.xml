@@ -293,6 +293,10 @@
     </instrumentation>
 
     <nasal>
+        <radar>
+            <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
+        </radar>
         <rdr>
             <file>Aircraft/JA37/Nasal/displays/radar.nas</file>
         </rdr>
