@@ -4900,7 +4900,7 @@ var TI = {
 			# Check if it should really be displayed
 			me.on_svy = me.altsvy >= 0 and me.altsvy <= me.SVYalt
 				and me.distsvy <= me.SVYrange
-				and abs(me.anglesvy - me.center_angle) <= me.angle_limit;
+				and abs(geo.normdeg180(me.anglesvy - me.center_angle)) <= me.angle_limit;
 		}
 		if (me.on_svy) {
 			# Display on sideview
