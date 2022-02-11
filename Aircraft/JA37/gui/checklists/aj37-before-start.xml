@@ -303,6 +303,8 @@
                 <value>0</value>
             </binding>
         </item>
+    </page>
+    <page>
         <item>
             <name>Air conditioning temperature</name>
             <value>AS DESIRED</value>
@@ -338,8 +340,6 @@
                 <script>ja37.click();</script>
             </binding>
         </item>
-    </page>
-    <page>
         <item>
             <name>Air conditioning</name>
             <value>ON</value>
@@ -613,6 +613,8 @@
                 <scale>3.0000</scale>
             </marker>
         </item>
+    </page>
+    <page>
         <item>
             <name>Engine pressure ratio</name>
             <value>AROUND 1.0</value>
@@ -629,8 +631,6 @@
                 </less-than>
             </condition>
         </item>
-    </page>
-    <page>
         <item>
             <name>*Fuel indicator</name>
             <value>CHECK</value>
