@@ -291,31 +291,6 @@
         </limits>-->
             </config>
         </view>
-        
-        <view n="110">
-            <name>Selection view</name>
-            <type>lookfrom</type>
-            <config>
-                <x-offset-m type="double">0.00</x-offset-m>
-                <y-offset-m type="double">3.00</y-offset-m>
-                <z-offset-m type="double">20.00</z-offset-m>
-                <eye-lat-deg-path>/position/latitude-deg</eye-lat-deg-path>
-                <eye-lon-deg-path>/position/longitude-deg</eye-lon-deg-path>
-                <eye-alt-ft-path>/fdm/jsbsim/position/h-sl-ft</eye-alt-ft-path>
-
-                <eye-pitch-deg-path>/ja37/radar/selection-pitch-deg</eye-pitch-deg-path>
-                <eye-heading-deg-path>/ja37/radar/selection-heading-deg</eye-heading-deg-path>
-
-                <at-model type="bool">true</at-model>
-                <at-model-idx type="int">0</at-model-idx>
-
-                <ground-level-nearplane-m type="double">10.0f</ground-level-nearplane-m>
-                <default-field-of-view-deg>70</default-field-of-view-deg>
-                <limits>
-                    <enabled type="bool">false</enabled>
-                </limits>
-            </config>
-        </view>
         <!-- Update Nasal/missile-view.nas when changing the name or index. -->
         <view n="111">
             <name>Ejection view</name>
@@ -565,9 +540,6 @@
             <installed type="bool">false</installed>
         </failures>
         <radar>
-            <look-through-terrain type="bool">true</look-through-terrain>
-            <doppler-enabled type="bool">true</doppler-enabled>
-            <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
             <time-till-crash type="double">15</time-till-crash>
             <panel>
                 <passive type="bool">false</passive>
@@ -1776,9 +1748,6 @@
         <reversethrust>
             <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
         </reversethrust>
-        <radar_logic>
-            <file>Aircraft/JA37/Nasal/radar/radar-logic.nas</file>
-        </radar_logic>
         <rcs>
             <file>Aircraft/JA37/Nasal/radar/rcs_mand.nas</file>
             <file>Aircraft/JA37/Nasal/radar/rcs.nas</file>
@@ -1898,14 +1867,6 @@
         <gci>
           <file>Aircraft/JA37/Nasal/gci-listener.nas</file>
         </gci>
-        <!--<view>
-          <file>Aircraft/JA37/Nasal/F-PLN.nas</file>
-        </view>-->
-
-        <!--<proto>
-            <file>Aircraft/JA37/Nasal/radar/radar-prototype.nas</file>
-        </proto>-->
-        
         <lm>
             <file>Aircraft/JA37/Nasal/light-manager.nas</file>
         </lm>

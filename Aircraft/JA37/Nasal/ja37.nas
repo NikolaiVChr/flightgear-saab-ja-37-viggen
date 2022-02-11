@@ -259,10 +259,6 @@ var Saab37 = {
     setprop("velocities/airspeed-kt-inv", me.inv_speed);
     setprop("ja37/effect/heatblur/dens", clamp((getprop("engines/engine/n2")/100-getprop("velocities/airspeed-kt")/250)*0.035, 0, 1));
 
-    ## terrain detection ##
-    if (getprop("ja37/supported/picking") == TRUE) {
-      setprop("ja37/radar/look-through-terrain", FALSE);
-    }
     if (getprop("controls/electric/main") and getprop("ja37/avionics/collision-warning") and getprop("ja37/supported/picking") == TRUE and (getprop("velocities/speed-east-fps") != 0 or getprop("velocities/speed-north-fps") != 0)) {
       # main elec switch must be on to enable this system, dont run on batt
       me.start = geo.aircraft_position();
@@ -829,7 +825,6 @@ var Saab37 = {
     displays.common.loopFast();
 
     # radar
-    radar_logic.radarLogic = radar_logic.RadarLogic.new();
     radar.init();
     rwr.init();
 
