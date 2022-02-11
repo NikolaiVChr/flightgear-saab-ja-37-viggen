@@ -4943,6 +4943,8 @@ var TI = {
 			# adjust symbol position. Radar symbols are centered on aircraft, DL are behind.
 			me.rrSymbol2.setTranslation(0, dl ? 7.5 : 0);
 			me.sel_updated = TRUE;
+			# update DL / radar type
+			displays.common.ti_sel_type = dl ? displays.TI_SEL_DL : displays.TI_SEL_RADAR;
 		}
 
 		# Symbols

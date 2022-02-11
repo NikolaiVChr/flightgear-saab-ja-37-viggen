@@ -524,25 +524,32 @@ var MI = {
 		}
 
 		me.alt_cursor = me.alt_scale.createChild("path")
-				.moveTo(-1,0)
-				.line(-3,3)
-				.moveTo(-1,0)
-				.line(-3,-3)
-				.moveTo(-10,0)
-				.horiz(20)
-				.setStrokeLineWidth(w)
-				.setColor(r,g,b, a);
+			.moveTo(-1,0)
+			.line(-3,3)
+			.moveTo(-1,0)
+			.line(-3,-3)
+			.moveTo(-10,0)
+			.horiz(20)
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b,a);
 
-		me.alt_tgt_cursor = me.alt_scale.createChild("path")
-				.moveTo(ticksMed, 0)
-				.horiz(ticksMed)
-				.setStrokeLineWidth(3*w)
-				.setColor(r,g,b,a);
+		me.alt_tgt_index = me.alt_scale.createChild("path")
+			.moveTo(ticksMed, 0)
+			.horiz(ticksMed)
+			.setStrokeLineWidth(3*w)
+			.setColor(r,g,b,a);
 
 		me.scan_height_line = me.alt_scale.createChild("path")
-				.setTranslation(ticksMed, 0)
-				.setStrokeLineWidth(3*w)
-				.setColor(r,g,b,a);
+			.setTranslation(ticksMed, 0)
+			.setStrokeLineWidth(3*w)
+			.setColor(r,g,b,a);
+
+		me.cmd_alt_index = me.alt_scale.createChild("path")
+			.moveTo(ticksMed, 0)
+			.arcSmallCW(ticksLong*0.5, ticksLong*0.5, 0, ticksLong, 0)
+			.arcSmallCW(ticksLong*0.5, ticksLong*0.5, 0, -ticksLong, 0)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
 
 		# Interoperability altitude scale
 		me.alt_scale_int = me.alt_scale.createChild("group");
@@ -743,6 +750,14 @@ var MI = {
 			.moveTo(0,-3).vert(-8)
 			.moveTo(-5,5).lineTo(0,0).lineTo(5,5)
 			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+
+		# TI selection
+		me.cmd_circle = me.radar_group.createChild("path")
+			.moveTo(-5,0)
+			.arcSmallCW(5,5,0,10,0)
+			.arcSmallCW(5,5,0,-10,0)
+			.setStrokeLineWidth(w)
 			.setColor(r,g,b,a);
 
 
@@ -991,6 +1006,7 @@ var MI = {
 			me.displayTargetInfo();
 			me.displayTargetAziElev();
 		}
+		me.displayCommandTarget();
 		me.displayArmCircle();
 	},
 
@@ -1131,7 +1147,12 @@ var MI = {
 
 	displayAltScale: func {
 		me.alt = me.input.alt_m.getValue();
-		me.alt_cursor.setTranslation(0, -me.alt/20000*radar_area_width);
+		if (me.alt >= 0 and me.alt <= 20000) {
+			me.alt_cursor.setTranslation(0, -me.alt/20000*radar_area_width);
+			me.alt_cursor.show();
+		} else {
+			me.alt_cursor.hide();
+		}
 
 		me.alt_scale_metric.setVisible(displays.metric);
 		me.alt_scale_int.setVisible(!displays.metric);
@@ -1556,7 +1577,7 @@ var MI = {
 	displayTargetAziElev: func {
 		if ((var tgt = radar.ps46.getPriorityTarget()) == nil or tgt.getLastBlep() == nil) {
 			me.selection_azi_elev.hide();
-			me.alt_tgt_cursor.hide();
+			me.alt_tgt_index.hide();
 			return;
 		}
 
@@ -1572,8 +1593,38 @@ var MI = {
 		me.selection_azi_elev.show();
 
 		var alt = (tgt.getLastAltitude() + me.indicated_alt_offset_ft) * FT2M;
-		me.alt_tgt_cursor.setTranslation(0, -alt / 20000 * radar_area_width);
-		me.alt_tgt_cursor.show();
+		if (alt >= 0 and alt <= 20000) {
+			me.alt_tgt_index.setTranslation(0, -alt / 20000 * radar_area_width);
+			me.alt_tgt_index.show();
+		} else {
+			me.alt_tgt_index.hide();
+		}
+	},
+
+	displayCommandTarget: func {
+		if (displays.common.ti_selection == nil or displays.common.ti_sel_type != displays.TI_SEL_DL) {
+			me.cmd_circle.hide();
+			me.cmd_alt_index.hide();
+			return;
+		}
+
+		var range = displays.common.ti_selection.getRangeDirect();
+		var bearing = displays.common.ti_selection.getDeviationHeading();
+		pos = me.azi_range_to_radar_pos(bearing, range, me.radar_range);
+		if (pos != nil) {
+			me.cmd_circle.setTranslation(pos[0], pos[1]);
+			me.cmd_circle.show();
+		} else {
+			me.cmd_circle.hide();
+		}
+
+		var alt = (displays.common.ti_selection.getAltitude() + me.indicated_alt_offset_ft) * FT2M;
+		if (alt >= 0 and alt <= 20000) {
+			me.cmd_alt_index.setTranslation(0, -alt / 20000 * radar_area_width);
+			me.cmd_alt_index.show();
+		} else {
+			me.cmd_alt_index.hide();
+		}
 	},
 
 	distCursorTrack: func(i) {
