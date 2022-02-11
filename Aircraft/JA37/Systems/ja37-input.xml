@@ -91,7 +91,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar.scan();</script>
+                <script>radar.scan(); ja37.click();</script>
             </binding>
         </key>
         <key n="70">
@@ -105,7 +105,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar.TWS();</script>
+                <script>radar.TWS(); ja37.click();</script>
             </binding>
         </key>
         <key n="6">
@@ -119,7 +119,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar.STT();</script>
+                <script>radar.STT(); ja37.click();</script>
             </binding>
         </key>
         <key n="110">
@@ -133,7 +133,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar.IFF(1);</script>
+                <script>radar.IFF(1); ja37.click();</script>
             </binding>
             <mod-up>
                 <binding>
@@ -159,7 +159,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar.disk_search();</script>
+                <script>radar.disk_search(); ja37.click();</script>
             </binding>
         </key>
         <key n="83">
@@ -167,7 +167,7 @@
             <desc>Cycle smoke</desc>
             <binding>
                 <command>nasal</command>
-                <script>ja37.cycleSmoke()</script>
+                <script>ja37.cycleSmoke();</script>
             </binding>
         </key>
         <key n="72">
@@ -491,7 +491,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>radar.toggle_radar_on()</script>
+                <script>radar.toggle_radar_on();</script>
             </binding>
             <binding>
                 <condition>
@@ -502,6 +502,10 @@
                 </condition>
                 <command>property-toggle</command>
                 <property>instrumentation/radar/mode</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
             </binding>
         </key>
         <key n="80">
