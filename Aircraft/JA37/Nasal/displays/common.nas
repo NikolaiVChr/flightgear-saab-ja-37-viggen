@@ -22,6 +22,9 @@ var containsVector = func (vec, item) {
 	return FALSE;
 }
 
+var TI_SEL_RADAR = 1;
+var TI_SEL_DL = 2;
+
 ### Numbers formatting functions.
 
 # Print in decimal with a _comma_, 'places' is the number of decimal places.
@@ -259,12 +262,25 @@ var Common = {
 
 	ja_nav: func {
 		# Information displayed on various waypoint range / bearing indicators.
+		me.distance_m = nil;
+		me.heading = nil;
+		me.tgt_heading = nil;
 
-		if (me.ti_selection != nil and (var coord = me.ti_selection.getLastCoord()) != nil) {
-			var ac_pos = geo.aircraft_position();
-			me.distance_m = ac_pos.distance_to(coord);
-			me.heading = ac_pos.course_to(coord);
-			me.tgt_heading = me.ti_selection.getLastHeading();
+		if (me.ti_selection != nil) {
+			var coord = nil;
+			if (me.ti_sel_type == TI_SEL_RADAR) {
+				coord = me.ti_selection.getLastCoord();
+				me.tgt_heading = me.ti_selection.getLastHeading();
+			} elsif (me.ti_sel_type == TI_SEL_DL) {
+				coord = me.ti_selection.getCoord();
+				me.tgt_heading = me.ti_selection.getHeading();
+			}
+
+			if (coord != nil) {
+				var ac_pos = geo.aircraft_position();
+				me.distance_m = ac_pos.distance_to(coord);
+				me.heading = ac_pos.course_to(coord);
+			}
 		} elsif (me.input.RMActive.getValue() == TRUE and getprop("autopilot/route-manager/current-wp") != -1) {
 			# next steerpoint
 			me.distance_m = me.input.rmDist.getValue();
@@ -273,14 +289,7 @@ var Common = {
 
 			if (land.show_runway_line) {
 				me.tgt_heading = land.head;
-			} else {
-				me.tgt_heading = nil;
 			}
-		} else {
-			# nothing
-			me.distance_m = nil;
-			me.heading = nil;
-			me.tgt_heading = nil;
 		}
 
 		me.input.ja_head_bug.setValue(me.heading or 0);
@@ -551,10 +560,11 @@ var Common = {
 	},
 
 	unsetTISelection: func {
-		me.setTISelection(nil);
+		me.setTISelection(nil, 0);
 	},
 
-	setTISelection: func(s) {
+	setTISelection: func(s, type) {
+		me.ti_sel_type = type;
 		me.ti_selection = s;
 		if (s != nil) land.RR();
 	},

@@ -511,7 +511,7 @@ var TI = {
 		for (var i=0; i<maxTracks; i+=1) {
 			var echo = {};
 			echo.grp = me.radar_group.createChild("group")
-				.set("z-index", maxTracks-i);
+				.set("z-index", maxTracks+maxDLTracks+maxMissiles-i);
 			# Speed vector
 			echo.vector = echo.grp.createChild("path")
 				.moveTo(0, 0).vert(-1 * MM2TEX)
@@ -548,7 +548,7 @@ var TI = {
 		for (var i=0; i<maxDLTracks; i+=1) {
 			var echo = {};
 			echo.grp = me.radar_group.createChild("group")
-				.set("z-index", maxTracks+maxDLTracks-i);
+				.set("z-index", maxDLTracks+maxMissiles-i);
 			# Speed vector
 			echo.vector = echo.grp.createChild("path")
 				.moveTo(0, 0).vert(-1 * MM2TEX)
@@ -587,7 +587,7 @@ var TI = {
 		for (var i = 0; i < maxMissiles; i += 1) {
 			var missile = {};
 			missile.grp = me.radar_group.createChild("group")
-				.set("z-index", maxTracks+maxDLTracks+maxMissiles-i);
+				.set("z-index", maxMissiles-i);
 			missile.vector = missile.grp.createChild("path")
 				.moveTo(0, 0).vert(-1*MM2TEX)
 				.setColor(COLOR_WHITE)
@@ -614,7 +614,7 @@ var TI = {
 		for (var i=0; i<maxTracks; i+=1) {
 			var echo = {};
 			echo.grp = me.svy_radar_grp.createChild("group")
-				.set("z-index", maxTracks-i);
+				.set("z-index", maxTracks+maxDLTracks+maxMissiles-i);
 			# Speed vector
 			echo.vector = echo.grp.createChild("path")
 				.moveTo(0, 0).vert(-1 * MM2TEX)
@@ -651,7 +651,7 @@ var TI = {
 		for (var i=0; i<maxDLTracks; i+=1) {
 			var echo = {};
 			echo.grp = me.svy_radar_grp.createChild("group")
-				.set("z-index", maxTracks+maxDLTracks-i);
+				.set("z-index", maxDLTracks+maxMissiles-i);
 			# Speed vector
 			echo.vector = echo.grp.createChild("path")
 				.moveTo(0, 0).vert(-1 * MM2TEX)
@@ -690,7 +690,7 @@ var TI = {
 		for (var i = 0; i < maxMissiles; i += 1) {
 			var missile = {};
 			missile.grp = me.svy_radar_grp.createChild("group")
-				.set("z-index", maxTracks+maxDLTracks+maxMissiles-i);
+				.set("z-index", maxMissiles-i);
 			missile.vector = missile.grp.createChild("path")
 				.moveTo(0, 0).vert(-1*MM2TEX)
 				.setColor(COLOR_WHITE)
@@ -805,11 +805,12 @@ var TI = {
 	    			.set("z-index", 6);
 
 
-		me.rrSymbol = me.radar_group.createChild("path")
-			.moveTo(-15, 7.5)
+		me.rrSymbol = me.radar_group.createChild("group");
+		me.rrSymbol2 = me.rrSymbol.createChild("path")
+			.moveTo(-15, 0)
 			.arcSmallCW(15, 15, 0, 30, 0)
 			.arcSmallCW(15, 15, 0, -30, 0)
-			.set("z-index", maxTracks-0) # same z-order as selection.
+			.set("z-index", maxTracks+maxDLTracks+maxMissiles)
 			.setColor(COLOR_WHITE)
 			.setStrokeLineWidth(w);
 
@@ -2192,7 +2193,7 @@ var TI = {
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
 				if (me.input.wow1.getValue() == 0) {
-					if (radar_logic.steerOrder == TRUE) {
+					if (displays.common.ti_selection != nil) {
 						me.menuButtonBox[1].show();
 					}
 					me.menuButton[1].setText(me.vertStr("RR"));
@@ -3811,7 +3812,7 @@ var TI = {
 				setprop("autopilot/route-manager/current-wp", me.points-1);
 				me.wp = me.points-1;
 			}
-			if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and radar_logic.steerOrder == FALSE) {
+			if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and displays.common.ti_selection == nil) {
 				# steerpoints ON and route active, plus not being in radar steer order mode.
 				# that if statement needs refining!
 
@@ -4526,7 +4527,7 @@ var TI = {
 		me.mode = "";
 		# DL: data link
 		# RR: radar guided steering
-		if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
+		if (displays.common.ti_selection != nil) {
 			me.mode = "RR";# landing steerpoint
 			me.textBMode.setColor(COLOR_WHITE);
 		} elsif (land.mode_LB_active == TRUE) {
@@ -4792,6 +4793,7 @@ var TI = {
 		me.displayed_id = {};
 
 		me.rrSymbol.hide();
+		me.sel_updated = FALSE;
 
 		me.radar_group.show();
 		me.svy_radar_grp.show();
@@ -4831,6 +4833,10 @@ var TI = {
 		for (; me.missile_index < maxMissiles; me.missile_index += 1) {
 			me.missiles[me.missile_index].grp.hide();
 			me.missilesSVY[me.missile_index].grp.hide();
+		}
+
+		if (displays.common.ti_selection != nil and !me.sel_updated) {
+			displays.common.unsetTISelection();
 		}
 	},
 
@@ -4910,6 +4916,34 @@ var TI = {
 			me.echoSVY.grp.show();
 		} else {
 			me.echoSVY.grp.hide();
+		}
+
+		if (!missile and me.menuMain != MAIN_MISSION_DATA and me.cursorTrigger and !me.cursorDidSomething) {
+			me.cursorDist = 100;
+			if (me.isCursorOnMap()) {
+				# not in MSDA so check if cursor is clicking on the aircraft
+				me.cursorDistX = me.cursorOPosX-me.pos_xx;
+				me.cursorDistY = me.cursorOPosY-me.pos_yy;
+				me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+			} elsif (me.on_svy and me.isCursorOnSVY()) {
+				me.cursorDistX = me.cursorGPosX-me.pos_xxx;
+				me.cursorDistY = me.cursorGPosY-me.pos_yyy;
+				me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+			}
+			if (me.cursorDist < 10) {
+				displays.common.setTISelection(contact, dl ? displays.TI_SEL_DL : displays.TI_SEL_RADAR);
+				me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+				me.cursorDidSomething = TRUE;
+			}
+		}
+
+		if (contact == displays.common.ti_selection) {
+			me.rrSymbol.setTranslation(me.pos_xx, me.pos_yy);
+			me.rrSymbol.setRotation(me.relHeading * D2R);
+			me.rrSymbol.show();
+			# adjust symbol position. Radar symbols are centered on aircraft, DL are behind.
+			me.rrSymbol2.setTranslation(0, dl ? 7.5 : 0);
+			me.sel_updated = TRUE;
 		}
 
 		# Symbols
@@ -5104,8 +5138,10 @@ var TI = {
 				dap.syst();
 				if (me.input.wow1.getValue() == 1) {
 					displays.common.toggleJAdisplays(FALSE);
-				} else {
-					radar_logic.toggleRadarSteerOrder();
+				} elsif (displays.common.ti_selection != nil) {
+					displays.common.unsetTISelection();
+				} elsif (getprop("ja37/hud/landing-mode")) {
+					land.noMode();
 				}
 			}
 		}
