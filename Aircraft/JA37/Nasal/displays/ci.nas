@@ -3,15 +3,15 @@ var FALSE = 0;
 
 var input = {
     time:           "sim/time/elapsed-sec",
-    heading:        "orientation/heading-deg",
+    heading:        "instrumentation/heading-indicator/indicated-heading-deg",
+    roll:           "instrumentation/attitude-indicator/indicated-roll-deg",
+    fpv_pitch:      "instrumentation/fpv/pitch-deg",
     alt:            "instrumentation/altimeter/displays-altitude-meter",
     rad_alt:        "instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "instrumentation/radar-altimeter/ready",
     ref_alt:        "ja37/displays/reference-altitude-m",
     ajs_bars_flash: "fdm/jsbsim/systems/mkv/ajs-alt-bars-blink",
     fiveHz:         "ja37/blink/five-Hz/state",
-    roll:           "instrumentation/attitude-indicator/indicated-roll-deg",
-    fpv_pitch:      "instrumentation/fpv/pitch-deg",
     radar_range:    "instrumentation/radar/range",
     radar_mode:     "instrumentation/radar/mode",
     radar_passive:  "ja37/radar/panel/passive",
