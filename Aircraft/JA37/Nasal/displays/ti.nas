@@ -5126,8 +5126,14 @@ var TI = {
 
 	b1: func {
 		edgeButtonsStruct[1] = me.input.timeElapsed.getValue();
-		if (!displays.common.ep12_on) {
-			displays.common.toggleJAdisplays(TRUE);
+		if (!me.active) {
+			if (me.input.wow1.getValue() == 1) {
+				displays.common.toggleJAdisplays(TRUE);
+			} elsif (displays.common.ti_selection != nil) {
+				displays.common.unsetTISelection();
+			} elsif (getprop("ja37/hud/landing-mode")) {
+				land.noMode();
+			}
 		} elsif (me.active and me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.active and me.menuShowFast == TRUE) {
@@ -5159,7 +5165,9 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-				# datalink / STRILL
+				# toggle datalink / STRIL
+				# real function is different
+				# should be active in backup menu, but it would be strange for DL toggle
 				dap.syst();
 				me.input.datalink.setValue(!me.input.datalink.getBoolValue());
 			}
@@ -5203,9 +5211,11 @@ var TI = {
 	},
 
 	b4: func {
-		if (!me.active) return;
 		edgeButtonsStruct[4] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			land.B();
+			dap.syst();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
@@ -5351,9 +5361,10 @@ var TI = {
 
 	b8: func {
 		# weapons
-		if (!me.active) return;
 		edgeButtonsStruct[8] = me.input.timeElapsed.getValue();
-		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+		if (!me.active) {
+			fire_control.select_pylon(5);
+		} elsif (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_WEAPONS;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
@@ -5371,9 +5382,10 @@ var TI = {
 
 	b9: func {
 		# system
-		if (!me.active) return;
 		edgeButtonsStruct[9] = me.input.timeElapsed.getValue();
-		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+		if (!me.active) {
+			fire_control.select_pylon(1);
+		} elsif (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_SYSTEMS;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
@@ -5391,9 +5403,10 @@ var TI = {
 
 	b10: func {
 		# display
-		if (!me.active) return;
 		edgeButtonsStruct[10] = me.input.timeElapsed.getValue();
-		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+		if (!me.active) {
+			fire_control.select_pylon(2);
+		} elsif (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_DISPLAY;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
@@ -5411,9 +5424,10 @@ var TI = {
 
 	b11: func {
 		# flight data
-		if (!me.active) return;
 		edgeButtonsStruct[11] = me.input.timeElapsed.getValue();
-		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+		if (!me.active) {
+			fire_control.select_pylon(4);
+		} elsif (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_MISSION_DATA;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
@@ -5431,9 +5445,10 @@ var TI = {
 
 	b12: func {
 		# errors
-		if (!me.active) return;
 		edgeButtonsStruct[12] = me.input.timeElapsed.getValue();
-		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+		if (!me.active) {
+			fire_control.select_pylon(3);
+		} elsif (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_FAILURES;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
@@ -5452,8 +5467,9 @@ var TI = {
 	b13: func {
 		# configuration
 		edgeButtonsStruct[13] = me.input.timeElapsed.getValue();
-		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+		if (!me.active) {
+			fire_control.select_pylon(6);
+		} elsif (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_CONFIGURATION;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
@@ -5470,9 +5486,10 @@ var TI = {
 	},
 
 	b14: func {
-		if (!me.active) return;
 		edgeButtonsStruct[14] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			fire_control.select_cannon();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
@@ -5528,9 +5545,10 @@ var TI = {
 	},
 
 	b15: func {
-		if (!me.active) return;
 		edgeButtonsStruct[15] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			fire_control.deselect_weapon();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
@@ -5594,9 +5612,11 @@ var TI = {
 	},
 
 	b17: func {
-		if (!me.active) return;
 		edgeButtonsStruct[17] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			dap.syst();
+			land.LA();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
@@ -5637,9 +5657,11 @@ var TI = {
 	},
 
 	b18: func {
-		if (!me.active) return;
 		edgeButtonsStruct[18] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			dap.syst();
+			land.LF();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
@@ -5660,9 +5682,11 @@ var TI = {
 	},
 
 	b19: func {
-		if (!me.active) return;
 		edgeButtonsStruct[19] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			dap.syst();
+			land.LB();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
@@ -5704,9 +5728,11 @@ var TI = {
 	},
 
 	b20: func {
-		if (!me.active) return;
 		edgeButtonsStruct[20] = me.input.timeElapsed.getValue();
-		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
+		if (!me.active) {
+			dap.syst();
+			land.L();
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
