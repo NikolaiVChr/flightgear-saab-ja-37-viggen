@@ -1667,14 +1667,20 @@ var Targets = {
             if (pos == nil) continue;
 
             pos = vector.AircraftPosition.coordToLocalAziElev(pos);
+
+            # IFF
+            var friendly = FALSE;
+            if (radar.stored_iff(tgt) > 0) friendly = TRUE;
+            elsif (tgt["dl_iff"] != nil and tgt["dl_iff"] > 0) friendly = TRUE;
+
             if (radar.ps46.isPrimary(tgt)) {
                 me.tgt.update(pos[0]*100, -pos[1]*100, fpv_pos);
                 me.tgt.show();
-                me.tgt_iff.setVisible(radar.stored_iff(tgt) > 0);
+                me.tgt_iff.setVisible(friendly);
             } elsif (i < me.max_sec_tgt) {
                 me.sec_tgt[i].update(pos[0]*100, -pos[1]*100, fpv_pos);
                 me.sec_tgt[i].show();
-                me.sec_tgt_iff[i].setVisible(radar.stored_iff(tgt) > 0);
+                me.sec_tgt_iff[i].setVisible(friendly);
                 i += 1;
             }
         }
