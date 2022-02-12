@@ -94,16 +94,16 @@
         <desc>Radar range decrease / increase</desc>
     </key>
     <key>
-        <name>f</name>
+        <name>F</name>
         <desc>Radar search mode</desc>
     </key>
     <key>
-        <name>F</name>
-        <desc>Radar Track While Scan (TWS) mode</desc>
+        <name>Ctrl-f</name>
+        <desc>Radar TWS (Track While Scan) mode</desc>
     </key>
     <key>
-        <name>Ctrl-f</name>
-        <desc>Radar Single Target Track (STT) mode</desc>
+        <name>f</name>
+        <desc>Radar toggle STT (Single Target Track) / TWS</desc>
     </key>
     <key>
         <name>m</name>

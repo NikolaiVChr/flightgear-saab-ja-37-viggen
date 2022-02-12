@@ -107,7 +107,9 @@ var pressX2 = func {
 	TI.ti.showLNK();
 };
 
-var cursor = func {}
+
+var CURSOR_STT = 0;
+var CURSOR_TWS = 1;
 
 
 var MI = {
@@ -161,6 +163,7 @@ var MI = {
 		mi.cursor_azi = 0;
 		mi.cursor_range = 30000;
 		mi.cursor_shown = TRUE;
+		mi.cursor_mode = CURSOR_STT;
 
 		mi.radar_range = radar.ps46.currentMode.getRangeM();
 		mi.head_true = mi.input.headTrue.getValue();
@@ -745,10 +748,18 @@ var MI = {
 			.setColorFill(r,g,b,a);
 
 		# Selection cursor
-		me.cursor = me.radar_group.createChild("path")
+		me.cursor = me.radar_group.createChild("group");
+		me.cursor_stt = me.cursor.createChild("path")
 			.moveTo(0,3).vert(8)
 			.moveTo(0,-3).vert(-8)
 			.moveTo(-5,5).lineTo(0,0).lineTo(5,5)
+			.setStrokeLineWidth(1.5*w)
+			.setColor(r,g,b,a);
+		me.cursor_tws = me.cursor.createChild("path")
+			.moveTo(0,3).vert(8)
+			.moveTo(0,-3).vert(-8)
+			.moveTo(3,0).horiz(8)
+			.moveTo(-3,0).horiz(-8)
 			.setStrokeLineWidth(1.5*w)
 			.setColor(r,g,b,a);
 
@@ -1650,6 +1661,14 @@ var MI = {
 		else return nil;
 	},
 
+	toggleCursorMode: func {
+		if (!me.cursor_shown) return;
+		if (me.cursor_mode == CURSOR_STT)
+			me.cursor_mode = CURSOR_TWS;
+		else
+			me.cursor_mode = CURSOR_STT;
+	},
+
 	displayCursor: func {
 		if (displays.common.cursor != displays.MI) {
 			me.cursor_shown = FALSE;
@@ -1676,6 +1695,12 @@ var MI = {
 					me.cursor_pos[0] = math.clamp(me.cursor_pos[0], -radar_area_width/2, radar_area_width/2);
 					me.cursor_pos[1] = math.clamp(me.cursor_pos[1], -radar_area_width, 0);
 				}
+				# mode matches the mode we are leaving
+				if (radar.ps46.getMode() == "TWS") {
+					me.cursor_mode = CURSOR_TWS;
+				} else {
+					me.cursor_mode = CURSOR_STT;
+				}
 				radar.ps46.undesignate();
 			}
 			return;
@@ -1695,6 +1720,8 @@ var MI = {
 
 		me.cursor.show();
 		me.cursor.setTranslation(me.cursor_pos[0], me.cursor_pos[1]);
+		me.cursor_stt.setVisible(me.cursor_mode == CURSOR_STT);
+		me.cursor_tws.setVisible(me.cursor_mode == CURSOR_TWS);
 
 		me.cursor_azi = me.cursor_pos[0] / heading_deg_to_mm;
 		me.cursor_range = -me.cursor_pos[1] / radar_area_width * me.radar_range;
@@ -1705,7 +1732,14 @@ var MI = {
 
 		if (click) {
 			var new_sel = me.findCursorTrack();
-			if (new_sel != nil) radar.ps46.designate(new_sel);
+			if (new_sel != nil) {
+				if (me.cursor_mode == CURSOR_STT) {
+					radar.STT_contact(new_sel);
+				} else {
+					if (radar.ps46.getMode() != "TWS") radar.TWS();
+					radar.ps46.designate(new_sel);
+				}
+			}
 		}
 	},
 };

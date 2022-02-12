@@ -82,6 +82,20 @@
         </key>
         <key n="102">
             <name>f</name>
+            <desc>Toggle STT / TWS</desc>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script>radar.toggle_STT_TWS(); ja37.click();</script>
+            </binding>
+        </key>
+        <key n="70">
+            <name>F</name>
             <desc>Radar scan mode</desc>
             <binding>
                 <condition>
@@ -94,8 +108,8 @@
                 <script>radar.scan(); ja37.click();</script>
             </binding>
         </key>
-        <key n="70">
-            <name>F</name>
+        <key n="6">
+            <name>Ctrl-F</name>
             <desc>Radar track while scan</desc>
             <binding>
                 <condition>
@@ -106,20 +120,6 @@
                 </condition>
                 <command>nasal</command>
                 <script>radar.TWS(); ja37.click();</script>
-            </binding>
-        </key>
-        <key n="6">
-            <name>Ctrl-F</name>
-            <desc>Radar single target track</desc>
-            <binding>
-                <condition>
-                    <equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </equals>
-                </condition>
-                <command>nasal</command>
-                <script>radar.STT(); ja37.click();</script>
             </binding>
         </key>
         <key n="110">

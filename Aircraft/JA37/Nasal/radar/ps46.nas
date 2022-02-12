@@ -233,7 +233,7 @@ var ScanMode = {
 
     designate: func (contact) {
         if (contact == nil) return;
-        STT_contact(me, contact);
+        STT_contact(contact);
     },
 
     designatePriority: func (contact) {
@@ -442,7 +442,7 @@ var DiskSearchMode = {
 
     getSearchInfo: func (contact) {
         # This gets called as soon as the radar finds something -> autolock
-        STT_contact(me, contact);
+        STT_contact(contact);
         ps46.updateStoredIFF(contact, 1);
         return [1,1,1,1,1,1];
     },
@@ -568,8 +568,8 @@ var ps46 = nil;
 # Parent mode is the current mode calling STT.
 # STT mode will return to parent when losing lock.
 # STT mode also uses the parent mode logic for range.
-var STT_contact = func(parent_mode, contact) {
-    STTMode.parent_mode = parent_mode;
+var STT_contact = func(contact) {
+    STTMode.parent_mode = ps46.currentMode;
     ps46.setMode(STTMode, contact);
 }
 
@@ -577,21 +577,25 @@ var STT_contact = func(parent_mode, contact) {
 # Throttle buttons
 
 var scan = func {
-    main_mode = ScanMode;
     ps46.setMode(ScanMode);
 }
 
 var TWS = func {
-    main_mode = TWSMode;
     ps46.setMode(TWSMode, nil, TRUE);   # keep track from previous mode
 }
 
-var STT = func {
-    if (ps46.getMode() != "TWS") return;
-
-    var contact = ps46.getPriorityTarget();
-    if (contact == nil) return;
-    STT_contact(ps46.currentMode, contact);
+var toggle_STT_TWS = func {
+    # Toggle STT / TWS. When there is no primary target,
+    # this toggles the mode which will be obtain after designation.
+    if (radar.ps46.getPriorityTarget() != nil) {
+        if (radar.ps46.getMode() == "TWS") {
+            STT_contact(radar.ps46.getPriorityTarget());
+        } else {
+            TWS();
+        }
+    } else {
+        MI.mi.toggleCursorMode();
+    }
 }
 
 var toggle_radar_on = func {
@@ -609,7 +613,6 @@ var disk_search = func {
 
     modes.main_ja = modes.AIMING;
     ps46.enable();
-    main_mode = DiskSearchMode;
     ps46.setMode(DiskSearchMode);
 }
 
