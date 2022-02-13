@@ -94,6 +94,10 @@
         <desc>Radar range decrease / increase</desc>
     </key>
     <key>
+        <name>&lt; / &gt;</name>
+        <desc>Radar antenna down / up</desc>
+    </key>
+    <key>
         <name>F</name>
         <desc>Radar search mode</desc>
     </key>
