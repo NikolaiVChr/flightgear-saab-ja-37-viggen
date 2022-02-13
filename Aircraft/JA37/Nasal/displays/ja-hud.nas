@@ -1671,7 +1671,7 @@ var Targets = {
             # IFF
             var friendly = FALSE;
             if (radar.stored_iff(tgt) > 0) friendly = TRUE;
-            elsif (tgt["dl_iff"] != nil and tgt["dl_iff"] > 0) friendly = TRUE;
+            elsif (tgt["dl_known"] and tgt["dl_iff"] != nil and tgt["dl_iff"] > 0) friendly = TRUE;
 
             if (radar.ps46.isPrimary(tgt)) {
                 me.tgt.update(pos[0]*100, -pos[1]*100, fpv_pos);
