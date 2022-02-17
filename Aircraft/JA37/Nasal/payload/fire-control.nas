@@ -40,6 +40,8 @@ foreach (var prop; keys(input)) {
 }
 
 
+# This is the TI fire log
+# damage.damageLog is for the "combat log" dialog
 var fireLog = events.LogBuffer.new(echo: 0);
 
 
@@ -332,6 +334,7 @@ var Missile = {
             phrase = phrase~" at: "~me.weapon.callsign;
         }
         fireLog.push("Self: "~phrase);
+        damage.damageLog.push(phrase);
 
         me.station.fireWeapon(0, me.at_everything ? radar.get_complete_list() : nil);
 
@@ -599,6 +602,7 @@ var Rb05 = {
         me.weapon.mfFunction = me.makeMidFlightFunction(me.selected);
 
         fireLog.push("Self: "~me.weapon.brevity);
+        damage.damageLog.push(me.weapon.brevity);
 
         me.station.fireWeapon(0, radar.get_complete_list());
 
@@ -856,6 +860,7 @@ var Bomb = {
 
         if (trigger) {
             fireLog.push("Self: "~me.next_weapon.brevity);
+            damage.damageLog.push(me.next_weapon.brevity);
             me.start_drop_sequence();
         } else {
             me.stop_drop_sequence();
