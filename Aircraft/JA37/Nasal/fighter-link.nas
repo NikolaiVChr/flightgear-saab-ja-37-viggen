@@ -35,6 +35,7 @@ radar_recipient.Receive = func(notification) {
 
     ai_contacts = notification.vector;
     callsign_to_contact = {};
+    mp_contacts = [];
     foreach (var contact; ai_contacts) {
         if (contact.prop.getName() != "multiplayer") continue;
 
