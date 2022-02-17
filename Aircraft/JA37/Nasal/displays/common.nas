@@ -529,7 +529,7 @@ var Common = {
 			me.input.launch_alt_max.setValue(2000);
 			me.input.launch_alt_warn.setBoolValue(TRUE);
 		} else {
-			me.input.launch_alt_warn.setBoolValue(TRUE);
+			me.input.launch_alt_warn.setBoolValue(FALSE);
 		}
 	},
 
