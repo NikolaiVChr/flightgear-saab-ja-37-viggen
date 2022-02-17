@@ -238,6 +238,21 @@
     </animation>
 
     <animation>
+        <type>material</type>
+        <object-name>indicator_ik</object-name>
+        <condition>
+            <property>/instrumentation/radar/iff</property>
+            <not><property>/instrumentation/radar/radar-standby</property></not>
+        </condition>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/displays-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
         <type>pick</type>
         <object-name>indicator_lower_left</object-name>
         <object-name>indicator_upper_left</object-name>
@@ -357,7 +372,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>ik</tooltip-id>
-                <label>Identification (not implemented)</label>
+                <label>IFF interrogation active</label>
             </binding>
         </hovered>
     </animation>

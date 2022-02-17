@@ -51,22 +51,6 @@ STA
   STBY - Standby status for missiles. Does not show for cannon.
   RDY  - Ready to be fired status. From the signal is sent to get ready when its selected and master-arm is ON, a small duration will pass before its ready.
 
-The following menu items only show when a sidewinder (RB74/RB24) is selected:
-
-CAGE
-  AUTO - Automatic uncage of heatseeker head when lock is achieved.
-  MAN  - Manual uncage of seeker head.
-SEEK
-  CAGE - When framed the seeker head is caged. Need to be set to manual for pilot to be able to change it.
-         When uncaged without lock, the seeker head will scan the sky ahead in a small pattern and lock onto anything it see.
-         This is handy for dogfight with radar off when enemy can be hard to spot.
-SEEK
-  WARM - The seeker head is not cooled down. When framed cooling has be commanded, but not yet achieved.
-  COOL - The seeker head is cooled down, and the sidewinder range is increased. Cooling fluids last for about 1 hour for RB74. RB24J is electrical cooled, so it wont run out.
-MODE
-  BORE - When caged it will look straight ahead looking for something within range to lock on (and for RB24J it prefers to have view of a hot engine).
-         This is another mode that is handy for dogfight with radar off when the enemy can be seen and manouvred onto bore.
-
 SYST
 ----
 S      - Mission steerpoint nav. or switch to next. Will also switch of landing mode and switch to mission plan.
@@ -78,8 +62,7 @@ DL     - STRIL data-link
 LR     - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL   - Select which mission polygon.
 RPOL   - Select which RTB polygon.
-RR     - Only shown when airborne. Steer order from radar on selected radar echo. This gives intercept vector to selected target. ('f' key does the same)
-         If an intercept course at present speed cannot be computed it will show pure pursuit vector.
+RR     - Only shown when airborne. Disable steer order on track / disable landing mode.
 OFF/EP - Option only shown on ground. Turn off EP12 Electronic presentations (MI+TI displays).
 ACRV   - Attack curve (not implemented)
 FGT/ATT - Fighter/ground attack mode. Changes cannon sight in aiming mode.
@@ -103,7 +86,7 @@ SCAL - Map scale.
 AAA  - Anti aircraft fire zones (LV). FRND/HSTL show friendly/hostile zones. Green is friendly, red is hostile, yellow is unknown/hostile.
 TIME - Show ZULU time at top of display. (when editing MPOL or RPOL in MSDA menu, time is also shown)
 HORI - Show FPI, artificial horizon and ground symbol. CLR = certain conditions. ON = always. OFF = only at terrain impact warning.
-CURS - Toggle if cursor is on MI or TI. (PEK on MI must be enabled to see/use cursor)
+CURS - Toggle if cursor is on MI or TI.
 DAY  - Map contrast for daytime or NGHT for night time.
 
 MSDA
@@ -143,7 +126,7 @@ INIT - Start GPS. (approx 40 seconds to start, including BIT self-test)
 SIDV
 ----
 WIN  - Sideview size
-SHOW - Inclusion setting. Not implemented.
+SHOW - Lateral view angle, ALL=all around, 120=120° in front, RR=match radar scan angle
 SCAL - If RMAX set to SCAL this controls the horizon distance shown.
 RMAX - Horizontal distance. MI=follow radar setting. SCAL=see SCAL. MAP=Follow map scale.
 AMAX - Max altitude shown.
@@ -166,11 +149,12 @@ There are several options for cursor controls (see also Doc/JA_manual.pdf):
     controls/displays/cursor-slew-y
     controls/displays/cursor-click
 
-Per default the cursor is located on the MI display. See the DISP menu on the TI on how to transfer it between displays.
+Per default the cursor is located on the MI display. It can be moved to the TI with 'M', or through the DISP menu.
 On the TI you can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, map will be moved instead of cursor.
 When clicking on a radar echo in MI, it get selected/locked.
+When clicking on radar or datalink track on TI, it is selected as destination.
 In MSDA/UDAT menu LV/FF points can be dragged when no polygon is being edited. To grab them hold trigger on center of symbol.
 When a polygon is being edited and a steerpoint/aera-point has been selected, pressing |X| button on nav panel will delete it. (cannot delete landing bases or take-off base, use route-manager for that)
 
@@ -188,7 +172,6 @@ X2 - LNK - Toggle RB99 telemetry on TI
 
 left buttons
 ------------
-PEK - Cursor toggle. If off then radar cannot lock anything, nor can cursor be shown/slewn on TI/MI.
 A - Zoom out on TI
 B - Zoom in on TI
 

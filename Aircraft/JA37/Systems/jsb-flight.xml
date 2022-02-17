@@ -460,6 +460,9 @@
 
         <switch name="systems/flight/reverse/R1-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/flight/reverse/R1-time">
                 gear/unit[2]/WOW == 1
             </test>
@@ -483,6 +486,9 @@
 
         <switch name="systems/flight/reverse/R2-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/flight/reverse/R2-time">
                 gear/unit[0]/WOW == 0
             </test>

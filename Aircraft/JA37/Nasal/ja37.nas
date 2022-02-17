@@ -100,8 +100,6 @@ input = {
   rainVol:          "ja37/sound/rain-volume",
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
-  rmActive:         "/autopilot/route-manager/active",
-  rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   sceneRed:         "/rendering/scene/diffuse/red",
   sceneRed2:        "/rendering/scene/diffuse/red-unbound",
@@ -261,10 +259,6 @@ var Saab37 = {
     setprop("velocities/airspeed-kt-inv", me.inv_speed);
     setprop("ja37/effect/heatblur/dens", clamp((getprop("engines/engine/n2")/100-getprop("velocities/airspeed-kt")/250)*0.035, 0, 1));
 
-    ## terrain detection ##
-    if (getprop("ja37/supported/picking") == TRUE) {
-      setprop("ja37/radar/look-through-terrain", FALSE);
-    }
     if (getprop("controls/electric/main") and getprop("ja37/avionics/collision-warning") and getprop("ja37/supported/picking") == TRUE and (getprop("velocities/speed-east-fps") != 0 or getprop("velocities/speed-north-fps") != 0)) {
       # main elec switch must be on to enable this system, dont run on batt
       me.start = geo.aircraft_position();
@@ -397,7 +391,6 @@ var Saab37 = {
     }
     
     me.aural();
-    me.headingBug();
     me.flare();
   },
 
@@ -818,23 +811,6 @@ var Saab37 = {
       }
     }
   },
-  
-  headingBug: func () {
-    # for the heading indicator
-    me.desired_heading = nil;
-    if (radar_logic.steerOrder and radar_logic.selection != nil) {
-        me.desired_heading = radar_logic.selection.getInterceptBearing();
-        me.itsHead = radar_logic.selection.get_heading();
-        setprop("ja37/avionics/heading-indicator-target", me.itsHead);
-    } elsif(input.rmActive.getBoolValue()) {
-      me.desired_heading = input.rmBearing.getValue();
-    }
-    if(me.desired_heading != nil) {
-      setprop("ja37/avionics/heading-indicator-bug", me.desired_heading);
-    } else {
-      setprop("ja37/avionics/heading-indicator-bug", 0);
-    }
-  },
 
   startSystem: func {
     # aircraft/display modes
@@ -849,8 +825,8 @@ var Saab37 = {
     displays.common.loopFast();
 
     # radar
+    radar.init();
     rwr.init();
-    radar_logic.radarLogic = radar_logic.RadarLogic.new();
 
     fire_control.init();
 
@@ -862,7 +838,7 @@ var Saab37 = {
 
     if (!variant.JA) {
       # CI display
-      rdr.scope = rdr.radar.new();
+      rdr.scope = rdr.Radar.new();
     }
 
     if (variant.JA) {
@@ -884,6 +860,8 @@ var Saab37 = {
     if (variant.JA) {
       # data-panel
       dap.callInit();
+      # fighterlink
+      fighterlink.init();
     }
 
     # fire
@@ -1095,7 +1073,6 @@ var random_switches = {
   "controls/electric/lights-ext-form": 0.5,
   "controls/altimeter-radar": 0.5,
   "controls/electric/engine[0]/generator": 0.5,
-  "ja37/hud/tracks-enabled": 0.5,
   "controls/engines/engine/reverser-cmd": 0.5,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
@@ -1509,7 +1486,6 @@ var final_engine = func () {
     notice("Engine ready.");
     setprop("/controls/gear/chocks", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/available", FALSE);
-    setprop("ja37/hud/tracks-enabled", FALSE);
     if (variant.JA) {
         displays.common.toggleJAdisplays(TRUE);
     } else {
@@ -1589,19 +1565,6 @@ var toggleSpeedbrakesSimplified = func (pos) {
     speedbrakes_simple_command = -speedbrakes_simple_command;
     setprop("/controls/flight/speedbrake-switch", speedbrakes_simple_command);
     speedbrakes_release_timer.restart(2);
-  }
-}
-
-var toggleTracks = func {
-  ja37.click();
-  var enabled = getprop("ja37/hud/tracks-enabled");
-  setprop("ja37/hud/tracks-enabled", !enabled);
-  if(enabled == FALSE) {
-    notice("Radar ON");
-    radar_logic.ecmLog.push("Radar switched active.");
-  } else {
-    notice("Radar OFF");
-    radar_logic.ecmLog.push("Radar switched silent.");
   }
 }
 

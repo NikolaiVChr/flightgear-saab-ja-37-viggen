@@ -203,6 +203,9 @@
 
         <switch name="systems/indicators/fuel-flow-primary-2-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/indicators/fuel-flow-primary-2-time">
                 systems/indicators/fuel-flow-primary-2 == 1
             </test>
@@ -421,6 +424,9 @@
 
         <switch name="systems/indicators/gears-time-steady">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/indicators/gears-time-steady">
                 systems/indicators/gears-secondary == 1
             </test>
@@ -858,6 +864,9 @@
 
         <switch name="systems/indicators/no-reverse-tertiary-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/indicators/no-reverse-tertiary-time">
                 systems/indicators/no-reverse-tertiary == 1
             </test>
@@ -1902,31 +1911,6 @@
             </function>
         </fcs_function>
         
-        <!-- sample is 2 secs -->
-        <!--<switch name="systems/indicators/transonic-aural-starttime">
-            <default value="sim-time-sec"/>
-            <test logic="AND" value="systems/indicators/transonic-aural-starttime">
-                systems/indicators/transonic == 1
-            </test>
-        </switch>
-
-        <fcs_function name="systems/indicators/transonic-aural-stoptime">
-            <function>
-                <sum>
-                    <p>systems/indicators/transonic-aural-starttime</p>
-                    <v>2.1</v>
-                </sum>
-            </function>
-        </fcs_function>
-        
-        <switch name="systems/indicators/transonic-aural">
-            <default value="0"/>
-            <test logic="AND" value="1">
-                systems/indicators/transonic-aural-stoptime gt sim-time-sec
-                systems/indicators/transonic-aural-starttime lt sim-time-sec
-            </test>
-        </switch>-->
-
         <fcs_function name="systems/indicators/transonic-warning">
             <function>
                 <or>
@@ -2070,6 +2054,9 @@
 
         <switch name="/instrumentation/terrain-warning-steady-time">
             <default value="sim-time-sec"/>
+            <test value="-10"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="/instrumentation/terrain-warning-steady-time">
                 /ja37/sound/terrain-on == 0
             </test>
@@ -2187,6 +2174,9 @@
         
         <switch name="/instrumentation/TLS-light-steady-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="AND" value="/instrumentation/TLS-light-steady-time">
                 /ja37/hud/TILS-on == 0
                 /instrumentation/nav[0]/has-gs == 1
@@ -2204,6 +2194,9 @@
         
         <switch name="/instrumentation/TLS-light-blink-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="/instrumentation/TLS-light-blink-time">
                 /ja37/hud/TILS-on == 0
             </test>

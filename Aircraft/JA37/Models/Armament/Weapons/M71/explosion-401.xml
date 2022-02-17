@@ -98,9 +98,7 @@
     <eda>0.00136354</eda><!-- drag area -->
     <weight>0</weight>
     <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
     <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
     <wind>false</wind>
     <buoyancy>0</buoyancy>
     <life>0.5</life>

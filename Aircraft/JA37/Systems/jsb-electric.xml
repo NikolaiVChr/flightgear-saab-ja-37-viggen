@@ -358,6 +358,9 @@
         
         <switch name="systems/electrical/rectifiers-on-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/electrical/rectifiers-on-time">
                 systems/electrical/rectifiers-output gt 24
             </test>
@@ -1149,6 +1152,9 @@
 
         <switch name="systems/electrical/starter-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="OR" value="systems/electrical/starter-time">
                 /controls/engines/engine[0]/starter-cmd-hold == 1
             </test>
@@ -1236,6 +1242,9 @@
         
         <switch name="systems/electrical/lost-ac-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="AND" value="systems/electrical/lost-ac-time">
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
@@ -1243,6 +1252,9 @@
         
         <switch name="systems/electrical/lost-dc-time">
             <default value="sim-time-sec"/>
+            <test value="0"><!-- reset when restarting FDM -->
+                sim-time-sec lt 1
+            </test>
             <test logic="AND" value="systems/electrical/lost-dc-time">
                 /ja37/elec/dc-bus-main-bool == 0
             </test>

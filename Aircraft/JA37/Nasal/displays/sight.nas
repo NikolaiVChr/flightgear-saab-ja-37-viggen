@@ -35,9 +35,9 @@ foreach (var prop; keys(input)) {
 var AAsight = {
     # Update loop, simply to feed distance to the JSBSim system.
     update: func {
-        if (radar_logic.selection != nil) {
+        if ((var tgt = radar.ps46.getPriorityTarget()) != nil and (var dist = tgt.getLastRangeDirect()) != nil) {
             input.use_tgt.setValue(1);
-            input.dist_tgt.setValue(radar_logic.selection.get_range() * NM2M);
+            input.dist_tgt.setValue(dist);
         } else {
             input.use_tgt.setValue(0);
         }
@@ -399,6 +399,10 @@ var FiringDistanceComputer = {
             - math.sin(flight_path_angle)*pull_up_radius;
     },
 
+    safety_distance: func(type) {
+        return me.safety_dist[type][input.safety_dist.getValue()];
+    },
+
     # [minimum pull up distance, minimum firing distance]
     firing_distance: func(type, traj, radar_dist) {
         var speed = input.grd_speed.getValue() * KT2MPS;
@@ -409,7 +413,7 @@ var FiringDistanceComputer = {
         var aiming_pitch = traj_pitch(traj);
         var fpv_pitch = input.fpv_pitch.getValue();
 
-        var safety_dist = me.safety_dist[type][input.safety_dist.getValue()];
+        var safety_dist = me.safety_distance(type);
         var pull_up_dist = me.pull_up_dist(safety_dist, pull_up_rad, fpv_pitch-aiming_pitch);
 
         var tolerance = radar_dist ? 75 : 43 / math.sin(-aiming_pitch*D2R);

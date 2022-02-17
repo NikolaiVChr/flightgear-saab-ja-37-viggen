@@ -321,6 +321,12 @@
                  tanks, and 136% with external tank in addition. -->
             <indicated-ratio-factor>1.36</indicated-ratio-factor>
         </fuel>
+        <heading-indicator>
+            <max-speed-deg-sec type="double">90</max-speed-deg-sec><!-- made up -->
+        </heading-indicator>
+        <waypoint-indicator>
+            <max-speed-deg-sec type="double">90</max-speed-deg-sec><!-- made up -->
+        </waypoint-indicator>
         <radar-altimeter>
             <max-usable-altitude-m type="double">1375</max-usable-altitude-m>
         </radar-altimeter>
@@ -345,6 +351,12 @@
         <fighterlink>
             <file>Aircraft/JA37/Nasal/fighter-link.nas</file>
         </fighterlink>
+        <radar>
+            <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/ps46.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/rb99_datalink.nas</file>
+        </radar>
         <hud>
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
             <file>Aircraft/JA37/Nasal/displays/ja-hud.nas</file>

@@ -143,12 +143,12 @@ var FPV = {
         me.pos_x = math.clamp(pos[0] * MIL2HUD, -me.lateral_clamp, me.lateral_clamp);
         me.pos_y = math.clamp(pos[1] * MIL2HUD, me.top_clamp, me.bottom_clamp);
 
-        if (radar_logic.selection != nil) {
+        if ((var tgt = radar.ps46.getPriorityTarget()) != nil and tgt.getLastBlep() != nil) {
             me.aim_gun_tgt.show();
             me.aim_gun_free.hide();
 
             # Target distance
-            var dist = radar_logic.selection.get_range()*NM2M/1000;
+            var dist = tgt.getLastRangeDirect() / 1000;
             me.dist_tgt.updateText(displays.sprintdist(dist));
             # Circular target index/line
             var index_angle = math.min(dist/1.6*math.pi, 2*math.pi);
@@ -224,7 +224,7 @@ var FPV = {
     },
 
     update_reticle: func {
-        if (TI.ti.ModeAttack or fire_control.get_type() == "M70") {
+        if (TI.ti.ModeAttack) {
             # A/G mode
             me.aim_AA_reticle.hide();
             me.aim_AG_reticle.show();
@@ -253,7 +253,7 @@ var FPV = {
             me.aim_missile.hide();
             me.aim_reticle.hide();
             me.reticle_mode = FPV.MODE_OTHER;
-        } elsif (fire_control.get_type() == "M70" or fire_control.get_type() == "M75") {
+        } elsif (fire_control.get_type() == "M75") {
             me.aim_empty.hide();
             me.aim_missile.hide();
             me.aim_reticle.show();
@@ -629,9 +629,9 @@ var Heading = {
         }
 
         if (me.mode != HUD.MODE_FINAL_NAV and me.mode != HUD.MODE_FINAL_OPT) {
-            if (input.rm_active.getBoolValue()
+            if (displays.common.heading != nil
                 and me.mode != HUD.MODE_TAKEOFF_ROLL and me.mode != HUD.MODE_TAKEOFF_ROTATE) {
-                var pos = geo.normdeg180(input.wp_bearing.getValue() - track);
+                var pos = geo.normdeg180(displays.common.heading - track);
                 pos *= me.scale_factor;
                 pos = math.clamp(pos, -200, 200);
                 me.index.setTranslation(pos, 0);
@@ -1441,13 +1441,8 @@ var Distance = {
             # dist is a vector [target dist, minimum dist, optimal dist], or nil
             var dist = sight.AGsight.get_dist();
 
-            if (fire_control.get_type() == "M70") {
-                var scale_dist = 8000; # Maximum displayed distance
-                var max_dist = 6000;   # Maximum firing range (made up)
-            } else { # M75 AKAN
-                var scale_dist = 8000; # Maximum displayed distance
-                var max_dist = 5000;   # Maximum firing range (made up)
-            }
+            var scale_dist = 8000; # Maximum displayed distance
+            var max_dist = 5000;   # Maximum firing range (made up)
 
             if (dist != nil and dist[0] <= scale_dist) {
                 me.group.show();
@@ -1473,7 +1468,9 @@ var Distance = {
             } else {
                 me.group.hide();
             }
-        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM) and radar_logic.selection != nil) {
+        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_AIM)
+                 and (var tgt = radar.ps46.getPriorityTarget()) != nil
+                 and (var range = tgt.getLastRangeDirect()) != nil) {
             # Display distance to target.
             me.group.show();
             me.line.show();
@@ -1485,14 +1482,18 @@ var Distance = {
 
             if (fire_control.get_weapon() != nil
                 and (var dlz = fire_control.get_weapon().getDLZ(TRUE)) != nil and size(dlz) > 0) {
-                # Cursors indicate missile dynamic launch zone.
-                var max_dist = dlz[0];
-                me.index.setTranslation(math.clamp(dlz[4] / max_dist * 300, 0, 300), 0);
-                me.cursorL.setTranslation(dlz[3] / max_dist * 300, 0).show();
-                me.cursorM.setTranslation(dlz[1] / max_dist * 300, 0);
-                me.cursorR.setTranslation(dlz[2] / max_dist * 300, 0).show();
+                # Cursors indicate missile dynamic launch zone (all values in nm)
+                # Scale is weapon max firing range or radar range, the smallest of the two larger than target range.
+                range *= M2NM;
+                var max_dist = radar.ps46.getRange();
+                if (range <= dlz[0] and dlz[0] < max_dist) max_dist = dlz[0];
 
-                if (dlz[4] >= dlz[3] and dlz[4] <= dlz[2]) {
+                me.index.setTranslation(math.clamp(range / max_dist, 0, 1) * 300, 0);
+                me.cursorL.setTranslation(math.clamp(dlz[3] / max_dist, 0, 1) * 300, 0).show();
+                me.cursorM.setTranslation(math.clamp(dlz[1] / max_dist, 0, 1) * 300, 0);
+                me.cursorR.setTranslation(math.clamp(dlz[2] / max_dist, 0, 1) * 300, 0).show();
+
+                if (range >= dlz[3] and range <= dlz[2]) {
                     me.index_norm.hide();
                     me.index_fire.show();
                 } else {
@@ -1504,8 +1505,8 @@ var Distance = {
                 max_dist *= NM2M / 1000;
             } else {
                 # Line length indicates radar range.
-                var max_dist = input.radar_range.getValue();
-                var range = math.clamp(radar_logic.selection.get_range()*NM2M, 0, max_dist);
+                var max_dist = radar.ps46.getRangeM();
+                var range = math.clamp(range, 0, max_dist);
                 me.index.setTranslation(range / max_dist * 300, 0);
                 me.index_norm.show();
                 me.index_fire.hide();
@@ -1515,8 +1516,10 @@ var Distance = {
             }
 
             me.dist.updateText(displays.sprintdist(max_dist));
-        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and input.rm_active.getBoolValue()) {
-            var dist = displays.metric ? input.wp_dist.getValue() : input.wp_dist_nm.getValue();
+        } elsif ((me.mode == HUD.MODE_NAV or me.mode == HUD.MODE_FINAL_NAV) and displays.common.distance_m) {
+            var dist = displays.common.distance_m;
+            if (displays.metric) dist /= 1000.0;
+            else dist *= M2NM;
             dist = math.round(dist);
 
             if (dist < 1000) {
@@ -1618,13 +1621,28 @@ var Targets = {
 
     initialize: func {
         me.group = me.parent.createChild("group");
-        # Radar target: upper circle
+
+        # Radar primary target: upper circle
         me.tgt = Targets.Target.new(me.group);
-        me.tgt_symbol = make_path(me.tgt.get_symbol_group())
+        make_path(me.tgt.get_symbol_group())
             .moveTo(-50,0).arcSmallCWTo(50,50,0,50,0);
         me.tgt_iff = make_path(me.tgt.get_symbol_group())
             .moveTo(-50,-50).lineTo(50,50)
             .moveTo(-50,50).lineTo(50,-50);
+
+        # Radar secondary target: upper square
+        me.max_sec_tgt = 4;
+        me.sec_tgt = [];
+        me.sec_tgt_iff = [];
+        for (var i=0; i<me.max_sec_tgt; i+=1) {
+            append(me.sec_tgt, Targets.Target.new(me.group));
+            make_path(me.sec_tgt[i].get_symbol_group())
+                .moveTo(-50,0).vert(-50).horiz(100).vert(50);
+            append(me.sec_tgt_iff, make_path(me.sec_tgt[i].get_symbol_group())
+                .moveTo(-50,-50).lineTo(50,50)
+                .moveTo(-50,50).lineTo(50,-50));
+        }
+
         # IR seeker: lower circle
         me.seeker = Targets.Target.new(me.group);
         make_path(me.seeker.get_symbol_group()).moveTo(-50,0).arcSmallCCWTo(50,50,0,50,0);
@@ -1641,13 +1659,33 @@ var Targets = {
     },
 
     update: func(fpv_pos) {
-        if (radar_logic.selection != nil) {
-            var pos = radar_logic.selection.get_cartesian();
-            me.tgt.update(pos[0]*100, pos[1]*100, fpv_pos);
-            me.tgt.show();
-            me.tgt_iff.setVisible(radar_logic.selection.getIFF());
-        } else {
-            me.tgt.hide();
+        me.tgt.hide();
+        var i = 0;
+
+        foreach (var tgt; radar.ps46.getTracks()) {
+            var pos = tgt.getLastCoord();
+            if (pos == nil) continue;
+
+            pos = vector.AircraftPosition.coordToLocalAziElev(pos);
+
+            # IFF
+            var friendly = FALSE;
+            if (radar.stored_iff(tgt) > 0) friendly = TRUE;
+            elsif (tgt["dl_known"] and tgt["dl_iff"] != nil and tgt["dl_iff"] > 0) friendly = TRUE;
+
+            if (radar.ps46.isPrimary(tgt)) {
+                me.tgt.update(pos[0]*100, -pos[1]*100, fpv_pos);
+                me.tgt.show();
+                me.tgt_iff.setVisible(friendly);
+            } elsif (i < me.max_sec_tgt) {
+                me.sec_tgt[i].update(pos[0]*100, -pos[1]*100, fpv_pos);
+                me.sec_tgt[i].show();
+                me.sec_tgt_iff[i].setVisible(friendly);
+                i += 1;
+            }
+        }
+        for (; i < me.max_sec_tgt; i+=1) {
+            me.sec_tgt[i].hide();
         }
 
         # Use ["is_IR"] instead of .is_IR because it is not always a member of fire_control.selected.
@@ -1684,8 +1722,7 @@ var Reticle = {
     },
 
     update: func {
-        if (me.mode == HUD.MODE_NAV and fire_control.is_armed()
-            and (fire_control.get_type() == "M75" or fire_control.get_type() == "M70")) {
+        if (me.mode == HUD.MODE_NAV and fire_control.is_armed() and fire_control.get_type() == "M75") {
             me.reticle.show();
         } else {
             me.reticle.hide();

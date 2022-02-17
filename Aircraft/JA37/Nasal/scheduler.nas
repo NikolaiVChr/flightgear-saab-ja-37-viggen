@@ -16,7 +16,6 @@ var SCHEDULER_RATE = 0.033;  # 30 Hz
 #   offset:     time offset to run this loop, with 0 <= offset < period (unit SCHEDULER_RATE)
 #   function:   the actual loop, a function object
 #   self:       (optional) 'me' reference for function call
-#   locals:     (optional) namespace for function call
 #   arg_dt:     (default 0) bool, if true the function receives a single argument
 #               which is the time (sec) since its last execution
 #   name:       (optional) a name used for debugging
@@ -32,10 +31,8 @@ var init_loops = func {
     # |- all fast loops
     # |--- 3.75Hz each
     #   |- generic medium + modes + displays common + sight + testing + landing mode
-    #   |- radar
-    #   |--- ~2Hz each
-    #   | |- TI
-    #   | |- MI
+    #   |- MI
+    #   |- TI
     #   |--- ~2Hz each
     #     |- flightplans
     #     |--- ~1Hz each
@@ -51,7 +48,6 @@ var init_loops = func {
         { period: 8, offset: 1, function: displays.common.loop, self: displays.common, name: "common-slow", },
         { period: 8, offset: 1, function: land.lander.loop, self: land.lander, name: "landing-mode", },
         { period: 8, offset: 1, function: testing.loop, name: "test", },
-        { period: 8, offset: 3, function: radar_logic.radarLogic.loop, self: radar_logic.radarLogic, name: "radar", },
         { period: 32, offset: 15, function: ja37.saab37.slow_loop, self: ja37.saab37, name: "ja37-slow", arg_dt: 1, },
         { period: 32, offset: 31, function: failureSys.loop_fire, name: "Failure", },
         { period: 32, offset: 31, function: hud.loop_slow, name: "HUD-slow", },
@@ -62,8 +58,8 @@ var init_loops = func {
             { period: 2, offset: 0, function: TI.ti.loopFast, self: TI.ti, name: "TI-fast", },
             { period: 2, offset: 0, function: MI.mi.loopFast, self: MI.mi, name: "MI-fast", },
             { period: 8, offset: 1, function: sight.loop, name: "sight", },
-            { period: 16, offset: 5, function: TI.ti.loop, self: TI.ti, name: "TI", },
-            { period: 16, offset: 13, function: MI.mi.loop, self: MI.mi, name: "MI", },
+            { period: 8, offset: 3, function: MI.mi.loop, self: MI.mi, name: "MI", },
+            { period: 8, offset: 5, function: TI.ti.loop, self: TI.ti, name: "TI", },
             { period: 16, offset: 7, function: route.Polygon.loop, self: route.Polygon, name: "Plans", },
             { period: 32, offset: 31, function: dap.loop_main, name: "DAP", },
             { period: 32, offset: 31, function: fighterlink.loop, name: "datalink", },
@@ -86,7 +82,7 @@ var scheduler_loop = func {
     var time = input.time.getValue();
     var args = [];
     var self = nil;
-    var locals = nil;
+    var err = [];
 
     foreach (var loop; loops) {
         # Timing code
@@ -103,13 +99,15 @@ var scheduler_loop = func {
             }
             loop.last_time = time;
         } else {
-            args = [];
+            args = nil;
         }
 
-        if (contains(loop, "self")) self = loop.self;
-        if (contains(loop, "locals")) locals = loop.locals;
-
-        call(loop.function, args, self, locals);
+        self = contains(loop, "self") ? loop.self : nil;
+        err = [];
+        call(loop.function, args, self, nil, err);
+        if (size(err)) {
+            debug.printerror(err);
+        }
 
         # Timing code
         #var t2 = systime();

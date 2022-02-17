@@ -127,7 +127,7 @@ var B = func {
         showActiveSteer = TRUE;
         mode = 0;
     }
-    radar_logic.disableSteerOrder();
+    displays.common.unsetTISelection();
 };
 
 var LA = func {
@@ -182,7 +182,7 @@ var LA = func {
         showActiveSteer = TRUE;
         mode = 0;
     }
-    radar_logic.disableSteerOrder();
+    displays.common.unsetTISelection();
 };
 
 var L = func {
@@ -214,7 +214,7 @@ var L = func {
     mode_LF_active = FALSE;
     mode_OPT_active = FALSE;
     showActiveSteer = TRUE;
-    radar_logic.disableSteerOrder();
+    displays.common.unsetTISelection();
 };
 
 var LB = func {
@@ -235,7 +235,7 @@ var LB = func {
         route.Polygon.stopPrimary();
         mode_LB_active = FALSE;
     }
-    radar_logic.disableSteerOrder();
+    displays.common.unsetTISelection();
 };
 
 var LF = func {
@@ -256,7 +256,7 @@ var LF = func {
         route.Polygon.stopPrimary();
         mode_LF_active = FALSE;
     }
-    radar_logic.disableSteerOrder();
+    displays.common.unsetTISelection();
 };
 
 var OPT = func {
@@ -269,7 +269,7 @@ var OPT = func {
     mode_LF_active = FALSE;
     mode_OPT_active = TRUE;
     showActiveSteer = FALSE;
-    radar_logic.disableSteerOrder();
+    displays.common.unsetTISelection();
 };
 
 
@@ -367,9 +367,6 @@ var Landing = {
                         icao   = me.wp[1].id;
                         runway = me.wp[0].id;
                         runway_rw = me.wp[0];
-                        if (!radar_logic.steerOrder) {
-                            setprop("ja37/avionics/heading-indicator-target", runway_rw.heading);
-                        }
                         if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
                             ils = runway_rw.ils.frequency/100;
                         }
@@ -379,11 +376,6 @@ var Landing = {
                 }
             } elsif (runway_dist != nil and me.bearing != nil and me.heading != nil) {
                 #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
-            }
-        }
-        if (has_waypoint != 2) {
-            if (!radar_logic.steerOrder) {
-                setprop("ja37/avionics/heading-indicator-target", 0);
             }
         }
         me.alt             = input.alt_aal.getValue();
@@ -399,7 +391,7 @@ var Landing = {
             mode_LF_active = FALSE;
             mode_OPT_active = TRUE;
             showActiveSteer = FALSE;
-            radar_logic.disableSteerOrder();
+            displays.common.unsetTISelection();
         } elsif (getprop("ja37/hud/landing-mode")==FALSE) {
             printDA("OPT: deactivated due to not in landing mode.");
             mode_OPT_active = FALSE;

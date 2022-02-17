@@ -631,7 +631,7 @@ var AIM = {
 		m.ai.getNode("valid", 1).setBoolValue(0);
 		m.ai.getNode("name", 1).setValue(type);
 		m.ai.getNode("sign", 1).setValue(sign);
-		m.ai.getNode("callsign", 1).setValue(type);
+		m.ai.getNode("callsign", 1).setValue(sprintf("%s_%d", type, m.unique_id));
 		m.ai.getNode("missile", 1).setBoolValue(1);
 		
 		
@@ -1411,7 +1411,7 @@ var AIM = {
 				#	me.rail_head_deg = me.Tgt.get_bearing()-OurHdg.getValue();
 				#}
 				me.railvec = vector.Math.eulerToCartesian3X(-me.rail_head_deg, me.rail_pitch_deg,0);
-				me.veccy = vector.Math.yawPitchRollVector(-ac_hdg,ac_pitch,ac_roll,me.railvec);
+				me.veccy = vector.Math.rollPitchYawVector(ac_roll,ac_pitch,-ac_hdg,me.railvec);
 				me.carty = vector.Math.cartesianToEuler(me.veccy);
 				me.msl_pitch = me.carty[1];
 				me.defaultHeading = me.Tgt != nil?me.Tgt.get_bearing():0;#90 deg tubes align to target heading, else north
@@ -1600,6 +1600,7 @@ var AIM = {
 			me.sun_enabled = TRUE;
 			me.sun = geo.Coord.new();
 			me.sun.set_xyz(me.ac_init.x()+sun_x*2000000, me.ac_init.y()+sun_y*2000000, me.ac_init.z()+sun_z*2000000);#heat seeking missiles don't fly far, so setting it 2000Km away is fine.
+			me.sun.alt();# TODO: once fixed in FG this line is no longer needed.
 		} else {
 			# old FG versions does not supply location of sun. So this feature gets disabled.
 			me.sun_enabled = FALSE;
@@ -2227,7 +2228,7 @@ var AIM = {
 				me.hdg = OurHdg.getValue();
 			} else {
 				me.railvec = me.myMath.eulerToCartesian3X(-me.rail_head_deg, me.rail_pitch_deg,0);
-				me.veccy = me.myMath.yawPitchRollVector(-OurHdg.getValue(),OurPitch.getValue(),OurRoll.getValue(),me.railvec);
+				me.veccy = me.myMath.rollPitchYawVector(OurRoll.getValue(),OurPitch.getValue(),-OurHdg.getValue(),me.railvec);
 				me.carty = me.myMath.cartesianToEuler(me.veccy);
 				me.defaultHeading = me.Tgt != nil?me.Tgt.get_bearing():0;#90 deg tubes align to target heading, else north
 				me.pitch = me.carty[1];
@@ -2542,9 +2543,12 @@ var AIM = {
 		
 		me.prevGuidance = me.guidance;
 		
-		if (me.counter > -1) {
+		if (me.counter > -1 and !me.ai.getNode("valid").getBoolValue()) {
 			# TODO: Why is this placed so late? Don't remember.
 			me.ai.getNode("valid").setBoolValue(1);
+			thread.lock(mutexTimer);
+			append(AIM.timerQueue, [me, me.setModelAdded, [], -1]);
+			thread.unlock(mutexTimer);
 		}
 		#############################################################################################################
 		#
@@ -3238,7 +3242,7 @@ var AIM = {
 
 	canSeekerKeepUp: func () {
 		me.globalVectorToTarget = me.myMath.eulerToCartesian3X(-me.t_course, me.t_elev_deg, 0);
-		me.localVectorTarget  = me.myMath.rollPitchYawVector(0, -me.pitch, me.hdg, me.globalVectorToTarget);
+		me.localVectorTarget  = me.myMath.yawPitchVector(me.hdg, -me.pitch, me.globalVectorToTarget);
 		if (me.counter == me.counter_last+1 and !me.newTargetAssigned and me["localVectorSeeker"] != nil and (me.guidance == "heat" or me.guidance == "vision") and me.prevGuidance == me.guidance and me.prevTarget == me.Tgt) {
 			# calculate if the seeker can keep up with the angular change of the target
 			#
@@ -3246,7 +3250,7 @@ var AIM = {
 			#
 			if (!me.caged) {
 				# Gyro is stabilized
-				me.localVectorSeeker = me.myMath.rollPitchYawVector(0, -me.last_track_e, me.last_track_h, me.localVectorSeeker);
+				me.localVectorSeeker = me.myMath.yawPitchVector(me.last_track_h, -me.last_track_e, me.localVectorSeeker);
 			}
 			me.angleSeekerToTarget  = me.myMath.angleBetweenVectors(me.localVectorSeeker, me.localVectorTarget);
 			me.deviation_per_sec = me.angleSeekerToTarget/me.dt;
@@ -3581,8 +3585,8 @@ var AIM = {
 				me.raw_steer_signal_head = me.curr_deviation_h;
 				if (me.cruise_or_loft == FALSE) {
 					me.raw_steer_signal_elev = me.curr_deviation_e;
-					me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
-		            me.gravComp = me.pitch - me.attitudePN;
+					me.attitudePN = (math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) - math.atan2(-me.speed_down_fps, me.speed_horizontal_fps )) * R2D;
+		            me.gravComp = - me.attitudePN;
 		            #printf("Gravity compensation %0.2f degs", me.gravComp);
 		            me.raw_steer_signal_elev += me.gravComp;
 				}
@@ -3733,8 +3737,8 @@ var AIM = {
 		        }
 		        if (me.fixed_aim != nil and me.life_time < me.fixed_aim_time) {
 		        	me.raw_steer_signal_elev = me.curr_deviation_e+me.fixed_aim;
-					me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
-		            me.gravComp = me.pitch - me.attitudePN;
+					me.attitudePN = (math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) - math.atan2(-me.speed_down_fps, me.speed_horizontal_fps )) * R2D;
+		            me.gravComp = - me.attitudePN;
 		            #printf("Gravity compensation %0.2f degs", me.gravComp);
 		            me.raw_steer_signal_elev += me.gravComp;
 				} else {
@@ -3792,8 +3796,8 @@ var AIM = {
 					}
 
 					# now compensate for the predicted gravity drop of attitude:				
-		            me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
-		            me.gravComp = me.pitch - me.attitudePN;
+		            me.attitudePN = (math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) - math.atan2(-me.speed_down_fps, me.speed_horizontal_fps )) * R2D;
+		            me.gravComp = -me.attitudePN;
 		            #printf("Gravity compensation %0.2f degs", me.gravComp);
 		            me.raw_steer_signal_elev += me.gravComp;
 
@@ -3964,6 +3968,7 @@ var AIM = {
 		me.crc_closestRange = me.myMath.magnitudeVector(me.myMath.minus(targetCoord, missileCoord));
 		me.crc_missileCoord = geo.Coord.new();
 		me.crc_missileCoord.set_xyz(missileCoord[0], missileCoord[1], missileCoord[2]);
+		me.crc_missileCoord.alt();# TODO: once fixed in FG this line is no longer needed.
 	},
 	
 	log: func (str) {
@@ -4092,6 +4097,9 @@ var AIM = {
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
+		thread.lock(mutexTimer);
+		append(AIM.timerQueue, [me, me.setModelRemoved, [], -1]);
+		thread.unlock(mutexTimer);
 		if (event == "exploded" and !me.inert and wh_mass > 0) {
 			me.animate_explosion(hitGround);
 			me.explodeSound = TRUE;
@@ -5425,6 +5433,14 @@ var AIM = {
 		retur = AIM.lowestETA;
 		thread.unlock(mutexETA);
 		return retur;
+	},
+
+	setModelAdded: func {
+		setprop("ai/models/model-added", me.ai.getPath());
+	},
+
+	setModelRemoved: func {
+		setprop("ai/models/model-removed", me.ai.getPath());
 	},
 };
 var backtrace = func(desc = nil, dump_vars = 1, skip_level = 0, levels = 3) {

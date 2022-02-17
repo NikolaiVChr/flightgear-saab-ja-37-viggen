@@ -109,8 +109,6 @@
         <collision>true</collision>
         <impact>true</impact>
         <expiry>false</expiry>
-        <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <impact-reports>/ai/models/model-impact</impact-reports>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
     </submodel>
@@ -166,10 +164,8 @@
           <life>1</life>              <!-- no randomness -->
         </randomness>
         <collision>true</collision>        <!-- AI/MP -->
-        <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
-        <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+        <impact-reports>/ai/models/model-impact</impact-reports>
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
@@ -203,10 +199,8 @@
           <life>1</life>              <!-- no randomness -->
         </randomness>
         <collision>true</collision>        <!-- AI/MP -->
-        <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
-        <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+        <impact-reports>/ai/models/model-impact</impact-reports>
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
@@ -240,10 +234,8 @@
           <life>1</life>              <!-- no randomness -->
         </randomness>
         <collision>true</collision>        <!-- AI/MP -->
-        <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
-        <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+        <impact-reports>/ai/models/model-impact</impact-reports>
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
@@ -277,10 +269,8 @@
           <life>1</life>              <!-- no randomness -->
         </randomness>
         <collision>true</collision>        <!-- AI/MP -->
-        <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
-        <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+        <impact-reports>/ai/models/model-impact</impact-reports>
         <wind>true</wind>
         <buoyancy>0</buoyancy>
         <life>30</life>
@@ -346,8 +336,6 @@
         <collision>true</collision>
         <impact>true</impact>
         <expiry>false</expiry>
-        <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <impact-reports>/ai/models/model-impact</impact-reports>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
     </submodel>
@@ -412,8 +400,6 @@
         <collision>true</collision>
         <impact>true</impact>
         <expiry>false</expiry>
-        <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <impact-reports>/ai/models/model-impact</impact-reports>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
     </submodel>

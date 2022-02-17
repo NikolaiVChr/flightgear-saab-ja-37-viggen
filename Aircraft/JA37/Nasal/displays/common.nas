@@ -22,6 +22,9 @@ var containsVector = func (vec, item) {
 	return FALSE;
 }
 
+var TI_SEL_RADAR = 1;
+var TI_SEL_DL = 2;
+
 ### Numbers formatting functions.
 
 # Print in decimal with a _comma_, 'places' is the number of decimal places.
@@ -87,11 +90,17 @@ var Common = {
 			units:            "ja37/hud/units-metric",
 			RMActive:         "autopilot/route-manager/active",
 			rmDist:           "autopilot/route-manager/wp/dist",
+			rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
 			rpm:              "fdm/jsbsim/propulsion/engine/n2",
 			ext_power_used:   "fdm/jsbsim/systems/electrical/external/supplying",
 			displays_on:      "ja37/displays/on",
 			displays_serv:    "instrumentation/displays/serviceable",
 			land_warn_on:     "ja37/avionics/landing-warnings-enable",
+			launch_alt_warn:  "fdm/jsbsim/systems/mkv/ajs-launch-altitude-enable",
+			launch_alt_min:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-min",
+			launch_alt_max:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-max",
+			ja_head_bug:      "instrumentation/waypoint-indicator/ja-bearing-deg",
+			ja_head_tgt:      "instrumentation/waypoint-indicator/ja-tgt-heading-deg",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -120,7 +129,8 @@ var Common = {
 		co.distance_model = "";
       	co.error = FALSE;
       	co.cursor = MI;
-      	co.ref_alt = 500;
+		co.ref_alt = 500;
+      	co._ref_alt = 500; # internal value, used as memory in some conditions
       	co.ref_alt_ldg_override = FALSE;
 
       	co.wowPrev = 0;
@@ -135,6 +145,8 @@ var Common = {
 		co.qfe_warn_takeoff_time = nil;
 		co.qfe_warn_time = nil;
 
+		co.ti_selection = nil;
+
       	return co;
 	},
 
@@ -144,12 +156,16 @@ var Common = {
 		me.armName();
 		me.armNameShort();
 		me.armNameMedium();
-		me.distance();
 		me.errors();
 		me.flighttime();
 		me.referenceAlt();
-		if (variant.AJS) me.hojd_switch();
-		if (variant.JA) me.landWarningsCondition();
+		if (variant.JA) {
+			me.ja_nav();
+			me.landWarningsCondition();
+		} else {
+			me.hojd_switch();
+			me.launch_altitude();
+		}
 	},
 
 	loopFast: func {
@@ -244,27 +260,35 @@ var Common = {
 		me.error = FALSE;
 	},
 
-	distance: func {
-		if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
-			# radar steer order
-			me.distance_m = radar_logic.selection.get_range()*NM2M;
-	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1) {
-	    	# next steerpoint
-	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
-		} else {
-	  		# nothing
-	  		me.distance_m = -1;
-	  	}
-	  	
-	  	if (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
-			# IFF
-			me.distance_name = radar_logic.selection.get_Callsign();
-			me.distance_model = radar_logic.selection.get_model();
-	    } else {
-	  		# nothing
-	  		me.distance_name = "";
-			me.distance_model = "";
-	  	}
+	ja_nav: func {
+		# Information displayed on various waypoint range / bearing indicators.
+		me.distance_m = nil;
+		me.heading = nil;
+		me.tgt_heading = nil;
+
+		if (me.ti_selection != nil) {
+			if (me.ti_sel_type == TI_SEL_RADAR and (var info = me.ti_selection.getLastBlep()) != nil) {
+				me.distance_m = info.getRangeNow();
+				me.heading = info.getBearing();
+				me.tgt_heading = info.getHeading();
+			} elsif (me.ti_sel_type == TI_SEL_DL) {
+				me.distance_m = me.ti_selection.getRange();
+				me.heading = me.ti_selection.getBearing();
+				me.tgt_heading = me.ti_selection.getHeading();
+			}
+		} elsif (me.input.RMActive.getValue() == TRUE and getprop("autopilot/route-manager/current-wp") != -1) {
+			# next steerpoint
+			me.distance_m = me.input.rmDist.getValue();
+			if (me.distance_m != nil) me.distance_m *= NM2M;
+			me.heading = me.input.rmBearing.getValue();
+
+			if (land.show_runway_line) {
+				me.tgt_heading = land.head;
+			}
+		}
+
+		me.input.ja_head_bug.setValue(me.heading or 0);
+		me.input.ja_head_tgt.setValue(me.tgt_heading or 0);
 	},
 
 	armName: func {
@@ -279,11 +303,9 @@ var Common = {
 	},
 
 	arm_name_medium: {
-		"RB-24J": "24J",
 		"RB-74": "74",
 		"RB-71": "71",
 		"RB-99": "99",
-		"M70": "ARAK",
 		"M75": "AKAN",
 	},
 
@@ -299,11 +321,9 @@ var Common = {
 	},
 
 	arm_name_short: {
-		"RB-24J": "24",
 		"RB-74": "74",
 		"RB-71": "71",
 		"RB-99": "99",
-		"M70": "AR",
 		"M75": "AK",
 	},
 
@@ -414,25 +434,33 @@ var Common = {
 		# TAKEOFF mode: fixed, 500m
 		# NAV: can be modified with reference alt button, or ALT hold autopilot
 		# LANDING: defaults to 500m, but can be overriden as in NAV
+
+		var reset_ref_alt_ldg_override = TRUE;
+
 		if (modes.takeoff) {
-			me.ref_alt = 500 + me.input.alt_airbase_m.getValue();
-			me.ref_alt_ldg_override = FALSE;
+			me._ref_alt = 500 + me.input.alt_airbase_m.getValue();
 		} elsif (me.input.APmode.getValue() == 3) {
-			me.ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
+			me._ref_alt = me.input.AP_alt_ft.getValue() * FT2M;
 			if (!variant.JA) {
 				# For AJS, autopilot uses barometric altitude, but displays use ground corrected altitude.
-				me.ref_alt += me.input.alt_m.getValue() - me.input.alt_bar_m.getValue();
+				me._ref_alt += me.input.alt_m.getValue() - me.input.alt_bar_m.getValue();
 			}
-			me.ref_alt_ldg_override = FALSE;
 		} elsif (modes.landing) {
 			# me.ref_alt_ldg_override indicates that the altitude was manually selected
 			# with the reference altitude button while in LANDING mode.
 			# This flag is cleared in every other mode, which resets the altitude to 500 when switching to LANDING.
-			if (!me.ref_alt_ldg_override) me.ref_alt = 500 + me.input.alt_airbase_m.getValue();
-		} else {
-			# navigation mode
-			me.ref_alt_ldg_override = FALSE;
+			reset_ref_alt_ldg_override = FALSE;
+			if (!me.ref_alt_ldg_override) me._ref_alt = 500 + me.input.alt_airbase_m.getValue();
 		}
+
+		me.ref_alt = me._ref_alt;
+
+		# Rb 04 aiming mode sets reference altitude = 240m, but remember previous setting (with _ref_alt)
+		if (variant.AJS and hud.HUD.aiming_mode_condition() and fire_control.get_type() == "RB-04E") {
+			me.ref_alt = 240;
+		}
+
+		if (reset_ref_alt_ldg_override) me.ref_alt_ldg_override = FALSE;
 		me.input.ref_alt.setValue(me.ref_alt);
 	},
 
@@ -452,11 +480,13 @@ var Common = {
 		# Manual reference altitude setting is not available at takeoff,
 		# with ALT HOLD autopilot, and during the landing final phase.
 		if (modes.takeoff or me.input.APmode.getValue() == 3
-			or (modes.landing and land.mode != 1 and land.mode != 2)) return;
+			or (modes.landing and land.mode != 1 and land.mode != 2)
+			or (variant.AJS and hud.HUD.aiming_mode_condition() and fire_control.get_type() == "RB-04E"))
+			return;
 
-		me.ref_alt = me.input.alt_m.getValue();
-		if (me.ref_alt < 20) me.ref_alt = 20;
-		me.input.ref_alt.setValue(me.ref_alt);
+		me._ref_alt = me.input.alt_m.getValue();
+		if (me._ref_alt < 20) me._ref_alt = 20;
+		me.referenceAlt();
 
 		# Set flag if manually setting reference altitude during landing.
 		if (modes.landing) {
@@ -482,6 +512,27 @@ var Common = {
 		}
 	},
 
+	launch_altitude: func {
+		if (!fire_control.is_armed()) {
+			me.input.launch_alt_warn.setBoolValue(FALSE);
+			return;
+		}
+		var type = fire_control.get_type();
+		if (type == "RB-04E") {
+			# manual: 240 +-190m
+			me.input.launch_alt_min.setValue(50);
+			me.input.launch_alt_max.setValue(330);
+			me.input.launch_alt_warn.setBoolValue(TRUE);
+		} elsif (type == "RB-15F") {
+			# manual: 50m-2000m
+			me.input.launch_alt_min.setValue(50);
+			me.input.launch_alt_max.setValue(2000);
+			me.input.launch_alt_warn.setBoolValue(TRUE);
+		} else {
+			me.input.launch_alt_warn.setBoolValue(TRUE);
+		}
+	},
+
 	setCursorDisplay: func (display) {
 		me.cursor = display;
 		me.resetCursorDelta();
@@ -503,6 +554,15 @@ var Common = {
 		me.input.cursor_clicked.setBoolValue(0);
 	},
 
+	unsetTISelection: func {
+		me.setTISelection(nil, 0);
+	},
+
+	setTISelection: func(s, type) {
+		me.ti_sel_type = type;
+		me.ti_selection = s;
+		if (s != nil) land.RR();
+	},
 };
 
 var common = Common.new();

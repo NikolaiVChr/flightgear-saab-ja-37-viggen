@@ -165,18 +165,16 @@
     </offsets>
   </model>
 
-
   <!-- center -->
   <model>
-    <path>Aircraft/JA37/Models/Panels/Radar/range-selector.xml</path>
-    <name>RadarRange</name>
+    <path>Aircraft/JA37/Models/Cockpit/CI/CI.xml</path>
+    <name>CI</name>
     <offsets>
-      <x-m>  0.035</x-m>
-      <y-m>  0</y-m>
-      <z-m>  0.030</z-m>
+      <x-m> 0.0</x-m>
+      <y-m> 0.0</y-m>
+      <z-m> 0.14</z-m>
     </offsets>
   </model>
-
 
   <!-- left side -->
   <model>
@@ -333,15 +331,5 @@
       <y-m>-0.31</y-m>
       <z-m>0.06</z-m>
     </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/RadarCompass/radarCompassHeading.xml</path>
-    <name>radarCompassHeading</name>
-      <offsets>
-        <x-m> 0.0340</x-m>
-        <y-m> 0.00</y-m>
-        <z-m> 0.216</z-m>
-      </offsets>
   </model>
 </PropertyList>

@@ -118,12 +118,12 @@ var sets = {};
 
 # sets are defined using the indices in load_options (above)
 if (variant.JA) {
-    sets[STATIONS.V7V] = ["none", "RB-24J", "RB-74", "RB-71", "RB-99", "M70"];
-    sets[STATIONS.V7H] = ["none", "RB-24J", "RB-74", "RB-71", "RB-99", "M70"];
-    sets[STATIONS.S7V] = ["none", "RB-24J", "RB-74", "RB-99", "M70"];
-    sets[STATIONS.S7H] = ["none", "RB-24J", "RB-74", "RB-99", "M70"];
-    sets[STATIONS.R7V] = ["none", "RB-24J", "RB-74"];
-    sets[STATIONS.R7H] = ["none", "RB-24J", "RB-74"];
+    sets[STATIONS.V7V] = ["none", "RB-74", "RB-71", "RB-99"];
+    sets[STATIONS.V7H] = ["none", "RB-74", "RB-71", "RB-99"];
+    sets[STATIONS.S7V] = ["none", "RB-74", "RB-99"];
+    sets[STATIONS.S7H] = ["none", "RB-74", "RB-99"];
+    sets[STATIONS.R7V] = ["none", "RB-74"];
+    sets[STATIONS.R7H] = ["none", "RB-74"];
 } else {
     sets[STATIONS.V7V] = ["none", "RB-24J", "RB-74", "RB-04E", "RB-15F", "RB-75", "M55", "M70", "M71", "M71R", "M90"];
     sets[STATIONS.V7H] = ["none", "RB-24J", "RB-74", "RB-04E", "RB-15F", "RB-75", "M55", "M70", "M71", "M71R", "M90"];
