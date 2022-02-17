@@ -489,8 +489,12 @@ var Missile = {
                 # Send list of all contacts to allow searching.
                 me.weapon.setContacts(radar.get_complete_list());
                 armament.contact = nil;
+            } elsif (variant.AJS) {
+                # other AJS weapons don't lock before launch
+                me.weapon.setContacts([]);
+                armament.contact = nil;
             } else {
-                # Slave onto radar target.
+                # JA: slave onto radar target.
                 me.weapon.setContacts([]);
                 armament.contact = radar.ps46.getPriorityTarget();
             }
