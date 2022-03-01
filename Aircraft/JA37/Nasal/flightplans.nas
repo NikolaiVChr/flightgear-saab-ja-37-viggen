@@ -1269,26 +1269,26 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 			}
 		}
 		#TODO: check for multi enabled:
-		setprop("autopilot/plan-manager/save-1", Polygon.polys["1"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-2", Polygon.polys["2"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-3", Polygon.polys["3"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-4", Polygon.polys["4"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-1", Polygon.polys["1"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-2", Polygon.polys["2"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-3", Polygon.polys["3"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-4", Polygon.polys["4"].plan.getPlanSize() > 0);
 		
-		setprop("autopilot/plan-manager/save-1a", Polygon.polys["1A"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-1b", Polygon.polys["1B"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-2a", Polygon.polys["2A"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-2b", Polygon.polys["2B"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-3a", Polygon.polys["3A"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-3b", Polygon.polys["3B"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-4a", Polygon.polys["4A"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-4b", Polygon.polys["4B"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-1a", Polygon.polys["1A"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-1b", Polygon.polys["1B"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-2a", Polygon.polys["2A"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-2b", Polygon.polys["2B"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-3a", Polygon.polys["3A"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-3b", Polygon.polys["3B"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-4a", Polygon.polys["4A"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-4b", Polygon.polys["4B"].plan.getPlanSize() > 0);
 		
-		setprop("autopilot/plan-manager/save-p1", Polygon.polys["OP1"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-p2", Polygon.polys["OP2"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-p3", Polygon.polys["OP3"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-p4", Polygon.polys["OP4"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-p5", Polygon.polys["OP5"].plan.getPlanSize() > 1);
-		setprop("autopilot/plan-manager/save-p6", Polygon.polys["OP6"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-p1", Polygon.polys["OP1"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-p2", Polygon.polys["OP2"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-p3", Polygon.polys["OP3"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-p4", Polygon.polys["OP4"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-p5", Polygon.polys["OP5"].plan.getPlanSize() > 0);
+		setprop("autopilot/plan-manager/save-p6", Polygon.polys["OP6"].plan.getPlanSize() > 0);
 	},
 };
 
