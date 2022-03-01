@@ -271,7 +271,23 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 		dap.loadPoints(path~"/ja37-data.ck37",1);#load first since it has landing bases (TODO:notice these will trigger setting dest on alot of old routes..hmmm)
 		var key = keys(Polygon.polys);
 		foreach (k; key) {
-			call(func{Polygon.load(k,path~"/ja37-data-"~k~".fgfp",1);},nil,var err=[]);
+			var filePath = nil;
+			var fgfpPath = path~"/ja37-data-"~k~".fgfp";
+			var gpxPath = path~"/ja37-data-"~k~".gpx";
+			var fgfp = io.stat(fgfpPath);
+			var gpx = io.stat(gpxPath);
+
+			if (fgfp != nil and gpx != nil) {
+				filePath = fgfpPath;
+				screen.log.write("In "~path~", both FGFP and GPX files are present for ja37-data-"~k~". Loading FGFP.", 1.0, 0.0, 0.0);
+			} elsif (gpx != nil) {
+				filePath = gpxPath;
+			} else {
+				filePath = fgfpPath;
+			}
+
+			# This needs to be called even when no file is present, to clear the flightplan
+			call(func{Polygon.load(k,filePath,1);},nil,var err=[]);
 		}
 	},
 	
