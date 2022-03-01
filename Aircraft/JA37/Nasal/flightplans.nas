@@ -205,7 +205,7 @@ var Polygon = {
 print("load "~pln~" clear "~clear~" file "~file);
 		call(func {newPlan = createFlightplan(file);}, nil, var err = []);
 		if (size(err) or newPlan == nil) {
-			print(err[0]);
+			debug.printerror(err);
 			print("Load failed.");
 			if(clear) {
 				# loading failed, we clear the plan.
@@ -288,6 +288,7 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 
 			# This needs to be called even when no file is present, to clear the flightplan
 			call(func{Polygon.load(k,filePath,1);},nil,var err=[]);
+			if (size(err)) debug.printerror(err);
 		}
 	},
 	
