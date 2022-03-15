@@ -1855,9 +1855,6 @@
         <testing>
             <file>Aircraft/JA37/Nasal/test.nas</file>
         </testing>
-        <ai>
-          <file>Aircraft/JA37/Nasal/AI_list.nas</file>
-        </ai>
         <missile_view>
           <file>Aircraft/JA37/Nasal/missile-view.nas</file>
         </missile_view>
