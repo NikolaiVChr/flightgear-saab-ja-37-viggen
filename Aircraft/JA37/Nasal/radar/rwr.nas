@@ -457,7 +457,7 @@ RWRRecipient.Receive = func(notification) {
 
 var callsign = "";
 var update_callsign = func(n) {
-    callsign = ""~n.getValue(); # ensure that it is a string
+    callsign = str(n.getValue());
     if(size(callsign) > 7) callsign = left(callsign, 7);
 }
 setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);

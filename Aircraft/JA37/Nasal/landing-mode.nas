@@ -641,7 +641,7 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 };
 
 var roundFreq = func(x) {
-  var y = ""~x;
+  var y = str(x);
   var a = substr(y, 0, 3)~"."~substr(y, -2);
   return a;
 };

@@ -1,7 +1,7 @@
 var signText = nil;
 
 var update_callsign = func(node) {
-    var callsign = ""~node.getValue();
+    var callsign = str(node.getValue());
     if (callsign == "callsign") callsign = "";
 
     signText.setText(callsign);

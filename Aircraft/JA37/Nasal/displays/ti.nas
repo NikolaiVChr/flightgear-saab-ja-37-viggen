@@ -2437,7 +2437,7 @@ var TI = {
 			if (me.ownPositionDigital == 0) {
 				me.menuButtonSub[19].show();
 			} else {
-				me.menuButtonSub[19].setText(""~me.ownPositionDigital);
+				me.menuButtonSub[19].setText(str(me.ownPositionDigital));
 				me.menuButtonSub[19].show();
 				me.menuButtonSubBox[19].show();
 			}
@@ -2477,7 +2477,7 @@ var TI = {
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 			# side view configuration
-			me.menuButtonSub[5].setText(me.vertStr(""~me.SVYsize));
+			me.menuButtonSub[5].setText(me.vertStr(str(me.SVYsize)));
 			me.menuButtonSub[5].show();
 			me.menuButtonSubBox[5].show();
 			if (me.SVYinclude == SVY_ALL) {
@@ -2769,7 +2769,7 @@ var TI = {
 				append(lines, {
 					id: y,
 					type: "lat",
-					text: ""~int(y)~(ddLon==0?"   ":" "~ddLon),
+					text: str(int(y))~(ddLon==0?"   ":" "~ddLon),
 					path: coords,
 					equals: func(o){
 						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
@@ -3494,9 +3494,9 @@ var TI = {
 				me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -tick2*M2TEX*1000);
 				me.mapScaleTick3.setTranslation(0, -tick3*M2TEX*1000);
 				me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -tick3*M2TEX*1000);
-				me.mapScaleTick1Txt.setText(""~tick1);
-				me.mapScaleTick2Txt.setText(""~tick2);
-				me.mapScaleTick3Txt.setText(""~tick3);
+				me.mapScaleTick1Txt.setText(str(tick1));
+				me.mapScaleTick2Txt.setText(str(tick2));
+				me.mapScaleTick3Txt.setText(str(tick3));
 				me.mapScaleTickM1.setTranslation(0, tick1*M2TEX*1000);
 				me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, tick1*M2TEX*1000);
 				me.mapScaleTickM2.setTranslation(0, tick2*M2TEX*1000);
@@ -3532,9 +3532,9 @@ var TI = {
 				me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -tick2*M2TEX*NM2M);
 				me.mapScaleTick3.setTranslation(0, -tick3*M2TEX*NM2M);
 				me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -tick3*M2TEX*NM2M);
-				me.mapScaleTick1Txt.setText(""~tick1);
-				me.mapScaleTick2Txt.setText(""~tick2);
-				me.mapScaleTick3Txt.setText(""~tick3);
+				me.mapScaleTick1Txt.setText(str(tick1));
+				me.mapScaleTick2Txt.setText(str(tick2));
+				me.mapScaleTick3Txt.setText(str(tick3));
 				me.mapScaleTickM1.setTranslation(0, tick1*M2TEX*NM2M);
 				me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, tick1*M2TEX*NM2M);
 				me.mapScaleTickM2.setTranslation(0, tick2*M2TEX*NM2M);
@@ -3596,14 +3596,14 @@ var TI = {
 				me.tgt_alt *= FT2M;
 				me.tgtTextHeiDesc.setText("H");
 				if(me.tgt_alt < 1000) {
-					me.text = ""~int(roundabout(me.tgt_alt/10)*10);
+					me.text = str(int(roundabout(me.tgt_alt/10)*10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
 			} else {
 				me.tgtTextHeiDesc.setText("A");
 				if(me.tgt_alt < 1000) {
-					me.text = ""~int(roundabout(me.tgt_alt/10)*10);
+					me.text = str(int(roundabout(me.tgt_alt/10)*10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
@@ -4437,13 +4437,13 @@ var TI = {
 			me.text = "";
 			if (me.swedishMode) {
 				if(me.alt*FT2M < 1000) {
-					me.text = ""~roundabout(me.alt*FT2M/10)*10;
+					me.text = str(roundabout(me.alt*FT2M/10)*10);
 				} else {
 					me.text = sprintf("%.1f", me.alt*FT2M/1000);
 				}
 			} else {
 				if(me.alt < 1000) {
-					me.text = ""~roundabout(me.alt/10)*10;
+					me.text = str(roundabout(me.alt/10)*10);
 				} else {
 					me.text = sprintf("%.1f", me.alt/1000);
 				}
@@ -5886,7 +5886,7 @@ var TI = {
 					      	http.save(img_url, img_path)
 					      		.done(func(r) {
 					      	  		#print('received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
-					      	  		#print(""~(io.stat(me.img_path) != nil));
+					      	  		#print(str(io.stat(me.img_path) != nil));
 					      	  		tile.set("src", img_path);# this sometimes fails with: 'Cannot find image file' if use me. instead of var.
 					      	  		tile.update();
 					      	  		})

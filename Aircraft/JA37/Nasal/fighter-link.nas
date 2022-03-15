@@ -62,7 +62,7 @@ var send_loop = func {
     var data = {};
 
     # Make sure the identifier is converted to a string.
-    var ident = ""~input.identifier.getValue();
+    var ident = str(input.identifier.getValue());
     # Do not send identifier if it is 0
     if (ident != "0") data.identifier = ident;
 
@@ -126,7 +126,7 @@ var update_dl_contacts = func {
         }
         # For viggen, identifier is truncated to 1, and "0" is ignored.
         if (contact.dl_ident != nil) {
-            contact.dl_ident = substr(""~contact.dl_ident, 0, 1);
+            contact.dl_ident = substr(str(contact.dl_ident), 0, 1);
             if (contact.dl_ident == "0") contact.dl_ident = nil;
         }
         append(dl_contacts, contact);

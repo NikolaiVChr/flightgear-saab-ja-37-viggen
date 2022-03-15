@@ -853,13 +853,13 @@ var disp = func {
     } elsif (settingKnob == KNOB_FUEL) {
       var warn = getprop("ja37/systems/fuel-warning-extra-percent");
       if (warn != -1) {
-        display = ""~warn;
+        display = str(warn);
       } else {
         display = "00";
       }
     } elsif (settingKnob == KNOB_REG) {
       var address = num(left(input,2));
-      #printDA("reg adr to display out: "~(address==nil?"nil":""~address));
+      #printDA("reg adr to display out: "~(address==nil?"nil":str(address)));
       if (address == nil or address==0) {
           # max alpha
           #printDA("displaying alpha");

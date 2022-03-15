@@ -54,14 +54,14 @@ var Polygon = {
 			var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
 			Polygon.polys["1"] = poly1;
 			for (var i = 2; i<=4; i+=1) {
-				var poly = Polygon.new(""~i, "", TYPE_MISS, getprop("xmlPlans/mission"~i));
-				Polygon.polys[""~i] = poly;
+				var poly = Polygon.new(str(i), "", TYPE_MISS, getprop("xmlPlans/mission"~i));
+				Polygon.polys[str(i)] = poly;
 			}
 			for (var i = 1; i<=4; i+=1) {
-				var polyA = Polygon.new(""~i, "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
+				var polyA = Polygon.new(str(i), "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
 				Polygon.polys[polyA.getName()]   = polyA;
 
-				var polyB = Polygon.new(""~i, "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
+				var polyB = Polygon.new(str(i), "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
 				Polygon.polys[polyB.getName()]   = polyB;
 			}
 			for (var i = 1; i<=6; i+=1) {
