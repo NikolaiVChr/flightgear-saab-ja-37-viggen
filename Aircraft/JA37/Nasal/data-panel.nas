@@ -12,7 +12,7 @@ var FALSE = 0;
 var debugAll = 0;
 
 var printDA = func (str) {
-    if (debugAll) print (str);
+    if (debugAll) logprint(LOG_INFO, str);
 }
 
 var signText = nil;
@@ -1032,13 +1032,13 @@ var savePoints = func (path) {
     var opn = nil;
     call(func{opn = io.open(path,"w");},nil, var err = []);
     if (size(err) or opn == nil) {
-      print("error open file for writing points");
+      logprint(LOG_ALERT, "error open file for writing points");
       gui.showDialog("savefail");
       return 0;
     }
     call(func{var text = io.write(opn,text);},nil, var err = []);
     if (size(err)) {
-      print("error write file with points");
+      logprint(LOG_ALERT, "error write file with points");
       gui.showDialog("savefail");
       io.close(opn);
       return 0;
@@ -1053,7 +1053,7 @@ var loadPoints = func (path,clear=1) {
     var text = nil;
     call(func{text=io.readfile(path);},nil, var err = []);
     if (size(err)) {
-      print("Loading LV/FF/BE failed.");
+      logprint(LOG_ALERT, "Loading LV/FF/BE failed.");
       if (clear) {
         lv = {};
         setprop("ja37/navigation/bulls-eye-defined",0);

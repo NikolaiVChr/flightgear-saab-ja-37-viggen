@@ -2946,7 +2946,7 @@ var TI = {
 					me.cursorDidSomething = TRUE;
 				}
 			} elsif (me.sDrag != nil) {
-				#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
+				#logprint(LOG_DEBUG, "dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 				if(me.cursorTrigger) {
 					# drag the steer to new place
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
@@ -3209,9 +3209,9 @@ var TI = {
 		}
 		sign = sign>0?"":"-";
 		var deg = ja37.stringToLon(sign~input);
-		print("TI recieved LO from DAP: "~sign~input);
+		logprint(LOG_DEBUG, "TI recieved LO from DAP: "~sign~input);
 		if (deg!=nil) {
-			print("converted "~sign~input~" to "~ja37.convertDegreeToStringLon(deg));
+			logprint(LOG_DEBUG, "converted "~sign~input~" to "~ja37.convertDegreeToStringLon(deg));
 			route.Polygon.setLon(deg);
 			myself.stopDAP();
 		} else {
@@ -3227,9 +3227,9 @@ var TI = {
 		}
 		sign = sign>0?"":"-";
 		var deg = ja37.stringToLat(sign~input);
-		print("TI recieved LA from DAP: "~sign~input);
+		logprint(LOG_DEBUG, "TI recieved LA from DAP: "~sign~input);
 		if (deg!=nil) {
-			print("converted "~sign~input~" to "~ja37.convertDegreeToStringLat(deg));
+			logprint(LOG_DEBUG, "converted "~sign~input~" to "~ja37.convertDegreeToStringLat(deg));
 			route.Polygon.setLat(deg);
 			myself.stopDAP();
 		} else {
@@ -3243,7 +3243,7 @@ var TI = {
 			dap.setError();
 		} else {
 			route.Polygon.editPlan(route.Polygon.polys["OP"~input]);
-			print("TI recieved area number from DAP: "~input);
+			logprint(LOG_DEBUG, "TI recieved area number from DAP: "~input);
 			myself.stopDAP();
 		}
 	},
@@ -3255,10 +3255,10 @@ var TI = {
 		} else {
 			if (input != nil) {
 				var mach = num(input)/100;
-				print("TI recieved mach from DAP: M"~mach);
+				logprint(LOG_DEBUG, "TI recieved mach from DAP: M"~mach);
 				route.Polygon.setMach(mach);
 			} else {
-				print("TI recieved no mach from DAP.");
+				logprint(LOG_DEBUG, "TI recieved no mach from DAP.");
 				route.Polygon.setMach(nil);
 			}
 			myself.stopDAP();
@@ -3275,7 +3275,7 @@ var TI = {
 		if (sign < 0 or typ > 1) {
 			dap.setError();
 		} else {
-			print("TI recieved steerpoint type from DAP: "~typ);
+			logprint(LOG_DEBUG, "TI recieved steerpoint type from DAP: "~typ);
 			route.Polygon.setType(typ);
 			myself.stopDAP();
 		}
@@ -3288,10 +3288,10 @@ var TI = {
 		} else {
 			if (input != nil) {
 				var alt = num(input);
-				print("TI recieved alt from DAP: "~alt);
+				logprint(LOG_DEBUG, "TI recieved alt from DAP: "~alt);
 				route.Polygon.setAlt(myself.swedishMode?alt*M2FT:alt);#important!!! running in metric will input metric also!
 			} else {
-				print("TI recieved no alt from DAP");
+				logprint(LOG_DEBUG, "TI recieved no alt from DAP");
 				route.Polygon.setAlt(nil);#important!!! running in metric will input metric also!
 			}
 			myself.stopDAP();
@@ -3916,7 +3916,7 @@ var TI = {
 			append(me.steerpoint, stGrp);
 			me.steerPointMax += 1;
 		}
-		if (wp>me.steerPointMax) print (wp~" - "~me.steerPointMax);
+		if (wp>me.steerPointMax) logprint(LOG_DEBUG, wp~" - "~me.steerPointMax);
 	},
 
 	showSteerPoints: func {
@@ -5879,24 +5879,24 @@ var TI = {
 					(func {# generator function
 					    var img_path = makePath(pos);
 					    var tile = tiles[x][y];
-					    #print('showing ' ~ img_path);
+					    #logprint(LOG_DEBUG, 'showing ' ~ img_path);
 					    if( io.stat(img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
 					      	var img_url = makeUrl(pos);
-					      	#print('requesting ' ~ img_url);
+					      	#logprint(LOG_DEBUG, 'requesting ' ~ img_url);
 					      	http.save(img_url, img_path)
 					      		.done(func(r) {
-					      	  		#print('received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
-					      	  		#print(str(io.stat(me.img_path) != nil));
+					      	  		#logprint(LOG_DEBUG, 'received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
+					      	  		#logprint(LOG_DEBUG, str(io.stat(me.img_path) != nil));
 					      	  		tile.set("src", img_path);# this sometimes fails with: 'Cannot find image file' if use me. instead of var.
 					      	  		tile.update();
 					      	  		})
-					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-					          .fail(func (r) {#print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
+					          #.done(func {logprint(LOG_DEBUG, 'received image ' ~ img_path); tile.set("src", img_path);})
+					          .fail(func (r) {#logprint(LOG_DEBUG, 'Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
 					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
 					      					tile.update();
 					      					});
 					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
-					      	#print('loading ' ~ me.img_path);
+					      	#logprint(LOG_DEBUG, 'loading ' ~ me.img_path);
 					      	tile.set("src", img_path);
 					      	tile.update();
 					    } else {

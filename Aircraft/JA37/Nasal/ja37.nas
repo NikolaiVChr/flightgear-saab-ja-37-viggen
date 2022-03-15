@@ -1164,7 +1164,7 @@ var main_init = func {
   setprop("/consumables/fuel/tank[8]/jettisoned", FALSE);
 
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
-  print("Loading exterior, wait...");
+  logprint(LOG_INFO, "Loading exterior, wait...");
   # return to cabin to next cycle
   settimer(load_interior, 0.5, 1);
   view.setViewByIndex(1);
@@ -1247,13 +1247,13 @@ var setup_custom_stick_bindings = func {
 # re init
 var re_init = func {
   if (getprop("/sim/signals/reinit")==0) {return;}
-  print("Re-initializing Saab 37 Viggen systems");
+  logprint(LOG_INFO, "Re-initializing Saab 37 Viggen systems");
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
-  #print("Reinit: Oxygen replenished.");
+  logprint(LOG_INFO, "Reinit: Oxygen replenished.");
   # asymmetric vortex detachment
   asymVortex();
   repair();
@@ -1275,7 +1275,7 @@ var recharge_battery = func {
 var recharge_battery2 = func {
   setprop("ja37/systems/battery-reinit",0);
   setprop("ja37/systems/battery-recharge-rate",0.001666);
-  #print("Init: Battery fully recharged.");
+  logprint(LOG_INFO, "Init: Battery fully recharged.");
 }
 
 var asymVortex = func () {
@@ -1288,7 +1288,7 @@ var asymVortex = func () {
 
 var load_interior = func {
     view.setViewByIndex(0);
-    print("..Done!");
+    logprint(LOG_INFO, "..Done!");
 }
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
@@ -1435,7 +1435,7 @@ var waiting_n1 = func {
     } else {
       notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }
-    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    logprint(DEV_WARN, "Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
@@ -1448,7 +1448,7 @@ var waiting_n1 = func {
           notice("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
         } else {
-          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+          logprint(DEV_WARN, "Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
           stopAutostart();
           notice("Engine not igniting. Aborting engine start.");
         }
@@ -1480,7 +1480,7 @@ var final_engine = func () {
     } else {
       notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }    
-    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    logprint(DEV_WARN, "Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     notice("Engine ready.");

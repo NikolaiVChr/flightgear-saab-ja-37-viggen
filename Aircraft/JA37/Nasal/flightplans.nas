@@ -11,12 +11,12 @@ var FALSE = 0;
 var maxArea = 8;# max number of polygon areas
 var maxSteers = 48;# max number of steers in each plan
 
-var debugAll = TRUE;
+var debugAll = FALSE;
 
 setprop("sim/fg-home-export", getprop("sim/fg-home")~"/export");
 
 var printDA = func (str) {
-    if (debugAll) print (str);
+    if (debugAll) logprint(LOG_INFO, str);
 }
 
 var Polygon = {
@@ -132,7 +132,7 @@ var Polygon = {
 		var icao = (base==nil)?"":base.id;
 		
 		setprop("autopilot/plan-manager/destination/airport-"~number, icao);
-		#print("setland setting "~icao~" on property "~number);
+		#logprint(LOG_DEBUG, "setland setting "~icao~" on property "~number);
 		
 		if (Polygon.polys[name].plan.destination == nil or Polygon.polys[name].plan.destination.id != icao) {
 			Polygon.editStop();
@@ -176,7 +176,7 @@ var Polygon = {
 			}
 			if (result!=nil) {
 				Polygon.landBase[number-1] = result;
-				#print("_landtest setting "~icao~" on landbase "~number);
+				#logprint(LOG_DEBUG, "_landtest setting "~icao~" on landbase "~number);
 			} else {
 				Polygon.landBase[number-1] = nil;
 			}
@@ -192,7 +192,7 @@ var Polygon = {
 		var success = 1;
 		call(func { success = Polygon.polys[pln].plan.save(file);}, nil, var err = []);
 		if (size(err) or !success) {
-			print("saving failed.");
+			logprint(LOG_ALERT, "flightplan save failed.");
 			gui.showDialog("savefail");
 		}
 	},
@@ -202,11 +202,11 @@ var Polygon = {
 		# Load a plan from disc.
 		#
 		var newPlan = nil;
-print("load "~pln~" clear "~clear~" file "~file);
+		logprint(LOG_DEBUG, "load "~pln~" clear "~clear~" file "~file);
 		call(func {newPlan = createFlightplan(file);}, nil, var err = []);
 		if (size(err) or newPlan == nil) {
 			debug.printerror(err);
-			print("Load failed.");
+			logprint(LOG_DEBUG, "Load failed.");
 			if(clear) {
 				# loading failed, we clear the plan.
 				Polygon.editStop();
@@ -224,7 +224,7 @@ print("load "~pln~" clear "~clear~" file "~file);
 		} else {
 			Polygon.editStop();
 			Polygon.polys[pln].plan = newPlan;
-print("newPlan set on a "~Polygon.polys[pln].type);
+			logprint(LOG_DEBUG, "newPlan set on a "~Polygon.polys[pln].type);
 			if (Polygon.polys[pln].type == TYPE_RTB) {
 				Polygon.setLand(pln);
 			}
@@ -279,7 +279,9 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 
 			if (fgfp != nil and gpx != nil) {
 				filePath = fgfpPath;
-				screen.log.write("In "~path~", both FGFP and GPX files are present for ja37-data-"~k~". Loading FGFP.", 1.0, 0.0, 0.0);
+				var msg = "In "~path~", both FGFP and GPX files are present for ja37-data-"~k~". Loading FGFP.";
+				screen.log.write(msg, 1.0, 0.0, 0.0);
+				logprint(LOG_WARN, msg);
 			} elsif (gpx != nil) {
 				filePath = gpxPath;
 			} else {
@@ -299,7 +301,7 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 		#var path = os.path.new(path);
 		#call(func{path.create_dir();},nil,var err=[]);
 		#if (size(err)) {
-		#	print("saving all failed.");
+		#	logprint(LOG_ALERT, "saving all failed.");
 		#	gui.showDialog("savefail");
 		#}
 		var key = keys(Polygon.polys);
@@ -425,7 +427,7 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 			if (Polygon.primary != nil and Polygon.primary.getSize() > Polygon.jumpToSteer[1]) {
 				Polygon.primary.plan.current = Polygon.jumpToSteer[1];
 			} else {
-				print("error in jump");
+				logprint(LOG_ALERT, "error in jump");
 			}
 			Polygon.jumpToSteer = nil;
 		}
@@ -620,7 +622,8 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 			call(func {Polygon.selectSteer[0].setSpeed(mach, "mach")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0. Fixed in 2018.1.1
 			#print(Polygon.selectSteer[0].speed_cstr_type);
 			if (err != nil and size(err) > 0) {
-				print("Harmless error M: "~err[0]);
+				logprint(LOG_WARN, "Harmless error M: ");
+				debug.printerror(err);
 			}
 		}
 	},
@@ -634,7 +637,8 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 			#Polygon.selectSteer[0].alt_cstr_type = "at";
 			call(func {Polygon.selectSteer[0].setAltitude(alt, "at")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0. Fixed in 2018.1.1
 			if (err != nil and size(err) > 0) {
-				print("Harmless error A: "~err[0]);
+				logprint(LOG_WARN, "Harmless error A: "~err);
+				debug.printerror(err);
 			}
 		}
 	},
@@ -1014,8 +1018,8 @@ print("newPlan set on a "~Polygon.polys[pln].type);
 			newPoly.plan = nil;
 			call(func {newPoly.plan = createFlightplan(xml);}, nil, var err = []);
 			if (size(err)) {
-				print(err[0]);
-				print("That plan will be init empty.");
+				debug.printerror(err);
+				logprint(LOG_ALERT, "That plan will be init empty.");
 			}
 			if (newPoly.plan == nil) {
 				newPoly.plan = createFlightplan();

@@ -73,7 +73,7 @@ var mode_OPT_active = FALSE;
 var debugAll = FALSE;
 
 var printDA = func (str) {
-    if (debugAll) print (str);
+    if (debugAll) logprint(LOG_INFO, str);
 }
 
 var B = func {
