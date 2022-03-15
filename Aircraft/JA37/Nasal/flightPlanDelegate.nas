@@ -5,14 +5,6 @@
 # with a few Viggen specific behaviours.
 
 
-# Backward compatibility, for FG versions using printlog instead of logprint
-if (!defined("logprint") or !defined("LOG_INFO")) {
-    var logprint = printlog;
-    var LOG_INFO = 'info';
-}
-
-
-
 var GPSPath = "/instrumentation/gps";
 var GPSNode = props.globals.getNode(GPSPath, 1);
 

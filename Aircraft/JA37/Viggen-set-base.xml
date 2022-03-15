@@ -1721,7 +1721,9 @@
 
 *************************************************************************-->
     <nasal>
-        <!-- Should be in first position -->
+        <compat>
+            <file>Aircraft/JA37/Nasal/compat-lib.nas</file>
+        </compat>
         <variant>
             <file>Aircraft/JA37/Nasal/variant.nas</file>
         </variant>
