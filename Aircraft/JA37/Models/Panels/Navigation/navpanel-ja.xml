@@ -297,41 +297,6 @@
 				</binding>
 			</mod-up>
 		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>OK2</tooltip-id>
-                <label>L (yellow airdefense (LV) points input)</label>
-                <property></property>
-            </binding>
-        </hovered>
-	</animation>
-	
-	<animation>
-		<type>pick</type>
-		<object-name>LB</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>nasal</command>
-				<script>dap.gPress();</script>
-			</binding>
-			<mod-up>
-				<binding>
-					<command>nasal</command>
-					<script>dap.gRelease();</script>
-				</binding>
-			</mod-up>
-		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>OK3</tooltip-id>
-                <label>LB (green airdefense (LV) points input)</label>
-                <property></property>
-            </binding>
-        </hovered>
 	</animation>
 	
 	<!--

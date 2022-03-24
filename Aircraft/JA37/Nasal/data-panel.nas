@@ -231,7 +231,7 @@ var main = func {
           input = inputDefault;
           digit = 0;
           resetSign();
-        } elsif ((ok==HOLD or l==HOLD or g==HOLD) and digit == 3 and cycle == 0) {
+        } elsif ((ok==HOLD or l==HOLD) and digit == 3 and cycle == 0) {
           var address = num(left(input,3));
           if (address != nil and address >= 1 and address < 190 and settingSign == 1) {
             digit = 0;
@@ -258,11 +258,8 @@ var main = func {
                 pcolor = 2;
                 radius = -1;
               }
-              if (l == HOLD and !(address >= 100 and address <= 109)) {
-                pcolor = 1;#yellow
-              } elsif (g == HOLD and !(address >= 100 and address <= 109)) {
-                pcolor = 3;#green
-              }
+              if (l == HOLD and pcolor == 0) pcolor = 1;#yellow
+
               lv_temp = {address: address, color: pcolor, radius: radius, type: ptype};
             }
             printDA("DAP request for LV/FF point.");
@@ -1300,26 +1297,6 @@ var lRelease = func {
     return;
   }
   l = RELEASE;
-  main();
-}
-
-var gPress = func {
-  if (!variant.JA) return;
-  if (!power.prop.acMainBool.getValue()){
-    printDA("NAV: offline");
-    return;
-  }
-  g = HOLD;
-  main();
-}
-
-var gRelease = func {
-  if (!variant.JA) return;
-  if (!power.prop.acMainBool.getValue()){
-    printDA("NAV: offline");
-    return;
-  }
-  g = RELEASE;
   main();
 }
 
