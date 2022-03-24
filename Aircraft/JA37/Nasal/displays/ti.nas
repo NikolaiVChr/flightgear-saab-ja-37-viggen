@@ -262,7 +262,7 @@ var dictSE = {
 	 		'2': [TRUE, "INL\xC3\x84"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [TRUE, "S\xC3\x84TT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
 	 		'17': [TRUE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [TRUE, "EOMR"], '16': [TRUE, "TID"],
+			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [TRUE, "EOMR"], '16': [TRUE, "TID"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'2': [TRUE, "INFG"], '3': [TRUE, "NY"], #'5': [TRUE, "RADR"], # hack
 	        '8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
@@ -293,7 +293,7 @@ var dictEN = {
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [TRUE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
+			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'2': [TRUE, "INS"], '3': [TRUE, "ADD"],# '5': [TRUE, "DEL"], # unauthentic as this
 		    '8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -1727,8 +1727,7 @@ var TI = {
 		ti.landed = TRUE;
 		
 		# LV overlay
-		ti.showHostileZones = TRUE;
-		ti.showFriendlyZones = TRUE;
+		ti.showAAAZones = TRUE;
 		
 		# rwr overlay
 		ti.ECMon   = FALSE;
@@ -2367,17 +2366,14 @@ var TI = {
 				me.menuButtonSubBox[4].show();
 			}
 
-			# threat overlay
+			# AAA from STRIL (not functional)
 			me.menuButtonSub[14].setText(me.vertStr(me.swedishMode?"FI":"HSTL"));
-			me.menuButtonSub[14].show();
-			if (me.showHostileZones == TRUE) {
-				me.menuButtonSubBox[14].show();
-			}
+			me.menuButtonSub[14].setVisible(me.showFullMenus);
 
-			# friendly AAA
-			me.menuButtonSub[15].setText(me.vertStr(me.swedishMode?"EGET":"FRND"));
+			# own AAA points
+			me.menuButtonSub[15].setText(me.vertStr(me.swedishMode?"EGET":"OWN"));
 			me.menuButtonSub[15].show();
-			if (me.showFriendlyZones == TRUE) {
+			if (me.showAAAZones == TRUE) {
 				me.menuButtonSubBox[15].show();
 			}
 		}
@@ -4286,7 +4282,7 @@ var TI = {
   				}
 			} else {
 				# LV
-				if (me.menuMain==MAIN_MISSION_DATA or ((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)) {
+				if (me.menuMain==MAIN_MISSION_DATA or me.showAAAZones) {
 					me.ppGrp.createChild("path")
 	  						.moveTo(me.ppXY[0]-me.ppRad, me.ppXY[1])
 	  						.arcSmallCW(me.ppRad, me.ppRad, 0, me.ppRad*2, 0)
@@ -4294,7 +4290,7 @@ var TI = {
 	  						.setColor(me.ppCol)
 	  						.setStrokeLineWidth(w);
   				}
-				if (me.menuMain==MAIN_MISSION_DATA or (dap.settingKnob == dap.KNOB_TI and (((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)))) {
+				if (me.menuMain==MAIN_MISSION_DATA or (dap.settingKnob == dap.KNOB_TI and me.showAAAZones)) {
 					me.lvPadX = 0;
 					me.lvPadY = 0;
 					me.lvAlign = "center-center";
@@ -5529,10 +5525,6 @@ var TI = {
 				# GPS settings
 				me.menuGPS = TRUE;
 			}
-			if (me.menuMain == MAIN_DISPLAY) {
-				# show threat circles
-				me.showHostileZones = !me.showHostileZones;
-			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editRTB) {
 					route.Polygon.editPlan(route.Polygon.editRTB);
@@ -5568,8 +5560,8 @@ var TI = {
 				}
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
-				# show friendly threat circles
-				me.showFriendlyZones = !me.showFriendlyZones;
+				# show AAA threat circles
+				me.showAAAZones = !me.showAAAZones;
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.toggleEditRTB();
