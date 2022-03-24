@@ -283,6 +283,9 @@
 	<animation>
 		<type>pick</type>
 		<object-name>L</object-name>
+		<object-name>LB</object-name>
+		<object-name>LF</object-name>
+		<object-name>BX</object-name>
 		<action>
 			<button>0</button>
 			<repeatable>false</repeatable>
