@@ -54,8 +54,9 @@ var Horizon = {
         me.ref_point_group = me.horizon_group.createChild("group", "reference point");
         me.navigation = me.ref_point_group.createChild("group", "nav artificial horizon");
         me.landing = me.ref_point_group.createChild("group", "landing artificial horizon");
+        me.gs_pos = 286;
         me.glideslope = me.landing.createChild("group", "glideslope")
-            .setTranslation(0, 286);
+            .setTranslation(0, me.gs_pos);
 
         make_path(me.navigation)
             .moveTo(-1000,0).horizTo(-100).moveTo(1000,0).horizTo(100)
@@ -130,7 +131,7 @@ var Horizon = {
             }
 
             # Landing flare mode.
-            var gs_angle = 2.86;
+            me.gs_pos = 286;
             if (me.mode == HUD.MODE_FINAL_OPT) {
                 # If sufficiently low, switch to landing flare mode. Threshold is lower if RHM is used.
                 if (input.rad_alt_ready.getBoolValue()) {
@@ -141,10 +142,10 @@ var Horizon = {
                 # During flare, glideslope moves up to indicate maximal acceptable vertical speed (2.96m/s)
                 if (flare) {
                     var groundspeed = input.groundspeed.getValue() * KT2MPS;
-                    gs_angle = math.min(math.atan2(2.96, groundspeed) * R2D * 1, 2.86);
+                    me.gs_pos = math.min(math.atan2(2.96, groundspeed) * R2D * 100, 286);
                 }
             }
-            me.glideslope.setTranslation(0, gs_angle * 100);
+            me.glideslope.setTranslation(0, me.gs_pos);
         } elsif (!input.rm_active.getBoolValue()) {
             # locked on FPV if no target is defined
             me.ref_point_offset = fpv_rel_bearing;
@@ -167,7 +168,7 @@ var Horizon = {
 
     get_horizon_group: func { return me.horizon_group; },
     get_ref_point_group: func { return me.ref_point_group; },
-    get_ref_point_offset: func { return me.ref_point_offset; },
+    get_glideslope_pos: func { return [me.ref_point_offset*100, me.gs_pos]; },
 };
 
 # Altitude bars, indicate altitude relative to commanded altitude.
@@ -340,10 +341,10 @@ var DigitalAltitude = {
         me.mode = mode;
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
             me.x = -380;
-            me.y = 267;
+            me.y = 268;
         } else {
             me.x = -430;
-            me.y = -20;
+            me.y = 0;
         }
     },
 
@@ -376,7 +377,7 @@ var DigitalAltitude = {
         me.text.updateText(str);
     },
 
-    update: func(ref_point_offset) {
+    update: func(gs_pos) {
         me.update_text();
 
         # update position
@@ -384,10 +385,13 @@ var DigitalAltitude = {
             # Moves to the right when firing.
             me.side = fire_control.is_firing() ? -1 : 1;
         } else {
-            if (ref_point_offset < -2) me.side = -1; # switch to right side
-            elsif (ref_point_offset > 0) me.side = 1;
+            if (gs_pos[0] < -200) me.side = -1; # switch to right side
+            elsif (gs_pos[0] > 0) me.side = 1;
         }
-        me.text.setTranslation(me.x * me.side, me.y);
+        if (me.mode == HUD.MODE_FINAL_OPT) {
+            me.y = gs_pos[1];
+        }
+        me.text.setTranslation(me.x * me.side, me.y - 20);
     },
 };
 
@@ -967,7 +971,7 @@ var HUD = {
             # First update this, as it computes reticle position.
             me.aiming.update();
             me.horizon.update_aim(me.aiming.get_reticle_pos());
-            me.dig_alt.update(0);
+            me.dig_alt.update([0,0]);
             me.distance.update_aim();
             return;
         }
@@ -976,8 +980,7 @@ var HUD = {
         var fpv_rel_bearing = input.fpv_track.getValue() - input.head_true.getValue();
         fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
         me.horizon.update(fpv_rel_bearing);
-        var rel_bearing = me.horizon.get_ref_point_offset();
-        me.dig_alt.update(rel_bearing);
+        me.dig_alt.update(me.horizon.get_glideslope_pos());
         me.alt_bars.update();
         var alt_bars_pos = me.alt_bars.get_base_pos();
         me.distance.update(alt_bars_pos);
