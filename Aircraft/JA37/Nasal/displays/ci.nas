@@ -167,6 +167,8 @@ var RadarImage = {
     },
 
     set_mode: func(mode, display) {
+        if (display != me.display or mode == CI.MODE_STBY) me.clear_img();
+
         me.display = display;
         me.img.setVisible(display == CI.DISPLAY_PPI);
     },
@@ -515,15 +517,13 @@ var CI = {
         me.mode = mode;
         me.display = display;
 
-        if (mode == CI.MODE_STBY) {
-            me.root.hide();
-        } else {
-            me.root.show();
-            me.radar_bg.set_mode(mode, display);
-            me.radar_marks.set_mode(mode, display);
-            me.radar_img.set_mode(mode, display);
-            me.nav_symbols.set_mode(mode, display);
-        }
+        # For MODE_STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
+        me.radar_bg.set_mode(mode, display);
+        me.radar_marks.set_mode(mode, display);
+        me.radar_img.set_mode(mode, display);
+        me.nav_symbols.set_mode(mode, display);
+
+        me.root.setVisible(mode != CI.MODE_STBY);
     },
 
     update_mode: func {
