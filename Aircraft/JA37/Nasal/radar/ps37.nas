@@ -1,4 +1,61 @@
 #### AJS 37 PS-37/A radar
+#
+# References: mostly AJS37 SFI part III
+#
+
+### Beam angle
+#
+# Normal search modes:
+# range     altitude    pitch angle
+#   15km    -           -3.0°
+#   30km    > 600m      -3.0°
+#   30km    < 600m      -1.5°
+#   60km    > 600m      -1.0°
+#   60km    < 600m      -0.5°
+#   120km   -           -0.5°
+#
+# air target : +1.5°
+# terrain avoidance : 0.0°
+#
+# In all search modes, modulable ±10° using potentiometer at the base of radar stick.
+
+### Search pattern
+#
+# Wide: 61.5° half angle at 110°/s  (PPI)
+# Narrow: 32° half angle at 60°/s   (B-scope)
+# Search is centered straight ahead in all cases.
+#
+# For ranging / air target lock, radar is steered by the computer.
+#
+# Remark: While narrow mode is 32° wide, B-scope seems to display only 20° (centered straight ahead).
+
+### Radar beam
+#
+# The radar has 4 transceivers in the antenna, in a square pattern
+#  1 2
+#  3 4
+# They are combined in a sum signal Σ = 1+2+3+4,
+# and difference signals, lateral Δk = (1+3) - (2+4), vertical Δj = (1+2) - (3+4)
+# Δ-signals react most strongly to signals sligtly offset from the beam center,
+# thus subtracting them from Σ improves the lateral resolution of the radar.
+#
+# In practice, only Δk or Δj is used at any time :
+# Δk normally, Δj for terrain avoidance and air target modes
+#
+# Angle from beam centerline giving 10dB below centerline return strength, from diagrams:
+#   Σ alone : around 3-4°
+#   Σ - Δ   : around 2-3°
+
+### Signal processing
+#
+# LOG/LIN: LOG mode is "more nuanced" (preferred mode).
+# Need to figure out the math here for that to make sense.
+#
+# MKR: potentiometer to manually adjust signal strength.
+#
+# adjustement: based on altitude, antenna angle, distance, to have targets at all range give the same signal.
+
+
 
 var FALSE = 0;
 var TRUE = 1;
@@ -20,12 +77,11 @@ foreach(var name; keys(input)) {
 ### Radar parameters (used as subclass of AirborneRadar from radar.nas)
 
 var PS37 = {
-    fieldOfRegardMaxAz: 61.5,
-    fieldOfRegardMaxElev: 61.5,
-    fieldOfRegardMinElev: -61.5,
-    instantFoVradius: 3.0,
-    instantVertFoVradius: 4.0,  # unused (could be used by ground mapper)
-    instantHoriFoVradius: 2.0,  # unused
+    # 65°, pointing 5.5° down
+    fieldOfRegardMaxAz: 65,
+    fieldOfRegardMaxElev: 59.5,
+    fieldOfRegardMinElev: -70.5,
+    instantFoVradius: 2.0,
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
     timeToKeepBleps: 5,
@@ -43,6 +99,37 @@ var PS37 = {
     getRangeM: func {
         return me.currentMode.getRangeM();
     },
+};
+
+
+### Radar ground mapper
+#
+# Called by the generic radar to run custom ground radar logic.
+
+var PS37Map = {
+    buffer: [],
+    buffer_size: 64,
+
+    init: func(radar) {
+        me.radar = radar;
+        me.radar.installMapper(me);
+
+        setsize(me.buffer, me.buffer_size);
+    },
+
+    scanGM: func(azimuth, elevation, vert_radius, horiz_radius) {
+        gnd_rdr.radar_query(
+            self.getCoord(), self.getHeading(),
+            azimuth, elevation-vert_radius, elevation+vert_radius,
+            0, me.radar.getRangeM(),
+            me.buffer, me.buffer_size
+        );
+
+        ci.ci.radar_img.draw_azimuth_data(azimuth, horiz_radius*2, me.buffer);
+    },
+
+    # required by AirborneRadar, unused
+    clear: func {},
 };
 
 
@@ -184,5 +271,6 @@ var decreaseRange = func {
 var init = func {
     init_generic();
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
+    PS37Map.init(ps37);
     input.radar_range.setValue(ps37.getRangeM());
 }
