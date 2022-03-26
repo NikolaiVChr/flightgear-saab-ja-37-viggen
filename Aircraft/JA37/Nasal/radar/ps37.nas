@@ -118,14 +118,20 @@ var PS37Map = {
     },
 
     scanGM: func(azimuth, elevation, vert_radius, horiz_radius) {
+        # Restrict range to what can be displayed on the CI.
+        var clipped_buf_size = math.ceil(ci.azimuth_range(azimuth, me.buffer_size, FALSE));
+        var range = me.radar.getRangeM() * clipped_buf_size / me.buffer_size;
+
         gnd_rdr.radar_query(
-            self.getCoord(), self.getHeading(),
-            azimuth, elevation-vert_radius, elevation+vert_radius,
-            0, me.radar.getRangeM(),
-            me.buffer, me.buffer_size
+            self.getCoord(), self.getHeading(), azimuth,
+            elevation-vert_radius, elevation+vert_radius, 0, range,
+            me.buffer, clipped_buf_size
         );
 
         ci.ci.radar_img.draw_azimuth_data(azimuth, horiz_radius*2, me.buffer);
+        for (var i = clipped_buf_size; i < me.buffer_size; i+=1) {
+            me.buffer[i] = 0.0;
+        }
     },
 
     # required by AirborneRadar, unused

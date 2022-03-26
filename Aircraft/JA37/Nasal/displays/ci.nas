@@ -48,11 +48,25 @@ var PPI_side = math.sin(PPI_half_angle * D2R) * PPI_bottom_length;
 var PPI_side_bot = math.cos(PPI_half_angle * D2R) * PPI_bottom_length;
 # top of vertical side
 var PPI_side_top = math.sqrt(PPI_radius * PPI_radius - PPI_side * PPI_side);
+# azimuth to top-right corner
+var PPI_corner_angle = math.asin(PPI_side / PPI_radius) * R2D;
 
 var B_scope_half_width = 52;
 var B_scope_height = 92;
 # B scope bottom relative to PPI origin
 var B_scope_origin = (PPI_radius - B_scope_height) / 2;
+
+# Display range limit function of azimuth
+var azimuth_range = func(azimuth, max_range, b_scope) {
+    azimuth = abs(azimuth);
+    if (b_scope) {
+        if (azimuth > 20) return 0;
+        else return max_range;
+    } else {
+        if (azimuth <= PPI_corner_angle) return max_range;
+        else return max_range * PPI_side / PPI_radius / math.sin(azimuth * D2R);
+    }
+}
 
 
 ### Radar image green background
