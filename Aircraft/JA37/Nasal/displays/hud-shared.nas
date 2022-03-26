@@ -241,6 +241,11 @@ var HUDCanvas = {
 
         me.bright_hud = 0;
         me.bright_bck = 0;
+
+        # For parallax correction
+        me.last_view_x = 0;
+        me.last_view_y = 0;
+        me.last_view_z = 0;
     },
 
     add_placement: func(placement) {
@@ -256,31 +261,53 @@ var HUDCanvas = {
     },
 
     # Update the position of me.optical_axis to simulate parallax.
-    update_parallax: func {
-        # With ALS, the HUD shader deals with parallax, simply recenter the group.
-        if (input.use_ALS.getBoolValue()) {
-            if (!me.centered) {
-                me.optical_axis.setScale(1);
-                me.optical_axis.setTranslation(0, 0);
-                me.centered = TRUE;
-            }
-            return;
-        }
+    #
+    # This allows the rest of the HUD code to pretend that the canvas
+    # is mapped to a disk of radius 'canvas_ang_width/2',
+    # centered around the designated optical axis, in front of the eye.
+    update_parallax: func(force=0) {
+        var pos = [
+            input.view_x.getValue(),
+            input.view_y.getValue(),
+            input.view_z.getValue(),
+        ];
+        if (!force and pos[0] == me.last_view_x and pos[1] == me.last_view_y and pos[2] == me.last_view_z) return;
+        me.last_view_x = pos[0];
+        me.last_view_y = pos[1];
+        me.last_view_z = pos[2];
+
+        # Position relative to HUD
+        # x right, y up, z forward
+        pos = vector.Math.minus(pos, [
+            0,
+            opts.hud_center_y,
+            opts.hud_center_z,
+        ]);
+
+        # Rotate to match optical axis
+        var cs = math.cos(opts.optical_axis_pitch_offset*D2R);
+        var sn = math.sin(opts.optical_axis_pitch_offset*D2R);
+        pos = [
+            pos[0],
+            cs * pos[1] - sn * pos[2],
+            sn * pos[1] + cs * pos[2],
+        ];
 
         # Scaling
-        var distance = input.view_z.getValue() - opts.hud_center_z;
-        var scale = distance * 2 * math.tan(opts.canvas_ang_width/2*D2R) / opts.hud_size;
+        # pos[2] is normally positive (view behind the HUD)
+        var scale = pos[2] * 2 * math.tan(opts.canvas_ang_width/2*D2R) / opts.hud_size;
         me.optical_axis.setScale(scale);
 
         # Translation
         var m_to_hud_units = opts.canvas_ang_width * 100 / opts.hud_size;
-        var x_offset = input.view_x.getValue() * m_to_hud_units;
-        var y_offset = (opts.hud_center_y - input.view_y.getValue()) * m_to_hud_units;
-        # This group must not be centered in front of the pilot eyes, but 7.3deg below.
-        y_offset += distance * math.tan(opts.optical_axis_pitch_offset*D2R) * m_to_hud_units;
+        var x_offset = pos[0] * m_to_hud_units;
+        var y_offset = -pos[1] * m_to_hud_units;   # canvas y is down
         me.optical_axis.setTranslation(x_offset, y_offset);
 
-        me.centered = FALSE;
+        # 'update()' required to have this take effect in the same frame
+        # (Otherwise the HUD picture follows a frame late, which looks like it is stuttering.
+        # This is extremely annoying when using headtracking.)
+        me.optical_axis.update();
     },
 
     set_hud_brightness: func(brightness) {
@@ -317,6 +344,7 @@ var HUDCanvas = {
 var hud_canvas = nil;
 var hud = nil;
 var backup_sight = nil;
+var parallax_timer = nil;
 
 var initialize = func {
     hud_canvas = HUDCanvas.new();
@@ -327,8 +355,17 @@ var initialize = func {
     }
     hud_canvas.update_brightness();
 
-    setlistener(input.bright_hud, func { hud_canvas.update_brightness(); });
-    setlistener(input.bright_bck, func { hud_canvas.update_brightness(); });
+    setlistener(input.bright_hud, func { hud_canvas.update_brightness(); }, 0, 0);
+    setlistener(input.bright_bck, func { hud_canvas.update_brightness(); }, 0, 0);
+
+    # View properties are tied, which makes these update annoying to do.
+    # - Timer is for update after the core logic, which doesn't trigger listeners.
+    # - Listeners are for any nasal script which changes the view (e.g. headtracking).
+    #   They are needed because because the timer might run before headtracking script,
+    #   which results in the view stuttering.
+    setlistener(input.view_x, func { hud_canvas.update_parallax(); }, 0, 0);
+    setlistener(input.view_y, func { hud_canvas.update_parallax(); }, 0, 0);
+    setlistener(input.view_z, func { hud_canvas.update_parallax(); }, 0, 0);
 }
 
 var update = func {

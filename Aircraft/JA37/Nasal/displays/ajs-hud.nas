@@ -1,6 +1,6 @@
 # General, constant options
 var opts = {
-    res: 1024,              # Actual resolution of the canvas.
+    res: 512,               # Actual resolution of the canvas.
     ang_width: 20,          # Angular width of the HUD picture.
     canvas_ang_width: 21,   # Angular width to which the canvas is mapped.
                             # Adds a small margin due to border clipping issues.
@@ -21,12 +21,13 @@ var opts = {
 
 # AJS HUD movement.
 # This function updates opts.hud_center_{y,z} when the HUD is moving.
-# It is only used for nasal parallax correction (ALS off).
+# It is only used for nasal parallax correction
 var update_hud_position = func (node) {
     # Matches translate animation for 'aj37hud' in Models/AJS37-Viggen.xml
     var pos = node.getValue();
     opts.hud_center_y = 0.71 - 0.05*pos;
     opts.hud_center_z = -4.11 + 0.04*pos;
+    if (globals.hud["hud_canvas"] != nil) hud_canvas.update_parallax(force:TRUE);
 }
 
 setlistener("ja37/hud/position", update_hud_position, 1, 0);

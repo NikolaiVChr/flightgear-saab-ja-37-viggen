@@ -699,12 +699,6 @@
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/hud</inherits-from>
     <object-name>aj37hud</object-name>
-    <parameters>
-      <use-parallax>true</use-parallax>
-      <hud-width-deg>20</hud-width-deg>
-      <hud-height-deg>20</hud-height-deg>
-      <optical-offset-pitch>-7.3</optical-offset-pitch>
-    </parameters>
   </effect>
 
   <!-- HUD up/down animation -->

@@ -1,6 +1,6 @@
 # General, constant options
 var opts = {
-    res: 1024,              # Actual resolution of the canvas.
+    res: 512,               # Actual resolution of the canvas.
     ang_width: 28,          # Angular width of the HUD picture.
     canvas_ang_width: 29,   # Angular width to which the canvas is mapped.
                             # Adds a small margin due to border clipping issues.
