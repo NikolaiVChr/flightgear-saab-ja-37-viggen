@@ -130,6 +130,7 @@
             <!--<path>sim/model/livery/file</path>-->
             <path>/ja37/effect/rust-outside</path>
             <path>/ja37/effect/rust-inside</path>
+            <path>/instrumentation/radar/ground-radar-quality</path>
         </aircraft-data>
 
         <airport>
@@ -1497,6 +1498,7 @@
             <mode type="int">0</mode>                   <!-- 0=off, 1=PPI, 2=B-scope -->
             <range type="int">15000</range>             <!-- for 3D model only -->
             <polaroid-filter type="double">1</polaroid-filter>
+            <ground-radar-quality type="int">1</ground-radar-quality>
         </radar>
         <rwr>
           <ajs-lights>
