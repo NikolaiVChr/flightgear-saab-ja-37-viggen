@@ -16,11 +16,18 @@ var input = {
     radar_mode:     "instrumentation/radar/mode",
     radar_passive:  "ja37/radar/panel/passive",
     radar_filter:   "instrumentation/radar/polaroid-filter",
+    radar_quality:  "instrumentation/radar/ground-radar-quality",
 };
 
 foreach(var name; keys(input)) {
     input[name] = props.globals.getNode(input[name], 1);
 }
+
+
+var canvas_res = 256;   # pixels
+# internal units (= 1/120 of radius of PPI)
+# A disk of diameter 140 really used.
+var canvas_size = 144;
 
 
 ### Shape of the radar scopes
@@ -76,6 +83,99 @@ var RadarBackground = {
     set_mode: func(mode, display) {
         me.PPI.setVisible(display == CI.DISPLAY_PPI);
         me.B_scope.setVisible(display == CI.DISPLAY_B);
+    },
+};
+
+
+### Radar picture
+
+var RadarImage = {
+    quality_settings: [
+        { img_res: 64, },
+        { img_res: 96, },
+        { img_res: 128, },
+    ],
+
+    img_full_res: 128,
+
+    new: func(parent) {
+        var m = { parents: [RadarImage], parent: parent, };
+        m.init();
+        return m;
+    },
+
+    init: func {
+        me.img = me.parent.createChild("image")
+            .set("blend-source-rgb","zero")
+            .set("blend-source-alpha","zero")
+            .set("blend-destination-rgb","one-minus-src-color")
+            .set("blend-destination-alpha","one")
+            .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png");
+
+        me.update_quality(input.radar_quality.getValue());
+
+        me.display = -1;
+    },
+
+    update_quality: func(quality) {
+        me.clear_img();
+
+        # Only part of the image is used at lower quality settings.
+        me.img_res = me.quality_settings[quality].img_res;
+        me.from_px = PPI_radius / me.img_res;       # internal units per pixel
+        me.to_px = 1 / me.from_px;                  # pixels per internal unit
+
+        # The entire width of the image is not used.
+        me.img_half_width = math.ceil(PPI_side * me.to_px);
+
+        # y is inverted in images...
+        me.img.setScale(me.from_px, -me.from_px);
+        # PPI origin at bottom center of image.
+        # y translation is positive because of the previous setScale().
+        me.img.setTranslation(0, (me.img_full_res / 2) * me.from_px);
+    },
+
+    clear_img: func {
+        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,0,1]);
+    },
+
+    # Draw radar returns on a given azimuth
+    # args:
+    # - azimuth: Angle off centerline, degrees, positive is right.
+    # - azi_width: Radar returns are drawn in a cone, this is the width of the cone in degrees.
+    # - data: Array radar return strength (from 0 to 1) on the given azimuth,
+    #         with uniform sampling between 0 and radar range.
+    draw_azimuth_data: func(azimuth, azi_width, data) {
+        var min_angle = azimuth - azi_width/2;
+        var max_angle = azimuth + azi_width/2;
+        var min_tan = math.tan(min_angle * D2R);
+        var max_tan = math.tan(max_angle * D2R);
+
+        for (var x = 0; x < me.img_res; x+=1) {
+            var y_min = math.max(math.ceil(min_tan * x), -me.img_half_width);
+            var y_max = math.min(math.floor(max_tan * x), me.img_half_width);
+
+            for (var y = y_min; y <= y_max; y+=1) {
+                var dist = math.sqrt(x*x + y*y) * me.from_px;
+                if (dist >= PPI_radius) continue;
+
+                var val = data[math.floor(dist / PPI_radius * size(data))];
+                val = math.clamp(val * 0.25, 0, 1);
+                me.img.setPixel(x, y + me.img_full_res/2, [val, val, val, 1]);
+            }
+        }
+    },
+
+    set_mode: func(mode, display) {
+        me.display = display;
+        me.img.setVisible(display == CI.DISPLAY_PPI);
+    },
+
+    update: func {
+        if (me.display != CI.DISPLAY_PPI) return;
+
+        # TODO
+        me.img.dirtyPixels();
     },
 };
 
@@ -331,30 +431,34 @@ var CI = {
         me.B_bg_grp = me.B_root.createChild("group", "background")
             .set("z-index", 0);
 
-        me.PPI_symbols_grp = me.PPI_root.createChild("group", "radar_symbols")
+        me.PPI_img_grp = me.PPI_root.createChild("group", "radar image")
+            .set("z-index", 100);
+
+        me.PPI_marks_grp = me.PPI_root.createChild("group", "radar symbols")
             .set("stroke", "rgba(0,0,0,1)")
             .set("stroke-width", me.radar_symbols_width)
             .set("z-index", 200);
-        me.B_symbols_grp = me.B_root.createChild("group", "radar_symbols")
+        me.B_marks_grp = me.B_root.createChild("group", "radar symbols")
             .set("stroke", "rgba(0,0,0,1)")
             .set("stroke-width", me.radar_symbols_width)
             .set("z-index", 200);
 
-        me.nav_symbols_grp = me.PPI_root.createChild("group", "symbols")
+        me.symbols_grp = me.PPI_root.createChild("group", "symbols")
             .set("stroke-width", me.symbols_width)
             .set("z-index", 201);
 
         me.horizon_grp = me.root.createChild("group", "horizon")
             .set("stroke-width", me.symbols_width)
-            .set("z-index", 202);
+            .set("z-index", 201);
 
         me.color_listener = setlistener(input.radar_filter, func {
             me.update_colors();
         }, 1, 0);
 
         me.radar_bg = RadarBackground.new(me.PPI_bg_grp, me.B_bg_grp);
-        me.radar_marks = RadarMarks.new(me.PPI_symbols_grp);
-        me.nav_symbols = NavSymbols.new(me.nav_symbols_grp);
+        me.radar_img = RadarImage.new(me.PPI_img_grp);
+        me.radar_marks = RadarMarks.new(me.PPI_marks_grp);
+        me.nav_symbols = NavSymbols.new(me.symbols_grp);
         me.horizon = Horizon.new(me.horizon_grp);
 
         me.mode = -1;
@@ -398,8 +502,12 @@ var CI = {
             smb_rgb[i] = int(smb_rgb[i] * 255);
         }
         var smb_str = sprintf("rgba(%d,%d,%d,1)", smb_rgb[0], smb_rgb[1], smb_rgb[2]);
-        me.nav_symbols_grp.set("stroke", smb_str);
+        me.symbols_grp.set("stroke", smb_str);
         me.horizon_grp.set("stroke", smb_str);
+    },
+
+    update_quality: func(quality) {
+        me.radar_img.update_quality(quality);
     },
 
     set_mode: func(mode, display) {
@@ -413,6 +521,7 @@ var CI = {
             me.root.show();
             me.radar_bg.set_mode(mode, display);
             me.radar_marks.set_mode(mode, display);
+            me.radar_img.set_mode(mode, display);
             me.nav_symbols.set_mode(mode, display);
         }
     },
@@ -433,15 +542,16 @@ var CI = {
         if (me.mode == CI.MODE_STBY) return;
 
         me.radar_marks.update();
-        me.horizon.update();
+        me.radar_img.update();
         me.nav_symbols.update();
+        me.horizon.update();
     },
 };
 
 
 var CICanvas = {
-    res: 512,       # pixels
-    width: 144,     # internal units, 140x140 really used
+    res: canvas_res,
+    width: canvas_size,
 
     new: func {
         var m = { parents: [CICanvas], };
@@ -473,11 +583,18 @@ var CICanvas = {
 
 var ci_cvs = nil;
 var ci = nil;
+var quality_listener = nil;
 
 var init = func {
     ci_cvs = CICanvas.new();
     ci_cvs.add_placement({"node": "radarScreen", "texture": "radar-canvas.png"});
     ci = CI.new(ci_cvs.root);
+
+    if (quality_listener != nil) removelistener(quality_listener);
+
+    quality_listener = setlistener(input.radar_quality, func(node) {
+        ci.update_quality(node.getValue());
+    }, 0, 0);
 }
 
 var loop = func {
