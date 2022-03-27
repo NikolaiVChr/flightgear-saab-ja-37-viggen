@@ -72,6 +72,7 @@ var input = {
     quality:            "instrumentation/radar/ground-radar-quality",
     linear_gain:        "ja37/radar/panel/linear",
     gain:               "ja37/radar/panel/gain",
+    filter:             "ja37/radar/panel/filter",
     display_alt:        "instrumentation/altimeter/displays-altitude-meter",
 };
 
@@ -105,6 +106,14 @@ var PS37 = {
     getRangeM: func {
         return me.currentMode.getRangeM();
     },
+
+    isNarrowBeam: func {
+        return me.currentMode.isNarrowBeam();
+    },
+
+    useDistanceNorm: func {
+        return me.currentMode.useDistanceNorm();
+    },
 };
 
 
@@ -129,18 +138,27 @@ var PS37Map = {
         var range = me.radar.getRangeM() * clipped_buf_size / me.buffer_size;
 
         gnd_rdr.radar_query(self.getCoord(), self.getHeading(), azimuth, elevation,
-                            range, FALSE, me.buffer, clipped_buf_size);
+                            range, me.radar.isNarrowBeam(), me.buffer, clipped_buf_size);
 
         for (var i = clipped_buf_size; i < me.buffer_size; i+=1) {
             me.buffer[i] = 0.0;
         }
 
         # Do not use clipped range / buffer size here, it affects normalisation
-        gnd_rdr.signal_norm_distance(me.buffer, me.buffer_size, me.radar.getRangeM(), input.display_alt.getValue());
+
+        if (me.radar.useDistanceNorm()) {
+            gnd_rdr.signal_norm_distance(me.buffer, me.buffer_size, me.radar.getRangeM(), input.display_alt.getValue());
+        } else {
+            gnd_rdr.signal_norm_basic(me.buffer, me.buffer_size, me.radar.isNarrowBeam());
+        }
 
         gnd_rdr.signal_gain(me.buffer, me.buffer_size, input.gain.getValue(), input.linear_gain.getBoolValue());
 
-        ci.ci.radar_img.draw_azimuth_data(azimuth, horiz_radius*2, me.buffer);
+        ci.ci.draw_radar_data(azimuth, horiz_radius*2, me.buffer);
+    },
+
+    clear_image: func {
+        ci.ci.clear_radar_image();
     },
 
     # required by AirborneRadar, unused
@@ -164,6 +182,16 @@ var PS37Mode = {
     maxRange: nil,
     range: nil,
 
+    # scan patterns
+    bars: 1,            # pattern index (1 based)
+    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
+    # A pattern is a vector of points
+    # This is a vector of patterns (one per "scan mode")
+    barPattern: [ [[1,0],[-1,0]] ],
+    barHeight: 1,
+    barPatternMin: [0],
+    barPatternMax: [0],
+
     rcsFactor: 1,
 
     timeToFadeBleps: 5,
@@ -175,6 +203,13 @@ var PS37Mode = {
     shortName: "",
     longName: "",
 
+    # Beam elevation for normal search mode. Indexed by [range][alt > 600]
+    normal_elev: {
+        15000: [-3.0, -3.0],
+        30000: [-1.5, -3.0],
+        60000: [-0.5, -1.0],
+        120000: [-0.5, -0.5],
+    },
 
     setRangeM: func (range) {
         if (range < me.minRangeM or range > me.maxRangeM or math.mod(range, me.minRangeM) != 0) return 0;
@@ -224,13 +259,34 @@ var PS37Mode = {
     # Must be defined by each mode, used to set azimuth / elevation offset
     preStep: func {
         me.azimuthTilt = 0;
-        me.elevationTilt = me.radar.getTiltKnob();
+
+        if (me.air_mode)
+            me.elevationTilt = 1.5;
+        elsif (me.terrain_mode)
+            me.elevationTilt = 0.0;
+        else
+            me.elevationTilt = me.normal_elev[me.getRangeM()][input.display_alt.getValue() > 600];
+
+        me.elevationTilt += me.radar.getTiltKnob();
     },
 
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
         return [1,0,1,0,0,1];
+    },
+
+    # Return true if radar beam is narrow in height (terrain / air mode),
+    # false if it is narrow in width (default).
+    isNarrowBeam: func {
+        return me.air_mode or me.terrain_mode;
+    },
+
+    # Indicates if radar returns strength should be normalised based on distance and altitude
+    # ('styrd dämpning' in the manual)
+    useDistanceNorm: func {
+        # TODO
+        return input.filter.getBoolValue();
     },
 };
 
@@ -245,15 +301,8 @@ var ScanMode = {
     az: 61.5,           # width of search
     discSpeed_dps: 110, # sweep speed
 
-    # scan patterns
-    bars: 1,            # pattern index (1 based)
-    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
-    # A pattern is a vector of points
-    # This is a vector of patterns (one per "scan mode")
-    barPattern: [ [[1,0],[-1,0]] ],
-    barHeight: 1,
-    barPatternMin: [0],
-    barPatternMax: [0],
+    air_mode: FALSE,
+    terrain_mode: FALSE,
 };
 
 

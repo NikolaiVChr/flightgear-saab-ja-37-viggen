@@ -157,12 +157,6 @@ var RadarImage = {
         me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,0,1]);
     },
 
-    # Draw radar returns on a given azimuth
-    # args:
-    # - azimuth: Angle off centerline, degrees, positive is right.
-    # - azi_width: Radar returns are drawn in a cone, this is the width of the cone in degrees.
-    # - data: Array radar return strength (from 0 to 1) on the given azimuth,
-    #         with uniform sampling between 0 and radar range.
     draw_azimuth_data: func(azimuth, azi_width, data) {
         var min_angle = azimuth - azi_width/2;
         var max_angle = azimuth + azi_width/2;
@@ -184,18 +178,15 @@ var RadarImage = {
         }
     },
 
-    set_mode: func(mode, display) {
-        if (display != me.display or mode == CI.MODE_STBY) me.clear_img();
-
-        me.display = display;
-        me.img.setVisible(display == CI.DISPLAY_PPI);
+    show_image: func {
+        me.img.dirtyPixels();
     },
 
-    update: func {
-        if (me.display != CI.DISPLAY_PPI) return;
+    set_mode: func(mode, display) {
+        if (display != me.display or mode == CI.MODE_STBY) me.clear_img();
+        me.display = display;
 
-        # TODO
-        me.img.dirtyPixels();
+        me.img.setVisible(mode != CI.MODE_STBY and display == CI.DISPLAY_PPI);
     },
 };
 
@@ -610,10 +601,31 @@ var CI = {
         if (me.mode == CI.MODE_STBY) return;
 
         me.radar_marks.update();
-        me.radar_img.update();
-        me.radar_beam.update();     # must be after radar_img.update()
         me.nav_symbols.update();
         me.horizon.update();
+        me.show_radar_image();
+    },
+
+    ## API for radar system
+
+    # Draw radar returns on a given azimuth
+    # args:
+    # - azimuth: Angle off centerline, degrees, positive is right.
+    # - azi_width: Radar returns are drawn in a cone, this is the width of the cone in degrees.
+    # - data: Array radar return strength (from 0 to 1) on the given azimuth,
+    #         with uniform sampling between 0 and radar range.
+    draw_radar_data: func(azimuth, azi_width, data) {
+        me.radar_img.draw_azimuth_data(azimuth, azi_width, data);
+    },
+
+    # Call this each frame once the radar is done drawing
+    show_radar_image: func {
+        me.radar_img.show_image();
+        me.radar_beam.update();
+    },
+
+    clear_radar_image: func {
+        me.radar_img.clear_img();
     },
 };
 
