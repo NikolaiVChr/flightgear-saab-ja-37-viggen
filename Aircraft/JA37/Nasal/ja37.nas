@@ -87,6 +87,7 @@ input = {
   lampStart:        "ja37/avionics/startSys",
   lampStick:        "ja37/avionics/joystick",
   lampXTank:        "ja37/avionics/xtank",
+  land_warn_on:     "ja37/avionics/landing-warnings-enable",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
   MPbool4:          "sim/multiplay/generic/bool[4]",
@@ -450,19 +451,25 @@ var Saab37 = {
     } else {
       me.ts = 0;
     }
+
     if (me.floorPlaying) me.warnGiven = 1;
-    if (input.indAltFt.getValue() < getprop("ja37/sound/floor-ft")) {
-      if (!me.warnGiven and !me.floor) {
-        input.toneFloor.setBoolValue(1);
-        settimer(func {me.floorTimed()},2.1);
-        me.warnGiven = 1;
-        me.floorPlaying = 1;
-        
-      }
-      me.floor = 1;
+    if (me.floor != getprop("ja37/sound/floor-ft")) {
+        me.floor = getprop("ja37/sound/floor-ft");
+        me.floor_armed = 0;
+    }
+
+    if (input.indAltFt.getValue() >= me.floor) {
+      if (me.floor_armed == 0) me.floor_armed = 1;  # arm
     } else {
-      me.floor = 0;
-      #setprop("ja37/sound/tones/floor",0);
+      if (me.floor_armed == 1) me.floor_armed = 2;  # play sound when possible
+    }
+
+    if (!me.warnGiven and me.floor > 0 and me.floor_armed == 2 and !input.land_warn_on.getBoolValue()) {
+      input.toneFloor.setBoolValue(1);
+      me.warnGiven = 1;
+      me.floorPlaying = 1;
+      me.floor_armed = 0;
+      settimer(func {me.floorTimed()},4);
     }
     if (!me.warnGiven and input.GVValpha.getValue() == 2) {
       input.tonePreA2.setBoolValue(1);
@@ -492,6 +499,7 @@ var Saab37 = {
   
   floorPlaying: 0,
   floor: 0,
+  floor_armed: 0,
   ts: 0,
   tsPlaying: 0,
   
