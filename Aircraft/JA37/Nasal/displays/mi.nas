@@ -137,8 +137,8 @@ var MI = {
 			fpv_right:            "instrumentation/fpv/angle-right-deg",
 			twoHz:                "ja37/blink/two-Hz/state",
 			hdgReal:              "orientation/heading-deg",
-			terrain_warning:      "/instrumentation/terrain-warning",
-			gpws_time:            "fdm/jsbsim/systems/indicators/time-till-crash",
+			gpws_arrow:           "fdm/jsbsim/systems/mkv/ja-pull-up-arrow",
+			gpws_margin:          "fdm/jsbsim/systems/mkv/ja-warning-margin-norm",
 			radar_serv:           "instrumentation/radar/serviceable",
 			twoHz:                "ja37/blink/two-Hz/state",
 			qfeWarning:           "ja37/displays/qfe-warning",
@@ -1135,10 +1135,9 @@ var MI = {
 	},
 
 	displayGround: func () {
-		me.time = me.input.wow0.getBoolValue() ? 0 : me.input.gpws_time.getValue();
-		if (me.time != nil and me.time >= 0 and me.time < 40) {
-			me.time = math.clamp(me.time - 10,0,30);
-			me.dist = me.time/30 * radar_area_width/2;
+		me.margin = me.input.gpws_margin.getValue();
+		if (me.margin < 1) {
+			me.dist = me.margin * radar_area_width/2;
 			me.ground_grp_trans.setRotation(-me.input.roll.getValue() * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
 			me.ground_grp.show();
@@ -1148,7 +1147,7 @@ var MI = {
 	},
 
 	displayGroundCollisionArrow: func () {
-		if (me.input.terrain_warning.getBoolValue()) {
+		if (me.input.gpws_arrow.getBoolValue()) {
 			me.arrow.setRotation(-me.input.roll.getValue() * D2R);
 			me.arrow.show();
 		} else {

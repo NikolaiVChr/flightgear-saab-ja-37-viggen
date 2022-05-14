@@ -136,7 +136,8 @@ input = {
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   fuseGVV:          "ja37/fuses/gvv",
   inputCursor:      "controls/displays/stick-controls-cursor",
-  terrainWarn:      "instrumentation/terrain-warning",
+  terrainControls:  "fdm/jsbsim/systems/mkv/controls-warning",
+  terrainSound:     "fdm/jsbsim/systems/mkv/ja-sound",
   parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
   parachuteForce:    "ja37/force",
   toneTerr: "ja37/sound/tones/terrain-on",
@@ -378,8 +379,8 @@ var Saab37 = {
     me.theShakeEffect();
 
     logTime();
-  
-    if (input.inputCursor.getBoolValue() and input.terrainWarn.getValue()) {
+
+    if (input.inputCursor.getBoolValue() and input.terrainControls.getValue()) {
       input.inputCursor.setBoolValue(FALSE);
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
@@ -389,7 +390,7 @@ var Saab37 = {
     } else {
       input.parachuteForce.setDoubleValue(7);
     }
-    
+
     me.aural();
     me.flare();
   },
@@ -449,7 +450,7 @@ var Saab37 = {
     if (!power.prop.dcMainBool.getValue() or !input.annunc_serv.getBoolValue()) {
       me.warnGiven = 1;
     }
-    if (!me.warnGiven and getprop("ja37/sound/terrain-on")) {
+    if (!me.warnGiven and input.terrainSound.getBoolValue()) {
       input.toneTerr.setBoolValue(1);
       me.warnGiven = 1;
     } else {

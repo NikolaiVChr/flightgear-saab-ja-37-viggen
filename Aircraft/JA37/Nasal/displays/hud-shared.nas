@@ -60,7 +60,7 @@ var input = {
     APmode:         "/fdm/jsbsim/autoflight/mode",
     alt_bars_flash: "/fdm/jsbsim/systems/indicators/flashing-alt-bars",
     ajs_bars_flash: "/fdm/jsbsim/systems/mkv/ajs-alt-bars-blink",
-    gpw:            "/instrumentation/terrain-warning",
+    ja_gpw:         "/fdm/jsbsim/systems/mkv/ja-pull-up-arrow",
     twoHz:          "/ja37/blink/two-Hz/state",
     fourHz:         "/ja37/blink/four-Hz/state",
     fiveHz:         "/ja37/blink/five-Hz/state",

@@ -1561,7 +1561,7 @@ var GPW = {
     set_mode: func(mode) {},
 
     update: func {
-        if (input.gpw.getBoolValue()) {
+        if (input.ja_gpw.getBoolValue()) {
             me.arrow.show();
         } else {
             me.arrow.hide();

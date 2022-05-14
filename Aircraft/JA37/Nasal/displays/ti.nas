@@ -1609,8 +1609,8 @@ var TI = {
         	gearsPos:         	  "gear/gear/position-norm",
         	latitude:             "position/latitude-deg",
         	longitude:            "position/longitude-deg",
-        	terrainOn:            "ja37/sound/terrain-on",
-			terrainWarn:          "instrumentation/terrain-warning",
+			gpws_arrow:           "fdm/jsbsim/systems/mkv/ja-pull-up-arrow",
+			gpws_margin:          "fdm/jsbsim/systems/mkv/ja-warning-margin-norm",
 			elevCmd:              "fdm/jsbsim/fcs/elevator-cmd-norm",
 			ailCmd:               "fdm/jsbsim/fcs/aileron-cmd-norm",
 			instrNorm:            "controls/lighting/instruments-norm",
@@ -4393,7 +4393,7 @@ var TI = {
 
 	updateFlightData: func {
 		me.fData = FALSE;
-		if (me.input.terrainOn.getValue() == TRUE or me.input.terrainWarn.getValue() == TRUE) {#todo: why do 2 checks here???
+		if (me.input.gpws_arrow.getBoolValue()) {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;
@@ -4452,7 +4452,7 @@ var TI = {
 	},
 
 	displayGroundCollisionArrow: func () {
-	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
+	    if (me.input.gpws_arrow.getBoolValue()) {
 	      me.arrow_trans.setRotation(-me.input.roll.getValue() * D2R);
 	      me.arrow.show();
 	    } else {
@@ -4461,14 +4461,13 @@ var TI = {
 	},
 
 	displayGround: func () {
-		me.time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
-		if (me.time != nil and me.time >= 0 and me.time < 40) {
-			me.timeC = clamp(me.time - 10,0,30);
-			me.dist = (me.timeC/30) * (height/2);
+		me.margin = me.input.gpws_margin.getValue();
+		if (me.margin < 1) {
+			me.dist = me.margin * (height/2);
 			me.ground_grp.setTranslation(0, 0);
 			me.ground_grp_trans.setRotation(-me.input.roll.getValue() * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
-			if (me.time < 10 and me.time != 0) {
+			if (me.margin < 0.5) {
 				me.groundCurve.setColor(COLOR_RED);
 			} else {
 				me.groundCurve.setColor(COLOR_GREY_BLUE);
