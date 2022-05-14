@@ -229,6 +229,14 @@
       <default value="gear/unit[2]/WOW"/>
     </switch>
 
+    <pure_gain name="systems/mkv/vertical-speed-down-mps">
+      <!-- Real Viggen likely uses INS / accelerometers for this.
+        So I think this is better than using the vertical speed indicator, which has a significant delay.
+      -->
+      <input>velocities/v-down-fps</input>
+      <gain>0.3048</gain>
+    </pure_gain>
+
     <!-- Terrain proximity warning
       Indicates that radar altitude is significantly lower than indicated altitude.
     -->
@@ -291,8 +299,8 @@
     </switch>
 
     <pure_gain name="systems/mkv/ajs-collision-sink-rate-7s">
-      <input>/instrumentation/vertical-speed-indicator/indicated-speed-mps</input>
-      <gain>-7</gain>
+      <input>systems/mkv/vertical-speed-down-mps</input>
+      <gain>7</gain>
     </pure_gain>
 
     <switch name="systems/mkv/ajs-collision-warning">
