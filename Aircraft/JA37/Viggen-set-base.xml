@@ -539,7 +539,6 @@
             <installed type="bool">false</installed>
         </failures>
         <radar>
-            <time-till-crash type="double">15</time-till-crash>
             <panel>
                 <passive type="bool">false</passive>
             </panel>
@@ -619,7 +618,6 @@
         </hud>
         <sound>
             <click-on type="bool">false</click-on>
-            <terrain-on type="bool">false</terrain-on>
             <stall-enabled type="bool">true</stall-enabled>
             <mp-volume type="double">0.4</mp-volume>
             <breath-volume type="double">0</breath-volume>
@@ -1618,7 +1616,6 @@
             <needle type="double">0</needle>
             <needle-min type="double">0</needle-min>
         </fuel>
-        <terrain-override type="bool">false</terrain-override>
         <gci>
             <picture type="bool">false</picture>
             <bogeydope type="bool">false</bogeydope>

@@ -2006,80 +2006,6 @@
             </test>
         </switch>
 
-        <fcs_function name="systems/indicators/time-till-crash">
-            <function>
-                <quotient>
-                    <property>/position/altitude-agl-ft</property>
-                    <property>/velocities/speed-down-fps</property>
-                </quotient>
-            </function>
-        </fcs_function>        
-
-        <switch name="/ja37/sound/terrain-on">
-            <default value="0"/>
-            <test logic="AND" value="0">
-                /ja37/mode/takeoff == 1
-            </test>
-            <test logic="AND" value="1">
-                gear/gear-pos-norm == 1 <!-- equals landing -->
-                /position/altitude-agl-ft gt 164
-                systems/indicators/time-till-crash lt 10
-                systems/indicators/time-till-crash gt 0
-                /controls/altimeter-radar == 1
-                /ja37/supported/picking == 0
-            </test>
-            <test logic="AND" value="1">
-                gear/gear-pos-norm ne 1 <!-- not equals landing -->
-                systems/indicators/time-till-crash lt 10
-                systems/indicators/time-till-crash gt 0
-                /controls/altimeter-radar == 1
-                /ja37/supported/picking == 0
-            </test>
-            <test logic="AND" value="1">
-                gear/gear-pos-norm == 1 <!-- equals landing -->
-                /position/altitude-agl-ft gt 164
-                /ja37/radar/time-till-crash lt 10
-                /ja37/radar/time-till-crash gt 0
-                /controls/altimeter-radar == 1
-                /ja37/supported/picking == 1
-            </test>
-            <test logic="AND" value="1">
-                gear/gear-pos-norm ne 1 <!-- not equals landing -->
-                /ja37/radar/time-till-crash lt 10
-                /ja37/radar/time-till-crash gt 0
-                /controls/altimeter-radar == 1
-                /ja37/supported/picking == 1
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/terrain-warning-steady-time">
-            <default value="sim-time-sec"/>
-            <test value="-10"><!-- reset when restarting FDM -->
-                sim-time-sec lt 1
-            </test>
-            <test logic="OR" value="/instrumentation/terrain-warning-steady-time">
-                /ja37/sound/terrain-on == 0
-            </test>
-        </switch>
-
-        <fcs_function name="/instrumentation/terrain-warning-steady">
-            <function>
-                <sum>
-                    <p>/instrumentation/terrain-warning-steady-time</p>
-                    <v>3</v>
-                </sum>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="/instrumentation/terrain-warning-steady-10">
-            <function>
-                <sum>
-                    <p>/instrumentation/terrain-warning-steady-time</p>
-                    <v>10</v>
-                </sum>
-            </function>
-        </fcs_function>
-
         <fcs_function name="/instrumentation/terrain-warning-hold">
             <function>
                 <or>
@@ -2136,42 +2062,6 @@
             </test>
         </switch>
 
-        <switch name="/instrumentation/terrain-warning">
-            <default value="0"/>
-            <test logic="OR" value="/ja37/blink/four-Hz/state">
-                /ja37/sound/terrain-on == 1
-            </test>
-            <test logic="AND" value="1">
-                /instrumentation/terrain-warning-steady gt sim-time-sec
-            </test>
-        </switch>
-        
-        <switch name="/instrumentation/terrain-override">
-            <default value="0"/>
-            <test logic="OR" value="1">
-                /ja37/sound/terrain-on == 1
-                /instrumentation/terrain-warning-steady-10 gt sim-time-sec
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/terrain-warning-test">
-            <default value="0"/>
-            <test logic="OR" value="/ja37/blink/four-Hz/state">
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/terrain-warning-light">
-            <default value="0"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /instrumentation/terrain-warning == 1
-                /instrumentation/terrain-warning-test == 1
-            </test>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /instrumentation/terrain-warning-secondary == 1
-            </test>
-        </switch>
-        
         <switch name="/instrumentation/TLS-light-steady-time">
             <default value="sim-time-sec"/>
             <test value="0"><!-- reset when restarting FDM -->
