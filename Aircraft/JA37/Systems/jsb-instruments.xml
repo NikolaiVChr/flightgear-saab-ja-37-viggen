@@ -205,6 +205,8 @@
             <output>/instrumentation/altimeter/displays-altitude-meter</output>
         </switch>
 
+        <!-- JA altitudes -->
+
         <pure_gain name="instruments/altimeter/airbase-altitude-m">
             <input>/instrumentation/altimeter/airbase-altitude-meter</input>
             <gain>1</gain>
@@ -219,7 +221,7 @@
         <!-- Altitude above airport level (JA QNH mode for interoperability) -->
         <switch name="instruments/altimeter/altitude-aal-correction-m">
             <!-- correct with airbase altitude when in QNH mode + landing or takeoff -->
-            <test logic="AND" value="instruments/altimeter/airbase-altitude-m">
+            <test logic="AND" value="-instruments/altimeter/airbase-altitude-m">
                 <test logic="OR">
                     /ja37/hud/landing-mode eq 1
                     /ja37/mode/takeoff eq 1
@@ -237,13 +239,13 @@
 
         <summer name="instruments/altimeter/altitude-aal-m">
             <input>/instrumentation/altimeter/indicated-altitude-meter</input>
-            <input>-instruments/altimeter/altitude-aal-correction-m</input>
+            <input>instruments/altimeter/altitude-aal-correction-m</input>
             <output>/instrumentation/altimeter/indicated-altitude-aal-meter</output>
         </summer>
 
         <summer name="instruments/altimeter/altitude-aal-ft">
             <input>/instrumentation/altimeter/indicated-altitude-ft</input>
-            <input>-instruments/altimeter/altitude-aal-correction-ft</input>
+            <input>instruments/altimeter/altitude-aal-correction-ft</input>
             <output>/instrumentation/altimeter/indicated-altitude-aal-ft</output>
         </summer>
     </channel>
