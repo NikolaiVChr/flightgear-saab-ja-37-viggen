@@ -13,6 +13,7 @@ var input = {
     wow_nose:       "/fdm/jsbsim/gear/unit[0]/WOW",
     time_sec:       "/sim/time/elapsed-sec",
     rm_active:      "/autopilot/route-manager/active",
+    ground_warning: "/fdm/jsbsim/systems/mkv/ja-warning",
 };
 
 foreach (var name; keys(input)) {
@@ -123,7 +124,8 @@ var update_mode_ja = func {
         if (main_ja == LANDING) main_ja = NAV;
     }
 
-    if (main_ja == AIMING and input.gear_pos.getValue() > 0) main_ja = NAV;
+    if (main_ja == AIMING and (input.gear_pos.getValue() > 0 or input.ground_warning.getBoolValue()))
+        main_ja = NAV;
 
     takeoff = (main_ja == TAKEOFF);
     landing = (main_ja == LANDING);
