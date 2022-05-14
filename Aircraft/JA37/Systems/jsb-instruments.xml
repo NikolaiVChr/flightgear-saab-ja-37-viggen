@@ -116,7 +116,7 @@
             <output>/instrumentation/altimeter[1]/indicated-altitude-meter</output>
         </pure_gain>
 
-        <pure_gain name="instruments/altimeter/standard-altitude-m">
+        <pure_gain name="instruments/altimeter/pressure-altitude-m">
             <input>/instrumentation/altimeter/pressure-alt-ft</input>
             <gain>0.3048</gain>
         </pure_gain>
@@ -171,7 +171,7 @@
 
         <!-- difference between radar and barometric altitude -->
         <summer name="instruments/altimeter/ground-delta-raw-m">
-            <input>instruments/altimeter/standard-altitude-m</input>
+            <input>instruments/altimeter/pressure-altitude-m</input>
             <input>-instruments/radar-altimeter/radar-altitude-m</input>
         </summer>
 
@@ -192,7 +192,7 @@
 
         <!-- RHM corrected altitude -->
         <summer name="instruments/altimeter/ground-corrected-altitude-m">
-            <input>instruments/altimeter/standard-altitude-m</input>
+            <input>instruments/altimeter/pressure-altitude-m</input>
             <input>-instruments/altimeter/ground-delta-filtered-m</input>
         </summer>
 
@@ -226,7 +226,7 @@
 
         <summer name="instruments/altimeter/pressure-alt-offset-m">
             <input>instruments/altimeter/airbase-altitude-m</input>
-            <input>-instruments/altimeter/standard-altitude-m</input>
+            <input>-instruments/altimeter/pressure-altitude-m</input>
         </summer>
 
         <!-- Altitude corresponding to pressure altitude 0, measured at takeoff. -->
@@ -238,7 +238,7 @@
         </switch>
 
         <summer name="instruments/altimeter/calculated-QNH-altitude-m">
-            <input>instruments/altimeter/standard-altitude-m</input>
+            <input>instruments/altimeter/pressure-altitude-m</input>
             <input>instruments/altimeter/departure-pressure-alt-offset-m</input>
         </summer>
 

@@ -42,7 +42,7 @@
     <fcs_function name="systems/sound/gvv/alpha-warning-limit-JA-gear-up-deg">
       <function>
         <table>
-          <independentVar lookup="row">instruments/altimeter/standard-altitude-m</independentVar>
+          <independentVar lookup="row">instruments/altimeter/pressure-altitude-m</independentVar>
           <tableData>
             10000  23.00
             13000  20.00
