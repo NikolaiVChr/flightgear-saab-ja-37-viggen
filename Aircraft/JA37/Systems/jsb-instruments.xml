@@ -248,6 +248,39 @@
             <input>instruments/altimeter/altitude-aal-correction-ft</input>
             <output>/instrumentation/altimeter/indicated-altitude-aal-ft</output>
         </summer>
+
+        <!-- Altitude above sea level -->
+        <switch name="instruments/altimeter/altitude-asl-correction-m">
+            <!-- correct with airbase altitude when in QFE mode + landing or takeoff -->
+            <test logic="AND" value="instruments/altimeter/airbase-altitude-m">
+                <test logic="OR">
+                    /ja37/hud/landing-mode eq 1
+                    /ja37/mode/takeoff eq 1
+                </test>
+                <test logic="OR">
+                  /ja37/hud/units-metric eq 0
+                  /ja37/hud/qnh-mode eq 0
+                </test>
+            </test>
+            <default value="0"/>
+        </switch>
+
+        <pure_gain name="instruments/altimeter/altitude-asl-correction-ft">
+            <input>instruments/altimeter/altitude-asl-correction-m</input>
+            <gain>3.2808399</gain>
+        </pure_gain>
+
+        <summer name="instruments/altimeter/altitude-asl-m">
+            <input>/instrumentation/altimeter/indicated-altitude-meter</input>
+            <input>instruments/altimeter/altitude-asl-correction-m</input>
+            <output>/instrumentation/altimeter/indicated-altitude-asl-meter</output>
+        </summer>
+
+        <summer name="instruments/altimeter/altitude-asl-ft">
+            <input>/instrumentation/altimeter/indicated-altitude-ft</input>
+            <input>instruments/altimeter/altitude-asl-correction-ft</input>
+            <output>/instrumentation/altimeter/indicated-altitude-asl-ft</output>
+        </summer>
     </channel>
 
     <channel execrate="4" name="airspeed-indicators">
