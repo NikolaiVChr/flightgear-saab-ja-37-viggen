@@ -130,7 +130,8 @@
     <switch name="systems/sound/gvv/loadfactor-percent">
       <default value="/ja37/sound/loadfactor-percent"/>
       <test logic="OR" value="110">
-        /instrumentation/terrain-override == 1
+        <!-- higher g-load limit during terrain warning -->
+        systems/mkv/ja-collision/gvv-override eq 1
       </test>
     </switch>
 
@@ -261,26 +262,33 @@
       <default value="0"/>
     </switch>
 
-    <switch name="systems/mkv/terrain-warning">
-      <test logic="OR" value="0">
+    <switch name="systems/mkv/terrain-warning-inhibit">
+      <test logic="OR" value="1">
         systems/mkv/global-inhibit eq 1
         <!-- Requires radar altimeter -->
         instruments/radar-altimeter/ready eq 0
       </test>
       <!-- JA: enable conditions above -->
-      <test logic="AND" value="0">
+      <test logic="AND" value="1">
         /ja37/systems/variant eq 0
         systems/mkv/terrain-warning-enable-ja eq 0
       </test>
       <!-- AJS: requires LD mode -->
-      <test logic="AND" value="0">
+      <test logic="AND" value="1">
         /ja37/systems/variant ne 0
         /ja37/hud/switch-hojd eq 1
       </test>
       <!-- inhibit at low altitude with gear down (landing) -->
-      <test logic="AND" value="0">
+      <test logic="AND" value="1">
         gear/gear-pos-norm eq 1
         instruments/radar-altimeter/radar-altitude-m lt 50
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/terrain-warning">
+      <test value="0">
+        systems/mkv/terrain-warning-inhibit eq 1
       </test>
       <test logic="AND" value="1">
         instruments/radar-altimeter/radar-altitude-m lt 150
@@ -289,9 +297,296 @@
       <default value="0"/>
     </switch>
 
+    <fcs_function name="systems/mkv/terrain-warning-margin-m">
+      <function>
+        <difference>
+          <property>instruments/radar-altimeter/radar-altitude-m</property>
+          <min>
+            <value>150</value>
+            <property>systems/mkv/terrain-warning-limit</property>
+          </min>
+        </difference>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="systems/mkv/terrain-warning-margin-norm-raw">
+      <input>systems/mkv/terrain-warning-margin-m</input>
+      <gain>0.0066667</gain><!-- 1/150 -->
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+    </pure_gain>
+
+    <switch name="systems/mkv/terrain-warning-margin-norm">
+      <test value="1">
+        systems/mkv/terrain-warning-inhibit eq 1
+      </test>
+      <default value="systems/mkv/terrain-warning-margin-norm-raw"/>
+    </switch>
+
+
+    <!-- JA ground collision warning -->
+
+    <summer name="systems/mkv/ja-collision/terrain-profile-altitude-m">
+      <input>instruments/altimeter/altitude-asl-m</input>
+      <input>-/ja37/avionics/terrain-height-m</input>
+    </summer>
+
+    <switch name="systems/mkv/ja-collision/reference-altitude-m">
+      <test value="instruments/radar-altimeter/radar-altitude-m">
+        instruments/radar-altimeter/ready eq 1
+      </test>
+      <test value="systems/mkv/ja-collision/terrain-profile-altitude-m">
+        systems/mkv/ja-collision/terrain-profile-altitude-m gt 50
+      </test>
+      <default value="instruments/altimeter/altitude-aal-m"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-collision/warning-margin-m">
+      <test logic="AND" value="10">
+        instruments/radar-altimeter/ready eq 1
+        instruments/radar-altimeter/radar-altitude-m lt 250
+      </test>
+      <default value="6"/>
+    </switch>
+
+    <!-- manual: reaction time (0-7.5s), depends on altitude, attitude, autopilot mode, payload -->
+
+    <switch name="systems/mkv/ja-collision/reaction-time-autopilot-s">
+      <test value="4">
+        autoflight/mode ge 2
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <fcs_function name="systems/mkv/ja-collision/reaction-time-altitude-s">
+      <function>
+        <table>
+          <independentVar>systems/mkv/ja-collision/reference-altitude-m</independentVar>
+          <tableData>
+            100   0
+            250   1.5
+          </tableData>
+        </table>
+      </function>
+    </fcs_function>
+
+    <summer name="systems/mkv/ja-collision/reaction-time-s">
+      <input>systems/mkv/ja-collision/reaction-time-autopilot-s</input>
+      <input>systems/mkv/ja-collision/reaction-time-altitude-s</input>
+      <bias>2</bias>
+    </summer>
+
+    <!-- manual: roll up time (0-5s), depends on speed and roll angle -->
+    <fcs_function name="systems/mkv/ja-collision/roll-up-time-s">
+      <function>
+        <product>
+          <quotient>
+            <abs><property>/instrumentation/attitude-indicator/indicated-roll-deg</property></abs>
+            <value>180</value>
+          </quotient>
+          <table name="systems/mkv/ja-collision/half-roll-time-s">
+            <independentVar lookup="row">instruments/airspeed/airspeed-kmh</independentVar>
+            <tableData>
+              300   5
+              600   2.5
+            </tableData>
+          </table>
+        </product>
+      </function>
+    </fcs_function>
+
+    <switch name="systems/mkv/ja-collision/pull-up-g">
+      <default value="5"/>
+    </switch>
+
+    <fcs_function name="systems/mkv/ja-collision/pull-up-radius-m">
+      <function>
+        <quotient>
+          <pow>
+            <product>
+              <property>/velocities/groundspeed-kt</property>
+              <value>0.51444444</value><!-- kt to m/s -->
+            </product>
+            <value>2</value>
+          </pow>
+          <product>
+            <difference>
+              <property>systems/mkv/ja-collision/pull-up-g</property>
+              <value>1</value><!-- vertical accel = g-load - 1 (when horizontal) -->
+            </difference>
+            <value>9.81</value>
+          </product>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="systems/mkv/ja-collision/pull-up-altitude-m">
+      <function>
+        <product>
+          <property>systems/mkv/ja-collision/pull-up-radius-m</property>
+          <difference>
+            <value>1</value>
+            <cos><toradians><property>instruments/fpv/pitch-deg-raw</property></toradians></cos>
+          </difference>
+        </product>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="systems/mkv/ja-collision/warning-altitude-m">
+      <function>
+        <sum>
+          <product>
+            <property>systems/mkv/vertical-speed-down-mps</property>
+            <sum>
+              <property>systems/mkv/ja-collision/reaction-time-s</property>
+              <property>systems/mkv/ja-collision/roll-up-time-s</property>
+            </sum>
+          </product>
+          <property>systems/mkv/ja-collision/pull-up-altitude-m</property>
+          <property>systems/mkv/ja-collision/warning-margin-m</property>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <!-- Auxiliary altitudes, for inhibit conditions -->
+
+    <switch name="systems/mkv/ja-collision/landing-reference-altitude">
+      <test value="instruments/radar-altimeter/radar-altitude-m">
+        instruments/radar-altimeter/ready eq 1
+      </test>
+      <default value="instruments/altimeter/altitude-aal-m"/>
+    </switch>
+
+    <!-- store radar altitude for a few seconds, for roll over terrain inhibit -->
+    <switch name="systems/mkv/ja-collision/radar-altitude-memory">
+      <test value="instruments/radar-altimeter/radar-altitude-m">
+        instruments/radar-altimeter/ready eq 1
+      </test>
+      <default value="systems/mkv/ja-collision/radar-altitude-memory"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-collision/radar-altitude-memory-stored-time">
+      <test value="-10"><!-- reset when restarting FDM -->
+        sim-time-sec lt 1
+      </test>
+      <test value="sim-time-sec">
+        instruments/radar-altimeter/ready eq 1
+      </test>
+      <default value="systems/mkv/ja-collision/radar-altitude-memory-stored-time"/>
+    </switch>
+
+    <summer name="systems/mkv/ja-collision/radar-altitude-memory-valid-time">
+      <input>systems/mkv/ja-collision/radar-altitude-memory-stored-time</input>
+      <bias>5</bias>
+    </summer>
+
+    <switch name="systems/mkv/ja-collision/radar-altitude-memory-valid">
+      <test value="1">
+        sim-time-sec lt systems/mkv/ja-collision/radar-altitude-memory-valid-time
+      </test>
+      <default value="0"/>
+    </switch>
+
+
+    <switch name="systems/mkv/ja-collision/warning-inhibit">
+      <test logic="OR" value="1">
+        systems/mkv/global-inhibit eq 1
+        /ja37/mode/takeoff eq 1 <!-- should be takeoff + 15s after rotation -->
+        /ja37/avionics/collision-warning eq 0
+      </test>
+      <!-- landing mode inhibit -->
+      <test logic="AND" value="1">
+        /ja37/hud/landing-mode eq 1 <!-- should be OPT landing mode -->
+        gear/gear-pos-norm eq 1
+        systems/mkv/ja-collision/landing-reference-altitude lt 30
+      </test>
+      <!-- roll over terrain inhibit: roll > 40°, radar alt < 200m, terrain profile > 384m
+        Since high roll disables radar altimeter, this uses a stored radar altitude, with 5sec validity period.
+      -->
+      <test logic="AND" value="1">
+        /ja37/hud/landing-mode eq 0
+        systems/mkv/ja-collision/radar-altitude-memory lt 200
+        systems/mkv/ja-collision/radar-altitude-memory-valid eq 1
+        <test logic="OR">
+          /instrumentation/attitude-indicator/indicated-roll-deg lt -40
+          /instrumentation/attitude-indicator/indicated-roll-deg gt 40
+        </test>
+        /ja37/avionics/terrain-height-m ge 384
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-collision/warning">
+      <test logic="OR" value="0">
+        systems/mkv/ja-collision/warning-inhibit eq 1
+        <!-- no warning while going up! (most values are messed in this case -->
+        systems/mkv/vertical-speed-down-mps le 0.01
+      </test>
+      <test value="1">
+        systems/mkv/ja-collision/reference-altitude-m lt systems/mkv/ja-collision/warning-altitude-m
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <!-- Pre-warning on MI / TI -->
+    <fcs_function name="systems/mkv/ja-collision/warning-margin-s">
+      <function>
+        <quotient>
+          <difference>
+            <property>systems/mkv/ja-collision/reference-altitude-m</property>
+            <property>systems/mkv/ja-collision/warning-altitude-m</property>
+          </difference>
+          <property>systems/mkv/vertical-speed-down-mps</property>
+        </quotient>
+      </function>
+    </fcs_function>
+
+    <pure_gain name="systems/mkv/ja-collision/warning-margin-norm-raw">
+      <input>systems/mkv/ja-collision/warning-margin-s</input>
+      <gain>0.05</gain>
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+    </pure_gain>
+
+    <switch name="systems/mkv/ja-collision/warning-margin-norm">
+      <test logic="OR" value="1">
+        systems/mkv/ja-collision/warning-inhibit eq 1
+        systems/mkv/vertical-speed-down-mps le 0.01
+      </test>
+      <default value="systems/mkv/ja-collision/warning-margin-norm-raw"/>
+    </switch>
+
+    <!-- Pull up arrow remains 3sec longer on displays -->
+    <switch name="systems/mkv/ja-collision/warning-time">
+      <test value="-10"><!-- reset when restarting FDM -->
+        sim-time-sec lt 1
+      </test>
+      <test value="sim-time-sec">
+        systems/mkv/ja-collision/warning eq 1
+      </test>
+      <default value="systems/mkv/ja-collision/warning-time"/>
+    </switch>
+
+    <summer name="systems/mkv/ja-collision/gvv-override-time">
+      <input>systems/mkv/ja-collision/warning-time</input>
+      <bias>10</bias>
+    </summer>
+
+    <switch name="systems/mkv/ja-collision/gvv-override">
+      <test value="1">
+        sim-time-sec lt systems/mkv/ja-collision/gvv-override-time
+      </test>
+      <default value="0"/>
+    </switch>
+
 
     <!-- AJS ground collision warning -->
-    <switch name="systems/mkv/ajs-collision-altitude">
+
+    <switch name="systems/mkv/ajs-collision-reference-altitude">
       <test value="instruments/radar-altimeter/radar-altitude-m">
         instruments/radar-altimeter/ready eq 1
       </test>
@@ -317,7 +612,7 @@
         instruments/altimeter/displays-altitude-m lt 50
       </test>
       <test value="1">
-        systems/mkv/ajs-collision-altitude lt systems/mkv/ajs-collision-sink-rate-7s
+        systems/mkv/ajs-collision-reference-altitude lt systems/mkv/ajs-collision-sink-rate-7s
       </test>
       <default value="0"/>
     </switch>
@@ -354,6 +649,90 @@
         systems/mkv/ajs-collision-warning eq 1
       </test>
       <default value="0"/>
+    </switch>
+
+
+    <!-- JA output -->
+    <switch name="systems/mkv/ja-warning">
+      <test logic="OR" value="1">
+        systems/mkv/terrain-warning eq 1
+        systems/mkv/ja-collision/warning eq 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-warning-time">
+      <test value="-10"><!-- reset when restarting FDM -->
+        sim-time-sec lt 1
+      </test>
+      <test value="sim-time-sec">
+        systems/mkv/ja-warning eq 1
+      </test>
+      <default value="systems/mkv/ja-warning-time"/>
+    </switch>
+
+    <summer name="systems/mkv/ja-warning-hold-time">
+      <input>systems/mkv/ja-warning-time</input>
+      <bias>3</bias>
+    </summer>
+
+    <switch name="systems/mkv/ja-warning-hold">
+      <test value="1">
+        sim-time-sec lt systems/mkv/ja-warning-hold-time
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-pull-up-arrow">
+      <test value="/ja37/blink/four-Hz/state">
+        systems/mkv/ja-warning eq 1
+      </test>
+      <test value="1">
+        systems/mkv/ja-warning-hold eq 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-light-bool">
+      <test logic="OR" value="/ja37/blink/four-Hz/state">
+        systems/mkv/ja-warning eq 1
+        /controls/lighting/test-indicator-panels eq 1
+      </test>
+      <test logic="OR" value="1">
+        systems/mkv/ja-warning-hold eq 1
+        /instrumentation/terrain-warning-secondary eq 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-light">
+      <test value="/systems/electrical/dc-light">
+        systems/mkv/ja-light-bool eq 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="systems/mkv/ja-sound">
+      <default value="systems/mkv/ja-collision/warning"/>
+    </switch>
+
+    <fcs_function name="systems/mkv/ja-warning-margin-norm">
+      <function>
+        <min>
+          <property>systems/mkv/terrain-warning-margin-norm</property>
+          <property>systems/mkv/ja-collision/warning-margin-norm</property>
+        </min>
+      </function>
+    </fcs_function>
+
+
+    <!-- misc output -->
+    <switch name="systems/mkv/controls-warning">
+      <!-- disable flight controls cursor -->
+      <test value="systems/mkv/ja-warning">
+        /ja37/systems/variant eq 0
+      </test>
+      <default value="systems/mkv/ajs-alt-bars-blink"/>
     </switch>
   </channel>
 </system>
