@@ -340,7 +340,10 @@
       <test value="systems/mkv/ja-collision/terrain-profile-altitude-m">
         systems/mkv/ja-collision/terrain-profile-altitude-m gt 50
       </test>
-      <default value="instruments/altimeter/altitude-aal-m"/>
+      <test value="instruments/altimeter/altitude-aal-m">
+        /instrumentation/altimeter/setting-std eq 0
+      </test>
+      <default value="instruments/altimeter/calculated-QFE-altitude-m"/>
     </switch>
 
     <switch name="systems/mkv/ja-collision/warning-margin-m">

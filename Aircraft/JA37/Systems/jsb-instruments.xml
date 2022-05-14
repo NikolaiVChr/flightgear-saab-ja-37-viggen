@@ -218,9 +218,41 @@
             <output>/instrumentation/altimeter/airbase-altitude-ft</output>
         </pure_gain>
 
-        <!-- Altitude above airport level (JA QNH mode for interoperability) -->
+        <!-- Calculated QNH : pressure altitude corrected by pressure measured at takeoff.
+             Calculated QFE : same + currently selected airbase altitude
+
+            Used by GPWS. Departure airbase must be correctly selected.
+        -->
+
+        <summer name="instruments/altimeter/pressure-alt-offset-m">
+            <input>instruments/altimeter/airbase-altitude-m</input>
+            <input>-instruments/altimeter/standard-altitude-m</input>
+        </summer>
+
+        <!-- Altitude corresponding to pressure altitude 0, measured at takeoff. -->
+        <switch name="instruments/altimeter/departure-pressure-alt-offset-m">
+            <test value="instruments/altimeter/pressure-alt-offset-m">
+                gear/unit[0]/WOW eq 1
+            </test>
+            <default value="instruments/altimeter/departure-pressure-alt-offset-m"/>
+        </switch>
+
+        <summer name="instruments/altimeter/calculated-QNH-altitude-m">
+            <input>instruments/altimeter/standard-altitude-m</input>
+            <input>instruments/altimeter/departure-pressure-alt-offset-m</input>
+        </summer>
+
+        <summer name="instruments/altimeter/calculated-QFE-altitude-m">
+            <input>instruments/altimeter/calculated-QNH-altitude-m</input>
+            <input>-instruments/altimeter/airbase-altitude-m</input>
+        </summer>
+
+        <!-- Altitude above airport level
+            In JA QNH mode (interoperability), correction for airbase altitude.
+            Only enabled (and used) at takeoff and landing.
+        -->
+
         <switch name="instruments/altimeter/altitude-aal-correction-m">
-            <!-- correct with airbase altitude when in QNH mode + landing or takeoff -->
             <test logic="AND" value="-instruments/altimeter/airbase-altitude-m">
                 <test logic="OR">
                     /ja37/hud/landing-mode eq 1
@@ -228,59 +260,65 @@
                 </test>
                 /ja37/hud/units-metric eq 0
                 /ja37/hud/qnh-mode eq 1
+                <!-- not entirely sure about this, but I think it makes no sense
+                     to correct altitude when STD is selected -->
+                /instrumentation/altimeter/setting-std eq 0
             </test>
             <default value="0"/>
         </switch>
 
-        <pure_gain name="instruments/altimeter/altitude-aal-correction-ft">
-            <input>instruments/altimeter/altitude-aal-correction-m</input>
-            <gain>3.2808399</gain>
-        </pure_gain>
-
         <summer name="instruments/altimeter/altitude-aal-m">
-            <input>/instrumentation/altimeter/indicated-altitude-meter</input>
+            <input>instruments/altimeter/altitude-m</input>
             <input>instruments/altimeter/altitude-aal-correction-m</input>
             <output>/instrumentation/altimeter/indicated-altitude-aal-meter</output>
         </summer>
 
-        <summer name="instruments/altimeter/altitude-aal-ft">
-            <input>/instrumentation/altimeter/indicated-altitude-ft</input>
-            <input>instruments/altimeter/altitude-aal-correction-ft</input>
+        <pure_gain name="instruments/altimeter/altitude-aal-ft">
+            <input>instruments/altimeter/altitude-aal-m</input>
+            <gain>3.2808399</gain>
             <output>/instrumentation/altimeter/indicated-altitude-aal-ft</output>
+        </pure_gain>
+
+        <!-- Altitude above sea level, used by GPWS to interpret terrain profile.
+
+            If QNH is enabled, use that.
+            At takeoff and landing, use QFE altitude + airbase altitude.
+            Otherwise, use calculated QNH (because the reference for QFE is unknown).
+        -->
+
+        <summer name="instruments/altimeter/altitude-asl-from-aal-m">
+            <input>instruments/altimeter/altitude-m</input>
+            <input>instruments/altimeter/airbase-altitude-m</input>
         </summer>
 
-        <!-- Altitude above sea level -->
-        <switch name="instruments/altimeter/altitude-asl-correction-m">
-            <!-- correct with airbase altitude when in QFE mode + landing or takeoff -->
-            <test logic="AND" value="instruments/altimeter/airbase-altitude-m">
+        <switch name="instruments/altimeter/altitude-asl-m">
+            <!-- QNH mode -->
+            <test logic="AND" value="instruments/altimeter/altitude-m">
+                /ja37/hud/units-metric eq 0
+                /ja37/hud/qnh-mode eq 1
+                /instrumentation/altimeter/setting-std eq 0
+            </test>
+            <!-- QFE mode + landing / takeoff -->
+            <test logic="AND" value="instruments/altimeter/altitude-asl-from-aal-m">
                 <test logic="OR">
                     /ja37/hud/landing-mode eq 1
                     /ja37/mode/takeoff eq 1
                 </test>
                 <test logic="OR">
-                  /ja37/hud/units-metric eq 0
-                  /ja37/hud/qnh-mode eq 0
+                    /ja37/hud/units-metric ne 0
+                    /ja37/hud/qnh-mode ne 1
                 </test>
+                /instrumentation/altimeter/setting-std eq 0
             </test>
-            <default value="0"/>
+            <default value="instruments/altimeter/calculated-QNH-altitude-m"/>
+            <output>/instrumentation/altimeter/indicated-altitude-asl-m</output>
         </switch>
 
-        <pure_gain name="instruments/altimeter/altitude-asl-correction-ft">
-            <input>instruments/altimeter/altitude-asl-correction-m</input>
+        <pure_gain name="instruments/altimeter/altitude-asl-ft">
+            <input>instruments/altimeter/altitude-asl-m</input>
             <gain>3.2808399</gain>
-        </pure_gain>
-
-        <summer name="instruments/altimeter/altitude-asl-m">
-            <input>/instrumentation/altimeter/indicated-altitude-meter</input>
-            <input>instruments/altimeter/altitude-asl-correction-m</input>
-            <output>/instrumentation/altimeter/indicated-altitude-asl-meter</output>
-        </summer>
-
-        <summer name="instruments/altimeter/altitude-asl-ft">
-            <input>/instrumentation/altimeter/indicated-altitude-ft</input>
-            <input>instruments/altimeter/altitude-asl-correction-ft</input>
             <output>/instrumentation/altimeter/indicated-altitude-asl-ft</output>
-        </summer>
+        </pure_gain>
     </channel>
 
     <channel execrate="4" name="airspeed-indicators">
