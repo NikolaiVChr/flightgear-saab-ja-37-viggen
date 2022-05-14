@@ -1197,7 +1197,7 @@
     </channel>
 
     <!-- Rotation speed and approach alpha -->
-    <channel execrate="8">
+    <channel execrate="8" name="performance">
         <!-- Mass and CG convertions. Used for rotation/approach speed calculation (weight only), and UI display. -->
         <pure_gain name="inertia/weight-kg">
             <input>inertia/weight-lbs</input>
@@ -1372,5 +1372,40 @@
                 /ja37/systems/variant ne 0
             </test>
         </switch>
+
+        <!-- Estimate of alpha at G-load = 1, function of airspeed and weight.
+
+            Based on approximation that lift is linear in alpha at fixed airspeed.
+            Measured with gear up, drok tank only, T=10°C, pressure altitude 0.
+        -->
+        <fcs_function name="systems/flight/stable-flight-alpha">
+            <function>
+                <product>
+                    <!-- Alpha function of indicated airspeed at weight=15000kg.
+                        Measured in sim, v5.2.0, JA37, T=10°C, pressure altitude 0, gear up, drop tank only.
+                      -->
+                    <table name="systems/flight/alpha-at-15000kg">
+                        <independentVar lookup="row">instruments/airspeed/airspeed-kmh</independentVar>
+                        <tableData>
+                            300     13.5
+                            350     10.7
+                            400     8.48
+                            450     6.91
+                            500     5.78
+                            550     4.95
+                            600     4.22
+                            700     3.13
+                            800     2.42
+                            900     1.89
+                            1000    1.57
+                        </tableData>
+                    </table>
+                    <quotient>
+                        <property>inertia/weight-kg</property>
+                        <value>15000</value>
+                    </quotient>
+                </product>
+            </function>
+        </fcs_function>
     </channel>
 </system>

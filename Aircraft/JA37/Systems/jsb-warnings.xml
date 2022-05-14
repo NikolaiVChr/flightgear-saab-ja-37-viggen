@@ -400,9 +400,25 @@
       </function>
     </fcs_function>
 
-    <switch name="systems/mkv/ja-collision/pull-up-g">
-      <default value="5"/>
-    </switch>
+    <fcs_function name="systems/mkv/ja-collision/pull-up-g">
+      <function>
+        <quotient>
+          <table name="systems/mkv/ja-collision/pull-up-max-alpha">
+            <independentVar lookup="row">instruments/altimeter/pressure-altitude-m</independentVar>
+            <tableData>
+              500   12
+              2250  22
+            </tableData>
+          </table>
+          <!-- alpha at 1g, function of airspeed and weight -->
+          <property>systems/flight/stable-flight-alpha</property>
+        </quotient>
+      </function>
+      <clipto>
+        <min>2</min>
+        <max>5</max>
+      </clipto>
+    </fcs_function>
 
     <fcs_function name="systems/mkv/ja-collision/pull-up-radius-m">
       <function>
