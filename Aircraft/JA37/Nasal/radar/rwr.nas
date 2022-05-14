@@ -489,7 +489,7 @@ missileRecipient.Receive = func(notification) {
             launched[notification.Callsign~notification.UniqueIdentity] = elapsed;
 
             var ac_pos = geo.aircraft_position();
-            if (notification.Position.direct_distance_to(ac_pos)*M2NM < damage.mlw_max) {
+            if (notification.Position.direct_distance_to(ac_pos)*M2NM < mlw_max) {
                 signal(rand(), RWR_LAUNCH, notification.Position);
                 bearing = geo.normdeg(ac_pos.course_to(notification.Position) - input.heading.getValue());
                 radar.ecmLog.push("Missile launch warning from %03d deg.", bearing);
