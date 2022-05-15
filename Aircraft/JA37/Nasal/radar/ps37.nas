@@ -73,6 +73,8 @@ var input = {
     linear_gain:        "ja37/radar/panel/linear",
     gain:               "ja37/radar/panel/gain",
     filter:             "ja37/radar/panel/filter",
+    passive_mode:       "ja37/radar/panel/passive",
+    selector_ajs:       "ja37/mode/selector-ajs",
     display_alt:        "instrumentation/altimeter/displays-altitude-meter",
 };
 
@@ -93,9 +95,9 @@ var PS37 = {
     rcsRefValue: 3.2,
     timeToKeepBleps: 5,
 
+    # Tests if the radar is serviceable, not if it is on.
     isEnabled: func {
-        return input.mode.getBoolValue() and input.radar_serv.getBoolValue()
-          and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
+        return input.radar_serv.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
           and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue();
     },
 
@@ -113,6 +115,21 @@ var PS37 = {
 
     useDistanceNorm: func {
         return me.currentMode.useDistanceNorm();
+    },
+
+    # Similar to setCurrentMode, but remembers current range and calls leaveMode()
+    setMode: func(newMode) {
+        newMode.setRange(me.currentMode.getRange());
+        me.currentMode.leaveMode();
+        me.setCurrentMode(newMode);
+    },
+
+    terrainMode: func {
+        me.currentMode.terrainMode();
+    },
+
+    memoryMode: func {
+        me.currentMode.memoryMode();
     },
 };
 
@@ -198,6 +215,15 @@ var PS37Mode = {
     pulse: MONO,
     detectSURFACE: 1,
     detectMARINE: 1,
+
+    air_mode: FALSE,
+
+    # Terrain avoidance submode
+    has_terrain_mode: FALSE,    # whether terrain mode can be selected
+    terrain_mode: FALSE,
+
+    # Memory submode
+    has_memory_mode: FALSE,     # whether memory mode can be selected
 
     rootName: "PS37",
     shortName: "",
@@ -288,30 +314,174 @@ var PS37Mode = {
         # TODO
         return input.filter.getBoolValue();
     },
+
+    terrainMode: func {
+        if (!me.has_terrain_mode) return FALSE;
+
+        me.terrain_mode = TRUE;
+        return TRUE;
+    },
+
+    memoryMode: func {
+        if (!me.has_memory_mode or me.terrain_mode) return FALSE;
+
+        StandbyMode.memoryModeFrom(me);
+        return TRUE;
+    },
+
+    enterMode: func {
+        me.terrain_mode = FALSE;
+    },
 };
 
-
-var ScanMode = {
+# Sweep parameters
+var WideScanMode = {
     parents: [PS37Mode],
-
-    shortName: "Scan",
-    longName: "Wide Scan",
-
-    # From AJS37 SFI part 3
     az: 61.5,           # width of search
     discSpeed_dps: 110, # sweep speed
+};
 
-    air_mode: FALSE,
-    terrain_mode: FALSE,
+var NarrowScanMode = {
+    parents: [PS37Mode],
+    az: 32,             # width of search
+    discSpeed_dps: 60,  # sweep speed
 };
 
 
+# Standby modes
 
-### Array of main mode, each being an array of submodes.
+var StandbyMode = {
+    # Radar off, antenna parked
+    parents: [PS37Mode],
 
-var ps37_modes = [
-    [ScanMode],
-];
+    shortName: "RX",
+    longName: "Standby",
+    active: FALSE,
+
+    az: 61.5,           # width of search
+    discSpeed_dps: 110, # sweep speed
+    barPattern: [[[-1,0]]],
+
+    # calling mode, when used for memory mode
+    parent_mode: nil,
+
+    # Terrain mode overrides memory mode
+    terrainMode: func {
+        if (me.parent_mode == nil or !me.parent_mode.has_terrain_mode) return FALSE;
+
+        me.radar.setMode(me.parent_mode);
+        return me.parent_mode.terrainMode();
+    },
+
+    # Called by other modes when entering memory mode
+    memoryModeFrom: func(parent_mode) {
+        me.parent_mode = parent_mode;
+        me.radar.setMode(me);
+    },
+
+    preStep: func {
+        me.horizonStabilized = 0;
+        me.azimuthTilt = 0;
+        me.elevationTilt = 0;
+    },
+};
+
+var GroundRangingMode = {
+    # Radar off, antenna centered. Actual ground ranging is simulated separately.
+    parents: [PS37Mode],
+
+    shortName: "RFX",
+    longName: "Ground Ranging",
+    active: FALSE,
+
+    az: 61.5,           # width of search
+    discSpeed_dps: 110, # sweep speed
+    barPattern: [[[0,0]]],
+};
+
+var PassiveMode = {
+    parents: [WideScanMode],
+
+    shortName: "RBX",
+    longName: "Passive Scan",
+    active: FALSE,
+};
+
+# Normal scan modes (including terrain / memory submodes)
+
+var NormalWideMode = {
+    parents: [WideScanMode],
+
+    shortName: "RBK",
+    longName: "Wide Scan",
+    has_terrain_mode: TRUE,
+    has_memory_mode: TRUE,
+};
+
+var NormalNarrowMode = {
+    parents: [NarrowScanMode],
+
+    shortName: "RSK",
+    longName: "Narrow Scan",
+    has_terrain_mode: TRUE,
+    has_memory_mode: FALSE,
+};
+
+# Some weapons use normal scan mode, but disable terrain submode.
+
+var CombatWideMode = {
+    parents: [NormalWideMode],
+
+    shortName: "RBK-ANF",
+    longName: "Wide Scan ANF",
+    has_terrain_mode: FALSE,
+};
+
+var CombatNarrowMode = {
+    parents: [NormalNarrowMode],
+
+    shortName: "RSK-ANF",
+    longName: "Narrow Scan ANF",
+    has_terrain_mode: FALSE,
+};
+
+# A/A modes
+
+var AirWideMode = {
+    parents: [WideScanMode],
+
+    shortName: "RBJR",
+    longName: "A/A Wide Scan",
+    air_mode: TRUE,
+};
+
+var AirNarrowMode = {
+    parents: [NarrowScanMode],
+
+    shortName: "RSJR",
+    longName: "A/A Narrow Scan",
+    air_mode: TRUE,
+};
+
+var LockMode = {
+    parents: [PS37Mode],
+    # TODO
+};
+
+
+### Array of main mode, each being an array of submodes (not used)
+var ps37_modes = [[
+    StandbyMode,
+    GroundRangingMode,
+    PassiveMode,
+    NormalWideMode,
+    NormalNarrowMode,
+    CombatWideMode,
+    CombatNarrowMode,
+    AirWideMode,
+    AirNarrowMode,
+    LockMode,
+]];
 
 var ps37 = nil;
 
@@ -330,10 +500,45 @@ var decreaseRange = func {
 }
 
 var memory_mode = func {
+    ps37.memoryMode();
 }
 
 var terrain_mode = func {
+    ps37.terrainMode();
 }
+
+
+var current_mode = StandbyMode;
+
+var choose_current_mode = func {
+    if (input.nose_wow.getBoolValue() or modes.selector_ajs <= modes.STBY)
+        return StandbyMode;
+
+    if (input.mode.getValue() == 0) {
+        return input.passive_mode.getBoolValue() ? PassiveMode : StandbyMode;
+    }
+
+    var narrow = (input.mode.getValue() == 2);
+    if (input.selector_ajs.getValue() == modes.COMBAT) {
+        # TODO
+        return current_mode;
+    } else {
+        return narrow ? NormalNarrowMode : NormalWideMode;
+    }
+}
+
+var update_current_mode = func {
+    var mode = choose_current_mode();
+    if (mode == current_mode) return;
+
+    ps37.setMode(mode);
+    current_mode = mode;
+}
+
+setlistener(input.nose_wow, update_current_mode, 0, 0);
+setlistener(input.mode, update_current_mode, 0, 0);
+setlistener(input.passive_mode, update_current_mode, 0, 0);
+setlistener(input.selector_ajs, update_current_mode, 0, 0);
 
 
 ### Initialization
@@ -343,4 +548,5 @@ var init = func {
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
     input.range.setValue(ps37.getRangeM());
+    update_current_mode();
 }
