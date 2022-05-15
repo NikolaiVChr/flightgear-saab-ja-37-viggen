@@ -270,15 +270,19 @@ var AirborneRadar = {
 	isEnabled: func {
 		return 1;
 	},
+	isActive: func {
+		return me.currentMode.active;
+	},
 	loop: func {
 		me.enabled = me.isEnabled();
-		setprop("instrumentation/radar/radar-standby", !me.enabled);
+		me.active = me.isActive();
+		setprop("instrumentation/radar/radar-standby", !me.enabled or !me.active);
 		# calc dt here, so we don't get a massive dt when going from disabled to enabled:
 		me.elapsed = elapsedProp.getValue();
 		me.dt = me.elapsed - me.lastElapsed;
 		me.lastElapsed = me.elapsed;
 		if (me.enabled) {
-			if (me.currentMode.painter and me.currentMode.detectAIR) {
+			if (me.active and me.currentMode.painter and me.currentMode.detectAIR) {
 				# We need faster updates to not lose track of oblique flying locks close by when in STT.
 				me.ContactNotification.vector = [me.getPriorityTarget()];
 				emesary.GlobalTransmitter.NotifyAll(me.ContactNotification);
@@ -289,11 +293,12 @@ var AirborneRadar = {
 				me.dt = me.currentMode.step(me.dt);# mode already knows where in pattern we are and AZ and bars.
 
 				# we then step to the new position, and scan for each step
-				me.scanFOV();
+				if (me.active) me.scanFOV();
 				me.showScan();
 			}
+		}
 
-		} elsif (size(me.vector_aicontacts_bleps)) {
+		if ((!me.enabled or !me.active) and size(me.vector_aicontacts_bleps)) {
 			# So that when radar is restarted there is not old bleps.
 			me.purgeAllBleps();
 		}
@@ -304,7 +309,7 @@ var AirborneRadar = {
 		# It also sends out on datalink what we are STT/SAM/TWS locked onto.
 		# In addition it notifies the weapons what we have targeted.
 		# Plus it sets the MP property for radar standby so others can see us on RWR.
-		if (me.enabled) {
+		if (me.enabled and me.active) {
 			me.focus = me.getPriorityTarget();
 			if (me.focus != nil and me.focus.callsign != "") {
 				if (me.currentMode.painter) sttSend.setValue(left(md5(me.focus.callsign), 4));
@@ -329,7 +334,7 @@ var AirborneRadar = {
 		#
 		# Here we ask the NoseRadar for a slice of the sky once in a while.
 		#
-		if (me.enabled and !(me.currentMode.painter and me.currentMode.detectAIR)) {
+		if (me.enabled and me.active and !(me.currentMode.painter and me.currentMode.detectAIR)) {
 			emesary.GlobalTransmitter.NotifyAll(me.SliceNotification.slice(self.getPitch(), self.getHeading(), math.max(-me.fieldOfRegardMinElev, me.fieldOfRegardMaxElev)*1.25, me.fieldOfRegardMaxAz*1.25, me.getRange()*NM2M, !me.currentMode.detectAIR, !me.currentMode.detectSURFACE, !me.currentMode.detectMARINE));
 		}
 	},
@@ -671,6 +676,7 @@ var RadarMode = {
 	cursorNm: 20,
 	upperAngle: 10,
 	lowerAngle: 10,
+	active: 1,  # If false, the radar is off in this mode
 	painter: 0, # if the mode when having a priority target will produce a hard lock on target.
 	mapper: 0,
 	discSpeed_dps: 1,# current disc speed. Must never be zero.
