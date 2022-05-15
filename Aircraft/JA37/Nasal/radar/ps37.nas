@@ -75,6 +75,7 @@ var input = {
     filter:             "ja37/radar/panel/filter",
     passive_mode:       "ja37/radar/panel/passive",
     selector_ajs:       "ja37/mode/selector-ajs",
+    wpn_knob:           "/controls/armament/weapon-panel/selector-knob",
     display_alt:        "instrumentation/altimeter/displays-altitude-meter",
 };
 
@@ -510,35 +511,69 @@ var terrain_mode = func {
 
 var current_mode = StandbyMode;
 
+# This function returns the mode to be currently used.
 var choose_current_mode = func {
+    # Radar enable conditions
     if (input.nose_wow.getBoolValue() or modes.selector_ajs <= modes.STBY)
         return StandbyMode;
 
+    var mode = NormalWideMode;
+
+    # All the weird rules for weapon modes
+    if (input.selector_ajs.getValue() == modes.COMBAT) {
+        var type = fire_control.get_type();
+        var wpn_knob = input.wpn_knob.getValue();
+
+        if (type == "IR-RB"
+            or (type == "M55" and wpn_knob == fire_control.WPN_SEL.AKAN_JAKT)
+            or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
+        {
+            mode = (current_mode == LockMode) ? LockMode : AirWideMode;
+        }
+        elsif (type == "RB-04E" or type == "RB-15F" or type == "M90")
+        {
+            # Should be RB04 mode, which is slightly different.
+            mode = CombatWideMode;
+        }
+        elsif ((type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.PLAN_SJO)
+               or (type == "M71" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
+        {
+            mode = CombatWideMode;
+        }
+        elsif (type == "M70" or type == "RB-75"
+               or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.DYK_MARK_RB75)
+               or (type == "M55" and wpn_knob == fire_control.WPN_SEL.ATTACK)
+               or (type == "M71" and wpn_knob != fire_control.WPN_SEL.RR_LUFT))
+        {
+            mode = GroundRangingMode;
+        }
+    }
+
+    # Rest of the logic doesn't apply to the A/G ranging mode.
+    if (mode == GroundRangingMode) return mode;
+
+    # A0 gives standby or passive mode.
     if (input.mode.getValue() == 0) {
         return input.passive_mode.getBoolValue() ? PassiveMode : StandbyMode;
     }
 
-    var narrow = (input.mode.getValue() == 2);
-    if (input.selector_ajs.getValue() == modes.COMBAT) {
-        # TODO
-        return current_mode;
-    } else {
-        return narrow ? NormalNarrowMode : NormalWideMode;
+    # Switch to corresponding narrow mode as required.
+    if (input.mode.getValue() == 2) {
+        if (mode == NormalWideMode) return NormalNarrowMode;
+        if (mode == CombatWideMode) return CombatNarrowMode;
+        if (mode == AirWideMode)    return AirNarrowMode;
     }
+    return mode;
 }
 
 var update_current_mode = func {
     var mode = choose_current_mode();
     if (mode == current_mode) return;
 
+    print("Radar mode "~mode.shortName);
     ps37.setMode(mode);
     current_mode = mode;
 }
-
-setlistener(input.nose_wow, update_current_mode, 0, 0);
-setlistener(input.mode, update_current_mode, 0, 0);
-setlistener(input.passive_mode, update_current_mode, 0, 0);
-setlistener(input.selector_ajs, update_current_mode, 0, 0);
 
 
 ### Initialization
@@ -548,5 +583,9 @@ var init = func {
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
     input.range.setValue(ps37.getRangeM());
+    update_current_mode();
+}
+
+var loop = func {
     update_current_mode();
 }
