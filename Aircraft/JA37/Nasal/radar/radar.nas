@@ -824,6 +824,8 @@ var RadarMode = {
 				me.frameCompleted();
 			}
 			#print("db-node:", me.nextPatternNode);
+			# Allow pattern with a single node (fixed beam). Return 0 to end the loop (otherwise infinite).
+			if (size(me.currentPattern) == 1) return 0;
 			# Now the antennae has been moved and we return how much leftover dt there is to the main radar.
 			return dt-me.angleToNextNode/me.discSpeed_dps;# Since we move disc seperately in axes, this is not strictly correct, but close enough.
 		}
