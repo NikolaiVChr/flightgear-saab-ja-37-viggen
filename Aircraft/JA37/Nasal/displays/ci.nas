@@ -12,8 +12,6 @@ var input = {
     ajs_bars_flash: "fdm/jsbsim/systems/mkv/ajs-alt-bars-blink",
     fiveHz:         "ja37/blink/five-Hz/state",
     radar_range:    "instrumentation/radar/range",
-    radar_mode:     "instrumentation/radar/mode",
-    radar_passive:  "ja37/radar/panel/passive",
     radar_filter:   "instrumentation/radar/polaroid-filter",
     radar_quality:  "instrumentation/radar/ground-radar-quality",
 };
@@ -99,8 +97,8 @@ var RadarBackground = {
     },
 
     set_mode: func(mode, display) {
-        me.PPI.setVisible(display == CI.DISPLAY_PPI);
-        me.B_scope.setVisible(display == CI.DISPLAY_B);
+        me.PPI.setVisible(display == DISPLAY.PPI);
+        me.B_scope.setVisible(display == DISPLAY.B);
     },
 };
 
@@ -183,10 +181,10 @@ var RadarImage = {
     },
 
     set_mode: func(mode, display) {
-        if (display != me.display or mode == CI.MODE_STBY) me.clear_img();
+        if (display != me.display or mode == MODE.STBY) me.clear_img();
         me.display = display;
 
-        me.img.setVisible(mode != CI.MODE_STBY and display == CI.DISPLAY_PPI);
+        me.img.setVisible(mode != MODE.STBY and display == DISPLAY.PPI);
     },
 };
 
@@ -230,11 +228,11 @@ var RadarMarks = {
 
     set_mode: func(mode, display) {
         me.display = display;
-        me.PPI_marks.setVisible(display == CI.DISPLAY_PPI);
+        me.PPI_marks.setVisible(display == DISPLAY.PPI);
     },
 
     update: func {
-        if (me.display != CI.DISPLAY_PPI) return;
+        if (me.display != DISPLAY.PPI) return;
 
         var range = input.radar_range.getValue();
         me.arc10.setVisible(range >= 120000);
@@ -281,13 +279,13 @@ var RadarBeam = {
     set_mode: func(mode, display) {
         me.display = display;
 
-        var visible = display == CI.DISPLAY_PPI;
+        var visible = display == DISPLAY.PPI;
         me.dim_beam.setVisible(visible);
         me.bright_beam.setVisible(visible);
     },
 
     update: func {
-        if (me.display != CI.DISPLAY_PPI) return;
+        if (me.display != DISPLAY.PPI) return;
 
         var pos = radar.ps37.getCaretPosition()[0] * radar.ps37.fieldOfRegardMaxAz;
         if (pos > me.last_pos) me.dir = 1;
@@ -344,11 +342,11 @@ var NavSymbols = {
 
     set_mode: func(mode, display) {
         me.display = display;
-        me.root.setVisible(display == CI.DISPLAY_PPI);
+        me.root.setVisible(display == DISPLAY.PPI);
     },
 
     update: func {
-        if (me.display != CI.DISPLAY_PPI) return;
+        if (me.display != DISPLAY.PPI) return;
 
         var scale = input.radar_range.getValue();
 
@@ -450,27 +448,20 @@ var Horizon = {
 
 
 
+## CI mode
+# Separated in type of display (PPI vs B-scope), type of symbology.
+
+var DISPLAY = {
+    PPI: ps37_mode.SCAN_MODE.WIDE,
+    B:   ps37_mode.SCAN_MODE.NARROW,
+};
+
+var MODE = ps37_mode.CI_MODE;
 
 
 var CI = {
     symbols_width: 1.5,
     radar_symbols_width: 0.8,
-
-    ## CI mode
-    # Separated in type of display (PPI vs B-scope), type of symbology.
-    # Radar mode is yet another thing, which is handled separately.
-
-    DISPLAY_PPI: 0,
-    DISPLAY_B: 1,
-
-    MODE_STBY: 0,
-    MODE_NORMAL: 1,
-    #MODE_FIX: 2,
-    #MODE_LAND: 3,
-    #MODE_RB04: 4,
-    #MODE_BOMB: 5,
-    #MODE_AIR: 6,
-
 
     new: func(parent) {
         var m = { parents: [CI], root: parent, };
@@ -575,30 +566,29 @@ var CI = {
         me.mode = mode;
         me.display = display;
 
-        # For MODE_STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
+        # For MODE.STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
         me.radar_bg.set_mode(mode, display);
         me.radar_img.set_mode(mode, display);
         me.radar_marks.set_mode(mode, display);
         me.radar_beam.set_mode(mode, display);
         me.nav_symbols.set_mode(mode, display);
 
-        me.root.setVisible(mode != CI.MODE_STBY);
+        me.root.setVisible(mode != MODE.STBY);
     },
 
     update_mode: func {
-        if (!displays.common.ci_on
-            or (input.radar_mode.getValue() == 0 and !input.radar_passive.getValue() and !modes.landing)) {
-            me.set_mode(CI.MODE_STBY, CI.DISPLAY_PPI);
-        } elsif (input.radar_mode.getValue() == 2) {
-            me.set_mode(CI.MODE_NORMAL, CI.DISPLAY_B);
-        } else {
-            me.set_mode(CI.MODE_NORMAL, CI.DISPLAY_PPI);
+        if (!displays.common.ci_on) {
+            me.set_mode(MODE.STBY, DISPLAY.PPI);
+            return;
         }
+
+        # Mode controlled by ps37_mode.nas (shared with radar)
+        me.set_mode(ps37_mode.ci_mode, ps37_mode.scan_mode or DISPLAY.PPI);
     },
 
     update: func {
         me.update_mode();
-        if (me.mode == CI.MODE_STBY) return;
+        if (me.mode == MODE.STBY) return;
 
         me.radar_marks.update();
         me.nav_symbols.update();
