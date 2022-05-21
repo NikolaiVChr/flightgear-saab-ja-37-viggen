@@ -64,18 +64,13 @@ var TRUE = 1;
 
 var input = {
     radar_serv:         "instrumentation/radar/serviceable",
-    mode:               "instrumentation/radar/mode",
     range:              "instrumentation/radar/range",
     antenna_angle:      "instrumentation/radar/antenna-angle-norm",
-    nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
     gear_pos:           "gear/gear/position-norm",
     quality:            "instrumentation/radar/ground-radar-quality",
     linear_gain:        "ja37/radar/panel/linear",
     gain:               "ja37/radar/panel/gain",
     filter:             "ja37/radar/panel/filter",
-    passive_mode:       "ja37/radar/panel/passive",
-    selector_ajs:       "ja37/mode/selector-ajs",
-    wpn_knob:           "/controls/armament/weapon-panel/selector-knob",
     display_alt:        "instrumentation/altimeter/displays-altitude-meter",
 };
 
@@ -123,14 +118,6 @@ var PS37 = {
         newMode.setRange(me.currentMode.getRange());
         me.currentMode.leaveMode();
         me.setCurrentMode(newMode);
-    },
-
-    terrainMode: func {
-        me.currentMode.terrainMode();
-    },
-
-    memoryMode: func {
-        me.currentMode.memoryMode();
     },
 };
 
@@ -184,7 +171,9 @@ var PS37Map = {
 };
 
 
-### Parent class for radar modes
+### Radar modes
+
+# Parent class: handles range
 
 var PS37Mode = {
     parents: [RadarMode],
@@ -200,16 +189,6 @@ var PS37Mode = {
     maxRange: nil,
     range: nil,
 
-    # scan patterns
-    bars: 1,            # pattern index (1 based)
-    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
-    # A pattern is a vector of points
-    # This is a vector of patterns (one per "scan mode")
-    barPattern: [ [[1,0],[-1,0]] ],
-    barHeight: 1,
-    barPatternMin: [0],
-    barPatternMax: [0],
-
     rcsFactor: 1,
 
     timeToFadeBleps: 5,
@@ -217,26 +196,9 @@ var PS37Mode = {
     detectSURFACE: 1,
     detectMARINE: 1,
 
-    air_mode: FALSE,
-
-    # Terrain avoidance submode
-    has_terrain_mode: FALSE,    # whether terrain mode can be selected
-    terrain_mode: FALSE,
-
-    # Memory submode
-    has_memory_mode: FALSE,     # whether memory mode can be selected
-
     rootName: "PS37",
     shortName: "",
     longName: "",
-
-    # Beam elevation for normal search mode. Indexed by [range][alt > 600]
-    normal_elev: {
-        15000: [-3.0, -3.0],
-        30000: [-1.5, -3.0],
-        60000: [-0.5, -1.0],
-        120000: [-0.5, -0.5],
-    },
 
     setRangeM: func (range) {
         if (range < me.minRangeM or range > me.maxRangeM or math.mod(range, me.minRangeM) != 0) return 0;
@@ -283,13 +245,58 @@ var PS37Mode = {
     designatePriority: func (contact) {},
     undesignate: func {},
 
+    # type of information given by this mode
+    # [dist, groundtrack, deviations, speed, closing-rate, altitude]
+    getSearchInfo: func (contact) {
+        return me.active ? [1,0,1,0,0,1] : nil;
+    },
+};
+
+
+# Main scan mode
+
+var ScanMode = {
+    parents: [PS37Mode],
+
+    # scan patterns
+    bars: 1,            # pattern index (1 based)
+    # A point is a pair [azimuth, height]. azimuth unit is me.az, height unit is me.barHeight * instantFoVradius
+    # A pattern is a vector of points
+    # This is a vector of patterns (one per "scan mode")
+    barPattern: [ [[1,0],[-1,0]] ],
+    barHeight: 1,
+    barPatternMin: [0],
+    barPatternMax: [0],
+
+    shortName: "Scan",
+    longName: "Scan",
+
+    # Submodes (affect antenna angle, beam width, filters)
+    MODE_NORMAL: 1,
+    MODE_TERRAIN: 2,
+    MODE_RB04: 3,
+    MODE_AIR: 4,
+
+    mode: 1,
+
+    set_submode: func(submode) { me.mode = submode; },
+    get_submode: func { return me.mode; },
+
+    # Beam elevation for normal search mode. Indexed by [range][alt > 600]
+    normal_elev: {
+        15000: [-3.0, -3.0],
+        30000: [-1.5, -3.0],
+        60000: [-0.5, -1.0],
+        120000: [-0.5, -0.5],
+    },
+
     # Must be defined by each mode, used to set azimuth / elevation offset
     preStep: func {
         me.azimuthTilt = 0;
 
-        if (me.air_mode)
+        if (me.mode == me.MODE_AIR)
             me.elevationTilt = 1.5;
-        elsif (me.terrain_mode)
+        elsif (me.mode == me.MODE_TERRAIN)
             me.elevationTilt = 0.0;
         else
             me.elevationTilt = me.normal_elev[me.getRangeM()][input.display_alt.getValue() > 600];
@@ -297,59 +304,43 @@ var PS37Mode = {
         me.elevationTilt += me.radar.getTiltKnob();
     },
 
-    # type of information given by this mode
-    # [dist, groundtrack, deviations, speed, closing-rate, altitude]
-    getSearchInfo: func (contact) {
-        return [1,0,1,0,0,1];
-    },
-
     # Return true if radar beam is narrow in height (terrain / air mode),
     # false if it is narrow in width (default).
     isNarrowBeam: func {
-        return me.air_mode or me.terrain_mode;
+        return me.mode == me.MODE_TERRAIN or me.mode == me.MODE_AIR;
     },
 
     # Indicates if radar returns strength should be normalised based on distance and altitude
     # ('styrd dämpning' in the manual)
     useDistanceNorm: func {
-        # TODO
-        return input.filter.getBoolValue();
-    },
+        if (me.mode == me.MODE_TERRAIN) return TRUE;
 
-    terrainMode: func {
-        if (!me.has_terrain_mode) return FALSE;
-
-        me.terrain_mode = TRUE;
-        return TRUE;
-    },
-
-    memoryMode: func {
-        if (!me.has_memory_mode or me.terrain_mode) return FALSE;
-
-        StandbyMode.memoryModeFrom(me);
-        return TRUE;
-    },
-
-    enterMode: func {
-        me.terrain_mode = FALSE;
+        var filter = input.filter.getBoolValue();
+        if (me.mode == me.MODE_AIR) {
+            return (filter == 1 or filter == 2 or filter == 7);
+        } elsif (me.mode == me.MODE_RB04) {
+            return (filter == 1 or filter == 2);
+        } else {
+            return (filter <= 2 or filter == 7);
+        }
     },
 };
 
-# Sweep parameters
+# Subclasses for narrow/wide scan
 var WideScanMode = {
-    parents: [PS37Mode],
+    parents: [ScanMode],
     az: 61.5,           # width of search
     discSpeed_dps: 110, # sweep speed
 };
 
 var NarrowScanMode = {
-    parents: [PS37Mode],
+    parents: [ScanMode],
     az: 32,             # width of search
     discSpeed_dps: 60,  # sweep speed
 };
 
 
-# Standby modes
+# Standby / special modes
 
 var StandbyMode = {
     # Radar off, antenna parked
@@ -359,26 +350,14 @@ var StandbyMode = {
     longName: "Standby",
     active: FALSE,
 
-    az: 61.5,           # width of search
-    discSpeed_dps: 110, # sweep speed
+    az: 61.5,
+    discSpeed_dps: 110,
+
+    bars: 1,
     barPattern: [[[-1,0]]],
-
-    # calling mode, when used for memory mode
-    parent_mode: nil,
-
-    # Terrain mode overrides memory mode
-    terrainMode: func {
-        if (me.parent_mode == nil or !me.parent_mode.has_terrain_mode) return FALSE;
-
-        me.radar.setMode(me.parent_mode);
-        return me.parent_mode.terrainMode();
-    },
-
-    # Called by other modes when entering memory mode
-    memoryModeFrom: func(parent_mode) {
-        me.parent_mode = parent_mode;
-        me.radar.setMode(me);
-    },
+    barHeight: 1,
+    barPatternMin: [0],
+    barPatternMax: [0],
 
     preStep: func {
         me.horizonStabilized = 0;
@@ -397,7 +376,12 @@ var GroundRangingMode = {
 
     az: 61.5,           # width of search
     discSpeed_dps: 110, # sweep speed
+
+    bars: 1,
     barPattern: [[[0,0]]],
+    barHeight: 1,
+    barPatternMin: [0],
+    barPatternMax: [0],
 };
 
 var PassiveMode = {
@@ -408,87 +392,54 @@ var PassiveMode = {
     active: FALSE,
 };
 
-# Normal scan modes (including terrain / memory submodes)
-
-var NormalWideMode = {
-    parents: [WideScanMode],
-
-    shortName: "RBK",
-    longName: "Wide Scan",
-    has_terrain_mode: TRUE,
-    has_memory_mode: TRUE,
-};
-
-var NormalNarrowMode = {
-    parents: [NarrowScanMode],
-
-    shortName: "RSK",
-    longName: "Narrow Scan",
-    has_terrain_mode: TRUE,
-    has_memory_mode: FALSE,
-};
-
-# Some weapons use normal scan mode, but disable terrain submode.
-
-var CombatWideMode = {
-    parents: [NormalWideMode],
-
-    shortName: "RBK-ANF",
-    longName: "Wide Scan ANF",
-    has_terrain_mode: FALSE,
-};
-
-var CombatNarrowMode = {
-    parents: [NormalNarrowMode],
-
-    shortName: "RSK-ANF",
-    longName: "Narrow Scan ANF",
-    has_terrain_mode: FALSE,
-};
-
-# A/A modes
-
-var AirWideMode = {
-    parents: [WideScanMode],
-
-    shortName: "RBJR",
-    longName: "A/A Wide Scan",
-    air_mode: TRUE,
-};
-
-var AirNarrowMode = {
-    parents: [NarrowScanMode],
-
-    shortName: "RSJR",
-    longName: "A/A Narrow Scan",
-    air_mode: TRUE,
-};
-
 var LockMode = {
     parents: [PS37Mode],
     # TODO
 };
 
 
-### Array of main mode, each being an array of submodes (not used)
+### Array of main mode, each being an array of submodes (not used except for initialization)
 var ps37_modes = [[
     StandbyMode,
-    GroundRangingMode,
     PassiveMode,
-    NormalWideMode,
-    NormalNarrowMode,
-    CombatWideMode,
-    CombatNarrowMode,
-    AirWideMode,
-    AirNarrowMode,
+    GroundRangingMode,
+    WideScanMode,
+    NarrowScanMode,
     LockMode,
 ]];
 
 var ps37 = nil;
 
 
+# Set PS37 mode based on controller RADAR_MODE output.
 
-### Controls
+# Table of [mode, submode]. Indices match ps37_mode.RADAR_MODE.
+var update_mode_table = [
+    [StandbyMode, nil],                     # STBY
+    [PassiveMode, nil],                     # PASSIVE
+    [GroundRangingMode, nil],               # GND_RNG
+    [WideScanMode, ScanMode.MODE_NORMAL],   # NORMAL
+    [WideScanMode, ScanMode.MODE_TERRAIN],  # TERRAIN
+    [WideScanMode, ScanMode.MODE_RB04],     # RB04
+    [WideScanMode, ScanMode.MODE_AIR],      # AIR
+    [LockMode, nil],                        # AIR_RNG
+];
+
+var update_mode = func {
+    var new_mode = update_mode_table[ps37_mode.radar_mode][0];
+    if (new_mode == WideScanMode and ps37_mode.scan_mode == ps37_mode.SCAN_MODE.NARROW)
+        new_mode = NarrowScanMode;
+
+    if (new_mode != ps37.currentMode)
+        ps37.setMode(new_mode);
+
+    var submode =  update_mode_table[ps37_mode.radar_mode][1];
+    if (submode != nil and submode != new_mode.get_submode())
+        new_mode.set_submode(submode);
+}
+
+
+## Controls
 
 var increaseRange = func {
     ps37.increaseRange();
@@ -500,81 +451,13 @@ var decreaseRange = func {
     input.range.setValue(ps37.getRangeM());
 }
 
-var memory_mode = func {
-    ps37.memoryMode();
-}
-
 var terrain_mode = func {
-    ps37.terrainMode();
+    ps37_mode.terrain_mode();
 }
 
-
-var current_mode = StandbyMode;
-
-# This function returns the mode to be currently used.
-var choose_current_mode = func {
-    # Radar enable conditions
-    if (input.nose_wow.getBoolValue() or modes.selector_ajs <= modes.STBY)
-        return StandbyMode;
-
-    var mode = NormalWideMode;
-
-    # All the weird rules for weapon modes
-    if (input.selector_ajs.getValue() == modes.COMBAT) {
-        var type = fire_control.get_type();
-        var wpn_knob = input.wpn_knob.getValue();
-
-        if (type == "IR-RB"
-            or (type == "M55" and wpn_knob == fire_control.WPN_SEL.AKAN_JAKT)
-            or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
-        {
-            mode = (current_mode == LockMode) ? LockMode : AirWideMode;
-        }
-        elsif (type == "RB-04E" or type == "RB-15F" or type == "M90")
-        {
-            # Should be RB04 mode, which is slightly different.
-            mode = CombatWideMode;
-        }
-        elsif ((type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.PLAN_SJO)
-               or (type == "M71" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
-        {
-            mode = CombatWideMode;
-        }
-        elsif (type == "M70" or type == "RB-75"
-               or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.DYK_MARK_RB75)
-               or (type == "M55" and wpn_knob == fire_control.WPN_SEL.ATTACK)
-               or (type == "M71" and wpn_knob != fire_control.WPN_SEL.RR_LUFT))
-        {
-            mode = GroundRangingMode;
-        }
-    }
-
-    # Rest of the logic doesn't apply to the A/G ranging mode.
-    if (mode == GroundRangingMode) return mode;
-
-    # A0 gives standby or passive mode.
-    if (input.mode.getValue() == 0) {
-        return input.passive_mode.getBoolValue() ? PassiveMode : StandbyMode;
-    }
-
-    # Switch to corresponding narrow mode as required.
-    if (input.mode.getValue() == 2) {
-        if (mode == NormalWideMode) return NormalNarrowMode;
-        if (mode == CombatWideMode) return CombatNarrowMode;
-        if (mode == AirWideMode)    return AirNarrowMode;
-    }
-    return mode;
+var memory_mode = func {
+    ps37_mode.memory_mode();
 }
-
-var update_current_mode = func {
-    var mode = choose_current_mode();
-    if (mode == current_mode) return;
-
-    print("Radar mode "~mode.shortName);
-    ps37.setMode(mode);
-    current_mode = mode;
-}
-
 
 ### Initialization
 
@@ -583,9 +466,11 @@ var init = func {
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
     input.range.setValue(ps37.getRangeM());
-    update_current_mode();
 }
 
 var loop = func {
-    update_current_mode();
+    # Mode selection logic in ps37_mode.nas
+    ps37_mode.update_state();
+    # Transmit to radar code
+    update_mode();
 }
