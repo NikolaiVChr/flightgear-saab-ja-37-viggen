@@ -18,7 +18,7 @@
           channels.read_base_file(path.getValue());
         }
         var load_group_default = func {
-          channels.read_group_file(radios.default_group_channels);
+          channels.read_group_file(channels.default_group_channels);
         }
 
         var default_dir = getprop("/sim/fg-home");
