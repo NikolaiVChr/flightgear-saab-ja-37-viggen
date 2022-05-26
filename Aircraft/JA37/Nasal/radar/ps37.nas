@@ -86,7 +86,9 @@ var PS37 = {
     fieldOfRegardMaxAz: 65,
     fieldOfRegardMaxElev: 59.5,
     fieldOfRegardMinElev: -70.5,
-    instantFoVradius: 2.0,
+    # instantFoVradius * overlapHorizontal is the radar picture resolution in azimuth
+    instantFoVradius: 4.0,
+    overlapHorizontal: 0.5,
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
     timeToKeepBleps: 5,
@@ -134,12 +136,14 @@ var PS37Map = {
         me.radar = radar;
         me.radar.installMapper(me);
 
+        me.angle_res = me.radar.instantFoVradius * me.radar.overlapHorizontal;
+
         setsize(me.buffer, me.buffer_size);
     },
 
     scanGM: func(azimuth, elevation, vert_radius, horiz_radius, contacts) {
         # Restrict range to what can be displayed on the CI.
-        var clipped_buf_size = math.ceil(ci.azimuth_range(abs(azimuth) - horiz_radius, me.buffer_size, FALSE));
+        var clipped_buf_size = math.ceil(ci.azimuth_range(abs(azimuth) - me.angle_res/2, me.buffer_size, FALSE));
         var range = me.radar.getRangeM() * clipped_buf_size / me.buffer_size;
         var narrow = me.radar.isNarrowBeam();
 
@@ -165,7 +169,7 @@ var PS37Map = {
 
         gnd_rdr.signal_gain(me.buffer, me.buffer_size, input.gain.getValue(), input.linear_gain.getBoolValue());
 
-        ci.ci.draw_radar_data(azimuth, horiz_radius*2, me.buffer);
+        ci.ci.draw_radar_data(azimuth, me.angle_res, me.buffer);
     },
 
     clear_image: func {

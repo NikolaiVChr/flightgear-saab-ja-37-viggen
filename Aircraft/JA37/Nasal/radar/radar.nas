@@ -8,8 +8,6 @@ var FOR_SQUARE = 1;
 var DOPPLER = 1;
 var MONO = 0;
 
-var overlapHorizontal = 1.5;
-
 
 #   █████  ██ ██████  ██████   ██████  ██████  ███    ██ ███████     ██████   █████  ██████   █████  ██████  
 #  ██   ██ ██ ██   ██ ██   ██ ██    ██ ██   ██ ████   ██ ██          ██   ██ ██   ██ ██   ██ ██   ██ ██   ██ 
@@ -34,6 +32,7 @@ var AirborneRadar = {
 	rootMode: 0,
 	mainModes: nil,
 	instantFoVradius: 2.0,#average of horiz/vert radius
+	overlapHorizontal: 1.5,
 	instantVertFoVradius: 2.5,# real vert radius (could be used by ground mapper)
 	instantHoriFoVradius: 1.5,# real hori radius (not used)
 	rcsRefDistance: 70,
@@ -835,7 +834,7 @@ var RadarMode = {
 		}
 
 		# Lets move each axis of the radar seperate, as most radars likely has 2 joints anyway.
-		me.maxMove = math.min(me.radar.instantFoVradius*overlapHorizontal, me.discSpeed_dps*dt);# 1.75 instead of 2 is because the FoV is round so we overlap em a bit
+		me.maxMove = math.min(me.radar.instantFoVradius*me.radar.overlapHorizontal, me.discSpeed_dps*dt);# 1.75 instead of 2 is because the FoV is round so we overlap em a bit
 
 		# Azimuth
 		me.distance_deg = me.targetAzimuthTilt - me.radar.eulerX;
