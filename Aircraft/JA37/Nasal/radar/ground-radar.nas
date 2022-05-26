@@ -63,7 +63,7 @@ var bumpiness = func(info) {
 
 ### Physical effects on radar beam
 #
-# /!\ Quartic signal falloff with range is ignored entirely.
+# /!\ Quadratic signal falloff with range is ignored entirely.
 # In reality it would be compensated during post-processing.
 # For simulation it seems silly to add it and remove it later.
 
@@ -100,6 +100,16 @@ var refl_factor = func(info) {
 
 var wide_beam_half_angle = 4;
 var narrow_beam_half_angle = 2.5;
+
+var wide_beam_signal_factor = func(angle) {
+    angle = math.clamp(angle, -wide_beam_half_angle, wide_beam_half_angle);
+    return 1 - math.pow(angle, 2) / 16;
+}
+
+var narrow_beam_signal_factor = func(angle) {
+    angle = math.clamp(angle, -narrow_beam_half_angle, narrow_beam_half_angle);
+    return 1 - math.pow(angle, 4) / 39.0625;
+}
 
 var wide_beam_signal_int = func(angle) {
     angle = math.clamp(angle, -wide_beam_half_angle, wide_beam_half_angle);
@@ -170,6 +180,43 @@ var radar_query = func(ac_pos, heading, azimuth, elev, max_range, narrow_beam, b
     }
 
     return buffer;
+}
+
+
+### Aircrafts
+
+# Add aircraft radar returns, from a list of aircrafts (as AIContact objects)
+var aircraft_returns = func(azimuth, elev, max_range, narrow_beam, buffer, buf_size, contacts)
+{
+    foreach (var contact; contacts) {
+        var blep = contact.getLastBlep();
+        if (blep == nil) continue;
+
+        var range = blep.getRangeDirect();
+        var i = math.floor(buf_size * range / max_range);
+        if (i >= buf_size) continue;
+
+        var max_detect_range = blep.getStrength();
+
+        # Signal strength decreases proportionally to dist^2.
+        # More precisely:
+        # - Signal strength from ground should decrease like dist^2,
+        #   because the full radar beam is reflected, and the loss corresponds to the back trip.
+        # - Signal strength from aircrafts should decrease like dist^4,
+        #   because dist^2 is lost from radar to target, and from target back to radar.
+        # - I ignore the dist^2 loss for ground, the real radar normalises against that.
+        #   So a dist^2 loss remains to simulate for aircrafts.
+        #
+        var strength = (max_detect_range / range) * (max_detect_range / range) / 100;
+
+        # Deviation from center of beam
+        var elev_dev = blep.getElev() - elev;
+        var azi_dev = blep.getAZDeviation() - azimuth;
+        strength *= wide_beam_signal_factor(narrow_beam ? azi_dev : elev_dev)
+                  * narrow_beam_signal_factor(narrow_beam ? elev_dev : azi_dev);
+
+        buffer[i] = math.max(buffer[i], strength);
+    }
 }
 
 

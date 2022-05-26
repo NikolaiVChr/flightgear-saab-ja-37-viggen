@@ -137,24 +137,30 @@ var PS37Map = {
         setsize(me.buffer, me.buffer_size);
     },
 
-    scanGM: func(azimuth, elevation, vert_radius, horiz_radius) {
+    scanGM: func(azimuth, elevation, vert_radius, horiz_radius, contacts) {
         # Restrict range to what can be displayed on the CI.
         var clipped_buf_size = math.ceil(ci.azimuth_range(abs(azimuth) - horiz_radius, me.buffer_size, FALSE));
         var range = me.radar.getRangeM() * clipped_buf_size / me.buffer_size;
+        var narrow = me.radar.isNarrowBeam();
 
+        # Ground returns
         gnd_rdr.radar_query(self.getCoord(), self.getHeading(), azimuth, elevation,
-                            range, me.radar.isNarrowBeam(), me.buffer, clipped_buf_size);
+                            range, narrow, me.buffer, clipped_buf_size);
 
         for (var i = clipped_buf_size; i < me.buffer_size; i+=1) {
             me.buffer[i] = 0.0;
         }
 
+        # Aircraft returns
+        gnd_rdr.aircraft_returns(azimuth, elevation, range, narrow, me.buffer, clipped_buf_size, contacts);
+
+        # Signal normalisation
         # Do not use clipped range / buffer size here, it affects normalisation
 
         if (me.radar.useDistanceNorm()) {
             gnd_rdr.signal_norm_distance(me.buffer, me.buffer_size, me.radar.getRangeM(), input.display_alt.getValue());
         } else {
-            gnd_rdr.signal_norm_basic(me.buffer, me.buffer_size, me.radar.isNarrowBeam());
+            gnd_rdr.signal_norm_basic(me.buffer, me.buffer_size, narrow);
         }
 
         gnd_rdr.signal_gain(me.buffer, me.buffer_size, input.gain.getValue(), input.linear_gain.getBoolValue());
@@ -195,6 +201,9 @@ var PS37Mode = {
     pulse: MONO,
     detectSURFACE: 1,
     detectMARINE: 1,
+
+    # Allow a contact to register twice in the same sweep due to beam overlap.
+    minimumTimePerReturn: 0.0,
 
     rootName: "PS37",
     shortName: "",

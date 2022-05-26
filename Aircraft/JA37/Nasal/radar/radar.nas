@@ -349,8 +349,6 @@ var AirborneRadar = {
 			iff.last_interogate = systime();
 		}
 
-    	if (me["gmapper"] != nil) me.gmapper.scanGM(me.eulerX, me.eulerY, me.instantVertFoVradius, me.instantFoVradius);
-
     	# test for passive ECM (chaff)
 		# 
 		me.closestChaff = 1000000;# meters
@@ -381,7 +379,8 @@ var AirborneRadar = {
 			}
 		}
 
-    	me.testedPrio = 0;
+		me.testedPrio = 0;
+		if (me["gmapper"] != nil) me.thisFOVcontacts = [];
 		foreach(var contact ; me.vector_aicontacts_for) {
 			if (!me.tiedIFF and me.doIFF) {
 				me.runIFF(contact);
@@ -423,13 +422,18 @@ var AirborneRadar = {
 			if (me.beamDeviation < me.instantFoVradius and (me.dev.rangeDirect_m < me.closestChaff or rand() < me.chaffFilter) ) {#  and (me.closureReject == -1 or me.dev.closureSpeed > me.closureReject)
 				# TODO: Refine the chaff conditional (ALOT)
 				me.registerBlep(contact, me.dev, me.currentMode.painter, me.currentMode.pulse);
+				if (me["gmapper"] != nil) append(me.thisFOVcontacts, contact);
 				#print("REGISTER BLEP");
 
 				# Return here, so that each instant FoV max gets 1 target:
 				# TODO: refine by testing angle between contacts seen in this FoV
-				break;
+				#break;
 			}
 		}
+
+		if (me["gmapper"] != nil)
+			me.gmapper.scanGM(me.eulerX, me.eulerY, me.instantVertFoVradius, me.instantFoVradius, me.thisFOVcontacts);
+
 
 		if(me.debug > 1 and me.currentMode.painter and !me.testedPrio) {
 			setprop("debug-radar/main-beam-deviation", "--unseen-lock--");
