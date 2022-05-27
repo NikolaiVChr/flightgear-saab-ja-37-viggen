@@ -3,8 +3,9 @@
 varying vec3 VNormal;
 varying vec3 eyeVec;
 
+varying vec3 filter_color;
+
 uniform sampler2D texture;
-uniform float polaroid_filter;
 uniform float time_norm;
 uniform int display_mode;
 
@@ -31,9 +32,10 @@ const vec2 PPI_top_right = PPI_origin + vec2(PPI_side, PPI_side_top);
 const float PPI_corner_angle = asin(PPI_side / PPI_radius);
 
 
-const vec3 bg_color = vec3(0.3, 1.0, 0.3);
-const vec3 rdr_color = vec3(0.0, 0.0, 0.0);
-const vec3 symb_color = vec3(0.9, 1.0, 0.9);
+// Intensity for various parts of image
+const float bg_color = 1.0;
+const float rdr_color = 0.0;
+const float symb_color = 3.0;
 
 
 // Neighbour sampling for image decay
@@ -106,14 +108,14 @@ vec2 radar_texture_PPI(vec4 PPI_pos)
 void main()
 {
     vec2 pos = gl_TexCoord[0].st;
-    vec3 color = vec3(0.0, 0.0, 0.0);
+    float intensity = 0.0;
 
     if (display_mode == 1) {
         // PPI display
         vec4 PPI_pos = PPI_coord(pos);
 
         if (abs(PPI_pos.w) >= PPI_half_angle) {
-            color = bg_color;
+            intensity = bg_color;
         } else if (all(lessThan(abs(PPI_pos.xzw), PPI_limit_xzw))) {
             // (strength, age)
             vec2 radar = radar_texture_PPI(PPI_pos);
@@ -132,7 +134,7 @@ void main()
             }
 
             radar_str = min(radar_str, 1.0);
-            color = mix(bg_color, rdr_color, radar_str);
+            intensity = mix(bg_color, rdr_color, radar_str);
         }
     } else if (display_mode == 2) {
         // B-scope
@@ -140,8 +142,8 @@ void main()
 
     // Symbols overlay (red component of texture)
     float symbols = texture2D(texture, pos).r;
-    color = mix(color, symb_color, symbols);
+    intensity = mix(intensity, symb_color, symbols);
 
-    gl_FragColor.rgb = color;
+    gl_FragColor.rgb = clamp(filter_color * intensity, 0.0, 1.0);
     gl_FragColor.a = 1.0;
 }
