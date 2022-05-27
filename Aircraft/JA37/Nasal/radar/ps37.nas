@@ -93,6 +93,16 @@ var PS37 = {
     rcsRefValue: 3.2,
     timeToKeepBleps: 5,
 
+    quality_settings: [
+        { overlapHorizontal: 0.5, },
+        { overlapHorizontal: 0.33, },
+        { overlapHorizontal: 0.25, },
+    ],
+
+    update_quality: func(quality) {
+        me.overlapHorizontal = me.quality_settings[quality].overlapHorizontal;
+    },
+
     # Tests if the radar is serviceable, not if it is on.
     isEnabled: func {
         return input.radar_serv.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
@@ -138,6 +148,12 @@ var PS37Map = {
 
         me.angle_res = me.radar.instantFoVradius * me.radar.overlapHorizontal;
 
+        me.update_quality(input.quality.getValue());
+    },
+
+    update_quality: func(quality) {
+        # Buffer size is vertical resolution of canvas image
+        me.buffer_size = ci.RadarImage.quality_settings[quality].height;
         setsize(me.buffer, me.buffer_size);
     },
 
@@ -480,11 +496,19 @@ var memory_mode = func {
 
 ### Initialization
 
+var quality_listener = nil;
+
 var init = func {
     init_generic();
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
     input.range.setValue(ps37.getRangeM());
+
+    if (quality_listener != nil) removelistener(quality_listener);
+    quality_listener = setlistener(input.quality, func (node) {
+        ps37.update_quality(node.getValue());
+        PS37Map.update_quality(node.getValue());
+    }, 0, 0);
 }
 
 var loop = func {

@@ -16,6 +16,7 @@ var input = {
     time:           "sim/time/elapsed-sec",
     radar_time:     "instrumentation/radar/effect/time",
     beam_angle:     "instrumentation/radar/effect/beam-angle",
+    quality:        "instrumentation/radar/ground-radar-quality",
 };
 
 foreach(var name; keys(input)) {
@@ -73,7 +74,12 @@ var azimuth_range = func(azimuth, max_range, b_scope) {
 
 var RadarImage = {
     img_full_res: 128,
-    img_res: 64,
+
+    quality_settings: [
+        { width:64, height:32, },
+        { width:96, height:48, },
+        { width:128, height:64, },
+    ],
 
     new: func(parent) {
         var m = { parents: [RadarImage], parent: parent, };
@@ -82,14 +88,22 @@ var RadarImage = {
     },
 
     init: func {
-        me.scale = canvas_size / me.img_res;
-
         me.img = me.parent.createChild("image")
-            .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png")
-            .setScale(me.scale, me.scale)
-            .setTranslation(-32 * me.scale, -96 * me.scale);
+            .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png");
+
+        me.update_quality(input.quality.getValue());
 
         me.display = -1;
+    },
+
+    update_quality: func(quality) {
+        me.clear_img();
+
+        me.width = me.quality_settings[quality].width;
+        me.height = me.quality_settings[quality].height;
+
+        me.img.setScale(canvas_size / me.width, canvas_size / me.height);
+        me.img.setTranslation(0, canvas_size * (1.0 - me.img_full_res / me.height));
     },
 
     clear_img: func {
@@ -98,18 +112,20 @@ var RadarImage = {
     },
 
     draw_azimuth_data: func(azimuth, azi_width, data) {
-        var min_x = math.floor(((azimuth - azi_width/2)*0.5/PPI_half_angle + 0.5) * me.img_res);
-        var max_x = math.floor(((azimuth + azi_width/2)*0.5/PPI_half_angle + 0.5) * me.img_res);
+        var min_x = math.floor(((azimuth - azi_width/2)*0.5/PPI_half_angle + 0.5) * me.width);
+        var max_x = math.floor(((azimuth + azi_width/2)*0.5/PPI_half_angle + 0.5) * me.width);
         min_x = math.max(min_x, 0);
-        max_x = math.min(max_x, me.img_res);
+        max_x = math.min(max_x, me.width);
+
+        if (min_x == max_x) return;
 
         var t = math.fmod(input.time.getValue() / 60.0, 1);
 
-        for (var y = 0; y < me.img_res; y += 1) {
+        for (var y = 0; y < me.height; y += 1) {
             var val = math.clamp(data[y], 0, 1);
             var color = [0,val,t,1];
 
-            for (var x = min_x; x <= max_x; x += 1) {
+            for (var x = min_x; x < max_x; x += 1) {
                 me.img.setPixel(x, y, color);
             }
         }
@@ -309,7 +325,12 @@ var CI = {
         me.symbols_grp = me.root.createChild("group", "symbols")
             .set("z-index", 0)
             .set("stroke", "rgba(255,0,0,1)")
-            .set("stroke-width", me.symbols_width);
+            .set("stroke-width", me.symbols_width)
+            .setTranslation(canvas_size/2, canvas_size/2);
+
+        me.rdr_symbols_grp = me.symbols_grp.createChild("group", "radar symbols")
+            .setTranslation(0, PPI_base_offset)
+            .setRotation(-math.pi/2);
 
         me.img_grp = me.root.createChild("group", "radar image")
             # HIGHER z-index, for blending magic
@@ -317,10 +338,6 @@ var CI = {
             # Additive blend, the two groups use different color channels, which must be treated independently.
             .set("blend-source", "one")
             .set("blend-destination", "one");
-
-        me.rdr_symbols_grp = me.symbols_grp.createChild("group", "radar symbols")
-            .setTranslation(0,PPI_base_offset)
-            .setRotation(-math.pi/2);
 
         me.radar_img = RadarImage.new(me.img_grp);
         me.nav_symbols = NavSymbols.new(me.rdr_symbols_grp);
@@ -350,6 +367,10 @@ var CI = {
 
         # Mode controlled by ps37_mode.nas (shared with radar)
         me.set_mode(ps37_mode.ci_mode, ps37_mode.scan_mode or DISPLAY.PPI);
+    },
+
+    update_quality: func(quality) {
+        me.radar_img.update_quality(quality);
     },
 
     update: func {
@@ -405,8 +426,7 @@ var CICanvas = {
         me.canvas.setColorBackground(0,0,0,1);
 
         # Root group (centered)
-        me.root = me.canvas.createGroup("root")
-            .setTranslation(me.width/2, me.width/2);
+        me.root = me.canvas.createGroup("root");
     },
 
     add_placement: func(placement) {
@@ -419,10 +439,17 @@ var CICanvas = {
 var ci_cvs = nil;
 var ci = nil;
 
+var quality_listener = nil;
+
 var init = func {
     ci_cvs = CICanvas.new();
     ci_cvs.add_placement({"node": "radarScreen", "texture": "radar-canvas.png"});
     ci = CI.new(ci_cvs.root);
+
+    if (quality_listener != nil) removelistener(quality_listener);
+    quality_listener = setlistener(input.quality, func (node) {
+        ci.update_quality(node.getValue());
+    }, 0, 0);
 }
 
 var loop = func {
