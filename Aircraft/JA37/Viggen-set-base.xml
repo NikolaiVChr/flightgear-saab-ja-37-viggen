@@ -1501,6 +1501,9 @@
             <range type="int">15000</range>             <!-- for 3D model only -->
             <polaroid-filter type="double">1</polaroid-filter>
             <ground-radar-quality type="int">1</ground-radar-quality>
+            <effect>
+                <time type="float">0.0</time>
+            </effect>
         </radar>
         <rwr>
           <ajs-lights>

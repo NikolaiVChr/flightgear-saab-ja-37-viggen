@@ -397,6 +397,8 @@ var CI = {
     # Call this each frame once the radar is done drawing
     show_radar_image: func {
         me.radar_img.show_image();
+        # Radar shader input properties
+        input.radar_time.setValue(math.fmod(input.time.getValue() / 60.0, 1));
     },
 
     clear_radar_image: func {
