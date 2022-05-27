@@ -280,6 +280,7 @@ var AirborneRadar = {
 		me.elapsed = elapsedProp.getValue();
 		me.dt = me.elapsed - me.lastElapsed;
 		me.lastElapsed = me.elapsed;
+		me.dt = math.min(me.dt, maxDt);
 		if (me.enabled) {
 			if (me.active and me.currentMode.painter and me.currentMode.detectAIR) {
 				# We need faster updates to not lose track of oblique flying locks close by when in STT.
@@ -1130,6 +1131,7 @@ var MissileDatalink = {
 # Some global properties and parameters
 
 var scanInterval = 0.05;
+var maxDt = 0.1;
 
 var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
 var iffProp = props.globals.getNode("instrumentation/radar/iff",1);
