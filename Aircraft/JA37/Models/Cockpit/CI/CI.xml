@@ -34,7 +34,11 @@
     <object-name>light30</object-name>
     <object-name>light60</object-name>
     <object-name>light120</object-name>
-    <object-name>screen</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/displays/ci</inherits-from>
+    <object-name>radarScreen</object-name>
   </effect>
 
   <animation>

@@ -13,7 +13,9 @@ var input = {
     fiveHz:         "ja37/blink/five-Hz/state",
     radar_range:    "instrumentation/radar/range",
     radar_filter:   "instrumentation/radar/polaroid-filter",
-    radar_quality:  "instrumentation/radar/ground-radar-quality",
+    time:           "sim/time/elapsed-sec",
+    radar_time:     "instrumentation/radar/effect/time",
+    beam_angle:     "instrumentation/radar/effect/beam-angle",
 };
 
 foreach(var name; keys(input)) {
@@ -67,52 +69,11 @@ var azimuth_range = func(azimuth, max_range, b_scope) {
 }
 
 
-### Radar image green background
-
-var RadarBackground = {
-    new: func(parent) {
-        var m = { parents: [RadarBackground], parent: parent, };
-        m.init();
-        return m;
-    },
-
-    init: func {
-        me.PPI = me.parent.createChild("path")
-            .moveTo(-canvas_size/2, canvas_size/2)
-            .lineTo(canvas_size / 2 / math.tan(PPI_half_angle * D2R), canvas_size/2)
-            .lineTo(PPI_side_bot, PPI_side)
-            .lineTo(PPI_side_top, PPI_side)
-            .arcSmallCCW(PPI_radius, PPI_radius, 0, 0, -2*PPI_side)
-            .lineTo(PPI_side_bot, -PPI_side)
-            .lineTo(canvas_size / 2 / math.tan(PPI_half_angle * D2R), -canvas_size/2)
-            .lineTo(-canvas_size/2, -canvas_size/2)
-            .close();
-
-        me.B_scope = me.parent.createChild("path")
-            .moveTo(B_scope_origin, -B_scope_half_width)
-            .line(B_scope_height, 0)
-            .line(0, 2*B_scope_half_width)
-            .line(-B_scope_height, 0)
-            .close();
-    },
-
-    set_mode: func(mode, display) {
-        me.PPI.setVisible(display == DISPLAY.PPI);
-        me.B_scope.setVisible(display == DISPLAY.B);
-    },
-};
-
-
 ### Radar picture
 
 var RadarImage = {
-    quality_settings: [
-        { img_res: 64, },
-        { img_res: 96, },
-        { img_res: 128, },
-    ],
-
     img_full_res: 128,
+    img_res: 64,
 
     new: func(parent) {
         var m = { parents: [RadarImage], parent: parent, };
@@ -121,57 +82,35 @@ var RadarImage = {
     },
 
     init: func {
-        me.img = me.parent.createChild("image")
-            .set("blend-source-rgb","zero")
-            .set("blend-source-alpha","zero")
-            .set("blend-destination-rgb","one-minus-src-color")
-            .set("blend-destination-alpha","one")
-            .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png");
+        me.scale = canvas_size / me.img_res;
 
-        me.update_quality(input.radar_quality.getValue());
+        me.img = me.parent.createChild("image")
+            .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png")
+            .setScale(me.scale, me.scale)
+            .setTranslation(-32 * me.scale, -96 * me.scale);
 
         me.display = -1;
     },
 
-    update_quality: func(quality) {
-        me.clear_img();
-
-        # Only part of the image is used at lower quality settings.
-        me.img_res = me.quality_settings[quality].img_res;
-        me.from_px = PPI_radius / me.img_res;       # internal units per pixel
-        me.to_px = 1 / me.from_px;                  # pixels per internal unit
-
-        # The entire width of the image is not used.
-        me.img_half_width = math.ceil(PPI_side * me.to_px);
-
-        # y is inverted in images...
-        me.img.setScale(me.from_px, -me.from_px);
-        # PPI origin at bottom center of image.
-        # y translation is positive because of the previous setScale().
-        me.img.setTranslation(0, (me.img_full_res / 2) * me.from_px);
-    },
-
     clear_img: func {
-        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,0,1]);
+        var t = math.fmod(input.time.getValue() / 60.0, 1);
+        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,t,0]);
     },
 
     draw_azimuth_data: func(azimuth, azi_width, data) {
-        var min_angle = azimuth - azi_width/2;
-        var max_angle = azimuth + azi_width/2;
-        var min_tan = math.tan(min_angle * D2R);
-        var max_tan = math.tan(max_angle * D2R);
+        var min_x = math.floor(((azimuth - azi_width/2)*0.5/PPI_half_angle + 0.5) * me.img_res);
+        var max_x = math.floor(((azimuth + azi_width/2)*0.5/PPI_half_angle + 0.5) * me.img_res);
+        min_x = math.max(min_x, 0);
+        max_x = math.min(max_x, me.img_res);
 
-        for (var x = 0; x < me.img_res; x+=1) {
-            var y_min = math.max(math.ceil(min_tan * x), -me.img_half_width);
-            var y_max = math.min(math.floor(max_tan * x), me.img_half_width);
+        var t = math.fmod(input.time.getValue() / 60.0, 1);
 
-            for (var y = y_min; y <= y_max; y+=1) {
-                var dist = math.sqrt(x*x + y*y) * me.from_px;
-                if (dist >= PPI_radius) continue;
+        for (var y = 0; y < me.img_res; y += 1) {
+            var val = math.clamp(data[y], 0, 1);
+            var color = [0,val,t,1];
 
-                var val = data[math.floor(dist / PPI_radius * size(data))];
-                val = math.clamp(val, 0, 1);
-                me.img.setPixel(x, y + me.img_full_res/2, [val, val, val, 1]);
+            for (var x = min_x; x <= max_x; x += 1) {
+                me.img.setPixel(x, y, color);
             }
         }
     },
@@ -185,113 +124,6 @@ var RadarImage = {
         me.display = display;
 
         me.img.setVisible(mode != MODE.STBY and display == DISPLAY.PPI);
-    },
-};
-
-
-### Radar image reference marks
-
-var RadarMarks = {
-    new: func(parent) {
-        var m = { parents: [RadarMarks], parent: parent, };
-        m.init();
-        return m;
-    },
-
-    init: func {
-        me.PPI_marks = me.parent.createChild("group");
-
-        me.center_line = me.PPI_marks.createChild("path").lineTo(PPI_radius,0);
-        me.PPI_marks.createChild("path").lineTo(PPI_radius,0).setRotation(30 * D2R);
-        me.PPI_marks.createChild("path").lineTo(PPI_radius,0).setRotation(-30 * D2R);
-
-        var sn = math.sin(PPI_half_angle * D2R);
-        var cs = math.cos(PPI_half_angle * D2R);
-        me.arc10 = me.PPI_marks.createChild("path")
-            .moveTo(cs * 10, -sn * 10)
-            .arcSmallCW(10, 10, 0, 0, 20*sn);
-        me.arc20 = me.PPI_marks.createChild("path")
-            .moveTo(cs * 20, -sn * 20)
-            .arcSmallCW(20, 20, 0, 0, 40*sn);
-        me.arc40 = me.PPI_marks.createChild("path")
-            .moveTo(cs * 40, -sn * 40)
-            .arcSmallCW(40, 40, 0, 0, 80*sn);
-
-        var arc80_angle = math.asin(PPI_side / 80);
-        var arc80_bot = 80 * math.cos(arc80_angle);
-        me.arc80 = me.PPI_marks.createChild("path")
-            .moveTo(arc80_bot, -PPI_side)
-            .arcSmallCW(80, 80, 0, 0, 2*PPI_side);
-
-        me.display = -1;
-    },
-
-    set_mode: func(mode, display) {
-        me.display = display;
-        me.PPI_marks.setVisible(display == DISPLAY.PPI);
-    },
-
-    update: func {
-        if (me.display != DISPLAY.PPI) return;
-
-        var range = input.radar_range.getValue();
-        me.arc10.setVisible(range >= 120000);
-        me.arc20.setVisible(range >= 60000);
-        me.arc40.setVisible(range >= 30000);
-    },
-};
-
-
-### Sweeping beam
-
-var RadarBeam = {
-    new: func(dim_grp, bright_grp) {
-        var m = { parents: [RadarBeam], dim_grp: dim_grp, bright_grp: bright_grp, };
-        m.init();
-        return m;
-    },
-
-    init: func {
-        me.dim_beam = me.dim_grp.createChild("path")
-            .moveTo(-3,0).line(0,7).line(canvas_size,0).line(0,-7).close();
-        me.bright_beam = me.bright_grp.createChild("path")
-            .moveTo(-3,7).line(canvas_size,0);
-
-        me.display = -1;
-        me.last_pos = 0;
-        me.dir = 1;
-    },
-
-    show_beam: func(angle, dir) {
-        me.dim_beam.setRotation(angle * dir * D2R);
-        me.dim_beam.setScale(1, dir);
-        me.dim_beam.show();
-        me.bright_beam.setRotation(angle * dir * D2R);
-        me.bright_beam.setScale(1, dir);
-        me.bright_beam.show();
-    },
-
-    hide_beam: func {
-        me.dim_beam.hide();
-        me.bright_beam.hide();
-    },
-
-    set_mode: func(mode, display) {
-        me.display = display;
-
-        var visible = display == DISPLAY.PPI;
-        me.dim_beam.setVisible(visible);
-        me.bright_beam.setVisible(visible);
-    },
-
-    update: func {
-        if (me.display != DISPLAY.PPI) return;
-
-        var pos = radar.ps37.getCaretPosition()[0] * radar.ps37.fieldOfRegardMaxAz;
-        if (pos > me.last_pos) me.dir = 1;
-        elsif (pos < me.last_pos) me.dir = -1;
-        me.last_pos = pos;
-        me.show_beam(pos, me.dir);
     },
 };
 
@@ -474,91 +306,28 @@ var CI = {
             .set("stroke-linecap", "round")
             .set("stroke-linejoin", "round");
 
-        # Radar root groups (centered at lowest point of radar display, x right, y _up_)
-        me.PPI_root = me.root.createChild("group", "PPI")
+        me.symbols_grp = me.root.createChild("group", "symbols")
+            .set("z-index", 0)
+            .set("stroke", "rgba(255,0,0,1)")
+            .set("stroke-width", me.symbols_width);
+
+        me.img_grp = me.root.createChild("group", "radar image")
+            # HIGHER z-index, for blending magic
+            .set("z-index", 100)
+            # Additive blend, the two groups use different color channels, which must be treated independently.
+            .set("blend-source", "one")
+            .set("blend-destination", "one");
+
+        me.rdr_symbols_grp = me.symbols_grp.createChild("group", "radar symbols")
             .setTranslation(0,PPI_base_offset)
             .setRotation(-math.pi/2);
 
-        me.bg_grp = me.PPI_root.createChild("group", "background")
-            .set("z-index", 0);
-
-        me.img_grp = me.PPI_root.createChild("group", "radar image")
-            .set("z-index", 100);
-
-        me.marks_grp = me.PPI_root.createChild("group", "radar marks")
-            .set("stroke", "rgba(0,0,0,1)")
-            .set("stroke-width", me.radar_symbols_width)
-            .set("z-index", 200);
-
-        me.beam_grp = me.PPI_root.createChild("group", "symbols")
-            .set("z-index", 201);
-
-        me.symbols_grp = me.PPI_root.createChild("group", "symbols")
-            .set("stroke-width", me.symbols_width)
-            .set("z-index", 202);
-
-        me.horizon_grp = me.root.createChild("group", "horizon")
-            .set("stroke-width", me.symbols_width)
-            .set("z-index", 202);
-
-        me.color_listener = setlistener(input.radar_filter, func {
-            me.update_colors();
-        }, 1, 0);
-
-        me.radar_bg = RadarBackground.new(me.bg_grp);
         me.radar_img = RadarImage.new(me.img_grp);
-        me.radar_marks = RadarMarks.new(me.marks_grp);
-        me.radar_beam = RadarBeam.new(me.beam_grp, me.symbols_grp);
-        me.nav_symbols = NavSymbols.new(me.symbols_grp);
-        me.horizon = Horizon.new(me.horizon_grp);
+        me.nav_symbols = NavSymbols.new(me.rdr_symbols_grp);
+        me.horizon = Horizon.new(me.symbols_grp);
 
         me.mode = -1;
         me.display = -1;
-    },
-
-    update_colors: func {
-        filter = input.radar_filter.getValue();
-
-        # from 0=red to 1=green
-        var hue = 1 / (1 + math.exp(-10 * (filter - 0.5)));
-        var G_factor = math.min(1, 2*hue);
-        var R_factor = math.min(1, 2 - 2*hue);
-
-        # Radar background
-        var bg_value = 2*math.pow(filter, 0.9) - math.pow(filter, 1.3);
-        var bg_desat = math.pow(filter, 3) * 0.3;
-
-        var bg_rgb = [
-            bg_value * (R_factor + bg_desat * (1 - R_factor)),
-            bg_value * (G_factor + bg_desat * (1 - G_factor)),
-            bg_value * bg_desat,
-        ];
-        forindex (var i; bg_rgb) {
-            bg_rgb[i] = int(bg_rgb[i] * 255);
-        }
-        var bg_str = sprintf("rgba(%d,%d,%d,1)", bg_rgb[0], bg_rgb[1], bg_rgb[2]);
-        me.bg_grp.set("fill", bg_str);
-        me.beam_grp.set("fill", bg_str);
-
-        # Bright symbols layer
-        var smb_value = 2*math.pow(filter, 0.7) - math.pow(filter, 1.4);
-        var smb_desat = math.pow(filter, 1.8) * 0.9;
-
-        var smb_rgb = [
-            smb_value * (R_factor + smb_desat * (1 - R_factor)),
-            smb_value * (G_factor + smb_desat * (1 - G_factor)),
-            smb_value * smb_desat,
-        ];
-        forindex (var i; smb_rgb) {
-            smb_rgb[i] = int(smb_rgb[i] * 255);
-        }
-        var smb_str = sprintf("rgba(%d,%d,%d,1)", smb_rgb[0], smb_rgb[1], smb_rgb[2]);
-        me.symbols_grp.set("stroke", smb_str);
-        me.horizon_grp.set("stroke", smb_str);
-    },
-
-    update_quality: func(quality) {
-        me.radar_img.update_quality(quality);
     },
 
     set_mode: func(mode, display) {
@@ -567,10 +336,7 @@ var CI = {
         me.display = display;
 
         # For MODE.STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
-        me.radar_bg.set_mode(mode, display);
         me.radar_img.set_mode(mode, display);
-        me.radar_marks.set_mode(mode, display);
-        me.radar_beam.set_mode(mode, display);
         me.nav_symbols.set_mode(mode, display);
 
         me.root.setVisible(mode != MODE.STBY);
@@ -590,7 +356,6 @@ var CI = {
         me.update_mode();
         if (me.mode == MODE.STBY) return;
 
-        me.radar_marks.update();
         me.nav_symbols.update();
         me.horizon.update();
         me.show_radar_image();
@@ -611,7 +376,6 @@ var CI = {
     # Call this each frame once the radar is done drawing
     show_radar_image: func {
         me.radar_img.show_image();
-        me.radar_beam.update();
     },
 
     clear_radar_image: func {
@@ -654,18 +418,11 @@ var CICanvas = {
 
 var ci_cvs = nil;
 var ci = nil;
-var quality_listener = nil;
 
 var init = func {
     ci_cvs = CICanvas.new();
     ci_cvs.add_placement({"node": "radarScreen", "texture": "radar-canvas.png"});
     ci = CI.new(ci_cvs.root);
-
-    if (quality_listener != nil) removelistener(quality_listener);
-
-    quality_listener = setlistener(input.radar_quality, func(node) {
-        ci.update_quality(node.getValue());
-    }, 0, 0);
 }
 
 var loop = func {
