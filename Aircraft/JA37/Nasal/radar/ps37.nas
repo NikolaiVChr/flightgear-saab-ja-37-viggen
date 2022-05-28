@@ -367,7 +367,7 @@ var StandbyMode = {
     discSpeed_dps: 110,
 
     bars: 1,
-    barPattern: [[[-1,0]]],
+    barPattern: [[[0,0]]],
     barHeight: 1,
     barPatternMin: [0],
     barPatternMax: [0],
@@ -375,7 +375,7 @@ var StandbyMode = {
     preStep: func {
         me.horizonStabilized = 0;
         me.azimuthTilt = 0;
-        me.elevationTilt = 0;
+        me.elevationTilt = 50;    # AJS37 SFI part 3 chap 6 sec 5.6 page 20
     },
 };
 
