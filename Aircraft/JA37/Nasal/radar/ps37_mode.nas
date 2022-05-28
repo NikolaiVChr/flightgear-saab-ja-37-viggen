@@ -53,16 +53,16 @@ var scan_mode = SCAN_MODE.OTHER;
 ## Internal state
 
 var STATE = {
-    OFF: 0,
-    SILENT: 1,
-    PASSIVE: 2,
-    NORMAL: 3,
+    OFF: 0,     # CI and radar off
+    SILENT: 1,  # CI on, radar off
+    PASSIVE: 2, # CI on, radar passive (not really simulated)
+    NORMAL: 3,  # CI on, various radar submodes below
     TERRAIN: 4,
     ATTACK: 5,
     RB04: 6,
     AIR: 7,
-    GND_RNG: 8,
-    AIR_RNG: 9,
+    GND_RNG: 8, # CI off, radar for ground ranging (simulated separately, so actually radar off)
+    AIR_RNG: 9, # CI off, radar for air ranging
 };
 
 # Internal state to output conversion table.
@@ -115,7 +115,7 @@ var decide_state = func(click) {
     if (modes.selector_ajs <= modes.STBY)
         return STATE.OFF;
 
-    if (input.nose_wow.getBoolValue())
+    if (input.nose_wow.getBoolValue() or !displays.common.radar_on)
         return (modes.selector_ajs >= modes.LND_NAV or ci_tmp_on) ? STATE.SILENT : STATE.OFF;
 
     # Careful with order: ranging for ground attack ignores radar switch A0
