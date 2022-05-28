@@ -115,9 +115,6 @@ var decide_state = func(click) {
     if (modes.selector_ajs <= modes.STBY)
         return STATE.OFF;
 
-    if (input.nose_wow.getBoolValue() or !displays.common.radar_on)
-        return (modes.selector_ajs >= modes.LND_NAV or ci_tmp_on) ? STATE.SILENT : STATE.OFF;
-
     # Careful with order: ranging for ground attack ignores radar switch A0
     if (modes.selector_ajs == modes.COMBAT) {
         type = fire_control.get_type();
@@ -172,6 +169,14 @@ var update_state = func {
     var click = (current_state == STATE.AIR and displays.common.getCursorDelta()[2]);
 
     var new_state = decide_state(click);
+
+    if (input.nose_wow.getBoolValue() or !displays.common.radar_on) {
+        # Radar is off, downgrade to OFF or SILENT state, depending on whether CI should be on.
+        if (new_state == STATE.OFF or new_state == STATE.GND_RNG or new_state == STATE.AIR_RNG)
+            new_state = STATE.OFF;
+        else
+            new_state = STATE.SILENT;
+    }
 
     if (new_state >= STATE.NORMAL and new_state <= STATE.AIR)
         var new_scan_mode = input.radar_mode.getValue();
