@@ -14,6 +14,7 @@ var input = {
     radar_range:    "instrumentation/radar/range",
     radar_filter:   "instrumentation/radar/polaroid-filter",
     time:           "sim/time/elapsed-sec",
+    shader_mode:    "instrumentation/radar/effect/mode",
     radar_time:     "instrumentation/radar/effect/time",
     beam_pos:       "instrumentation/radar/effect/beam-pos-norm",
     beam_dir:       "instrumentation/radar/effect/beam-dir",
@@ -355,6 +356,11 @@ var CI = {
         if (me.mode == mode and me.display == display) return;
         me.mode = mode;
         me.display = display;
+
+        if (me.mode == MODE.STBY)
+            input.shader_mode.setValue(0);
+        else
+            input.shader_mode.setValue(me.display == DISPLAY.PPI ? 1 : 2);
 
         # For MODE.STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
         me.radar_img.set_mode(mode, display);

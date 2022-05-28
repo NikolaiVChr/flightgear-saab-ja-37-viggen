@@ -1502,6 +1502,7 @@
             <polaroid-filter type="double">1</polaroid-filter>
             <ground-radar-quality type="int">1</ground-radar-quality>
             <effect>
+                <mode type="int">0</mode>
                 <time type="float">0.0</time>
                 <beam-pos-norm type="float">0.0</beam-pos-norm>
                 <beam-dir type="int">1.0</beam-dir>

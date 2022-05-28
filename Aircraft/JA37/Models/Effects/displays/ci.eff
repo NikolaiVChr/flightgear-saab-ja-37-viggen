@@ -19,7 +19,7 @@
     <vertex-program-two-side type="bool">false</vertex-program-two-side>
 
     <polaroid-filter><use>/instrumentation/radar/polaroid-filter</use></polaroid-filter>
-    <display-mode><use>/instrumentation/radar/mode</use></display-mode>
+    <display-mode><use>/instrumentation/radar/effect/mode</use></display-mode>
     <time-norm><use>/instrumentation/radar/effect/time</use></time-norm>
     <beam-pos><use>/instrumentation/radar/effect/beam-pos-norm</use></beam-pos>
     <beam-dir><use>/instrumentation/radar/effect/beam-dir</use></beam-dir>
