@@ -36,9 +36,10 @@ var radar_mode = RADAR_MODE.STBY;
 
 var CI_MODE = {
     # TODO
-    STBY: 0,     # CU
-    NORMAL: 1,
-    MEMORY: 2,
+    STBY: 0,    # CU
+    SILENT: 1,  # CPP
+    NORMAL: 2,
+    MEMORY: 3,
 };
 var ci_mode = CI_MODE.STBY;
 
@@ -71,8 +72,9 @@ var STATE = {
 #
 var state_to_mode = [
     [RADAR_MODE.STBY, CI_MODE.STBY],        # OFF
-    [RADAR_MODE.STBY, CI_MODE.NORMAL],      # SILENT
-    [RADAR_MODE.PASSIVE, CI_MODE.NORMAL],   # PASSIVE
+    [RADAR_MODE.STBY, CI_MODE.SILENT],      # SILENT
+    #[RADAR_MODE.PASSIVE, CI_MODE.NORMAL],   # PASSIVE
+    [RADAR_MODE.STBY, CI_MODE.SILENT],      # PASSIVE, not implemented, behaves as SILENT instead
     [RADAR_MODE.NORMAL, CI_MODE.NORMAL],    # NORMAL
     [RADAR_MODE.TERRAIN, CI_MODE.NORMAL],   # TERRAIN
     [RADAR_MODE.NORMAL, CI_MODE.NORMAL],    # ATTACK
@@ -170,8 +172,12 @@ var update_state = func {
 
     var new_state = decide_state(click);
 
-    if (input.nose_wow.getBoolValue() or !displays.common.radar_on) {
-        # Radar is off, downgrade to OFF or SILENT state, depending on whether CI should be on.
+    # Downgrade mode if CI or radar is not available.
+    if (!displays.common.ci_on) {
+        # CI not yet on
+        new_state = STATE.OFF;
+    } elsif (input.nose_wow.getBoolValue() or !displays.common.radar_on) {
+        # radar not yet on, or off due to WOW
         if (new_state == STATE.OFF or new_state == STATE.GND_RNG or new_state == STATE.AIR_RNG)
             new_state = STATE.OFF;
         else

@@ -59,6 +59,8 @@ var B_scope_height = 92;
 # B scope bottom relative to PPI origin
 var B_scope_origin = (PPI_radius - B_scope_height) / 2;
 
+var PPI_sweep_speed = 110.0;
+
 # Display range limit function of azimuth
 var azimuth_range = func(azimuth, max_range, b_scope) {
     azimuth = abs(azimuth);
@@ -113,6 +115,15 @@ var RadarImage = {
         me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,t,0]);
     },
 
+    clear_sector: func(start_azi, end_azi) {
+        var t = math.fmod(input.time.getValue() / 60.0, 1);
+
+        var min_x = math.floor((math.min(start_azi, end_azi)*0.5/PPI_half_angle + 0.5) * me.width);
+        var max_x = math.floor((math.max(start_azi, end_azi)*0.5/PPI_half_angle + 0.5) * me.width);
+
+        me.img.fillRect([min_x, 0, max_x-min_x, me.height], [0,0,t,0]);
+    },
+
     draw_azimuth_data: func(azimuth, azi_width, data) {
         var min_x = math.floor(((azimuth - azi_width/2)*0.5/PPI_half_angle + 0.5) * me.width);
         var max_x = math.floor(((azimuth + azi_width/2)*0.5/PPI_half_angle + 0.5) * me.width);
@@ -140,8 +151,6 @@ var RadarImage = {
     set_mode: func(mode, display) {
         if (display != me.display or mode == MODE.STBY) me.clear_img();
         me.display = display;
-
-        me.img.setVisible(mode != MODE.STBY and display == DISPLAY.PPI);
     },
 };
 
@@ -348,8 +357,11 @@ var CI = {
         me.mode = -1;
         me.display = -1;
 
+        me.beam_pos = 0.0;
         me.last_beam_pos = 0.0;
         me.beam_dir = 1;
+
+        me.zero_buffer = [];
     },
 
     set_mode: func(mode, display) {
@@ -357,10 +369,15 @@ var CI = {
         me.mode = mode;
         me.display = display;
 
-        if (me.mode == MODE.STBY)
+        if (me.mode == MODE.STBY) {
             input.shader_mode.setValue(0);
-        else
+            # Reset internal state
+            me.beam_pos = 0.0;
+            me.last_beam_pos = 0.0;
+            me.beam_dir = 1;
+        } else {
             input.shader_mode.setValue(me.display == DISPLAY.PPI ? 1 : 2);
+        }
 
         # For MODE.STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
         me.radar_img.set_mode(mode, display);
@@ -369,27 +386,24 @@ var CI = {
         me.root.setVisible(mode != MODE.STBY);
     },
 
-    update_mode: func {
-        if (!displays.common.ci_on) {
-            me.set_mode(MODE.STBY, DISPLAY.PPI);
-            return;
-        }
-
+    update: func(dt) {
         # Mode controlled by ps37_mode.nas (shared with radar)
         me.set_mode(ps37_mode.ci_mode, ps37_mode.scan_mode or DISPLAY.PPI);
-    },
 
-    update_quality: func(quality) {
-        me.radar_img.update_quality(quality);
-    },
-
-    update: func {
-        me.update_mode();
         if (me.mode == MODE.STBY) return;
 
         me.nav_symbols.update();
         me.horizon.update();
-        me.show_radar_image();
+        me.show_radar_image(dt);
+    },
+
+    update_quality: func(quality) {
+        me.radar_img.update_quality(quality);
+
+        setsize(me.zero_buffer, me.radar_img.height);
+        forindex (var i; me.zero_buffer) {
+            me.zero_buffer[i] = 0.0;
+        }
     },
 
     ## API for radar system
@@ -405,19 +419,42 @@ var CI = {
     },
 
     # Call this each frame once the radar is done drawing
-    show_radar_image: func {
+    show_radar_image: func(dt) {
+        if (me.mode != MODE.SILENT) {
+            # Radar antenna position
+            me.beam_pos = radar.ps37.getCaretPosition()[0];
+            if (me.beam_pos > me.last_beam_pos)
+                me.beam_dir = 1;
+            elsif (me.beam_pos < me.last_beam_pos)
+                me.beam_dir = -1;
+        } else {
+            # In silent mode, sweep continues to draw the screen, but does not match the radar
+            me.silent_sweep(dt);
+        }
+        me.last_beam_pos = me.beam_pos;
+
         me.radar_img.show_image();
+
         # Radar shader input properties
         input.radar_time.setValue(math.fmod(input.time.getValue() / 60.0, 1));
-
-        var beam_pos = radar.ps37.getCaretPosition()[0];
-        input.beam_pos.setValue(beam_pos);
-        if (beam_pos > me.last_beam_pos)
-            me.beam_dir = 1;
-        elsif (beam_pos < me.last_beam_pos)
-            me.beam_dir = -1;
+        input.beam_pos.setValue(me.beam_pos);
         input.beam_dir.setValue(me.beam_dir);
-        me.last_beam_pos = beam_pos;
+    },
+
+    silent_sweep: func(dt) {
+        var prev_angle = me.beam_pos * PPI_half_angle;
+        var next_angle = prev_angle + me.beam_dir * dt * PPI_sweep_speed;
+        if (next_angle > PPI_half_angle) {
+            next_angle = PPI_half_angle;
+            me.beam_dir = -1;
+        } elsif (next_angle < -PPI_half_angle) {
+            next_angle = -PPI_half_angle;
+            me.beam_dir = 1;
+        }
+
+        me.radar_img.clear_sector(prev_angle, next_angle);
+
+        me.beam_pos = next_angle / PPI_half_angle;
     },
 
     clear_radar_image: func {
@@ -456,6 +493,7 @@ var CICanvas = {
 };
 
 
+var max_dt = 0.1;
 
 var ci_cvs = nil;
 var ci = nil;
@@ -473,6 +511,7 @@ var init = func {
     }, 0, 0);
 }
 
-var loop = func {
-    ci.update();
+var loop = func(dt) {
+    dt = math.min(dt, max_dt);
+    ci.update(dt);
 }
