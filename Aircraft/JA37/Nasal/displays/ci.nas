@@ -15,7 +15,8 @@ var input = {
     radar_filter:   "instrumentation/radar/polaroid-filter",
     time:           "sim/time/elapsed-sec",
     radar_time:     "instrumentation/radar/effect/time",
-    beam_angle:     "instrumentation/radar/effect/beam-angle",
+    beam_pos:       "instrumentation/radar/effect/beam-pos-norm",
+    beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
 };
 
@@ -345,6 +346,9 @@ var CI = {
 
         me.mode = -1;
         me.display = -1;
+
+        me.last_beam_pos = 0.0;
+        me.beam_dir = 1;
     },
 
     set_mode: func(mode, display) {
@@ -399,6 +403,15 @@ var CI = {
         me.radar_img.show_image();
         # Radar shader input properties
         input.radar_time.setValue(math.fmod(input.time.getValue() / 60.0, 1));
+
+        var beam_pos = radar.ps37.getCaretPosition()[0];
+        input.beam_pos.setValue(beam_pos);
+        if (beam_pos > me.last_beam_pos)
+            me.beam_dir = 1;
+        elsif (beam_pos < me.last_beam_pos)
+            me.beam_dir = -1;
+        input.beam_dir.setValue(me.beam_dir);
+        me.last_beam_pos = beam_pos;
     },
 
     clear_radar_image: func {

@@ -4,6 +4,7 @@ varying vec3 VNormal;
 varying vec3 eyeVec;
 
 varying vec3 filter_color;
+varying mat2 PPI_beam_mat;
 
 uniform sampler2D texture;
 uniform float time_norm;
@@ -33,9 +34,27 @@ const float PPI_corner_angle = asin(PPI_side / PPI_radius);
 
 
 // Intensity for various parts of image
-const float bg_color = 1.0;
-const float rdr_color = 0.0;
-const float symb_color = 3.0;
+const float bg_color = 1.0;         // radar background
+const float rdr_color = 0.0;        // radar echo
+const float bot_color = 1.5;        // below radar picture
+const float origin_color = 0.5;     // origin of PPI, never erased
+const float symb_color = 3.0;       // bright symbol overlay
+
+
+// Sweeping beam
+// Consists of two electron canons: one erasing (very bright line), and one drawing.
+// The drawing one is aligned with PPI_origin, the erasing one is offset forward.
+const float beam_offset = 0.045;        // offset of erasing canon
+const float beam_half_width = 0.005;    // width of bright line produced by erasing canon
+
+float beam_int (vec2 beam_pos)
+{
+    if (beam_pos.x < 0.0 || beam_pos.x > beam_offset + beam_half_width || beam_pos.y < 0.0)
+        return 0.0;
+
+    return bg_color + 1.2 * pow(beam_pos.x / beam_offset, 2.0)                      // band down to bg_color
+        + max(1.0 - pow((beam_pos.x - beam_offset) / beam_half_width, 2), 0.0);     // bright line at beam_offset
+}
 
 
 // Neighbour sampling for image decay
@@ -105,6 +124,25 @@ vec2 radar_texture_PPI(vec4 PPI_pos)
 }
 
 
+// A small area around origin is never erased
+//
+const vec2 leftmost_beam_orth = vec2(cos(PPI_half_angle), sin(PPI_half_angle));
+
+bool not_erased(vec4 PPI_pos)
+{
+    if (length(PPI_pos.xy) < beam_offset - beam_half_width)
+        return true;    // too close to the center to be erased
+
+    if (abs(PPI_pos.w) >= radians(90.0) - PPI_half_angle)
+        // There is a moment where PPI_origin -> PPI_pos is orthogonal to the beam,
+        // thus the previous test was tight.
+        return false;
+
+    // For the remaining points, the only thing which matters is the erasing beam position at the two extreme angles.
+    return dot(abs(PPI_pos.xy), leftmost_beam_orth) < beam_offset - beam_half_width;
+}
+
+
 void main()
 {
     vec2 pos = gl_TexCoord[0].st;
@@ -113,10 +151,15 @@ void main()
     if (display_mode == 1) {
         // PPI display
         vec4 PPI_pos = PPI_coord(pos);
+        float beam_int = beam_int(PPI_beam_mat * PPI_pos.xy);
 
         if (abs(PPI_pos.w) >= PPI_half_angle) {
-            intensity = bg_color;
-        } else if (all(lessThan(abs(PPI_pos.xzw), PPI_limit_xzw))) {
+            intensity = max(bot_color, beam_int);
+        } else if (not_erased(PPI_pos)) {
+            intensity = origin_color;
+        } else if (!all(lessThan(abs(PPI_pos.xzw), PPI_limit_xzw))) {
+            intensity = beam_int - bg_color;    // erasing beam is dim in this area
+        } else {
             // (strength, age)
             vec2 radar = radar_texture_PPI(PPI_pos);
             float radar_str = radar.x * decay_coef(radar.y);
@@ -135,6 +178,7 @@ void main()
 
             radar_str = min(radar_str, 1.0);
             intensity = mix(bg_color, rdr_color, radar_str);
+            intensity = max(intensity, beam_int);
         }
     } else if (display_mode == 2) {
         // B-scope

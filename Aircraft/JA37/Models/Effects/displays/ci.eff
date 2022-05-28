@@ -21,6 +21,8 @@
     <polaroid-filter><use>/instrumentation/radar/polaroid-filter</use></polaroid-filter>
     <display-mode><use>/instrumentation/radar/mode</use></display-mode>
     <time-norm><use>/instrumentation/radar/effect/time</use></time-norm>
+    <beam-pos><use>/instrumentation/radar/effect/beam-pos-norm</use></beam-pos>
+    <beam-dir><use>/instrumentation/radar/effect/beam-dir</use></beam-dir>
   </parameters>
 
   <technique n="5">
@@ -96,6 +98,16 @@
         <name>polaroid_filter</name>
         <type>float</type>
         <value><use>polaroid-filter</use></value>
+      </uniform>
+      <uniform>
+        <name>beam_pos</name>
+        <type>float</type>
+        <value><use>beam-pos</use></value>
+      </uniform>
+      <uniform>
+        <name>beam_dir</name>
+        <type>int</type>
+        <value><use>beam-dir</use></value>
       </uniform>
     </pass>
   </technique>
