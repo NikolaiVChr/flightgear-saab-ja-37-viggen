@@ -38,8 +38,13 @@ var CI_MODE = {
     # TODO
     STBY: 0,    # CU
     SILENT: 1,  # CPP
-    NORMAL: 2,
-    MEMORY: 3,
+    NORMAL: 2,  # CPK/CEK
+    MEMORY: 3,  # CPM
+    TERRAIN: 4, # CPH/CEH
+    FIX: 5,     # CPFIX
+    RB04: 6,    # CP04/CE04
+    BOMB: 7,    # CPBOMB/CEBOMB
+    AIR: 8,     # CPJR/CEJR
 };
 var ci_mode = CI_MODE.STBY;
 
@@ -54,16 +59,17 @@ var scan_mode = SCAN_MODE.OTHER;
 ## Internal state
 
 var STATE = {
-    OFF: 0,     # CI and radar off
-    SILENT: 1,  # CI on, radar off
-    PASSIVE: 2, # CI on, radar passive (not really simulated)
-    NORMAL: 3,  # CI on, various radar submodes below
+    OFF: 0,         # CI and radar off
+    SILENT: 1,      # CI on, radar off
+    PASSIVE: 2,     # CI on, radar passive (not really simulated)
+    NORMAL: 3,      # CI and radar on, various submodes below
     TERRAIN: 4,
     ATTACK: 5,
     RB04: 6,
-    AIR: 7,
-    GND_RNG: 8, # CI off, radar for ground ranging (simulated separately, so actually radar off)
-    AIR_RNG: 9, # CI off, radar for air ranging
+    BOMB: 7,
+    AIR: 8,
+    GND_RNG: 9,     # CI off, radar for ground ranging (simulated separately, so actually radar off)
+    AIR_RNG: 10,    # CI off, radar for air ranging
 };
 
 # Internal state to output conversion table.
@@ -76,10 +82,11 @@ var state_to_mode = [
     #[RADAR_MODE.PASSIVE, CI_MODE.NORMAL],   # PASSIVE
     [RADAR_MODE.STBY, CI_MODE.SILENT],      # PASSIVE, not implemented, behaves as SILENT instead
     [RADAR_MODE.NORMAL, CI_MODE.NORMAL],    # NORMAL
-    [RADAR_MODE.TERRAIN, CI_MODE.NORMAL],   # TERRAIN
+    [RADAR_MODE.TERRAIN, CI_MODE.TERRAIN],  # TERRAIN
     [RADAR_MODE.NORMAL, CI_MODE.NORMAL],    # ATTACK
-    [RADAR_MODE.RB04, CI_MODE.NORMAL],      # RB04
-    [RADAR_MODE.AIR, CI_MODE.NORMAL],       # AIR
+    [RADAR_MODE.RB04, CI_MODE.RB04],        # RB04
+    [RADAR_MODE.NORMAL, CI_MODE.BOMB],      # BOMB
+    [RADAR_MODE.AIR, CI_MODE.AIR],          # AIR
     [RADAR_MODE.GND_RNG, CI_MODE.STBY],     # GND_RNG
     [RADAR_MODE.AIR_RNG, CI_MODE.STBY],     # AIR_RNG
 ];
@@ -125,7 +132,9 @@ var decide_state = func(click) {
         if (type == "M70" or type == "RB-75"
             or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.DYK_MARK_RB75)
             or (type == "M55" and wpn_knob == fire_control.WPN_SEL.ATTACK)
-            or (type == "M71" and wpn_knob != fire_control.WPN_SEL.RR_LUFT))
+            or (type == "M71"))
+            # Should be: (once m/71 radar aiming implemented)
+            #or (type == "M71" and wpn_knob != fire_control.WPN_SEL.RR_LUFT))
             return STATE.GND_RNG;
         # Other cases are handled after A0 switch
     }
@@ -154,11 +163,15 @@ var decide_state = func(click) {
         {
             return STATE.RB04;
         }
-        elsif ((type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.PLAN_SJO)
-               or (type == "M71" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
+        elsif (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.PLAN_SJO)
         {
             return STATE.ATTACK;
         }
+        # Once m/71 radar aiming implemented
+        #elsif (type == "M71" and wpn_knob == fire_control.WPN_SEL.RR_LUFT)
+        #{
+        #    return STATE.BOMB;
+        #}
     }
 
     # Normal mode
@@ -227,7 +240,9 @@ var terrain_mode = func {
 
 var memory_mode = func {
     if (scan_mode != SCAN_MODE.WIDE) return;
-    if (current_state != STATE.NORMAL and current_state != STATE.ATTACK and current_state != STATE.RB04) return;
+    if (current_state != STATE.NORMAL and current_state != STATE.ATTACK
+        and current_state != STATE.RB04 and current_state != STATE.BOMB)
+        return;
 
     memory = TRUE;
     update_radar_ci_mode();
