@@ -72,21 +72,21 @@ var zoom = zooms[zoom_curr];
 
 var M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 
-var zoomIn = func(cycle=0) {
+var zoomIn = func() {
 	if (ti.active == FALSE) return;
   zoom_curr += 1;
   if (zoom_curr > 4) {
-  	zoom_curr = cycle ? 0 : 4;
+  	zoom_curr = 0;
   }
   zoom = zooms[zoom_curr];
   M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 }
 
-var zoomOut = func(cycle=0) {
+var zoomOut = func() {
 	if (ti.active == FALSE) return;
   zoom_curr -= 1;
   if (zoom_curr < 0) {
-  	zoom_curr = cycle ? 4 : 0;
+  	zoom_curr = 4;
   }
   zoom = zooms[zoom_curr];
   M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
@@ -5325,7 +5325,7 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# change zoom
-				zoomOut(cycle:TRUE);
+				zoomOut();
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.setToggleAreaEdit();
