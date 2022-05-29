@@ -52,7 +52,7 @@ var type = "light_nolabels";
 #                   0                             5                               10                               15                      19
 var meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];# at equator
 #zooms      = [4, 7, 9, 11, 13];#old
-var zooms      = [5, 6, 7, 8, 9];
+var zooms      = [6, 7, 8, 9, 10];
 var zoomLevels = [3.2, 1.6, 800, 400, 200];
 var zoom_curr  = 2;
 var zoom = zooms[zoom_curr];
@@ -3477,6 +3477,8 @@ var TI = {
 					tick1 = 50;
 				} elsif (zoom == 9) {
 					tick1 = 25;
+				} elsif (zoom == 10) {
+					tick1 = 12.5;
 				} elsif (zoom == 11) {
 					tick1 = 6;
 				} elsif (zoom == 13) {
@@ -3515,6 +3517,8 @@ var TI = {
 					tick1 =  25;
 				} elsif (zoom == 9) {
 					tick1 =  15;
+				} elsif (zoom == 10) {
+					tick1 =  7.5;
 				} elsif (zoom == 11) {
 					tick1 =   4;
 				} elsif (zoom == 13) {
