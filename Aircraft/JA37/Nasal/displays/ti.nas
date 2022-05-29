@@ -2656,19 +2656,15 @@ var TI = {
 		} elsif (zoomLevels[zoom_curr] == 1.6) {
 			me.granularity_lon = 2;
 			me.granularity_lat = 2;
-			me.dLon = 0;
 		} elsif (zoomLevels[zoom_curr] == 800) {
 			me.granularity_lon = 1;
 			me.granularity_lat = 1;
-			me.dLon = 0;
 		} elsif (zoomLevels[zoom_curr] == 400) {
 			me.granularity_lon = 0.5;
 			me.granularity_lat = 0.5;
-			me.dLon = 30;
 		} elsif (zoomLevels[zoom_curr] == 200) {
 			me.granularity_lon = 0.25;
 			me.granularity_lat = 0.25;
-			me.dLon = 15;
 		}
 		
 		var delta_lon = me.granularity_lon;
@@ -2692,25 +2688,21 @@ var TI = {
 			# Determine number of degrees of lat/lon we need to display based on range
 			# 60nm = 1 degree latitude, degree range for longitude is dependent on latitude.
 			var lon_range = 1;
-			call(func{lon_range = math.ceil(geo.Coord.new().set_latlon(lat,lon,me.input.alt_ft.getValue()*FT2M).apply_course_distance(90.0, range*NM2M).lon() - lon);},nil, var err=[]);
+			call(func{lon_range = geo.Coord.new().set_latlon(lat,lon,me.input.alt_ft.getValue()*FT2M).apply_course_distance(90.0, range*NM2M).lon() - lon;},nil, var err=[]);
 			#courseAndDistance
 			if (size(err)) {
 				#printf("fail lon %.7f  lat %.7f  ft %.2f  ft %.2f",lon,lat,me.input.alt_ft.getValue(),range*NM2M);
 				# typically this fail close to poles. Floating point exception in geo asin.
 			}
+			var lat_range = range/60.0;
+
+			lon_range = delta_lon * math.ceil(lon_range / delta_lon);
+			lat_range = delta_lat * math.ceil(lat_range / delta_lat);
+
 			lon_range = clamp(lon_range,delta_lon,250);
-			var lat_range = clamp(math.ceil(range/60.0),delta_lat,250);
+			lat_range = clamp(lat_range,delta_lat,250);
 			
-			#printf("range lon %d  lat %d",lon_range,lat_range);
-			var ddLon = 0;
-			var xx = (lon - lon_range)-int(lon - lon_range);
-			if (xx==0.5) {
-				ddLon = 30;
-			} elsif (xx==0.25) {
-				ddLon = 15;
-			} elsif (xx==0.75) {
-				ddLon = 45;
-			}
+			#printf("range lon %f  lat %f",lon_range,lat_range);
 			for (var x = (lon - lon_range); x <= (lon + lon_range); x += delta_lon) {
 				var coords = [];
 				if (x>180) {
@@ -2725,7 +2717,7 @@ var TI = {
 				for (var y = (lat - lat_range); y <= (lat + lat_range); y +=  delta_lat) {
 					append(coords, {lon:x, lat:y});
 				}
-#				print(ddLon ~"  "~ x);
+				var ddLon = math.round(math.fmod(abs(x), 1.0) * 60.0);
 				append(lines, {
 					id: x,
 					type: "lon",
@@ -2736,23 +2728,9 @@ var TI = {
 						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
 					}
 				});
-				
-				ddLon += me.dLon;
-				if (ddLon >= 60) {
-					ddLon = 0;
-				}
 			}
 			
 			# Lines of latitude
-			var yy = (lat - lat_range)-int(lat - lat_range);
-			ddLon = 0;
-			if (yy==0.5) {
-				ddLon = 30;
-			} elsif (yy==0.25) {
-				ddLon = 15;
-			} elsif (yy==0.75) {
-				ddLon = 45;
-			}
 			for (var y = (lat - lat_range); y <= (lat + lat_range); y += delta_lat) {
 				var coords = [];
 				if (y>90 or y<-90) continue;
@@ -2762,20 +2740,16 @@ var TI = {
 					append(coords, {lon:x, lat:y});
 				}
 
+				var ddLat = math.round(math.fmod(abs(y), 1.0) * 60.0);
 				append(lines, {
 					id: y,
 					type: "lat",
-					text: str(int(y))~(ddLon==0?"   ":" "~ddLon),
+					text: str(int(y))~(ddLat==0?"   ":" "~ddLat),
 					path: coords,
 					equals: func(o){
 						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
 					}
 				});
-				
-				ddLon += me.dLon;
-				if (ddLon >= 60) {
-					ddLon = 0;
-				}
 			}
 #printf("range %d  lines %d",range, size(lines));
 		}
