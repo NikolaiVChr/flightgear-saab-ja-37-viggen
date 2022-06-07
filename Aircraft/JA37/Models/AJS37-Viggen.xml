@@ -475,13 +475,11 @@
 		<object-name>missile2</object-name>
 		<object-name>missile3</object-name>
 		<object-name>gearLeft</object-name>
-		<object-name>gearLeftHinge</object-name>
 		<object-name>wheelRight1</object-name>
 		<object-name>wheelRight2</object-name>
 		<object-name>wheelLeft1</object-name>
 		<object-name>wheelLeft2</object-name>
-		<object-name>gearRight</object-name>
-		<object-name>gearRightHinge</object-name>-->
+		<object-name>gearRight</object-name>-->
 		<object-name>aj37fin</object-name>
 		<object-name>aj37dropTank</object-name>
 		<object-name>aj37upperPitotTube</object-name>
@@ -650,20 +648,15 @@
     <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
     <object-name>gearFrontDoorsClosed</object-name>
-    <object-name>gearLeftMid</object-name>
     <object-name>gearLeftBottom</object-name>
     <object-name>gearLeftTop</object-name>
-    <object-name>gearLeftHinge</object-name>
-    <object-name>gearRightMid</object-name>
     <object-name>gearRightBottom</object-name>
     <object-name>gearRightTop</object-name>
-    <object-name>gearRightHinge</object-name>
     <object-name>gearLeftOuterDoor</object-name>
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
-    <object-name>landingLightLeftMount</object-name>
-    <object-name>landingLightRightMount</object-name>
+    <object-name>landingLightMount</object-name>
     <object-name>lightFormationFrontRight</object-name>
     <object-name>lightFormationFrontLeft</object-name>
     <object-name>lightFormationRearRight</object-name>
@@ -1534,12 +1527,10 @@
 
 <animation>
   <type>select</type>
-  <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
   <object-name>gearLeftScissorBottom</object-name>
   <object-name>gearLeftBottom</object-name>
-  <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>
@@ -1555,13 +1546,11 @@
 
 <animation>
   <type>scale</type>
-  <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
   <object-name>gearLeftScissorBottom</object-name>
   <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
@@ -1592,13 +1581,11 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
   <object-name>gearLeftScissorBottom</object-name>
   <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
@@ -1820,7 +1807,7 @@
     <center>
         <x-m>  1.91138 </x-m>
         <y-m> -2.18257 </y-m>
-        <z-m> -1.76576 </z-m>
+        <z-m> -1.76420 </z-m>
     </center>
     <axis>
         <x>0</x>
@@ -1876,12 +1863,10 @@
 
 <animation>
   <type>select</type>
-  <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
   <object-name>gearRightOleoStrut</object-name>
   <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
@@ -1897,12 +1882,10 @@
 
 <animation>
   <type>scale</type>
-  <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
   <object-name>gearRightOleoStrut</object-name>
   <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
@@ -1934,7 +1917,6 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
   <object-name>gearRightOleoStrut</object-name>
@@ -1942,7 +1924,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightHinge</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -2163,7 +2144,7 @@
     <center>
         <x-m>  1.91138 </x-m>
         <y-m>  2.18257 </y-m>
-        <z-m> -1.76576 </z-m>
+        <z-m> -1.76420 </z-m>
     </center>
     <axis>
         <x>0</x>
@@ -2903,8 +2884,7 @@
 
   <animation>
     <type>material</type>
-    <object-name>landingLightLeft</object-name>
-    <object-name>landingLightRight</object-name>
+    <object-name>landingLight</object-name>
     <condition>
       <property>ja37/effect/landing-light</property>
     </condition>
