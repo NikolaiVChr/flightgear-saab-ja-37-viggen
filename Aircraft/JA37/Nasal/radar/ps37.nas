@@ -254,6 +254,12 @@ var PS37Mode = {
         return me._decreaseRange();
     },
 
+    preStep: func {
+        me.horizonStabilized = 0;
+        me.azimuthTilt = 0;
+        me.elevationTilt = 0;
+    },
+
     designate: func (contact) {},
     designatePriority: func (contact) {},
     undesignate: func {},
