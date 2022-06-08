@@ -4,45 +4,11 @@
 
   <path>aj37.ac</path>
 
-  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
-    <parameters>
-      <splash-x>0</splash-x>
-      <splash-y>0</splash-y>
-      <splash-z>0</splash-z>
-      <rnorm>0</rnorm>
-      <gsnorm>0</gsnorm>
-      <frost-level>0</frost-level>
-      <surface-mapping-scheme type="int">1</surface-mapping-scheme>
-      <fog-level>0</fog-level>
-      <use-wipers>0</use-wipers>
-      <use-overlay>0</use-overlay>
-      <overlay-alpha>0</overlay-alpha>
-      <overlay-glare type="float">0</overlay-glare>
-      <use-reflection type="int">0</use-reflection>
-      <reflection-strength type="float">0.0</reflection-strength>
-      <use-mask type="int">0</use-mask>
-      <use-reflection-lightmap type="int">0</use-reflection-lightmap>
-      <lightmap-multi type="int">0</lightmap-multi>
-    </parameters>
-    <object-name>aj37hudGlass</object-name>
-  </effect>
-
-  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>aj37VIDGlass</object-name>
-  </effect>
-
- <animation> 
-  <type>material</type> 
-  <object-name>aj37VIDDisplay</object-name>
-  <emission>
-   <red-prop>ja37/avionics/vid</red-prop>
-   <green-prop>ja37/avionics/vid</green-prop>
-   <blue-prop>ja37/avionics/vid</blue-prop>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
-  </emission>
- </animation>
+  <animation>
+    <type>noshadow</type>
+    <object-name>glassOuter</object-name>
+    <object-name>glassFrontOuter</object-name>
+  </animation>
 
   <!-- ====== drop tank ====== -->
   <animation>
@@ -468,18 +434,6 @@
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
 		<object-name>bottomAirInlet</object-name>
-		<!--<object-name>gearFront</object-name>
-		<object-name>gearFrontHinge</object-name>
-		<object-name>missile</object-name>
-		<object-name>missile1</object-name>
-		<object-name>missile2</object-name>
-		<object-name>missile3</object-name>
-		<object-name>gearLeft</object-name>
-		<object-name>wheelRight1</object-name>
-		<object-name>wheelRight2</object-name>
-		<object-name>wheelLeft1</object-name>
-		<object-name>wheelLeft2</object-name>
-		<object-name>gearRight</object-name>-->
 		<object-name>aj37fin</object-name>
 		<object-name>aj37dropTank</object-name>
 		<object-name>aj37upperPitotTube</object-name>
@@ -579,7 +533,6 @@
     <path>Aircraft/JA37/Models/aj37-interior.xml</path>
   </model>
 
-
   <model>
     <name>pilot</name>
     <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>
@@ -590,34 +543,7 @@
     </offsets>
   </model>
 
-  <!-- move seat forward -->
-  <!--<animation>
-   <type>translate</type>
-   <object-name>seat</object-name>
-   <factor>0.0</factor>
-   <offset-m>-0.125</offset-m>
-   <axis>
-     <x>1</x>
-   </axis>
-   <center>
-        <x-m>0</x-m>
-        <y-m>0</y-m>
-        <z-m>0</z-m>
-    </center>
-</animation>-->
-
-  <!--<animation>
-    <type>select</type>
-    <object-name>seat</object-name>
-    <condition>
-      <equals>
-        <value>0</value>
-        <value>1</value>
-      </equals>
-    </condition>
-  </animation>-->
-
-  <model> 
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/seat/seat.xml</path>
     <offsets>
       <x-m>-3.2541</x-m>
@@ -628,9 +554,7 @@
 
 <!-- Material shaders   -->
   <effect>
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
     <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
     <object-name>elevonLeftOuter</object-name>
@@ -669,132 +593,25 @@
   </effect>
 
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
-    <object-name>dashPanel</object-name>
-    <object-name>dashPanelTap</object-name>
-    <object-name>sidepanelLeft</object-name>
-    <object-name>sidepanelRight</object-name>
-    <object-name>aj37hudRestBack</object-name>
-    <object-name>aj37hudStruts</object-name>
-    <object-name>hudRestPlaque</object-name>
-    <object-name>plaqueLeftMount</object-name>
-    <object-name>plaqueRightMount</object-name>
-    <object-name>plaqueLeft</object-name>
-    <object-name>plaqueRight</object-name>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>aj37dashPanel</object-name>
+    <object-name>bottom</object-name>
+    <object-name>innerWall_back</object-name>
+    <object-name>innerWall_front</object-name>
+    <object-name>innerWall_sides</object-name>
+    <object-name>sidePanel_L</object-name>
+    <object-name>sidePanel_R</object-name>
     <object-name>seat</object-name>
   </effect>
 
+  <!-- does this work at all? -->
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>hudBottomPlateGlass</object-name>
-  </effect>
-
-  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/hud</inherits-from>
-    <object-name>aj37hud</object-name>
-  </effect>
-
-  <!-- HUD up/down animation -->
-  <animation>
-    <type>pick</type>
-    <object-name>aj37hudPivotSwitch</object-name>
-    <action>
-      <button>0</button>
-      <binding>
-        <command>property-toggle</command>
-        <property>/ja37/hud/position-cmd</property>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>hud-position</tooltip-id>
-        <label>Toggle HUD position</label>
-      </binding>
-    </hovered>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aj37hudPivotTop</object-name>
-    <object-name>aj37hudGlass</object-name>
-    <object-name>aj37hudStruts</object-name>
-    <property>ja37/hud/position</property>
-    <factor>50</factor>
-    <axis>
-      <x>0</x>
-      <y>1</y>
-      <z>0</z>
-    </axis>
-    <center>
-      <x-m>-4.1150</x-m>
-      <y-m>0</y-m>
-      <z-m>0.5800</z-m>
-    </center>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aj37hudPivotBottom</object-name>
-    <object-name>aj37hudPivotSwitch</object-name>
-    <property>ja37/hud/position</property>
-    <factor>50</factor>
-    <axis>
-      <x>0</x>
-      <y>1</y>
-      <z>0</z>
-    </axis>
-    <center>
-      <x-m>-4.0450</x-m>
-      <y-m>0</y-m>
-      <z-m>0.5200</z-m>
-    </center>
-  </animation>
-
-  <animation>
-    <type>rotate</type>
-    <object-name>aj37hudGlass</object-name>
-    <object-name>aj37hudStruts</object-name>
-    <property>ja37/hud/position</property>
-    <factor>-50</factor>
-    <axis>
-      <x>0</x>
-      <y>1</y>
-      <z>0</z>
-    </axis>
-    <center>
-      <x-m>-4.1150</x-m>
-      <y-m>0</y-m>
-      <z-m>0.6300</z-m>
-    </center>
-  </animation>
-
-  <animation>
-    <type>translate</type>
-    <object-name>aj37hud</object-name>
-    <property>ja37/hud/position</property>
-    <factor>0.064</factor>
-    <axis>
-      <x>0.04</x>
-      <y>0</y>
-      <z>-0.05</z>
-    </axis>
-  </animation>
-
-
-  <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-mirror</inherits-from>
-    <object-name>mirrorreflect</object-name>
-  </effect>
-
-  <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
-    <object-name>glassInternal</object-name>
-    <object-name>frontglasInternal</object-name>
+    <object-name>glassOuter</object-name>
+    <object-name>glassFrontOuter</object-name>
   </effect>
 
-
-  <effect>  
+  <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
     <object-name>gearFrontOleoStrut</object-name>
     <object-name>gearLeftOleoStrut</object-name>
@@ -810,7 +627,6 @@
     <object-name>reverser3</object-name>
     <object-name>canopyinside</object-name>
     <object-name>fuselageinside</object-name>
-    <object-name>mirrorholder</object-name>
     <object-name>engineOutlet</object-name>
     <object-name>engineRear</object-name>
     <object-name>outletCover</object-name>
@@ -820,32 +636,6 @@
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
     <object-name>nozzle</object-name>
   </effect>
-
-  <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
-    <object-name>glassOuter</object-name>
-    <object-name>frontglas</object-name>
-  </effect>
-
-  <!--<animation>
-  <type>select</type>
-  <object-name>glass</object-name>
-  <object-name>frontglas</object-name>
-  <condition>
-    <not>
-      <property>sim/current-view/internal</property>
-    </not>
-  </condition>
- </animation>
-
- <animation>
-  <type>select</type>
-  <object-name>glassInternal</object-name>
-  <object-name>frontglasInternal</object-name>
-  <condition>
-    <property>sim/current-view/internal</property>
-  </condition>
- </animation>-->
 
 <!-- Fuselage animations -->
 
@@ -897,51 +687,34 @@
     </condition>
   </animation>
 
-<animation>
-  <type>rotate</type>
-  <object-name>glassOuter</object-name>
-  <object-name>glassInternal</object-name>
-  <object-name>canopy</object-name>
-  <object-name>canopyinside</object-name>
-  <object-name>mirrorholder</object-name>
-  <object-name>mirrorreflect</object-name>
-  <property>canopy/position-norm</property><!-- auto MP transmit -->
-  <factor>55.0</factor>
-  <center>
-   <x-m>-2.67098</x-m>
-   <y-m>0.000003</y-m>
-   <z-m>1.01043</z-m>
-  </center>
-  <axis>
-   <x>0.0</x>
-   <y>1.0</y>
-   <z>0.0</z>
-  </axis>
- </animation>
+  <animation>
+    <type>rotate</type>
+    <object-name>glassOuter</object-name>
+    <object-name>canopy</object-name>
+    <object-name>canopyinside</object-name>
+    <property>canopy/position-norm</property><!-- auto MP transmit -->
+    <factor>55.0</factor>
+    <center>
+     <x-m>-2.67098</x-m>
+     <y-m>0.000003</y-m>
+     <z-m>1.01043</z-m>
+    </center>
+    <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+    </axis>
+  </animation>
 
- <animation>
-   <type>select</type>
-   <object-name>glassOuter</object-name>
-   <object-name>glassInternal</object-name>
-   <object-name>canopy</object-name>
-   <object-name>canopyinside</object-name>
-   <object-name>mirrorholder</object-name>
-   <object-name>mirrorreflect</object-name>
-   <condition>
-     <property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
-   </condition>
- </animation>
-
- <animation>
-  <type>material</type> 
-  <object-name>aj37hud</object-name>
-  <emission>
-   <red>1.0</red> 
-   <green>1.0</green> 
-   <blue>1.0</blue>
-   <factor-prop>ja37/hud/emission</factor-prop>
-  </emission>
- </animation>
+  <animation>
+    <type>select</type>
+    <object-name>glassOuter</object-name>
+    <object-name>canopy</object-name>
+    <object-name>canopyinside</object-name>
+    <condition>
+      <property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
+    </condition>
+  </animation>
 
 <animation>
   <type>rotate</type>
