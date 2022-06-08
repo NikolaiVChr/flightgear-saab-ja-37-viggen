@@ -656,7 +656,7 @@
 
   <model>
     <name>ext-power</name>
-    <path>Aircraft/JA37/Models/GroundEquipment/ext-power.xml</path>
+    <path>Aircraft/JA37/Models/GroundEquipment/ext-power.ac</path>
     <offsets>
       <x-m> 0.25</x-m>
       <y-m> 9.15</y-m>
