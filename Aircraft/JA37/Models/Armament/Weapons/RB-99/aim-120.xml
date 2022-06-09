@@ -1,38 +1,12 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <path>aim-120.ac</path>
 
-	<path>aim-120.ac</path>
+  <nopreview/>
 
-	<nopreview/>
-
-	<effect>
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal-paint</inherits-from>
-	  <object-name>aim120</object-name>
-	  <object-name>exhaust</object-name>
-	  <object-name>end</object-name>
-	  <object-name>finFront1</object-name>
-	  <object-name>finFront2</object-name>
-	  <object-name>finFront3</object-name>
-	  <object-name>finFront4</object-name>
-	  <object-name>finBack1</object-name>
-	  <object-name>finBack2</object-name>
-	  <object-name>finBack3</object-name>
-	  <object-name>finBack4</object-name>
-	  <object-name>mountRight</object-name>
-	  <object-name>mountLeft</object-name>
-	  <object-name>mountBack</object-name>
-	  <object-name>mountFront</object-name>
-	  <object-name>tail</object-name>
-	</effect>
-	
-	<!--<model>
-		<path>missile-smoke-trail.xml</path>
-	   
-	    <offsets>
-	      <x-m>0</x-m>
-	      <y-m>0</y-m>
-	      <z-m>0</z-m>
-	    </offsets>
-	</model>-->
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal-paint</inherits-from>
+    <object-name>aim120</object-name>
+  </effect>
 </PropertyList>
