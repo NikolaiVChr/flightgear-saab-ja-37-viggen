@@ -1487,39 +1487,6 @@ var noop = func {
   #does nothing, but important
 }
 
-var toggleYawDamper = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
-  setprop("fdm/jsbsim/fcs/yaw-damper/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Yaw damper: ON");
-  } else {
-    notice("Yaw damper: OFF");
-  }
-}
-
-var togglePitchDamper = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/pitch-damper/enable");
-  setprop("fdm/jsbsim/fcs/pitch-damper/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Pitch damper: ON");
-  } else {
-    notice("Pitch damper: OFF");
-  }
-}
-
-var toggleRollDamper = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
-  setprop("fdm/jsbsim/fcs/roll-damper/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Roll damper: ON");
-  } else {
-    notice("Roll damper: OFF");
-  }
-}
-
 # Simplified, single button controls for speedbrakes
 var speedbrakes_simple_command = -1; # last command. -1: retract, 1: extend
 var speedbrakes_release_timer = maketimer(2, func {setprop("/controls/flight/speedbrake-switch", 0);});
