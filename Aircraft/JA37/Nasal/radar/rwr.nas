@@ -459,7 +459,7 @@ var callsign = "";
 var update_callsign = func(n) {
     callsign = damage.processCallsign(str(n.getValue()));
 }
-setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);
+
 
 var launched = {};
 var mlw_max=getprop("payload/d-config/mlw_max");
@@ -502,6 +502,8 @@ missileRecipient.Receive = func(notification) {
 
 
 var init = func {
+    setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);
+
     # override generic radar functions
     radar.isOmniRadiating = isOmniRadiating;
     radar.getRadarFieldRadius = getRadarFieldRadius;
