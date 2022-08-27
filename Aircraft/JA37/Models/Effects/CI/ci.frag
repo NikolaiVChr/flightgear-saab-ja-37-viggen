@@ -10,6 +10,8 @@ uniform int display_mode;
 uniform int beam_dir;
 
 
+float Noise3D(vec3 coord, float wavelength);
+
 // Index of metadata strips
 #define INFO_TIME1          0
 #define INFO_TIME2          1
@@ -191,7 +193,7 @@ vec4 CI_screen_color() {
                 age = fract(current_time1 - time1) * TIME1_FACTOR;
             }
             // noise from radar
-            radar = clamp(radar + 0.2 * noise1(vec3(PPI_pos.xy, time1) * 200), 0.0, 1.0);
+            radar = clamp(radar + 0.12 * Noise3D(vec3(PPI_pos.xy, time1), 0.006) - 0.06, 0.0, 1.0);
 
             float range = get_metadata(PPI_pos, INFO_RANGE);
             radar = max(radar, get_lines_PPI(PPI_pos, range));
@@ -199,6 +201,8 @@ vec4 CI_screen_color() {
             intensity = mix(COLOR_BG, COLOR_RADAR, radar);
             intensity = mix(COLOR_BASE, intensity, decay(age));
             intensity = max(intensity, beam_int);
+            // noise from display
+            intensity += 0.06 * Noise3D(vec3(PPI_pos.xy, -current_time1), 0.002) - 0.03;
         }
     } else if (display_mode == 2) {
         // B-scope
