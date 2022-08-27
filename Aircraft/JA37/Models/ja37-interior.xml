@@ -45,6 +45,8 @@
     <object-name>dashPanelTap</object-name>
     <object-name>hudBottomPlate</object-name>
     <object-name>hudRestPlaque</object-name>
+    <object-name>knobSI</object-name>
+    <object-name>knobRES</object-name>
     <object-name>plaqueLeftMount</object-name>
     <object-name>plaqueRightMount</object-name>
     <object-name>plaqueLeft</object-name>
@@ -128,6 +130,76 @@
     </condition>
   </animation>
 
+  <animation>
+    <type>knob</type>
+    <object-name>knobSI</object-name>
+    <property>ja37/hud/brightness-si</property>
+    <factor>-150</factor>
+    <offset-deg>75</offset-deg>
+    <center>
+      <x-m> -4.0 </x-m>
+      <y-m> -0.03 </y-m>
+      <z-m> 0.45902 </z-m>
+    </center>
+    <axis>
+      <x> 1.0 </x>
+      <y> 0.0 </y>
+      <z> 0.0 </z>
+    </axis>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>ja37/hud/brightness-si</property>
+        <factor>0.1</factor>
+        <min>0.0</min>
+        <max>1.0</max>
+        <wrap>false</wrap>
+       </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>knob-hud-brightness</tooltip-id>
+        <label>HUD brightness</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>knobRES</object-name>
+    <property>ja37/hud/brightness-res</property>
+    <factor>-150</factor>
+    <offset-deg>75</offset-deg>
+    <center>
+      <x-m> -4.0 </x-m>
+      <y-m>  0.03 </y-m>
+      <z-m> 0.45902 </z-m>
+    </center>
+    <axis>
+      <x> 1.0 </x>
+      <y> 0.0 </y>
+      <z> 0.0 </z>
+    </axis>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>ja37/hud/brightness-res</property>
+        <factor>0.1</factor>
+        <min>0.0</min>
+        <max>1.0</max>
+        <wrap>false</wrap>
+       </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>knob-hud-brightness-res</tooltip-id>
+        <label>HUD backup sight brightness</label>
+      </binding>
+    </hovered>
+  </animation>
+
   <!-- tutorial marker
         included the marker in the ja37 distribution, so it works with all FG versions. -->
   <model>
@@ -160,11 +232,6 @@
   <model>
     <path>Aircraft/JA37/Models/Cockpit/sideButtons.xml</path>
     <name>sb</name>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/subHUD/subHUD.xml</path>
-    <name>PanelSubHUD</name>
   </model>
 
   <model>

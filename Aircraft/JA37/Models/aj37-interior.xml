@@ -44,7 +44,7 @@
   </effect>
 
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
     <object-name>aj37hudRestBack</object-name>
     <object-name>aj37hudStruts</object-name>
     <object-name>dashPanelTap</object-name>
