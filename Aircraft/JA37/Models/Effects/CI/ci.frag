@@ -8,81 +8,64 @@ uniform float time_norm;
 uniform int display_mode;
 
 
-// Shape off radar picture area, cf. displays/ci.nas
-const float canvas_size = 144.0;
-const vec2 center = vec2(0.5, 0.5);
+// Index of metadata strips
+#define INFO_TIME           0
+#define INFO_RANGE          1
+#define INFO_LINE_DEV       2
+#define INFO_RANGE_MARKS    3
+#define INFO_CROSS_RANGE    4
+#define INFO_CROSS_AZI      5
+// 67 are padding
+#define N_INFO_STRIPS       8
 
-const vec2 PPI_origin = center + vec2(0, -64.0 / canvas_size);
+#define SAMPLE_Y(index) (((index) + 0.5) / N_INFO_STRIPS)
+
+
+// Shape off radar picture area, cf. displays/ci.nas
+#define CANVAS_SIZE         144.0
+#define CENTER              vec2(0.5, 0.5)
+
+#define PPI_ORIGIN          (CENTER + vec2(0, -64.0 / CANVAS_SIZE))
 // From bottom point to top arc
-const float PPI_radius = 120.0 / canvas_size;
-const float PPI_half_angle = radians(61.5);
-const float PPI_angle = PPI_half_angle * 2.0;
+#define PPI_RADIUS          (120.0 / CANVAS_SIZE)
+#define PPI_HALF_ANGLE      radians(61.5)
+#define PPI_ANGLE           (2.0 * PPI_HALF_ANGLE)
 // Length of the two bottom sides = maximum range at the limit angle
-const float PPI_bottom_length = 60.0 / canvas_size;
-// Corners
-const float PPI_side = sin(PPI_half_angle) * PPI_bottom_length;
-const float PPI_side_bot = cos(PPI_half_angle) * PPI_bottom_length;
-const float PPI_side_top = sqrt(PPI_radius * PPI_radius - PPI_side * PPI_side);   // is there a good builtin for that?
-const vec2 PPI_bot_left = PPI_origin + vec2(-PPI_side, PPI_side_bot);
-const vec2 PPI_top_left = PPI_origin + vec2(-PPI_side, PPI_side_top);
-const vec2 PPI_bot_right = PPI_origin + vec2(PPI_side, PPI_side_bot);
-const vec2 PPI_top_right = PPI_origin + vec2(PPI_side, PPI_side_top);
-const float PPI_corner_angle = asin(PPI_side / PPI_radius);
+#define PPI_BOTTOM_LENGTH   (60.0 / CANVAS_SIZE)
+// Distance left side / centerline
+#define PPI_SIDE            (sin(PPI_HALF_ANGLE) * PPI_BOTTOM_LENGTH)
 
 
 // Intensity for various parts of image
-const float bg_color = 1.0;         // radar background
-const float rdr_color = 0.0;        // radar echo
-const float bot_color = 1.5;        // below radar picture
-const float origin_color = 0.5;     // origin of PPI, never erased
-const float symb_color = 3.0;       // bright symbol overlay
+#define COLOR_BG        1.0     // radar background
+#define COLOR_RADAR     0.0     // radar echo
+#define COLOR_BOTTOM    1.5     // below radar picture
+#define COLOR_ORIGIN    0.5     // origin of PPI, never erased
+#define COLOR_SYMBOLS   3.0     // bright symbol overlay
 
 
 // Sweeping beam
 // Consists of two electron canons: one erasing (very bright line), and one drawing.
 // The drawing one is aligned with PPI_origin, the erasing one is offset forward.
-const float beam_offset = 0.045;        // offset of erasing canon
-const float beam_half_width = 0.005;    // width of bright line produced by erasing canon
+#define BEAM_OFFSET     0.045   // offset of erasing canon
+#define BEAM_HALF_WIDTH 0.005   // width of bright line produced by erasing canon
 
-float beam_int (vec2 beam_pos)
+float beam_int(vec4 PPI_pos)
 {
-    if (beam_pos.x < 0.0 || beam_pos.x > beam_offset + beam_half_width || beam_pos.y < 0.0)
+    vec2 beam_pos = PPI_beam_mat * PPI_pos.xy;
+
+    if (beam_pos.x < 0.0 || beam_pos.x > BEAM_OFFSET + BEAM_HALF_WIDTH || beam_pos.y < 0.0)
         return 0.0;
 
-    return bg_color + 1.2 * pow(beam_pos.x / beam_offset, 2.0)                      // band down to bg_color
-        + max(1.0 - pow((beam_pos.x - beam_offset) / beam_half_width, 2), 0.0);     // bright line at beam_offset
+    return COLOR_BG + 1.2 * pow(beam_pos.x / BEAM_OFFSET, 2.0)                      // band down to bg_color
+        + max(1.0 - pow((beam_pos.x - BEAM_OFFSET) / BEAM_HALF_WIDTH, 2), 0.0);     // bright line at beam_offset
 }
 
-
-// Neighbour sampling for image decay
-const int n_samples = 4;
-const float sample_dist = 0.005;
-const vec2 sample_offset[n_samples] = vec2[](
-    vec2(0.0, sample_dist),
-    vec2(0.0, -sample_dist),
-    vec2(sample_dist, 0.0),
-    vec2(-sample_dist, 0.0)
-);
 
 // transmission factor to neighbours
 float decay(float age)
 {
     return pow(0.1, age);
-}
-
-float neighbour_trans(float age)
-{
-    return 0.4 - 0.4 * pow(0.1, age*50.0);
-}
-
-float decay_coef(float age)
-{
-    return decay(age) * (1.0 - neighbour_trans(age));
-}
-
-float decay_neighbour_coef(float age)
-{
-    return decay(age) * neighbour_trans(age) * 0.25;
 }
 
 // PPI coordonates.
@@ -92,88 +75,120 @@ float decay_neighbour_coef(float age)
 vec4 PPI_coord(vec2 pos)
 {
     vec4 res;
-    res.xy = pos - PPI_origin;
+    res.xy = pos - PPI_ORIGIN;
     res.z = length(res.xy);
     res.w = atan(res.x, res.y);
     return res;
 }
 
 // PPI bounds, to check against abs(PPI_coord()) with proper swizzling.
-const vec3 PPI_limit_xzw = vec3(PPI_side, PPI_radius, PPI_half_angle);
+#define PPI_LIMIT_xzw vec3(PPI_SIDE, PPI_RADIUS, PPI_HALF_ANGLE)
 
-// Convert PPI polar coordinates (dist, angle) to texture position to query for radar data.
-vec2 radar_texture_coord(vec2 PPI_polar_coord)
+// Lookup radar echo strength for a given position.
+// Argument PPI_pos as given by PPI_coord().
+//
+float radar_texture_PPI(vec4 PPI_pos)
 {
-    vec2 radar_pos = PPI_polar_coord.yx * vec2(1.0/PPI_angle, 1.0/PPI_radius) + vec2(0.5, 0.0);
-    return clamp(radar_pos, 0.0, 1.0);
+    vec2 radar_pos = PPI_pos.wz * vec2(1.0 / PPI_ANGLE, 1.0 / PPI_RADIUS) + vec2(0.5, 0.0);
+    radar_pos = clamp(radar_pos, 0.0, 1.0);
+    return texture2D(texture, radar_pos).g;
 }
 
-// Lookup radar echo for a given position.
-// Argument PPI_pos as given by PPI_coord().
-// Returns vec2(strength, age)
-//
-vec2 radar_texture_PPI(vec4 PPI_pos)
+float get_metadata(vec4 PPI_pos, int index)
 {
-    vec2 data = texture2D(texture, radar_texture_coord(PPI_pos.zw)).gb;
-    data.x = clamp(0.2 * noise1(vec3(PPI_pos.xy, data.y) * 200) + data.x, 0.0, 1.0);
-    data.y = fract(time_norm - data.y);
-    return data;
+    vec2 radar_pos = vec2(PPI_pos.w * (1.0 / PPI_ANGLE) + 0.5, SAMPLE_Y(index));
+    radar_pos = clamp(radar_pos, 0.0, 1.0);
+    return texture2D(texture, radar_pos).b;
 }
 
 
 // A small area around origin is never erased
-//
-const vec2 leftmost_beam_orth = vec2(cos(PPI_half_angle), sin(PPI_half_angle));
+
+#define LEFTMOST_BEAM_NORMAL vec2(cos(PPI_HALF_ANGLE), sin(PPI_HALF_ANGLE))
 
 bool not_erased(vec4 PPI_pos)
 {
-    if (length(PPI_pos.xy) < beam_offset - beam_half_width)
+    if (length(PPI_pos.xy) < BEAM_OFFSET - BEAM_HALF_WIDTH)
         return true;    // too close to the center to be erased
 
-    if (abs(PPI_pos.w) >= radians(90.0) - PPI_half_angle)
-        // There is a moment where PPI_origin -> PPI_pos is orthogonal to the beam,
+    if (abs(PPI_pos.w) >= radians(90.0) - PPI_HALF_ANGLE)
+        // There is a moment where PPI_ORIGIN -> PPI_pos is orthogonal to the beam,
         // thus the previous test was tight.
         return false;
 
     // For the remaining points, the only thing which matters is the erasing beam position at the two extreme angles.
-    return dot(abs(PPI_pos.xy), leftmost_beam_orth) < beam_offset - beam_half_width;
+    return dot(abs(PPI_pos.xy), LEFTMOST_BEAM_NORMAL) < BEAM_OFFSET - BEAM_HALF_WIDTH;
+}
+
+
+// Range and azimuth lines
+#define LINE_HALF_WIDTH 0.004
+
+#define SIDE_LINE_ANGLE     radians(30)
+#define LINE_LEFT_NORMAL    vec2(cos(SIDE_LINE_ANGLE), sin(SIDE_LINE_ANGLE))
+#define LINE_RIGHT_NORMAL   vec2(cos(SIDE_LINE_ANGLE), -sin(SIDE_LINE_ANGLE))
+
+#define RANGE_ARC_1 (PPI_RADIUS * 10.0 / 120.0)
+#define RANGE_ARC_2 (PPI_RADIUS * 20.0 / 120.0)
+#define RANGE_ARC_3 (PPI_RADIUS * 40.0 / 120.0)
+#define RANGE_ARC_4 (PPI_RADIUS * 80.0 / 120.0)
+
+float get_lines_PPI(vec4 PPI_pos, float range)
+{
+    if (range < 0.125) return 0.0;
+
+    // normalized distance to closest line
+    float dist = abs(PPI_pos.x);
+
+    dist = min(dist, abs(dot(PPI_pos.xy, LINE_LEFT_NORMAL)));
+    dist = min(dist, abs(dot(PPI_pos.xy, LINE_RIGHT_NORMAL)));
+
+    // range arcs
+    dist = min(dist, distance(PPI_pos.z, RANGE_ARC_4));
+    if (range > 0.375)
+        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_3));
+    if (range > 0.625)
+        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_2));
+    if (range > 0.875)
+        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_1));
+
+    if (dist > LINE_HALF_WIDTH)
+        return 0.0;
+    else
+        return 1.0 - pow(dist / LINE_HALF_WIDTH, 3);
 }
 
 
 vec4 CI_screen_color() {
     vec2 pos = gl_TexCoord[0].st;
+
     float intensity = 0.0;
 
     if (display_mode == 1) {
         // PPI display
         vec4 PPI_pos = PPI_coord(pos);
-        float beam_int = beam_int(PPI_beam_mat * PPI_pos.xy);
+        float beam_int = beam_int(PPI_pos);
 
-        if (abs(PPI_pos.w) >= PPI_half_angle) {
-            intensity = max(bot_color, beam_int);
+        if (abs(PPI_pos.w) >= PPI_HALF_ANGLE) {
+            intensity = max(COLOR_BOTTOM, beam_int);
         } else if (not_erased(PPI_pos)) {
-            intensity = origin_color;
-        } else if (!all(lessThan(abs(PPI_pos.xzw), PPI_limit_xzw))) {
-            intensity = beam_int - bg_color;    // erasing beam is dim in this area
+            intensity = COLOR_ORIGIN;
+        } else if (!all(lessThan(abs(PPI_pos.xzw), PPI_LIMIT_xzw))) {
+            intensity = beam_int - COLOR_BG;    // erasing beam is dim in this area
         } else {
             // (strength, age)
-            vec2 radar = radar_texture_PPI(PPI_pos);
-            float radar_str = radar.x * decay_coef(radar.y);
+            float radar = radar_texture_PPI(PPI_pos);
+            float time = get_metadata(PPI_pos, INFO_TIME);
+            float age = fract(time_norm - time);
+            // noise
+            radar = clamp(radar + 0.2 * noise1(vec3(PPI_pos.xy, time) * 200), 0.0, 1.0);
 
-            // Sample neighbour pixels.
-            float neighbours_str;
-            for (int i=0; i<n_samples; i++) {
-                vec2 sample_pos = pos + sample_offset[i];
-                vec4 PPI_sample_pos = PPI_coord(sample_pos);
-                if (!all(lessThan(abs(PPI_sample_pos.xzw), PPI_limit_xzw)))
-                    continue;
+            float range = get_metadata(PPI_pos, INFO_RANGE);
+            radar = max(radar, get_lines_PPI(PPI_pos, range));
 
-                radar = radar_texture_PPI(PPI_sample_pos);
-                radar_str += radar.x * decay_neighbour_coef(radar.y);
-            }
+            radar *= decay(age);
 
-            radar_str = min(radar_str, 1.0);
-            intensity = mix(bg_color, rdr_color, radar_str);
+            intensity = mix(COLOR_BG, COLOR_RADAR, radar);
             intensity = max(intensity, beam_int);
         }
     } else if (display_mode == 2) {
@@ -182,7 +197,7 @@ vec4 CI_screen_color() {
 
     // Symbols overlay (red component of texture)
     float symbols = texture2D(texture, pos).r;
-    intensity = mix(intensity, symb_color, symbols);
+    intensity = mix(intensity, COLOR_SYMBOLS, symbols);
 
     return vec4(clamp(filter_color * intensity, 0.0, 1.0), 1.0);
 }

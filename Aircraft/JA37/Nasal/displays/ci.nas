@@ -1,3 +1,57 @@
+#### AJS37 Radar display (CI)
+#
+### Rendering
+#
+# The CI rendering consists of two parts:
+
+# - The symbols (artificial horizon, and navigation symbols).
+#   They are the brightest elements displayed on the CI.
+#   In the real display, they are drawn by an electron gun which "bypasses"
+#   the memory layer. In FG, they are directly rendered as Canvas elements.
+#
+# - The radar picture itself, which is drawn on a memory layer.
+#   The "sweeping beam" erases the layer (makes it bright),
+#   and an electron gun writes (makes it dark) on it just after.
+#   The radar picture consists of:
+#   * the radar picture proper (radar echoes)
+#   * distance and azimuth marks
+#   * in some modes, a cross (videomarkör)
+#
+# Rendering the radar picture efficiently in FG is hard for a few reasons:
+# - The radar is displayed as a PPI. Doing the cartesian -> polar transformation
+#   with Nasal and Canvas' setPixel() is possible, but a bit slow.
+# - The picture has a noticeable decay over time.
+#   Implementing it requires to change the entire picture all the time.
+#   Doing so with setPixel() is out of question.
+#
+# The solution used is to let a custom shader do the previous two "hard things"
+# (PPI and decay). The Canvas setPixel() does not try to draw a nice picture,
+# but simply has to send all required information to the shader, as efficiently as possible.
+#
+# Data is transmitted to the shader ("drawn") as follows:
+# - Symbols are drawn in the Red channel, as is.
+# - Radar echoes are drawn in the Green channel, as a B-scope spanning the entire texture.
+#   The shader then does the coordinate transformation.
+# - The blue channel is organized in a number of horizontal strips, containing metadata:
+#   * time of writing (modulo 1min)
+#   * the radar range
+#   * the position of the cross (and whether or not it is displayed)
+#   * deviation of the centerline (used for some aiming modes)
+#   * the distance of range aiming marks
+#   This metadata is interpreted per column. The information for a given column
+#   corresponds to the state of the radar when this column was written (in the green channel).
+#
+# This way, for the radar picture, only the column corresponding to the current
+# radar azimuth needs to be written to.
+
+# The shader is then capable of resconstructing the picture as follows.
+# Given a pixel position, the shader does the PPI -> B-scope transformation
+# to find the Canvas pixel to sample to obtain the radar echo strength (G channel).
+# In the same column, at the appropriate line, the shader also samples the B channel to obtain the time of writing.
+# Compared to the current time, this gives the 'age' of the pixel, which is used to animate decay.
+# Additional symbols are drawn by sampling the other metadata.
+
+
 var TRUE = 1;
 var FALSE = 0;
 
@@ -81,6 +135,8 @@ var azimuth_range = func(azimuth, max_range, b_scope) {
 
 
 ### Radar picture
+#
+# This is the code which "encodes" information used by the shader.
 
 var RadarImage = {
     img_full_res: 128,
@@ -101,33 +157,95 @@ var RadarImage = {
         me.img = me.parent.createChild("image")
             .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png");
 
+        # metadata (blue channel)
+        me.metadata = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+        me.update_metadata();
+
         me.update_quality(input.quality.getValue());
 
         me.display = -1;
     },
 
+    # Metadata strips, from bottom to top
+    # - time of writing, normalized, modulo 60s
+    # - radar range, normalized as: 0.25: 12km, 0.5: 30km, 0.75: 60km, 1: 120km,
+    #   0: show cross marker, hide range/azimuth marks
+    # - centerline deviation, normalized as: 0: 61.5° left, 1: 61.5° right,
+    # - aiming range marks, (normalized in B-scope, boolean show/hide in PPI)
+    # - cross marker range, normalized
+    # - cross marker azimuth, normalized as: 0: 61.5° left, 1: 61.5° right,
+    #
+    # Each strip spans 1/8 of the height of the texture.
+    # One should be careful when sampling to avoid interpolation issues:
+    # sample in the middle of of the strip, and make sensible comparisons for intermediate values.
+
+    INFO: {
+        TIME:           0,
+        RANGE:          1,
+        LINE_DEV:       2,
+        RANGE_MARKS:    3,
+        CROSS_RANGE:    4,
+        CROSS_AZI:      5,
+        # 6,7 are padding
+        N_STRIPS:       8,
+    },
+
+    NORM_RANGE: {
+        15000: 0.25,
+        30000: 0.5,
+        60000: 0.75,
+        120000: 1.0,
+    },
+
+    # Modify me.info() to contain current metadata.
+    update_metadata: func {
+        me.metadata[me.INFO.TIME] = math.fmod(input.time.getValue() / 60.0, 1);
+        me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
+        # TODO, other fields
+    },
+
     update_quality: func(quality) {
-        me.clear_img();
+        me._empty_img();
 
         me.width = me.quality_settings[quality].width;
         me.height = me.quality_settings[quality].height;
 
+        me.strip_height = me.height / me.INFO.N_STRIPS;
+
         me.img.setScale(canvas_size / me.width, canvas_size / me.height);
         me.img.setTranslation(0, canvas_size * (1.0 - me.img_full_res / me.height));
+
+        me.clear_img();
+    },
+
+    _empty_img: func {
+        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,0,0]);
     },
 
     clear_img: func {
-        var t = math.fmod(input.time.getValue() / 60.0, 1);
-        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,t,0]);
+        me.update_metadata();
+        me.draw_empty_sector(-PPI_half_angle, PPI_half_angle);
     },
 
-    clear_sector: func(start_azi, end_azi) {
-        var t = math.fmod(input.time.getValue() / 60.0, 1);
-
+    draw_empty_sector: func(start_azi, end_azi) {
         var min_x = math.floor((math.min(start_azi, end_azi)*0.5/PPI_half_angle + 0.5) * me.width);
         var max_x = math.floor((math.max(start_azi, end_azi)*0.5/PPI_half_angle + 0.5) * me.width);
 
-        me.img.fillRect([min_x, 0, max_x-min_x, me.height], [0,0,t,0]);
+        var meta_idx = 0;
+        var meta = me.metadata[meta_idx];
+
+        # For some reason fillRect() does not work correctly here.
+        for (var y = 0; y < me.height; y += 1) {
+            if (y >= (meta_idx+1) * me.strip_height) {
+                meta_idx += 1;
+                meta = me.metadata[meta_idx];
+            }
+            var color = [0,0,meta,1];
+
+            for (var x = min_x; x < max_x; x += 1) {
+                me.img.setPixel(x, y, color);
+            }
+        }
     },
 
     draw_azimuth_data: func(azimuth, azi_width, data) {
@@ -138,16 +256,25 @@ var RadarImage = {
 
         if (min_x == max_x) return;
 
-        var t = math.fmod(input.time.getValue() / 60.0, 1);
+        var meta_idx = 0;
+        var meta = me.metadata[meta_idx];
 
         for (var y = 0; y < me.height; y += 1) {
             var val = math.clamp(data[y], 0, 1);
-            var color = [0,val,t,1];
+            if (y >= (meta_idx+1) * me.strip_height) {
+                meta_idx += 1;
+                meta = me.metadata[meta_idx];
+            }
+            var color = [0,val,meta,1];
 
             for (var x = min_x; x < max_x; x += 1) {
                 me.img.setPixel(x, y, color);
             }
         }
+    },
+
+    prepare_draw: func {
+        me.update_metadata();
     },
 
     show_image: func {
@@ -249,11 +376,41 @@ var PPIBackground = {
     init: func {
         me.bg = me.parent.createChild("path")
             .setColorFill(0.3, 1.0, 0.3, 1.0)
+            .set("stroke-width", 0)
             .lineTo(PPI_side_bot, PPI_side)
             .lineTo(PPI_side_top, PPI_side)
             .arcSmallCCWTo(PPI_radius, PPI_radius, 0, PPI_side_top, -PPI_side)
             .lineTo(PPI_side_bot, -PPI_side)
             .close();
+
+        me.lines_grp = me.parent.createChild("group")
+            .set("z-index", 1)
+            .set("stroke", "rgba(0,0,0,1)")
+            .set("stroke-width", 0.8);
+
+        # lines
+        var line_angle = 30.0 * D2R;
+        me.lines_grp.createChild("path")
+            .moveTo(0,0).lineTo(PPI_radius, 0)
+            .moveTo(0,0).lineTo(PPI_radius * math.cos(line_angle), PPI_radius * math.sin(line_angle))
+            .moveTo(0,0).lineTo(PPI_radius * math.cos(line_angle), -PPI_radius * math.sin(line_angle));
+
+        # arcs
+        me.arc_80 = me.lines_grp.createChild("path")
+            .moveTo(0,-80).arcSmallCWTo(80,80,0,0,80);
+        me.arc_40 = me.lines_grp.createChild("path")
+            .moveTo(0,-40).arcSmallCWTo(40,40,0,0,40);
+        me.arc_20 = me.lines_grp.createChild("path")
+            .moveTo(0,-20).arcSmallCWTo(20,20,0,0,20);
+        me.arc_10 = me.lines_grp.createChild("path")
+            .moveTo(0,-10).arcSmallCWTo(10,10,0,0,10);
+    },
+
+    update: func {
+        var range = input.radar_range.getValue();
+        me.arc_10.setVisible(range >= 120000);
+        me.arc_20.setVisible(range >= 60000);
+        me.arc_40.setVisible(range >= 30000);
     },
 };
 
@@ -347,7 +504,6 @@ var MODE = ps37_mode.CI_MODE;
 
 var CI = {
     symbols_width: 1.5,
-    radar_symbols_width: 0.8,
 
     new: func(parent) {
         var m = { parents: [CI], root: parent, };
@@ -361,26 +517,24 @@ var CI = {
             .set("stroke-linejoin", "round");
 
         me.symbols_grp = me.root.createChild("group", "symbols")
-            .set("z-index", 0)
+            .set("z-index", 5)
             .set("stroke", "rgba(255,0,0,1)")
             .set("stroke-width", me.symbols_width)
             .setTranslation(canvas_size/2, canvas_size/2);
 
-        me.rdr_symbols_grp = me.symbols_grp.createChild("group", "radar symbols")
+        me.rdr_symbols_grp = me.symbols_grp.createChild("group", "nav symbols")
+            .set("z-index", 5)
             .setTranslation(0, PPI_base_offset)
             .setRotation(-math.pi/2);
 
         me.bg_grp = me.symbols_grp.createChild("group", "radar background")
             .set("z-index", -10)
-            .set("stroke", "rgba(0,0,0,0)")
-            .set("stroke-width", 0)
-            .set("fill", "rgba(76,255,76,1)")
             .setTranslation(0, PPI_base_offset)
             .setRotation(-math.pi/2);
 
         me.img_grp = me.root.createChild("group", "radar image")
             # HIGHER z-index, for blending magic
-            .set("z-index", 100)
+            .set("z-index", 10)
             # Additive blend, the two groups use different color channels, which must be treated independently.
             .set("blend-source", "one")
             .set("blend-destination", "one");
@@ -488,7 +642,10 @@ var CI = {
 
     # Call this each frame once the radar is done drawing
     show_radar_image: func(dt) {
-        if (!me.use_shader) return;
+        if (!me.use_shader) {
+            me.bg.update();
+            return;
+        }
 
         if (me.mode != MODE.SILENT) {
             # Radar antenna position
@@ -509,6 +666,9 @@ var CI = {
         input.radar_time.setValue(math.fmod(input.time.getValue() / 60.0, 1));
         input.beam_pos.setValue(me.beam_pos);
         input.beam_dir.setValue(me.beam_dir);
+
+        # Prepare radar picture for next loop
+        me.radar_img.prepare_draw();
     },
 
     silent_sweep: func(dt) {
@@ -522,7 +682,7 @@ var CI = {
             me.beam_dir = 1;
         }
 
-        me.radar_img.clear_sector(prev_angle, next_angle);
+        me.radar_img.draw_empty_sector(prev_angle, next_angle);
 
         me.beam_pos = next_angle / PPI_half_angle;
     },
