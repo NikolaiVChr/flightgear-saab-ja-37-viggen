@@ -527,6 +527,7 @@
         <fragment-shader n="0">Shaders/include_fog.frag</fragment-shader>				<!--fog include-->
         <fragment-shader n="1">Aircraft/JA37/Models/Effects/CI/default.frag</fragment-shader>
         <fragment-shader n="2">Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
+        <fragment-shader>Shaders/noise.frag</fragment-shader>
 			</program>
 			<!-- 			BEGIN fog include -->
 			<uniform>
