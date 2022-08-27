@@ -1,8 +1,5 @@
 #version 120
 
-varying vec3 VNormal;
-varying vec3 eyeVec;
-
 varying vec3 filter_color;
 varying mat2 PPI_beam_mat;
 
@@ -143,8 +140,7 @@ bool not_erased(vec4 PPI_pos)
 }
 
 
-void main()
-{
+vec4 CI_screen_color() {
     vec2 pos = gl_TexCoord[0].st;
     float intensity = 0.0;
 
@@ -188,6 +184,5 @@ void main()
     float symbols = texture2D(texture, pos).r;
     intensity = mix(intensity, symb_color, symbols);
 
-    gl_FragColor.rgb = clamp(filter_color * intensity, 0.0, 1.0);
-    gl_FragColor.a = 1.0;
+    return vec4(clamp(filter_color * intensity, 0.0, 1.0), 1.0);
 }

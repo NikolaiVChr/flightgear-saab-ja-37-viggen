@@ -19,6 +19,12 @@ var input = {
     beam_pos:       "instrumentation/radar/effect/beam-pos-norm",
     beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
+    # shaders controls
+    compositor:     "ja37/supported/compositor",
+    als_on:         "sim/rendering/shaders/skydome",
+    comp_shaders:   "sim/rendering/shaders/use-shaders",
+    old_shaders1:   "sim/rendering/shaders/quality-level",
+    old_shaders2:   "sim/rendering/shaders/model",
 };
 
 foreach(var name; keys(input)) {
@@ -231,6 +237,27 @@ var NavSymbols = {
 };
 
 
+### Background shape, only used when shaders are disabled
+
+var PPIBackground = {
+    new: func(parent) {
+        var m = { parents: [PPIBackground], parent: parent, };
+        m.init();
+        return m;
+    },
+
+    init: func {
+        me.bg = me.parent.createChild("path")
+            .setColorFill(0.3, 1.0, 0.3, 1.0)
+            .lineTo(PPI_side_bot, PPI_side)
+            .lineTo(PPI_side_top, PPI_side)
+            .arcSmallCCWTo(PPI_radius, PPI_radius, 0, PPI_side_top, -PPI_side)
+            .lineTo(PPI_side_bot, -PPI_side)
+            .close();
+    },
+};
+
+
 ### Artificial horizon
 
 var Horizon = {
@@ -343,6 +370,14 @@ var CI = {
             .setTranslation(0, PPI_base_offset)
             .setRotation(-math.pi/2);
 
+        me.bg_grp = me.symbols_grp.createChild("group", "radar background")
+            .set("z-index", -10)
+            .set("stroke", "rgba(0,0,0,0)")
+            .set("stroke-width", 0)
+            .set("fill", "rgba(76,255,76,1)")
+            .setTranslation(0, PPI_base_offset)
+            .setRotation(-math.pi/2);
+
         me.img_grp = me.root.createChild("group", "radar image")
             # HIGHER z-index, for blending magic
             .set("z-index", 100)
@@ -352,6 +387,7 @@ var CI = {
 
         me.radar_img = RadarImage.new(me.img_grp);
         me.nav_symbols = NavSymbols.new(me.rdr_symbols_grp);
+        me.bg = PPIBackground.new(me.bg_grp);
         me.horizon = Horizon.new(me.symbols_grp);
 
         me.mode = -1;
@@ -362,6 +398,36 @@ var CI = {
         me.beam_dir = 1;
 
         me.zero_buffer = [];
+
+        me.use_shader = -1;
+        me.update_shader();
+    },
+
+    # Test if CI shader is enabled.
+    # When disabled, only navigation symbols are shown.
+    update_shader: func {
+        var use_shader = input.als_on.getBoolValue()
+            or (input.compositor.getBoolValue() and input.comp_shaders.getBoolValue())
+            or (!input.compositor.getBoolValue() and input.old_shaders1.getBoolValue() and input.old_shaders2.getBoolValue());
+
+        if (use_shader == me.use_shader) return;
+        me.use_shader = use_shader;
+
+        if (me.use_shader) {
+            # symbols drawn in red canal, shader interprets it as needed
+            me.symbols_grp.set("stroke", "rgba(255,0,0,1)");
+            # display radar
+            me.img_grp.show();
+            me.bg_grp.hide();
+            me.clear_radar_image();
+            me.show_radar_image(0.01);
+        } else {
+            # draw symbols with correct color
+            me.symbols_grp.set("stroke", "rgba(220,255,220,1)");
+            # no radar picture
+            me.img_grp.hide();
+            me.bg_grp.show();
+        }
     },
 
     set_mode: func(mode, display) {
@@ -415,11 +481,15 @@ var CI = {
     # - data: Array radar return strength (from 0 to 1) on the given azimuth,
     #         with uniform sampling between 0 and radar range.
     draw_radar_data: func(azimuth, azi_width, data) {
+        if (!me.use_shader) return;
+
         me.radar_img.draw_azimuth_data(azimuth, azi_width, data);
     },
 
     # Call this each frame once the radar is done drawing
     show_radar_image: func(dt) {
+        if (!me.use_shader) return;
+
         if (me.mode != MODE.SILENT) {
             # Radar antenna position
             me.beam_pos = radar.ps37.getCaretPosition()[0];
@@ -498,17 +568,20 @@ var max_dt = 0.1;
 var ci_cvs = nil;
 var ci = nil;
 
-var quality_listener = nil;
 
 var init = func {
     ci_cvs = CICanvas.new();
     ci_cvs.add_placement({"node": "radarScreen", "texture": "radar-canvas.png"});
     ci = CI.new(ci_cvs.root);
 
-    if (quality_listener != nil) removelistener(quality_listener);
-    quality_listener = setlistener(input.quality, func (node) {
-        ci.update_quality(node.getValue());
-    }, 0, 0);
+    setlistener(input.quality, func (node) { ci.update_quality(node.getValue()); }, 0, 0);
+    setlistener(input.als_on, func { ci.update_shader(); }, 0, 0);
+    if (input.compositor.getBoolValue()) {
+      setlistener(input.comp_shaders, func { ci.update_shader(); }, 0, 0);
+    } else {
+      setlistener(input.old_shaders1, func { ci.update_shader(); }, 0, 0);
+      setlistener(input.old_shaders2, func { ci.update_shader(); }, 0, 0);
+    }
 }
 
 var loop = func(dt) {

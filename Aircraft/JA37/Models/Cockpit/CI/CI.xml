@@ -37,7 +37,7 @@
   </effect>
 
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/displays/ci</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/CI/ci</inherits-from>
     <object-name>radarScreen</object-name>
   </effect>
 
