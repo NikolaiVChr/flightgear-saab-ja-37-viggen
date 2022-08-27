@@ -6,6 +6,7 @@ varying mat2 PPI_beam_mat;
 uniform sampler2D texture;
 uniform float time_norm;
 uniform int display_mode;
+uniform int beam_dir;
 
 
 // Index of metadata strips
@@ -167,7 +168,7 @@ vec4 CI_screen_color() {
     if (display_mode == 1) {
         // PPI display
         vec4 PPI_pos = PPI_coord(pos);
-        float beam_int = beam_int(PPI_pos);
+        float beam_int = beam_dir == 0 ? 0.0 : beam_int(PPI_pos);
 
         if (abs(PPI_pos.w) >= PPI_HALF_ANGLE) {
             intensity = max(COLOR_BOTTOM, beam_int);

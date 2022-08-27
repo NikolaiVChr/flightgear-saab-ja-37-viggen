@@ -665,7 +665,7 @@ var CI = {
         # Radar shader input properties
         input.radar_time.setValue(math.fmod(input.time.getValue() / 60.0, 1));
         input.beam_pos.setValue(me.beam_pos);
-        input.beam_dir.setValue(me.beam_dir);
+        input.beam_dir.setValue(me.mode == MODE.MEMORY ? 0 : me.beam_dir);  # Disable beam in memory mode
 
         # Prepare radar picture for next loop
         me.radar_img.prepare_draw();
