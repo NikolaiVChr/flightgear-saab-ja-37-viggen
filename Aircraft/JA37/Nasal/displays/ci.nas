@@ -69,7 +69,8 @@ var input = {
     radar_filter:   "instrumentation/radar/polaroid-filter",
     time:           "sim/time/elapsed-sec",
     shader_mode:    "instrumentation/radar/effect/mode",
-    radar_time:     "instrumentation/radar/effect/time",
+    radar_time1:    "instrumentation/radar/effect/time1",
+    radar_time2:    "instrumentation/radar/effect/time2",
     beam_pos:       "instrumentation/radar/effect/beam-pos-norm",
     beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
@@ -134,6 +135,11 @@ var azimuth_range = func(azimuth, max_range, b_scope) {
 }
 
 
+# time is encoded over two values, because of precision issues
+var time1_factor = 60.0;
+var time2_factor = 1920.0;
+
+
 ### Radar picture
 #
 # This is the code which "encodes" information used by the shader.
@@ -167,7 +173,7 @@ var RadarImage = {
     },
 
     # Metadata strips, from bottom to top
-    # - time of writing, normalized, modulo 60s
+    # - time of writing
     # - radar range, normalized as: 0.25: 12km, 0.5: 30km, 0.75: 60km, 1: 120km,
     #   0: show cross marker, hide range/azimuth marks
     # - centerline deviation, normalized as: 0: 61.5° left, 1: 61.5° right,
@@ -180,12 +186,13 @@ var RadarImage = {
     # sample in the middle of of the strip, and make sensible comparisons for intermediate values.
 
     INFO: {
-        TIME:           0,
-        RANGE:          1,
-        LINE_DEV:       2,
-        RANGE_MARKS:    3,
-        CROSS_RANGE:    4,
-        CROSS_AZI:      5,
+        TIME1:          0,
+        TIME2:          1,
+        RANGE:          2,
+        LINE_DEV:       3,
+        RANGE_MARKS:    4,
+        CROSS_RANGE:    5,
+        CROSS_AZI:      6,
         # 6,7 are padding
         N_STRIPS:       8,
     },
@@ -199,14 +206,14 @@ var RadarImage = {
 
     # Modify me.info() to contain current metadata.
     update_metadata: func {
-        me.metadata[me.INFO.TIME] = math.fmod(input.time.getValue() / 60.0, 1);
+        var time = input.time.getValue();
+        me.metadata[me.INFO.TIME1] = math.fmod(time / time1_factor, 1.0);
+        me.metadata[me.INFO.TIME2] = math.fmod(time / time2_factor, 1.0);
         me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
         # TODO, other fields
     },
 
     update_quality: func(quality) {
-        me._empty_img();
-
         me.width = me.quality_settings[quality].width;
         me.height = me.quality_settings[quality].height;
 
@@ -218,13 +225,8 @@ var RadarImage = {
         me.clear_img();
     },
 
-    _empty_img: func {
-        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,0,0]);
-    },
-
     clear_img: func {
-        me.update_metadata();
-        me.draw_empty_sector(-PPI_half_angle, PPI_half_angle);
+        me.img.fillRect([0,0,me.img_full_res,me.img_full_res], [0,0,0,0]);
     },
 
     draw_empty_sector: func(start_azi, end_azi) {
@@ -663,7 +665,9 @@ var CI = {
         me.radar_img.show_image();
 
         # Radar shader input properties
-        input.radar_time.setValue(math.fmod(input.time.getValue() / 60.0, 1));
+        var time = input.time.getValue();
+        input.radar_time1.setValue(math.fmod(time / time1_factor, 1.0));
+        input.radar_time2.setValue(math.fmod(time / time2_factor + 0.001, 1.0));
         input.beam_pos.setValue(me.beam_pos);
         input.beam_dir.setValue(me.mode == MODE.MEMORY ? 0 : me.beam_dir);  # Disable beam in memory mode
 

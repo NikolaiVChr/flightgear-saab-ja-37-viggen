@@ -4,22 +4,27 @@ varying vec3 filter_color;
 varying mat2 PPI_beam_mat;
 
 uniform sampler2D texture;
-uniform float time_norm;
+uniform float current_time1;
+uniform float current_time2;
 uniform int display_mode;
 uniform int beam_dir;
 
 
 // Index of metadata strips
-#define INFO_TIME           0
-#define INFO_RANGE          1
-#define INFO_LINE_DEV       2
-#define INFO_RANGE_MARKS    3
-#define INFO_CROSS_RANGE    4
-#define INFO_CROSS_AZI      5
+#define INFO_TIME1          0
+#define INFO_TIME2          1
+#define INFO_RANGE          2
+#define INFO_LINE_DEV       3
+#define INFO_RANGE_MARKS    4
+#define INFO_CROSS_RANGE    5
+#define INFO_CROSS_AZI      6
 // 67 are padding
 #define N_INFO_STRIPS       8
 
 #define SAMPLE_Y(index) (((index) + 0.5) / N_INFO_STRIPS)
+
+#define TIME1_FACTOR        60.0
+#define TIME2_FACTOR        1920.0
 
 
 // Shape off radar picture area, cf. displays/ci.nas
@@ -38,10 +43,10 @@ uniform int beam_dir;
 
 
 // Intensity for various parts of image
+#define COLOR_BASE      0.4     // natural color, of area not illuminated by either electron cannon
 #define COLOR_BG        1.0     // radar background
 #define COLOR_RADAR     0.0     // radar echo
 #define COLOR_BOTTOM    1.5     // below radar picture
-#define COLOR_ORIGIN    0.5     // origin of PPI, never erased
 #define COLOR_SYMBOLS   3.0     // bright symbol overlay
 
 
@@ -66,7 +71,7 @@ float beam_int(vec4 PPI_pos)
 // transmission factor to neighbours
 float decay(float age)
 {
-    return pow(0.1, age);
+    return mix(pow(0.5, age/30.0), pow(0.9, pow(age * 2 - 1, 2)), 0.1);
 }
 
 // PPI coordonates.
@@ -173,23 +178,26 @@ vec4 CI_screen_color() {
         if (abs(PPI_pos.w) >= PPI_HALF_ANGLE) {
             intensity = max(COLOR_BOTTOM, beam_int);
         } else if (not_erased(PPI_pos)) {
-            intensity = COLOR_ORIGIN;
+            intensity = COLOR_BASE;
         } else if (!all(lessThan(abs(PPI_pos.xzw), PPI_LIMIT_xzw))) {
-            intensity = beam_int - COLOR_BG;    // erasing beam is dim in this area
+            intensity = max(beam_int - COLOR_BG, 0.0);    // erasing beam is dimmer in this area
         } else {
             // (strength, age)
             float radar = radar_texture_PPI(PPI_pos);
-            float time = get_metadata(PPI_pos, INFO_TIME);
-            float age = fract(time_norm - time);
-            // noise
-            radar = clamp(radar + 0.2 * noise1(vec3(PPI_pos.xy, time) * 200), 0.0, 1.0);
+            float time1 = get_metadata(PPI_pos, INFO_TIME1);
+            float time2 = get_metadata(PPI_pos, INFO_TIME2);
+            float age = fract(current_time2 - time2) * TIME2_FACTOR;
+            if (age <= TIME1_FACTOR * 0.9) {
+                age = fract(current_time1 - time1) * TIME1_FACTOR;
+            }
+            // noise from radar
+            radar = clamp(radar + 0.2 * noise1(vec3(PPI_pos.xy, time1) * 200), 0.0, 1.0);
 
             float range = get_metadata(PPI_pos, INFO_RANGE);
             radar = max(radar, get_lines_PPI(PPI_pos, range));
 
-            radar *= decay(age);
-
             intensity = mix(COLOR_BG, COLOR_RADAR, radar);
+            intensity = mix(COLOR_BASE, intensity, decay(age));
             intensity = max(intensity, beam_int);
         }
     } else if (display_mode == 2) {

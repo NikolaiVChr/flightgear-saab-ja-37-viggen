@@ -1503,7 +1503,8 @@
             <ground-radar-quality type="int">1</ground-radar-quality>
             <effect>
                 <mode type="int">0</mode>
-                <time type="float">0.0</time>
+                <time1 type="float">0.0</time1>
+                <time2 type="float">0.0</time2>
                 <beam-pos-norm type="float">0.0</beam-pos-norm>
                 <beam-dir type="int">1.0</beam-dir>
             </effect>
