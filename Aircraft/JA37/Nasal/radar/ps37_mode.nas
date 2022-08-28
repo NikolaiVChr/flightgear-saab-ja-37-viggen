@@ -35,7 +35,6 @@ var RADAR_MODE = {
 var radar_mode = RADAR_MODE.STBY;
 
 var CI_MODE = {
-    # TODO
     STBY: 0,    # CU
     SILENT: 1,  # CPP
     NORMAL: 2,  # CPK/CEK
