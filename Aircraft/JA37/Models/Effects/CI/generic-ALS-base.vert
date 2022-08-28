@@ -2,7 +2,7 @@
 #version 120
 
 // CI effect
-// This is FG 2020.3.13 Shaders/generic-ALS-base.vert with a call to CI shader plugged in.
+// This is FG 2020.4 Shaders/generic-ALS-base.vert with a call to CI shader plugged in.
 
 // Shader that uses OpenGL state values to do per-pixel lighting
 //
@@ -18,6 +18,8 @@
 #define MODE_DIFFUSE 1
 #define MODE_AMBIENT_AND_DIFFUSE 2
 
+attribute vec2 orthophotoTexCoord;
+
 // The constant term of the lighting equation that doesn't depend on
 // the surface normal is passed in gl_{Front,Back}Color. The alpha
 // component is set to 1 for front, 0 for back in order to work around
@@ -25,6 +27,8 @@
 varying vec4 diffuse_term;
 varying vec3 normal;
 varying vec3 relPos;
+varying vec2 orthoTexCoord;
+varying vec4 ecPosition;
 
 varying float yprime_alt;
 varying float mie_angle;
@@ -39,6 +43,7 @@ uniform float overcast;
 uniform float ground_scattering;
 uniform float moonlight;
 
+void setupShadows(vec4 eyeSpacePos);
 
 // This is the value used in the skydome scattering shader - use the same here for consistency?
 const float EarthRadius = 5800000.0;
@@ -81,9 +86,10 @@ void main()
 
 // this code is copied from default.vert
 
-    //vec4 ecPosition = gl_ModelViewMatrix * gl_Vertex;
+    ecPosition = gl_ModelViewMatrix * gl_Vertex;
     gl_Position = ftransform();
     gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+    orthoTexCoord = orthophotoTexCoord;
     normal = gl_NormalMatrix * gl_Normal;
     vec4 ambient_color, diffuse_color;
     if (colorMode == MODE_DIFFUSE) {
@@ -246,6 +252,8 @@ else // the faster, full-day version without lightfields
     // gl_FrontFacing in the fragment shader.
     gl_FrontColor.rgb = constant_term.rgb;  gl_FrontColor.a = 1.0;
     gl_BackColor.rgb = constant_term.rgb; gl_BackColor.a = 0.0;
+
+    setupShadows(ecPosition);
 
     // CI code insert (this should be the only difference with the standard shader)
     CI_screen_prepare();

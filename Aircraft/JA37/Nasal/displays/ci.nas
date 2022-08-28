@@ -80,12 +80,9 @@ var input = utils.property_map({
     rm_dist:        "instrumentation/waypoint-indicator/tgt-dist-km",
     rm_bearing:     "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
     # shaders controls
-    compositor:     "ja37/supported/compositor",
     force_shader:   "ja37/displays/use-CI-shader-on-min-settings",
     als_on:         "sim/rendering/shaders/skydome",
-    comp_shaders:   "sim/rendering/shaders/use-shaders",
-    old_shaders1:   "sim/rendering/shaders/quality-level",
-    old_shaders2:   "sim/rendering/shaders/model",
+    shaders:        "sim/rendering/shaders/use-shaders",
 });
 
 
@@ -635,14 +632,7 @@ var CI = {
     # When disabled, only navigation symbols are shown.
 
     shader_enabled: func {
-        if (input.als_on.getBoolValue()) return TRUE;
-        if (input.force_shader.getBoolValue()) return TRUE;
-
-        if (input.compositor.getBoolValue()) {
-            return input.comp_shaders.getBoolValue();
-        } else {
-            return input.old_shaders1.getBoolValue() and input.old_shaders2.getBoolValue();
-        }
+        return input.als_on.getBoolValue() or input.force_shader.getBoolValue() or input.shaders.getBoolValue();
     },
 
     update_shader: func {
@@ -673,13 +663,7 @@ var CI = {
 
         setlistener(input.als_on, func { me.update_shader(); }, 0, 0);
         setlistener(input.force_shader, func { me.update_shader(); }, 0, 0);
-
-        if (input.compositor.getBoolValue()) {
-          setlistener(input.comp_shaders, func { me.update_shader(); }, 0, 0);
-        } else {
-          setlistener(input.old_shaders1, func { me.update_shader(); }, 0, 0);
-          setlistener(input.old_shaders2, func { me.update_shader(); }, 0, 0);
-        }
+        setlistener(input.shaders, func { me.update_shader(); }, 0, 0);
     },
 
     set_mode: func(mode, display) {
