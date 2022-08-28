@@ -285,6 +285,12 @@ var PS37Mode = {
     getSearchInfo: func (contact) {
         return me.active ? [1,0,1,0,0,1] : nil;
     },
+
+    # Return true if radar beam is narrow in height (terrain / air mode),
+    # false if it is narrow in width (default).
+    isNarrowBeam: func {
+        return FALSE;
+    },
 };
 
 
