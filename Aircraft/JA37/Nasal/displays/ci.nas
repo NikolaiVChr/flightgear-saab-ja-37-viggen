@@ -309,6 +309,7 @@ var NavSymbols = {
         me.appch_circle = me.root.createChild("path");
 
         me.display = -1;
+        me.mode = -1;
     },
 
     set_line_length: func(length, scale) {
@@ -336,6 +337,7 @@ var NavSymbols = {
 
     set_mode: func(mode, display) {
         me.display = display;
+        me.mode = mode;
         me.root.setVisible(display == DISPLAY.PPI);
     },
 
@@ -344,18 +346,23 @@ var NavSymbols = {
 
         var scale = input.radar_range.getValue();
 
-        me.wpt_circle.setVisible(land.show_waypoint_circle);
-        me.line.setVisible(land.show_runway_line);
-        me.appch_circle.setVisible(land.show_approach_circle);
+        # Mode restrictions from Beskrivning FPL AJS37 Del 4
+        var wpt_visible = (land.show_waypoint_circle and me.mode != MODE.BOMB and me.mode != MODE.AIR);
+        var line_visible = (land.show_runway_line and (me.mode == MODE.SILENT or me.mode == MODE.NORMAL));
+        var appch_circle_visible = (line_visible and land.show_approach_circle);
 
-        if (land.show_waypoint_circle or land.show_runway_line) {
+        me.wpt_circle.setVisible(wpt_visible);
+        me.line.setVisible(line_visible);
+        me.appch_circle.setVisible(appch_circle_visible);
+
+        if (wpt_visible or line_visible) {
             me.set_elt_pos_polar(me.wpt_group, land.runway_dist*NM2M, land.runway_bug, scale);
         }
-        if (land.show_runway_line) {
+        if (line_visible) {
             me.set_line_length(land.line*1000, scale);
             me.line.setRotation((180 + land.head - input.heading.getValue()) * D2R);
         }
-        if (land.show_approach_circle) {
+        if (appch_circle_visible) {
             me.set_appch_circle_scale(scale);
             var ac_pos = geo.aircraft_position();
             var bearing = ac_pos.course_to(land.approach_circle) - input.heading.getValue();
