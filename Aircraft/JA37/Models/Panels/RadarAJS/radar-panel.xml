@@ -95,7 +95,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>radar-filter</tooltip-id>
-        <label>Radar filter mode (non functional)</label>
+        <label>Radar filter mode</label>
       </binding>
     </hovered>
   </animation>
@@ -167,7 +167,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>radar-lin</tooltip-id>
-        <label>Linear radar amplification (non functional)</label>
+        <label>Linear radar amplification</label>
       </binding>
     </hovered>
   </animation>

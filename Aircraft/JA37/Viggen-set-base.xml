@@ -544,6 +544,7 @@
                 <linear type="bool">false</linear>
                 <passive type="bool">false</passive>
                 <gain type="double">0</gain>
+                <filter type="int">0</filter>
             </panel>
         </radar>
         <effect>

@@ -356,7 +356,7 @@ var ScanMode = {
     useDistanceNorm: func {
         if (me.mode == me.MODE_TERRAIN) return TRUE;
 
-        var filter = input.filter.getBoolValue();
+        var filter = input.filter.getValue();
         if (me.mode == me.MODE_AIR) {
             return (filter == 1 or filter == 2 or filter == 7);
         } elsif (me.mode == me.MODE_RB04) {
