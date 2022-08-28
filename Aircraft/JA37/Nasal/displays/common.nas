@@ -118,7 +118,8 @@ var Common = {
 
 		# Starting with all systems on.
 		if (getprop("/ja37/avionics/init-done")) {
-			co.power_time = -100;
+			co.power_time = -180;
+			co.displays_on_time = -40;
 			co.ep12_on = TRUE;
 		}
 
