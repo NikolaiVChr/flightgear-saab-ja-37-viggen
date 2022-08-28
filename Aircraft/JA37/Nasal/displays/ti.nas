@@ -52,7 +52,7 @@ var type = "light_nolabels";
 #                   0                             5                               10                               15                      19
 var meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];# at equator
 #zooms      = [4, 7, 9, 11, 13];#old
-var zooms      = [5, 6, 7, 8, 9];
+var zooms      = [6, 7, 8, 9, 10];
 var zoomLevels = [3.2, 1.6, 800, 400, 200];
 var zoom_curr  = 2;
 var zoom = zooms[zoom_curr];
@@ -72,21 +72,21 @@ var zoom = zooms[zoom_curr];
 
 var M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 
-var zoomIn = func(cycle=0) {
+var zoomIn = func() {
 	if (ti.active == FALSE) return;
   zoom_curr += 1;
   if (zoom_curr > 4) {
-  	zoom_curr = cycle ? 0 : 4;
+  	zoom_curr = 0;
   }
   zoom = zooms[zoom_curr];
   M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 }
 
-var zoomOut = func(cycle=0) {
+var zoomOut = func() {
 	if (ti.active == FALSE) return;
   zoom_curr -= 1;
   if (zoom_curr < 0) {
-  	zoom_curr = cycle ? 4 : 0;
+  	zoom_curr = 4;
   }
   zoom = zooms[zoom_curr];
   M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
@@ -262,7 +262,7 @@ var dictSE = {
 	 		'2': [TRUE, "INL\xC3\x84"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [TRUE, "S\xC3\x84TT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
 	 		'17': [TRUE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [TRUE, "EOMR"], '16': [TRUE, "TID"],
+			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [TRUE, "EOMR"], '16': [TRUE, "TID"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'2': [TRUE, "INFG"], '3': [TRUE, "NY"], #'5': [TRUE, "RADR"], # hack
 	        '8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
@@ -293,7 +293,7 @@ var dictEN = {
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [TRUE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
+			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'2': [TRUE, "INS"], '3': [TRUE, "ADD"],# '5': [TRUE, "DEL"], # unauthentic as this
 		    '8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -1609,8 +1609,8 @@ var TI = {
         	gearsPos:         	  "gear/gear/position-norm",
         	latitude:             "position/latitude-deg",
         	longitude:            "position/longitude-deg",
-        	terrainOn:            "ja37/sound/terrain-on",
-			terrainWarn:          "instrumentation/terrain-warning",
+			gpws_arrow:           "fdm/jsbsim/systems/mkv/ja-pull-up-arrow",
+			gpws_margin:          "fdm/jsbsim/systems/mkv/ja-warning-margin-norm",
 			elevCmd:              "fdm/jsbsim/fcs/elevator-cmd-norm",
 			ailCmd:               "fdm/jsbsim/fcs/aileron-cmd-norm",
 			instrNorm:            "controls/lighting/instruments-norm",
@@ -1727,8 +1727,7 @@ var TI = {
 		ti.landed = TRUE;
 		
 		# LV overlay
-		ti.showHostileZones = TRUE;
-		ti.showFriendlyZones = TRUE;
+		ti.showAAAZones = TRUE;
 		
 		# rwr overlay
 		ti.ECMon   = FALSE;
@@ -2367,17 +2366,14 @@ var TI = {
 				me.menuButtonSubBox[4].show();
 			}
 
-			# threat overlay
+			# AAA from STRIL (not functional)
 			me.menuButtonSub[14].setText(me.vertStr(me.swedishMode?"FI":"HSTL"));
-			me.menuButtonSub[14].show();
-			if (me.showHostileZones == TRUE) {
-				me.menuButtonSubBox[14].show();
-			}
+			me.menuButtonSub[14].setVisible(me.showFullMenus);
 
-			# friendly AAA
-			me.menuButtonSub[15].setText(me.vertStr(me.swedishMode?"EGET":"FRND"));
+			# own AAA points
+			me.menuButtonSub[15].setText(me.vertStr(me.swedishMode?"EGET":"OWN"));
 			me.menuButtonSub[15].show();
-			if (me.showFriendlyZones == TRUE) {
+			if (me.showAAAZones == TRUE) {
 				me.menuButtonSubBox[15].show();
 			}
 		}
@@ -2437,7 +2433,7 @@ var TI = {
 			if (me.ownPositionDigital == 0) {
 				me.menuButtonSub[19].show();
 			} else {
-				me.menuButtonSub[19].setText(""~me.ownPositionDigital);
+				me.menuButtonSub[19].setText(str(me.ownPositionDigital));
 				me.menuButtonSub[19].show();
 				me.menuButtonSubBox[19].show();
 			}
@@ -2477,7 +2473,7 @@ var TI = {
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 			# side view configuration
-			me.menuButtonSub[5].setText(me.vertStr(""~me.SVYsize));
+			me.menuButtonSub[5].setText(me.vertStr(str(me.SVYsize)));
 			me.menuButtonSub[5].show();
 			me.menuButtonSubBox[5].show();
 			if (me.SVYinclude == SVY_ALL) {
@@ -2660,19 +2656,15 @@ var TI = {
 		} elsif (zoomLevels[zoom_curr] == 1.6) {
 			me.granularity_lon = 2;
 			me.granularity_lat = 2;
-			me.dLon = 0;
 		} elsif (zoomLevels[zoom_curr] == 800) {
 			me.granularity_lon = 1;
 			me.granularity_lat = 1;
-			me.dLon = 0;
 		} elsif (zoomLevels[zoom_curr] == 400) {
 			me.granularity_lon = 0.5;
 			me.granularity_lat = 0.5;
-			me.dLon = 30;
 		} elsif (zoomLevels[zoom_curr] == 200) {
 			me.granularity_lon = 0.25;
 			me.granularity_lat = 0.25;
-			me.dLon = 15;
 		}
 		
 		var delta_lon = me.granularity_lon;
@@ -2696,25 +2688,21 @@ var TI = {
 			# Determine number of degrees of lat/lon we need to display based on range
 			# 60nm = 1 degree latitude, degree range for longitude is dependent on latitude.
 			var lon_range = 1;
-			call(func{lon_range = math.ceil(geo.Coord.new().set_latlon(lat,lon,me.input.alt_ft.getValue()*FT2M).apply_course_distance(90.0, range*NM2M).lon() - lon);},nil, var err=[]);
+			call(func{lon_range = geo.Coord.new().set_latlon(lat,lon,me.input.alt_ft.getValue()*FT2M).apply_course_distance(90.0, range*NM2M).lon() - lon;},nil, var err=[]);
 			#courseAndDistance
 			if (size(err)) {
 				#printf("fail lon %.7f  lat %.7f  ft %.2f  ft %.2f",lon,lat,me.input.alt_ft.getValue(),range*NM2M);
 				# typically this fail close to poles. Floating point exception in geo asin.
 			}
+			var lat_range = range/60.0;
+
+			lon_range = delta_lon * math.ceil(lon_range / delta_lon);
+			lat_range = delta_lat * math.ceil(lat_range / delta_lat);
+
 			lon_range = clamp(lon_range,delta_lon,250);
-			var lat_range = clamp(math.ceil(range/60.0),delta_lat,250);
+			lat_range = clamp(lat_range,delta_lat,250);
 			
-			#printf("range lon %d  lat %d",lon_range,lat_range);
-			var ddLon = 0;
-			var xx = (lon - lon_range)-int(lon - lon_range);
-			if (xx==0.5) {
-				ddLon = 30;
-			} elsif (xx==0.25) {
-				ddLon = 15;
-			} elsif (xx==0.75) {
-				ddLon = 45;
-			}
+			#printf("range lon %f  lat %f",lon_range,lat_range);
 			for (var x = (lon - lon_range); x <= (lon + lon_range); x += delta_lon) {
 				var coords = [];
 				if (x>180) {
@@ -2729,7 +2717,7 @@ var TI = {
 				for (var y = (lat - lat_range); y <= (lat + lat_range); y +=  delta_lat) {
 					append(coords, {lon:x, lat:y});
 				}
-#				print(ddLon ~"  "~ x);
+				var ddLon = math.round(math.fmod(abs(x), 1.0) * 60.0);
 				append(lines, {
 					id: x,
 					type: "lon",
@@ -2740,23 +2728,9 @@ var TI = {
 						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
 					}
 				});
-				
-				ddLon += me.dLon;
-				if (ddLon >= 60) {
-					ddLon = 0;
-				}
 			}
 			
 			# Lines of latitude
-			var yy = (lat - lat_range)-int(lat - lat_range);
-			ddLon = 0;
-			if (yy==0.5) {
-				ddLon = 30;
-			} elsif (yy==0.25) {
-				ddLon = 15;
-			} elsif (yy==0.75) {
-				ddLon = 45;
-			}
 			for (var y = (lat - lat_range); y <= (lat + lat_range); y += delta_lat) {
 				var coords = [];
 				if (y>90 or y<-90) continue;
@@ -2766,20 +2740,16 @@ var TI = {
 					append(coords, {lon:x, lat:y});
 				}
 
+				var ddLat = math.round(math.fmod(abs(y), 1.0) * 60.0);
 				append(lines, {
 					id: y,
 					type: "lat",
-					text: ""~int(y)~(ddLon==0?"   ":" "~ddLon),
+					text: str(int(y))~(ddLat==0?"   ":" "~ddLat),
 					path: coords,
 					equals: func(o){
 						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
 					}
 				});
-				
-				ddLon += me.dLon;
-				if (ddLon >= 60) {
-					ddLon = 0;
-				}
 			}
 #printf("range %d  lines %d",range, size(lines));
 		}
@@ -2946,7 +2916,7 @@ var TI = {
 					me.cursorDidSomething = TRUE;
 				}
 			} elsif (me.sDrag != nil) {
-				#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
+				#logprint(LOG_DEBUG, "dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 				if(me.cursorTrigger) {
 					# drag the steer to new place
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
@@ -3209,9 +3179,9 @@ var TI = {
 		}
 		sign = sign>0?"":"-";
 		var deg = ja37.stringToLon(sign~input);
-		print("TI recieved LO from DAP: "~sign~input);
+		logprint(LOG_DEBUG, "TI recieved LO from DAP: "~sign~input);
 		if (deg!=nil) {
-			print("converted "~sign~input~" to "~ja37.convertDegreeToStringLon(deg));
+			logprint(LOG_DEBUG, "converted "~sign~input~" to "~ja37.convertDegreeToStringLon(deg));
 			route.Polygon.setLon(deg);
 			myself.stopDAP();
 		} else {
@@ -3227,9 +3197,9 @@ var TI = {
 		}
 		sign = sign>0?"":"-";
 		var deg = ja37.stringToLat(sign~input);
-		print("TI recieved LA from DAP: "~sign~input);
+		logprint(LOG_DEBUG, "TI recieved LA from DAP: "~sign~input);
 		if (deg!=nil) {
-			print("converted "~sign~input~" to "~ja37.convertDegreeToStringLat(deg));
+			logprint(LOG_DEBUG, "converted "~sign~input~" to "~ja37.convertDegreeToStringLat(deg));
 			route.Polygon.setLat(deg);
 			myself.stopDAP();
 		} else {
@@ -3243,7 +3213,7 @@ var TI = {
 			dap.setError();
 		} else {
 			route.Polygon.editPlan(route.Polygon.polys["OP"~input]);
-			print("TI recieved area number from DAP: "~input);
+			logprint(LOG_DEBUG, "TI recieved area number from DAP: "~input);
 			myself.stopDAP();
 		}
 	},
@@ -3255,10 +3225,10 @@ var TI = {
 		} else {
 			if (input != nil) {
 				var mach = num(input)/100;
-				print("TI recieved mach from DAP: M"~mach);
+				logprint(LOG_DEBUG, "TI recieved mach from DAP: M"~mach);
 				route.Polygon.setMach(mach);
 			} else {
-				print("TI recieved no mach from DAP.");
+				logprint(LOG_DEBUG, "TI recieved no mach from DAP.");
 				route.Polygon.setMach(nil);
 			}
 			myself.stopDAP();
@@ -3275,7 +3245,7 @@ var TI = {
 		if (sign < 0 or typ > 1) {
 			dap.setError();
 		} else {
-			print("TI recieved steerpoint type from DAP: "~typ);
+			logprint(LOG_DEBUG, "TI recieved steerpoint type from DAP: "~typ);
 			route.Polygon.setType(typ);
 			myself.stopDAP();
 		}
@@ -3288,10 +3258,10 @@ var TI = {
 		} else {
 			if (input != nil) {
 				var alt = num(input);
-				print("TI recieved alt from DAP: "~alt);
+				logprint(LOG_DEBUG, "TI recieved alt from DAP: "~alt);
 				route.Polygon.setAlt(myself.swedishMode?alt*M2FT:alt);#important!!! running in metric will input metric also!
 			} else {
-				print("TI recieved no alt from DAP");
+				logprint(LOG_DEBUG, "TI recieved no alt from DAP");
 				route.Polygon.setAlt(nil);#important!!! running in metric will input metric also!
 			}
 			myself.stopDAP();
@@ -3481,6 +3451,8 @@ var TI = {
 					tick1 = 50;
 				} elsif (zoom == 9) {
 					tick1 = 25;
+				} elsif (zoom == 10) {
+					tick1 = 12.5;
 				} elsif (zoom == 11) {
 					tick1 = 6;
 				} elsif (zoom == 13) {
@@ -3494,9 +3466,9 @@ var TI = {
 				me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -tick2*M2TEX*1000);
 				me.mapScaleTick3.setTranslation(0, -tick3*M2TEX*1000);
 				me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -tick3*M2TEX*1000);
-				me.mapScaleTick1Txt.setText(""~tick1);
-				me.mapScaleTick2Txt.setText(""~tick2);
-				me.mapScaleTick3Txt.setText(""~tick3);
+				me.mapScaleTick1Txt.setText(str(tick1));
+				me.mapScaleTick2Txt.setText(str(tick2));
+				me.mapScaleTick3Txt.setText(str(tick3));
 				me.mapScaleTickM1.setTranslation(0, tick1*M2TEX*1000);
 				me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, tick1*M2TEX*1000);
 				me.mapScaleTickM2.setTranslation(0, tick2*M2TEX*1000);
@@ -3519,6 +3491,8 @@ var TI = {
 					tick1 =  25;
 				} elsif (zoom == 9) {
 					tick1 =  15;
+				} elsif (zoom == 10) {
+					tick1 =  7.5;
 				} elsif (zoom == 11) {
 					tick1 =   4;
 				} elsif (zoom == 13) {
@@ -3532,9 +3506,9 @@ var TI = {
 				me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -tick2*M2TEX*NM2M);
 				me.mapScaleTick3.setTranslation(0, -tick3*M2TEX*NM2M);
 				me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -tick3*M2TEX*NM2M);
-				me.mapScaleTick1Txt.setText(""~tick1);
-				me.mapScaleTick2Txt.setText(""~tick2);
-				me.mapScaleTick3Txt.setText(""~tick3);
+				me.mapScaleTick1Txt.setText(str(tick1));
+				me.mapScaleTick2Txt.setText(str(tick2));
+				me.mapScaleTick3Txt.setText(str(tick3));
 				me.mapScaleTickM1.setTranslation(0, tick1*M2TEX*NM2M);
 				me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, tick1*M2TEX*NM2M);
 				me.mapScaleTickM2.setTranslation(0, tick2*M2TEX*NM2M);
@@ -3596,14 +3570,14 @@ var TI = {
 				me.tgt_alt *= FT2M;
 				me.tgtTextHeiDesc.setText("H");
 				if(me.tgt_alt < 1000) {
-					me.text = ""~int(roundabout(me.tgt_alt/10)*10);
+					me.text = str(int(roundabout(me.tgt_alt/10)*10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
 			} else {
 				me.tgtTextHeiDesc.setText("A");
 				if(me.tgt_alt < 1000) {
-					me.text = ""~int(roundabout(me.tgt_alt/10)*10);
+					me.text = str(int(roundabout(me.tgt_alt/10)*10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
@@ -3916,7 +3890,7 @@ var TI = {
 			append(me.steerpoint, stGrp);
 			me.steerPointMax += 1;
 		}
-		if (wp>me.steerPointMax) print (wp~" - "~me.steerPointMax);
+		if (wp>me.steerPointMax) logprint(LOG_DEBUG, wp~" - "~me.steerPointMax);
 	},
 
 	showSteerPoints: func {
@@ -4248,7 +4222,7 @@ var TI = {
   			# for now just paint all of them and hope the pilot do not input tons at the same time
   			me.pp = me.lv[me.lvp];
 
-  			me.ppCol = me.pp.color==0?COLOR_RED:(me.pp.color==1?COLOR_YELLOW:(me.pp.color==2?COLOR_TYRK:COLOR_GREEN));
+  			me.ppCol = me.pp.color==0?COLOR_RED:(me.pp.color==1?COLOR_YELLOW:COLOR_TYRK);
   			me.ppRad = me.pp.radius==-1?15:M2TEX*me.pp.radius*1000;
   			me.ppNum = sprintf("%03d",me.pp.address);
   			if (me.lvffDrag == me.pp.address) {
@@ -4286,7 +4260,7 @@ var TI = {
   				}
 			} else {
 				# LV
-				if (me.menuMain==MAIN_MISSION_DATA or ((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)) {
+				if (me.menuMain==MAIN_MISSION_DATA or me.showAAAZones) {
 					me.ppGrp.createChild("path")
 	  						.moveTo(me.ppXY[0]-me.ppRad, me.ppXY[1])
 	  						.arcSmallCW(me.ppRad, me.ppRad, 0, me.ppRad*2, 0)
@@ -4294,7 +4268,7 @@ var TI = {
 	  						.setColor(me.ppCol)
 	  						.setStrokeLineWidth(w);
   				}
-				if (me.menuMain==MAIN_MISSION_DATA or (dap.settingKnob == dap.KNOB_TI and (((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)))) {
+				if (me.menuMain==MAIN_MISSION_DATA or (dap.settingKnob == dap.KNOB_TI and me.showAAAZones)) {
 					me.lvPadX = 0;
 					me.lvPadY = 0;
 					me.lvAlign = "center-center";
@@ -4397,7 +4371,7 @@ var TI = {
 
 	updateFlightData: func {
 		me.fData = FALSE;
-		if (me.input.terrainOn.getValue() == TRUE or me.input.terrainWarn.getValue() == TRUE) {#todo: why do 2 checks here???
+		if (me.input.gpws_arrow.getBoolValue()) {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;
@@ -4437,13 +4411,13 @@ var TI = {
 			me.text = "";
 			if (me.swedishMode) {
 				if(me.alt*FT2M < 1000) {
-					me.text = ""~roundabout(me.alt*FT2M/10)*10;
+					me.text = str(roundabout(me.alt*FT2M/10)*10);
 				} else {
 					me.text = sprintf("%.1f", me.alt*FT2M/1000);
 				}
 			} else {
 				if(me.alt < 1000) {
-					me.text = ""~roundabout(me.alt/10)*10;
+					me.text = str(roundabout(me.alt/10)*10);
 				} else {
 					me.text = sprintf("%.1f", me.alt/1000);
 				}
@@ -4456,7 +4430,7 @@ var TI = {
 	},
 
 	displayGroundCollisionArrow: func () {
-	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
+	    if (me.input.gpws_arrow.getBoolValue()) {
 	      me.arrow_trans.setRotation(-me.input.roll.getValue() * D2R);
 	      me.arrow.show();
 	    } else {
@@ -4465,14 +4439,13 @@ var TI = {
 	},
 
 	displayGround: func () {
-		me.time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
-		if (me.time != nil and me.time >= 0 and me.time < 40) {
-			me.timeC = clamp(me.time - 10,0,30);
-			me.dist = (me.timeC/30) * (height/2);
+		me.margin = me.input.gpws_margin.getValue();
+		if (me.margin < 1) {
+			me.dist = me.margin * (height/2);
 			me.ground_grp.setTranslation(0, 0);
 			me.ground_grp_trans.setRotation(-me.input.roll.getValue() * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
-			if (me.time < 10 and me.time != 0) {
+			if (me.margin < 0.5) {
 				me.groundCurve.setColor(COLOR_RED);
 			} else {
 				me.groundCurve.setColor(COLOR_GREY_BLUE);
@@ -5326,7 +5299,7 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# change zoom
-				zoomOut(cycle:TRUE);
+				zoomOut();
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.setToggleAreaEdit();
@@ -5529,10 +5502,6 @@ var TI = {
 				# GPS settings
 				me.menuGPS = TRUE;
 			}
-			if (me.menuMain == MAIN_DISPLAY) {
-				# show threat circles
-				me.showHostileZones = !me.showHostileZones;
-			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editRTB) {
 					route.Polygon.editPlan(route.Polygon.editRTB);
@@ -5568,8 +5537,8 @@ var TI = {
 				}
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
-				# show friendly threat circles
-				me.showFriendlyZones = !me.showFriendlyZones;
+				# show AAA threat circles
+				me.showAAAZones = !me.showAAAZones;
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.toggleEditRTB();
@@ -5879,24 +5848,24 @@ var TI = {
 					(func {# generator function
 					    var img_path = makePath(pos);
 					    var tile = tiles[x][y];
-					    #print('showing ' ~ img_path);
+					    #logprint(LOG_DEBUG, 'showing ' ~ img_path);
 					    if( io.stat(img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
 					      	var img_url = makeUrl(pos);
-					      	#print('requesting ' ~ img_url);
+					      	#logprint(LOG_DEBUG, 'requesting ' ~ img_url);
 					      	http.save(img_url, img_path)
 					      		.done(func(r) {
-					      	  		#print('received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
-					      	  		#print(""~(io.stat(me.img_path) != nil));
+					      	  		#logprint(LOG_DEBUG, 'received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
+					      	  		#logprint(LOG_DEBUG, str(io.stat(me.img_path) != nil));
 					      	  		tile.set("src", img_path);# this sometimes fails with: 'Cannot find image file' if use me. instead of var.
 					      	  		tile.update();
 					      	  		})
-					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-					          .fail(func (r) {#print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
+					          #.done(func {logprint(LOG_DEBUG, 'received image ' ~ img_path); tile.set("src", img_path);})
+					          .fail(func (r) {#logprint(LOG_DEBUG, 'Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
 					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
 					      					tile.update();
 					      					});
 					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
-					      	#print('loading ' ~ me.img_path);
+					      	#logprint(LOG_DEBUG, 'loading ' ~ me.img_path);
 					      	tile.set("src", img_path);
 					      	tile.update();
 					    } else {

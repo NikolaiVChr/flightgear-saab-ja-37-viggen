@@ -114,10 +114,12 @@ var Common = {
 		co.hud_on = FALSE;
 		co.ci_on = FALSE;
 		co.mi_ti_on = FALSE;
+		co.radar_on = FALSE;
 
 		# Starting with all systems on.
 		if (getprop("/ja37/avionics/init-done")) {
-			co.power_time = -100;
+			co.power_time = -180;
+			co.displays_on_time = -40;
 			co.ep12_on = TRUE;
 		}
 
@@ -162,6 +164,7 @@ var Common = {
 		if (variant.JA) {
 			me.ja_nav();
 			me.landWarningsCondition();
+			me.airbaseAlt();
 		} else {
 			me.hojd_switch();
 			me.launch_altitude();
@@ -193,6 +196,8 @@ var Common = {
 		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1);
 		# MI/TI are on 'within 2s' of EP12 on.
 		me.mi_ti_on = (time - me.displays_on_time >= 1);
+		# made up value
+		me.radar_on = (time - me.power_time >= 100);
 
 		# This property is used for checklists.
 		me.input.displays_on.setValue(me.hud_on);
@@ -213,6 +218,8 @@ var Common = {
 		me.hud_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 1);
 		# CI is on 30s after power + switching to NAV.
 		me.ci_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 30);
+		# Radar is on 3min after power (AJS SFI part 3 chap 6 sec 5.6 page 20)
+		me.radar_on = (time - me.power_time >= 180);
 	},
 
 	toggleJAdisplays: func(on=nil) {
@@ -362,15 +369,6 @@ var Common = {
 	},
 
 	QFE: func {
-		# Update airbase altitude (only in QNH mode).
-		var airbase = route.Polygon.flyRTB.plan.destination;
-		if (variant.JA and !metric and me.input.qnh_mode.getBoolValue() and airbase != nil
-				and (modes.main_ja == modes.TAKEOFF or modes.main_ja == modes.LANDING)) {
-			me.input.alt_airbase_m.setValue(airbase.elevation);
-		} else {
-			me.input.alt_airbase_m.setValue(0);
-		}
-
 		var time = me.input.time.getValue();
 		var alt = me.input.alt_aal_m.getValue();
 		var std = me.input.altimeter_std.getBoolValue();
@@ -427,7 +425,16 @@ var Common = {
 		me.qfe_warn = (me.qfe_warn_takeoff_time != nil and time - me.qfe_warn_takeoff_time <= 10)
 			or (me.qfe_warn_time != nil and time - me.qfe_warn_time <= 10);
 		me.input.qfeWarning.setValue(me.qfe_warn);
-    },
+	},
+
+	airbaseAlt: func {
+		var airbase = route.Polygon.flyRTB.plan.destination;
+		if (airbase != nil) {
+			me.input.alt_airbase_m.setValue(airbase.elevation);
+		} else {
+			me.input.alt_airbase_m.setValue(0);
+		}
+	},
 
 	referenceAlt: func {
 		# Reference (target) altitude displayed on HUD and other displays.
@@ -529,7 +536,7 @@ var Common = {
 			me.input.launch_alt_max.setValue(2000);
 			me.input.launch_alt_warn.setBoolValue(TRUE);
 		} else {
-			me.input.launch_alt_warn.setBoolValue(TRUE);
+			me.input.launch_alt_warn.setBoolValue(FALSE);
 		}
 	},
 

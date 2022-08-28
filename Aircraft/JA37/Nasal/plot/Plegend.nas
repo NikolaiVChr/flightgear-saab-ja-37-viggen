@@ -218,7 +218,7 @@ Legend.SetProp = func (x,newprop) {
 
 #Legend.FitString = func (s,n) {
 #   #printf("Legend.FitString called with %s",s);    
-#   if ( size(""~s~"") < n ) return s;
+#   if ( size(str(s)) < n ) return s;
 #   var l = substr(s, 0, (n - 2) / 3);
 #   var r = substr(s, size(s) + size(l) + 3 - n);
 #   return l ~ "..." ~ r;

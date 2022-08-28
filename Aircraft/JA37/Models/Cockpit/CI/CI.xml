@@ -36,6 +36,11 @@
     <object-name>light120</object-name>
   </effect>
 
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/CI/ci</inherits-from>
+    <object-name>radarScreen</object-name>
+  </effect>
+
   <animation>
     <type>material</type>
     <object-name>headingScale</object-name>
@@ -45,17 +50,6 @@
       <red-prop>instrumentation/instrumentation-light/r</red-prop>
       <green-prop>instrumentation/instrumentation-light/g</green-prop>
       <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-      <factor-prop>controls/lighting/instruments-norm</factor-prop>
-    </emission>
-  </animation>
-
-  <animation>
-    <type>material</type>
-    <object-name>radarScreen</object-name>
-    <emission>
-      <red>1</red>
-      <green>1</green>
-      <blue>1</blue>
       <factor-prop>controls/lighting/instruments-norm</factor-prop>
     </emission>
   </animation>
@@ -104,6 +98,29 @@
       <blue>0.0</blue>
       <factor-prop>fdm/jsbsim/systems/mkv/ajs-light</factor-prop>
     </emission>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>filter_hotspot</object-name>
+    <drag-direction>vertical</drag-direction>
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/radar/polaroid-filter</property>
+        <factor>0.1</factor>
+        <min>0</min>
+        <max>1</max>
+        <wrap>false</wrap>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>ci-filter</tooltip-id>
+        <label>Radar polarizing filter</label>
+      </binding>
+    </hovered>
   </animation>
 
   <!-- radar range indicators -->

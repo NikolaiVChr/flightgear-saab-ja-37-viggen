@@ -457,10 +457,9 @@ RWRRecipient.Receive = func(notification) {
 
 var callsign = "";
 var update_callsign = func(n) {
-    callsign = ""~n.getValue(); # ensure that it is a string
-    if(size(callsign) > 7) callsign = left(callsign, 7);
+    callsign = damage.processCallsign(str(n.getValue()));
 }
-setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);
+
 
 var launched = {};
 var mlw_max=getprop("payload/d-config/mlw_max");
@@ -489,10 +488,10 @@ missileRecipient.Receive = func(notification) {
             launched[notification.Callsign~notification.UniqueIdentity] = elapsed;
 
             var ac_pos = geo.aircraft_position();
-            if (notification.Position.direct_distance_to(ac_pos)*M2NM < damage.mlw_max) {
+            if (notification.Position.direct_distance_to(ac_pos)*M2NM < mlw_max) {
                 signal(rand(), RWR_LAUNCH, notification.Position);
                 bearing = geo.normdeg(ac_pos.course_to(notification.Position) - input.heading.getValue());
-                radar.ecmLog.push("Missile launch warning from %03d deg.", bearing);
+                if (variant.JA) radar.ecmLog.push("Missile launch warning from %03d deg.", bearing);
             }
         }
     }
@@ -503,6 +502,8 @@ missileRecipient.Receive = func(notification) {
 
 
 var init = func {
+    setlistener("/sim/multiplay/callsign", update_callsign, 1, 0);
+
     # override generic radar functions
     radar.isOmniRadiating = isOmniRadiating;
     radar.getRadarFieldRadius = getRadarFieldRadius;

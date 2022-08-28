@@ -73,7 +73,7 @@ var mode_OPT_active = FALSE;
 var debugAll = FALSE;
 
 var printDA = func (str) {
-    if (debugAll) print (str);
+    if (debugAll) logprint(LOG_INFO, str);
 }
 
 var B = func {
@@ -641,7 +641,7 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 };
 
 var roundFreq = func(x) {
-  var y = ""~x;
+  var y = str(x);
   var a = substr(y, 0, 3)~"."~substr(y, -2);
   return a;
 };

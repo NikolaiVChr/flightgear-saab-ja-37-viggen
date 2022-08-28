@@ -80,10 +80,10 @@ var test_for_fire = func {
 		# temperature is very high, calculate chance that it will make engine catch fire:
 		var temp_norm = (temp - temp_safe)/250; # 250 deg over safe temp will be 1, safe temp will be 0
 		var probability = temp_norm/(15*60);# 250 deg over safe temp will probably fail 4 times a minute
-		#print("engine fire: temp probability = "~probability);
+		#logprint(LOG_DEBUG, "engine fire: temp probability = "~probability);
 		if ( rand() < probability) {
 			# fire!
-			print("engine fire: starting due to too high outlet temperature");
+			logprint(LOG_INFO, "engine fire: starting due to too high outlet temperature");
 			return TRUE;
 		}
 	}
@@ -100,7 +100,7 @@ var test_for_fire = func {
 		#print("engine fire: hot air probability = "~probability);
 		if (rand() < probability) {
 			# fire!
-			print("engine fire: starting due to hot air sucked into inlet");
+			logprint(LOG_INFO, "engine fire: starting due to hot air sucked into inlet");
 			return TRUE;
 		}
 	}

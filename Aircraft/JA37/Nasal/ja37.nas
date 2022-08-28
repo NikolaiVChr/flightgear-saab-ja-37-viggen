@@ -87,6 +87,7 @@ input = {
   lampStart:        "ja37/avionics/startSys",
   lampStick:        "ja37/avionics/joystick",
   lampXTank:        "ja37/avionics/xtank",
+  land_warn_on:     "ja37/avionics/landing-warnings-enable",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
   MPbool4:          "sim/multiplay/generic/bool[4]",
@@ -136,7 +137,8 @@ input = {
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   fuseGVV:          "ja37/fuses/gvv",
   inputCursor:      "controls/displays/stick-controls-cursor",
-  terrainWarn:      "instrumentation/terrain-warning",
+  terrainControls:  "fdm/jsbsim/systems/mkv/controls-warning",
+  terrainSound:     "fdm/jsbsim/systems/mkv/ja-sound",
   parachuteDeploy:  "payload/armament/es/flags/deploy-id-10",
   parachuteForce:    "ja37/force",
   toneTerr: "ja37/sound/tones/terrain-on",
@@ -259,48 +261,6 @@ var Saab37 = {
     setprop("velocities/airspeed-kt-inv", me.inv_speed);
     setprop("ja37/effect/heatblur/dens", clamp((getprop("engines/engine/n2")/100-getprop("velocities/airspeed-kt")/250)*0.035, 0, 1));
 
-    if (getprop("controls/electric/main") and getprop("ja37/avionics/collision-warning") and getprop("ja37/supported/picking") == TRUE and (getprop("velocities/speed-east-fps") != 0 or getprop("velocities/speed-north-fps") != 0)) {
-      # main elec switch must be on to enable this system, dont run on batt
-      me.start = geo.aircraft_position();
-
-      me.speed_down_fps  = getprop("velocities/speed-down-fps");
-      me.speed_east_fps  = getprop("velocities/speed-east-fps");
-      me.speed_north_fps = getprop("velocities/speed-north-fps");
-      me.speed_horz_fps  = math.sqrt((me.speed_east_fps*me.speed_east_fps)+(me.speed_north_fps*me.speed_north_fps));
-      me.speed_fps       = math.sqrt((me.speed_horz_fps*me.speed_horz_fps)+(me.speed_down_fps*me.speed_down_fps));
-      me.heading = 0;
-      if (me.speed_north_fps >= 0) {
-        me.heading -= math.acos(me.speed_east_fps/me.speed_horz_fps)*R2D - 90;
-      } else {
-        me.heading -= -math.acos(me.speed_east_fps/me.speed_horz_fps)*R2D - 90;
-      }
-      me.heading = geo.normdeg(me.heading);
-      #cos(90-heading)*horz = east
-      #acos(east/horz) - 90 = -head
-
-      me.end = geo.Coord.new(me.start);
-      me.end.apply_course_distance(me.heading, me.speed_horz_fps*FT2M);
-      me.end.set_alt(me.end.alt()-me.speed_down_fps*FT2M);
-
-      me.dir_x = me.end.x()-me.start.x();
-      me.dir_y = me.end.y()-me.start.y();
-      me.dir_z = me.end.z()-me.start.z();
-      me.xyz = {"x":me.start.x(),  "y":me.start.y(),  "z":me.start.z()};
-      me.dir = {"x":me.dir_x,      "y":me.dir_y,      "z":me.dir_z};
-
-      me.geod = get_cart_ground_intersection(me.xyz, me.dir);
-      if (me.geod != nil) {
-        me.end.set_latlon(me.geod.lat, me.geod.lon, me.geod.elevation);
-        me.dist = me.start.direct_distance_to(me.end)*M2FT;
-        me.time = me.dist / me.speed_fps;
-        setprop("/ja37/radar/time-till-crash", me.time);
-      } else {
-        setprop("/ja37/radar/time-till-crash", 15);
-      }
-    } else {
-      setprop("/ja37/radar/time-till-crash", 15);
-    }
-
     if (getprop("fdm/jsbsim/gear/gear-lever-lock-mech") == TRUE and getprop("controls/gear/gear-down")==FALSE) {
       setprop("controls/gear/gear-down", TRUE);
       notice("The gear lever wont budge.");
@@ -378,8 +338,8 @@ var Saab37 = {
     me.theShakeEffect();
 
     logTime();
-  
-    if (input.inputCursor.getBoolValue() and input.terrainWarn.getValue()) {
+
+    if (input.inputCursor.getBoolValue() and input.terrainControls.getValue()) {
       input.inputCursor.setBoolValue(FALSE);
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
@@ -389,7 +349,7 @@ var Saab37 = {
     } else {
       input.parachuteForce.setDoubleValue(7);
     }
-    
+
     me.aural();
     me.flare();
   },
@@ -449,7 +409,7 @@ var Saab37 = {
     if (!power.prop.dcMainBool.getValue() or !input.annunc_serv.getBoolValue()) {
       me.warnGiven = 1;
     }
-    if (!me.warnGiven and getprop("ja37/sound/terrain-on")) {
+    if (!me.warnGiven and input.terrainSound.getBoolValue()) {
       input.toneTerr.setBoolValue(1);
       me.warnGiven = 1;
     } else {
@@ -491,19 +451,25 @@ var Saab37 = {
     } else {
       me.ts = 0;
     }
+
     if (me.floorPlaying) me.warnGiven = 1;
-    if (input.indAltFt.getValue() < getprop("ja37/sound/floor-ft")) {
-      if (!me.warnGiven and !me.floor) {
-        input.toneFloor.setBoolValue(1);
-        settimer(func {me.floorTimed()},2.1);
-        me.warnGiven = 1;
-        me.floorPlaying = 1;
-        
-      }
-      me.floor = 1;
+    if (me.floor != getprop("ja37/sound/floor-ft")) {
+        me.floor = getprop("ja37/sound/floor-ft");
+        me.floor_armed = 0;
+    }
+
+    if (input.indAltFt.getValue() >= me.floor) {
+      if (me.floor_armed == 0) me.floor_armed = 1;  # arm
     } else {
-      me.floor = 0;
-      #setprop("ja37/sound/tones/floor",0);
+      if (me.floor_armed == 1) me.floor_armed = 2;  # play sound when possible
+    }
+
+    if (!me.warnGiven and me.floor > 0 and me.floor_armed == 2 and !input.land_warn_on.getBoolValue()) {
+      input.toneFloor.setBoolValue(1);
+      me.warnGiven = 1;
+      me.floorPlaying = 1;
+      me.floor_armed = 0;
+      settimer(func {me.floorTimed()},4);
     }
     if (!me.warnGiven and input.GVValpha.getValue() == 2) {
       input.tonePreA2.setBoolValue(1);
@@ -533,6 +499,7 @@ var Saab37 = {
   
   floorPlaying: 0,
   floor: 0,
+  floor_armed: 0,
   ts: 0,
   tsPlaying: 0,
   
@@ -606,6 +573,9 @@ var Saab37 = {
     } else {
       setprop("ja37/avionics/record-on", FALSE);
     }
+
+    # terrain profile map
+    if (variant.JA) elev.loop();
 
     me.environment(dt);
 
@@ -838,7 +808,7 @@ var Saab37 = {
 
     if (!variant.JA) {
       # CI display
-      rdr.scope = rdr.Radar.new();
+      ci.init();
     }
 
     if (variant.JA) {
@@ -862,6 +832,8 @@ var Saab37 = {
       dap.callInit();
       # fighterlink
       fighterlink.init();
+      # terrain profile map
+      elev.init();
     }
 
     # fire
@@ -1164,7 +1136,7 @@ var main_init = func {
   setprop("/consumables/fuel/tank[8]/jettisoned", FALSE);
 
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
-  print("Loading exterior, wait...");
+  logprint(LOG_INFO, "Loading exterior, wait...");
   # return to cabin to next cycle
   settimer(load_interior, 0.5, 1);
   view.setViewByIndex(1);
@@ -1247,13 +1219,13 @@ var setup_custom_stick_bindings = func {
 # re init
 var re_init = func {
   if (getprop("/sim/signals/reinit")==0) {return;}
-  print("Re-initializing Saab 37 Viggen systems");
+  logprint(LOG_INFO, "Re-initializing Saab 37 Viggen systems");
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
-  #print("Reinit: Oxygen replenished.");
+  logprint(LOG_INFO, "Reinit: Oxygen replenished.");
   # asymmetric vortex detachment
   asymVortex();
   repair();
@@ -1275,7 +1247,7 @@ var recharge_battery = func {
 var recharge_battery2 = func {
   setprop("ja37/systems/battery-reinit",0);
   setprop("ja37/systems/battery-recharge-rate",0.001666);
-  #print("Init: Battery fully recharged.");
+  logprint(LOG_INFO, "Init: Battery fully recharged.");
 }
 
 var asymVortex = func () {
@@ -1288,7 +1260,7 @@ var asymVortex = func () {
 
 var load_interior = func {
     view.setViewByIndex(0);
-    print("..Done!");
+    logprint(LOG_INFO, "..Done!");
 }
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
@@ -1435,7 +1407,7 @@ var waiting_n1 = func {
     } else {
       notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }
-    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    logprint(DEV_WARN, "Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
@@ -1448,7 +1420,7 @@ var waiting_n1 = func {
           notice("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
         } else {
-          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+          logprint(DEV_WARN, "Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
           stopAutostart();
           notice("Engine not igniting. Aborting engine start.");
         }
@@ -1480,7 +1452,7 @@ var final_engine = func () {
     } else {
       notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }    
-    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    logprint(DEV_WARN, "Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     notice("Engine ready.");
@@ -1513,39 +1485,6 @@ var clickOff = func {
 
 var noop = func {
   #does nothing, but important
-}
-
-var toggleYawDamper = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
-  setprop("fdm/jsbsim/fcs/yaw-damper/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Yaw damper: ON");
-  } else {
-    notice("Yaw damper: OFF");
-  }
-}
-
-var togglePitchDamper = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/pitch-damper/enable");
-  setprop("fdm/jsbsim/fcs/pitch-damper/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Pitch damper: ON");
-  } else {
-    notice("Pitch damper: OFF");
-  }
-}
-
-var toggleRollDamper = func {
-  ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
-  setprop("fdm/jsbsim/fcs/roll-damper/enable", !enabled);
-  if(enabled == FALSE) {
-    notice("Roll damper: ON");
-  } else {
-    notice("Roll damper: OFF");
-  }
 }
 
 # Simplified, single button controls for speedbrakes

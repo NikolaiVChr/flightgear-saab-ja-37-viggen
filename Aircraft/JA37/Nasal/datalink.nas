@@ -244,8 +244,7 @@ foreach (var name; keys(input)) {
 # Channel is hashed with current time (rounded to 10min) and own callsign.
 
 var clean_callsign = func(callsign) {
-    if (size(callsign) > 7) return left(callsign, 7);
-    else return callsign;
+    return damage.processCallsign(callsign);
 }
 
 var my_callsign = func {

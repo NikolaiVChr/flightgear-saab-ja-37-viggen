@@ -28,7 +28,6 @@
 				aero/alpha-deg ge -10
 				aero/alpha-deg le 10
 				position/wow eq 0
-				fcs/roll-limiter/enable ne 0
 				autoflight/internal-mode eq 1
 				/ja37/elec/ac-bus-main-bool eq 1
 			</test>

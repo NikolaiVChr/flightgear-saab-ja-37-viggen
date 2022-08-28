@@ -1,6 +1,6 @@
 # General, constant options
 var opts = {
-    res: 1024,              # Actual resolution of the canvas.
+    res: 512,               # Actual resolution of the canvas.
     ang_width: 20,          # Angular width of the HUD picture.
     canvas_ang_width: 21,   # Angular width to which the canvas is mapped.
                             # Adds a small margin due to border clipping issues.
@@ -21,12 +21,13 @@ var opts = {
 
 # AJS HUD movement.
 # This function updates opts.hud_center_{y,z} when the HUD is moving.
-# It is only used for nasal parallax correction (ALS off).
+# It is only used for nasal parallax correction
 var update_hud_position = func (node) {
     # Matches translate animation for 'aj37hud' in Models/AJS37-Viggen.xml
     var pos = node.getValue();
     opts.hud_center_y = 0.71 - 0.05*pos;
     opts.hud_center_z = -4.11 + 0.04*pos;
+    if (globals.hud["hud_canvas"] != nil) hud_canvas.update_parallax(force:TRUE);
 }
 
 setlistener("ja37/hud/position", update_hud_position, 1, 0);
@@ -54,8 +55,9 @@ var Horizon = {
         me.ref_point_group = me.horizon_group.createChild("group", "reference point");
         me.navigation = me.ref_point_group.createChild("group", "nav artificial horizon");
         me.landing = me.ref_point_group.createChild("group", "landing artificial horizon");
+        me.gs_pos = 286;
         me.glideslope = me.landing.createChild("group", "glideslope")
-            .setTranslation(0, 286);
+            .setTranslation(0, me.gs_pos);
 
         make_path(me.navigation)
             .moveTo(-1000,0).horizTo(-100).moveTo(1000,0).horizTo(100)
@@ -130,7 +132,7 @@ var Horizon = {
             }
 
             # Landing flare mode.
-            var gs_angle = 2.86;
+            me.gs_pos = 286;
             if (me.mode == HUD.MODE_FINAL_OPT) {
                 # If sufficiently low, switch to landing flare mode. Threshold is lower if RHM is used.
                 if (input.rad_alt_ready.getBoolValue()) {
@@ -141,10 +143,10 @@ var Horizon = {
                 # During flare, glideslope moves up to indicate maximal acceptable vertical speed (2.96m/s)
                 if (flare) {
                     var groundspeed = input.groundspeed.getValue() * KT2MPS;
-                    gs_angle = math.min(math.atan2(2.96, groundspeed) * R2D * 1, 2.86);
+                    me.gs_pos = math.min(math.atan2(2.96, groundspeed) * R2D * 100, 286);
                 }
             }
-            me.glideslope.setTranslation(0, gs_angle * 100);
+            me.glideslope.setTranslation(0, me.gs_pos);
         } elsif (!input.rm_active.getBoolValue()) {
             # locked on FPV if no target is defined
             me.ref_point_offset = fpv_rel_bearing;
@@ -167,11 +169,13 @@ var Horizon = {
 
     get_horizon_group: func { return me.horizon_group; },
     get_ref_point_group: func { return me.ref_point_group; },
-    get_ref_point_offset: func { return me.ref_point_offset; },
+    get_glideslope_pos: func { return [me.ref_point_offset*100, me.gs_pos]; },
 };
 
 # Altitude bars, indicate altitude relative to commanded altitude.
 var AltitudeBars = {
+    alt_bars_length: 300,
+
     new: func(parent) {
         var m = { parents: [AltitudeBars], parent: parent, mode: -1 };
         m.initialize();
@@ -190,8 +194,7 @@ var AltitudeBars = {
         me.outer_bars_group = me.group.createChild("group");
 
         me.ref_bars = make_path(me.outer_bars_group)
-            .setTranslation(0, 300) # bottom of outer bars
-            .moveTo(-330, 0).vert(-300).moveTo(330,0).vert(-300);
+            .setTranslation(0, me.alt_bars_length); # bottom of outer bars
         me.rhm_index = make_path(me.outer_bars_group)
             .moveTo(-305, 0).horiz(-50).moveTo(305,0).horiz(50);
         me.rhm_shown = FALSE;
@@ -205,7 +208,15 @@ var AltitudeBars = {
         for (var i=1; i<=3; i+=1) {
             me.bars[i-1].setTranslation(0, 100 * i * pos);
         }
-        me.outer_bars_group.setTranslation(0, 300 * pos);
+        me.outer_bars_group.setTranslation(0, me.alt_bars_length * pos);
+    },
+
+    # height=1 = length of outer altitude bars
+    set_ref_bars_height: func(height) {
+        me.ref_bars
+            .reset()
+            .moveTo(-330, 0).vert(-me.alt_bars_length * height)
+            .moveTo(330,0).vert(-me.alt_bars_length * height);
     },
 
     set_mode: func(mode) {
@@ -248,7 +259,7 @@ var AltitudeBars = {
         if (ref_alt <= 500) {
             # MKV blinking
             me.ref_bars.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
-            me.ref_bars.setScale(1, 100/ref_alt);
+            me.set_ref_bars_height(100/ref_alt);
         } else {
             me.ref_bars.hide();
         }
@@ -276,7 +287,7 @@ var AltitudeBars = {
         rhm_pos -= bars_pos;
         # Clamp (max: top of outer altitude bars, min: length of alt bars below the bottom of bars).
         rhm_pos = math.clamp(rhm_pos, 0, 2);
-        me.rhm_index.setTranslation(0, 300 * rhm_pos);
+        me.rhm_index.setTranslation(0, me.alt_bars_length * rhm_pos);
         # MKV blinking
         me.rhm_index.setVisible(!input.ajs_bars_flash.getBoolValue() or input.fiveHz.getBoolValue());
     },
@@ -319,7 +330,7 @@ var AltitudeBars = {
     # relative to the horizon line, in the HUD coordonate units.
     # Used to position the heading and time line just below the altitude bars.
     get_base_pos: func {
-        return 300 * (me.bars_pos + 1);
+        return me.alt_bars_length * (me.bars_pos + 1);
     },
 };
 
@@ -340,10 +351,10 @@ var DigitalAltitude = {
         me.mode = mode;
         if (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
             me.x = -380;
-            me.y = 267;
+            me.y = 268;
         } else {
             me.x = -430;
-            me.y = -20;
+            me.y = 0;
         }
     },
 
@@ -376,7 +387,7 @@ var DigitalAltitude = {
         me.text.updateText(str);
     },
 
-    update: func(ref_point_offset) {
+    update: func(gs_pos) {
         me.update_text();
 
         # update position
@@ -384,10 +395,13 @@ var DigitalAltitude = {
             # Moves to the right when firing.
             me.side = fire_control.is_firing() ? -1 : 1;
         } else {
-            if (ref_point_offset < -2) me.side = -1; # switch to right side
-            elsif (ref_point_offset > 0) me.side = 1;
+            if (gs_pos[0] < -200) me.side = -1; # switch to right side
+            elsif (gs_pos[0] > 0) me.side = 1;
         }
-        me.text.setTranslation(me.x * me.side, me.y);
+        if (me.mode == HUD.MODE_FINAL_OPT) {
+            me.y = gs_pos[1];
+        }
+        me.text.setTranslation(me.x * me.side, me.y - 20);
     },
 };
 
@@ -967,7 +981,7 @@ var HUD = {
             # First update this, as it computes reticle position.
             me.aiming.update();
             me.horizon.update_aim(me.aiming.get_reticle_pos());
-            me.dig_alt.update(0);
+            me.dig_alt.update([0,0]);
             me.distance.update_aim();
             return;
         }
@@ -976,8 +990,7 @@ var HUD = {
         var fpv_rel_bearing = input.fpv_track.getValue() - input.head_true.getValue();
         fpv_rel_bearing = math.periodic(-180, 180, fpv_rel_bearing);
         me.horizon.update(fpv_rel_bearing);
-        var rel_bearing = me.horizon.get_ref_point_offset();
-        me.dig_alt.update(rel_bearing);
+        me.dig_alt.update(me.horizon.get_glideslope_pos());
         me.alt_bars.update();
         var alt_bars_pos = me.alt_bars.get_base_pos();
         me.distance.update(alt_bars_pos);

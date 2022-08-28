@@ -1,6 +1,6 @@
 # General, constant options
 var opts = {
-    res: 1024,              # Actual resolution of the canvas.
+    res: 512,               # Actual resolution of the canvas.
     ang_width: 28,          # Angular width of the HUD picture.
     canvas_ang_width: 29,   # Angular width to which the canvas is mapped.
                             # Adds a small margin due to border clipping issues.
@@ -1196,8 +1196,8 @@ var RadarAltitude = {
             me.shown = FALSE;
         } elsif (terrain_height_mode) {
             # Display terrain height
-            var terrain_height = input.true_alt_ft.getValue() - input.true_alt_agl_ft.getValue();
-            if (displays.metric) terrain_height *= FT2M;
+            var terrain_height = input.terrain_hgt.getValue();
+            if (!displays.metric) terrain_height *= M2FT;
             terrain_height = math.round(terrain_height, 100);
             me.text.updateText(sprintf("%d", terrain_height));
             me.shown = TRUE;
@@ -1561,7 +1561,7 @@ var GPW = {
     set_mode: func(mode) {},
 
     update: func {
-        if (input.gpw.getBoolValue()) {
+        if (input.ja_gpw.getBoolValue()) {
             me.arrow.show();
         } else {
             me.arrow.hide();

@@ -63,10 +63,10 @@ var iff_hash = {
 			me.int_systime = int(systime());
 			me.update_time = int(math.mod(me.int_systime,iff_refresh_rate));
 			me.time = me.int_systime - me.update_time;
-			node.hash.setValue(_calculate_hash(me.time, me.callsign, node.channel.getValue()));
+			node.hash.setValue(_calculate_hash(me.time, node.callsign.getValue(), node.channel.getValue()));
 		} else {
-			node.hash.setValue("");
 			me.timer.stop();
+			node.hash.setValue("");
 		}
 	},
 };
@@ -79,8 +79,10 @@ var interrogate = func(tgt) {
 	if ( tgt.getChild("callsign") == nil or tgt.getNode("sim/multiplay/generic/string["~iff_mp_string~"]") == nil ) {
 		return 0;
 	}
-	hash1 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)), tgt.getChild("callsign").getValue(),node.channel.getValue());
-	hash2 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)) - iff_refresh_rate, tgt.getChild("callsign").getValue(),node.channel.getValue());
+	var cs = tgt.getChild("callsign").getValue();
+	cs = size(cs) < 8?cs:left(cs, 7);
+	hash1 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)), cs,node.channel.getValue());
+	hash2 = _calculate_hash(int(systime()) - int(math.mod(int(systime()),iff_refresh_rate)) - iff_refresh_rate, cs,node.channel.getValue());
 	check_hash = tgt.getNode("sim/multiplay/generic/string["~iff_mp_string~"]").getValue();
 	#print("hash1 " ~ hash1);
 	#print("hash2 " ~ hash2);
@@ -97,10 +99,12 @@ var _calculate_hash = func(time, callsign, channel) {
 	#print("callsign|" ~ callsign ~ "|");
 	#print("channel|" ~ channel ~ "|");
 	#print("hash|"~left(md5(time ~ callsign ~ channel ~ iff_unique_id),iff_hash_length)~"|");
-	return left(md5(time ~ callsign ~ channel ~ iff_unique_id),iff_hash_length);
+	callsign = size(callsign) < 8?callsign:left(callsign, 7);
+ 	return left(md5(time ~ callsign ~ channel ~ iff_unique_id),iff_hash_length);
 }
 
 var new_hashing = iff_hash.new();
 new_hashing.loop();
 setlistener(node.channel,func(){new_hashing.loop();},nil,0);
 setlistener(node.power,func(){new_hashing.loop();},nil,0);
+setlistener(node.callsign,func(){new_hashing.loop();},nil,0);

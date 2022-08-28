@@ -1,0 +1,43 @@
+--- a/generic-ALS-base.vert
++++ b/generic-ALS-base.vert
+@@ -1,8 +1,11 @@
+ // -*-C++-*-
+ #version 120
+ 
++// CI effect
++// This is FG 2020.3.13 Shaders/generic-ALS-base.vert with a call to CI shader plugged in.
++
+ // Shader that uses OpenGL state values to do per-pixel lighting
+ //
+ // The only light used is gl_LightSource[0], which is assumed to be
+ // directional.
+ //
+@@ -40,10 +43,15 @@
+ // This is the value used in the skydome scattering shader - use the same here for consistency?
+ const float EarthRadius = 5800000.0;
+ const float terminator_width = 200000.0;
+ 
+ 
++//// CI code include
++void CI_screen_prepare();
++////
++
++
+ float earthShade;
+ 
+ float light_func (in float x, in float a, in float b, in float c, in float d, in float e)
+ {
+ //x = x - 0.5;
+@@ -237,10 +245,12 @@
+     // Another hack for supporting two-sided lighting without using
+     // gl_FrontFacing in the fragment shader.
+     gl_FrontColor.rgb = constant_term.rgb;  gl_FrontColor.a = 1.0;
+     gl_BackColor.rgb = constant_term.rgb; gl_BackColor.a = 0.0;
+ 
++    // CI code insert (this should be the only difference with the standard shader)
++    CI_screen_prepare();
+ }
+ 
+ 
+ 
+ 

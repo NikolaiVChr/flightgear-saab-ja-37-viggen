@@ -98,8 +98,8 @@
         <desc>Cursor click / select</desc>
     </key>
     <key>
-        <name>r</name>
-        <desc>Toggle radar</desc>
+        <name>f / r</name>
+        <desc>Previous / next radar mode (off, PPI, B-scope)</desc>
     </key>
     <key>
         <name>[ / ]</name>
@@ -108,6 +108,22 @@
     <key>
         <name>&lt; / &gt;</name>
         <desc>Radar antenna down / up</desc>
+    </key>
+    <key>
+        <name>{ / }</name>
+        <desc>Decrease / increase radar gain</desc>
+    </key>
+    <key>
+        <name>Ctrl-l</name>
+        <desc>Toggle LIN / LOG radar gain</desc>
+    </key>
+    <key>
+        <name>F</name>
+        <desc>Radar memory mode</desc>
+    </key>
+    <key>
+        <name>Ctrl-f</name>
+        <desc>Radar terrain avoidance mode</desc>
     </key>
     <key>
         <name>H</name>

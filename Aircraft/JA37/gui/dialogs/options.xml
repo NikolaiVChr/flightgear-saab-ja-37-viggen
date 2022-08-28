@@ -16,11 +16,23 @@
 
       var update_gsuit_anno = func {
           var type = getprop("/ja37/effect/g-suit");
-          var anno = type_to_anno[type];
-          setprop("/ja37/effect/g-suit-anno", anno);
+          setprop("/ja37/effect/g-suit-anno", type_to_anno[type]);
       }
 
       update_gsuit_anno();
+
+      var quality_str = {
+          0: "low",
+          1: "medium",
+          2: "high",
+      };
+
+      var update_radar_quality = func {
+          var quality = getprop("/instrumentation/radar/ground-radar-quality");
+          setprop("/instrumentation/radar/ground-radar-quality-str", quality_str[quality]);
+      }
+
+      update_radar_quality();
     </open>
   </nasal>
   
@@ -173,6 +185,45 @@
       </visible>
     </text>
 
+    <!-- Radar quality (AJS only) -->
+
+    <slider>
+      <row>4</row>
+      <col>0</col>
+      <property>/instrumentation/radar/ground-radar-quality</property>
+      <min>0</min>
+      <max>2</max>
+      <step>1</step>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>update_radar_quality();</script>
+      </binding>
+      <visible>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
+      </visible>
+    </slider>
+
+    <text>
+      <row>4</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>Ground radar quality: medium</label>
+      <format>Ground radar quality: %s</format>
+      <property>/instrumentation/radar/ground-radar-quality-str</property>
+      <live>true</live>
+      <visible>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
+      </visible>
+    </text>
 
     <!-- TI menus (JA only) -->
     <checkbox>

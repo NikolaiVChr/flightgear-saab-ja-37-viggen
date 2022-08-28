@@ -6,36 +6,9 @@
 
   <animation>
     <type>noshadow</type>
-    <object-name>ja37hudGlass</object-name>
     <object-name>glassOuter</object-name>
-    <object-name>frontglas</object-name>
-    <object-name>glassInternal</object-name>
-    <object-name>frontglasInternal</object-name>
+    <object-name>glassFrontOuter</object-name>
   </animation>
-
-  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
-    <parameters>
-      <splash-x>0</splash-x>
-      <splash-y>0</splash-y>
-      <splash-z>0</splash-z>
-      <rnorm>0</rnorm>
-      <gsnorm>0</gsnorm>
-      <frost-level>0</frost-level>
-      <surface-mapping-scheme type="int">1</surface-mapping-scheme>
-      <fog-level>0</fog-level>
-      <use-wipers>0</use-wipers>
-      <use-overlay>0</use-overlay>
-      <overlay-alpha>0</overlay-alpha>
-      <overlay-glare type="float">0</overlay-glare>
-      <use-reflection type="int">0</use-reflection>
-      <reflection-strength type="float">1.0</reflection-strength>
-      <use-mask type="int">0</use-mask>
-      <use-reflection-lightmap type="int">0</use-reflection-lightmap>
-      <lightmap-multi type="int">0</lightmap-multi>
-    </parameters>
-    <object-name>ja37hudGlass</object-name>
-  </effect>
 
   <!-- ====== drop tank ====== -->
   <animation>
@@ -211,21 +184,6 @@
 		<texture>Aircraft/JA37/Models/j37_texture.png</texture>
 	</animation>
 
-<!--<object-name>gearFront</object-name>
-    <object-name>gearFrontHinge</object-name>
-    <object-name>missile</object-name>
-    <object-name>missile1</object-name>
-    <object-name>missile2</object-name>
-    <object-name>missile3</object-name>
-    <object-name>gearLeft</object-name>
-    <object-name>gearLeftHinge</object-name>
-    <object-name>wheelRight1</object-name>
-    <object-name>wheelRight2</object-name>
-    <object-name>wheelLeft1</object-name>
-    <object-name>wheelLeft2</object-name>
-    <object-name>gearRight</object-name>
-    <object-name>gearRightHinge</object-name>-->
-
 <!--
 	***********************************************************************************
 	***********************************************************************************
@@ -327,34 +285,7 @@
     </offsets>
   </model>
 
-  <!-- move seat forward -->
-  <!--<animation>
-   <type>translate</type>
-   <object-name>seat</object-name>
-   <factor>0.0</factor>
-   <offset-m>-0.125</offset-m>
-   <axis>
-     <x>1</x>
-   </axis>
-   <center>
-        <x-m>0</x-m>
-        <y-m>0</y-m>
-        <z-m>0</z-m>
-    </center>
-</animation>-->
-
-  <!--<animation>
-    <type>select</type>
-    <object-name>seat</object-name>
-    <condition>
-      <equals>
-        <value>0</value>
-        <value>1</value>
-      </equals>
-    </condition>
-  </animation>-->
-
-  <model> 
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/seat/seat.xml</path>
     <offsets>
       <x-m>-3.2541</x-m>
@@ -365,33 +296,7 @@
 
   <!-- Material shaders   -->
   <effect>
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
     <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
-    <!--<inherits-from>Effects/model-interior</inherits-from>-->
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
-    <!--<parameters>
-    <reflection-correction type="float">0.75</reflection-correction>
-  </parameters>-->
-    <!--<parameters>
-      <reflection-type type="int">2</reflection-type>
-      <reflection-enabled type="int">0</reflection-enabled>
-      <ambient-correction type="float">0.0</ambient-correction>
-      <reflection-correction type="float">-0.45</reflection-correction>
-      <reflect-map-enabled type="int">0</reflect-map-enabled>
-      <texture n="0">
-        <type>2d</type>
-        <filter>trilinear</filter>
-        <wrap-s>repeat</wrap-s>
-        <wrap-t>repeat</wrap-t>
-        <internal-format>normalized</internal-format>
-      </texture>
-    </parameters>-->
-    <!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
-    <!--<parameters>
-          <metallic type="float">0.75</metallic>
-          <ambient-factor type="float">0.25</ambient-factor>
-    </parameters>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
     <object-name>elevonLeftOuter</object-name>
@@ -409,20 +314,15 @@
     <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
     <object-name>gearFrontDoorsClosed</object-name>
-    <object-name>gearLeftMid</object-name>
     <object-name>gearLeftBottom</object-name>
     <object-name>gearLeftTop</object-name>
-    <object-name>gearLeftHinge</object-name>
-    <object-name>gearRightMid</object-name>
     <object-name>gearRightBottom</object-name>
     <object-name>gearRightTop</object-name>
-    <object-name>gearRightHinge</object-name>
     <object-name>gearLeftOuterDoor</object-name>
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
-    <object-name>landingLightLeftMount</object-name>
-    <object-name>landingLightRightMount</object-name>
+    <object-name>landingLightMount</object-name>
     <object-name>lightFormationFrontRight</object-name>
     <object-name>lightFormationFrontLeft</object-name>
     <object-name>lightFormationRearRight</object-name>
@@ -435,113 +335,27 @@
     <object-name>ja37gunpod</object-name>
   </effect>
 
-<!--  <animation>
-    <type>material</type> 
-    <object-name>ja37fin</object-name>
-    <object-name>ja37dropTank</object-name>
-    <object-name>ja37upperPitotTube</object-name>
-    <object-name>ja37upperVerticalStabilizer</object-name>
-    <object-name>ja37gunpod</object-name>
-    <object-name>canopy</object-name>
-    <object-name>elevonLeftInner</object-name>
-    <object-name>elevonLeftOuter</object-name>
-    <object-name>elevonRightInner</object-name>
-    <object-name>elevonRightOuter</object-name>
-    <object-name>flapsLeft</object-name>
-    <object-name>flapsRight</object-name>
-    <object-name>fuselage</object-name>
-    <object-name>wingLeft</object-name>
-    <object-name>wingRight</object-name>
-    <object-name>rudder</object-name>
-    <object-name>gearFrontBottom</object-name>
-    <object-name>gearFrontHub</object-name>
-    <object-name>gearFrontTop</object-name>
-    <object-name>gearFrontDoorsOpenLeft</object-name>
-    <object-name>gearFrontDoorsOpenRight</object-name>
-    <object-name>gearFrontDoorsClosed</object-name>
-    <object-name>gearLeftMid</object-name>
-    <object-name>gearLeftBottom</object-name>
-    <object-name>gearLeftTop</object-name>
-    <object-name>gearLeftHinge</object-name>
-    <object-name>gearRightMid</object-name>
-    <object-name>gearRightBottom</object-name>
-    <object-name>gearRightTop</object-name>
-    <object-name>gearRightHinge</object-name>
-    <object-name>gearLeftOuterDoor</object-name>
-    <object-name>gearLeftInnerDoor</object-name>
-    <object-name>gearRightOuterDoor</object-name>
-    <object-name>gearRightInnerDoor</object-name>
-    <object-name>bottomAirInlet</object-name>
-    <diffuse>
-        <red>1</red>
-        <green>1</green>
-        <blue>1</blue>
-        <factor-prop>/light/diffuse</factor-prop>
-    </diffuse>
-    <ambient>
-        <red>1</red>
-        <green>1</green>
-        <blue>1</blue>
-        <factor-prop>/light/ambient</factor-prop>
-    </ambient>
-    <specular>
-        <red>1</red>
-        <green>1</green>
-        <blue>1</blue>
-        <factor-prop>/light/specular</factor-prop>
-    </specular>
-    <shininess-prop>/light/shine</shininess-prop>
-  </animation>-->
-
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
-    <object-name>dashPanel</object-name>
-    <object-name>dashPanelTap</object-name>
-    <object-name>sidepanelLeft</object-name>
-    <object-name>sidepanelRight</object-name>
-    <object-name>ja37hudRestBack</object-name>
-    <object-name>ja37hudStruts</object-name>
-    <object-name>hudRestPlaque</object-name>
-    <object-name>plaqueLeftMount</object-name>
-    <object-name>plaqueRightMount</object-name>
-    <object-name>plaqueLeft</object-name>
-    <object-name>plaqueRight</object-name>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>ja37dashPanel</object-name>
+    <object-name>bottom</object-name>
+    <object-name>innerWall_back</object-name>
+    <object-name>innerWall_front</object-name>
+    <object-name>innerWall_sides</object-name>
+    <object-name>sidePanel_L</object-name>
+    <object-name>sidePanel_R</object-name>
     <object-name>seat</object-name>
   </effect>
 
+  <!-- does this work at all? -->
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>hudBottomPlateGlass</object-name>
-  </effect>
-
-  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/hud</inherits-from>
-    <object-name>ja37hud</object-name>
-    <parameters>
-      <use-parallax>true</use-parallax>
-      <hud-width-deg>28</hud-width-deg>
-      <hud-height-deg>28</hud-height-deg>
-      <optical-offset-pitch>-7.3</optical-offset-pitch>
-    </parameters>
-  </effect>
-
-  <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-mirror</inherits-from>
-    <object-name>mirrorreflect</object-name>
-  </effect>
-
-  <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
-    <object-name>glassInternal</object-name>
-    <object-name>frontglasInternal</object-name>
+    <object-name>glassOuter</object-name>
+    <object-name>glassFrontOuter</object-name>
   </effect>
 
-
-  <effect>  
+  <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
-    <!--<parameters>
-      <reflection-enabled type="int">0</reflection-enabled>
-    </parameters>-->
     <object-name>gearFrontOleoStrut</object-name>
     <object-name>gearLeftOleoStrut</object-name>
     <object-name>gearRightOleoStrut</object-name>
@@ -556,7 +370,6 @@
     <object-name>reverser3</object-name>
     <object-name>canopyinside</object-name>
     <object-name>fuselageinside</object-name>
-    <object-name>mirrorholder</object-name>
     <object-name>engineOutlet</object-name>
     <object-name>engineRear</object-name>
     <object-name>outletCover</object-name>
@@ -566,32 +379,6 @@
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
     <object-name>nozzle</object-name>
   </effect>
-
-  <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/glass/glass</inherits-from>
-    <object-name>glassOuter</object-name>
-    <object-name>frontglas</object-name>
-  </effect>
-
-  <!--<animation>
-  <type>select</type>
-  <object-name>glass</object-name>
-  <object-name>frontglas</object-name>
-  <condition>
-    <not>
-      <property>sim/current-view/internal</property>
-    </not>
-  </condition>
- </animation>
-
- <animation>
-  <type>select</type>
-  <object-name>glassInternal</object-name>
-  <object-name>frontglasInternal</object-name>
-  <condition>
-    <property>sim/current-view/internal</property>
-  </condition>
- </animation>-->
 
 <!-- Fuselage animations -->
 
@@ -612,7 +399,7 @@
 
   <model>
     <name>ext-power</name>
-    <path>Aircraft/JA37/Models/ext-power.xml</path>
+    <path>Aircraft/JA37/Models/GroundEquipment/ext-power.ac</path>
     <offsets>
       <x-m> 0.25</x-m>
       <y-m> 9.15</y-m>
@@ -643,64 +430,34 @@
     </condition>
   </animation>
 
-<animation>
-  <type>rotate</type>
-  <object-name>glassOuter</object-name>
-  <object-name>glassInternal</object-name>
-  <object-name>canopy</object-name>
-  <object-name>canopyinside</object-name>
-  <object-name>mirrorholder</object-name>
-  <object-name>mirrorreflect</object-name>
-  <property>canopy/position-norm</property><!-- auto MP transmit -->
-  <factor>55.0</factor>
-  <center>
-   <x-m>-2.67098</x-m>
-   <y-m>0.000003</y-m>
-   <z-m>1.01043</z-m>
-  </center>
-  <axis>
-   <x>0.0</x>
-   <y>1.0</y>
-   <z>0.0</z>
-  </axis>
- </animation>
-
- <animation>
-   <type>select</type>
-   <object-name>glassOuter</object-name>
-   <object-name>glassInternal</object-name>
-   <object-name>canopy</object-name>
-   <object-name>canopyinside</object-name>
-   <object-name>mirrorholder</object-name>
-   <object-name>mirrorreflect</object-name>
-   <condition>
-     <property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
-   </condition>
- </animation>
-
- <!--<animation>
-  <type>material</type> 
-  <object-name>plaqueLeft</object-name>
-  <object-name>plaqueRight</object-name>
-  <object-name>hudRestPlaque</object-name>
-  <emission>  
-   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-   <factor-prop>controls/lighting/instruments-norm</factor-prop>
-  </emission>
- </animation>-->
+  <animation>
+    <type>rotate</type>
+    <object-name>glassOuter</object-name>
+    <object-name>canopy</object-name>
+    <object-name>canopyinside</object-name>
+    <property>canopy/position-norm</property><!-- auto MP transmit -->
+    <factor>55.0</factor>
+    <center>
+     <x-m>-2.67098</x-m>
+     <y-m>0.000003</y-m>
+     <z-m>1.01043</z-m>
+    </center>
+    <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+    </axis>
+  </animation>
 
   <animation>
-  <type>material</type> 
-  <object-name>ja37hud</object-name>
-  <emission>
-   <red>1.0</red> 
-   <green>1.0</green> 
-   <blue>1.0</blue>
-   <factor-prop>ja37/hud/emission</factor-prop>
-  </emission>
- </animation>
+    <type>select</type>
+    <object-name>glassOuter</object-name>
+    <object-name>canopy</object-name>
+    <object-name>canopyinside</object-name>
+    <condition>
+      <property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
+    </condition>
+  </animation>
 
 <animation>
   <type>rotate</type>
@@ -942,7 +699,7 @@
 
   <model>
     <name>chockFrontF</name>
-    <path>chock.ac</path>
+    <path>GroundEquipment/chock.ac</path>
     <offsets>
       <x-m>-3.4694</x-m>
       <y-m>0.0</y-m>
@@ -953,7 +710,7 @@
 
   <model>
     <name>chockFrontB</name>
-    <path>chock.ac</path>
+    <path>GroundEquipment/chock.ac</path>
     <offsets>
       <x-m>-3.2694</x-m>
       <y-m>0.0</y-m>
@@ -1266,7 +1023,7 @@
 
   <model>
     <name>chockLeftF</name>
-    <path>chock.ac</path>
+    <path>GroundEquipment/chock.ac</path>
     <offsets>
       <x-m>1.8114</x-m>
       <y-m>-2.1500</y-m>
@@ -1277,7 +1034,7 @@
 
   <model>
     <name>chockLeftB</name>
-    <path>chock.ac</path>
+    <path>GroundEquipment/chock.ac</path>
     <offsets>
       <x-m>2.8215</x-m>
       <y-m>-2.1500</y-m>
@@ -1288,12 +1045,10 @@
 
 <animation>
   <type>select</type>
-  <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
   <object-name>gearLeftScissorBottom</object-name>
   <object-name>gearLeftBottom</object-name>
-  <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>
@@ -1309,13 +1064,11 @@
 
 <animation>
   <type>scale</type>
-  <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
   <object-name>gearLeftScissorBottom</object-name>
   <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
@@ -1346,13 +1099,11 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
   <object-name>gearLeftScissorTop</object-name>
   <object-name>gearLeftScissorBottom</object-name>
   <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftWheel1</object-name>
   <object-name>gearLeftWheel2</object-name>  
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
@@ -1573,7 +1324,7 @@
     <center>
         <x-m>  1.91138 </x-m>
         <y-m> -2.18257 </y-m>
-        <z-m> -1.76576 </z-m>
+        <z-m> -1.76420 </z-m>
     </center>
     <axis>
         <x>0</x>
@@ -1607,7 +1358,7 @@
 
   <model>
     <name>chockRightF</name>
-    <path>chock.ac</path>
+    <path>GroundEquipment/chock.ac</path>
     <offsets>
       <x-m>1.8114</x-m>
       <y-m>2.1500</y-m>
@@ -1618,7 +1369,7 @@
 
   <model>
     <name>chockRightB</name>
-    <path>chock.ac</path>
+    <path>GroundEquipment/chock.ac</path>
     <offsets>
       <x-m>2.8215</x-m>
       <y-m>2.1500</y-m>
@@ -1629,12 +1380,10 @@
 
  <animation>
   <type>select</type>
-  <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
   <object-name>gearRightOleoStrut</object-name>
   <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
@@ -1650,12 +1399,10 @@
 
 <animation>
   <type>scale</type>
-  <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
   <object-name>gearRightOleoStrut</object-name>
   <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
@@ -1687,7 +1434,6 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
   <object-name>gearRightScissorBottom</object-name>
   <object-name>gearRightOleoStrut</object-name>
@@ -1695,7 +1441,6 @@
   <object-name>gearRightTop</object-name>
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
-  <object-name>gearRightHinge</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
@@ -1913,7 +1658,7 @@
     <center>
         <x-m>  1.91138 </x-m>
         <y-m>  2.18257 </y-m>
-        <z-m> -1.76576 </z-m>
+        <z-m> -1.76420 </z-m>
     </center>
     <axis>
         <x>0</x>
@@ -2632,8 +2377,7 @@
 
   <animation>
     <type>material</type>
-    <object-name>landingLightLeft</object-name>
-    <object-name>landingLightRight</object-name>
+    <object-name>landingLight</object-name>
     <condition>
       <property>ja37/effect/landing-light</property>
     </condition>

@@ -130,6 +130,7 @@
             <!--<path>sim/model/livery/file</path>-->
             <path>/ja37/effect/rust-outside</path>
             <path>/ja37/effect/rust-inside</path>
+            <path>/instrumentation/radar/ground-radar-quality</path>
         </aircraft-data>
 
         <airport>
@@ -539,9 +540,10 @@
             <installed type="bool">false</installed>
         </failures>
         <radar>
-            <time-till-crash type="double">15</time-till-crash>
             <panel>
+                <linear type="bool">false</linear>
                 <passive type="bool">false</passive>
+                <gain type="double">0</gain>
             </panel>
         </radar>
         <effect>
@@ -619,7 +621,6 @@
         </hud>
         <sound>
             <click-on type="bool">false</click-on>
-            <terrain-on type="bool">false</terrain-on>
             <stall-enabled type="bool">true</stall-enabled>
             <mp-volume type="double">0.4</mp-volume>
             <breath-volume type="double">0</breath-volume>
@@ -680,6 +681,7 @@
             <collision-warning type="bool">true</collision-warning>
             <!-- LB, LF, or (L and within 40km of destination). Used by MKV and QFE warnings. -->
             <landing-warnings-enable type="bool">false</landing-warnings-enable>
+            <terrain-height-m type="double">0</terrain-height-m>
         </avionics>
         <displays>
             <on type="bool">false</on>  <!-- nasal controlled -->
@@ -1495,8 +1497,17 @@
             <!-- JA stuff -->
             <iff type="bool">false</iff>
             <!-- AJS stuff -->
-            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI (2 should be B-scope) -->
+            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI, 2=B-scope -->
             <range type="int">15000</range>             <!-- for 3D model only -->
+            <polaroid-filter type="double">1</polaroid-filter>
+            <ground-radar-quality type="int">1</ground-radar-quality>
+            <effect>
+                <mode type="int">0</mode>
+                <time1 type="float">0.0</time1>
+                <time2 type="float">0.0</time2>
+                <beam-pos-norm type="float">0.0</beam-pos-norm>
+                <beam-dir type="int">1.0</beam-dir>
+            </effect>
         </radar>
         <rwr>
           <ajs-lights>
@@ -1555,8 +1566,7 @@
             <switch-position type="int">0</switch-position>
         </dme>
         <altimeter n="0">
-            <!-- Altitude above airport level (AAL) for QNH mode (interoperability) -->
-            <airbase-altitude-meter type="double">0</airbase-altitude-meter>  <!-- set in nasal -->
+            <airbase-altitude-meter type="double">0</airbase-altitude-meter>  <!-- set in nasal, JA only -->
         </altimeter>
         <altimeter n="1">
             <serviceable type="bool">true</serviceable>
@@ -1618,7 +1628,6 @@
             <needle type="double">0</needle>
             <needle-min type="double">0</needle-min>
         </fuel>
-        <terrain-override type="bool">false</terrain-override>
         <gci>
             <picture type="bool">false</picture>
             <bogeydope type="bool">false</bogeydope>
@@ -1721,7 +1730,9 @@
 
 *************************************************************************-->
     <nasal>
-        <!-- Should be in first position -->
+        <compat>
+            <file>Aircraft/JA37/Nasal/compat-lib.nas</file>
+        </compat>
         <variant>
             <file>Aircraft/JA37/Nasal/variant.nas</file>
         </variant>
@@ -1853,9 +1864,6 @@
         <testing>
             <file>Aircraft/JA37/Nasal/test.nas</file>
         </testing>
-        <ai>
-          <file>Aircraft/JA37/Nasal/AI_list.nas</file>
-        </ai>
         <missile_view>
           <file>Aircraft/JA37/Nasal/missile-view.nas</file>
         </missile_view>

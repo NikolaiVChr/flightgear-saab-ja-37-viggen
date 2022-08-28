@@ -235,7 +235,7 @@ REG/STR:
 TI
 note1: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address number will also be shown.
 note2: LV stands for airdefense area, and FF for pilot point.
-- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow), LB (for green) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
+- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L/LB/LF/BX (for yellow)
             To unlock for deletion type the unlock code followed by CLEAR.
             If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
 - OUT/MSDA: If 3 first digits for address entered will show lon/lat of address, click OK to toggle between them. Hold OK down to see description before the value is shown.

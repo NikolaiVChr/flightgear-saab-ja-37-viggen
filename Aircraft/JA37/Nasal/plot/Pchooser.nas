@@ -221,7 +221,7 @@ Chooser.Filllist = func (n) {
 ## Fitstring in 3 classes ! should be more general helper function
 #Chooser.FitString = func (s,n) {
 #   #printf("Chooser.FitString called with %s",s);
-#   if ( size(""~s~"") < n ) return s;
+#   if ( size(str(s)) < n ) return s;
 #   var l = substr(s, 0, (n - 2) / 3);
 #   var r = substr(s, size(s) + size(l) + 3 - n);
 #   return l ~ "..." ~ r;
