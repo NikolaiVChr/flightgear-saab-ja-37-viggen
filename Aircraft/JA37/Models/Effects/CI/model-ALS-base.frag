@@ -2,14 +2,14 @@
 #version 120
 
 // CI effect
-// This is FG 2020.3.13 Shaders/model-ALS-base.frag with a call to CI shader plugged in.
+// This is FG 2020.4 Shaders/model-ALS-base.frag with a call to CI shader plugged in.
 
 // written by Thorsten Renk, Oct 2011, based on default.frag
 // Ambient term comes in gl_Color.rgb.
 varying vec4 diffuse_term;
 varying vec3 normal;
 varying vec3 relPos;
-
+varying vec4 ecPosition;
 
 uniform sampler2D texture;
 
@@ -59,6 +59,8 @@ vec3 searchlight();
 vec3 landing_light(in float offset, in float offsetv);
 vec3 filter_combined (in vec3 color) ;
 
+float getShadowing();
+vec3 getClusteredLightsContribution(vec3 p, vec3 n, vec3 texel);
 
 //// CI code include
 vec4 CI_screen_color();
@@ -116,12 +118,14 @@ void main()
 
     NdotL = dot(n, lightDir);
     if (NdotL > 0.0) {
-        color += diffuse_term * NdotL;
+        float shadowmap = getShadowing();
+        color += diffuse_term * NdotL * shadowmap;
         NdotHV = max(dot(n, halfVector), 0.0);
         if (gl_FrontMaterial.shininess > 0.0)
             specular.rgb = (gl_FrontMaterial.specular.rgb
                             * light_specular.rgb
-                            * pow(NdotHV, gl_FrontMaterial.shininess));
+                            * pow(NdotHV, gl_FrontMaterial.shininess)
+                            * shadowmap);
     }
     color.a = diffuse_term.a;
     // This shouldn't be necessary, but our lighting becomes very
@@ -154,6 +158,7 @@ void main()
     texel = CI_screen_color();
 
     fragColor = color * texel + specular;
+    fragColor.rgb += getClusteredLightsContribution(ecPosition.xyz, n, texel.rgb);
 
 
 float lightArg = (terminator-yprime_alt)/100000.0;

@@ -2,7 +2,7 @@
 
 <!-- CI effect
   The CI uses a custom shader to render the radar screen.
-  This is FG 2020.3.13 Effects/model-default.eff with minimal changes
+  This is FG 2020.4 Effects/model-default.eff with minimal changes
   to include this custom code.
 -->
 
@@ -64,6 +64,14 @@
 		<quality_level><use>/sim/rendering/shaders/landmass</use></quality_level>
 		<tquality_level><use>/sim/rendering/shaders/transition</use></tquality_level>
 		<!-- 		END fog include -->
+        <!-- BEGIN shadows include -->
+        <shadows_enabled>
+          <use>/sim/rendering/shadows/enabled</use>
+        </shadows_enabled>
+        <sun_atlas_size>
+          <use>/sim/rendering/shadows/sun-atlas-size</use>
+        </sun_atlas_size>
+        <!-- END shadows include -->
 
     <!-- CI properties -->
     <polaroid-filter><use>/instrumentation/radar/polaroid-filter</use></polaroid-filter>
@@ -140,12 +148,15 @@
         <!-- CI shaders: add custom shaders (ci.{vert,frag}),
              use modified default shaders which call the CI code -->
         <vertex-shader>Aircraft/JA37/Models/Effects/CI/generic-ALS-base.vert</vertex-shader>
+        <vertex-shader>Shaders/shadows-include.vert</vertex-shader>
         <vertex-shader>Aircraft/JA37/Models/Effects/CI/ci.vert</vertex-shader>
         <fragment-shader>Aircraft/JA37/Models/Effects/CI/model-ALS-base.frag</fragment-shader>
         <fragment-shader>Shaders/hazes.frag</fragment-shader>
         <fragment-shader>Shaders/secondary_lights.frag</fragment-shader>
         <fragment-shader>Shaders/noise.frag</fragment-shader>
         <fragment-shader>Shaders/filters-ALS.frag</fragment-shader>
+        <fragment-shader>Shaders/shadows-include.frag</fragment-shader>
+        <fragment-shader>Shaders/clustered-include.frag</fragment-shader>
         <fragment-shader>Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
       </program>
       <uniform>
@@ -373,6 +384,27 @@
         <type>int</type>
         <value><use>tquality_level</use></value>
       </uniform>
+      <!-- BEGIN shadows include -->
+      <uniform>
+        <name>shadow_tex</name>
+        <type>sampler-2d</type>
+        <value type="int">10</value>
+      </uniform>
+      <uniform>
+        <name>shadows_enabled</name>
+        <type>bool</type>
+        <value>
+          <use>shadows_enabled</use>
+        </value>
+      </uniform>
+      <uniform>
+        <name>sun_atlas_size</name>
+        <type>int</type>
+        <value>
+          <use>sun_atlas_size</use>
+        </value>
+      </uniform>
+      <!-- END shadows include -->
 
       <!-- CI uniforms -->
       <uniform>
@@ -409,30 +441,13 @@
     </pass>
   </technique>
 
-  <!-- Rembrandt removed here, Viggen is not even close to rembrandt compatible. Sorry. -->
-
 	<technique n="11">
 		<predicate>
 			<and>
 				<or>
 					<!-- if this property is set (default=yes), always keep this shader on -->
 					<property>/ja37/displays/use-CI-shader-on-min-settings</property>
-					<!-- for FG versions <2020.3 -->
-					<and>
-						<equal>
-							<property>/ja37/supported/compositor</property>
-							<value type="bool">false</value>
-						</equal>
-						<property>/sim/rendering/shaders/quality-level</property>
-						<property>/sim/rendering/shaders/model</property>
-					</and>
-					<!-- for FG versions >=2020.4
-						(this is not a proper compositor shader, but at least test the correct properties...)
-					-->
-					<and>
-						<property>/ja37/supported/compositor</property>
-						<property>/sim/rendering/shaders/use-shaders</property>
-					</and>
+					<property>/sim/rendering/shaders/use-shaders</property>
 				</or>
 				<or>
 					<less-equal>
@@ -524,14 +539,18 @@
 				<use>vertex-program-two-side</use>
 			</vertex-program-two-side>
 			<program n="0">
-        <!-- CI shaders: add custom shaders (ci.{vert,frag}),
-             use modified default shaders which call the CI code -->
-        <vertex-shader n="1">Aircraft/JA37/Models/Effects/CI/default.vert</vertex-shader>
-        <vertex-shader n="2">Aircraft/JA37/Models/Effects/CI/ci.vert</vertex-shader>
-        <fragment-shader n="0">Shaders/include_fog.frag</fragment-shader>				<!--fog include-->
-        <fragment-shader n="1">Aircraft/JA37/Models/Effects/CI/default.frag</fragment-shader>
-        <fragment-shader n="2">Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
-        <fragment-shader>Shaders/noise.frag</fragment-shader>
+				<!-- CI shaders: add custom shaders (ci.{vert,frag}),
+					use modified default shaders which call the CI code -->
+<!-- 				<vertex-shader n="0">Shaders/include_fog.vert</vertex-shader> -->			<!--fog include-->
+				<vertex-shader n="1">Aircraft/JA37/Models/Effects/CI/default.vert</vertex-shader>
+				<vertex-shader n="2">Shaders/shadows-include.vert</vertex-shader>
+				<vertex-shader n="3">Aircraft/JA37/Models/Effects/CI/ci.vert</vertex-shader>
+				<fragment-shader n="0">Shaders/include_fog.frag</fragment-shader>				<!--fog include-->
+				<fragment-shader n="1">Aircraft/JA37/Models/Effects/CI/default.frag</fragment-shader>
+				<fragment-shader n="2">Shaders/shadows-include.frag</fragment-shader>
+				<fragment-shader n="3">Shaders/clustered-include.frag</fragment-shader>
+				<fragment-shader n="4">Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
+				<fragment-shader n="5">Shaders/noise.frag</fragment-shader>
 			</program>
 			<!-- 			BEGIN fog include -->
 			<uniform>
@@ -589,6 +608,27 @@
 					<use>material/color-mode-uniform</use>
 				</value>
 			</uniform>
+			<!-- BEGIN shadows include -->
+			<uniform>
+			  <name>shadow_tex</name>
+			  <type>sampler-2d</type>
+			  <value type="int">10</value>
+			</uniform>
+			<uniform>
+			  <name>shadows_enabled</name>
+			  <type>bool</type>
+			  <value>
+				<use>shadows_enabled</use>
+			  </value>
+			</uniform>
+			<uniform>
+			  <name>sun_atlas_size</name>
+			  <type>int</type>
+			  <value>
+				<use>sun_atlas_size</use>
+			  </value>
+			</uniform>
+			<!-- END shadows include -->
 
       <!-- CI uniforms -->
       <uniform>
@@ -705,4 +745,6 @@
         -->
 		</pass>
 	</technique>
+
+	<!-- HDR removed here -->
 </PropertyList>
