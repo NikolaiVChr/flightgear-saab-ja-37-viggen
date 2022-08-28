@@ -1,0 +1,38 @@
+--- a/default.vert
++++ b/default.vert
+@@ -1,7 +1,10 @@
+ // -*-C++-*-
+ 
++// CI effect
++// This is FG 2020.3.13 Shaders/default.vert with a call to CI shader plugged in.
++
+ // Shader that uses OpenGL state values to do per-pixel lighting
+ //
+ // The only light used is gl_LightSource[0], which is assumed to be
+ // directional.
+ //
+@@ -25,10 +28,14 @@
+ //uniform int fogType;
+ //
+ //void fog_Func(int type);
+ /////////////////////////
+ 
++//// CI code include
++void CI_screen_prepare();
++////
++
+ void main()
+ {
+     gl_Position = ftransform();
+     gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+     normal = gl_NormalMatrix * gl_Normal;
+@@ -56,6 +63,9 @@
+     // gl_FrontFacing in the fragment shader.
+     gl_FrontColor.rgb = constant_term.rgb;  gl_FrontColor.a = 1.0;
+     gl_BackColor.rgb = constant_term.rgb; gl_BackColor.a = 0.0;
+     //fogCoord = abs(ecPosition.z / ecPosition.w);
+ 		//fog_Func(fogType);
++
++    // CI code insert (this should be the only difference with the standard shader)
++    CI_screen_prepare();
+ }

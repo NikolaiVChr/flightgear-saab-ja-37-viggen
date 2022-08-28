@@ -1,0 +1,46 @@
+--- a/model-ALS-base.frag
++++ b/model-ALS-base.frag
+@@ -1,8 +1,11 @@
+ // -*-C++-*-
+ #version 120
+ 
++// CI effect
++// This is FG 2020.3.13 Shaders/model-ALS-base.frag with a call to CI shader plugged in.
++
+ // written by Thorsten Renk, Oct 2011, based on default.frag
+ // Ambient term comes in gl_Color.rgb.
+ varying vec4 diffuse_term;
+ varying vec3 normal;
+ varying vec3 relPos;
+@@ -54,10 +57,16 @@
+ vec3 get_hazeColor(in float light_arg);
+ vec3 searchlight();
+ vec3 landing_light(in float offset, in float offsetv);
+ vec3 filter_combined (in vec3 color) ;
+ 
++
++//// CI code include
++vec4 CI_screen_color();
++////
++
++
+ float luminance(vec3 color)
+ {
+     return dot(vec3(0.212671, 0.715160, 0.072169), color);
+ }
+ 
+@@ -139,11 +148,13 @@
+ 	}
+     if (dist > 2.0) // we don't want to light the cockpit...
+ 	{color.rgb +=secondary_light * light_distance_fading(dist);}
+     }
+ 
+-    texel = texture2D(texture, gl_TexCoord[0].st);
++    // CI code insert (this should be the only difference with the standard shader)
++    texel = CI_screen_color();
++
+     fragColor = color * texel + specular;
+ 
+ 
+ float lightArg = (terminator-yprime_alt)/100000.0;
+ 
