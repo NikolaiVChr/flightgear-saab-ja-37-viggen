@@ -8,8 +8,6 @@ var FOR_SQUARE = 1;
 var DOPPLER = 1;
 var MONO = 0;
 
-var overlapHorizontal = 1.5;
-
 
 #   █████  ██ ██████  ██████   ██████  ██████  ███    ██ ███████     ██████   █████  ██████   █████  ██████  
 #  ██   ██ ██ ██   ██ ██   ██ ██    ██ ██   ██ ████   ██ ██          ██   ██ ██   ██ ██   ██ ██   ██ ██   ██ 
@@ -34,6 +32,7 @@ var AirborneRadar = {
 	rootMode: 0,
 	mainModes: nil,
 	instantFoVradius: 2.0,#average of horiz/vert radius
+	overlapHorizontal: 1.5,
 	instantVertFoVradius: 2.5,# real vert radius (could be used by ground mapper)
 	instantHoriFoVradius: 1.5,# real hori radius (not used)
 	rcsRefDistance: 70,
@@ -270,15 +269,20 @@ var AirborneRadar = {
 	isEnabled: func {
 		return 1;
 	},
+	isActive: func {
+		return me.currentMode.active;
+	},
 	loop: func {
 		me.enabled = me.isEnabled();
-		setprop("instrumentation/radar/radar-standby", !me.enabled);
+		me.active = me.isActive();
+		setprop("instrumentation/radar/radar-standby", !me.enabled or !me.active);
 		# calc dt here, so we don't get a massive dt when going from disabled to enabled:
 		me.elapsed = elapsedProp.getValue();
 		me.dt = me.elapsed - me.lastElapsed;
 		me.lastElapsed = me.elapsed;
+		me.dt = math.min(me.dt, maxDt);
 		if (me.enabled) {
-			if (me.currentMode.painter and me.currentMode.detectAIR) {
+			if (me.active and me.currentMode.painter and me.currentMode.detectAIR) {
 				# We need faster updates to not lose track of oblique flying locks close by when in STT.
 				me.ContactNotification.vector = [me.getPriorityTarget()];
 				emesary.GlobalTransmitter.NotifyAll(me.ContactNotification);
@@ -289,11 +293,12 @@ var AirborneRadar = {
 				me.dt = me.currentMode.step(me.dt);# mode already knows where in pattern we are and AZ and bars.
 
 				# we then step to the new position, and scan for each step
-				me.scanFOV();
+				if (me.active) me.scanFOV();
 				me.showScan();
 			}
+		}
 
-		} elsif (size(me.vector_aicontacts_bleps)) {
+		if ((!me.enabled or !me.active) and size(me.vector_aicontacts_bleps)) {
 			# So that when radar is restarted there is not old bleps.
 			me.purgeAllBleps();
 		}
@@ -304,7 +309,7 @@ var AirborneRadar = {
 		# It also sends out on datalink what we are STT/SAM/TWS locked onto.
 		# In addition it notifies the weapons what we have targeted.
 		# Plus it sets the MP property for radar standby so others can see us on RWR.
-		if (me.enabled) {
+		if (me.enabled and me.active) {
 			me.focus = me.getPriorityTarget();
 			if (me.focus != nil and me.focus.callsign != "") {
 				if (me.currentMode.painter) sttSend.setValue(left(md5(me.focus.callsign), 4));
@@ -329,8 +334,8 @@ var AirborneRadar = {
 		#
 		# Here we ask the NoseRadar for a slice of the sky once in a while.
 		#
-		if (me.enabled and !(me.currentMode.painter and me.currentMode.detectAIR)) {
-			emesary.GlobalTransmitter.NotifyAll(me.SliceNotification.slice(self.getPitch(), self.getHeading(), math.max(-me.fieldOfRegardMinElev, me.fieldOfRegardMaxElev)*1.414, me.fieldOfRegardMaxAz*1.414, me.getRange()*NM2M, !me.currentMode.detectAIR, !me.currentMode.detectSURFACE, !me.currentMode.detectMARINE));
+		if (me.enabled and me.active and !(me.currentMode.painter and me.currentMode.detectAIR)) {
+			emesary.GlobalTransmitter.NotifyAll(me.SliceNotification.slice(self.getPitch(), self.getHeading(), math.max(-me.fieldOfRegardMinElev, me.fieldOfRegardMaxElev)*1.25, me.fieldOfRegardMaxAz*1.25, me.getRange()*NM2M, !me.currentMode.detectAIR, !me.currentMode.detectSURFACE, !me.currentMode.detectMARINE));
 		}
 	},
 	scanFOV: func {
@@ -343,10 +348,6 @@ var AirborneRadar = {
 			iffProp.setBoolValue(0);
 			iff.last_interogate = systime();
 		}
-
-    	if (me["gmapper"] != nil) me.gmapper.scanGM(me.eulerX, me.eulerY, me.instantVertFoVradius, me.instantFoVradius,
-    		 me.currentMode.bars == 1 or (me.currentMode.bars == 4 and me.currentMode["nextPatternNode"] == 0) or (me.currentMode.bars == 3 and me.currentMode["nextPatternNode"] == 7) or (me.currentMode.bars == 2 and me.currentMode["nextPatternNode"] == 1),
-    		 me.currentMode.bars == 1 or (me.currentMode.bars == 4 and me.currentMode["nextPatternNode"] == 2) or (me.currentMode.bars == 3 and me.currentMode["nextPatternNode"] == 3) or (me.currentMode.bars == 2 and me.currentMode["nextPatternNode"] == 3));# The last two parameter is hack
 
     	# test for passive ECM (chaff)
 		# 
@@ -378,7 +379,8 @@ var AirborneRadar = {
 			}
 		}
 
-    	me.testedPrio = 0;
+		me.testedPrio = 0;
+		if (me["gmapper"] != nil) me.thisFOVcontacts = [];
 		foreach(var contact ; me.vector_aicontacts_for) {
 			if (!me.tiedIFF and me.doIFF) {
 				me.runIFF(contact);
@@ -420,13 +422,18 @@ var AirborneRadar = {
 			if (me.beamDeviation < me.instantFoVradius and (me.dev.rangeDirect_m < me.closestChaff or rand() < me.chaffFilter) ) {#  and (me.closureReject == -1 or me.dev.closureSpeed > me.closureReject)
 				# TODO: Refine the chaff conditional (ALOT)
 				me.registerBlep(contact, me.dev, me.currentMode.painter, me.currentMode.pulse);
+				if (me["gmapper"] != nil) append(me.thisFOVcontacts, contact);
 				#print("REGISTER BLEP");
 
 				# Return here, so that each instant FoV max gets 1 target:
 				# TODO: refine by testing angle between contacts seen in this FoV
-				break;
+				#break;
 			}
 		}
+
+		if (me["gmapper"] != nil)
+			me.gmapper.scanGM(me.eulerX, me.eulerY, me.instantVertFoVradius, me.instantFoVradius, me.thisFOVcontacts);
+
 
 		if(me.debug > 1 and me.currentMode.painter and !me.testedPrio) {
 			setprop("debug-radar/main-beam-deviation", "--unseen-lock--");
@@ -673,6 +680,7 @@ var RadarMode = {
 	cursorNm: 20,
 	upperAngle: 10,
 	lowerAngle: 10,
+	active: 1,  # If false, the radar is off in this mode
 	painter: 0, # if the mode when having a priority target will produce a hard lock on target.
 	mapper: 0,
 	discSpeed_dps: 1,# current disc speed. Must never be zero.
@@ -820,12 +828,14 @@ var RadarMode = {
 				me.frameCompleted();
 			}
 			#print("db-node:", me.nextPatternNode);
+			# Allow pattern with a single node (fixed beam). Return 0 to end the loop (otherwise infinite).
+			if (size(me.currentPattern) == 1) return 0;
 			# Now the antennae has been moved and we return how much leftover dt there is to the main radar.
 			return dt-me.angleToNextNode/me.discSpeed_dps;# Since we move disc seperately in axes, this is not strictly correct, but close enough.
 		}
 
 		# Lets move each axis of the radar seperate, as most radars likely has 2 joints anyway.
-		me.maxMove = math.min(me.radar.instantFoVradius*overlapHorizontal, me.discSpeed_dps*dt);# 1.75 instead of 2 is because the FoV is round so we overlap em a bit
+		me.maxMove = math.min(me.radar.instantFoVradius*me.radar.overlapHorizontal, me.discSpeed_dps*dt);# 1.75 instead of 2 is because the FoV is round so we overlap em a bit
 
 		# Azimuth
 		me.distance_deg = me.targetAzimuthTilt - me.radar.eulerX;
@@ -1121,6 +1131,7 @@ var MissileDatalink = {
 # Some global properties and parameters
 
 var scanInterval = 0.05;
+var maxDt = 0.1;
 
 var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
 var iffProp = props.globals.getNode("instrumentation/radar/iff",1);

@@ -130,6 +130,7 @@
             <!--<path>sim/model/livery/file</path>-->
             <path>/ja37/effect/rust-outside</path>
             <path>/ja37/effect/rust-inside</path>
+            <path>/instrumentation/radar/ground-radar-quality</path>
         </aircraft-data>
 
         <airport>
@@ -540,7 +541,9 @@
         </failures>
         <radar>
             <panel>
+                <linear type="bool">false</linear>
                 <passive type="bool">false</passive>
+                <gain type="double">0</gain>
             </panel>
         </radar>
         <effect>
@@ -1494,8 +1497,17 @@
             <!-- JA stuff -->
             <iff type="bool">false</iff>
             <!-- AJS stuff -->
-            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI (2 should be B-scope) -->
+            <mode type="int">0</mode>                   <!-- 0=off, 1=PPI, 2=B-scope -->
             <range type="int">15000</range>             <!-- for 3D model only -->
+            <polaroid-filter type="double">1</polaroid-filter>
+            <ground-radar-quality type="int">1</ground-radar-quality>
+            <effect>
+                <mode type="int">0</mode>
+                <time1 type="float">0.0</time1>
+                <time2 type="float">0.0</time2>
+                <beam-pos-norm type="float">0.0</beam-pos-norm>
+                <beam-dir type="int">1.0</beam-dir>
+            </effect>
         </radar>
         <rwr>
           <ajs-lights>

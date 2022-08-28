@@ -67,7 +67,8 @@ var init_loops = func {
         );
     } else {
         append(loops,
-            { period: 4, offset: 0, function: rdr.scope.update, self: rdr.scope, name: "CI", condition: variant.AJS, }
+            { period: 1, offset: 0, function: ci.loop, name: "CI", arg_dt: 1, },
+            { period: 4, offset: 3, function: radar.loop, name: "PS37", }
         );
     }
 };

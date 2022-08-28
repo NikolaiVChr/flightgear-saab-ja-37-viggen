@@ -35,7 +35,7 @@ var PS46 = {
 
     # If radar get turned off by WoW (or failure) it stays off.
     isEnabled: func {
-        return me.enabled and input.radar_serv.getBoolValue()
+        return me.enabled and displays.common.radar_on and input.radar_serv.getBoolValue()
           and !input.nose_wow.getBoolValue() and power.prop.hyd1Bool.getBoolValue()
           and power.prop.dcSecondBool.getBoolValue() and power.prop.acSecondBool.getBoolValue();
     },

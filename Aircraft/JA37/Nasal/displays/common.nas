@@ -114,10 +114,12 @@ var Common = {
 		co.hud_on = FALSE;
 		co.ci_on = FALSE;
 		co.mi_ti_on = FALSE;
+		co.radar_on = FALSE;
 
 		# Starting with all systems on.
 		if (getprop("/ja37/avionics/init-done")) {
-			co.power_time = -100;
+			co.power_time = -180;
+			co.displays_on_time = -40;
 			co.ep12_on = TRUE;
 		}
 
@@ -194,6 +196,8 @@ var Common = {
 		me.hud_on = (time - me.power_time >= 40) and (time - me.displays_on_time >= 1);
 		# MI/TI are on 'within 2s' of EP12 on.
 		me.mi_ti_on = (time - me.displays_on_time >= 1);
+		# made up value
+		me.radar_on = (time - me.power_time >= 100);
 
 		# This property is used for checklists.
 		me.input.displays_on.setValue(me.hud_on);
@@ -214,6 +218,8 @@ var Common = {
 		me.hud_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 1);
 		# CI is on 30s after power + switching to NAV.
 		me.ci_on = (time - me.power_time >= 30) and (time - me.displays_on_time >= 30);
+		# Radar is on 3min after power (AJS SFI part 3 chap 6 sec 5.6 page 20)
+		me.radar_on = (time - me.power_time >= 180);
 	},
 
 	toggleJAdisplays: func(on=nil) {
