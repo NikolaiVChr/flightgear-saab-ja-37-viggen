@@ -5,7 +5,7 @@
 +
 +<!-- CI effect
 +  The CI uses a custom shader to render the radar screen.
-+  This is FG 2020.3.13 Effects/model-default.eff with minimal changes
++  This is FG 2020.4 Effects/model-default.eff with minimal changes
 +  to include this custom code.
 +-->
 +
@@ -17,12 +17,12 @@
  		<texture n ="0">
  			<type>white</type>
  		</texture>
-@@ -55,11 +62,20 @@
- 		<geo_light_radius type="float">0.0</geo_light_radius>
- 		<geo_ambience type="float">0.0</geo_ambience>
- 		<quality_level><use>/sim/rendering/shaders/landmass</use></quality_level>
- 		<tquality_level><use>/sim/rendering/shaders/transition</use></tquality_level>
- 		<!-- 		END fog include -->
+@@ -63,11 +70,20 @@
+         </shadows_enabled>
+         <sun_atlas_size>
+           <use>/sim/rendering/shadows/sun-atlas-size</use>
+         </sun_atlas_size>
+         <!-- END shadows include -->
 -	</parameters>
 +
 +    <!-- CI properties -->
@@ -39,35 +39,38 @@
      <predicate>
        <and>
          <property>/sim/rendering/shaders/skydome</property>
-@@ -119,16 +135,20 @@
+@@ -127,19 +143,23 @@
        </texture-unit>
        <vertex-program-two-side>
          <use>vertex-program-two-side</use>
        </vertex-program-two-side>
        <program>
 -        <vertex-shader>Shaders/generic-ALS-base.vert</vertex-shader>
--        <fragment-shader>Shaders/model-ALS-base.frag</fragment-shader>
 +        <!-- CI shaders: add custom shaders (ci.{vert,frag}),
 +             use modified default shaders which call the CI code -->
 +        <vertex-shader>Aircraft/JA37/Models/Effects/CI/generic-ALS-base.vert</vertex-shader>
+         <vertex-shader>Shaders/shadows-include.vert</vertex-shader>
+-        <fragment-shader>Shaders/model-ALS-base.frag</fragment-shader>
 +        <vertex-shader>Aircraft/JA37/Models/Effects/CI/ci.vert</vertex-shader>
 +        <fragment-shader>Aircraft/JA37/Models/Effects/CI/model-ALS-base.frag</fragment-shader>
          <fragment-shader>Shaders/hazes.frag</fragment-shader>
          <fragment-shader>Shaders/secondary_lights.frag</fragment-shader>
          <fragment-shader>Shaders/noise.frag</fragment-shader>
          <fragment-shader>Shaders/filters-ALS.frag</fragment-shader>
+         <fragment-shader>Shaders/shadows-include.frag</fragment-shader>
+         <fragment-shader>Shaders/clustered-include.frag</fragment-shader>
 +        <fragment-shader>Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
        </program>
        <uniform>
          <name>visibility</name>
          <type>float</type>
          <value><use>visibility</use></value>
-@@ -351,90 +371,71 @@
-       <uniform>
-         <name>tquality_level</name>
-         <type>int</type>
-         <value><use>tquality_level</use></value>
+@@ -383,17 +403,54 @@
+         <value>
+           <use>sun_atlas_size</use>
+         </value>
        </uniform>
+       <!-- END shadows include -->
 +
 +      <!-- CI uniforms -->
 +      <uniform>
@@ -104,138 +107,51 @@
      </pass>
    </technique>
  
--<technique n="10">
--	<predicate>
--		<and>
--			<property>/sim/rendering/rembrandt/enabled</property>
--			<or>
--				<less-equal>
--					<value type="float">2.0</value>
--					<glversion/>
--				</less-equal>
--				<and>
--					<extension-supported>GL_ARB_shader_objects</extension-supported>
--					<extension-supported>GL_ARB_shading_language_100</extension-supported>
--					<extension-supported>GL_ARB_vertex_shader</extension-supported>
--					<extension-supported>GL_ARB_fragment_shader</extension-supported>
--				</and>
--			</or>
--		</and>
--	</predicate>
--	<pass>
--		<lighting>false</lighting>
--		<material>
--			<ambient><use>material/ambient</use></ambient>
--			<diffuse><use>material/diffuse</use></diffuse>
--			<specular><use>material/specular</use></specular>
--			<emissive><use>material/emissive</use></emissive>
--			<shininess><use>material/shininess</use></shininess>
--			<color-mode>ambient-and-diffuse</color-mode>
--		</material>
--		<blend>false</blend>
--		<alpha-test>true</alpha-test>
--		<shade-model>smooth</shade-model>
--		<cull-face><use>cull-face</use></cull-face>
--		<render-bin>
--			<bin-number>1</bin-number>
--			<bin-name>RenderBin</bin-name>
--		</render-bin>
--		<texture-unit>
--			<unit>0</unit>
--			<type><use>texture[0]/type</use></type>
--			<image><use>texture[0]/image</use></image>
--			<filter><use>texture[0]/filter</use></filter>
--			<wrap-s><use>texture[0]/wrap-s</use></wrap-s>
--			<wrap-t><use>texture[0]/wrap-t</use></wrap-t>
--			<internal-format>
--				<use>texture[0]/internal-format</use>
--			</internal-format>
--			<environment>
--				<mode>modulate</mode>
--			</environment>
--		</texture-unit>
--		<vertex-program-two-side>
--			<use>vertex-program-two-side</use>
--		</vertex-program-two-side>
--		<program n="0">
--			<vertex-shader n="0">Shaders/deferred-gbuffer.vert</vertex-shader>
--			<fragment-shader>Shaders/deferred-gbuffer.frag</fragment-shader>
--			<fragment-shader>Shaders/gbuffer-functions.frag</fragment-shader>
--			<fragment-shader>Shaders/gbuffer-encode.frag</fragment-shader>
--		</program>
--		<uniform>
--			<name>texture</name>
--			<type>sampler-2d</type>
--			<value type="int">0</value>
--		</uniform>
--		<!-- uniform>
--			<name>materialID</name>
--			<type>int</type>
--			<value><use>material-id</use></value>
--		</uniform -->
--	</pass>
--</technique>
-+  <!-- Rembrandt removed here, Viggen is not even close to rembrandt compatible. Sorry. -->
- 
  	<technique n="11">
  		<predicate>
  			<and>
--				<property>/sim/rendering/shaders/quality-level</property>
--				<property>/sim/rendering/shaders/generic</property>
+-				<property>/sim/rendering/shaders/use-shaders</property>
 +				<or>
 +					<!-- if this property is set (default=yes), always keep this shader on -->
 +					<property>/ja37/displays/use-CI-shader-on-min-settings</property>
-+					<!-- for FG versions <2020.3 -->
-+					<and>
-+						<equal>
-+							<property>/ja37/supported/compositor</property>
-+							<value type="bool">false</value>
-+						</equal>
-+						<property>/sim/rendering/shaders/quality-level</property>
-+						<property>/sim/rendering/shaders/model</property>
-+					</and>
-+					<!-- for FG versions >=2020.4
-+						(this is not a proper compositor shader, but at least test the correct properties...)
-+					-->
-+					<and>
-+						<property>/ja37/supported/compositor</property>
-+						<property>/sim/rendering/shaders/use-shaders</property>
-+					</and>
++					<property>/sim/rendering/shaders/use-shaders</property>
 +				</or>
  				<or>
  					<less-equal>
  						<value type="float">2.0</value>
  						<glversion/>
  					</less-equal>
-@@ -521,14 +522,18 @@
+@@ -480,17 +537,22 @@
  			</texture-unit>
  			<vertex-program-two-side>
  				<use>vertex-program-two-side</use>
  			</vertex-program-two-side>
  			<program n="0">
--<!-- 				<vertex-shader n="0">Shaders/include_fog.vert</vertex-shader> -->			<!--fog include-->
++				<!-- CI shaders: add custom shaders (ci.{vert,frag}),
++					use modified default shaders which call the CI code -->
+ <!-- 				<vertex-shader n="0">Shaders/include_fog.vert</vertex-shader> -->			<!--fog include-->
 -				<vertex-shader n="1">Shaders/default.vert</vertex-shader>
--				<fragment-shader n="0">Shaders/include_fog.frag</fragment-shader>				<!--fog include-->
++				<vertex-shader n="1">Aircraft/JA37/Models/Effects/CI/default.vert</vertex-shader>
+ 				<vertex-shader n="2">Shaders/shadows-include.vert</vertex-shader>
++				<vertex-shader n="3">Aircraft/JA37/Models/Effects/CI/ci.vert</vertex-shader>
+ 				<fragment-shader n="0">Shaders/include_fog.frag</fragment-shader>				<!--fog include-->
 -				<fragment-shader n="1">Shaders/default.frag</fragment-shader>
-+        <!-- CI shaders: add custom shaders (ci.{vert,frag}),
-+             use modified default shaders which call the CI code -->
-+        <vertex-shader n="1">Aircraft/JA37/Models/Effects/CI/default.vert</vertex-shader>
-+        <vertex-shader n="2">Aircraft/JA37/Models/Effects/CI/ci.vert</vertex-shader>
-+        <fragment-shader n="0">Shaders/include_fog.frag</fragment-shader>				<!--fog include-->
-+        <fragment-shader n="1">Aircraft/JA37/Models/Effects/CI/default.frag</fragment-shader>
-+        <fragment-shader n="2">Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
-+        <fragment-shader>Shaders/noise.frag</fragment-shader>
++				<fragment-shader n="1">Aircraft/JA37/Models/Effects/CI/default.frag</fragment-shader>
+ 				<fragment-shader n="2">Shaders/shadows-include.frag</fragment-shader>
+ 				<fragment-shader n="3">Shaders/clustered-include.frag</fragment-shader>
++				<fragment-shader n="4">Aircraft/JA37/Models/Effects/CI/ci.frag</fragment-shader>
++				<fragment-shader n="5">Shaders/noise.frag</fragment-shader>
  			</program>
  			<!-- 			BEGIN fog include -->
  			<uniform>
  				<name>visibility</name>
  				<type>float</type>
-@@ -582,10 +587,43 @@
- 				<type>int</type>
- 				<value>
- 					<use>material/color-mode-uniform</use>
- 				</value>
+@@ -565,10 +627,43 @@
+ 			  <value>
+ 				<use>sun_atlas_size</use>
+ 			  </value>
  			</uniform>
+ 			<!-- END shadows include -->
 +
 +      <!-- CI uniforms -->
 +      <uniform>
@@ -274,3 +190,76 @@
  	<technique n="13">
  		<pass>
  			<lighting>true</lighting>
+@@ -649,71 +744,7 @@
+            effect?
+         -->
+ 		</pass>
+ 	</technique>
+ 
+-    <technique n="109">
+-      <scheme>hdr-geometry</scheme>
+-      <pass>
+-        <!-- Reverse floating point depth buffer -->
+-        <depth>
+-          <function>gequal</function>
+-          <near>1.0</near>
+-          <far>0.0</far>
+-        </depth>
+-        <stencil>
+-          <function>always</function>
+-          <value>8</value>
+-          <pass>replace</pass>
+-        </stencil>
+-        <texture-unit>
+-          <unit>0</unit>
+-          <type><use>texture[0]/type</use></type>
+-          <image><use>texture[0]/image</use></image>
+-          <filter><use>texture[0]/filter</use></filter>
+-          <wrap-s><use>texture[0]/wrap-s</use></wrap-s>
+-          <wrap-t><use>texture[0]/wrap-t</use></wrap-t>
+-        </texture-unit>
+-        <blend>0</blend>
+-        <rendering-hint>opaque</rendering-hint>
+-        <cull-face><use>cull-face</use></cull-face>
+-        <program>
+-          <vertex-shader>Shaders/HDR/geometry.vert</vertex-shader>
+-          <fragment-shader>Shaders/HDR/geometry.frag</fragment-shader>
+-          <fragment-shader>Shaders/HDR/gbuffer-include.frag</fragment-shader>
+-        </program>
+-        <uniform>
+-          <name>color_tex</name>
+-          <type>sampler-2d</type>
+-          <value type="int">0</value>
+-        </uniform>
+-        <uniform>
+-          <name>color_mode</name>
+-          <type>int</type>
+-          <value><use>material/color-mode</use></value>
+-        </uniform>
+-        <uniform>
+-          <name>material_diffuse</name>
+-          <type>float-vec4</type>
+-          <value><use>material/diffuse</use></value>
+-        </uniform>
+-      </pass>
+-    </technique>
+-
+-    <technique n="119">
+-      <scheme>hdr-shadow</scheme>
+-      <pass>
+-        <color-mask type="vec4d">0 0 0 0</color-mask>
+-        <cull-face>back</cull-face>
+-        <blend>0</blend>
+-        <polygon-offset>
+-          <factor>1.1</factor>
+-          <units>4.0</units>
+-        </polygon-offset>
+-        <program>
+-          <vertex-shader>Shaders/HDR/geometry-shadow.vert</vertex-shader>
+-          <fragment-shader>Shaders/HDR/geometry-shadow.frag</fragment-shader>
+-        </program>
+-      </pass>
+-    </technique>
+-
++	<!-- HDR removed here -->
+ </PropertyList>
