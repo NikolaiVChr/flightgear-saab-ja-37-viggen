@@ -74,6 +74,7 @@ var input = {
     beam_pos:       "instrumentation/radar/effect/beam-pos-norm",
     beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
+    antenna_angle:  "instrumentation/radar/antenna-angle-norm",
     # shaders controls
     compositor:     "ja37/supported/compositor",
     als_on:         "sim/rendering/shaders/skydome",
@@ -499,6 +500,47 @@ var Horizon = {
 };
 
 
+### Antenna angle indicator
+var AngleIndicator = {
+    new: func(parent) {
+        var m = { parents: [AngleIndicator], parent: parent, };
+        m.init();
+        return m;
+    },
+
+    max_offset: 20,
+
+    init: func {
+        me.root = me.parent.createChild("group", "antenna angle")
+            # Just above PPI
+            .set("stroke-width", 1.0)
+            .setTranslation(0, PPI_base_offset - PPI_radius - 4);
+
+        var tick_size = 2;
+        me.root.createChild("path")
+            .moveTo(-tick_size, 0).horiz(2*tick_size)
+            .moveTo(-me.max_offset - tick_size, 0).horiz(2*tick_size)
+            .moveTo(me.max_offset - tick_size, 0).horiz(2*tick_size);
+
+        me.mark = me.root.createChild("path")
+            .moveTo(0,-3).vert(6);
+
+        me.visible = -1;
+    },
+
+    set_mode: func(mode, display) {
+        me.visible = (mode == MODE.AIR and display == DISPLAY.PPI);
+        me.root.setVisible(me.visible);
+    },
+
+    update: func {
+        if (!me.visible) return;
+
+        me.mark.setTranslation(input.antenna_angle.getValue() * me.max_offset, 0);
+    },
+};
+
+
 
 ## CI mode
 # Separated in type of display (PPI vs B-scope), type of symbology.
@@ -552,6 +594,7 @@ var CI = {
         me.nav_symbols = NavSymbols.new(me.rdr_symbols_grp);
         me.bg = PPIBackground.new(me.bg_grp);
         me.horizon = Horizon.new(me.symbols_grp);
+        me.angle_indicator = AngleIndicator.new(me.symbols_grp);
 
         me.mode = -1;
         me.display = -1;
@@ -611,6 +654,7 @@ var CI = {
         # For MODE.STBY, everything is hidden, but notify CI elements so that they can cleanup if necessary.
         me.radar_img.set_mode(mode, display);
         me.nav_symbols.set_mode(mode, display);
+        me.angle_indicator.set_mode(mode, display);
 
         me.root.setVisible(mode != MODE.STBY);
     },
@@ -623,6 +667,7 @@ var CI = {
 
         me.nav_symbols.update();
         me.horizon.update();
+        me.angle_indicator.update();
         me.show_radar_image(dt);
     },
 
