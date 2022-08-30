@@ -66,14 +66,14 @@ float beam_int(vec4 PPI_pos)
         return 0.0;
 
     return COLOR_BG + 1.2 * pow(beam_pos.x / BEAM_OFFSET, 2.0)                      // band down to bg_color
-        + max(1.0 - pow((beam_pos.x - BEAM_OFFSET) / BEAM_HALF_WIDTH, 2), 0.0);     // bright line at beam_offset
+        + max(1.0 - pow((beam_pos.x - BEAM_OFFSET) / BEAM_HALF_WIDTH, 2.0), 0.0);   // bright line at beam_offset
 }
 
 
 // transmission factor to neighbours
 float decay(float age)
 {
-    return mix(pow(0.5, age/30.0), pow(0.9, pow(age * 2 - 1, 2)), 0.1);
+    return mix(pow(0.5, age/30.0), pow(0.9, pow(age * 2.0 - 1.0, 2.0)), 0.1);
 }
 
 // PPI coordonates.
@@ -132,7 +132,7 @@ bool not_erased(vec4 PPI_pos)
 // Range and azimuth lines
 #define LINE_HALF_WIDTH 0.004
 
-#define SIDE_LINE_ANGLE     radians(30)
+#define SIDE_LINE_ANGLE     radians(30.0)
 #define LINE_LEFT_NORMAL    vec2(cos(SIDE_LINE_ANGLE), sin(SIDE_LINE_ANGLE))
 #define LINE_RIGHT_NORMAL   vec2(cos(SIDE_LINE_ANGLE), -sin(SIDE_LINE_ANGLE))
 
@@ -163,7 +163,7 @@ float get_lines_PPI(vec4 PPI_pos, float range)
     if (dist > LINE_HALF_WIDTH)
         return 0.0;
     else
-        return 1.0 - pow(dist / LINE_HALF_WIDTH, 3);
+        return 1.0 - pow(dist / LINE_HALF_WIDTH, 3.0);
 }
 
 
