@@ -12,6 +12,10 @@ uniform int beam_dir;
 
 float Noise3D(vec3 coord, float wavelength);
 
+
+// Pixel half-size in texture coordinates, for antialiasing.
+float p_size = 0.0;
+
 // Index of metadata strips
 #define INFO_TIME1          0
 #define INFO_TIME2          1
@@ -89,8 +93,37 @@ vec4 PPI_coord(vec2 pos)
     return res;
 }
 
-// PPI bounds, to check against abs(PPI_coord()) with proper swizzling.
-#define PPI_LIMIT_xzw vec3(PPI_SIDE, PPI_RADIUS, PPI_HALF_ANGLE)
+// PPI bounds
+//
+// Returns a vector of distances to the different areas of the PPI.
+// x: bottom (bright) part
+// y: top (black) part
+// z: origin (grey, never cleared) part
+//
+// For each coordinate, positive values are inside said area.
+// If the vector is non-positive, the point is inside the PPI.
+
+// Normal vectors to bottom two sides
+#define PPI_BOTTOM_LEFT_NORMAL      vec2(-cos(PPI_HALF_ANGLE), -sin(PPI_HALF_ANGLE))
+#define PPI_BOTTOM_RIGHT_NORMAL     vec2(cos(PPI_HALF_ANGLE), -sin(PPI_HALF_ANGLE))
+
+vec3 PPI_bounds_dist(vec4 PPI_pos)
+{
+    float bot_dist = max(
+        dot(PPI_pos.xy, PPI_BOTTOM_LEFT_NORMAL),
+        dot(PPI_pos.xy, PPI_BOTTOM_RIGHT_NORMAL)
+    );
+
+    float top_dist = max(
+        PPI_pos.z - PPI_RADIUS,
+        abs(PPI_pos.x) - PPI_SIDE
+    );
+
+    // center area which is never erased, approximated as a circle.
+    float origin_dist = BEAM_OFFSET - BEAM_HALF_WIDTH - PPI_pos.z;
+
+    return vec3(bot_dist, top_dist, origin_dist);
+}
 
 // LOD bias for polar texture lookup (to be divided by PPI_pos.z)
 // Otherwise GL built-in LOD estimate is messed up at the origin,
@@ -115,27 +148,8 @@ float get_metadata(vec4 PPI_pos, int index)
 }
 
 
-// A small area around origin is never erased
-
-#define LEFTMOST_BEAM_NORMAL vec2(cos(PPI_HALF_ANGLE), sin(PPI_HALF_ANGLE))
-
-bool not_erased(vec4 PPI_pos)
-{
-    if (length(PPI_pos.xy) < BEAM_OFFSET - BEAM_HALF_WIDTH)
-        return true;    // too close to the center to be erased
-
-    if (abs(PPI_pos.w) >= radians(90.0) - PPI_HALF_ANGLE)
-        // There is a moment where PPI_ORIGIN -> PPI_pos is orthogonal to the beam,
-        // thus the previous test was tight.
-        return false;
-
-    // For the remaining points, the only thing which matters is the erasing beam position at the two extreme angles.
-    return dot(abs(PPI_pos.xy), LEFTMOST_BEAM_NORMAL) < BEAM_OFFSET - BEAM_HALF_WIDTH;
-}
-
-
 // Range and azimuth lines
-#define LINE_HALF_WIDTH 0.004
+#define LINE_HALF_WIDTH 0.003
 
 #define SIDE_LINE_ANGLE     radians(30.0)
 #define LINE_LEFT_NORMAL    vec2(cos(SIDE_LINE_ANGLE), sin(SIDE_LINE_ANGLE))
@@ -146,69 +160,90 @@ bool not_erased(vec4 PPI_pos)
 #define RANGE_ARC_3 (PPI_RADIUS * 40.0 / 120.0)
 #define RANGE_ARC_4 (PPI_RADIUS * 80.0 / 120.0)
 
-float get_lines_PPI(vec4 PPI_pos, float range)
+float get_lines_PPI(vec4 PPI_pos)
 {
-    if (range < 0.125) return 0.0;
-
     // normalized distance to closest line
-    float dist = abs(PPI_pos.x);
+    float dist = CANVAS_SIZE;
 
-    dist = min(dist, abs(dot(PPI_pos.xy, LINE_LEFT_NORMAL)));
-    dist = min(dist, abs(dot(PPI_pos.xy, LINE_RIGHT_NORMAL)));
+    float range = get_metadata(PPI_pos, INFO_RANGE);
+    if (range > 0.125) {
+        // azimuth lines
+        dist = min(dist, abs(PPI_pos.x));
+        dist = min(dist, abs(dot(PPI_pos.xy, LINE_LEFT_NORMAL)));
+        dist = min(dist, abs(dot(PPI_pos.xy, LINE_RIGHT_NORMAL)));
 
-    // range arcs
-    dist = min(dist, distance(PPI_pos.z, RANGE_ARC_4));
-    if (range > 0.375)
-        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_3));
-    if (range > 0.625)
-        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_2));
-    if (range > 0.875)
-        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_1));
+        // range arcs
+        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_4));
+        if (range > 0.375)
+            dist = min(dist, distance(PPI_pos.z, RANGE_ARC_3));
+        if (range > 0.625)
+            dist = min(dist, distance(PPI_pos.z, RANGE_ARC_2));
+        if (range > 0.875)
+            dist = min(dist, distance(PPI_pos.z, RANGE_ARC_1));
+    }
 
-    if (dist > LINE_HALF_WIDTH)
-        return 0.0;
-    else
-        return 1.0 - pow(dist / LINE_HALF_WIDTH, 3.0);
+    return (1.0 - smoothstep(LINE_HALF_WIDTH - p_size, LINE_HALF_WIDTH + p_size, dist));
 }
 
 
 vec4 CI_screen_color() {
     vec2 pos = gl_TexCoord[0].st;
 
+    // Pixel half-size
+    p_size = length(vec4(dFdx(pos), dFdy(pos))) * 0.5;
+
     float intensity = 0.0;
 
     if (display_mode == 1) {
         // PPI display
         vec4 PPI_pos = PPI_coord(pos);
-        float beam_int = beam_dir == 0 ? 0.0 : beam_int(PPI_pos);
 
-        if (abs(PPI_pos.w) >= PPI_HALF_ANGLE) {
-            intensity = max(COLOR_BOTTOM, beam_int);
-        } else if (not_erased(PPI_pos)) {
-            intensity = COLOR_BASE;
-        } else if (!all(lessThan(abs(PPI_pos.xzw), PPI_LIMIT_xzw))) {
-            intensity = max(beam_int - COLOR_BG, 0.0);    // erasing beam is dimmer in this area
-        } else {
-            // (strength, age)
-            float radar = radar_texture_PPI(PPI_pos);
+        // interpolation coefficients between the different PPI border areas
+        vec3 coefs = smoothstep(-p_size, p_size, PPI_bounds_dist(PPI_pos));
+
+        float bottom_coef = coefs.x;
+        float border_coef = coefs.y;
+        float top_coef = max(border_coef - bottom_coef, 0.0);
+        float origin_coef = coefs.z;
+
+        // Actual display area
+        float radar = 0.0;
+        float radar_decay = 0.0;
+        if (all(lessThan(coefs, vec3(1.0, 1.0, 1.0)))) {
+            radar = radar_texture_PPI(PPI_pos);
             float time1 = get_metadata(PPI_pos, INFO_TIME1);
             float time2 = get_metadata(PPI_pos, INFO_TIME2);
             float age = fract(current_time2 - time2) * TIME2_FACTOR;
             if (age <= TIME1_FACTOR * 0.9) {
                 age = fract(current_time1 - time1) * TIME1_FACTOR;
             }
+            radar_decay = decay(age);
+
             // noise from radar
             radar = clamp(radar + 0.12 * Noise3D(vec3(PPI_pos.xy, time1), 0.006) - 0.06, 0.0, 1.0);
 
-            float range = get_metadata(PPI_pos, INFO_RANGE);
-            radar = max(radar, get_lines_PPI(PPI_pos, range));
-
-            intensity = mix(COLOR_BG, COLOR_RADAR, radar);
-            intensity = mix(COLOR_BASE, intensity, decay(age));
-            intensity = max(intensity, beam_int);
-            // noise from display
-            intensity += 0.06 * Noise3D(vec3(PPI_pos.xy, -current_time1), 0.002) - 0.03;
+            radar = max(radar, get_lines_PPI(PPI_pos));
         }
+
+        // Combine radar picture color with different borders. Order is important.
+
+        intensity = mix(COLOR_BG, COLOR_RADAR, radar);                                  // radar picture
+        intensity = mix(COLOR_BASE, intensity, radar_decay);                            // time decay
+        intensity = mix(intensity, COLOR_BASE, origin_coef);                            // origin (never cleared)
+        intensity += 0.06 * Noise3D(vec3(PPI_pos.xy, -current_time1), 0.002) - 0.03;    // display noise
+        intensity = mix(intensity, 0.0, border_coef);                                   // black top area
+        intensity = mix(intensity, COLOR_BOTTOM, bottom_coef);                          // bright bottom area
+
+        // Add beam sweep effect
+        float beam_int = beam_dir == 0 ? 0.0 : beam_int(PPI_pos);
+
+        beam_int -= beam_int * origin_coef;
+
+        // beam is weaker in dark top area
+        // (coefs.y represents a zone which also intersects the bottom area, which is why coefs.x is subtracted)
+        beam_int -= COLOR_BG * top_coef;
+
+        intensity = max(intensity, beam_int);
     } else if (display_mode == 2) {
         // B-scope
     }
