@@ -7,7 +7,7 @@
 -->
 
 <PropertyList>
-	<name>Effects/model-default</name>
+	<name>Aircraft/JA37/Models/Effects/hud</name>
 	<!-- 	<inherits-from>Effects/shadow</inherits-from> -->
 	<parameters>
 		<texture n ="0">
