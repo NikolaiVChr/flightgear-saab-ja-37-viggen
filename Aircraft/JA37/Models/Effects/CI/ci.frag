@@ -92,21 +92,26 @@ vec4 PPI_coord(vec2 pos)
 // PPI bounds, to check against abs(PPI_coord()) with proper swizzling.
 #define PPI_LIMIT_xzw vec3(PPI_SIDE, PPI_RADIUS, PPI_HALF_ANGLE)
 
+// LOD bias for polar texture lookup (to be divided by PPI_pos.z)
+// Otherwise GL built-in LOD estimate is messed up at the origin,
+// due to the polar->cartesian transformation singularity.
+#define POLAR_LOD_BIAS_FACTOR   (-10)
+
 // Lookup radar echo strength for a given position.
 // Argument PPI_pos as given by PPI_coord().
-//
+
 float radar_texture_PPI(vec4 PPI_pos)
 {
     vec2 radar_pos = PPI_pos.wz * vec2(1.0 / PPI_ANGLE, 1.0 / PPI_RADIUS) + vec2(0.5, 0.0);
     radar_pos = clamp(radar_pos, 0.0, 1.0);
-    return texture2D(texture, radar_pos).g;
+    return texture2D(texture, radar_pos, POLAR_LOD_BIAS_FACTOR / PPI_pos.z).g;
 }
 
 float get_metadata(vec4 PPI_pos, int index)
 {
     vec2 radar_pos = vec2(PPI_pos.w * (1.0 / PPI_ANGLE) + 0.5, SAMPLE_Y(index));
     radar_pos = clamp(radar_pos, 0.0, 1.0);
-    return texture2D(texture, radar_pos).b;
+    return texture2D(texture, radar_pos, POLAR_LOD_BIAS_FACTOR / PPI_pos.z).b;
 }
 
 
