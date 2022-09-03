@@ -156,9 +156,7 @@ var decide_state = func(click) {
             or (type == "M55" and wpn_knob == fire_control.WPN_SEL.AKAN_JAKT)
             or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
         {
-            # Air ranging mode is not implemented
-            #return (current_state == STATE.AIR_RNG or click) ? STATE.AIR_RNG : STATE.AIR;
-            return STATE.AIR;
+            return (current_state == STATE.AIR_RNG or click) ? STATE.AIR_RNG : STATE.AIR;
         }
         elsif (type == "RB-04E" or type == "RB-15F" or type == "M90")
         {

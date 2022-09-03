@@ -1001,3 +1001,8 @@ var HUD = {
         me.heading.declutter_toggle();
     },
 };
+
+# For radar A/A range mode
+var get_reticle_pos = func {
+    return hud.aiming.get_reticle_pos();
+}

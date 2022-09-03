@@ -221,9 +221,10 @@ var PS37Mode = {
     pulse: MONO,
     detectSURFACE: 1,
     detectMARINE: 1,
+    mapper: FALSE,
 
     # Allow a contact to register twice in the same sweep due to beam overlap.
-    minimumTimePerReturn: 0.0,
+    minimumTimePerReturn: -1.0,
 
     rootName: "PS37",
     shortName: "",
@@ -271,7 +272,7 @@ var PS37Mode = {
     },
 
     preStep: func {
-        me.horizonStabilized = 0;
+        me.radar.horizonStabilized = 0;
         me.azimuthTilt = 0;
         me.elevationTilt = 0;
     },
@@ -298,6 +299,8 @@ var PS37Mode = {
 
 var ScanMode = {
     parents: [PS37Mode],
+
+    mapper: TRUE,
 
     # scan patterns
     bars: 1,            # pattern index (1 based)
@@ -401,7 +404,7 @@ var StandbyMode = {
     barPatternMax: [0],
 
     preStep: func {
-        me.horizonStabilized = 0;
+        me.radar.horizonStabilized = 0;
         me.azimuthTilt = 0;
         me.elevationTilt = 50;    # AJS37 SFI part 3 chap 6 sec 5.6 page 20
     },
@@ -434,8 +437,85 @@ var PassiveMode = {
 };
 
 var LockMode = {
+    # Air ranging mode
     parents: [PS37Mode],
-    # TODO
+
+    shortName: "RFJR",
+    longName: "Air Ranging",
+
+    az: 61.5,
+    discSpeed_dps: 110,
+
+    bars: 1,
+    barPattern: [[[0,0]]],
+    barHeight: 1,
+    barPatternMin: [0],
+    barPatternMax: [0],
+
+    timeToFadeBleps: 3,     # AJS37 SFI part 3 sec 6.6
+    minimumTimePerReturn: 0.1,
+    priorityTarget: nil,
+
+    detectSURFACE: 0,
+    detectMARINE: 0,
+    mapper: 0,
+    active: 1,
+
+    preStep: func {
+        var reticle = hud.get_reticle_pos();
+
+        me.radar.horizonStabilized = 0;
+        me.azimuthTilt = reticle[0] / 100;
+        me.elevationTilt = -reticle[1] / 100;
+    },
+
+    # Can acquire from 1000m to 6100m, and track down to 500m.
+    getSearchInfo: func(contact) {
+        var dist = contact.getRangeDirect();
+
+        if (me.priorityTarget == nil) {
+            if (dist >= 1000 and dist <= 6100) {
+                me.priorityTarget = contact;
+                return [1,0,0,0,0,0];
+            }
+        } elsif (contact.equals(me.priorityTarget)) {
+            if (dist >= 450 and dist <= 8000) {
+                return [1,0,0,0,0,0];
+            }
+        }
+
+        return nil;
+    },
+
+    designate: func (contact) {},
+    designatePriority: func (contact) {},
+    undesignate: func {},
+
+    enterMode: func {
+        me.radar.purgeAllBleps();
+    },
+
+    leaveMode: func {
+        me.radar.purgeAllBleps();
+    },
+
+    get_target_range: func {
+        if (me.priorityTarget == nil) return 10000;
+
+        var bleps = me.priorityTarget.getBleps();
+        if (size(bleps) == 0)  return 10000;
+
+        var last_blep = bleps[size(bleps)-1];
+        var clos_rate = 0;
+
+        if (size(bleps) >= 2) {
+            var prev_blep = bleps[size(bleps)-2];
+            clos_rate = (prev_blep.getRangeDirect() - last_blep.getRangeDirect())
+                    / (last_blep.getBlepTime() - prev_blep.getBlepTime());
+        }
+
+        return last_blep.getRangeDirect() - clos_rate * (elapsedProp.getValue() - last_blep.getBlepTime());
+    },
 };
 
 
@@ -499,6 +579,14 @@ var terrain_mode = func {
 var memory_mode = func {
     ps37_mode.memory_mode();
 }
+
+
+## For HUD
+var get_AA_range = func {
+    if (ps37.currentMode != LockMode) return nil;
+    return LockMode.get_target_range();
+}
+
 
 ### Initialization
 

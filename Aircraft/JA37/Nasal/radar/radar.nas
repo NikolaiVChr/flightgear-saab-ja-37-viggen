@@ -431,7 +431,7 @@ var AirborneRadar = {
 			}
 		}
 
-		if (me["gmapper"] != nil)
+		if (me["gmapper"] != nil and me.currentMode.mapper)
 			me.gmapper.scanGM(me.eulerX, me.eulerY, me.instantVertFoVradius, me.instantFoVradius, me.thisFOVcontacts);
 
 
