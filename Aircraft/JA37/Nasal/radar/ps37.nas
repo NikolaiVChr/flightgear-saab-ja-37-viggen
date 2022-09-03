@@ -89,6 +89,9 @@ var PS37 = {
     # instantFoVradius * overlapHorizontal is the radar picture resolution in azimuth
     instantFoVradius: 4.0,
     overlapHorizontal: 0.5,
+    # RCS values much higher than what the radar can actually do:
+    # radar echoes are shown with strength depending on the RCS,
+    # and anything at this distance would be essentially invisible.
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
     timeToKeepBleps: 5,

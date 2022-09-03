@@ -89,36 +89,43 @@ var refl_factor = func(info) {
 # Signal strength function of object angular size.
 #
 # I'm using the following functions for signal strength factor function of angle off beam centerline:
-# - wide beam (no Δ compensation):  1 - (x/4)**2    (= 1 - x**2 / 16)       range [-4:4]
-# - narrow beam (Δ compensation):   1 - (x/2.5)**4  (= 1 - x**4 / 39.0625)  range [-2.5:2.5]
+# - wide beam (no Δ compensation):  g(x*0.4)            with g(x) = exp(-x^2) (gaussian)
+# - narrow beam (Δ compensation):   1 - x^2 / 4
 # (x = angle in degree)
 # These are eyeballed to look a bit like fig. 6, AJS 37 SFI part 3 chapter 2 page 9.
 #
 # This gives integrals:
-# - wide:   x - x**3 / 48
-# - narrow: x - x**5 / 195.3125
+# - wide:   2.5 * sqrt(pi)/2 * erf(x*0.4)
+# - narrow: x - x^3 / 12
 
-var wide_beam_half_angle = 4;
-var narrow_beam_half_angle = 2.5;
+# error function approximation
+var erf = func(x) {
+    var s = math.sgn(x);
+    x *= s;
+    return s * (1.0 - math.pow(1.0 + x*(0.278393 + x*(0.230389 + x*(0.000972 + x*0.078108))), -4));
+}
+
+var wide_beam_half_angle = 5.0;
+var narrow_beam_half_angle = 2.0;
 
 var wide_beam_signal_factor = func(angle) {
     angle = math.clamp(angle, -wide_beam_half_angle, wide_beam_half_angle);
-    return 1 - math.pow(angle, 2) / 16;
+    return math.exp(-0.16*angle*angle);
 }
 
 var narrow_beam_signal_factor = func(angle) {
     angle = math.clamp(angle, -narrow_beam_half_angle, narrow_beam_half_angle);
-    return 1 - math.pow(angle, 4) / 39.0625;
+    return 1.0 - 0.25*angle*angle;
 }
 
 var wide_beam_signal_int = func(angle) {
     angle = math.clamp(angle, -wide_beam_half_angle, wide_beam_half_angle);
-    return angle - math.pow(angle, 3) / 48;
+    return 2.215567 * erf(0.4*angle);
 }
 
 var narrow_beam_signal_int = func(angle) {
     angle = math.clamp(angle, -narrow_beam_half_angle, narrow_beam_half_angle);
-    return angle - math.pow(angle, 5) / 195.3125;
+    return angle - math.pow(angle, 3) / 12.0;
 }
 
 var wide_beam_signal = func(start_angle, end_angle) {
@@ -207,7 +214,7 @@ var aircraft_returns = func(azimuth, elev, max_range, narrow_beam, buffer, buf_s
         # - I ignore the dist^2 loss for ground, the real radar normalises against that.
         #   So a dist^2 loss remains to simulate for aircrafts.
         #
-        var strength = (max_detect_range / range) * (max_detect_range / range) / 100;
+        var strength = math.pow(max_detect_range / range, 2) / 400;
 
         # Deviation from center of beam
         var elev_dev = blep.getElev() - elev;
