@@ -59,6 +59,8 @@ var input = {
     heading:        "instrumentation/heading-indicator/indicated-heading-deg",
     roll:           "instrumentation/attitude-indicator/indicated-roll-deg",
     fpv_pitch:      "instrumentation/fpv/pitch-deg",
+    track_true:     "instrumentation/fpv/track-true-deg",
+    head_true:      "/orientation/heading-deg",
     alt:            "instrumentation/altimeter/displays-altitude-meter",
     rad_alt:        "instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "instrumentation/radar-altimeter/ready",
@@ -164,23 +166,22 @@ var RadarImage = {
         me.img = me.parent.createChild("image")
             .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png");
 
+        me.mode = -1;
+        me.display = -1;
+
         # metadata (blue channel)
         me.metadata = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
         me.update_metadata();
 
         me.update_quality(input.quality.getValue());
-
-        me.display = -1;
     },
 
     # Metadata strips, from bottom to top
-    # - time of writing
+    # - time of writing (2 values)
     # - radar range, normalized as: 0.25: 12km, 0.5: 30km, 0.75: 60km, 1: 120km,
     #   0: show cross marker, hide range/azimuth marks
-    # - centerline deviation, normalized as: 0: 61.5° left, 1: 61.5° right,
-    # - aiming range marks, (normalized in B-scope, boolean show/hide in PPI)
-    # - cross marker range, normalized
-    # - cross marker azimuth, normalized as: 0: 61.5° left, 1: 61.5° right,
+    # - azimuth (of either center line or cross marker)
+    # - distance (of cross marker or aiming line)
     #
     # Each strip spans 1/8 of the height of the texture.
     # One should be careful when sampling to avoid interpolation issues:
@@ -190,11 +191,8 @@ var RadarImage = {
         TIME1:          0,
         TIME2:          1,
         RANGE:          2,
-        LINE_DEV:       3,
-        RANGE_MARKS:    4,
-        CROSS_RANGE:    5,
-        CROSS_AZI:      6,
-        # 6,7 are padding
+        AZIMUTH:        3,
+        DISTANCE:       4,
         N_STRIPS:       8,
     },
 
@@ -211,7 +209,15 @@ var RadarImage = {
         me.metadata[me.INFO.TIME1] = math.fmod(time / time1_factor, 1.0);
         me.metadata[me.INFO.TIME2] = math.fmod(time / time2_factor, 1.0);
         me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
-        # TODO, other fields
+        if (me.mode == MODE.RB04) {
+            var track = input.track_true.getValue() - input.head_true.getValue();
+            track = math.clamp(geo.normdeg180(track), -PPI_half_angle, PPI_half_angle);
+            me.metadata[me.INFO.AZIMUTH] = track * 0.5 / PPI_half_angle + 0.5;
+            me.metadata[me.INFO.DISTANCE] = 1.0;
+        } else {
+            me.metadata[me.INFO.AZIMUTH] = 0.0;
+            me.metadata[me.INFO.DISTANCE] = 0.0;
+        }
     },
 
     update_quality: func(quality) {
@@ -287,6 +293,7 @@ var RadarImage = {
     set_mode: func(mode, display) {
         if (display != me.display or mode == MODE.STBY) me.clear_img();
         me.display = display;
+        me.mode = mode;
     },
 };
 

@@ -20,11 +20,9 @@ float p_size = 0.0;
 #define INFO_TIME1          0
 #define INFO_TIME2          1
 #define INFO_RANGE          2
-#define INFO_LINE_DEV       3
-#define INFO_RANGE_MARKS    4
-#define INFO_CROSS_RANGE    5
-#define INFO_CROSS_AZI      6
-// 67 are padding
+#define INFO_AZIMUTH        3
+#define INFO_DISTANCE       4
+// 5--7 are padding
 #define N_INFO_STRIPS       8
 
 #define SAMPLE_Y(index) (((index) + 0.5) / N_INFO_STRIPS)
@@ -155,10 +153,13 @@ float get_metadata(vec4 PPI_pos, int index)
 #define LINE_LEFT_NORMAL    vec2(cos(SIDE_LINE_ANGLE), sin(SIDE_LINE_ANGLE))
 #define LINE_RIGHT_NORMAL   vec2(cos(SIDE_LINE_ANGLE), -sin(SIDE_LINE_ANGLE))
 
-#define RANGE_ARC_1 (PPI_RADIUS * 10.0 / 120.0)
-#define RANGE_ARC_2 (PPI_RADIUS * 20.0 / 120.0)
-#define RANGE_ARC_3 (PPI_RADIUS * 40.0 / 120.0)
-#define RANGE_ARC_4 (PPI_RADIUS * 80.0 / 120.0)
+#define RANGE_ARCS          (vec4(10.0, 20.0, 40.0, 80.0) * PPI_RADIUS / 120.0)
+#define RANGE_MARKS         (vec2(12.0, 24.0) * PPI_RADIUS / 120.0)
+
+#define RANGE_MARK_HALF_ANGLE   radians(9.0)
+
+#define MIN_vec2(v)     min(v.x, v.y)
+#define MIN_vec4(v)     min(min(v.x, v.y), min(v.z, v.w))
 
 float get_lines_PPI(vec4 PPI_pos)
 {
@@ -166,20 +167,36 @@ float get_lines_PPI(vec4 PPI_pos)
     float dist = CANVAS_SIZE;
 
     float range = get_metadata(PPI_pos, INFO_RANGE);
+
     if (range > 0.125) {
+        // normal presentation
+
+        // multiply RANGE_ARCS / RANGE_MARKS by this
+        float range_factor = range > 0.625 ? (range > 0.875 ? 1.0 : 2.0) : (range > 0.375 ? 4.0 : 8.0);
+
         // azimuth lines
-        dist = min(dist, abs(PPI_pos.x));
         dist = min(dist, abs(dot(PPI_pos.xy, LINE_LEFT_NORMAL)));
         dist = min(dist, abs(dot(PPI_pos.xy, LINE_RIGHT_NORMAL)));
 
-        // range arcs
-        dist = min(dist, distance(PPI_pos.z, RANGE_ARC_4));
-        if (range > 0.375)
-            dist = min(dist, distance(PPI_pos.z, RANGE_ARC_3));
-        if (range > 0.625)
-            dist = min(dist, distance(PPI_pos.z, RANGE_ARC_2));
-        if (range > 0.875)
-            dist = min(dist, distance(PPI_pos.z, RANGE_ARC_1));
+        if (get_metadata(PPI_pos, INFO_DISTANCE) > 0.5) {
+            // Rb04 aiming mode
+            float azi = get_metadata(PPI_pos, INFO_AZIMUTH) * 2.0 * PPI_HALF_ANGLE - PPI_HALF_ANGLE;
+            vec2 normal = vec2(cos(azi), -sin(azi));
+            dist = min(dist, abs(dot(PPI_pos.xy, normal)));
+
+            if (distance(PPI_pos.w, azi) <= RANGE_MARK_HALF_ANGLE) {
+                vec2 marks_dist = abs(RANGE_MARKS * range_factor - PPI_pos.z);
+                dist = min(dist, MIN_vec2(marks_dist));
+            }
+        } else {
+            // fixed centerline
+            dist = min(dist, abs(PPI_pos.x));
+        }
+
+        vec4 arcs_dist = abs(RANGE_ARCS * range_factor - PPI_pos.z);
+        dist = min(dist, MIN_vec4(arcs_dist));
+    } else {
+        // TODO: Fix-taking mode
     }
 
     return (1.0 - smoothstep(LINE_HALF_WIDTH - p_size, LINE_HALF_WIDTH + p_size, dist));
