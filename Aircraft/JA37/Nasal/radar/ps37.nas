@@ -145,13 +145,10 @@ var PS37Map = {
     init: func(radar) {
         me.radar = radar;
         me.radar.installMapper(me);
-
-        me.angle_res = me.radar.instantFoVradius * me.radar.overlapHorizontal;
-
-        me.update_quality(input.quality.getValue());
     },
 
     update_quality: func(quality) {
+        me.angle_res = me.radar.instantFoVradius * me.radar.quality_settings[quality].overlapHorizontal;
         # Buffer size is vertical resolution of canvas image
         me.buffer_size = ci.RadarImage.quality_settings[quality].height;
         setsize(me.buffer, me.buffer_size);
@@ -514,7 +511,7 @@ var init = func {
     quality_listener = setlistener(input.quality, func (node) {
         ps37.update_quality(node.getValue());
         PS37Map.update_quality(node.getValue());
-    }, 0, 0);
+    }, 1, 0);
 }
 
 var loop = func {
