@@ -483,27 +483,15 @@ var DistanceLine = {
         }
     },
 
-    update_aim: func {
-        var type = fire_control.get_type();
-        if (type == "M55" or type == "M70") {
-            var dist = sight.AGsight.get_dist();
-            if (dist == nil or dist[0] >= 8000) {
-                me.group.hide();
-            } else {
-                me.set_line(dist[0] / 8000);
-                me.set_side_marks(dist[2] / 8000);
-
-                var speed = input.groundspeed.getValue() * KT2MPS;
-                # Blink 2s before firing
-                if (dist[0] >= dist[2] and dist[0] <= dist[2] + speed*2) {
-                    me.group.setVisible(input.fiveHz.getBoolValue());
-                } else {
-                    me.group.show();
-                }
-            }
-        } else {
+    update_aim: func(params) {
+        if (!params.enabled) {
             me.group.hide();
+            return;
         }
+
+        me.set_line(params.line / params.max);
+        me.set_side_marks(params.mark / params.max);
+        me.group.setVisible(!params.blinking or input.fiveHz.getBoolValue());
     },
 };
 
@@ -677,6 +665,13 @@ var AimingMode = {
         me.break_bars = make_path(me.group).moveTo(-200,-100).vert(200).moveTo(200,-100).vert(200);
 
         me.reticle_pos = [0,0];
+        me.dist_line = {
+            enabled: 0,
+            max: 8000,
+            line: 0,
+            mark: 0,
+            blinking: 0,
+        };
 
         # Secondary reticle (target position, and some other functions).
         # In a separate group, so that its position is given in HUD coordinates.
@@ -699,7 +694,7 @@ var AimingMode = {
         input.gnd_aiming.setBoolValue(b);
     },
 
-    ## AA sight. Radar lock not implemented yet.
+    ## AA sight
 
     # Wingspan indicator (before radar lock)
     set_wingspan: func(span, dist) {
@@ -708,40 +703,38 @@ var AimingMode = {
         me.wing_R.setTranslation(pos,0);
     },
 
+    # return [planned firing distance, min firing distance, max g-load]
+    fire_dist_AA: func(type, has_radar_dist) {
+        # AJS37 SFI part 3 sec 3.1.1
+        if (type == "M55") return [500,0,nil];
+        # AJS37 SFI part 3 sec 6.7
+        if (type == "RB-05A") return [2800,0,nil];
+
+        var rb24 = (var wpn = fire_control.get_weapon()) != nil and wpn.type == "RB-24";
+        var min_dist = rb24 ? 900 : 500;
+        var max_g = rb24 ? 2 : 6;
+
+        if (has_radar_dist) {
+            var alt = math.max(input.pres_alt.getValue(), 2000);
+            var fire_dist = rb24 ? 1000 + 0.25 * alt : 1200 + 0.65 * alt;
+        } else {
+            var fire_dist = rb24 ? 1000 : 1500;
+        }
+        return [fire_dist, min_dist, max_g];
+    },
+
     update_AA: func(type) {
-        # AA mode without lock for now...
-        me.bars.hide();
-        me.range_mark.hide();
-        me.break_bars.hide();
-        me.target.hide();
+        var radar_dist = radar.get_AA_range();
 
         # Shooting distance, depending on weapon type.
-        var shoot_dist = 0;
+        var fire_dist = me.fire_dist_AA(type, radar_dist != nil);
+        var shoot_dist = fire_dist[0];
+        var min_dist = fire_dist[1];
+
         # G-load warning for IR missiles.
-        var g_warning = FALSE;
+        var g_warning = fire_dist[2] != nil and input.g_load.getValue() > fire_dist[2];
 
-        if (type == "IR-RB") {
-            if ((var wpn = fire_control.get_weapon()) != nil and wpn.type == "RB-24") {
-                # RB 24: distance 1000m, max 2G
-                shoot_dist = 1000;
-                g_warning = input.g_load.getValue() > 2;
-            } else {
-                # RB 24J / RB 74: distance 1500m, max 6G
-                shoot_dist = 1500;
-                g_warning = input.g_load.getValue() > 6;
-            }
-        } elsif (type == "RB-05A") {
-            # RB 05: distance 2800m, no G warning
-            shoot_dist = 2800;
-        } elsif (type == "M55") {
-            shoot_dist = 500;
-        }
-
-        me.reticle.setVisible(type == "M55");
-        me.set_wingspan(input.wingspan.getValue(), shoot_dist);
-        me.wing.show();
-        me.firing_mark.setVisible(g_warning and input.fiveHz.getBoolValue());
-
+        # Reticle position
         if (type == "M55") {
             # A/G sight computer is used for this, and this is essentially what the real AJS does too
             # (no lead, target velocity is not measured, radar ranging is to indicate firing distance).
@@ -750,14 +743,157 @@ var AimingMode = {
             me.reticle_pos[0] = pos[0] * MIL2HUD;
             me.reticle_pos[1] = pos[1] * MIL2HUD;
         } else {
+            me.reticle_pos[0] = 0;
             # Missile boresight position is 0.8deg down, except for outer pylons.
             var pylon = fire_control.get_selected_pylons();
             if (size(pylon) > 0 and (pylon[0] == pylons.STATIONS.R7V or pylon[0] == pylons.STATIONS.R7H)) {
-                me.reticle_pos = [0,0];
+                me.reticle_pos[1] = 0;
             } else {
-                me.reticle_pos = [0,80];
+                me.reticle_pos[1] = 80;
             }
         }
+
+        me.bars.setVisible(radar_dist != nil);
+        me.range_mark.hide();
+        me.break_bars.hide();
+        me.target.hide();
+        me.reticle.setVisible(radar_dist != nil or type == "M55");
+        me.firing_mark.setVisible(g_warning and input.fiveHz.getBoolValue());
+        me.wing.setVisible(radar_dist == nil);
+
+        if (radar_dist == nil) {
+            me.set_wingspan(input.wingspan.getValue(), shoot_dist);
+            me.dist_line.enabled = FALSE;
+        } elsif (radar_dist > 8000) {
+            me.dist_line.enabled = FALSE;
+        } else {
+            var resize_dist = (type == "M55") ? 2000 : 4000;
+
+            me.dist_line.enabled = TRUE;
+            me.dist_line.max = radar_dist < resize_dist ? resize_dist : 8000;
+            me.dist_line.line = radar_dist;
+            me.dist_line.mark = shoot_dist;
+            me.dist_line.blinking = (radar_dist < min_dist);
+        }
+    },
+
+    ## Cannon / rocket sight
+
+    update_AG: func(type) {
+        me.set_AG_flag(TRUE);
+
+        var arak_long = (type == "M70" and input.arak_long.getBoolValue());
+
+        sight.AGsight.update();
+        var pos = sight.AGsight.get_pos();
+        # Vector [target dist, evade dist, firing dist, radar range used]
+        var dist = sight.AGsight.get_dist();
+        var speed = input.groundspeed.getValue() * KT2MPS;
+
+        me.reticle.show();
+        me.bars.show();
+        me.wing.hide();
+        me.target.hide();
+
+        me.reticle_pos[0] = pos[0] * MIL2HUD;
+        me.reticle_pos[1] = pos[1] * MIL2HUD;
+
+        if (dist == nil) {
+            me.dist_line.enabled = FALSE;
+            me.range_mark.hide();
+            me.firing_mark.hide();
+            me.break_bars.hide();
+            return;
+        }
+
+        var target_dist = dist[0];
+        var break_dist = dist[1];
+        var fire_dist = dist[2];
+        var has_radar_range = dist[3];
+
+        me.range_mark.setVisible(has_radar_range);
+
+        if (arak_long) {
+            var time = sight.AGsight.get_time();
+            var pitch = sight.AGsight.get_pitch();
+            me.firing_mark.setVisible(
+                # Distance <=7km, more than minimum firing distance
+                target_dist <= 7000 and target_dist >= fire_dist
+                # Pitch at least 3deg, at most 6deg
+                and pitch <= -3 and pitch >= -6
+                # Time <= 18s and >= 0.5s
+                and time <= 18 and time >= 0.5
+                # Blinking 2s before last firing point
+                and (target_dist > fire_dist + speed*2 or input.fiveHz.getBoolValue()));
+        } else {
+            # Firing mark 0.5s before firing.
+            me.firing_mark.setVisible(target_dist <= fire_dist + speed*0.5);
+        }
+        # Pull up bars flashing after break distance.
+        me.break_bars.setVisible(target_dist < break_dist and input.fiveHz.getBoolValue());
+
+        # distance line
+        if (target_dist > 8000) {
+            me.dist_line.enabled = FALSE;
+        } else {
+            me.dist_line.enabled = TRUE;
+            me.dist_line.max = 8000;
+            me.dist_line.line = target_dist;
+            me.dist_line.mark = fire_dist;
+            me.dist_line.blinking = (target_dist >= fire_dist and target_dist <= fire_dist + speed*2);
+        }
+    },
+
+    ## Bombs sight
+
+    update_bomb: func(type) {
+        me.set_AG_flag(TRUE);
+
+        me.reticle.show();
+        me.bars.show();
+        me.wing.hide();
+        me.range_mark.hide();
+        me.firing_mark.hide();
+        me.break_bars.hide();
+        me.target.hide();
+        if ((var bomb = fire_control.get_weapon()) != nil and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
+            var pos = vector.AircraftPosition.coordToLocalAziElev(ccip[0]);
+            me.reticle_pos[0] = pos[0]*100;
+            me.reticle_pos[1] = -pos[1]*100;
+        } else {
+            me.reticle_pos[0] = 0;
+            me.reticle_pos[1] = 300;
+        }
+
+        me.dist_line.enabled = FALSE;
+    },
+
+    ## Misc
+
+    update_RB75: func {
+        me.set_AG_flag(FALSE);
+
+        me.reticle.show();
+        me.bars.show();
+        me.wing.hide();
+        me.range_mark.hide();
+        me.firing_mark.hide();
+        me.break_bars.hide();
+        # Default position of Rb 75 seeker
+        me.reticle_pos[0] = 0;
+        me.reticle_pos[1] = 130;
+        # Display seeker position with secondary reticle, to compensate for the lack of EP13.
+        if ((var rb75 = fire_control.get_weapon()) != nil
+            and (var pos = rb75.getSeekerInfo()) != nil
+            # Don't display if lock was lost (uncaged + no lock).
+            and (rb75.isCaged() or rb75.status == armament.MISSILE_LOCK)) {
+            me.target.setTranslation(pos[0]*100, pos[1]*-100);
+            me.target.show();
+        } else {
+            me.target.hide();
+        }
+
+        me.dist_line.enabled = FALSE;
     },
 
     ## Main update function
@@ -770,86 +906,21 @@ var AimingMode = {
             or (type == "M55" and input.wpn_knob.getValue() == fire_control.WPN_SEL.AKAN_JAKT)) {
             me.update_AA(type);
         } elsif (type == "M55" or type == "M70") {
-            me.set_AG_flag(TRUE);
-
-            var arak_long = (type == "M70" and input.arak_long.getBoolValue());
-
-            sight.AGsight.update();
-            var pos = sight.AGsight.get_pos();
-            # Vector [target dist, evade dist, firing dist, radar range used]
-            var dist = sight.AGsight.get_dist();
-            var speed = input.groundspeed.getValue() * KT2MPS;
-
-            me.reticle.show();
-            me.bars.show();
-            me.wing.hide();
-            # Ranging mark if radar ranging is used.
-            me.range_mark.setVisible(dist != nil and dist[3]);
-            if (arak_long) {
-                var time = sight.AGsight.get_time();
-                var pitch = sight.AGsight.get_pitch();
-                me.firing_mark.setVisible(
-                    # Distance <=7km, more than minimum firing distance
-                    dist != nil and dist[0] <= 7000 and dist[0] >= dist[2]
-                    # Pitch at least 3deg, at most 6deg
-                    and pitch <= -3 and pitch >= -6
-                    # Time <= 18s and >= 0.5s
-                    and time <= 18 and time >= 0.5
-                    # Blinking 2s before last firing point
-                    and (dist[0] > dist[2] + speed*2 or input.fiveHz.getBoolValue()));
-            } else {
-                # Firing mark 0.5s before firing.
-                me.firing_mark.setVisible(dist != nil and dist[0] <= dist[2] + speed*0.5);
-            }
-            # Pull up bars flashing after evade distance.
-            me.break_bars.setVisible(dist != nil and dist[0] < dist[1] and input.fiveHz.getBoolValue());
-            me.target.hide();
-
-            me.reticle_pos[0] = pos[0] * MIL2HUD;
-            me.reticle_pos[1] = pos[1] * MIL2HUD;
+            me.update_AG(type);
         } elsif (type == "M71" or type == "M71R") {
-            me.set_AG_flag(TRUE);
-
-            me.reticle.show();
-            me.bars.show();
-            me.wing.hide();
-            me.range_mark.hide();
-            me.firing_mark.hide();
-            me.break_bars.hide();
-            me.target.hide();
-            if ((var bomb = fire_control.get_weapon()) != nil and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
-                var pos = vector.AircraftPosition.coordToLocalAziElev(ccip[0]);
-                me.reticle_pos[0] = pos[0]*100;
-                me.reticle_pos[1] = -pos[1]*100;
-            } else {
-                me.reticle_pos = [0,300];
-            }
+            me.update_bomb(type);
         } elsif (type == "RB-75") {
-            me.set_AG_flag(FALSE);
-
-            me.reticle.show();
-            me.bars.show();
-            me.wing.hide();
-            me.range_mark.hide();
-            me.firing_mark.hide();
-            me.break_bars.hide();
-            # Default position of Rb 75 seeker
-            me.reticle_pos = [0,130];
-            # Display seeker position with secondary reticle, to compensate for the lack of EP13.
-            if ((var rb75 = fire_control.get_weapon()) != nil
-                and (var pos = rb75.getSeekerInfo()) != nil
-                # Don't display if lock was lost (uncaged + no lock).
-                and (rb75.isCaged() or rb75.status == armament.MISSILE_LOCK)) {
-                me.target.setTranslation(pos[0]*100, pos[1]*-100);
-                me.target.show();
-            } else {
-                me.target.hide();
-            }
+            me.update_RB75();
         }
     },
 
     get_reticle_pos: func {
         return me.reticle_pos;
+    },
+
+    # Parameters for distance line: { enabled, max, line, mark, blinking}
+    get_dist_line: func {
+        return me.dist_line;
     },
 };
 
@@ -982,7 +1053,7 @@ var HUD = {
             me.aiming.update();
             me.horizon.update_aim(me.aiming.get_reticle_pos());
             me.dig_alt.update([0,0]);
-            me.distance.update_aim();
+            me.distance.update_aim(me.aiming.get_dist_line());
             return;
         }
 
