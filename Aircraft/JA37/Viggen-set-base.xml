@@ -566,8 +566,6 @@
                 <noise type="int">1</noise>
                 <color type="double">0</color>
             </heatblur>
-            <rust-outside type="bool">false</rust-outside>
-            <rust-inside type="bool">false</rust-inside>
             <swedish-labels type="bool">false</swedish-labels>
         </effect>
         <blink>
