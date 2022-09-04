@@ -119,7 +119,6 @@
         <aircraft-data>
             <!-- Properties that get saved to persist locally between FG sessions -->
             <path>ja37/hud/units-metric</path>
-            <path>ja37/effect/g-suit</path>
             <path>ja37/effect/swedish-labels</path>
             <path>ja37/effect/headshake</path>
             <path>/ja37/displays/show-full-menus</path>
@@ -128,8 +127,6 @@
             <path>controls/armament/ground-panel/automatic-settings</path>
             <path>payload/armament/spectator</path>
             <!--<path>sim/model/livery/file</path>-->
-            <path>/ja37/effect/rust-outside</path>
-            <path>/ja37/effect/rust-inside</path>
             <path>/instrumentation/radar/ground-radar-quality</path>
         </aircraft-data>
 
@@ -569,7 +566,6 @@
                 <noise type="int">1</noise>
                 <color type="double">0</color>
             </heatblur>
-            <!--<g-suit type="int">3</g-suit>--><!-- 1:71 2:79 3:97 moved to individual aircraft set files -->
             <rust-outside type="bool">false</rust-outside>
             <rust-inside type="bool">false</rust-inside>
             <swedish-labels type="bool">false</swedish-labels>
