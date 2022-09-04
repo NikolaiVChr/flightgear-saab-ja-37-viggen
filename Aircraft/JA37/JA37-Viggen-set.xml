@@ -346,10 +346,10 @@
             <file>Aircraft/JA37/Nasal/radios/ja-freq-selector.nas</file>
         </freq_sel>
         <datalink>
-            <file>Aircraft/JA37/Nasal/datalink.nas</file>
+            <file>Aircraft/JA37/Nasal/radios/datalink.nas</file>
         </datalink>
         <fighterlink>
-            <file>Aircraft/JA37/Nasal/fighter-link.nas</file>
+            <file>Aircraft/JA37/Nasal/radios/fighter-link.nas</file>
         </fighterlink>
         <radar>
             <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>

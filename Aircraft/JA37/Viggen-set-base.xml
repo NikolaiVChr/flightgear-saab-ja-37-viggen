@@ -1741,7 +1741,7 @@
             <file>Aircraft/JA37/Nasal/power.nas</file>
         </power>
         <auto>
-            <file>Aircraft/JA37/Nasal/flightPlanDelegate.nas</file>
+            <file>Aircraft/JA37/Nasal/navigation/flightPlanDelegate.nas</file>
         </auto>
         <autoflight>
             <file>Aircraft/JA37/Nasal/autoflight.nas</file>
@@ -1778,7 +1778,7 @@
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
         </tyre>
         <route>
-            <file>Aircraft/JA37/Nasal/flightplans.nas</file>
+            <file>Aircraft/JA37/Nasal/navigation/flightplans.nas</file>
         </route>
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
@@ -1836,10 +1836,10 @@
             <file>Aircraft/Generic/formation.nas</file>
         </formation>
         <navigation>
-            <file>Aircraft/JA37/Nasal/navigation.nas</file>
+            <file>Aircraft/JA37/Nasal/navigation/nav.nas</file>
         </navigation>
         <radio_buttons>
-            <file>Aircraft/JA37/Nasal/radio-buttons.nas</file>
+            <file>Aircraft/JA37/Nasal/radios/buttons.nas</file>
         </radio_buttons>
         <channels>
             <file>Aircraft/JA37/Nasal/radios/channels.nas</file>
