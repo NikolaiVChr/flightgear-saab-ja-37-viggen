@@ -556,6 +556,7 @@
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->
             <smoke-cmd type="int">1</smoke-cmd>
+            <damage-smoke type="bool">false</damage-smoke>
             <heatblur>
                 <radius type="double">0.001</radius>
                 <expand type="double">0.5</expand>
@@ -1189,7 +1190,6 @@
     </gear>
     <environment>
         <damage type="bool">false</damage>
-        <damage-smoke type="bool">false</damage-smoke>
         <star-magnitude-cutoff type="float">6.5</star-magnitude-cutoff>
         <aircraft-effects>
             <splash-vector-x type="float">0.0</splash-vector-x>
