@@ -860,12 +860,17 @@ var AimingMode = {
             var pos = vector.AircraftPosition.coordToLocalAziElev(ccip[0]);
             me.reticle_pos[0] = pos[0]*100;
             me.reticle_pos[1] = -pos[1]*100;
+
+            me.dist_line.enabled = TRUE;
+            me.dist_line.max = 16.0;            # seconds
+            me.dist_line.line = ccip[2];        # fall time
+            me.dist_line.mark = bomb.arming_time;
+            me.dist_line.blinking = !ccip[1];   # has time to arm
         } else {
             me.reticle_pos[0] = 0;
             me.reticle_pos[1] = 300;
+            me.dist_line.enabled = FALSE;
         }
-
-        me.dist_line.enabled = FALSE;
     },
 
     ## Misc
