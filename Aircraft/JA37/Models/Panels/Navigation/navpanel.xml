@@ -50,7 +50,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(1);</script>
+				<script>navpanel.nav_button(1);</script>
 			</binding>
 		</action>
 	</animation>
@@ -63,7 +63,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(2);</script>
+				<script>navpanel.nav_button(2);</script>
 			</binding>
 		</action>
 	</animation>
@@ -76,7 +76,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(3);</script>
+				<script>navpanel.nav_button(3);</script>
 			</binding>
 		</action>
 	</animation>
@@ -89,7 +89,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(4);</script>
+				<script>navpanel.nav_button(4);</script>
 			</binding>
 		</action>
 	</animation>
@@ -102,7 +102,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(5);</script>
+				<script>navpanel.nav_button(5);</script>
 			</binding>
 		</action>
 	</animation>
@@ -115,7 +115,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(6);</script>
+				<script>navpanel.nav_button(6);</script>
 			</binding>
 		</action>
 	</animation>
@@ -128,7 +128,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(7);</script>
+				<script>navpanel.nav_button(7);</script>
 			</binding>
 		</action>
 	</animation>
@@ -141,7 +141,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(8);</script>
+				<script>navpanel.nav_button(8);</script>
 			</binding>
 		</action>
 	</animation>
@@ -154,7 +154,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(9);</script>
+				<script>navpanel.nav_button(9);</script>
 			</binding>
 		</action>
 	</animation>
@@ -176,7 +176,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.ls_button();</script>
+				<script>navpanel.ls_button();</script>
 			</binding>
 		</action>
 	</animation>
@@ -189,7 +189,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.l_button();</script>
+				<script>navpanel.l_button();</script>
 			</binding>
 		</action>
 	</animation>
