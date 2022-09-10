@@ -307,6 +307,9 @@
         <modes>
             <file>Aircraft/JA37/Nasal/modes-ajs.nas</file>
         </modes>
+        <route>
+            <file>Aircraft/JA37/Nasal/navigation/route-ajs.nas</file>
+        </route>
         <gnd_rdr>
             <file>Aircraft/JA37/Nasal/radar/ground-radar.nas</file>
         </gnd_rdr>

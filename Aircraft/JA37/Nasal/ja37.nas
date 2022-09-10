@@ -771,6 +771,7 @@ var Saab37 = {
 
     # flightplans
     if (variant.JA) route.poly_start();
+    else route.init();
 
     # displays commons
     displays.common.loop();

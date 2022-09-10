@@ -68,7 +68,8 @@ var init_loops = func {
     } else {
         append(loops,
             { period: 1, offset: 0, function: ci.loop, name: "CI", arg_dt: 1, },
-            { period: 4, offset: 3, function: radar.loop, name: "PS37", }
+            { period: 4, offset: 3, function: radar.loop, name: "PS37", },
+            { period: 2, offset: 0, function: route.loop, name: "route", }
         );
     }
 };
