@@ -141,6 +141,7 @@ var set_current = func(idx) {
     current_wpt = resolve(idx);
     last_dist = sequence_dist + 1.0;    # so that it doesn't immediately sequence
     update();
+    wpt_ind.update_wp_indicator();
 }
 
 var reload_current = func {
