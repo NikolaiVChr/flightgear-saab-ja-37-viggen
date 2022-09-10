@@ -411,10 +411,9 @@
             <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
                 /ja37/elec/ac-bus-main-bool == 0
                 /instrumentation/heading-indicator/serviceable == 0
-                /autopilot/route-manager/active == 0
-                /autopilot/route-manager/current-wp lt 0
+                /instrumentation/waypoint-indicator/active == 0
             </test>
-            <default value="/autopilot/route-manager/wp/true-bearing-deg"/>
+            <default value="/instrumentation/waypoint-indicator/true-bearing-deg"/>
         </switch>
 
         <switch name="instruments/waypoint/ja-bearing-index-goal">
@@ -423,7 +422,7 @@
                 /instrumentation/heading-indicator/serviceable == 0
             </test>
             <!-- nasal logic -->
-            <default value="/instrumentation/waypoint-indicator/ja-bearing-deg"/>
+            <default value="/instrumentation/waypoint-indicator/true-bearing-deg"/>
         </switch>
 
         <switch name="instruments/waypoint/bearing-index-goal">
@@ -452,9 +451,8 @@
         <!-- AJS waypoint distance indicator -->
 
         <pure_gain name="instruments/waypoint/distance-km">
-          <input>/autopilot/route-manager/wp/dist</input>
-          <gain>1.852</gain>
-          <output>/autopilot/route-manager/wp/dist-km</output>
+            <input>/instrumentation/waypoint-indicator/dist-km</input>
+            <gain>1</gain>
         </pure_gain>
 
         <!-- Nordic miles = 10km -->
@@ -467,8 +465,7 @@
             <default value="0"/> <!-- km -->
             <test logic="AND" value="1"> <!-- mil -->
                 /ja37/elec/ac-bus-main-bool == 1
-                /autopilot/route-manager/active == 1
-                /autopilot/route-manager/current-wp ge 0
+                /instrumentation/waypoint-indicator/active == 1
                 instruments/waypoint/distance-km gt 40
             </test>
         </switch>
@@ -478,8 +475,7 @@
                 /ja37/elec/ac-bus-main-bool == 0
             </test>
             <test logic="OR" value="-5"><!-- Hides the needle -->
-                /autopilot/route-manager/active == 0
-                /autopilot/route-manager/current-wp lt 0
+                /instrumentation/waypoint-indicator/active == 0
             </test>
             <test value="instruments/waypoint/distance-mil">
                 instruments/waypoint/distance-unit == 1
@@ -511,7 +507,7 @@
             <function>
                 <quotient>
                     <product>
-                        <property>/autopilot/route-manager/wp/dist</property>
+                        <property>/instrumentation/waypoint-indicator/dist-km</property>
                         <value>3600</value>
                     </product>
                     <product>
@@ -519,7 +515,7 @@
                         <cos>
                             <toradians>
                                 <difference>
-                                    <property>/autopilot/route-manager/wp/true-bearing-deg</property>
+                                    <property>/instrumentation/waypoint-indicator/true-bearing-deg</property>
                                     <property>instruments/fpv/track-true-deg-raw</property>
                                 </difference>
                             </toradians>

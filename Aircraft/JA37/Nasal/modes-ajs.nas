@@ -74,16 +74,10 @@ var update_mode = func {
         takeoff = FALSE;
     } elsif (input.wow_nose.getBoolValue()) {
         takeoff = TRUE;
-    } elsif (!takeoff_allowed) {
+    } elsif (takeoff and !takeoff_allowed) {
         # Takeoff complete
         takeoff = FALSE;
-        # If current waypoint is the starting base, select the next one.
-        if (input.rm_active.getBoolValue()) {
-            var fp = flightplan();
-            if (fp.current == 0 and fp.getPlanSize() >= 2 and navigation.departure_set(fp)) {
-                fp.current = 1;
-            }
-        }
+        route.callback_takeoff();
     }
     input.takeoff.setValue(takeoff);
 };

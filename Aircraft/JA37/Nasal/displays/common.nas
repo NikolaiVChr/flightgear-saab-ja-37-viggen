@@ -99,7 +99,7 @@ var Common = {
 			launch_alt_warn:  "fdm/jsbsim/systems/mkv/ajs-launch-altitude-enable",
 			launch_alt_min:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-min",
 			launch_alt_max:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-max",
-			ja_head_bug:      "instrumentation/waypoint-indicator/ja-bearing-deg",
+			ja_head_bug:      "instrumentation/waypoint-indicator/true-bearing-deg",
 			ja_head_tgt:      "instrumentation/waypoint-indicator/ja-tgt-heading-deg",
       	};
    

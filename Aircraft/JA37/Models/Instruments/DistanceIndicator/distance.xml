@@ -42,8 +42,9 @@
                 <condition>
                     <and>
                         <property>ja37/elec/ac-bus-main-bool</property>
+                            <property>instrumentation/waypoint-indicator/active</property>
                         <less-than>
-                            <property>autopilot/route-manager/wp/dist-km</property>
+                            <property>instrumentation/waypoint-indicator/dist-km</property>
                             <value>400</value>
                         </less-than>
                     </and>
@@ -51,7 +52,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>distance</tooltip-id>
                 <label>Distance to waypoint: %.1f km</label>
-                <property>autopilot/route-manager/wp/dist-km</property>
+                <property>instrumentation/waypoint-indicator/dist-km</property>
             </binding>
         </hovered>
     </animation>

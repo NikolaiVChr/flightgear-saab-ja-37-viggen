@@ -1246,11 +1246,6 @@
     </environment>
     <autopilot>
         <route-manager>
-            <wp>
-                <!-- Initialization required for JSBSim -->
-                <dist type="double">0</dist>
-                <true-bearing-deg type="double">0</true-bearing-deg>
-            </wp>
             <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
             <disable-fms type="bool">true</disable-fms>
         </route-manager>
