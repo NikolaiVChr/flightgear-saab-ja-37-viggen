@@ -4,7 +4,6 @@ var TRUE = 1;
 var FALSE = 0;
 
 var input = {
-    wp_active:      "instrumentation/waypoint-indicator/active",
     wp_ind_type:    "instrumentation/waypoint-indicator/type",
     wp_ind_num:     "instrumentation/waypoint-indicator/number",
     landing_mode:   "ja37/hud/landing-mode",

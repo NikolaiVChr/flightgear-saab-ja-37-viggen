@@ -142,6 +142,7 @@ var set_current = func(idx) {
     last_dist = sequence_dist + 1.0;    # so that it doesn't immediately sequence
     update();
     wpt_ind.update_wp_indicator();
+    set_display_fp_wpt(idx);
 }
 
 var reload_current = func {
@@ -182,6 +183,48 @@ var callback_takeoff = func {
         set_current(WPT.B | 1);
 }
 
+var callback_fp_changed = func {
+    reload_current();
+    write_display_fp();
+}
+
+
+### Display
+
+## Read-only flightplan for map, etc.
+
+var display_fp = createFlightplan();
+var display_fp_idx_table = {};          # waypoint to flightplan index table
+
+var append_display_fp = func(wpt) {
+    if (is_set(wpt)) {
+        var wp = get_wpt(wpt);
+        display_fp.appendWP(createWP(wp.coord, wp.name));
+    }
+
+    display_fp_idx_table[wpt] = display_fp.getPlanSize()-1;
+}
+
+var write_display_fp = func {
+    display_fp.cleanPlan();
+    display_fp.departure = nil;
+    display_fp.destination = nil;
+
+    append_display_fp(WPT.LS);
+    for (var i = 1; i <= 9; i += 1) {
+        append_display_fp(WPT.B | i);
+    }
+    append_display_fp(WPT.L1);
+
+    display_fp.activate();
+    set_display_fp_wpt(current);
+}
+
+var set_display_fp_wpt = func(idx) {
+    display_fp.current = display_fp_idx_table[idx] or -1;
+}
+
+
 
 
 var loop = func {
@@ -190,24 +233,5 @@ var loop = func {
 
 var init = func {
     set_current(WPT.LS);
-}
-
-## debug
-var make_wpt = func(lat, lon) {
-    return { coord: geo.Coord.new().set_latlon(lat, lon), };
-}
-
-var load_from_plan = func {
-    var fp = flightplan();
-
-    if (fp.departure != nil)
-        set_wpt(WPT.LS, make_wpt(fp.departure.lat, fp.departure.lon));
-    if (fp.destination != nil)
-        set_wpt(WPT.L1, make_wpt(fp.destination.lat, fp.destination.lon));
-
-    for (var i=1; i<fp.getPlanSize()-1; i+=1) {
-        set_wpt(WPT.B | i, make_wpt(fp.getWP(i).lat, fp.getWP(i).lon));
-    }
-
-    reload_current();
+    write_display_fp();
 }
