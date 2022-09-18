@@ -317,6 +317,9 @@
         <wpt_ind>
             <file>Aircraft/JA37/Nasal/navigation/wpt-indicator.nas</file>
         </wpt_ind>
+        <route_dialog>
+            <file>Aircraft/JA37/Nasal/navigation/dialog-ajs.nas</file>
+        </route_dialog>
         <gnd_rdr>
             <file>Aircraft/JA37/Nasal/radar/ground-radar.nas</file>
         </gnd_rdr>

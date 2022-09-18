@@ -80,7 +80,7 @@ var Polygon = {
 		#}
 
 		Polygon._setupListeners();
-		var dlg = gui.Dialog.new("/sim/gui/dialogs/route-manager/dialog", "Aircraft/JA37/gui/dialogs/route-manager.xml", "route-manager");
+		var dlg = gui.Dialog.new("/sim/gui/dialogs/route-manager/dialog", "Aircraft/JA37/gui/dialogs/route-manager-ja.xml", "route-manager");
 		printDA("JA: finished plan Init");
 	},
 	

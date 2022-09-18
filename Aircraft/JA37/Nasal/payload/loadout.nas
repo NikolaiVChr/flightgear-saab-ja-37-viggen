@@ -392,12 +392,12 @@ var Dialog = {
         }
 
         # Look for the group used as pylons / loadout list.
-        me.pylons_table = find_node_with_tag(me.prop, "name", "pylons_table", "group");
-        me.fuel_table = find_node_with_tag(me.prop, "name", "fuel_table", "group");
-        me.loadout_table = find_node_with_tag(me.prop, "name", "loadout_table", "group");
-        if(me.pylons_table == nil or me.fuel_table == nil or me.loadout_table == nil) {
-            printlog("warn", "Failed to initialize Saab 37 loadout dialog.");
+        foreach (var name; ["pylons_table", "fuel_table", "loadout_table"]) {
+            me[name] = find_node_with_tag(me.prop, "name", name, "group");
+            if (me[name] == nil) {
+                logprint(LOG_ALERT, "Failed to initialize Saab 37 loadout dialog: missing element '", name, "' in ", me.path);
             return;
+            }
         }
 
         # Fill the loadout list.

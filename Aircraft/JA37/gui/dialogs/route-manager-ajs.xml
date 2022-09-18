@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <name>route-manager-ajs</name>
+  <modal type="bool">false</modal>
+  <resizable>false</resizable>
+
+  <layout>vbox</layout>
+
+  <group>
+    <layout>hbox</layout>
+    <empty><stretch>1</stretch></empty>
+    <text><label>AJS-37 Route Manager</label></text>
+    <empty><stretch>1</stretch></empty>
+
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>nasal</command>
+        <script>route_dialog.Dialog.close()</script>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+
+  <group>
+    <layout>table</layout>
+    <name>procedural_table</name>
+
+    <empty>
+      <row>0</row>
+      <col>0</col>
+      <rowspan>11</rowspan>
+      <width>10</width>
+    </empty>
+
+    <!-- Airports -->
+
+    <text>
+      <row>0</row>
+      <col>2</col>
+      <halign>center</halign>
+      <label>Airbases</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>2</col>
+      <halign>center</halign>
+      <label>ICAO</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>3</col>
+      <halign>center</halign>
+      <label>runway</label>
+    </text>
+
+    <!-- Waypoints -->
+
+    <vrule>
+      <row>0</row>
+      <col>4</col>
+      <rowspan>11</rowspan>
+    </vrule>
+
+    <text>
+      <row>0</row>
+      <col>6</col>
+      <halign>center</halign>
+      <label>Route</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>6</col>
+      <halign>center</halign>
+      <label>waypoint</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>7</col>
+      <halign>center</halign>
+      <label>head.</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>8</col>
+      <halign>center</halign>
+      <label>km</label>
+    </text>
+
+    <!--
+    <text>
+      <row>1</row>
+      <col>9</col>
+      <halign>center</halign>
+      <label>target</label>
+    </text>
+
+    <text>
+      <row>0</row>
+      <col>10</col>
+      <colspan>2</colspan>
+      <halign>center</halign>
+      <label>Pop up point</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>10</col>
+      <halign>center</halign>
+      <label>from</label>
+    </text>
+
+    <text>
+      <row>1</row>
+      <col>11</col>
+      <halign>center</halign>
+      <label>km</label>
+    </text>
+
+    <vrule>
+      <row>0</row>
+      <col>12</col>
+      <rowspan>11</rowspan>
+    </vrule>
+
+    <text>
+      <row>0</row>
+      <col>14</col>
+      <halign>center</halign>
+      <label>Extra Waypoints</label>
+    </text>
+
+    <vrule>
+      <row>0</row>
+      <col>15</col>
+      <rowspan>11</rowspan>
+    </vrule>
+
+    <text>
+      <row>0</row>
+      <col>17</col>
+      <halign>center</halign>
+      <label>Polygon</label>
+    </text>
+    -->
+
+    <empty>
+      <row>0</row>
+      <col>18</col>
+      <rowspan>11</rowspan>
+      <width>10</width>
+    </empty>
+  </group>
+
+  <empty>
+    <height>10</height>
+  </empty>
+</PropertyList>

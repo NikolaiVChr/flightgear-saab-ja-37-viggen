@@ -49,14 +49,15 @@ var Dialog = {
         me.prop.setValue("dialog-name", "faf");
 
         me.table = nil;
+        me.table_name = "procedural_table";
         foreach(var group; me.prop.getChildren("group")) {
-            if(group.getValue("name") == "procedural_table") {
+            if(group.getValue("name") == me.table_name) {
                 me.table = group;
                 break;
             }
         }
         if(me.table == nil) {
-            printlog("warn", "Failed to initialize Saab 37 IFF friends dialog.");
+            logprint(LOG_ALERT, "Failed to initialize JA 37 IFF dialog: missing element '", me.table_name, "' in ", me.path);
             return;
         }
         me.setup_table();
