@@ -594,6 +594,9 @@ var quality_listener = nil;
 
 var init = func {
     init_generic();
+
+    rcs.use_real_ground_RCS();
+
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
     input.range.setValue(ps37.getRangeM());
