@@ -1,6 +1,6 @@
 
 var rcs_oprf_database = {
-    #Revision NOV 22 2022
+    #Revision NOV 28 2022
     # This list contains the mandatory RCS frontal values for OPRF (anno 1997), feel free to add non-OPRF to your aircraft, we don't care.
     "default":                  150,    #default value if target's model isn't listed
     "f-14b":                    12,     
@@ -62,8 +62,10 @@ var rcs_oprf_database = {
 # Notice that the non-SEA of these have been very reduced to simulate hard to find in ground clutter
     "depot":                    1,
     "ZSU-23-4M":                0.04,
+    "SA-6":                     0.10,
     "buk-m2":                   0.08,
     "S-75":                     0.12,
+    "s-200":                    0.14,
     "s-300":                    0.16,
     "MIM104D":                  0.15,
     "truck":                    0.02,
@@ -75,7 +77,6 @@ var rcs_oprf_database = {
     "rig":                      500,
     "point":                    0.7,
     "hunter":                   0.10,    #sea assets, Hunter
-    "SA-6":                     0.10,
 # Automats:
     "MiG-29":                   6,
     "SU-27":                    15,
