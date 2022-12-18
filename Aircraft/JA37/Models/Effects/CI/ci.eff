@@ -415,6 +415,9 @@
 		<predicate>
 			<and>
 				<or>
+					<!-- if this property is set (default=yes), always keep this shader on -->
+					<property>/ja37/displays/use-CI-shader-on-min-settings</property>
+					<!-- for FG versions <2020.3 -->
 					<and>
 						<equal>
 							<property>/ja37/supported/compositor</property>
@@ -423,8 +426,9 @@
 						<property>/sim/rendering/shaders/quality-level</property>
 						<property>/sim/rendering/shaders/model</property>
 					</and>
-					<!-- FG 2020.4+ compatibility - this is not a compositor shader,
-						but this at least loads the shader correctly on 2020.4 -->
+					<!-- for FG versions >=2020.4
+						(this is not a proper compositor shader, but at least test the correct properties...)
+					-->
 					<and>
 						<property>/ja37/supported/compositor</property>
 						<property>/sim/rendering/shaders/use-shaders</property>

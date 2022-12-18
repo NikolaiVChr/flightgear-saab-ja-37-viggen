@@ -79,6 +79,7 @@ var input = {
     antenna_angle:  "instrumentation/radar/antenna-angle-norm",
     # shaders controls
     compositor:     "ja37/supported/compositor",
+    force_shader:   "ja37/displays/use-CI-shader-on-min-settings",
     als_on:         "sim/rendering/shaders/skydome",
     comp_shaders:   "sim/rendering/shaders/use-shaders",
     old_shaders1:   "sim/rendering/shaders/quality-level",
@@ -614,14 +615,26 @@ var CI = {
 
         me.use_shader = -1;
         me.update_shader();
+
+        me.setup_listeners();
     },
 
     # Test if CI shader is enabled.
     # When disabled, only navigation symbols are shown.
+
+    shader_enabled: func {
+        if (input.als_on.getBoolValue()) return TRUE;
+        if (input.force_shader.getBoolValue()) return TRUE;
+
+        if (input.compositor.getBoolValue()) {
+            return input.comp_shaders.getBoolValue();
+        } else {
+            return input.old_shaders1.getBoolValue() and input.old_shaders2.getBoolValue();
+        }
+    },
+
     update_shader: func {
-        var use_shader = input.als_on.getBoolValue()
-            or (input.compositor.getBoolValue() and input.comp_shaders.getBoolValue())
-            or (!input.compositor.getBoolValue() and input.old_shaders1.getBoolValue() and input.old_shaders2.getBoolValue());
+        var use_shader = me.shader_enabled();
 
         if (use_shader == me.use_shader) return;
         me.use_shader = use_shader;
@@ -640,6 +653,20 @@ var CI = {
             # no radar picture
             me.img_grp.hide();
             me.bg_grp.show();
+        }
+    },
+
+    setup_listeners: func {
+        setlistener(input.quality, func (node) { me.update_quality(node.getValue()); }, 0, 0);
+
+        setlistener(input.als_on, func { me.update_shader(); }, 0, 0);
+        setlistener(input.force_shader, func { me.update_shader(); }, 0, 0);
+
+        if (input.compositor.getBoolValue()) {
+          setlistener(input.comp_shaders, func { me.update_shader(); }, 0, 0);
+        } else {
+          setlistener(input.old_shaders1, func { me.update_shader(); }, 0, 0);
+          setlistener(input.old_shaders2, func { me.update_shader(); }, 0, 0);
         }
     },
 
@@ -796,15 +823,6 @@ var init = func {
     ci_cvs = CICanvas.new();
     ci_cvs.add_placement({"node": "radarScreen", "texture": "radar-canvas.png"});
     ci = CI.new(ci_cvs.root);
-
-    setlistener(input.quality, func (node) { ci.update_quality(node.getValue()); }, 0, 0);
-    setlistener(input.als_on, func { ci.update_shader(); }, 0, 0);
-    if (input.compositor.getBoolValue()) {
-      setlistener(input.comp_shaders, func { ci.update_shader(); }, 0, 0);
-    } else {
-      setlistener(input.old_shaders1, func { ci.update_shader(); }, 0, 0);
-      setlistener(input.old_shaders2, func { ci.update_shader(); }, 0, 0);
-    }
 }
 
 var loop = func(dt) {
