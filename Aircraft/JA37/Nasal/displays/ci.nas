@@ -210,13 +210,14 @@ var RadarImage = {
         me.metadata[me.INFO.TIME1] = math.fmod(time / time1_factor, 1.0);
         me.metadata[me.INFO.TIME2] = math.fmod(time / time2_factor, 1.0);
         me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
+
         if (me.mode == MODE.RB04) {
             var track = input.track_true.getValue() - input.head_true.getValue();
             track = math.clamp(geo.normdeg180(track), -PPI_half_angle, PPI_half_angle);
             me.metadata[me.INFO.AZIMUTH] = track * 0.5 / PPI_half_angle + 0.5;
-            me.metadata[me.INFO.DISTANCE] = 1.0;
+            me.metadata[me.INFO.DISTANCE] = fire_control.get_type() == "RB-04E" ? 1.0 : 0.0;
         } else {
-            me.metadata[me.INFO.AZIMUTH] = 0.0;
+            me.metadata[me.INFO.AZIMUTH] = 0.5;
             me.metadata[me.INFO.DISTANCE] = 0.0;
         }
     },

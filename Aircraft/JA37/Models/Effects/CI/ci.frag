@@ -175,22 +175,20 @@ float get_lines_PPI(vec4 PPI_pos)
         float range_factor = range > 0.625 ? (range > 0.875 ? 1.0 : 2.0) : (range > 0.375 ? 4.0 : 8.0);
 
         // azimuth lines
+        // center (can move)
+        float azi = get_metadata(PPI_pos, INFO_AZIMUTH) * 2.0 * PPI_HALF_ANGLE - PPI_HALF_ANGLE;
+        vec2 normal = vec2(cos(azi), -sin(azi));
+        dist = min(dist, abs(dot(PPI_pos.xy, normal)));
+        // sides (fixed)
         dist = min(dist, abs(dot(PPI_pos.xy, LINE_LEFT_NORMAL)));
         dist = min(dist, abs(dot(PPI_pos.xy, LINE_RIGHT_NORMAL)));
 
         if (get_metadata(PPI_pos, INFO_DISTANCE) > 0.5) {
-            // Rb04 aiming mode
-            float azi = get_metadata(PPI_pos, INFO_AZIMUTH) * 2.0 * PPI_HALF_ANGLE - PPI_HALF_ANGLE;
-            vec2 normal = vec2(cos(azi), -sin(azi));
-            dist = min(dist, abs(dot(PPI_pos.xy, normal)));
-
+            // Rb04 aiming marks
             if (distance(PPI_pos.w, azi) <= RANGE_MARK_HALF_ANGLE) {
                 vec2 marks_dist = abs(RANGE_MARKS * range_factor - PPI_pos.z);
                 dist = min(dist, MIN_vec2(marks_dist));
             }
-        } else {
-            // fixed centerline
-            dist = min(dist, abs(PPI_pos.x));
         }
 
         vec4 arcs_dist = abs(RANGE_ARCS * range_factor - PPI_pos.z);
