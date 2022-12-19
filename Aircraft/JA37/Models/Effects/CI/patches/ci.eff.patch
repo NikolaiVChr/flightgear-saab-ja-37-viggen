@@ -1,6 +1,6 @@
 --- a/ci.eff
 +++ b/ci.eff
-@@ -1,6 +1,13 @@
+@@ -1,8 +1,15 @@
  <?xml version="1.0" encoding="utf-8"?>
 +
 +<!-- CI effect
@@ -10,10 +10,13 @@
 +-->
 +
  <PropertyList>
- 	<name>Effects/model-default</name>
+-	<name>Effects/model-default</name>
++	<name>Aircraft/JA37/Models/Effects/CI</name>
  	<!-- 	<inherits-from>Effects/shadow</inherits-from> -->
  	<parameters>
  		<texture n ="0">
+ 			<type>white</type>
+ 		</texture>
 @@ -55,11 +62,20 @@
  		<geo_light_radius type="float">0.0</geo_light_radius>
  		<geo_ambience type="float">0.0</geo_ambience>
@@ -59,7 +62,7 @@
          <name>visibility</name>
          <type>float</type>
          <value><use>visibility</use></value>
-@@ -351,90 +371,67 @@
+@@ -351,90 +371,71 @@
        <uniform>
          <name>tquality_level</name>
          <type>int</type>
@@ -180,6 +183,9 @@
 -				<property>/sim/rendering/shaders/quality-level</property>
 -				<property>/sim/rendering/shaders/generic</property>
 +				<or>
++					<!-- if this property is set (default=yes), always keep this shader on -->
++					<property>/ja37/displays/use-CI-shader-on-min-settings</property>
++					<!-- for FG versions <2020.3 -->
 +					<and>
 +						<equal>
 +							<property>/ja37/supported/compositor</property>
@@ -188,8 +194,9 @@
 +						<property>/sim/rendering/shaders/quality-level</property>
 +						<property>/sim/rendering/shaders/model</property>
 +					</and>
-+					<!-- FG 2020.4+ compatibility - this is not a compositor shader,
-+						but this at least loads the shader correctly on 2020.4 -->
++					<!-- for FG versions >=2020.4
++						(this is not a proper compositor shader, but at least test the correct properties...)
++					-->
 +					<and>
 +						<property>/ja37/supported/compositor</property>
 +						<property>/sim/rendering/shaders/use-shaders</property>
@@ -200,7 +207,7 @@
  						<value type="float">2.0</value>
  						<glversion/>
  					</less-equal>
-@@ -521,14 +518,18 @@
+@@ -521,14 +522,18 @@
  			</texture-unit>
  			<vertex-program-two-side>
  				<use>vertex-program-two-side</use>
@@ -223,7 +230,7 @@
  			<uniform>
  				<name>visibility</name>
  				<type>float</type>
-@@ -582,10 +583,43 @@
+@@ -582,10 +587,43 @@
  				<type>int</type>
  				<value>
  					<use>material/color-mode-uniform</use>
