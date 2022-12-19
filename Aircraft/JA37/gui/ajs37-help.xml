@@ -115,10 +115,6 @@
         <desc>Decrease / increase radar gain</desc>
     </key>
     <key>
-        <name>Ctrl-l</name>
-        <desc>Toggle LIN / LOG radar gain</desc>
-    </key>
-    <key>
         <name>F</name>
         <desc>Radar memory mode</desc>
     </key>
