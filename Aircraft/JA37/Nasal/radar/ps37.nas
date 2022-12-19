@@ -89,6 +89,9 @@ var PS37 = {
     # instantFoVradius * overlapHorizontal is the radar picture resolution in azimuth
     instantFoVradius: 4.0,
     overlapHorizontal: 0.5,
+    # RCS values much higher than what the radar can actually do:
+    # radar echoes are shown with strength depending on the RCS,
+    # and anything at this distance would be essentially invisible.
     rcsRefDistance: 40,
     rcsRefValue: 3.2,
     timeToKeepBleps: 5,
@@ -145,13 +148,10 @@ var PS37Map = {
     init: func(radar) {
         me.radar = radar;
         me.radar.installMapper(me);
-
-        me.angle_res = me.radar.instantFoVradius * me.radar.overlapHorizontal;
-
-        me.update_quality(input.quality.getValue());
     },
 
     update_quality: func(quality) {
+        me.angle_res = me.radar.instantFoVradius * me.radar.quality_settings[quality].overlapHorizontal;
         # Buffer size is vertical resolution of canvas image
         me.buffer_size = ci.RadarImage.quality_settings[quality].height;
         setsize(me.buffer, me.buffer_size);
@@ -221,9 +221,10 @@ var PS37Mode = {
     pulse: MONO,
     detectSURFACE: 1,
     detectMARINE: 1,
+    mapper: FALSE,
 
     # Allow a contact to register twice in the same sweep due to beam overlap.
-    minimumTimePerReturn: 0.0,
+    minimumTimePerReturn: -1.0,
 
     rootName: "PS37",
     shortName: "",
@@ -271,7 +272,7 @@ var PS37Mode = {
     },
 
     preStep: func {
-        me.horizonStabilized = 0;
+        me.radar.horizonStabilized = 0;
         me.azimuthTilt = 0;
         me.elevationTilt = 0;
     },
@@ -298,6 +299,8 @@ var PS37Mode = {
 
 var ScanMode = {
     parents: [PS37Mode],
+
+    mapper: TRUE,
 
     # scan patterns
     bars: 1,            # pattern index (1 based)
@@ -356,7 +359,7 @@ var ScanMode = {
     useDistanceNorm: func {
         if (me.mode == me.MODE_TERRAIN) return TRUE;
 
-        var filter = input.filter.getBoolValue();
+        var filter = input.filter.getValue();
         if (me.mode == me.MODE_AIR) {
             return (filter == 1 or filter == 2 or filter == 7);
         } elsif (me.mode == me.MODE_RB04) {
@@ -401,7 +404,7 @@ var StandbyMode = {
     barPatternMax: [0],
 
     preStep: func {
-        me.horizonStabilized = 0;
+        me.radar.horizonStabilized = 0;
         me.azimuthTilt = 0;
         me.elevationTilt = 50;    # AJS37 SFI part 3 chap 6 sec 5.6 page 20
     },
@@ -434,8 +437,85 @@ var PassiveMode = {
 };
 
 var LockMode = {
+    # Air ranging mode
     parents: [PS37Mode],
-    # TODO
+
+    shortName: "RFJR",
+    longName: "Air Ranging",
+
+    az: 61.5,
+    discSpeed_dps: 110,
+
+    bars: 1,
+    barPattern: [[[0,0]]],
+    barHeight: 1,
+    barPatternMin: [0],
+    barPatternMax: [0],
+
+    timeToFadeBleps: 3,     # AJS37 SFI part 3 sec 6.6
+    minimumTimePerReturn: 0.1,
+    priorityTarget: nil,
+
+    detectSURFACE: 0,
+    detectMARINE: 0,
+    mapper: 0,
+    active: 1,
+
+    preStep: func {
+        var reticle = hud.get_reticle_pos();
+
+        me.radar.horizonStabilized = 0;
+        me.azimuthTilt = reticle[0] / 100;
+        me.elevationTilt = -reticle[1] / 100;
+    },
+
+    # Can acquire from 1000m to 6100m, and track down to 500m.
+    getSearchInfo: func(contact) {
+        var dist = contact.getRangeDirect();
+
+        if (me.priorityTarget == nil) {
+            if (dist >= 1000 and dist <= 6100) {
+                me.priorityTarget = contact;
+                return [1,0,0,0,0,0];
+            }
+        } elsif (contact.equals(me.priorityTarget)) {
+            if (dist >= 450 and dist <= 8000) {
+                return [1,0,0,0,0,0];
+            }
+        }
+
+        return nil;
+    },
+
+    designate: func (contact) {},
+    designatePriority: func (contact) {},
+    undesignate: func {},
+
+    enterMode: func {
+        me.radar.purgeAllBleps();
+    },
+
+    leaveMode: func {
+        me.radar.purgeAllBleps();
+    },
+
+    get_target_range: func {
+        if (me.priorityTarget == nil) return 10000;
+
+        var bleps = me.priorityTarget.getBleps();
+        if (size(bleps) == 0)  return 10000;
+
+        var last_blep = bleps[size(bleps)-1];
+        var clos_rate = 0;
+
+        if (size(bleps) >= 2) {
+            var prev_blep = bleps[size(bleps)-2];
+            clos_rate = (prev_blep.getRangeDirect() - last_blep.getRangeDirect())
+                    / (last_blep.getBlepTime() - prev_blep.getBlepTime());
+        }
+
+        return last_blep.getRangeDirect() - clos_rate * (elapsedProp.getValue() - last_blep.getBlepTime());
+    },
 };
 
 
@@ -500,12 +580,23 @@ var memory_mode = func {
     ps37_mode.memory_mode();
 }
 
+
+## For HUD
+var get_AA_range = func {
+    if (ps37.currentMode != LockMode) return nil;
+    return LockMode.get_target_range();
+}
+
+
 ### Initialization
 
 var quality_listener = nil;
 
 var init = func {
     init_generic();
+
+    rcs.use_real_ground_RCS();
+
     ps37 = AirborneRadar.newAirborne(ps37_modes, PS37);
     PS37Map.init(ps37);
     input.range.setValue(ps37.getRangeM());
@@ -514,7 +605,7 @@ var init = func {
     quality_listener = setlistener(input.quality, func (node) {
         ps37.update_quality(node.getValue());
         PS37Map.update_quality(node.getValue());
-    }, 0, 0);
+    }, 1, 0);
 }
 
 var loop = func {

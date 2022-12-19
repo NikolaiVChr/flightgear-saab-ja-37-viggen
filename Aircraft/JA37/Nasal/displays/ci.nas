@@ -59,6 +59,8 @@ var input = {
     heading:        "instrumentation/heading-indicator/indicated-heading-deg",
     roll:           "instrumentation/attitude-indicator/indicated-roll-deg",
     fpv_pitch:      "instrumentation/fpv/pitch-deg",
+    track_true:     "instrumentation/fpv/track-true-deg",
+    head_true:      "/orientation/heading-deg",
     alt:            "instrumentation/altimeter/displays-altitude-meter",
     rad_alt:        "instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "instrumentation/radar-altimeter/ready",
@@ -76,11 +78,9 @@ var input = {
     quality:        "instrumentation/radar/ground-radar-quality",
     antenna_angle:  "instrumentation/radar/antenna-angle-norm",
     # shaders controls
-    compositor:     "ja37/supported/compositor",
+    force_shader:   "ja37/displays/use-CI-shader-on-min-settings",
     als_on:         "sim/rendering/shaders/skydome",
-    comp_shaders:   "sim/rendering/shaders/use-shaders",
-    old_shaders1:   "sim/rendering/shaders/quality-level",
-    old_shaders2:   "sim/rendering/shaders/model",
+    shaders:        "sim/rendering/shaders/use-shaders",
 };
 
 foreach(var name; keys(input)) {
@@ -164,23 +164,22 @@ var RadarImage = {
         me.img = me.parent.createChild("image")
             .set("src", "Aircraft/JA37/Nasal/displays/ci-radar.png");
 
+        me.mode = -1;
+        me.display = -1;
+
         # metadata (blue channel)
         me.metadata = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
         me.update_metadata();
 
         me.update_quality(input.quality.getValue());
-
-        me.display = -1;
     },
 
     # Metadata strips, from bottom to top
-    # - time of writing
+    # - time of writing (2 values)
     # - radar range, normalized as: 0.25: 12km, 0.5: 30km, 0.75: 60km, 1: 120km,
     #   0: show cross marker, hide range/azimuth marks
-    # - centerline deviation, normalized as: 0: 61.5° left, 1: 61.5° right,
-    # - aiming range marks, (normalized in B-scope, boolean show/hide in PPI)
-    # - cross marker range, normalized
-    # - cross marker azimuth, normalized as: 0: 61.5° left, 1: 61.5° right,
+    # - azimuth (of either center line or cross marker)
+    # - distance (of cross marker or aiming line)
     #
     # Each strip spans 1/8 of the height of the texture.
     # One should be careful when sampling to avoid interpolation issues:
@@ -190,11 +189,8 @@ var RadarImage = {
         TIME1:          0,
         TIME2:          1,
         RANGE:          2,
-        LINE_DEV:       3,
-        RANGE_MARKS:    4,
-        CROSS_RANGE:    5,
-        CROSS_AZI:      6,
-        # 6,7 are padding
+        AZIMUTH:        3,
+        DISTANCE:       4,
         N_STRIPS:       8,
     },
 
@@ -211,7 +207,15 @@ var RadarImage = {
         me.metadata[me.INFO.TIME1] = math.fmod(time / time1_factor, 1.0);
         me.metadata[me.INFO.TIME2] = math.fmod(time / time2_factor, 1.0);
         me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
-        # TODO, other fields
+        if (me.mode == MODE.RB04) {
+            var track = input.track_true.getValue() - input.head_true.getValue();
+            track = math.clamp(geo.normdeg180(track), -PPI_half_angle, PPI_half_angle);
+            me.metadata[me.INFO.AZIMUTH] = track * 0.5 / PPI_half_angle + 0.5;
+            me.metadata[me.INFO.DISTANCE] = 1.0;
+        } else {
+            me.metadata[me.INFO.AZIMUTH] = 0.0;
+            me.metadata[me.INFO.DISTANCE] = 0.0;
+        }
     },
 
     update_quality: func(quality) {
@@ -287,6 +291,7 @@ var RadarImage = {
     set_mode: func(mode, display) {
         if (display != me.display or mode == MODE.STBY) me.clear_img();
         me.display = display;
+        me.mode = mode;
     },
 };
 
@@ -607,14 +612,19 @@ var CI = {
 
         me.use_shader = -1;
         me.update_shader();
+
+        me.setup_listeners();
     },
 
     # Test if CI shader is enabled.
     # When disabled, only navigation symbols are shown.
+
+    shader_enabled: func {
+        return input.als_on.getBoolValue() or input.force_shader.getBoolValue() or input.shaders.getBoolValue();
+    },
+
     update_shader: func {
-        var use_shader = input.als_on.getBoolValue()
-            or (input.compositor.getBoolValue() and input.comp_shaders.getBoolValue())
-            or (!input.compositor.getBoolValue() and input.old_shaders1.getBoolValue() and input.old_shaders2.getBoolValue());
+        var use_shader = me.shader_enabled();
 
         if (use_shader == me.use_shader) return;
         me.use_shader = use_shader;
@@ -634,6 +644,14 @@ var CI = {
             me.img_grp.hide();
             me.bg_grp.show();
         }
+    },
+
+    setup_listeners: func {
+        setlistener(input.quality, func (node) { me.update_quality(node.getValue()); }, 0, 0);
+
+        setlistener(input.als_on, func { me.update_shader(); }, 0, 0);
+        setlistener(input.force_shader, func { me.update_shader(); }, 0, 0);
+        setlistener(input.shaders, func { me.update_shader(); }, 0, 0);
     },
 
     set_mode: func(mode, display) {
@@ -789,15 +807,6 @@ var init = func {
     ci_cvs = CICanvas.new();
     ci_cvs.add_placement({"node": "radarScreen", "texture": "radar-canvas.png"});
     ci = CI.new(ci_cvs.root);
-
-    setlistener(input.quality, func (node) { ci.update_quality(node.getValue()); }, 0, 0);
-    setlistener(input.als_on, func { ci.update_shader(); }, 0, 0);
-    if (input.compositor.getBoolValue()) {
-      setlistener(input.comp_shaders, func { ci.update_shader(); }, 0, 0);
-    } else {
-      setlistener(input.old_shaders1, func { ci.update_shader(); }, 0, 0);
-      setlistener(input.old_shaders2, func { ci.update_shader(); }, 0, 0);
-    }
 }
 
 var loop = func(dt) {

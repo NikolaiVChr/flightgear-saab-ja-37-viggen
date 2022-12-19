@@ -8,19 +8,6 @@
 
   <nasal>
     <open>
-      var type_to_anno = {
-          1: "1971",
-          2: "1979",
-          3: "1997",
-      };
-
-      var update_gsuit_anno = func {
-          var type = getprop("/ja37/effect/g-suit");
-          setprop("/ja37/effect/g-suit-anno", type_to_anno[type]);
-      }
-
-      update_gsuit_anno();
-
       var quality_str = {
           0: "low",
           1: "medium",
@@ -62,36 +49,9 @@
   <group>
     <layout>table</layout>
 
-    <!-- G suit -->
-    <slider>
-      <row>0</row>
-      <col>0</col>
-      <property>/ja37/effect/g-suit</property>
-      <min>1</min>
-      <max>3</max>
-      <step>1</step>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>update_gsuit_anno();</script>
-      </binding>
-    </slider>
-
-    <text>
-      <row>0</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>G-suit quality: anno 1997</label>
-      <format>G-suit quality: anno %s</format>
-      <property>/ja37/effect/g-suit-anno</property>
-      <live>true</live>
-    </text>
-
     <!-- Head shake -->
     <checkbox>
-      <row>1</row>
+      <row>0</row>
       <col>0</col>
       <property>/ja37/effect/headshake</property>
       <live>true</live>
@@ -101,7 +61,7 @@
     </checkbox>
 
     <text>
-      <row>1</row>
+      <row>0</row>
       <col>1</col>
       <halign>left</halign>
       <label>Head shaking</label>
@@ -109,7 +69,7 @@
 
     <!-- Swedish cockpit -->
     <checkbox>
-      <row>2</row>
+      <row>1</row>
       <col>0</col>
       <property>/ja37/effect/swedish-labels</property>
       <live>true</live>
@@ -119,7 +79,7 @@
     </checkbox>
 
     <text>
-      <row>2</row>
+      <row>1</row>
       <col>1</col>
       <halign>left</halign>
       <label>Cockpit labels in Swedish (default: English)</label>
@@ -127,9 +87,39 @@
 
     <!-- Swedish HUD/TI (JA only) -->
     <checkbox>
-      <row>3</row>
+      <row>2</row>
       <col>0</col>
       <property>/ja37/hud/units-metric</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </checkbox>
+
+    <text>
+      <row>2</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>HUD/TI in metric units and Swedish (default: imperial and English)</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </text>
+
+    <!-- TI menus (JA only) -->
+    <checkbox>
+      <row>3</row>
+      <col>0</col>
+      <property>/ja37/displays/show-full-menus</property>
       <live>true</live>
       <binding>
         <command>dialog-apply</command>
@@ -146,12 +136,81 @@
       <row>3</row>
       <col>1</col>
       <halign>left</halign>
-      <label>HUD/TI in metric units and Swedish (default: imperial and English)</label>
+      <label>TI Display: show non-functional menu items</label>
       <visible>
         <equals>
           <property>/ja37/systems/variant</property>
           <value>0</value>
         </equals>
+      </visible>
+    </text>
+
+    <!-- TI map (JA only) -->
+    <checkbox>
+      <row>4</row>
+      <col>0</col>
+      <property>/ja37/displays/live-map</property>
+      <live>true</live>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </checkbox>
+
+    <text>
+      <row>4</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>TI Display: use Internet to fetch map</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </text>
+
+    <!-- Radar quality (AJS only) -->
+    <slider>
+      <row>2</row>
+      <col>0</col>
+      <property>/instrumentation/radar/ground-radar-quality</property>
+      <min>0</min>
+      <max>2</max>
+      <step>1</step>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+      <binding>
+        <command>nasal</command>
+        <script>update_radar_quality();</script>
+      </binding>
+      <visible>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
+      </visible>
+    </slider>
+
+    <text>
+      <row>2</row>
+      <col>1</col>
+      <halign>left</halign>
+      <label>Ground radar quality: medium</label>
+      <format>Ground radar quality: %s</format>
+      <property>/instrumentation/radar/ground-radar-quality-str</property>
+      <live>true</live>
+      <visible>
+        <not-equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </not-equals>
       </visible>
     </text>
 
@@ -185,149 +244,16 @@
       </visible>
     </text>
 
-    <!-- Radar quality (AJS only) -->
-
-    <slider>
-      <row>4</row>
-      <col>0</col>
-      <property>/instrumentation/radar/ground-radar-quality</property>
-      <min>0</min>
-      <max>2</max>
-      <step>1</step>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>update_radar_quality();</script>
-      </binding>
-      <visible>
-        <not-equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </not-equals>
-      </visible>
-    </slider>
-
-    <text>
-      <row>4</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>Ground radar quality: medium</label>
-      <format>Ground radar quality: %s</format>
-      <property>/instrumentation/radar/ground-radar-quality-str</property>
-      <live>true</live>
-      <visible>
-        <not-equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </not-equals>
-      </visible>
-    </text>
-
-    <!-- TI menus (JA only) -->
-    <checkbox>
-      <row>4</row>
-      <col>0</col>
-      <property>/ja37/displays/show-full-menus</property>
-      <live>true</live>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <visible>
-        <equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </equals>
-      </visible>
-    </checkbox>
-
-    <text>
-      <row>4</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>TI Display: show non-functional menu items</label>
-      <visible>
-        <equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </equals>
-      </visible>
-    </text>
-
-    <!-- TI map (JA only) -->
-    <checkbox>
-      <row>5</row>
-      <col>0</col>
-      <property>/ja37/displays/live-map</property>
-      <live>true</live>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-      <visible>
-        <equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </equals>
-      </visible>
-    </checkbox>
-
-    <text>
-      <row>5</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>TI Display: use Internet to fetch map</label>
-      <visible>
-        <equals>
-          <property>/ja37/systems/variant</property>
-          <value>0</value>
-        </equals>
-      </visible>
-    </text>
-
-    <!-- Outside rust -->
-    <checkbox>
-      <row>6</row>
-      <col>0</col>
-      <property>/ja37/effect/rust-outside</property>
-      <live>true</live>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-    </checkbox>
-
-    <text>
-      <row>6</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>Rust on fuselage (requires ALS)</label>
-    </text>
-
-    <checkbox>
-      <row>7</row>
-      <col>0</col>
-      <property>/ja37/effect/rust-inside</property>
-      <live>true</live>
-      <binding>
-        <command>dialog-apply</command>
-      </binding>
-    </checkbox>
-
-    <text>
-      <row>7</row>
-      <col>1</col>
-      <halign>left</halign>
-      <label>Rust in cockpit (requires ALS)</label>
-    </text>
+    <!-- Cursor -->
 
     <hrule>
-      <row>8</row>
+      <row>5</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <checkbox>
-      <row>9</row>
+      <row>6</row>
       <col>0</col>
       <property>controls/displays/arrows-controls-cursor</property>
       <live>true</live>
@@ -337,14 +263,14 @@
     </checkbox>
 
     <text>
-      <row>9</row>
+      <row>6</row>
       <col>1</col>
       <halign>left</halign>
       <label>Arrow keys control radar cursor, Enter clicks / selects</label>
     </text>
 
     <text>
-      <row>10</row>
+      <row>7</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -352,7 +278,7 @@
     </text>
 
     <text>
-      <row>11</row>
+      <row>8</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -360,7 +286,7 @@
     </text>
 
     <text>
-      <row>12</row>
+      <row>9</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -368,7 +294,7 @@
     </text>
 
     <text>
-      <row>13</row>
+      <row>10</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -376,7 +302,7 @@
     </text>
 
     <text>
-      <row>14</row>
+      <row>11</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -384,7 +310,7 @@
     </text>
 
     <text>
-      <row>15</row>
+      <row>12</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -392,21 +318,23 @@
     </text>
 
     <text>
-      <row>16</row>
+      <row>13</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label> - Press 'y' to control the cursor with the main flight controls. 'n' clicks.</label>
     </text>
 
+    <!-- MP damage -->
+
     <hrule>
-      <row>17</row>
+      <row>14</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <checkbox>
-      <row>18</row>
+      <row>15</row>
       <col>0</col>
       <enable><property>/ja37/on-ground</property></enable>
       <property>/payload/armament/msg</property>
@@ -417,7 +345,7 @@
     </checkbox>
 
     <text>
-      <row>18</row>
+      <row>15</row>
       <col>1</col>
       <halign>left</halign>
       <label>Enable multiplayer damage</label>
@@ -425,28 +353,28 @@
     </text>
 
     <text>
-      <row>19</row>
+      <row>16</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>This option allows to deal and receive damage from other compatible aircrafts,</label>
     </text>
     <text>
-      <row>20</row>
+      <row>17</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>if they have also enabled it. It can only be toggled when stopped on the ground.</label>
     </text>
     <text>
-      <row>21</row>
+      <row>18</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>Enabling this enforces some realism options, such as blackout, normal simulation</label>
     </text>
     <text>
-      <row>22</row>
+      <row>19</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -454,7 +382,7 @@
     </text>
 
     <checkbox>
-      <row>23</row>
+      <row>20</row>
       <col>0</col>
       <enable><not><property>/payload/armament/msg</property></not></enable>
       <property>/payload/armament/spectator</property>
@@ -465,14 +393,14 @@
     </checkbox>
 
     <text>
-      <row>23</row>
+      <row>20</row>
       <col>1</col>
       <halign>left</halign>
       <label>Spectator mode</label>
       <enable><not><property>/payload/armament/msg</property></not></enable>
     </text>
     <text>
-      <row>24</row>
+      <row>21</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>

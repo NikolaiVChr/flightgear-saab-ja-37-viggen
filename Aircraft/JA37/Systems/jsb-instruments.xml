@@ -119,6 +119,7 @@
         <pure_gain name="instruments/altimeter/pressure-altitude-m">
             <input>/instrumentation/altimeter/pressure-alt-ft</input>
             <gain>0.3048</gain>
+            <output>/instrumentation/altimeter/pressure-alt-meter</output>
         </pure_gain>
 
         <!-- Radar altimeter -->

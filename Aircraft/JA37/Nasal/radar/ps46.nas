@@ -518,7 +518,7 @@ var STTMode = {
 
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
-    getSearchInfo: func (contact) {
+    getSearchInfo: func(contact) {
         if (me.priorityTarget != nil and contact.equals(me.priorityTarget)) {
             ps46.updateStoredIFF(contact, 1);
             return [1,1,1,1,1,1];

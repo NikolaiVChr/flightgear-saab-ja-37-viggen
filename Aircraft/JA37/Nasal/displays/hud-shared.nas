@@ -35,6 +35,7 @@ var input = {
     airbase_alt_ft: "/instrumentation/altimeter/airbase-altitude-ft",
     rad_alt:        "/instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:  "/instrumentation/radar-altimeter/ready",
+    pres_alt:       "/instrumentation/altimeter/pressure-alt-meter",
     ref_alt:        "/ja37/displays/reference-altitude-m",
     terrain_hgt:    "/ja37/avionics/terrain-height-m",
     rm_active:      "/autopilot/route-manager/active",

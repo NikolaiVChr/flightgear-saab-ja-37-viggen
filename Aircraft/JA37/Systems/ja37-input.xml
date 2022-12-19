@@ -988,32 +988,6 @@
             </binding>
         </key>
 
-        <key n="12">
-            <name>Ctrl-L</name>
-            <desc>Toggle radar LIN/LOG gain</desc>
-            <repeatable>false</repeatable>
-            <binding>
-                <condition>
-                    <not-equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </not-equals>
-                </condition>
-                <command>property-toggle</command>
-                <property>ja37/radar/panel/linear</property>
-            </binding>
-            <binding>
-                <condition>
-                    <not-equals>
-                        <property>/ja37/systems/variant</property>
-                        <value>0</value>
-                    </not-equals>
-                </condition>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </key>
-
         <key n="21">
               <name>Ctrl-U</name>
               <desc>[Cheat] Add 1000ft of emergency altitude</desc>

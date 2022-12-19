@@ -4234,3 +4234,60 @@ Model: Fix CI lights materials
 Self test: Fix for AJS
 JA HUD: Dynamic distance scale for missiles
 FDM: Reduce contact points friction
+
+5.2.1 - 2022 January 23
+=====
+Manual updates for v5.2.0.
+
+
+5.3.0 - 2022 December 19
+=====
+Complete rewrite of the radar system:
+- New generic and extensible radar backend code by Nikolai,
+  which can simulate a variety of radar types, scanning modes, patterns, etc.
+- Reworked JA radar with scan, TWS, STT, and dogfight modes,
+  and corresponding changes to all displays (MI, TI, HUD),
+- Completely new AJS ground mapping radar and CI display,
+  which shows terrain, ships, and sometimes even aircrafts.
+
+Other notable change:
+New GPWS for the JA, for more realistic but far less useful!
+Like the real one, it should be fairly precise over flat terrain,
+but completely hopeless over mountains.
+
+Misc:
+damage: Always send flare notifications
+JSBSim: Fix JA37D SFI mixup in reference list
+submodels: Clean up <impact-reports> tag
+Scheduler: Display errors
+Payload: Remove Rb 24J and m/70 ARAK for JA 37D
+AJS HUD: 240m commanded altitude for Rb 04 aiming
+Sim: AJS Rb 04 / Rb 15 launch altitude warning
+MI: Extra and improved text indication (flares, missile launch, Rb 99 datalink)
+Instruments: Cleanup JA heading indicator
+TI: Implement backup menu (button actions when display is off)
+route manager: Accept GPX format for "load from directory"
+Nasal: Add backward compat. definitions for str() and logprint()
+AJS HUD: Fix altitude position in landing mode
+TI: AAA areas can only be red or yellow, not green
+TI: Correct behavior of AAA menus
+HUD: Use nasal for parallax correction
+Model: Cleanup of main model for Blender 2.8+
+Model: Tilt HUD surface to match optical axis
+Sim: Remove spurrious training floor warning
+Radios: Fix nasal namespace in comm-channels.xml
+TI: Increase map zoom
+Revert "TI: Make zoom controls non cyclic"
+TI: Fix lat/lon grid
+Model: Small optimizations and reorganisation of main model (no visible change)
+Model: New GPU
+Model: Optimize some weapon models
+Remove unused toggle*Damper functions
+failures: Remove unused FCS failure modes
+FCS: Remove unused test for roll-limiter/enable
+UI: Remove G-suit and rust options
+Effects: Remove unused effect ja37-combined-shader
+Effects: Remove rust effect
+Models: Fix some UVs on main model
+AJS HUD: Add fall time indicator for bomb CCIP
+{Nikolai and others}: Many changes to vectors, missile, damage, and RWR code.
