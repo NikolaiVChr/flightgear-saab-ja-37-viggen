@@ -78,6 +78,13 @@ var resolve = func(idx) {
     return get_wpt(idx);
 }
 
+
+# Test if the waypoint type is sequencing (should switch to next waypoint when passing it)
+var can_sequence = func(idx) {
+    var type = idx & WPT.type_mask;
+    return (type == WPT.B or type == WPT.U)
+}
+
 ## Find index of next waypoint in sequencing order
 #
 # If resolve is true (default), unset waypoints are skipped.
@@ -86,9 +93,7 @@ var find_next = func(idx, resolve=1) {
     var type = idx & WPT.type_mask;
     var nb = idx & WPT.nb_mask;
 
-    if (type != WPT.B and type != WPT.U)
-        # Only B and U waypoints have sequencing
-        return idx;
+    if (!can_sequence(idx)) return idx;
 
     while (TRUE) {
         # increment
@@ -107,18 +112,10 @@ var find_next = func(idx, resolve=1) {
     }
 }
 
-var can_sequence = func(idx) {
-    var type = idx & WPT.type_mask;
-    return (type == WPT.B or type == WPT.U)
-}
 
-
+# Test if current mode allows waypoint sequencing
 var sequencing_enabled = func {
-    # Waypoint sequencing disabled in modes ANF and SPA
-    if (variant.AJS and (modes.selector_ajs == modes.COMBAT or modes.selector_ajs == modes.RECO))
-        return FALSE;
-
-    return TRUE;
+    return modes.selector_ajs != modes.COMBAT and modes.selector_ajs != modes.RECO;
 }
 
 
@@ -141,10 +138,11 @@ var set_current = func(idx) {
     current_wpt = resolve(idx);
     last_dist = sequence_dist + 1.0;    # so that it doesn't immediately sequence
     update();
-    wpt_ind.update_wp_indicator();
+    wpt_ind.set_wp_indicator(idx);
     set_display_fp_wpt(idx);
 }
 
+# reload current waypoint (to be used the waypoint position changed)
 var reload_current = func {
     return set_current(current);
 }
@@ -189,9 +187,7 @@ var callback_fp_changed = func {
 }
 
 
-### Display
-
-## Read-only flightplan for map, etc.
+### Read-only flightplan for FlightGear (used by map, etc.)
 
 var display_fp = createFlightplan();
 var display_fp_idx_table = {};          # waypoint to flightplan index table

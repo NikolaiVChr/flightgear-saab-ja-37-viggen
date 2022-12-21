@@ -4,6 +4,7 @@ var FALSE = 0;
 
 var inhibit_input_callback = FALSE;
 
+# Factory for waypoint input field callback
 var make_wpt_input_listener = func(wp_id) {
     return func(node) {
         if (inhibit_input_callback) return;
@@ -16,6 +17,7 @@ var make_wpt_input_listener = func(wp_id) {
     }
 }
 
+# Factory for airbase input field callback
 var make_airbase_input_listener = func(base_id) {
     return func(node) {
         if (inhibit_input_callback) return;

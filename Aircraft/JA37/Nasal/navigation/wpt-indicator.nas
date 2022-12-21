@@ -14,6 +14,8 @@ foreach(var name; keys(input)) {
 }
 
 
+## Texture symbols codes (=offset on the texture)
+
 # Codes for waypoint type (first character)
 var WP_TYPE = {
     OFF: 0,
@@ -34,13 +36,14 @@ var WP_TYPE = {
 # Digits 1-9 are displayed as-is.
 var WP_NUM = {
     OFF: 0,
-    ZERO: 10,
+    ZERO: 10,   # not sure if this is ever used
     START: 11,
 };
 
+## Waypoint types / numbers used by route manager
 var WPT = route.WPT;
 
-# a bit silly to have two tables for waypoint types...
+# convert waypoint types to texture symbol code
 var WP_MASK_TO_TYPE = {};
 
 WP_MASK_TO_TYPE[WPT.L]  = WP_TYPE.LAND;
@@ -52,7 +55,8 @@ WP_MASK_TO_TYPE[WPT.M]  = WP_TYPE.TGT_RECO;
 WP_MASK_TO_TYPE[WPT.S]  = WP_TYPE.TGT_TRACK;
 
 
-var update_wp_indicator = func {
+# Update waypoint indicator. Argument 'idx' as in route-ajs.nas
+var set_wp_indicator = func(idx) {
     var idx = route.get_current_idx();
 
     if (idx == WPT.LS) {

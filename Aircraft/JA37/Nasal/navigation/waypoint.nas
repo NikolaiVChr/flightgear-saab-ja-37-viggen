@@ -60,7 +60,14 @@ var Waypoint = {
 
 
 ## Airbase objects
+#
+# members:
+# - name
+# - coordinate
+# - list of runways, where runway = { coordinate, heading, optional name, ILS frequency }
+#
 var Airbase = {
+    # Create object for real ICAO airport
     fromICAO: func(ICAO) {
         var info = airportinfo(ICAO);
         if (info == nil) return nil;
@@ -86,6 +93,7 @@ var Airbase = {
         return apt;
     },
 
+    # Create airport anywhere from coordinate and heading (incl reciprocal runway).
     fromCoord: func(coord, heading, freq=nil) {
         var coord = geo.Coord.new(coord);
 
@@ -101,6 +109,10 @@ var Airbase = {
         return apt;
     },
 
+    # sorting function for runways:
+    # - sort by heading
+    # - sort suffix: XX < XXL < XXC < XXR
+    # fallback to lexicographic order if name is invalid
     compare_named_rwy: func(rwy1, rwy2) {
         var lex = cmp(rwy1.name, rwy2.name);
         if (lex == 0) return 0;
@@ -128,8 +140,8 @@ var Airbase = {
 
         var letter1 = substr(rwy1.name, 2, 1);
         var letter2 = substr(rwy2.name, 2, 1);
-        var idx1 = !find(letter1, "LCR");
-        var idx2 = !find(letter1, "LCR");
+        var idx1 = find(letter1, "LCR");
+        var idx2 = find(letter1, "LCR");
 
         if (idx1 < 0 or idx2 < 0) return lex;
 
