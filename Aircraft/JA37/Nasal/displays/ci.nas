@@ -77,6 +77,8 @@ var input = {
     beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
     antenna_angle:  "instrumentation/radar/antenna-angle-norm",
+    rm_dist:        "autopilot/route-manager/wp/dist",
+    rm_bearing:     "autopilot/route-manager/wp/true-bearing-deg",
     # shaders controls
     compositor:     "ja37/supported/compositor",
     force_shader:   "ja37/displays/use-CI-shader-on-min-settings",
@@ -354,8 +356,6 @@ var NavSymbols = {
     update: func {
         if (me.display != DISPLAY.PPI) return;
 
-        var scale = input.radar_range.getValue();
-
         # Mode restrictions from Beskrivning FPL AJS37 Del 4
         var wpt_visible = (land.show_waypoint_circle and me.mode != MODE.BOMB and me.mode != MODE.AIR);
         var line_visible = (land.show_runway_line and (me.mode == MODE.SILENT or me.mode == MODE.NORMAL));
@@ -365,17 +365,23 @@ var NavSymbols = {
         me.line.setVisible(line_visible);
         me.appch_circle.setVisible(appch_circle_visible);
 
-        if (wpt_visible or line_visible) {
-            me.set_elt_pos_polar(me.wpt_group, land.runway_dist*NM2M, land.runway_bug, scale);
-        }
+        if (!wpt_visible and !line_visible) return;
+
+        var scale = input.radar_range.getValue();
+        var heading = input.heading.getValue();
+        var bearing = input.rm_bearing.getValue() or 0;
+        var dist = (input.rm_dist.getValue() or 0) * NM2M;
+
+        me.set_elt_pos_polar(me.wpt_group, dist, bearing - heading, scale);
+
         if (line_visible) {
             me.set_line_length(land.line*1000, scale);
-            me.line.setRotation((180 + land.head - input.heading.getValue()) * D2R);
+            me.line.setRotation((180 + land.head - heading) * D2R);
         }
         if (appch_circle_visible) {
             me.set_appch_circle_scale(scale);
             var ac_pos = geo.aircraft_position();
-            var bearing = ac_pos.course_to(land.approach_circle) - input.heading.getValue();
+            var bearing = ac_pos.course_to(land.approach_circle) - heading;
             var dist = ac_pos.distance_to(land.approach_circle);
             me.set_elt_pos_polar(me.appch_circle, dist, bearing, scale);
         }

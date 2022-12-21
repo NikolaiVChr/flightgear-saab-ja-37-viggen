@@ -42,7 +42,6 @@ var show_waypoint_circle = FALSE;
 var show_approach_circle = FALSE;
 var show_runway_line     = FALSE;
 
-var runway_bug  = 0;#true degs
 var runway_dist = 0;#NM
 
 var head = 0;#true degs
@@ -352,7 +351,6 @@ var Landing = {
             me.bearing = input.rmBearing.getValue();#true
             if (runway_dist != nil and me.bearing != nil and me.heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
                 has_waypoint = 1;
-              	runway_bug = me.bearing - me.heading;
                 me.wp = route.Polygon.primary.getSteerpoint();
                 #print("current: "~ghosttype(wp[0]));
               	me.name = me.wp[0].id;

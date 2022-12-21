@@ -4690,8 +4690,11 @@ var TI = {
 
 	showRunway: func {
 		if (land.mode_B_active == FALSE and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
-		  me.x = math.cos(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
-		  me.y = math.sin(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
+		  me.heading = me.input.heading.getValue();#true
+		  me.rwy_dist = (me.input.rmDist.getValue() or 0) * NM2M;
+		  me.rwy_bearing = (me.input.rmBearing.getValue() or 0) - me.heading;
+		  me.x = math.cos(-(me.rwy_bearing - 90) * D2R) * me.rwy_dist * M2TEX;
+		  me.y = math.sin(-(me.rwy_bearing - 90) * D2R) * me.rwy_dist * M2TEX;
 
 		  me.dest.setTranslation(me.x, -me.y);
 
@@ -4708,7 +4711,6 @@ var TI = {
 		    me.runway_l = land.line*1000;
 		    me.scale = clamp(me.runway_l*M2TEX,10*MM2TEX,1000);#in the real they are always 10mm, cheated abit.
 		    me.approach_line.setScale(1, me.scale);
-		    me.heading = me.input.heading.getValue();#true
 		    me.dest.setRotation((180+land.head-me.heading)*D2R);
 		    me.runway_name.setText(land.runway);
 		    me.runway_name.setRotation(-(180+land.head)*D2R);
