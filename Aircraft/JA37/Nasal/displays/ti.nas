@@ -5798,12 +5798,12 @@ var TI = {
 			(1 - math.ln(math.tan(me.lat * D2R) + 1 / math.cos(me.lat * D2R)) / math.pi) / 2 * me.n
 		];
 		# center_tile_offset[1]
-		me.center_tile_int = [int(me.center_tile_float[0]), int(me.center_tile_float[1])];
+		me.center_tile_int = [math.floor(me.center_tile_float[0]), math.floor(me.center_tile_float[1])];
 
 		me.center_tile_fraction_x = me.center_tile_float[0] - me.center_tile_int[0];
 		me.center_tile_fraction_y = me.center_tile_float[1] - me.center_tile_int[1];
-#printf("centertile: %d,%d fraction %.2f,%.2f",me.center_tile_int[0],me.center_tile_int[1],me.center_tile_fraction_x,me.center_tile_fraction_y);
-		me.tile_offset = [int(num_tiles[0]/2), int(num_tiles[1]/2)];
+		#printf("centertile: %d,%d fraction %.2f,%.2f",me.center_tile_int[0],me.center_tile_int[1],me.center_tile_fraction_x,me.center_tile_fraction_y);
+		me.tile_offset = [math.floor(num_tiles[0]/2), math.floor(num_tiles[1]/2)];
 
 		# 3x3 example: (same for both canvas-tiles and map-tiles)
 		#  *************************
@@ -5814,10 +5814,17 @@ var TI = {
 		#  * -1, 1 *  0, 1 *  1, 1 *
 		#  *************************
 		#
+		# x goes from -180 lon to +180 lon (zero to me.n)
+		# y goes from +85.0511 lat to -85.0511 lat (zero to me.n)
+		#
+		# me.center_tile_float is always positives, it denotes where we are in x,y (floating points)
+		# me.center_tile_int is the x,y tile that we are in (integers)
+		# me.center_tile_fraction is where in that tile we are located (normalized)
+		# me.tile_offset is the negative buffer so that we show tiles all around us instead of only in x,y positive direction
 
 		for(var xxx = 0; xxx < num_tiles[0]; xxx += 1) {
 			for(var yyy = 0; yyy < num_tiles[1]; yyy += 1) {
-				tiles[xxx][yyy].setTranslation(-int((me.center_tile_fraction_x - xxx+me.tile_offset[0]) * tile_size), -int((me.center_tile_fraction_y - yyy+me.tile_offset[1]) * tile_size));
+				tiles[xxx][yyy].setTranslation(-math.floor((me.center_tile_fraction_x - xxx+me.tile_offset[0]) * tile_size), -math.floor((me.center_tile_fraction_y - yyy+me.tile_offset[1]) * tile_size));
 			}
 		}
 
