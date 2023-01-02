@@ -58,11 +58,6 @@ var w = 0.5;#stroke width
 var max_contacts = 16;  # max nb of aircrafts for which radar echoes can be displayed
 var max_tracks = 4;     # max nb of tracked aircrafts in TWS
 
-var roundabout = func(x) {
-  var y = x - int(x);
-  return y < 0.5 ? int(x) : 1 + int(x) ;
-};
-
 var FALSE = 0;
 var TRUE = 1;
 

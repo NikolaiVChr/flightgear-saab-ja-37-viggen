@@ -213,11 +213,6 @@ var maxMissiles = 4;
 var maxSteers   = 48;#careful with this one
 var maxBases    = 50;
 
-var roundabout = func(x) {
-  var y = x - int(x);
-  return y < 0.5 ? int(x) : 1 + int(x) ;
-};
-
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
 var circlePos = func (deg, radius) {
@@ -3570,14 +3565,14 @@ var TI = {
 				me.tgt_alt *= FT2M;
 				me.tgtTextHeiDesc.setText("H");
 				if(me.tgt_alt < 1000) {
-					me.text = str(int(roundabout(me.tgt_alt/10)*10));
+					me.text = str(math.round(me.tgt_alt, 10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
 			} else {
 				me.tgtTextHeiDesc.setText("A");
 				if(me.tgt_alt < 1000) {
-					me.text = str(int(roundabout(me.tgt_alt/10)*10));
+					me.text = str(math.round(me.tgt_alt, 10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
@@ -4411,13 +4406,13 @@ var TI = {
 			me.text = "";
 			if (me.swedishMode) {
 				if(me.alt*FT2M < 1000) {
-					me.text = str(roundabout(me.alt*FT2M/10)*10);
+					me.text = str(math.round(me.alt*FT2M, 10));
 				} else {
 					me.text = sprintf("%.1f", me.alt*FT2M/1000);
 				}
 			} else {
 				if(me.alt < 1000) {
-					me.text = str(roundabout(me.alt/10)*10);
+					me.text = str(math.round(me.alt, 10));
 				} else {
 					me.text = sprintf("%.1f", me.alt/1000);
 				}
