@@ -3828,7 +3828,7 @@ var TI = {
 					me.wpSpeed = sprintf("%0.2f", me.wpSpeed);
 				}
 
-				me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
+				me.wpETA  = math.ceil(getprop("autopilot/route-manager/ete")/60);#mins
 				me.wpETAText = sprintf("%d", me.wpETA);
 				if (me.wpETA > 500) {
 					me.wpETAText = "---";#todo should be time predicted when steerpoint is passed like 12:40:31. Also There should be a T field above it same formating, no clue what for.
@@ -4355,8 +4355,8 @@ var TI = {
 	showFlightTime: func {
 		# set true from DAP, when DAP knob is in TI (OUT).
 		if (me.displayFTime == TRUE) {
-			me.fhour = int(displays.common.ftime/60/60);
-			me.fmin  = int((displays.common.ftime-me.fhour*60*60)/60);
+			me.fhour = math.floor(displays.common.ftime/60/60);
+			me.fmin  = math.floor((displays.common.ftime-me.fhour*60*60)/60);
 			me.textFTime.setText(sprintf("FTIME %d:%02d",  me.fhour, me.fmin));
 			me.textFTime.show();
 		} else {
