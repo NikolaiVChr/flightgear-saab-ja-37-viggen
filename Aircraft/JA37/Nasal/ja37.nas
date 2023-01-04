@@ -1613,18 +1613,6 @@ var _popupTip = func(label, y, delay) {
     #canvas.tooltip.showMessage(delay);
 }
 
-var on_damage_enabled = func() {
-    var internal = view.current.getNode("internal");
-    if (internal == nil or !internal.getBoolValue()) {
-        view.setViewByIndex(0);
-        screen.log.write("External views are disabled with damage on");
-    }
-}
-
-var damage_listener = setlistener("/payload/armament/msg", func (node) {
-    if (node.getBoolValue()) on_damage_enabled();
-}, 1, 0);
-
 var reload_allowed = func(msg = nil) {
     var b = input.reload_allowed.getBoolValue();
     if(!b and msg != nil) screen.log.write(msg);
@@ -1803,30 +1791,6 @@ var stringToLat = func (str) {
   }
 }
 #myPosToString();
-
-view.stepView = func(step, force = 0) {
-    step = step > 0 ? 1 : -1;
-    var n = view.index;
-    for (var i = 0; i < size(view.views); i += 1) {
-        n += step;
-        if (n < 0)
-            n = size(view.views) - 1;
-        elsif (n >= size(view.views))
-            n = 0;
-        var e = view.views[n].getNode("enabled");
-        var internal = view.views[n].getNode("internal");
-
-        if ((force or e == nil or e.getBoolValue())
-            and view.views[n].getNode("name") != nil
-            and ((internal != nil and internal.getBoolValue()) or !getprop("/payload/armament/msg")))
-            break;
-    }
-    view.setView(n);
-
-    # And pop up a nice reminder
-    var popup=getprop("/sim/view-name-popup");
-    if(popup == 1 or popup==nil) gui.popupTip(view.views[n].getNode("name").getValue());
-}
 
 var action_view_handler = {
   init : func {
