@@ -1565,6 +1565,7 @@
             <volume>
                 <!-- NOT rwr/sound/volume, this is technically not part of the RWR -->
                 <property>ja37/sound/warnings-volume</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
