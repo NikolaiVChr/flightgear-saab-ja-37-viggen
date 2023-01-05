@@ -59,7 +59,6 @@
             <path>Aircraft/JA37/Sounds/BatteryStart.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/current-view/internal</property>
                 <equals>
                     <property>systems/electrical/batterysignal</property>
                     <value>1.0</value>
@@ -73,6 +72,7 @@
                 <z>0.00</z>
             </position>
             <volume>
+                <property>sim/current-view/internal</property>
                 <factor>0.5</factor>
             </volume>
         </battery>
@@ -763,7 +763,6 @@
             <path>Aircraft/JA37/Sounds/click.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/current-view/internal</property>
                 <or>
                     <equals>
                         <property>ja37/sound/click-on</property>
@@ -773,6 +772,7 @@
                 </or>
             </condition>
             <volume>
+                <property>sim/current-view/internal</property>
                 <factor>0.50</factor>
             </volume>
         </controls>
@@ -2582,7 +2582,6 @@
             <path>Aircraft/JA37/Sounds/aircraft-crack.wav</path>
             <mode>once</mode>
             <condition>
-                <property>sim/current-view/internal</property>
                 <equals>
                     <property>damage/sounds/crack-on</property>
                     <value>1</value>
@@ -2596,6 +2595,9 @@
             <volume>
                 <property>damage/sounds/crack-volume</property>
                 <factor>1</factor>
+            </volume>
+            <volume>
+                <property>sim/current-view/internal</property>
             </volume>
         </aircraft-crack>
 
