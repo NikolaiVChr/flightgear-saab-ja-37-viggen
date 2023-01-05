@@ -1551,6 +1551,16 @@
             <freq n="7" type="double">1000</freq>
             <freq n="8" type="double">1000</freq>
             <freq n="9" type="double">1000</freq>
+            <vol n="0" type="double">1</vol>
+            <vol n="1" type="double">1</vol>
+            <vol n="2" type="double">1</vol>
+            <vol n="3" type="double">1</vol>
+            <vol n="4" type="double">1</vol>
+            <vol n="5" type="double">1</vol>
+            <vol n="6" type="double">1</vol>
+            <vol n="7" type="double">1</vol>
+            <vol n="8" type="double">1</vol>
+            <vol n="9" type="double">1</vol>
           </sound>
         </rwr>
         <displays>
