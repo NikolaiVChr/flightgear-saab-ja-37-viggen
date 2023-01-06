@@ -17,11 +17,6 @@
                 <y>0.00</y>
                 <z>0.3</z>
             </position>
-            <pitch>
-                <internal>dt_start</internal>
-                <offset>1.25</offset>
-                <factor>-0.25</factor>
-            </pitch>
             <volume>
                 <property>sim/time/full-init</property>
                 <max>0.05</max>
