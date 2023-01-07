@@ -1222,18 +1222,21 @@
         </throttle>
         
         <throttle>
-            <name>Flight idle detent</name>
+            <name>throttle detent even</name>
             <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <less-than>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>24</value>
-                    </less-than>
-                </and>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>fdm/jsbsim/fcs/throttle-pos-section</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>0</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.50</x>
@@ -1246,22 +1249,21 @@
         </throttle>
 
         <throttle>
-            <name>Mil detent</name>
+            <name>throttle detent odd</name>
             <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
             <condition>
-                <and>
-                    <greater-than-equals>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>24</value>
-                    </greater-than-equals>
-                    <less-than>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>70</value>
-                    </less-than>
-                </and>
+                <equals>
+                    <expression>
+                        <mod>
+                            <property>fdm/jsbsim/fcs/throttle-pos-section</property>
+                            <value>2</value>
+                        </mod>
+                    </expression>
+                    <value>1</value>
+                </equals>
             </condition>
             <position>
                 <x>-3.50</x>
@@ -1270,86 +1272,6 @@
             </position>
             <volume>
                 <factor>0.25</factor>
-            </volume>
-        </throttle>
-
-        <throttle>
-            <name>AB1 detent</name>
-            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
-            <mode>once</mode>
-            <reference-dist>0</reference-dist>
-            <max-dist>2</max-dist>
-            <condition>
-                <and>
-                    <greater-than-equals>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>70</value>
-                    </greater-than-equals>
-                    <less-than>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>84</value>
-                    </less-than>
-                </and>
-            </condition>
-            <position>
-                <x>-3.50</x>
-                <y>0.50</y>
-                <z>0.015</z>
-            </position>
-            <volume>
-                <factor>0.15</factor>
-            </volume>
-        </throttle>
-
-        <throttle>
-            <name>AB2 detent</name>
-            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
-            <mode>once</mode>
-            <reference-dist>0</reference-dist>
-            <max-dist>2</max-dist>
-            <condition>
-                <and>
-                    <greater-than-equals>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>84</value>
-                    </greater-than-equals>
-                    <less-than>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>98</value>
-                    </less-than>
-                </and>
-            </condition>
-            <position>
-                <x>-3.50</x>
-                <y>0.50</y>
-                <z>0.015</z>
-            </position>
-            <volume>
-                <factor>0.15</factor>
-            </volume>
-        </throttle>
-
-        <throttle>
-            <name>AB3 detent</name>
-            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
-            <mode>once</mode>
-            <reference-dist>0</reference-dist>
-            <max-dist>2</max-dist>
-            <condition>
-                <and>
-                    <greater-than-equals>
-                        <property>fdm/jsbsim/fcs/throttle-pos-deg</property>
-                        <value>98</value>
-                    </greater-than-equals>
-                </and>
-            </condition>
-            <position>
-                <x>-3.50</x>
-                <y>0.50</y>
-                <z>0.015</z>
-            </position>
-            <volume>
-                <factor>0.15</factor>
             </volume>
         </throttle>
 
