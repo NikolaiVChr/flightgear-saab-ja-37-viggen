@@ -77,7 +77,7 @@
 
         <flybyslow>
             <name>high pitch fly by</name>
-            <path>Aircraft/JA37/Sounds/roar-medium.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/roar-medium.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -114,7 +114,7 @@
 
         <!--<flybymed>
             <name>medium pitch fly by</name>
-            <path>Aircraft/JA37/Sounds/roar-high.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/roar-high.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -154,7 +154,7 @@
 
         <flybylow>
             <name>low pitch fly by</name>
-            <path>Aircraft/JA37/Sounds/reheat.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/reheat.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -195,7 +195,7 @@
 
         <flybylowest>
             <name>very low pitch fly by</name>
-            <path>Aircraft/JA37/Sounds/deep-noise.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/deep-noise.wav</path>
             <mode>looped</mode>
             <condition>
                 <not>
@@ -290,7 +290,7 @@
 
         <engine_mil_cockpit>
             <name>internal turbine</name>
-            <path>Aircraft/JA37/Sounds/thrust-interior.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/thrust-interior.wav</path>
             <mode>looped</mode>
             <condition>
                 <property>sim/current-view/internal</property>
@@ -321,7 +321,7 @@
 
         <engine_augmented_cockpit>
             <name>internal afterburner</name>
-            <path>Aircraft/JA37/Sounds/afterburner-interior.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/afterburner-interior.wav</path>
             <mode>looped</mode>
             <condition>
                 <property>sim/current-view/internal</property>
@@ -350,7 +350,7 @@
 
         <engine_idle_model>
             <name>external fan</name>
-            <path>Aircraft/JA37/Sounds/fan-exterior.wav</path><!-- Sounds/turbojet_fan.wav -->
+            <path>Aircraft/JA37/Sounds/engine/fan-exterior.wav</path><!-- Sounds/turbojet_fan.wav -->
             <mode>looped</mode>
             <condition>
                 <!--<property>engines/engine/running</property>-->
@@ -417,7 +417,7 @@
 
         <engine_mil_model>
             <name>external turbine</name>
-            <path>Aircraft/JA37/Sounds/thrust-exterior.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/thrust-exterior.wav</path>
             <mode>looped</mode>
             <condition>
                 <or>
@@ -479,7 +479,7 @@
 
         <engine_augmented_model>
             <name>external afterburner</name>
-            <path>Aircraft/JA37/Sounds/engine-afterburner-exterior.wav</path>
+            <path>Aircraft/JA37/Sounds/engine/afterburner-exterior.wav</path>
             <mode>looped</mode>
             <condition>
                 <property>engines/engine/augmentation</property>
@@ -755,7 +755,7 @@
 
         <controls>
             <name>click</name>
-            <path>Aircraft/JA37/Sounds/click.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/click.wav</path>
             <mode>once</mode>
             <condition>
                 <or>
@@ -774,7 +774,7 @@
 
         <hud>
             <name>HUD position</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <condition>
                 <less-than>
@@ -798,7 +798,7 @@
 
         <knobs>
             <name>knob even</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -825,7 +825,7 @@
 
         <knobs>
             <name>knob uneven</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -852,7 +852,7 @@
 
         <knobs>
             <name>AJS mode selector even</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -879,7 +879,7 @@
 
         <knobs>
             <name>AJS mode selector odd</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -906,7 +906,7 @@
 
         <knobs>
             <name>AJS weapon selector even</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -933,7 +933,7 @@
 
         <knobs>
             <name>AJS weapon selector odd</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -960,7 +960,7 @@
 
         <knobs>
             <name>AJS wingspan knob even</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -987,7 +987,7 @@
 
         <knobs>
             <name>AJS wingspan knob odd</name>
-            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/knob_swamp.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1015,7 +1015,7 @@
 
         <gearlever>
             <name>gearlever0</name>
-            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/gear-lever.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1039,7 +1039,7 @@
 
         <gearlever>
             <name>gearlever1</name>
-            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/gear-lever.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1063,7 +1063,7 @@
 
         <gearlever>
             <name>atlever0</name>
-            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/gear-lever.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1091,7 +1091,7 @@
 
         <gearlever>
             <name>atlever1</name>
-            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/gear-lever.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1119,7 +1119,7 @@
 
         <gearlever>
             <name>bplever0</name>
-            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/gear-lever.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1149,7 +1149,7 @@
 
         <gearlever>
             <name>bplever1</name>
-            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/gear-lever.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1179,7 +1179,7 @@
 
         <throttle>
             <name>Throttle cutoff on</name>
-            <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-idle.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1201,7 +1201,7 @@
 
         <throttle>
             <name>Throttle cutoff off</name>
-            <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-idle.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1223,7 +1223,7 @@
         
         <throttle>
             <name>Flight idle detent</name>
-            <path>Aircraft/JA37/Sounds/throttle-detent.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1247,7 +1247,7 @@
 
         <throttle>
             <name>Mil detent</name>
-            <path>Aircraft/JA37/Sounds/throttle-detent.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1275,7 +1275,7 @@
 
         <throttle>
             <name>AB1 detent</name>
-            <path>Aircraft/JA37/Sounds/throttle-detent.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1303,7 +1303,7 @@
 
         <throttle>
             <name>AB2 detent</name>
-            <path>Aircraft/JA37/Sounds/throttle-detent.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1331,7 +1331,7 @@
 
         <throttle>
             <name>AB3 detent</name>
-            <path>Aircraft/JA37/Sounds/throttle-detent.wav</path>
+            <path>Aircraft/JA37/Sounds/cockpit/throttle-detent.wav</path>
             <mode>once</mode>
             <reference-dist>0</reference-dist>
             <max-dist>2</max-dist>
@@ -1825,7 +1825,7 @@
         <thunder1>
             <name>thunder1</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/thunder1.wav</path>
+            <path>Aircraft/JA37/Sounds/environment/thunder1.wav</path>
             <property>ja37/sound/thunder1</property>
             <pitch>
                 <property>ja37/sound/dist-thunder1</property>
@@ -1841,7 +1841,7 @@
         <thunder2>
             <name>thunder2</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/thunder2.wav</path>
+            <path>Aircraft/JA37/Sounds/environment/thunder2.wav</path>
             <property>ja37/sound/thunder2</property>
             <pitch>
                 <property>ja37/sound/dist-thunder2</property>
@@ -1857,7 +1857,7 @@
         <thunder3>
             <name>thunder3</name>
             <mode>once</mode>
-            <path>Aircraft/JA37/Sounds/thunder3.wav</path>
+            <path>Aircraft/JA37/Sounds/environment/thunder3.wav</path>
             <property>ja37/sound/thunder3</property>
             <pitch>
                 <property>ja37/sound/dist-thunder3</property>
@@ -1874,7 +1874,7 @@
         <rain>
             <name>rain</name>
             <mode>looped</mode>
-            <path>Aircraft/JA37/Sounds/rain.wav</path>
+            <path>Aircraft/JA37/Sounds/environment/rain.wav</path>
             <condition>
                 <greater-than>
                     <property>/environment/rain-norm</property>
@@ -1890,7 +1890,7 @@
         <rain-windshield>
             <name>rain-windshield</name>
             <mode>looped</mode>
-            <path>Aircraft/JA37/Sounds/rain-windshield.wav</path>
+            <path>Aircraft/JA37/Sounds/environment/rain-windshield.wav</path>
             <condition>
                 <and>
                     <property>/sim/current-view/internal</property>
@@ -1921,7 +1921,7 @@
 
         <cannon>
             <name>KCA cannon</name>
-            <path>Aircraft/JA37/Sounds/KCA.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/KCA.wav</path>
             <condition>
                 <and>
                     <property>controls/armament/station[0]/trigger</property>
@@ -1945,7 +1945,7 @@
         </cannon>
         <cannon>
             <name>left M55 cannon</name>
-            <path>Aircraft/JA37/Sounds/KCA.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/KCA.wav</path>
             <condition>
                 <and>
                     <property>controls/armament/station[1]/trigger-m55</property>
@@ -1969,7 +1969,7 @@
         </cannon>
         <cannon>
             <name>right M55 cannon</name>
-            <path>Aircraft/JA37/Sounds/KCA.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/KCA.wav</path>
             <condition>
                 <and>
                     <property>controls/armament/station[3]/trigger-m55</property>
@@ -1994,7 +1994,7 @@
 
         <missile>
             <name>missile-rb71</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-71/sound-fire-on-off</property>
@@ -2013,7 +2013,7 @@
         </missile>
         <missile>
             <name>missile-rb24j</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-24j/sound-fire-on-off</property>
@@ -2032,7 +2032,7 @@
         </missile>
         <missile>
             <name>missile-rb74</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-74/sound-fire-on-off</property>
@@ -2051,7 +2051,7 @@
         </missile>
         <missile>
             <name>missile-rb99</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-99/sound-fire-on-off</property>
@@ -2070,7 +2070,7 @@
         </missile>
         <missile>
             <name>missile-rb05</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-05a/sound-fire-on-off</property>
@@ -2089,7 +2089,7 @@
         </missile>
         <missile>
             <name>missile-rb75</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-75/sound-fire-on-off</property>
@@ -2108,7 +2108,7 @@
         </missile>
         <missile>
             <name>missile-rb04</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-04e/sound-fire-on-off</property>
@@ -2127,7 +2127,7 @@
         </missile>
         <missile>
             <name>missile-m90</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/m90/sound-fire-on-off</property>
@@ -2146,7 +2146,7 @@
         </missile>
         <missile>
             <name>missile-rb24</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-24/sound-fire-on-off</property>
@@ -2165,7 +2165,7 @@
         </missile>
         <missile>
             <name>missile-rb15</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-15f/sound-fire-on-off</property>
@@ -2185,7 +2185,7 @@
 
         <m70>
             <name>m70</name>
-            <path>Aircraft/JA37/Sounds/M70-release-all.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/M70-release-all.wav</path>
             <mode>once</mode>
             <condition>
                 <or>
@@ -2229,7 +2229,7 @@
             <name>rb24-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/aim-9-growl.wav</path>
             <condition>
                 <property>payload/armament/rb-24/sound-on-off</property>
             </condition>
@@ -2253,7 +2253,7 @@
             <name>rb24j-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/aim-9-growl.wav</path>
             <condition>
                 <property>payload/armament/rb-24j/sound-on-off</property>
             </condition>
@@ -2277,7 +2277,7 @@
             <name>rb74-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/aim-9-growl.wav</path>
             <condition>
                 <property>payload/armament/rb-74/sound-on-off</property>
             </condition>
@@ -2300,7 +2300,7 @@
         <missile-hit>
             <!-- multiple of these so the sound can be played over each other -->
             <name>missile-hit1</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2321,7 +2321,7 @@
 
         <missile-hit>
             <name>missile-hit2</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2342,7 +2342,7 @@
 
         <missile-hit>
             <name>missile-hit3</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2363,7 +2363,7 @@
 
         <missile-hit>
             <name>missile-hit4</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2384,7 +2384,7 @@
 
         <missile-hit>
             <name>missile-hit5</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2405,7 +2405,7 @@
 
         <missile-hit>
             <name>missile-hit6</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2426,7 +2426,7 @@
 
         <missile-hit>
             <name>missile-hit7</name>
-            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2658,7 +2658,7 @@
 
         <gamma>
             <name>gamma</name>
-            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/es/sound-fire-on-off</property>
