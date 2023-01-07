@@ -1937,10 +1937,16 @@
                 <y-m>0.2032</y-m>
                 <z-m>-0.9124</z-m>
             </position>
-            <reference-dist>100</reference-dist>
+            <reference-dist>40</reference-dist>
             <max-dist>3000</max-dist>
             <volume>
-                <factor>0.4</factor>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </cannon>
         <cannon>
@@ -1961,10 +1967,16 @@
                 <y-m>2.6986</y-m>
                 <z-m>-0.8670</z-m>
             </position>
-            <reference-dist>100</reference-dist>
+            <reference-dist>40</reference-dist>
             <max-dist>3000</max-dist>
             <volume>
-                <factor>0.4</factor>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </cannon>
         <cannon>
@@ -1985,168 +1997,22 @@
                 <y-m>-2.6986</y-m>
                 <z-m>-0.8670</z-m>
             </position>
-            <reference-dist>100</reference-dist>
+            <reference-dist>40</reference-dist>
             <max-dist>3000</max-dist>
             <volume>
-                <factor>0.4</factor>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </cannon>
 
         <missile>
-            <name>missile-rb71</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-71/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> 3.15986 </x>
-                <y> -2.70311 </y>
-                <z> -0.67645 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-rb24j</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-24j/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> 3.15986 </x>
-                <y> -2.70311 </y>
-                <z> -0.67645 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-rb74</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-74/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> -1.02697 </x>
-                <y> -0.98148 </y>
-                <z> -0.94307 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-rb99</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-99/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> 3.15986 </x>
-                <y> 2.70311 </y>
-                <z> -0.67645 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-rb05</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-05a/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> -1.02697 </x>
-                <y> 0.98148 </y>
-                <z> -0.94307 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-rb75</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-75/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> 4.05216 </x>
-                <y> -3.94417 </y>
-                <z> -0.73722 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-rb04</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/rb-04e/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> 4.05216 </x>
-                <y>  3.94417 </y>
-                <z> -0.73722 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
-            <name>missile-m90</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
-            <mode>once</mode>
-            <condition>
-                <property>payload/armament/m90/sound-fire-on-off</property>
-            </condition>
-            <reference-dist>25</reference-dist>
-            <max-dist>10000</max-dist>
-            <position>
-                <x> -0.09941 </x>
-                <y> 0.01 </y>
-                <z> -0.97819 </z>
-            </position>
-            <volume>
-                <factor>0.75</factor>
-                <max>1</max>
-            </volume>
-        </missile>
-        <missile>
             <name>missile-rb24</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/missile-short.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-24/sound-fire-on-off</property>
@@ -2159,16 +2025,165 @@
                 <z> -0.97819 </z>
             </position>
             <volume>
-                <factor>0.75</factor>
-                <max>1</max>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>0.6</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </missile>
         <missile>
-            <name>missile-rb15</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
+            <name>missile-rb24j</name>
+            <path>Aircraft/JA37/Sounds/weapons/missile-short.wav</path>
             <mode>once</mode>
             <condition>
-                <property>payload/armament/rb-15f/sound-fire-on-off</property>
+                <property>payload/armament/rb-24j/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> 3.15986 </x>
+                <y> -2.70311 </y>
+                <z> -0.67645 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>0.6</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-rb74</name>
+            <path>Aircraft/JA37/Sounds/weapons/missile-short.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-74/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -1.02697 </x>
+                <y> -0.98148 </y>
+                <z> -0.94307 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>0.6</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-rb71</name>
+            <path>Aircraft/JA37/Sounds/weapons/missile-med.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-71/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> 3.15986 </x>
+                <y> -2.70311 </y>
+                <z> -0.67645 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1</ind><dep>0.5</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-rb99</name>
+            <path>Aircraft/JA37/Sounds/weapons/missile-short.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-99/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> 3.15986 </x>
+                <y> 2.70311 </y>
+                <z> -0.67645 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>0.8</dep></entry>
+                        <entry><ind>1</ind><dep>0.4</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-rb05</name>
+            <path>Aircraft/JA37/Sounds/weapons/missile-med.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-05a/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -1.02697 </x>
+                <y> 0.98148 </y>
+                <z> -0.94307 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1</ind><dep>0.5</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-rb75</name>
+            <path>Aircraft/JA37/Sounds/weapons/missile-med.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-75/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> 4.05216 </x>
+                <y> -3.94417 </y>
+                <z> -0.73722 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>0.8</dep></entry>
+                        <entry><ind>1</ind><dep>0.4</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-m90</name>
+            <path>Aircraft/JA37/Sounds/weapons/bomb-release.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/m90/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -2177,9 +2192,12 @@
                 <y> 0.01 </y>
                 <z> -0.97819 </z>
             </position>
+            <pitch>
+                <factor>2.0</factor>
+            </pitch>
             <volume>
-                <factor>0.75</factor>
-                <max>1</max>
+                <property>sim/current-view/internal</property>
+                <factor>0.2</factor>
             </volume>
         </missile>
 
@@ -2201,6 +2219,7 @@
                 <factor>1.5</factor>
             </pitch>
             <volume>
+                <property>sim/current-view/internal</property>
                 <factor>0.3</factor>
             </volume>
         </release>
@@ -2242,8 +2261,13 @@
                 </or>
             </condition>
             <volume>
-                <factor>0.75</factor>
-                <max>1</max>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1</ind><dep>0.5</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </m70>
 
@@ -2265,7 +2289,8 @@
                 <factor>0.5</factor>
             </pitch>
             <volume>
-                <factor>0.5</factor>
+                <property>sim/current-view/internal</property>
+                <factor>0.4</factor>
             </volume>
         </jettison>
         <jettison>
@@ -2277,7 +2302,7 @@
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
-            <delay-sec>0.2</delay-sec>
+            <delay-sec>0.3</delay-sec>
             <position>
                 <x> 1.0 </x>
                 <y> 3 </y>
@@ -2287,6 +2312,7 @@
                 <factor>1.5</factor>
             </pitch>
             <volume>
+                <property>sim/current-view/internal</property>
                 <factor>0.4</factor>
             </volume>
         </jettison>
@@ -2366,7 +2392,7 @@
         <missile-hit>
             <!-- multiple of these so the sound can be played over each other -->
             <name>missile-hit1</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2387,7 +2413,7 @@
 
         <missile-hit>
             <name>missile-hit2</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2408,7 +2434,7 @@
 
         <missile-hit>
             <name>missile-hit3</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2429,7 +2455,7 @@
 
         <missile-hit>
             <name>missile-hit4</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2450,7 +2476,7 @@
 
         <missile-hit>
             <name>missile-hit5</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2471,7 +2497,7 @@
 
         <missile-hit>
             <name>missile-hit6</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
@@ -2492,7 +2518,7 @@
 
         <missile-hit>
             <name>missile-hit7</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J-explosion.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/explosion.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
