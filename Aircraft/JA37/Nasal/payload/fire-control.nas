@@ -1065,10 +1065,10 @@ if (variant.JA) {
         akan: SubModelWeapon.new("M55"),
         arak: SubModelWeapon.new("M70"),
         rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay:2.0, at_everything:1, cycling:0),
-        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_multi_delay:2.0, at_everything:1, can_start_right:1),
-        m90: Missile.new(type:"M90", at_everything:1, can_start_right:1, fire_multi_press:1),
+        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_delay:0.5, fire_multi_delay:2.0, at_everything:1, can_start_right:1),
+        m90: Missile.new(type:"M90", fire_delay: 0.2, fire_multi_press:1, at_everything:1, can_start_right:1),
         rb05: Rb05,
-        rb75: Missile.new(type:"RB-75", fire_delay:1, need_lock:1, can_start_right:1),
+        rb75: Missile.new(type:"RB-75", fire_delay:0.7, need_lock:1, can_start_right:1),
         bomb: Bomb.new(type:"M71", multi_types: ["M71", "M71R"]),
     };
 
