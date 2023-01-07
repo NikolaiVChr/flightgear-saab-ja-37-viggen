@@ -12,6 +12,8 @@ var input = {
     wow1:       "fdm/jsbsim/gear/unit[1]/WOW",
     xtank_load: "/payload/weight[6]",
     xtank_fuel: "/consumables/fuel/tank[8]",
+    sound_tank: "/ja37/sound/jettison-tank",
+    sound_jett: "/ja37/sound/jettison-stores",
 };
 
 foreach (var prop; keys(input)) {
@@ -334,17 +336,28 @@ var jettison_pylon = func (pylon) {
 var jettison_tank = func {
     ja37.click();
     if (!can_jettison()) return;
+    if (xtank_props.jettisoned.getBoolValue()) return;
 
     set_droptank(FALSE);
+    input.sound_tank.setBoolValue(TRUE);
+    settimer(func { input.sound_tank.setBoolValue(FALSE); }, 1.0);
 }
 
 var jettison_stores = func {
     ja37.click();
     if (!can_jettison()) return;
 
+    jettison_tank();
+
     # Do not jettison outer pylons.
+    var released = FALSE;
     foreach(var pylon; [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H]) {
+        if (get_pylon_load(pylon) != '') released = TRUE;
         jettison_pylon(pylon);
     }
-    jettison_tank();
+
+    if (released) {
+        input.sound_jett.setBoolValue(TRUE);
+        settimer(func { input.sound_jett.setBoolValue(FALSE); }, 1.0);
+    }
 }

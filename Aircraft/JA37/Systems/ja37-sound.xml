@@ -2225,6 +2225,50 @@
             </volume>
         </m70>
 
+        <jettison>
+            <name>jettison-tank</name>
+            <path>Aircraft/JA37/Sounds/weapons/bomb-release.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>ja37/sound/jettison-tank</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -0.09941 </x>
+                <y> 0.01 </y>
+                <z> -0.97819 </z>
+            </position>
+            <pitch>
+                <factor>0.5</factor>
+            </pitch>
+            <volume>
+                <factor>0.5</factor>
+            </volume>
+        </jettison>
+        <jettison>
+            <name>jettison-stores</name>
+            <path>Aircraft/JA37/Sounds/weapons/bomb-release.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>ja37/sound/jettison-stores</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <delay-sec>0.2</delay-sec>
+            <position>
+                <x> 1.0 </x>
+                <y> 3 </y>
+                <z> -0.97819 </z>
+            </position>
+            <pitch>
+                <factor>1.5</factor>
+            </pitch>
+            <volume>
+                <factor>0.4</factor>
+            </volume>
+        </jettison>
+
         <rb24-signal>
             <name>rb24-signal</name>
             <mode>looped</mode>
