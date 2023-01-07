@@ -253,14 +253,6 @@
             <mode>looped</mode>
             <condition>
                 <property>sim/current-view/internal</property>
-                <greater-than>
-                    <property>engines/engine/n1</property>
-                    <value>0.5</value>
-                </greater-than>
-                <less-than>
-                    <property>engines/engine/n1</property>
-                    <value>85.0</value>
-                </less-than>
             </condition>
             <reference-dist>30</reference-dist>
             <max-dist>100</max-dist>
@@ -280,11 +272,17 @@
                 <factor>.0075</factor>
             </pitch>
             <volume>
-                <difference>
-                    <value>100</value>
-                    <property>engines/engine/n1</property>
-                </difference>
-                <factor>0.02</factor>
+                <expression>
+                    <table>
+                        <property>engines/engine/n1</property>
+                        <entry><ind>0</ind><dep>0</dep></entry>
+                        <entry><ind>5</ind><dep>0.05</dep></entry>
+                        <entry><ind>30</ind><dep>0.15</dep></entry>
+                        <entry><ind>60</ind><dep>0.15</dep></entry>
+                        <entry><ind>85</ind><dep>0.05</dep></entry>
+                        <entry><ind>100</ind><dep>0.0</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </engine_idle_cockpit>
 
@@ -310,7 +308,7 @@
             </orientation>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
-                <factor>0.00002</factor>
+                <factor>0.00004</factor>
             </volume>
             <pitch>
                 <property>engines/engine/n1</property>
@@ -340,11 +338,55 @@
                 <z>0.0</z>
             </orientation>
             <volume>
-                <property>fdm/jsbsim/propulsion/engine/zone-scaled</property>
-                <offset>0.05</offset>
-                <factor>0.2</factor>
+                <expression>
+                    <table>
+                        <property>fdm/jsbsim/propulsion/engine/zone-scaled</property>
+                        <entry><ind>0</ind><dep>0.0</dep></entry>
+                        <!-- zone 1 -->
+                        <entry><ind>0.1</ind><dep>0.25</dep></entry>
+                        <entry><ind>0.3</ind><dep>0.50</dep></entry>
+                        <!-- zone 2 -->
+                        <entry><ind>0.4</ind><dep>0.75</dep></entry>
+                        <entry><ind>0.6</ind><dep>1.00</dep></entry>
+                        <!-- zone 3 -->
+                        <entry><ind>0.7</ind><dep>1.25</dep></entry>
+                        <entry><ind>1.0</ind><dep>1.50</dep></entry>
+                    </table>
+                </expression>
             </volume>
         </engine_augmented_cockpit>
+
+        <engine_augmented_ignition>
+            <name>afterburner ignition</name>
+            <path>Aircraft/JA37/Sounds/engine/afterburner-ignition.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <property>sim/current-view/internal</property>
+                <property>fdm/jsbsim/propulsion/engine/zone-ignition</property>
+            </condition>
+            <reference-dist>30</reference-dist>
+            <max-dist>100</max-dist>
+            <position>
+                <x>-0.6</x>
+                <y>0.00</y>
+                <z>0.20</z>
+            </position>
+            <orientation>
+                <x>-0.98</x>
+                <y>0.0</y>
+                <z>0.0</z>
+            </orientation>
+            <volume>
+                <expression>
+                    <table>
+                        <property>fdm/jsbsim/propulsion/engine/zone-active</property>
+                        <entry><ind>0</ind><dep>0.5</dep></entry>
+                        <entry><ind>1</ind><dep>0.6</dep></entry>
+                        <entry><ind>2</ind><dep>0.7</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </engine_augmented_ignition>
 
         <!--                               Model/tower View                        engine                                   -->
 
