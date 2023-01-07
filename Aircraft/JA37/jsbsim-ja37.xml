@@ -293,6 +293,7 @@
   <flight_control file="Systems/jsb-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
   <system file="jsb-hydraulic"/>
+  <system file="jsb-engine"/>
   <system file="jsb-flight"/>
   <system file="jsb-electric"/>
   <system file="jsb-instruments"/>

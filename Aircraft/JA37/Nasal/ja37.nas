@@ -34,7 +34,6 @@ input = {
   apLockHead:       "autopilot/locks/heading",
   apLockSpeed:      "autopilot/locks/speed",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
-  augmentation:     "/controls/engines/engine[0]/augmentation",
   #autoReverse:      "ja37/autoReverseThrust",
   breathVol:        "ja37/sound/breath-volume",
   buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
@@ -52,7 +51,6 @@ input = {
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
   envVol:           "ja37/sound/environment-volume",
-  fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   fuelRatio:        "/instrumentation/fuel/ratio",
@@ -293,16 +291,9 @@ var Saab37 = {
       return;
     }
 
-    ## control augmented thrust ##
     me.n1 = input.n1.getValue();
     me.n2 = input.n2.getValue();
     me.reversed = input.reversed.getValue();
-
-    if ( input.fdmAug.getValue() == TRUE) { #was 99 and 97
-      input.augmentation.setBoolValue(TRUE);
-    } else {
-      input.augmentation.setBoolValue(FALSE);
-    }
 
     # RWR
     rwr.loop();

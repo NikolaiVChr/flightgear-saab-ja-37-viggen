@@ -1004,7 +1004,6 @@
                 <engine>
                     <augmentation type="double">0</augmentation>
                     <zone type="double">0</zone>
-                    <zone-factor type="double">1</zone-factor>
                     <aug-flame type="double">0</aug-flame>
                     <cutoff-commanded type="bool">true</cutoff-commanded>
                 </engine>
