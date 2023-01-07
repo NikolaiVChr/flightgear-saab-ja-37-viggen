@@ -16,6 +16,7 @@ var input = {
     trigger_m70:    "/controls/armament/trigger-m70",
     release:        "/instrumentation/indicators/release-complete",
     release_fail:   "/instrumentation/indicators/release-failed",
+    release_sound:  "/ja37/sound/weapon-release",
     mp_msg:         "/payload/armament/msg",
     atc_msg:        "/sim/messages/atc",
     rb05_pitch:     "/payload/armament/rb05-control-pitch",
@@ -43,6 +44,12 @@ foreach (var prop; keys(input)) {
 # This is the TI fire log
 # damage.damageLog is for the "combat log" dialog
 var fireLog = events.LogBuffer.new(echo: 0);
+
+
+var play_release_sound = func {
+    input.release_sound.setBoolValue(TRUE);
+    settimer(func { input.release_sound.setBoolValue(FALSE); }, 0.8);
+}
 
 
 ### Pylon names
@@ -167,8 +174,9 @@ var Missile = {
     #   cycling: (bool) Cycling pylon is allowed with the FRAMSTEGN button. default ON
     #   fire_multi_press: (bool) Allow firing several weapons without safing the trigger.
     #   can_start_right: (bool) The AJS ground panel L/R switch is taken in account to choose the first fired side.
+    #   release_sound: (bool) Play generic drop sound at release (independent from missile.nas engine start sound).
     new: func(type, multi_types=nil, falld_last=0, fire_delay=0, fire_multi_delay=0, hold_trigger=0,
-              at_everything=0, need_lock=0, cycling=1, fire_multi_press=0, can_start_right=0) {
+              at_everything=0, need_lock=0, cycling=1, fire_multi_press=0, can_start_right=0, release_sound=0) {
         var w = { parents: [Missile, WeaponLogic.new(type, multi_types)], };
         w.selected = nil;
         w.station = nil;
@@ -183,6 +191,7 @@ var Missile = {
         w.cycling = cycling;
         w.fire_multi_press = fire_multi_press;
         w.can_start_right = can_start_right;
+        w.release_sound = release_sound;
 
         if (w.fire_delay > 0 or w.fire_multi_delay > 0) {
             w.release_timer = maketimer(w.fire_delay, w, w.release_weapon);
@@ -337,6 +346,7 @@ var Missile = {
         damage.damageLog.push(phrase);
 
         me.station.fireWeapon(0, me.at_everything ? radar.get_complete_list() : nil);
+        if (me.release_sound) play_release_sound();
 
         me.weapon = nil;
         me.fired = TRUE;
@@ -1064,8 +1074,10 @@ if (variant.JA) {
         ir_rb: Missile.new(type:"IR-RB", multi_types: ["RB-24", "RB-24J", "RB-74"], fire_delay:0.7),
         akan: SubModelWeapon.new("M55"),
         arak: SubModelWeapon.new("M70"),
-        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay:2.0, at_everything:1, cycling:0),
-        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_delay:0.5, fire_multi_delay:2.0, at_everything:1, can_start_right:1),
+        rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay:2.0,
+                          at_everything:1, cycling:0, release_sound:1),
+        rb15: Missile.new(type:"RB-15F", falld_last:1, fire_delay:0.5, fire_multi_delay:2.0,
+                          at_everything:1, can_start_right:1, release_sound:1),
         m90: Missile.new(type:"M90", fire_delay: 0.2, fire_multi_press:1, at_everything:1, can_start_right:1),
         rb05: Rb05,
         rb75: Missile.new(type:"RB-75", fire_delay:0.7, need_lock:1, can_start_right:1),

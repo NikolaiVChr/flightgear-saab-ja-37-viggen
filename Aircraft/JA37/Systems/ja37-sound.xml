@@ -2183,6 +2183,28 @@
             </volume>
         </missile>
 
+        <release>
+            <name>missile-release</name>
+            <path>Aircraft/JA37/Sounds/weapons/bomb-release.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>ja37/sound/weapon-release</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -0.09941 </x>
+                <y> 0.01 </y>
+                <z> -0.97819 </z>
+            </position>
+            <pitch>
+                <factor>1.5</factor>
+            </pitch>
+            <volume>
+                <factor>0.3</factor>
+            </volume>
+        </release>
+
         <m70>
             <name>m70</name>
             <path>Aircraft/JA37/Sounds/weapons/M70-release-all.wav</path>

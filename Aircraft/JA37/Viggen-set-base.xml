@@ -628,6 +628,7 @@
             <dist-thunder3 type="double">0.0</dist-thunder3>
             <jettison-tank type="bool">false</jettison-tank>
             <jettison-stores type="bool">false</jettison-stores>
+            <weapon-release type="bool">false</weapon-release>
             <environment-volume type="double">0.0</environment-volume>
             <rain-volume type="double">0.0</rain-volume>
             <floor-ft type="double">-10000</floor-ft>
