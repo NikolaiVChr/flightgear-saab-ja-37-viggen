@@ -597,7 +597,7 @@
                 <max>2</max>
             </pitch>
             <volume>
-                <max>0.40</max>
+                <max>0.50</max>
             </volume>
         </rumble>
 
@@ -625,14 +625,11 @@
         </brake>
 
         <brake-wind>
-            <name>wind</name>
+            <name>speedbrake-wind</name>
             <mode>looped</mode>
             <path>Aircraft/JA37/Sounds/speedbrake-wind.wav</path>
             <condition>
-                <greater-than>
-                    <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
-                    <value>0.1</value>
-                </greater-than>
+                <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
             </condition>
             <reference-dist>3</reference-dist>
             <max-dist>10</max-dist>
@@ -643,10 +640,35 @@
             </position>
             <volume>
                 <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+                <type>sqrt</type>
             </volume>
             <volume>
                 <property>velocities/airspeed-kt</property>
-                <factor>0.0012</factor>
+                <factor>0.0015</factor>
+            </volume>
+        </brake-wind>
+
+        <brake-wind>
+            <name>gear-wind</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/speedbrake-wind.wav</path>
+            <condition>
+                <property>gear/gear[0]/position-norm</property>
+            </condition>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
+            <position>
+                <x>0.00</x>
+                <y>0.00</y>
+                <z>0.00</z>
+            </position>
+            <volume>
+                <property>gear/gear[0]/position-norm</property>
+                <type>sqrt</type>
+            </volume>
+            <volume>
+                <property>velocities/airspeed-kt</property>
+                <factor>0.003</factor>
             </volume>
         </brake-wind>
 
@@ -670,7 +692,7 @@
             <max-dist>10</max-dist>
             <volume>
                 <property>velocities/groundspeed-kt</property>
-                <type>log</type>
+                <type>sqrt</type>
                 <factor>0.025</factor>
             </volume>
         </roll>
@@ -678,6 +700,7 @@
         <squeal>
             <name>touchdown squeal</name>
             <path>Sounds/squeal.wav</path>
+            <mode>once</mode>
             <condition>
                 <and>
                     <or>
