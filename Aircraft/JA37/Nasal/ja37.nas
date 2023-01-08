@@ -35,7 +35,6 @@ input = {
   apLockSpeed:      "autopilot/locks/speed",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   #autoReverse:      "ja37/autoReverseThrust",
-  breathVol:        "ja37/sound/breath-volume",
   buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
@@ -171,8 +170,6 @@ var Saab37 = {
       }    
     }
     me.oldUnit = me.currentUnit;
-    # breath sound volume
-    input.breathVol.setDoubleValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
     # Properties to adjust color depending on scene light.
     var red = input.sceneRed.getValue();
