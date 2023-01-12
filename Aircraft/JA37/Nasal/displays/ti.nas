@@ -2443,10 +2443,10 @@ var TI = {
 			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.getNameNumber()));
 			me.menuButtonSub[17].show();
 			me.menuButtonSub[15].show();
-			if (route.Polygon.editing != nil and (route.Polygon.editing.type == route.TYPE_MISS or route.Polygon.editing.type == route.TYPE_MIX)) {
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_MISS) {
 				me.menuButtonSubBox[16].show();
 			}
-			if (route.Polygon.editing != nil and (route.Polygon.editing.type == route.TYPE_RTB or route.Polygon.editing.type == route.TYPE_MIX)) {
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_RTB) {
 				me.menuButtonSubBox[14].show();
 			}
 			me.menuButtonSub[14].show();
@@ -3894,40 +3894,32 @@ var TI = {
 		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
 		me.steerRot = -me.input.heading.getValue()*D2R;
 		if (me.menuMain == MAIN_MISSION_DATA) {
-			if (route.Polygon.primary.type == route.TYPE_MIX) {
-				me.all_plans = [[route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
-			} else {
-				append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["2A"], route.Polygon.polys["2A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["2B"], route.Polygon.polys["2B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["3A"], route.Polygon.polys["3A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["3B"], route.Polygon.polys["3B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["4A"], route.Polygon.polys["4A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["4B"], route.Polygon.polys["4B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP4"], route.Polygon.polys["OP4"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP5"], route.Polygon.polys["OP5"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
-			}
+			append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2A"], route.Polygon.polys["2A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2B"], route.Polygon.polys["2B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3A"], route.Polygon.polys["3A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3B"], route.Polygon.polys["3B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4A"], route.Polygon.polys["4A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4B"], route.Polygon.polys["4B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP4"], route.Polygon.polys["OP4"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP5"], route.Polygon.polys["OP5"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
 		} else {
-			if (route.Polygon.primary.type != route.TYPE_MIX) {
-				me.all_plans = [[route.Polygon.primary, FALSE, FALSE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
-				append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
-			} else {
-				me.all_plans = [[route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
-			}
+			me.all_plans = [[route.Polygon.primary, FALSE, FALSE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
+			append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
 		}
 
 		me.nextDist = getprop("autopilot/route-manager/wp/dist");
@@ -4080,7 +4072,7 @@ var TI = {
 					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
 					if (me.curr_plan[1] or (!me.curr_plan[1] and !me.curr_plan[2])) {
 						# plan is being edited or we are not in MSDA page so set text name by it.
-						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA?"":(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA)));
+						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA ?"":(me.target_wp?me.steerM:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA));
 						me.steerpointText[me.wpIndex].setText(me.wp_pre~(wp+1));
 						me.steerpointText[me.wpIndex].show();
 					} else {
@@ -4511,10 +4503,10 @@ var TI = {
 			me.textBMode.setColor(COLOR_WHITE);
 		} elsif ((land.mode_B_active == TRUE or land.mode_LA_active == TRUE) and route.Polygon.primary != nil) {
 			me.target_wp = route.Polygon.primary.isTarget(route.Polygon.primary.getIndex());
-			me.wp_pre = route.Polygon.primary.type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA));
+			me.wp_pre = me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA);
 			me.wp_post = route.Polygon.primary.getIndex()+1;
 			me.mode = me.wp_pre~me.wp_post;
-			if (route.Polygon.primary.type == route.TYPE_MIX or !me.target_wp) {
+			if (!me.target_wp) {
 				me.textBMode.setColor(COLOR_TYRK);
 			} else {
 				me.textBMode.setColor(COLOR_WHITE);

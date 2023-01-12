@@ -994,8 +994,6 @@ var test_support = func {
   var version = split(".", versionString);
   var minVersion = split(".", minVersionString);
 
-  setprop("ja37/supported/picking", lexi_compare(version, [2017,2]) >= 0);
-  setprop("ja37/supported/multiple-flightplans", lexi_compare(version, [2017,3,1]) >= 0);
   setprop("ja37/supported/compositor", lexi_compare(version, [2020,4,0]) >= 0);
   setprop("ja37/supported/canvas-arcs", lexi_compare(version, [2020,4,0]) >= 0);
 

@@ -49,46 +49,37 @@ var Polygon = {
 		#class:
 		# setup 4 mission and 2 RTB plans. Plus 6 polygon areas.
 		#
-		me.multi = getprop("ja37/supported/multiple-flightplans");
-		if (me.multi == TRUE) {
-			var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
-			Polygon.polys["1"] = poly1;
-			for (var i = 2; i<=4; i+=1) {
-				var poly = Polygon.new(str(i), "", TYPE_MISS, getprop("xmlPlans/mission"~i));
-				Polygon.polys[str(i)] = poly;
-			}
-			for (var i = 1; i<=4; i+=1) {
-				var polyA = Polygon.new(str(i), "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
-				Polygon.polys[polyA.getName()]   = polyA;
-
-				var polyB = Polygon.new(str(i), "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
-				Polygon.polys[polyB.getName()]   = polyB;
-			}
-			for (var i = 1; i<=6; i+=1) {
-				var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
-				Polygon.polys["OP"~i] = poly;
-			}
-		
-			Polygon.editRTB      = Polygon.polys["1A"];
-			Polygon.editMiss     = poly1;
-			Polygon.flyRTB       = Polygon.polys["1A"];
-			Polygon.flyMiss      = poly1;
-			poly1.setAsPrimary();
-			
-			#now set current pos as start base:
-            #var apts = findAirportsWithinRange(25.0);
-            #if (size(apts)) {
-            #	Polygon.takeoffBase = apts[0];
-            #   	Polygon.setTakeoff();
-            #}
-		} else {
-			var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
-			Polygon.primary      = poly1;
-			Polygon.flyRTB       = poly1;
-			Polygon.flyMiss      = poly1;
-			Polygon.editRTB      = poly1;
-			Polygon.editMiss     = poly1;
+		var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
+		Polygon.polys["1"] = poly1;
+		for (var i = 2; i<=4; i+=1) {
+			var poly = Polygon.new(str(i), "", TYPE_MISS, getprop("xmlPlans/mission"~i));
+			Polygon.polys[str(i)] = poly;
 		}
+		for (var i = 1; i<=4; i+=1) {
+			var polyA = Polygon.new(str(i), "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
+			Polygon.polys[polyA.getName()]   = polyA;
+
+			var polyB = Polygon.new(str(i), "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
+			Polygon.polys[polyB.getName()]   = polyB;
+		}
+		for (var i = 1; i<=6; i+=1) {
+			var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
+			Polygon.polys["OP"~i] = poly;
+		}
+
+		Polygon.editRTB      = Polygon.polys["1A"];
+		Polygon.editMiss     = poly1;
+		Polygon.flyRTB       = Polygon.polys["1A"];
+		Polygon.flyMiss      = poly1;
+		poly1.setAsPrimary();
+
+		#now set current pos as start base:
+		#var apts = findAirportsWithinRange(25.0);
+		#if (size(apts)) {
+		#	Polygon.takeoffBase = apts[0];
+		#   	Polygon.setTakeoff();
+		#}
+
 		Polygon._setupListeners();
 		var dlg = gui.Dialog.new("/sim/gui/dialogs/route-manager/dialog", "Aircraft/JA37/gui/dialogs/route-manager.xml", "route-manager");
 		printDA("JA: finished plan Init");
@@ -1255,7 +1246,6 @@ var Polygon = {
 		# A loop that set the DAP display info on next steerpoint, will only be shown in DAP POS/OUT mode.
 		# It also enables the save buttons in the dialog.
 		#
-		if(!Polygon.multi) return;
 		dap.posOutDisplay = "       ";
 		if (Polygon.isPrimaryActive()) {
 			me.steer = Polygon.primary.getSteerpoint();
