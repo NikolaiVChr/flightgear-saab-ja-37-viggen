@@ -1795,9 +1795,6 @@
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
         </tyre>
-        <route>
-            <file>Aircraft/JA37/Nasal/navigation/flightplans.nas</file>
-        </route>
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>

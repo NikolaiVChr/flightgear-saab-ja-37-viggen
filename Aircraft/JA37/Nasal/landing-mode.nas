@@ -345,16 +345,19 @@ var Landing = {
         ils = 0;
 
         me.heading = input.heading.getValue();#true
-    	if (route.Polygon.isPrimaryActive() == TRUE) {
+        if (input.rmActive.getBoolValue()) {
             has_waypoint = 0;
             runway_dist = input.rmDist.getValue();        
             me.bearing = input.rmBearing.getValue();#true
-            if (runway_dist != nil and me.bearing != nil and me.heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
+
+            if (variant.JA) me.wp = route.Polygon.primary.getSteerpoint();
+            else me.wp = navigation.get_wp_for_landing_mode(flightplan());
+
+            if (runway_dist != nil and me.bearing != nil and me.heading != nil and me.wp[0] != nil) {
                 has_waypoint = 1;
-                me.wp = route.Polygon.primary.getSteerpoint();
                 #print("current: "~ghosttype(wp[0]));
               	me.name = me.wp[0].id;
-                if (route.Polygon.primary.type == route.TYPE_RTB or route.Polygon.primary.type == route.TYPE_MIX) {
+                if (variant.AJS or route.Polygon.primary.type == route.TYPE_RTB) {
                     if (ghosttype(me.wp[0]) == "airport") {
                         ils = 0;
                         icao   = me.wp[0].id;
@@ -423,7 +426,7 @@ var Landing = {
         		approach_circle = me.runwayCoord;
                 if (getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE and mode_LA_active == FALSE) {
                     # seems route manager was activated through FG menu.
-                    if (route.Polygon.primary == route.Polygon.flyMiss) {
+                    if (variant.AJS or route.Polygon.primary == route.Polygon.flyMiss) {
                         mode_B_active = TRUE;
                     } else {
                         mode_LA_active = TRUE;
@@ -555,7 +558,9 @@ var Landing = {
                     printDA("mode 4");
                 } else {
                     mode = 0;
-                    if (route.Polygon.primary.type == route.TYPE_MISS) {
+                    if (variant.AJS) {
+                        # noop
+                    } elsif (route.Polygon.primary.type == route.TYPE_MISS) {
                         mode_B_active = TRUE;
                         mode_L_active = FALSE;
                         mode_LA_active = FALSE;

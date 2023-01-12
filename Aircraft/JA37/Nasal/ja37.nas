@@ -776,7 +776,7 @@ var Saab37 = {
     modes.update();
 
     # flightplans
-    route.poly_start();
+    if (variant.JA) route.poly_start();
 
     # displays commons
     displays.common.loop();

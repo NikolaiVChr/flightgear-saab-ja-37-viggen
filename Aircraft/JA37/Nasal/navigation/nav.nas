@@ -65,6 +65,20 @@ var destination_set = func(fp) {
         (wp_match_airport(wp, fp.destination) or wp_match_runway(wp, fp.destination, fp.destination_runway));
 }
 
+# duplicate of Polygon.getSteerpoint(), for AJS
+var get_wp_for_landing_mode = func(fp) {
+    #instance:
+    # Return a vector with curent steerpoint. If runway [runway, airport]. If airport [airport]. Else [leg].
+    #
+    if (fp.current == fp.getPlanSize()-1 and fp.destination_runway != nil and fp.destination != nil) {
+        return [fp.destination_runway, fp.destination];
+    }
+    if (fp.current == fp.getPlanSize()-1 and fp.destination != nil) {
+        return [fp.destination];
+    }
+    return [fp.currentWP()];
+}
+
 
 var set_wp_name = func(type, number) {
     input.wp_ind_type.setValue(type);

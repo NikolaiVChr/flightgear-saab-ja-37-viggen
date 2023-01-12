@@ -333,6 +333,9 @@
     </instrumentation>
 
     <nasal>
+        <route>
+            <file>Aircraft/JA37/Nasal/navigation/flightplans.nas</file>
+        </route>
         <MI>
             <file>Aircraft/JA37/Nasal/displays/mi.nas</file>
         </MI>
