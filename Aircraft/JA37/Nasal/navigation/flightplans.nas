@@ -1,4 +1,3 @@
-var TYPE_MIX  = 0;# plan has both mission and RTB
 var TYPE_RTB  = 1;# return to base plan
 var TYPE_MISS = 2;# mission plan
 var TYPE_AREA = 3;# polygon area
@@ -220,7 +219,7 @@ var Polygon = {
 				Polygon.setLand(pln);
 			}
 			newPlan.id = pln;
-			#Polygon._setDestDep(Polygon.polys[pln]);# gpx does not have destination support, so we check if its likely to be an airport and set it
+
 			if (Polygon.polys[pln].isPrimary()) {
 				Polygon._activating = TRUE;
 				Polygon.polys[pln].plan.activate();
@@ -234,20 +233,6 @@ var Polygon = {
 			#	Polygon.setLand("1B");
 			#} els
 		}
-	},
-
-	setupAJPolygons: func {
-		#class:
-		# setup 1 plan.
-		#
-		Polygon._setupListeners();
-		var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
-		Polygon.primary      = poly1;
-		Polygon.flyRTB       = poly1;
-		Polygon.flyMiss      = poly1;
-		Polygon.editRTB      = poly1;
-		Polygon.editMiss     = poly1;
-		printDA("AJ: finished plan Init");
 	},
 
 	loadAll: func (path) {
@@ -652,7 +637,6 @@ var Polygon = {
 			} else {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
-			#Polygon._setDestDep(Polygon.editing);
 			Polygon.selectSteer = nil;
 			Polygon._apply = FALSE;
 			printDA("toggle delete. ");
@@ -754,7 +738,7 @@ var Polygon = {
 		Polygon.insertSteer = FALSE;
 		Polygon.editDetail  = FALSE;
 		Polygon.dragSteer   = FALSE;
-		if (variant.JA and TI.ti != nil) {
+		if (TI.ti != nil) {
 			TI.ti.stopDAP();
 		}
 	},
@@ -922,43 +906,12 @@ var Polygon = {
 			poly.plan.id = poly.name;
 			#me.alreadyApply = Polygon._apply;
 			#Polygon._apply = TRUE;
-			Polygon._setDestDep(poly);
 			#Polygon._apply = me.alreadyApply;
 			printDA("..it was unexpected");
 		}
 		if (Polygon.primary == Polygon.editing) {
 			Polygon.editSteerpointStop();
 			Polygon.selectSteer = nil;
-		}
-	},
-
-	_setDestDep: func (poly) {
-		#class:
-		# Checks the first and last steerpoints of the plan and sets dest/dep if it is airports.
-		# Must only be called inside _apply or on non-active plan
-		#
-		if (poly.type == TYPE_MIX) {
-			# prioritize setting dest on rtb/mix
-			if (poly.plan.destination == nil and poly.getSize()>0) {
-				me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
-				if (me.lookupID != nil) {
-					me.airport = airportinfo(me.lookupID);
-					if (me.airport != nil and ghosttype(me.airport) == "airport") {
-						poly.plan.deleteWP(poly.getSize()-1);
-						poly.plan.destination = me.airport;
-					}
-				}
-			}
-			if (poly.plan.departure == nil and poly.getSize()>1) {
-				me.lookupID = poly.plan.getWP(0).id;
-				if (me.lookupID != nil) {
-					me.airport = airportinfo(me.lookupID);
-					if (me.airport != nil and ghosttype(me.airport) == "airport") {
-						poly.plan.deleteWP(0);
-						poly.plan.departure = me.airport;
-					}
-				}
-			}
 		}
 	},
 
@@ -1291,11 +1244,7 @@ var poly_start = func {
 	# Setup the polygon system for the aircraft.
 	#
 	#removelistener(lsnr);
-	if (variant.JA) {
-		Polygon.setupJAPolygons();
-	} else {
-		Polygon.setupAJPolygons();
-	}
+	Polygon.setupJAPolygons();
 }
 
 #var lsnr = setlistener("ja37/supported/initialized", poly_start);
