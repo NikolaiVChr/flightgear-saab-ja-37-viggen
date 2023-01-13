@@ -2739,7 +2739,7 @@
 
         <gamma>
             <name>gamma</name>
-            <path>Aircraft/JA37/Sounds/weapons/RB-24J.wav</path>
+            <path>Aircraft/JA37/Sounds/weapons/missile-long.wav</path>
             <mode>once</mode>
             <condition>
                 <property>payload/armament/es/sound-fire-on-off</property>
