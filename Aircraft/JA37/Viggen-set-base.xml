@@ -1889,6 +1889,10 @@
             <file>Aircraft/JA37/Nasal/light-manager.nas</file>
         </lm>
 
+        <str_debug>
+          <file>Aircraft/JA37/Nasal/str_debug.nas</file>
+        </str_debug>
+
         <!-- Uncomment below to enable FGplot -->
         <!--
         <plot>
