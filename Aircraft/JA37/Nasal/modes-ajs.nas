@@ -85,7 +85,6 @@ var update_mode = func {
             }
         }
     }
-
     input.takeoff.setValue(takeoff);
 };
 
@@ -94,17 +93,19 @@ var selector_callback = func (node) {
 
     # Update landing mode
     if (selector_ajs == LND_NAV) {
-        land.LND_NAV();
         landing = TRUE;
+        land.mode = input.approach.getBoolValue() ? 2 : 1;
     } elsif (selector_ajs == LND_OPT) {
-        land.LND_PO();
         landing = TRUE;
+        input.approach.setBoolValue(TRUE);
+        land.mode = 4;
     } else {
-        land.noMode();
         landing = FALSE;
+        input.approach.setBoolValue(FALSE);
     }
+    input.landing.setBoolValue(landing);
 
-    update_mode_ajs();
+    update_mode();
 }
 
 
@@ -126,5 +127,6 @@ var nav_init = func {
 var landing_init = func {
     takeoff = FALSE;
     landing = TRUE;
-    land.LND_PO();
+    input.approach.setBoolValue(TRUE);
+    land.mode = 4;
 }

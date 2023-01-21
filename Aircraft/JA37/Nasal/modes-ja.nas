@@ -20,6 +20,11 @@ foreach (var name; keys(input)) {
 }
 
 
+var debugAll = FALSE;
+var printDA = func (str) {
+    if (debugAll) logprint(LOG_INFO, str);
+}
+
 ## Main modes
 
 var TAKEOFF = 0;
@@ -28,6 +33,19 @@ var AIMING = 2;
 var LANDING = 3;
 
 var main_ja = TAKEOFF;
+
+## Navigation modes
+var NONE = 0;
+var B = 1;
+var LA = 2;
+var L = 3;
+var LB = 4;
+var LF = 5;
+var OPT = 6;
+
+var nav_ja = B;
+
+var TI_show_wp = FALSE;
 
 
 # Variables shared with AJS for shared systems
@@ -80,7 +98,7 @@ var update_mode = func {
     if (main_ja != TAKEOFF and input.wow_nose.getBoolValue()) {
         # nosewheel on runway, switch to takeoff
         main_ja = TAKEOFF;
-        input.landing.setValue(0);
+        landing = FALSE;
 
         takeoff_30s_timer.stop();
         takeoff_30s_inhibit = TRUE;
@@ -100,8 +118,8 @@ var update_mode = func {
         takeoff_30s_timer.start();
     }
 
-    # Switch to/from LANDING mode
-    if (input.landing.getBoolValue()) {
+    # 'landing' flag may be switched by the TI buttons. Check it.
+    if (landing) {
         main_ja = LANDING;
     } else {
         if (main_ja == LANDING) main_ja = NAV;
@@ -110,9 +128,11 @@ var update_mode = func {
     if (main_ja == AIMING and (input.gear_pos.getValue() > 0 or input.ground_warning.getBoolValue()))
         main_ja = NAV;
 
+    # Update landing/takeoff flags to match actual mode.
     takeoff = (main_ja == TAKEOFF);
     landing = (main_ja == LANDING);
     input.takeoff.setValue(takeoff);
+    input.landing.setValue(landing);
 };
 
 var toggle_aiming_mode = func {
@@ -122,17 +142,172 @@ var toggle_aiming_mode = func {
         main_ja = AIMING;
     } elsif (main_ja == LANDING or main_ja == NAV) {
         # Optical landing mode
-        main_ja = LANDING;
-        input.landing.setBoolValue(TRUE);
-        land.OPT();
+        buttons.OPT();
     }
+};
+
+
+## Nav mode update
+
+var update_nav = func {
+    # Landing: reflect landing submode
+    if (landing) {
+        if (land.mode <= 0)     landing = FALSE;
+        elsif (land.mode == 1)  nav_ja = LB;
+        elsif (land.mode == 4)  nav_ja = OPT;
+        else                    nav_ja = LF;
+    }
+
+    # Not landing: reflect selected route
+    if (!landing) {
+        if (!input.rm_active.getBoolValue()) {
+            nav_ja = NONE;
+        } elsif (route.Polygon.primary.type == route.TYPE_MISS) {
+            nav_ja = B;
+        } elsif (route.Polygon.primary.type == route.TYPE_RTB and nav_ja != L) {
+            nav_ja = LA;
+        }
+    }
+
+    TI_show_wp = !landing;
+}
+
+
+## TI buttons
+
+var buttons = {
+    B: func {
+        landing = FALSE;
+        if (!route.Polygon.flyMiss.isPrimary()) {
+            route.Polygon.flyMiss.setAsPrimary();
+            printDA(route.Polygon.flyMiss.name~" set as primary.");
+        }
+
+        if (!route.Polygon.isPrimaryActive()) {
+            if (route.Polygon.primary.getSize() > 0) {
+                printDA("B: activate");
+                route.Polygon.startPrimary();
+                nav_ja = B;
+            } else {
+                printDA("B: empty, not activate");
+                nav_ja = NONE;
+            }
+        } elsif (nav_ja == B) {
+            printDA("B: cycle");
+            route.Polygon.primary.cycle();
+        } else {
+            printDA("B: already activated, setting B");
+            nav_ja = B;
+        }
+        TI_show_wp = TRUE;
+        displays.common.unsetTISelection();
+    },
+
+    LA: func {
+        landing = FALSE;
+        if (!route.Polygon.flyRTB.isPrimary()) {
+            route.Polygon.flyRTB.setAsPrimary();
+            printDA(route.Polygon.flyRTB.name~" set as primary.");
+        }
+
+        if (!route.Polygon.isPrimaryActive()) {
+            if (route.Polygon.primary.getSize() > 0) {
+                printDA("LA: activate");
+                route.Polygon.startPrimary();
+                nav_ja = LA;
+            } else {
+                printDA("LA: empty, not activate");
+                nav_ja = NONE;
+            }
+        } elsif (nav_ja == LA) {
+            printDA("LA: cycle");
+            route.Polygon.primary.cycle();
+        } else {
+            printDA("LA: already activated, setting LA");
+            nav_ja = LA;
+        }
+        TI_show_wp = TRUE;
+        displays.common.unsetTISelection();
+    },
+
+    L: func {
+        landing = FALSE;
+        input.approach.setBoolValue(FALSE); # long approach
+
+        if (route.Polygon.isLandingBaseRunwayActive() and nav_ja == L) {
+            printDA("L: calling cycle runway");
+            route.Polygon.primary.cycleDestinationRunway();
+        } else {
+            if (route.Polygon.activateLandingBase()) {
+                printDA("L: base activated");
+                nav_ja = L;
+            } else {
+                printDA("L: plan deactivated");
+                route.Polygon.stopPrimary();
+                nav_ja = NONE;
+            }
+        }
+        TI_show_wp = TRUE;
+        displays.common.unsetTISelection();
+    },
+
+    LB: func {
+        landing = TRUE;
+        input.approach.setBoolValue(FALSE); # long approach
+
+        if (route.Polygon.activateLandingBase()) {
+            printDA("LB: base activated");
+            nav_ja = LB;
+            land.mode = 1;
+        } else {
+            printDA("LB: plan deactivated");
+            route.Polygon.stopPrimary();
+            nav_ja = NONE;
+        }
+        TI_show_wp = FALSE;
+        displays.common.unsetTISelection();
+    },
+
+    LF: func {
+        landing = TRUE;
+        input.approach.setBoolValue(TRUE); # short approach
+
+        if (route.Polygon.activateLandingBase()) {
+            printDA("LF: base activated");
+            nav_ja = LF;
+            land.mode = 2;
+        } else {
+            printDA("LF: plan deactivated");
+            route.Polygon.stopPrimary();
+            nav_ja = NONE;
+        }
+        TI_show_wp = FALSE;
+        displays.common.unsetTISelection();
+    },
+
+    OPT: func {
+        landing = TRUE;
+        printDA("OPT: activated");
+        land.mode = 4;
+        nav_ja = OPT;
+        TI_show_wp = FALSE;
+        displays.common.unsetTISelection();
+    },
+
+    RR: func {
+        landing = FALSE;
+        route.Polygon.stopPrimary();
+        nav_ja = NONE;
+        TI_show_wp = TRUE;
+    },
 };
 
 
 var update = func {
     update_takeoff_allowed();
     update_mode();
-};
+    update_nav();
+}
 
 
 var initialize = func {};
@@ -147,5 +322,5 @@ var nav_init = func {
 var landing_init = func {
     takeoff_30s_inhibit = FALSE;
     main_ja = LANDING;
-    land.LF();
+    buttons.LF();
 }

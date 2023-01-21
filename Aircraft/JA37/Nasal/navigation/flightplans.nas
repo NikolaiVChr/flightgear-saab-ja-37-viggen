@@ -869,12 +869,12 @@ var Polygon = {
 		#class:
 		# Called form auto.Delegate just after the current waypoint is changed.
 		# Check if it was to last in RTB plan, if so activate L.
-		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and !land.mode_L_active) {
+		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and modes.nav_ja != modes.L) {
 			var ind = Polygon.primary.getIndex();
 			var max = Polygon.primary.plan.getPlanSize()-1;
 			if (ind == max) {
 				dap.syst();# TI will do this when clicking 'L', but should we do it here also?
-				land.L();
+				modes.buttons.L();
 				# this listener can trigger delicate order of execution in landing-mode.nas
 			}
 		}

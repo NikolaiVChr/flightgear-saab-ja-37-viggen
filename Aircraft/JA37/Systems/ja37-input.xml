@@ -734,7 +734,7 @@
                     </equals>
                 </condition>
                 <command>nasal</command>
-                <script>land.LB();</script>
+                <script>modes.buttons.LB();</script>
             </binding>
         </key>
         <key n="121">

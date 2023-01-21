@@ -2194,20 +2194,20 @@ var TI = {
 				if (me.input.datalink.getBoolValue()) {
 					me.menuButtonBox[2].show();
 				}
-				if (land.mode_B_active == TRUE or land.mode_LA_active == TRUE) {
+				if (modes.nav_ja == modes.B or modes.nav_ja == modes.LA) {
 					# is kind of a hack. It pretends that LÅ is a submode in S.
 					me.menuButtonBox[4].show();
 				}
-				if (land.mode_LA_active == TRUE) {
+				if (modes.nav_ja == modes.LA) {
 					me.menuButtonBox[17].show();
 				}
-				if (land.mode_LF_active == TRUE) {
+				if (modes.nav_ja == modes.LF) {
 					me.menuButtonBox[18].show();
 				}
-				if (land.mode_LB_active == TRUE) {
+				if (modes.nav_ja == modes.LB) {
 					me.menuButtonBox[19].show();
 				}
-				if (land.mode_L_active == TRUE) {
+				if (modes.nav_ja == modes.L) {
 					me.menuButtonBox[20].show();
 				}
 				if (me.ModeAttack == FALSE) {
@@ -3993,7 +3993,7 @@ var TI = {
 						me.steerpoint[me.wpIndex].set("z-index", 11);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
-					} elsif ((land.showActiveSteer == FALSE and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
+					} elsif ((!modes.TI_show_wp and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
 						# The route is being flown. We are not in MSDA and waypoint is current but should not be shown.
 						me.steerpoint[me.wpIndex].hide();
 						if (wp != me.points-1) {
@@ -4489,19 +4489,19 @@ var TI = {
 		if (displays.common.ti_selection != nil) {
 			me.mode = "RR";# landing steerpoint
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif (land.mode_LB_active == TRUE) {
+		} elsif (modes.nav_ja == modes.LB) {
 			me.mode = me.swedishMode?"LB":"LS";# landing steerpoint
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif (land.mode_LF_active == TRUE) {
+		} elsif (modes.nav_ja == modes.LF) {
 			me.mode = me.swedishMode?"LF":"LT";# landing touchdown point
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif (land.mode_L_active == TRUE) {
+		} elsif (modes.nav_ja == modes.L) {
 			me.mode = "L ";# steering to landing base
 			me.textBMode.setColor(COLOR_TYRK);
-		} elsif (land.mode_OPT_active == TRUE) {
+		} elsif (modes.nav_ja == modes.OPT) {
 			me.mode = "OP";# visual landing phase
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif ((land.mode_B_active == TRUE or land.mode_LA_active == TRUE) and route.Polygon.primary != nil) {
+		} elsif ((modes.nav_ja == modes.B or modes.nav_ja == modes.LA) and route.Polygon.primary != nil) {
 			me.target_wp = route.Polygon.primary.isTarget(route.Polygon.primary.getIndex());
 			me.wp_pre = me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA);
 			me.wp_post = route.Polygon.primary.getIndex()+1;
@@ -4676,7 +4676,7 @@ var TI = {
 	},
 
 	showRunway: func {
-		if (land.mode_B_active == FALSE and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
+		if (modes.nav_ja != modes.B and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
 		  me.heading = me.input.heading.getValue();#true
 		  me.rwy_dist = (me.input.rmDist.getValue() or 0) * NM2M;
 		  me.rwy_bearing = (me.input.rmBearing.getValue() or 0) - me.heading;
@@ -5175,7 +5175,7 @@ var TI = {
 	b4: func {
 		edgeButtonsStruct[4] = me.input.timeElapsed.getValue();
 		if (!me.active) {
-			land.B();
+			modes.buttons.B();
 			dap.syst();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
@@ -5186,7 +5186,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				#me.showSteers = !me.showSteers;
-				land.B();
+				modes.buttons.B();
 				dap.syst();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
@@ -5573,7 +5573,7 @@ var TI = {
 		edgeButtonsStruct[17] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.LA();
+			modes.buttons.LA();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5583,7 +5583,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.LA();
+				modes.buttons.LA();
 			} elsif (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact reports (all of them)
 				me.closeTraps();
@@ -5618,7 +5618,7 @@ var TI = {
 		edgeButtonsStruct[18] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.LF();
+			modes.buttons.LF();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5631,7 +5631,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.LF();
+				modes.buttons.LF();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.editSteerpoint();#toogle draggable steerpoints
@@ -5643,7 +5643,7 @@ var TI = {
 		edgeButtonsStruct[19] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.LB();
+			modes.buttons.LB();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5656,7 +5656,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.LB();
+				modes.buttons.LB();
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
 				me.day = !me.day;
@@ -5689,7 +5689,7 @@ var TI = {
 		edgeButtonsStruct[20] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.L();
+			modes.buttons.L();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5705,7 +5705,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.L();
+				modes.buttons.L();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				me.dragMapEnabled = !me.dragMapEnabled;
