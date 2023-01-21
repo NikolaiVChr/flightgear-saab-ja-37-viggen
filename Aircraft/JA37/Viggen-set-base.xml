@@ -1789,9 +1789,6 @@
         <scheduler>
             <file>Aircraft/JA37/Nasal/scheduler.nas</file>
         </scheduler>
-        <modes>
-            <file>Aircraft/JA37/Nasal/modes.nas</file>
-        </modes>
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
         </tyre>
