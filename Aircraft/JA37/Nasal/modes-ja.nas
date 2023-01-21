@@ -262,7 +262,7 @@ var buttons = {
         } else {
             printDA("LB: plan deactivated");
             route.Polygon.stopPrimary();
-            nav_ja = NONE;
+            buttons.OPT();
         }
         TI_show_wp = FALSE;
         displays.common.unsetTISelection();
@@ -279,7 +279,7 @@ var buttons = {
         } else {
             printDA("LF: plan deactivated");
             route.Polygon.stopPrimary();
-            nav_ja = NONE;
+            buttons.OPT();
         }
         TI_show_wp = FALSE;
         displays.common.unsetTISelection();
@@ -288,8 +288,8 @@ var buttons = {
     OPT: func {
         landing = TRUE;
         printDA("OPT: activated");
-        land.mode = 4;
         nav_ja = OPT;
+        land.mode = 4;
         TI_show_wp = FALSE;
         displays.common.unsetTISelection();
     },
