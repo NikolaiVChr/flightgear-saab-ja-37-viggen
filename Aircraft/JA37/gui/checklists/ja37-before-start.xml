@@ -146,7 +146,7 @@
                 <script>ja37.click();</script>
             </binding>
         </item>
-        <!-- Not in the real checklist, but the ligth (next item) only goes off if
+        <!-- Not in the real checklist, but the light (next item) only goes off if
              both cutoffs are open. -->
         <item>
             <name>Afterburner cutoff</name>
@@ -914,8 +914,7 @@
                 <value>0</value>
             </binding>
         </item>
-        <!-- The remainder of the checklist is not in the real checklist.
-             Some items should maybe be checked later (radar in particular ?) -->
+        <!-- The remainder of the checklist is not in the real checklist. -->
         <item>
             <name>Pitch gearing</name>
             <value>ON</value>
