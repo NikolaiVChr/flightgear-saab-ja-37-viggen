@@ -55,7 +55,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>systems/electrical/batterysignal</property>
+                    <property>ja37/elec/dc-bus-main-bool</property>
                     <value>1.0</value>
                 </equals>
             </condition>

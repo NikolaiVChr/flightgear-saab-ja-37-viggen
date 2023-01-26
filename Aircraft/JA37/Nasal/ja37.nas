@@ -9,21 +9,15 @@ var bingoFuel = FALSE;
 var mainOn = FALSE;
 var mainTimer = -1;
 
-var TILSprev = FALSE;
 var acPrev = 0;
 var acTimer = 0;
-
-var MISSILE_STANDBY = -1;
-var MISSILE_SEARCH = 0;
-var MISSILE_LOCK = 1;
-var MISSILE_FLYING = 2;
 
 var flareCount = -1;
 var flareStart = -1;
 
 ############### Main loop ###############
 
-input = {
+var input = {
   aeroSmoke:        "/ja37/effect/smoke",
   aeroSmokeCmd:     "/ja37/effect/smoke-cmd",
   airspeed:         "velocities/airspeed-kt",
@@ -876,25 +870,6 @@ var map = func (value, leftMin, leftMax, rightMin, rightMax) {
 
 
 
-###########  loop for handling the battery signal for cockpit sound #########
-var voltage = 0;
-var signalInProgress = FALSE;
-var battery_listener = func {
-
-    if (signalInProgress == FALSE and !voltage and power.prop.dcMainBool.getValue()) {
-      setprop("/systems/electrical/batterysignal", TRUE);
-      signalInProgress = TRUE;
-      settimer(func {
-        setprop("/systems/electrical/batterysignal", FALSE);
-        signalInProgress = FALSE;
-        }, 6);
-    }
-    voltage = power.prop.dcMainBool.getValue();
-    settimer(battery_listener, 0.5);
-}
-
-
-
 ########### Thunder sounds (from c172p) ###################
 
 var speed_of_sound = func (t, re) {
@@ -1147,10 +1122,6 @@ var main_init = func {
 
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
-
-  battery_listener();
-  #code_ct();
-  #not();
 
   # asymmetric vortex detachment
   asymVortex();
@@ -1467,10 +1438,6 @@ var click = func {
 var clickOff = func {
     setprop("ja37/sound/click-on", FALSE);
     clicking = FALSE;
-}
-
-var noop = func {
-  #does nothing, but important
 }
 
 # Simplified, single button controls for speedbrakes
@@ -1882,15 +1849,5 @@ var action_view_handler = {
 
 view.manager.register("Fly-By View", action_view_handler);
 
-
-var KIAStoGS = func (kt,ft) {
-  return (0.02*(ft*0.001)+1)*kt;
-}
-
-var horiSpeed = func () {
-  var e = getprop("velocities/speed-east-fps");
-  var n = getprop("velocities/speed-north-fps");
-  return math.sqrt(n*n+e*e)*FPS2KT;
-}
 
 setprop("ja37/normalmap", !getprop("sim/rendering/rembrandt/enabled"));
