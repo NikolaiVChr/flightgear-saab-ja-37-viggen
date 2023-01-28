@@ -193,7 +193,9 @@ var Runway = {
 
 
 var as_airbase = func(wpt) {
-    if (wpt.type == TYPE.AIRBASE)
+    if (typeof(wpt) != "hash" or !contains(wpt, "type"))
+        return nil;
+    elsif (wpt.type == TYPE.AIRBASE)
         return wpt;
     elsif (wpt.type == TYPE.RUNWAY)
         return wpt.parent;

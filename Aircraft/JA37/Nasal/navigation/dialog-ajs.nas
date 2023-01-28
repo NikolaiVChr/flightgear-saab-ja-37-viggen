@@ -4,29 +4,45 @@ var FALSE = 0;
 
 var inhibit_input_callback = FALSE;
 
-# Factory for waypoint input field callback
 var make_wpt_input_listener = func(wp_id) {
     return func(node) {
         if (inhibit_input_callback) return;
 
         var wp = route.Waypoint.parse(node.getValue());
-        if (wp != nil) {
-            route.set_wpt(wp_id, wp);
-            route.callback_fp_changed();
-        }
+        if (wp == nil) return;
+
+        route.set_wpt(wp_id, wp);
+        route.callback_fp_changed();
     }
 }
 
-# Factory for airbase input field callback
-var make_airbase_input_listener = func(base_id) {
+var make_airbase_input_listener = func(apt_name) {
     return func(node) {
         if (inhibit_input_callback) return;
 
+        var apt_id = route.WPT[apt_name];
         var apt = route.Airbase.fromICAO(node.getValue());
         if (apt != nil) {
-            route.set_wpt(base_id, apt);
+            route.set_wpt(apt_id, apt);
             route.callback_fp_changed();
         }
+        Dialog.update_runways(apt_name);
+    }
+}
+
+var make_runway_input_listener = func(apt_name) {
+    return func(node) {
+        if (inhibit_input_callback) return;
+
+        var apt_id = route.WPT[apt_name];
+        var apt = route.as_airbase(route.get_wpt(apt_id));
+        if (apt == nil) return;
+
+        var rwy = apt.runways[node.getValue()];
+        if (rwy == nil) return;
+
+        route.set_wpt(apt_id, rwy);
+        route.callback_fp_changed();
     }
 }
 
@@ -71,6 +87,7 @@ var Dialog = {
             logprint(LOG_ALERT, "Failed to initialize AJS 37 route manager dialog: missing element '", me.table_name, "' in ", me.path);
             return;
         }
+        me.runway_fields = {};
         me.setup_table();
 
         # Register
@@ -108,11 +125,43 @@ var Dialog = {
         "L2": "alt.",
     },
 
+    get_wpt_prop: func(wpt_name) {
+        var type = substr(wpt_name, 0, 1);
+        if (substr(wpt_name, 0, 1) == "L") {
+            # airbase
+            return me.data_prop.getNode(wpt_name, 1);
+        } else {
+            # waypoint
+            var number = int(substr(wpt_name, 1, 1));
+            return me.data_prop.getChild(type, number, 1)
+        }
+    },
+
+    update_runways: func(apt_name) {
+        var apt_id = route.WPT[apt_name];
+        var apt = route.as_airbase(route.get_wpt(apt_id));
+        var combo = me.runway_fields[apt_name];
+        var prop = me.get_wpt_prop(apt_name).getNode("runway");
+
+        inhibit_input_callback = TRUE;
+        prop.setValue("");
+        inhibit_input_callback = FALSE;
+
+        combo.removeChildren("value");
+        if (apt != nil) {
+            foreach (var runway; apt.runway_list) {
+                combo.addChild("value").setValue(runway.name);
+            }
+        }
+
+        gui.dialog_update("route-manager-ajs", apt_name~"-runway");
+    },
+
     setup_table: func {
         # Airbases
         for (var i=0; i<=2; i+=1) {
             var apt_name = i==0 ? "LS" : "L"~i;
-            var wpt_prop = me.data_prop.getChild(apt_name, i, 1);
+            var wpt_prop = me.get_wpt_prop(apt_name);
             var row = i+2;
 
             me.table.addChild("text").setValues({
@@ -136,11 +185,12 @@ var Dialog = {
                     "object-name":  name,
                 },
             });
-            append(me.listeners, setlistener(prop, make_airbase_input_listener(route.WPT[apt_name]), 0, 0));
+            append(me.listeners, setlistener(prop, make_airbase_input_listener(apt_name), 0, 0));
 
             var prop = wpt_prop.getNode("runway", 1);
             var name = apt_name~"-runway";
-            me.table.addChild("combo").setValues({
+            me.runway_fields[apt_name] = me.table.addChild("combo");
+            me.runway_fields[apt_name].setValues({
                 "col":          me.COL.APT_RWY,
                 "row":          row,
                 "name":         name,
@@ -152,11 +202,13 @@ var Dialog = {
                     "object-name":  name,
                 },
             });
+            me.update_runways(apt_name);
+            append(me.listeners, setlistener(prop, make_runway_input_listener(apt_name), 0, 0));
         }
 
         # Waypoints
         for (var i=1; i<=9; i+=1) {
-            var wpt_prop = me.data_prop.getChild("B", i, 1);
+            var wpt_prop = me.get_wpt_prop("B"~i);
             var row = i+1;
 
             me.table.addChild("text").setValues({
