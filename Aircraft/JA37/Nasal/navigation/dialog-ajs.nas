@@ -9,9 +9,11 @@ var make_wpt_input_listener = func(wp_id) {
         if (inhibit_input_callback) return;
 
         var wp = route.Waypoint.parse(node.getValue());
-        if (wp == nil) return;
+        if (wp != nil)
+            route.set_wpt(wp_id, wp);
+        else
+            route.unset_wpt(wp_id);
 
-        route.set_wpt(wp_id, wp);
         route.callback_fp_changed();
     }
 }
@@ -22,10 +24,12 @@ var make_airbase_input_listener = func(apt_name) {
 
         var apt_id = route.WPT[apt_name];
         var apt = route.Airbase.fromICAO(node.getValue());
-        if (apt != nil) {
+        if (apt != nil)
             route.set_wpt(apt_id, apt);
-            route.callback_fp_changed();
-        }
+        else
+            route.unset_wpt(apt_id);
+
+        route.callback_fp_changed();
         Dialog.update_runways(apt_name);
     }
 }
@@ -39,9 +43,11 @@ var make_runway_input_listener = func(apt_name) {
         if (apt == nil) return;
 
         var rwy = apt.runways[node.getValue()];
-        if (rwy == nil) return;
+        if (rwy != nil)
+            route.set_wpt(apt_id, rwy);
+        else
+            route.unset_wpt(apt_id);
 
-        route.set_wpt(apt_id, rwy);
         route.callback_fp_changed();
     }
 }
