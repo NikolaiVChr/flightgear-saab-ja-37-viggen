@@ -74,7 +74,9 @@ var resolve = func(idx) {
     while ((idx & WPT.nb_mask) > 1 and !is_set(idx)) {
         idx -= 1;
     }
-    # Should LS be the fallback for B1?
+    if ((idx & WPT.nb_mask) == 1 and !is_set(idx)) {
+        idx = WPT.LS;
+    }
     return get_wpt(idx);
 }
 
