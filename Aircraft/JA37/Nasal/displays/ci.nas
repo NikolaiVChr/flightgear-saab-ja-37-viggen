@@ -77,8 +77,8 @@ var input = {
     beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
     antenna_angle:  "instrumentation/radar/antenna-angle-norm",
-    rm_dist:        "autopilot/route-manager/wp/dist",
-    rm_bearing:     "autopilot/route-manager/wp/true-bearing-deg",
+    rm_dist:        "instrumentation/waypoint-indicator/dist-km",
+    rm_bearing:     "instrumentation/waypoint-indicator/true-bearing-deg",
     # shaders controls
     compositor:     "ja37/supported/compositor",
     force_shader:   "ja37/displays/use-CI-shader-on-min-settings",
@@ -370,7 +370,7 @@ var NavSymbols = {
         var scale = input.radar_range.getValue();
         var heading = input.heading.getValue();
         var bearing = input.rm_bearing.getValue() or 0;
-        var dist = (input.rm_dist.getValue() or 0) * NM2M;
+        var dist = (input.rm_dist.getValue() or 0) * 1000;
 
         me.set_elt_pos_polar(me.wpt_group, dist, bearing - heading, scale);
 
