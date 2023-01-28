@@ -302,8 +302,13 @@
     </ja37>
 
     <limits>
-        <vne>789</vne>
         <vne-mach>2.03</vne-mach>
+        <!-- all values below from SFI part 2 -->
+        <vne>789</vne>
+        <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
+        <max-positive-g>7.0</max-positive-g>
+        <max-negative-g>-3.0</max-negative-g>
+        <vroll>172.8</vroll>
     </limits>
 
     <fdm>

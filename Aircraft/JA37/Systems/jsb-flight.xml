@@ -218,17 +218,27 @@
 
     <channel execrate="4" name="various controls">
 
+        <switch name="fcs/elevator/cmg-limit-pos-clean">
+            <test logic="AND" value="6">
+                /ja37/systems/variant ne 0
+            </test>
+            <default value="7"/>
+        </switch>
+
         <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
-            <description>Just some random guesses..almost</description>
             <function>
-                <table>
-                    <independentVar lookup="row">inertia/weight-lbs</independentVar>
-                    <tableData>
-                        00000.00  8 
-                        30864.72  8
-                        40340.00  5
-                    </tableData>
-                </table>
+                <product>
+                    <property>fcs/elevator/cmg-limit-pos-clean</property>
+                    <min>
+                        <!-- decrease tolerence when heavily loaded -->
+                        <quotient>
+                            <!-- reference weight ~16000kg, roughly full internal fuel, no external load -->
+                            <value>35000</value>
+                            <property>inertia/weight-lbs</property>
+                        </quotient>
+                        <value>1.0</value>
+                    </min>
+                </product>
             </function>
         </fcs_function>
 
@@ -243,10 +253,13 @@
 
         <switch name="fcs/elevator/cmg-limit-neg">
             <description>As per manual with gears out no less than 0G allowed.</description>
-            <default value="-3"/>
             <test logic="AND" value="0">
                 gear/gear-pos-norm ne 0
             </test>
+            <test logic="AND" value="-1">
+                /ja37/systems/variant ne 0
+            </test>
+            <default value="-3"/>
             <output>/limits/max-negative-g</output>
         </switch>
 

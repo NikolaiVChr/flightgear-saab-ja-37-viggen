@@ -258,8 +258,13 @@
     </ja37>
 
     <limits>
-        <vne>729</vne><!-- AJ37 manual -->
         <vne-mach>2.00</vne-mach>
+        <!-- all values below from SFI part 2 -->
+        <vne>728</vne>
+        <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
+        <max-positive-g>6.0</max-positive-g>
+        <max-negative-g>-1.0</max-negative-g>
+        <vroll>172.8</vroll>
     </limits>
 
     <fdm>
