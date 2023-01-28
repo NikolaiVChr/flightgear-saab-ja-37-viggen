@@ -1,6 +1,12 @@
 # FG route manager control property
 var rm_cmd = props.globals.getNode("autopilot/route-manager/input", 1);
 
+var TYPE = {
+    WAYPOINT: 1,
+    AIRBASE: 2,
+    RUNWAY: 3,
+};
+
 ## Coordinate parser
 #
 # Parse a waypoint specification using FG route manager.
@@ -43,6 +49,7 @@ var Waypoint = {
     new: func(coord, name="") {
         var wpt = {
             parents: [Waypoint],
+            type: TYPE.WAYPOINT,
             coord: geo.Coord.new(coord),
             name: name,
         };
@@ -58,13 +65,13 @@ var Waypoint = {
     },
 };
 
-
 ## Airbase objects
 #
 # members:
 # - name
-# - coordinate
-# - list of runways, where runway = { coordinate, heading, optional name, ILS frequency }
+# - coord
+# - runway_list
+# - runways (hash table)
 #
 var Airbase = {
     # Create object for real ICAO airport
@@ -74,21 +81,28 @@ var Airbase = {
 
         var apt = {
             parents: [Airbase],
+            type: TYPE.AIRBASE,
             coord: geo.Coord.new().set_latlon(info.lat, info.lon, info.elevation),
             name: ICAO,
+            runways: {},
+            runway_list: [],
         };
 
-        apt.runways = [];
         foreach (var rwy_name; keys(info.runways)) {
             var rwy = info.runways[rwy_name];
-            append(apt.runways, {
+            append(apt.runway_list, Runway.new(
+                parent: apt,
                 heading: geo.normdeg(rwy.heading),
                 coord:  geo.Coord.new().set_latlon(rwy.lat, rwy.lon, info.elevation),
                 name: rwy_name,
-                freq: rwy.ils_frequency_mhz,
-            });
+                freq: rwy.ils_frequency_mhz
+            ));
         }
-        apt.runways = sort(apt.runways, Airbase.compare_named_rwy);
+        apt.runway_list = sort(apt.runway_list, Runway.compare_heading);
+
+        foreach (var rwy; apt.runway_list) {
+            apt.runways[rwy.name] = rwy;
+        }
 
         return apt;
     },
@@ -99,21 +113,49 @@ var Airbase = {
 
         var apt = {
             parents: [Airbase],
+            type: TYPE.AIRBASE,
             coord: coord,
             name: "",
-            runways: [
-                { heading: geo.normdeg(heading), coord: coord, name: nil, freq: freq, },
-                { heading: geo.normdeg(heading+180), coord: coord, name: nil, freq: nil, }
-            ],
         };
+        apt.runway_list = [
+            Runway.new(parent: apt, heading: geo.normdeg(heading), coord: coord, freq: freq),
+            Runway.new(parent: apt, heading: geo.normdeg(heading + 180), coord: coord),
+        ];
+
+        foreach (var rwy; apt.runway_list) {
+            apt.runways[rwy.name] = rwy;
+        }
+
         return apt;
     },
+};
 
-    # sorting function for runways:
+## Runway objects
+#
+# members:
+# - name (optional)
+# - coord: threshold position
+# - heading
+# - freq: ILS frequency
+# - parent: parent Airbase object
+var Runway = {
+    new: func(parent, coord, heading, name=nil, freq=nil) {
+        return {
+            parents: [Runway],
+            type: TYPE.RUNWAY,
+            parent: parent,
+            name: name,
+            coord: coord,
+            heading: heading,
+            freq: freq,
+        };
+    },
+
+    # Cycling order for runways:
     # - sort by heading
     # - sort suffix: XX < XXL < XXC < XXR
     # fallback to lexicographic order if name is invalid
-    compare_named_rwy: func(rwy1, rwy2) {
+    compare_heading: func(rwy1, rwy2) {
         var lex = cmp(rwy1.name, rwy2.name);
         if (lex == 0) return 0;
 
@@ -147,4 +189,14 @@ var Airbase = {
 
         return idx1 - idx2;
     },
+};
+
+
+var as_airbase = func(wpt) {
+    if (wpt.type == TYPE.AIRBASE)
+        return wpt;
+    elsif (wpt.type == TYPE.RUNWAY)
+        return wpt.parent;
+    else
+        return nil;
 };
