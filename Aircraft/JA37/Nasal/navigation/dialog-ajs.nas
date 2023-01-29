@@ -28,68 +28,6 @@ var with_input_inhibit = func(f, args=nil, m=nil, locals=nil) {
 var inhibit_input_callback = FALSE;
 
 
-var make_wpt_input_listener = func(wp_id) {
-    return func(node) {
-        if (inhibit_input_callback) return;
-
-        var wp = route.Waypoint.parse(node.getValue());
-        if (wp != nil)
-            route.set_wpt(wp_id, wp);
-        else
-            route.unset_wpt(wp_id);
-
-        route.callback_fp_changed();
-    }
-}
-
-var make_target_input_listener = func(wp_id) {
-    return func(node) {
-        if (inhibit_input_callback) return;
-        if (!route.is_set(wp_id)) return;
-
-        if (node.getBoolValue())
-            route.set_tgt(wp_id);
-        else
-            route.unset_tgt(wp_id);
-
-        route.callback_fp_changed();
-    }
-}
-
-var make_airbase_input_listener = func(apt_name) {
-    return func(node) {
-        if (inhibit_input_callback) return;
-
-        var apt_id = route.WPT[apt_name];
-        var apt = route.Airbase.fromICAO(node.getValue());
-        if (apt != nil)
-            route.set_wpt(apt_id, apt);
-        else
-            route.unset_wpt(apt_id);
-
-        route.callback_fp_changed();
-        Dialog.update_runways(apt_name);
-    }
-}
-
-var make_runway_input_listener = func(apt_name) {
-    return func(node) {
-        if (inhibit_input_callback) return;
-
-        var apt_id = route.WPT[apt_name];
-        var apt = route.as_airbase(route.get_wpt(apt_id));
-        if (apt == nil) return;
-
-        var rwy = apt.runways[node.getValue()];
-        if (rwy != nil)
-            route.set_wpt(apt_id, rwy);
-        else
-            route.unset_wpt(apt_id);
-
-        route.callback_fp_changed();
-    }
-}
-
 
 ## Load/save fgfp files
 
@@ -338,7 +276,7 @@ var Dialog = {
                 "object-name":  name,
             },
         });
-        append(me.listeners, setlistener(prop, make_airbase_input_listener(apt_name), 0, 0));
+        append(me.listeners, setlistener(prop, func { me.airbase_callback(apt_name); }, 0, 0));
 
         var prop = me.data[apt_name].runway;
         var name = apt_name~"-runway";
@@ -356,7 +294,7 @@ var Dialog = {
             },
         });
         me.update_runways(apt_name);
-        append(me.listeners, setlistener(prop, make_runway_input_listener(apt_name), 0, 0));
+        append(me.listeners, setlistener(prop, func { me.runway_callback(apt_name); }, 0, 0));
     },
 
     setup_waypoint: func(i, row) {
@@ -384,7 +322,7 @@ var Dialog = {
                 "object-name":  name,
             },
         });
-        append(me.listeners, setlistener(prop, make_wpt_input_listener(wp_idx), 0, 0));
+        append(me.listeners, setlistener(prop, func(node) { me.wpt_callback(node, wp_idx); }, 0, 0));
 
         me.table.addChild("text").setValues({
             "col":      me.COL.HEAD,
@@ -420,7 +358,7 @@ var Dialog = {
                 "object-name":  name,
             },
         });
-        append(me.listeners, setlistener(prop, make_target_input_listener(wp_idx), 0, 0));
+        append(me.listeners, setlistener(prop, func { me.target_callback(i); }, 0, 0));
 
         #var prop = me.data.B[i].popup_head;
         #var name = "B"~i~"-popup-heading";
@@ -476,6 +414,64 @@ var Dialog = {
         }
 
         me.update_legs();
+    },
+
+    airbase_callback: func(apt_name) {
+        if (inhibit_input_callback) return;
+
+        var apt_id = route.WPT[apt_name];
+        var apt = route.Airbase.fromICAO(me.data[apt_name].icao.getValue());
+        if (apt != nil)
+            route.set_wpt(apt_id, apt);
+        else
+            route.unset_wpt(apt_id);
+
+        route.callback_fp_changed();
+        me.update_runways(apt_name);
+    },
+
+    runway_callback: func(apt_name) {
+        if (inhibit_input_callback) return;
+
+        var apt_id = route.WPT[apt_name];
+        var apt = route.as_airbase(route.get_wpt(apt_id));
+        if (apt == nil) return;
+
+        var rwy = apt.runways[me.data[apt_name].runway.getValue()];
+        if (rwy != nil)
+            route.set_wpt(apt_id, rwy);
+        else
+            route.unset_wpt(apt_id);
+
+        route.callback_fp_changed();
+    },
+
+    wpt_callback: func(node, wp_id) {
+        if (inhibit_input_callback) return;
+
+        var wp = route.Waypoint.parse(node.getValue());
+
+        if (wp != nil)
+            route.set_wpt(wp_id, wp);
+        else
+            route.unset_wpt(wp_id);
+
+        route.callback_fp_changed();
+    },
+
+    target_callback: func(idx) {
+        if (inhibit_input_callback) return;
+
+        var wp_id = route.WPT.B | idx;
+
+        if (!route.is_set(wp_id)) return;
+
+        if (me.data.B[idx].target.getBoolValue())
+            route.set_tgt(wp_id);
+        else
+            route.unset_tgt(wp_id);
+
+        route.callback_fp_changed();
     },
 
     update_runways: func(apt_name) {
