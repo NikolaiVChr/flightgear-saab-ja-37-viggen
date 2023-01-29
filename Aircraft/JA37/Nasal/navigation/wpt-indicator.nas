@@ -59,13 +59,17 @@ WP_MASK_TO_TYPE[WPT.S]  = WP_TYPE.TGT_TRACK;
 var set_wp_indicator = func(idx) {
     var idx = route.get_current_idx();
 
-    if (idx == WPT.LS) {
+    # Waypoint number
+    if (idx == WPT.LS)
         input.wp_ind_num.setIntValue(WP_NUM.START);
-    } else {
+    else
         input.wp_ind_num.setIntValue(idx & WPT.nb_mask);
-    }
 
+    # Waypoint type
     var type = WP_MASK_TO_TYPE[idx & WPT.type_mask];
+
+    if (type == WP_TYPE.WPT and route.is_tgt(idx))
+        type = WP_TYPE.TGT;
 
     if (type == WP_TYPE.LAND and input.landing_mode.getBoolValue()) {
         if (land.mode == 1)

@@ -125,7 +125,6 @@
       <label>dist.</label>
     </text>
 
-    <!--
     <text>
       <row>1</row>
       <col>9</col>
@@ -133,6 +132,7 @@
       <label>target</label>
     </text>
 
+    <!--
     <text>
       <row>0</row>
       <col>10</col>
@@ -152,7 +152,7 @@
       <row>1</row>
       <col>11</col>
       <halign>center</halign>
-      <label>km</label>
+      <label>dist</label>
     </text>
 
     <vrule>

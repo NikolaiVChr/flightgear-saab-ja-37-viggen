@@ -42,6 +42,20 @@ var make_wpt_input_listener = func(wp_id) {
     }
 }
 
+var make_target_input_listener = func(wp_id) {
+    return func(node) {
+        if (inhibit_input_callback) return;
+        if (!route.is_set(wp_id)) return;
+
+        if (node.getBoolValue())
+            route.set_tgt(wp_id);
+        else
+            route.unset_tgt(wp_id);
+
+        route.callback_fp_changed();
+    }
+}
+
 var make_airbase_input_listener = func(apt_name) {
     return func(node) {
         if (inhibit_input_callback) return;
@@ -366,20 +380,24 @@ var Dialog = {
                 "live":     TRUE,
             });
 
-            #var prop = wpt_prop.getNode("target", 1);
-            #prop.setBoolValue(FALSE);
-            #var name = "B"~i~"-target";
-            #me.table.addChild("checkbox").setValues({
-            #    "col":          me.COL.TGT,
-            #    "row":          row,
-            #    "name":         name,
-            #    "property":     prop.getPath(),
-            #    "live":         TRUE,
-            #    "binding": {
-            #        "command":      "dialog-apply",
-            #        "object-name":  name,
-            #    },
-            #});
+            var prop = wpt_prop.getNode("target", 1);
+            prop.setBoolValue(FALSE);
+            var name = "B"~i~"-target";
+            me.table.addChild("checkbox").setValues({
+                "col":          me.COL.TGT,
+                "row":          row,
+                "name":         name,
+                "property":     prop.getPath(),
+                "live":         TRUE,
+                "enable": {
+                    "property": wpt_prop.getNode("valid", 1).getPath(),
+                },
+                "binding": {
+                    "command":      "dialog-apply",
+                    "object-name":  name,
+                },
+            });
+            append(me.listeners, setlistener(prop, make_target_input_listener(route.WPT.B | i), 0, 0));
 
             #var prop = wpt_prop.getNode("popup-heading", 1);
             #var name = "B"~i~"-popup-heading";
@@ -390,6 +408,10 @@ var Dialog = {
             #    "pref-width":   50,
             #    "property":     prop.getPath(),
             #    "live":         TRUE,
+            #    "enable": {
+            #        "property": wpt_prop.getNode("valid", 1).getPath(),
+            #        "property": wpt_prop.getNode("target", 1).getPath(),
+            #    },
             #    "binding": {
             #        "command":      "dialog-apply",
             #        "object-name":  name,
@@ -405,6 +427,10 @@ var Dialog = {
             #    "pref-width":   40,
             #    "property":     prop.getPath(),
             #    "live":         TRUE,
+            #    "enable": {
+            #        "property": wpt_prop.getNode("valid", 1).getPath(),
+            #        "property": wpt_prop.getNode("target", 1).getPath(),
+            #    },
             #    "binding": {
             #        "command":      "dialog-apply",
             #        "object-name":  name,
@@ -444,25 +470,35 @@ var Dialog = {
             var head_prop = wp_prop.getNode("leg-heading");
             var dist_prop = wp_prop.getNode("leg-dist");
 
-            if (input_prop.getValue() == nil or input_prop.getValue() == "") {
-                # waypoint unset, ignore
-                head_prop.setValue("");
-                dist_prop.setValue("");
-            } elsif (wp == nil) {
-                # invalid input
-                head_prop.setValue("err");
-                dist_prop.setValue("");
-            } elsif (last_wp == nil) {
-                # waypoint correct, but no pervious waypoint (missing departure), ignore
-                head_prop.setValue("");
-                dist_prop.setValue("");
+            if (wp != nil) {
+                # waypoint correct
+                if (last_wp == nil) {
+                    # No previous waypoint (missing departure), ignore.
+                    head_prop.setValue("");
+                    dist_prop.setValue("");
+                } else {
+                    # valid leg
+                    head_prop.setValue(sprintf("%03.f", geo.normdeg(last_wp.coord.course_to(wp.coord))));
+                    dist_prop.setValue(sprintf("%3.fkm", last_wp.coord.distance_to(wp.coord) / 1000));
+                }
+                last_wp = wp;
+                with_input_inhibit(func { wp_prop.getNode("valid").setBoolValue(TRUE); });
             } else {
-                # valid leg
-                head_prop.setValue(sprintf("%03.f", geo.normdeg(last_wp.coord.course_to(wp.coord))));
-                dist_prop.setValue(sprintf("%3.fkm", last_wp.coord.distance_to(wp.coord) / 1000));
+                if (input_prop.getValue() != nil and input_prop.getValue() != "") {
+                    # invalid input
+                    head_prop.setValue("err");
+                    dist_prop.setValue("");
+                } else {
+                    # waypoint unset, ignore
+                    head_prop.setValue("");
+                    dist_prop.setValue("");
+                }
+                # Clear and disable other input fields
+                with_input_inhibit(func {
+                    wp_prop.getNode("valid").setBoolValue(FALSE);
+                    wp_prop.getNode("target").setBoolValue(FALSE);
+                });
             }
-
-            if (wp != nil) last_wp = wp;
         }
     },
 

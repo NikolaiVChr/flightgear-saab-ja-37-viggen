@@ -59,6 +59,22 @@ var is_set = func(idx) {
 }
 
 
+# Target waypoints
+var tgt_wpt = {};
+
+var set_tgt = func(idx) {
+    tgt_wpt[idx] = TRUE;
+}
+
+var unset_tgt = func(idx) {
+    delete(tgt_wpt, idx);
+}
+
+var is_tgt = func(idx) {
+    return tgt_wpt[idx] != nil;
+}
+
+
 ## Query waypoint with fallback rules
 #
 # LS is used as fallback position for L1.
