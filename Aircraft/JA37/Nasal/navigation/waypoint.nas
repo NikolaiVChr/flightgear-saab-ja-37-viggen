@@ -72,6 +72,17 @@ var Waypoint = {
         return wpt;
     },
 
+    offset_copy: func(wpt, heading, dist) {
+        var wpt = Waypoint.from_coord(wpt.coord, wpt.name);
+        wpt.move(heading, dist);
+        return wpt;
+    },
+
+    move: func(heading, dist) {
+        me.ghost = nil; # no longer valid
+        me.coord.apply_course_distance(heading, dist*1000);
+    },
+
     parse: func(string) {
         var wp = parse_wp(string);
         if (wp == nil)

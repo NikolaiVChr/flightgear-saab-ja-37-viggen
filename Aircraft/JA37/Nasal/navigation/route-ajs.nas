@@ -44,10 +44,16 @@ var get_wpt = func(idx) {
 
 var set_wpt = func(idx, wpt) {
     wpt_table[idx] = wpt;
+
+    if ((idx & WPT.type_mask) == WPT.B)
+        update_popup(idx);
 }
 
 var unset_wpt = func(idx) {
     delete(wpt_table, idx);
+
+    if ((idx & WPT.type_mask) == WPT.B)
+        update_popup(idx);
 }
 
 var unset_all_wpt = func {
@@ -59,15 +65,17 @@ var is_set = func(idx) {
 }
 
 
-# Target waypoints
+## Target waypoints
 var tgt_wpt = {};
 
 var set_tgt = func(idx) {
-    tgt_wpt[idx] = { heading: nil, dist: nil, };
+    if (!is_tgt(idx))
+        tgt_wpt[idx] = { heading: nil, dist: nil, };
 }
 
 var unset_tgt = func(idx) {
     delete(tgt_wpt, idx);
+    update_popup(idx);
 }
 
 var is_tgt = func(idx) {
@@ -79,10 +87,31 @@ var set_popup = func(idx, heading, dist) {
 
     tgt_wpt[idx].heading = heading;
     tgt_wpt[idx].dist = dist;
+
+    update_popup(idx);
 }
 
 var has_popup = func(idx) {
     return is_tgt(idx) and tgt_wpt[idx].heading != nil and tgt_wpt[idx].dist != nil;
+}
+
+# Recompute popup point position.
+var update_popup = func(idx) {
+    var popup_idx = WPT.U | (idx & WPT.nb_mask);
+
+    if (!is_set(idx) or !has_popup(idx)) {
+        unset_wpt(popup_idx);
+        return;
+    }
+
+    var wp = get_wpt(idx);
+    var heading = tgt_wpt[idx].heading;
+    var dist = tgt_wpt[idx].dist;
+    # For popup waypoints, heading is the target approach heading.
+    # So waypoint offset is opposite of that.
+    var popup = Waypoint.offset_copy(wp, heading+180, dist);
+
+    set_wpt(popup_idx, popup);
 }
 
 
@@ -130,13 +159,12 @@ var find_next = func(idx, resolve=1) {
 
     while (TRUE) {
         # increment
-        #if (type == WPT.U) {
-        #    type = WPT.B;
-        #} else {
-        #    type = WPT.U;
-        #    nb += 1;
-        #}
-        nb += 1;
+        if (type == WPT.U) {
+            type = WPT.B;
+        } else {
+            type = WPT.U;
+            nb += 1;
+        }
 
         if (nb > 9) return WPT.L1;
 
@@ -210,7 +238,8 @@ var update = func {
 
 var callback_takeoff = func {
     if (current == WPT.LS)
-        set_current(WPT.B | 1);
+        # First waypoint "after B0".
+        set_current(find_next(WPT.B));
 }
 
 var callback_fp_changed = func {
