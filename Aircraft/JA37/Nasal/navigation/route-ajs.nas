@@ -201,22 +201,38 @@ var display_fp_idx_table = {};          # waypoint to flightplan index table
 var append_display_fp = func(wpt) {
     if (is_set(wpt)) {
         var wp = get_wpt(wpt);
-        display_fp.appendWP(createWP(wp.coord, wp.name));
+        display_fp.appendWP(wp.to_wp_ghost());
     }
 
     display_fp_idx_table[wpt] = display_fp.getPlanSize()-1;
 }
 
 var write_display_fp = func {
+    # reset all
     display_fp.cleanPlan();
     display_fp.departure = nil;
     display_fp.destination = nil;
 
-    append_display_fp(WPT.LS);
+    # Set airbases if possible
+    # Note: fp ghost will 'do the right thing' when writing to 'departure',
+    # or 'destination', whether it is an airport, a runway, or something invalid.
+    var dep = resolve(WPT.LS);
+    if (dep != nil)
+        display_fp.departure = dep.ghost;
+    # If we failed to set departure, try to add it as a regular waypoint
+    if (display_fp.departure == nil)
+        append_display_fp(WPT.LS);
+
+    # Add waypoints
     for (var i = 1; i <= 9; i += 1) {
         append_display_fp(WPT.B | i);
     }
-    append_display_fp(WPT.L1);
+
+    var dest = resolve(WPT.L1);
+    if (dest != nil)
+        display_fp.destination = dest.ghost;
+    if (display_fp.destination == nil)
+        append_display_fp(WPT.L1);
 
     display_fp.activate();
     set_display_fp_wpt(current);

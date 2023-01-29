@@ -105,7 +105,7 @@ var load_fp = func(path_prop) {
         if (plan.departure != nil) {
             Dialog.get_wpt_prop("LS").getNode("icao", 1).setValue(plan.departure.id);
             Dialog.update_runways("LS");
-            var dep = route.Airbase.fromICAO(plan.departure.id);
+            var dep = route.Airbase.from_ghost(plan.departure);
             route.set_wpt(route.WPT.LS, dep);
 
             if (plan.departure_runway != nil) {
@@ -120,7 +120,7 @@ var load_fp = func(path_prop) {
         if (plan.destination != nil) {
             Dialog.get_wpt_prop("L1").getNode("icao", 1).setValue(plan.destination.id);
             Dialog.update_runways("L1");
-            var dest = route.Airbase.fromICAO(plan.destination.id);
+            var dest = route.Airbase.from_ghost(plan.destination);
             route.set_wpt(route.WPT.L1, dest);
 
             if (plan.destination_runway != nil) {
@@ -165,8 +165,7 @@ var load_fp = func(path_prop) {
             }
 
             Dialog.get_wpt_prop("B"~wp_idx).getNode("input", 1).setValue(wp.id);
-            var coord = geo.Coord.new().set_latlon(wp.lat, wp.lon);
-            route.set_wpt(route.WPT.B | wp_idx, route.Waypoint.new(coord, wp.id));
+            route.set_wpt(route.WPT.B | wp_idx, route.Waypoint.from_ghost(wp));
 
             wp_idx += 1;
         }

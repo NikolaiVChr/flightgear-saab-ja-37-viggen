@@ -1,3 +1,5 @@
+#### AJS Waypoint objects
+
 # FG route manager control property
 var rm_cmd = props.globals.getNode("autopilot/route-manager/input", 1);
 
@@ -13,7 +15,7 @@ var TYPE = {
 # 'fp' is an optional flightplan used as context for waypoint disambiguation.
 # If unset, the current flightplan is used.
 #
-var parse_coord = func(string, fp=nil) {
+var parse_wp = func(string, fp=nil) {
     if (fp != nil) {
         var saved_fp = flightplan();
         var saved_id = saved_fp.current;
@@ -21,7 +23,7 @@ var parse_coord = func(string, fp=nil) {
     }
 
     var len = flightplan().getPlanSize();
-    var coord = nil;
+    var wp = nil;
 
     # Append to flightplan.
     rm_cmd.setValue(string);
@@ -29,8 +31,10 @@ var parse_coord = func(string, fp=nil) {
     if (flightplan().getPlanSize() > len) {
         # New waypoint was added successfully.
         # Read coordinate and delete from flightplan.
-        var wp = flightplan().getWP(len);
-        coord = geo.Coord.new().set_latlon(wp.lat, wp.lon);
+        wp = flightplan().getWP(len);
+        if (!navigation.wp_has_position(wp))
+            wp = nil;
+
         rm_cmd.setValue("@delete"~len);
     }
 
@@ -40,28 +44,47 @@ var parse_coord = func(string, fp=nil) {
         saved_fp.current = saved_id;
     }
 
-    return coord;
+    return wp;
 }
 
 
 ## Waypoint objects (geo.Coord wrapper)
 var Waypoint = {
-    new: func(coord, name="") {
+    from_ghost: func(ghost) {
+        var wpt = {
+            parents: [Waypoint],
+            type: TYPE.WAYPOINT,
+            coord: geo.Coord.new().set_latlon(ghost.lat, ghost.lon),
+            name: ghost.id,
+            ghost: ghost,
+        };
+        return wpt;
+    },
+
+    from_coord: func(coord, name="") {
         var wpt = {
             parents: [Waypoint],
             type: TYPE.WAYPOINT,
             coord: geo.Coord.new(coord),
             name: name,
+            ghost: nil,
         };
         return wpt;
     },
 
     parse: func(string) {
-        var coord = parse_coord(string);
-        if (coord == nil)
+        var wp = parse_wp(string);
+        if (wp == nil)
             return nil;
         else
-            return Waypoint.new(coord, string);
+            return Waypoint.from_ghost(wp);
+    },
+
+    to_wp_ghost: func {
+        if (me.ghost != nil)
+            return me.ghost;
+        else
+            return createWP(me.coord, me.name);
     },
 };
 
@@ -78,25 +101,23 @@ var Airbase = {
     fromICAO: func(ICAO) {
         var info = airportinfo(ICAO);
         if (info == nil) return nil;
+        else return Airbase.from_ghost(info);
+    },
 
+    from_ghost: func (ghost) {
         var apt = {
             parents: [Airbase],
             type: TYPE.AIRBASE,
-            coord: geo.Coord.new().set_latlon(info.lat, info.lon, info.elevation),
-            name: ICAO,
+            coord: geo.Coord.new().set_latlon(ghost.lat, ghost.lon, ghost.elevation),
+            name: ghost.id,
+            ghost: ghost,
             runways: {},
             runway_list: [],
         };
 
-        foreach (var rwy_name; keys(info.runways)) {
-            var rwy = info.runways[rwy_name];
-            append(apt.runway_list, Runway.new(
-                parent: apt,
-                heading: geo.normdeg(rwy.heading),
-                coord:  geo.Coord.new().set_latlon(rwy.lat, rwy.lon, info.elevation),
-                name: rwy_name,
-                freq: rwy.ils_frequency_mhz
-            ));
+        foreach (var rwy_name; keys(ghost.runways)) {
+            var rwy = ghost.runways[rwy_name];
+            append(apt.runway_list, Runway.from_ghost(apt, rwy));
         }
         apt.runway_list = sort(apt.runway_list, Runway.compare_heading);
 
@@ -108,7 +129,7 @@ var Airbase = {
     },
 
     # Create airport anywhere from coordinate and heading (incl reciprocal runway).
-    fromCoord: func(coord, heading, freq=nil) {
+    from_coord: func(coord, heading, freq=nil) {
         var coord = geo.Coord.new(coord);
 
         var apt = {
@@ -116,10 +137,12 @@ var Airbase = {
             type: TYPE.AIRBASE,
             coord: coord,
             name: "",
+            ghost: nil,
+            runways: {},
         };
         apt.runway_list = [
-            Runway.new(parent: apt, heading: geo.normdeg(heading), coord: coord, freq: freq),
-            Runway.new(parent: apt, heading: geo.normdeg(heading + 180), coord: coord),
+            Runway.from_coord(parent: apt, heading: geo.normdeg(heading), coord: coord, freq: freq),
+            Runway.from_coord(parent: apt, heading: geo.normdeg(heading + 180), coord: coord),
         ];
 
         foreach (var rwy; apt.runway_list) {
@@ -127,6 +150,13 @@ var Airbase = {
         }
 
         return apt;
+    },
+
+    to_wp_ghost: func {
+        if (me.ghost != nil)
+            return me.ghost;
+        else
+            return createWP(me.coord, me.name);
     },
 };
 
@@ -139,16 +169,38 @@ var Airbase = {
 # - freq: ILS frequency
 # - parent: parent Airbase object
 var Runway = {
-    new: func(parent, coord, heading, name=nil, freq=nil) {
+    from_ghost: func(parent, ghost) {
+        return {
+            parents: [Runway],
+            type: TYPE.RUNWAY,
+            parent: parent,
+            name: ghost.id,
+            ghost: ghost,
+            # runway ghosts don't have elevations...
+            coord: geo.Coord.new().set_latlon(ghost.lat, ghost.lon, parent.coord.alt()),
+            heading: geo.normdeg(ghost.heading),
+            freq: ghost.ils_frequency_mhz,
+        };
+    },
+
+    from_coord: func(parent, coord, heading, name=nil, freq=nil) {
         return {
             parents: [Runway],
             type: TYPE.RUNWAY,
             parent: parent,
             name: name,
+            ghost: nil,
             coord: coord,
             heading: heading,
             freq: freq,
         };
+    },
+
+    to_wp_ghost: func {
+        if (me.ghost != nil)
+            return me.ghost;
+        else
+            return createWP(me.coord, me.name);
     },
 
     # Cycling order for runways:
