@@ -63,7 +63,7 @@ var is_set = func(idx) {
 var tgt_wpt = {};
 
 var set_tgt = func(idx) {
-    tgt_wpt[idx] = TRUE;
+    tgt_wpt[idx] = { heading: nil, dist: nil, };
 }
 
 var unset_tgt = func(idx) {
@@ -72,6 +72,17 @@ var unset_tgt = func(idx) {
 
 var is_tgt = func(idx) {
     return tgt_wpt[idx] != nil;
+}
+
+var set_popup = func(idx, heading, dist) {
+    if (!is_tgt(idx)) return;
+
+    tgt_wpt[idx].heading = heading;
+    tgt_wpt[idx].dist = dist;
+}
+
+var has_popup = func(idx) {
+    return is_tgt(idx) and tgt_wpt[idx].heading != nil and tgt_wpt[idx].dist != nil;
 }
 
 

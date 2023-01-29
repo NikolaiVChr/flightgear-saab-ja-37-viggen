@@ -360,43 +360,45 @@ var Dialog = {
         });
         append(me.listeners, setlistener(prop, func { me.target_callback(i); }, 0, 0));
 
-        #var prop = me.data.B[i].popup_head;
-        #var name = "B"~i~"-popup-heading";
-        #me.table.addChild("input").setValues({
-        #    "col":          me.COL.POPUP_HEAD,
-        #    "row":          row,
-        #    "name":         name,
-        #    "pref-width":   50,
-        #    "property":     prop.getPath(),
-        #    "live":         TRUE,
-        #    "enable": {
-        #        "property": me.data.B[i].valid.getPath(),
-        #        "property": me.data.B[i].target.getPath(),
-        #    },
-        #    "binding": {
-        #        "command":      "dialog-apply",
-        #        "object-name":  name,
-        #    },
-        #});
+        var prop = me.data.B[i].popup_head;
+        var name = "B"~i~"-popup-heading";
+        me.table.addChild("input").setValues({
+            "col":          me.COL.POPUP_HEAD,
+            "row":          row,
+            "name":         name,
+            "pref-width":   50,
+            "property":     prop.getPath(),
+            "live":         TRUE,
+            "enable": {
+                "property": me.data.B[i].valid.getPath(),
+                "property": me.data.B[i].target.getPath(),
+            },
+            "binding": {
+                "command":      "dialog-apply",
+                "object-name":  name,
+            },
+        });
+        append(me.listeners, setlistener(prop, func { me.popup_callback(i); }, 0, 0));
 
-        #var prop = me.data.B[i].popup_dist;
-        #var name = "B"~i~"-popup-dist";
-        #me.table.addChild("input").setValues({
-        #    "col":          me.COL.POPUP_DIST,
-        #    "row":          row,
-        #    "name":         name,
-        #    "pref-width":   40,
-        #    "property":     prop.getPath(),
-        #    "live":         TRUE,
-        #    "enable": {
-        #        "property": me.data.B[i].valid.getPath(),
-        #        "property": me.data.B[i].target.getPath(),
-        #    },
-        #    "binding": {
-        #        "command":      "dialog-apply",
-        #        "object-name":  name,
-        #    },
-        #});
+        var prop = me.data.B[i].popup_dist;
+        var name = "B"~i~"-popup-dist";
+        me.table.addChild("input").setValues({
+            "col":          me.COL.POPUP_DIST,
+            "row":          row,
+            "name":         name,
+            "pref-width":   40,
+            "property":     prop.getPath(),
+            "live":         TRUE,
+            "enable": {
+                "property": me.data.B[i].valid.getPath(),
+                "property": me.data.B[i].target.getPath(),
+            },
+            "binding": {
+                "command":      "dialog-apply",
+                "object-name":  name,
+            },
+        });
+        append(me.listeners, setlistener(prop, func { me.popup_callback(i); }, 0, 0));
     },
 
     setup_table: func {
@@ -466,10 +468,42 @@ var Dialog = {
 
         if (!route.is_set(wp_id)) return;
 
-        if (me.data.B[idx].target.getBoolValue())
+        if (me.data.B[idx].target.getBoolValue()) {
             route.set_tgt(wp_id);
-        else
+        } else {
             route.unset_tgt(wp_id);
+            with_input_inhibit(func {
+                me.data.B[idx].popup_head.setValue("");
+                me.data.B[idx].popup_dist.setValue("");
+            });
+        }
+
+        route.callback_fp_changed();
+    },
+
+    popup_callback: func(idx) {
+        if (inhibit_input_callback) return;
+
+        var wp_id = route.WPT.B | idx;
+
+        if (!route.is_set(wp_id) or !route.is_tgt(wp_id)) return;
+
+        var heading = num(me.data.B[idx].popup_head.getValue());
+        if (heading != nil)
+            heading = geo.normdeg(math.round(heading));
+
+        var dist = num(me.data.B[idx].popup_dist.getValue());
+        if (dist != nil)
+            dist = math.round(dist);
+        if (dist != nil and dist <= 0)
+            dist = nil;
+
+        route.set_popup(wp_id, heading, dist);
+
+        if (heading == nil)
+            me.data.B[idx].popup_head.setValue("");
+        if (dist == nil)
+            me.data.B[idx].popup_dist.setValue("");
 
         route.callback_fp_changed();
     },
@@ -525,6 +559,8 @@ var Dialog = {
                 with_input_inhibit(func {
                     me.data.B[i].valid.setBoolValue(FALSE);
                     me.data.B[i].target.setBoolValue(FALSE);
+                    me.data.B[i].popup_head.setValue("");
+                    me.data.B[i].popup_dist.setValue("");
                 });
             }
         }
