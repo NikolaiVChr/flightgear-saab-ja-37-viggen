@@ -5,6 +5,32 @@
   <modal type="bool">false</modal>
   <resizable>false</resizable>
 
+  <nasal>
+    <open><![CDATA[
+      var export_dir = getprop("/sim/fg-home")~"/Export";
+      var load_selector = gui.FileSelector.new(
+          callback: route_dialog.load_fp,
+          title: "Load flightplan",
+          button: "Load",
+          dir: export_dir,
+          dotfiles: 1,
+          pattern: ["*.xml", "*.gpx", "*.fgfp"]
+      );
+      var save_selector = gui.FileSelector.new(
+          callback: route_dialog.save_fp,
+          title: "Save flightplan",
+          button: "Save",
+          dir: export_dir,
+          dotfiles: 1,
+          pattern: ["*.fgfp"]
+      );
+    ]]></open>
+    <close><![CDATA[
+      load_selector.del();
+      save_selector.del();
+    ]]></close>
+  </nasal>
+
   <layout>vbox</layout>
 
   <group>
@@ -36,7 +62,7 @@
     <empty>
       <row>0</row>
       <col>0</col>
-      <rowspan>11</rowspan>
+      <rowspan>12</rowspan>
       <width>10</width>
     </empty>
 
@@ -68,7 +94,7 @@
     <vrule>
       <row>0</row>
       <col>4</col>
-      <rowspan>11</rowspan>
+      <rowspan>12</rowspan>
     </vrule>
 
     <text>
@@ -132,7 +158,7 @@
     <vrule>
       <row>0</row>
       <col>12</col>
-      <rowspan>11</rowspan>
+      <rowspan>12</rowspan>
     </vrule>
 
     <text>
@@ -145,7 +171,7 @@
     <vrule>
       <row>0</row>
       <col>15</col>
-      <rowspan>11</rowspan>
+      <rowspan>12</rowspan>
     </vrule>
 
     <text>
@@ -159,9 +185,35 @@
     <empty>
       <row>0</row>
       <col>18</col>
-      <rowspan>11</rowspan>
+      <rowspan>12</rowspan>
       <width>10</width>
     </empty>
+
+    <!-- bottom load/save buttons -->
+
+    <group>
+      <row>11</row>
+      <col>6</col>
+      <layout>hbox</layout>
+
+      <button>
+        <legend>Load</legend>
+        <equal>true</equal>
+        <binding>
+          <command>nasal</command>
+          <script>load_selector.open()</script>
+        </binding>
+      </button>
+      <button>
+        <legend>Save</legend>
+        <equal>true</equal>
+        <binding>
+          <command>nasal</command>
+          <script>save_selector.open();</script>
+        </binding>
+      </button>
+    </group>
+
   </group>
 
   <empty>

@@ -77,8 +77,114 @@ var make_runway_input_listener = func(apt_name) {
 }
 
 
+## Load/save fgfp files
 
-### Custom route manager dialog for AJS
+var save_fp = func(path_prop) {
+    var path = path_prop.getValue();
+    var res = FALSE;
+    call(func { res = route.get_fp_ghost().save(path); }, nil, nil, nil, var err = []);
+    if (size(err) or !res) {
+        logprint(LOG_ALERT, "Failed to save flightplan to: "~path);
+        gui.showDialog("savefail");
+    }
+}
+
+var load_fp = func(path_prop) {
+    var path = path_prop.getValue();
+    var plan = nil;
+    call(func { plan = createFlightplan(path); }, nil, nil, nil, var err = []);
+    if (size(err) or plan == nil) {
+        logprint(LOG_ALERT, "Failed to load flightplan from: "~path);
+        return;
+    }
+
+    # Load new route
+    with_input_inhibit(func {
+        route.unset_all_wpt();
+
+        if (plan.departure != nil) {
+            Dialog.get_wpt_prop("LS").getNode("icao", 1).setValue(plan.departure.id);
+            Dialog.update_runways("LS");
+            var dep = route.Airbase.fromICAO(plan.departure.id);
+            route.set_wpt(route.WPT.LS, dep);
+
+            if (plan.departure_runway != nil) {
+                Dialog.get_wpt_prop("LS").getNode("runway", 1).setValue(plan.departure_runway.id);
+                route.set_wpt(route.WPT.LS, dep.runways[plan.departure_runway.id]);
+            }
+        } else {
+            Dialog.get_wpt_prop("LS").getNode("icao", 1).setValue("");
+            Dialog.update_runways("LS");
+        }
+
+        if (plan.destination != nil) {
+            Dialog.get_wpt_prop("L1").getNode("icao", 1).setValue(plan.destination.id);
+            Dialog.update_runways("L1");
+            var dest = route.Airbase.fromICAO(plan.destination.id);
+            route.set_wpt(route.WPT.L1, dest);
+
+            if (plan.destination_runway != nil) {
+                Dialog.get_wpt_prop("L1").getNode("runway", 1).setValue(plan.destination_runway.id);
+                route.set_wpt(route.WPT.L1, dest.runways[plan.destination_runway.id]);
+            }
+        } else {
+            Dialog.get_wpt_prop("L1").getNode("icao", 1).setValue("");
+            Dialog.update_runways("L1");
+        }
+
+        # FG flightplans don't have alternates.
+        Dialog.get_wpt_prop("L2").getNode("icao", 1).setValue("");
+        Dialog.update_runways("L2");
+
+        # output waypoint number (for the AJS system)
+        var wp_idx = 1;
+        var skipped_complex = FALSE;
+
+        for (var i=0; i<plan.getPlanSize(); i+=1) {
+            var wp = plan.getWP(i);
+
+            # If first / last waypoints are departure/destination, skip them.
+            if (i == 0 and navigation.departure_set(plan))
+                continue;
+            if (i == plan.getPlanSize()-1 and navigation.destination_set(plan))
+                continue;
+
+            if (!navigation.wp_has_position(wp)) {
+                # Waypoint does not have a meaningfull position (e.g. heading to alt instructions).
+                # AJS can't do anything with it, skip it.
+                skipped_complex = TRUE;
+                logprint(LOG_INFO, "Skipping complex flightplan instructions for waypoint "~wp.id);
+                continue;
+            }
+
+            if (wp_idx > 9) {
+                var msg = sprintf("Flightplan truncated at waypoint %s. AJS is limited 9 waypoints.", wp.id);
+                logprint(LOG_ALERT, msg);
+                screen.log.write(msg, 1, 0, 0);
+                break;
+            }
+
+            Dialog.get_wpt_prop("B"~wp_idx).getNode("input", 1).setValue(wp.id);
+            var coord = geo.Coord.new().set_latlon(wp.lat, wp.lon);
+            route.set_wpt(route.WPT.B | wp_idx, route.Waypoint.new(coord, wp.id));
+
+            wp_idx += 1;
+        }
+
+        if (skipped_complex)
+            screen.log.write("Some complex flightplan legs were skipped.", 1, 0.5, 0);
+
+        # Clear remaining waypoints
+        for (; wp_idx<=9; wp_idx+=1) {
+            Dialog.get_wpt_prop("B"~wp_idx).getNode("input", 1).setValue("");
+        }
+    });
+
+    route.callback_fp_changed();
+}
+
+
+## Custom route manager dialog for AJS
 var Dialog = {
     init: func {
         var prop = props.globals.getNode("/sim/gui/dialogs/route-manager-ajs", 1);

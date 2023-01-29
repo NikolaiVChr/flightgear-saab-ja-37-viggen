@@ -50,6 +50,10 @@ var unset_wpt = func(idx) {
     delete(wpt_table, idx);
 }
 
+var unset_all_wpt = func {
+    wpt_table = {};
+}
+
 var is_set = func(idx) {
     return wpt_table[idx] != nil;
 }
@@ -222,6 +226,9 @@ var set_display_fp_wpt = func(idx) {
     display_fp.current = display_fp_idx_table[idx] or -1;
 }
 
+var get_fp_ghost = func {
+    return display_fp;
+}
 
 
 

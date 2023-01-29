@@ -1,7 +1,6 @@
 # Test if departure/destination are set in a flightplan.
 #
 # Departure/destination are only recognised if they are the first/last WP respectively.
-# (the WP indicator logic is not designed for this)
 
 var wp_match_airport = func(wp, airport) {
     return airport != nil and wp.id == airport.id;
@@ -25,4 +24,15 @@ var destination_set = func(fp) {
 
     return wp.wp_role == "approach" and
         (wp_match_airport(wp, fp.destination) or wp_match_runway(wp, fp.destination, fp.destination_runway));
+}
+
+# Test if a waypoint ghost has a well defined position
+var wp_has_position = func(wp) {
+    var type = wp.wp_type;
+
+    if (type == "vectors" or type == "discontinuity" or type == "hdgToAlt"
+        or type == "dmeIntercept" or type == "radialIntercept")
+        return 0;
+
+    return 1;
 }
