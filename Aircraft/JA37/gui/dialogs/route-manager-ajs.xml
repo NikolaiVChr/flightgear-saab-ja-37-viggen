@@ -96,7 +96,7 @@
       <row>1</row>
       <col>8</col>
       <halign>center</halign>
-      <label>km</label>
+      <label>dist.</label>
     </text>
 
     <!--

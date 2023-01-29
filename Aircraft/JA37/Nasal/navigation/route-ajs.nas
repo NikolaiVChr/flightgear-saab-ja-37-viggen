@@ -185,6 +185,7 @@ var callback_takeoff = func {
 var callback_fp_changed = func {
     reload_current();
     write_display_fp();
+    route_dialog.Dialog.update_legs();
 }
 
 

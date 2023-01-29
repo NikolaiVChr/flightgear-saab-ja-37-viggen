@@ -143,26 +143,6 @@ var Dialog = {
         }
     },
 
-    update_runways: func(apt_name) {
-        var apt_id = route.WPT[apt_name];
-        var apt = route.as_airbase(route.get_wpt(apt_id));
-        var combo = me.runway_fields[apt_name];
-        var prop = me.get_wpt_prop(apt_name).getNode("runway");
-
-        inhibit_input_callback = TRUE;
-        prop.setValue("");
-        inhibit_input_callback = FALSE;
-
-        combo.removeChildren("value");
-        if (apt != nil) {
-            foreach (var runway; apt.runway_list) {
-                combo.addChild("value").setValue(runway.name);
-            }
-        }
-
-        gui.dialog_update("route-manager-ajs", apt_name~"-runway");
-    },
-
     setup_table: func {
         # Airbases
         for (var i=0; i<=2; i+=1) {
@@ -244,12 +224,17 @@ var Dialog = {
                 "col":      me.COL.HEAD,
                 "row":      row,
                 "label":    "000",
+                "property": wpt_prop.getNode("leg-heading", 1).getPath(),
+                "live":     TRUE,
             });
 
             me.table.addChild("text").setValues({
                 "col":      me.COL.DIST,
                 "row":      row,
                 "label":    "999km",
+                "halign":   "right",
+                "property": wpt_prop.getNode("leg-dist", 1).getPath(),
+                "live":     TRUE,
             });
 
             #var prop = wpt_prop.getNode("target", 1);
@@ -296,6 +281,61 @@ var Dialog = {
             #        "object-name":  name,
             #    },
             #});
+        }
+
+        me.update_legs();
+    },
+
+    update_runways: func(apt_name) {
+        var apt_id = route.WPT[apt_name];
+        var apt = route.as_airbase(route.get_wpt(apt_id));
+        var apt = route.get_wpt(apt_id);
+        var combo = me.runway_fields[apt_name];
+        var prop = me.get_wpt_prop(apt_name).getNode("runway");
+
+        inhibit_input_callback = TRUE;
+        prop.setValue("");
+        inhibit_input_callback = FALSE;
+
+        combo.removeChildren("value");
+        if (apt != nil) {
+            foreach (var runway; apt.runway_list) {
+                combo.addChild("value").setValue(runway.name);
+            }
+        }
+
+        gui.dialog_update("route-manager-ajs", apt_name~"-runway");
+    },
+
+    update_legs: func {
+        var last_wp = route.get_wpt(route.WPT.LS);
+
+        for (var i=1; i<=9; i+=1) {
+            var wp = route.get_wpt(route.WPT.B | i);
+            var wp_prop = me.get_wpt_prop("B"~i);
+            var input_prop = wp_prop.getNode("input");
+            var head_prop = wp_prop.getNode("leg-heading");
+            var dist_prop = wp_prop.getNode("leg-dist");
+
+            if (input_prop.getValue() == nil or input_prop.getValue() == "") {
+                # waypoint unset, ignore
+                head_prop.setValue("");
+                dist_prop.setValue("");
+            } elsif (wp == nil) {
+                # invalid input
+                head_prop.setValue("err");
+                dist_prop.setValue("");
+            } elsif (last_wp == nil) {
+                # waypoint correct, but no pervious waypoint (missing departure), ignore
+                head_prop.setValue("");
+                dist_prop.setValue("");
+            } else {
+                # valid leg
+                head_prop.setValue(sprintf("%03.f", geo.normdeg(last_wp.coord.course_to(wp.coord))));
+                dist_prop.setValue(sprintf("%3.fkm", last_wp.coord.distance_to(wp.coord) / 1000));
+            }
+
+            if (wp != nil) last_wp = wp;
         }
     },
 
