@@ -2,7 +2,31 @@ var TRUE = 1;
 var FALSE = 0;
 
 
+## Edits callbacks
+
+# Run function while inhibiting update of flightplan from dialog fields.
+# Arguments are with_input_inhibit(func, args, me, locals),
+# same as in call() minus the errors. This rethrows any error.
+# This function is reentrant.
+#
+var with_input_inhibit = func(f, args=nil, m=nil, locals=nil) {
+    if (typeof(f) != "func")
+        die("Non-callable argument to with_input_inhibit()");
+
+    var previous = inhibit_input_callback;
+    inhibit_input_callback = TRUE;
+
+    call(f, args, m, locals, var err = []);
+
+    inhibit_input_callback = previous;
+
+    if (size(err)) die(err);
+}
+
+# NEVER touch this variable directly, use wrapper above.
+# Otherwise any runtime error will lock up the dialog.
 var inhibit_input_callback = FALSE;
+
 
 var make_wpt_input_listener = func(wp_id) {
     return func(node) {
@@ -293,9 +317,7 @@ var Dialog = {
         var combo = me.runway_fields[apt_name];
         var prop = me.get_wpt_prop(apt_name).getNode("runway");
 
-        inhibit_input_callback = TRUE;
-        prop.setValue("");
-        inhibit_input_callback = FALSE;
+        with_input_inhibit(func { prop.setValue(""); });
 
         combo.removeChildren("value");
         if (apt != nil) {
