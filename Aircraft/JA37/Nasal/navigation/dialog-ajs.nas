@@ -117,14 +117,15 @@ var load_fp = func(path_prop) {
         route.unset_all_wpt();
 
         if (plan.departure != nil) {
-            Dialog.data.LS.icao.setValue(plan.departure.id);
-            Dialog.update_runways("LS");
             var dep = route.Airbase.from_ghost(plan.departure);
             route.set_wpt(route.WPT.LS, dep);
 
+            Dialog.data.LS.icao.setValue(plan.departure.id);
+            Dialog.update_runways("LS");
+
             if (plan.departure_runway != nil) {
-                Dialog.data.LS.runway.setValue(plan.departure_runway.id);
                 route.set_wpt(route.WPT.LS, dep.runways[plan.departure_runway.id]);
+                Dialog.data.LS.runway.setValue(plan.departure_runway.id);
             }
         } else {
             Dialog.data.LS.icao.setValue("");
@@ -132,10 +133,11 @@ var load_fp = func(path_prop) {
         }
 
         if (plan.destination != nil) {
-            Dialog.data.L1.icao.setValue(plan.destination.id);
-            Dialog.update_runways("L1");
             var dest = route.Airbase.from_ghost(plan.destination);
             route.set_wpt(route.WPT.L1, dest);
+
+            Dialog.data.L1.icao.setValue(plan.destination.id);
+            Dialog.update_runways("L1");
 
             if (plan.destination_runway != nil) {
                 Dialog.data.L1.runway.setValue(plan.destination_runway.id);
@@ -178,8 +180,8 @@ var load_fp = func(path_prop) {
                 break;
             }
 
-            Dialog.data.B[wp_idx].input.setValue(wp.id);
             route.set_wpt(route.WPT.B | wp_idx, route.Waypoint.from_ghost(wp));
+            Dialog.data.B[wp_idx].input.setValue(wp.id);
 
             wp_idx += 1;
         }
