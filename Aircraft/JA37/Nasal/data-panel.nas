@@ -1244,7 +1244,12 @@ var switch = func {
 }
 
 var keyPress = func (key) {
-  if (!variant.JA) return;
+  if (!variant.JA) {
+    # AJS placeholder, only handles selecting BX waypoints
+    navpanel.dp_button(key);
+    return;
+  }
+
   if (!power.prop.acMainBool.getValue()){
     printDA("DAP: offline");
     return;
