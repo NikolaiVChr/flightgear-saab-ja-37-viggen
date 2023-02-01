@@ -100,7 +100,7 @@ var Common = {
 			launch_alt_min:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-min",
 			launch_alt_max:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-max",
 			ja_head_bug:      "instrumentation/waypoint-indicator/true-bearing-deg",
-			ja_head_tgt:      "instrumentation/waypoint-indicator/ja-tgt-heading-deg",
+			ja_head_tgt:      "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
       	};
    
       	foreach(var name; keys(co.input)) {

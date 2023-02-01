@@ -1611,7 +1611,9 @@
         <waypoint-indicator>
             <active type="bool">false</active>
             <dist-km type="double">0.0</dist-km>
-            <ajs-bearing-deg type="double">0.0</ajs-bearing-deg>
+            <true-bearing-deg type="double">0.0</true-bearing-deg>
+            <tgt-dist-km type="double">0.0</tgt-dist-km>
+            <tgt-true-bearing-deg type="double">0.0</tgt-true-bearing-deg>
             <!-- displays -->
             <type type="int">0</type>
             <number type="int">0</number>
@@ -1619,8 +1621,6 @@
             <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
             <distance-unit-flag type="double">0</distance-unit-flag>
             <bearing-index type="double">0</bearing-index>
-            <ja-bearing-deg type="double">0</ja-bearing-deg>
-            <ja-tgt-heading-deg type="double">0</ja-tgt-heading-deg>
         </waypoint-indicator>
         <route>
             <!-- custom route manager -->

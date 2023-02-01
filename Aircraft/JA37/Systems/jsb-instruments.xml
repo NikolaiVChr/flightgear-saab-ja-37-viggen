@@ -404,8 +404,18 @@
     </channel>
 
 
-    <channel execrate="4" name="waypoint-indicators">
-        <!-- waypoint bearing indicator -->
+    <channel execrate="4" name="navigation">
+        <!--
+            Inputs for AJS:
+            /instrumentation/waypoint-indicator/{dist-km,true-bearing-deg}     - next waypoint, incl. popup points
+            /instrumentation/waypoint-indicator/tgt-{dist-km,true-bearing-deg} - next waypoint, excl. popup points
+
+            Inputs for JS:
+            /instrumentation/waypoint-indicator/{dist-km,true-bearing-deg}     - everything combined, nasal controlled
+            /instrumentation/waypoint-indicator/tgt-{dist-km,true-bearing-deg} - secondary needle, nasal controlled
+        -->
+
+        <!-- main heading indicators -->
 
         <switch name="instruments/waypoint/ajs-bearing-index-goal">
             <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
@@ -413,7 +423,8 @@
                 /instrumentation/heading-indicator/serviceable == 0
                 /instrumentation/waypoint-indicator/active == 0
             </test>
-            <default value="/instrumentation/waypoint-indicator/true-bearing-deg"/>
+            <!-- does not show popup points -->
+            <default value="/instrumentation/waypoint-indicator/tgt-true-bearing-deg"/>
         </switch>
 
         <switch name="instruments/waypoint/ja-bearing-index-goal">
@@ -433,13 +444,15 @@
             <output>/instrumentation/waypoint-indicator/bearing-index-goal</output>
         </switch>
 
+        <!-- JA secondary needle -->
+
         <switch name="instruments/waypoint/target-heading-index-goal">
-            <test logic="OR" value="/instrumentation/waypoint-indicator/bearing-index">
+            <test logic="OR" value="/instrumentation/waypoint-indicator/tgt-heading-index">
                 /ja37/elec/ac-bus-main-bool == 0
                 /instrumentation/heading-indicator/serviceable == 0
             </test>
             <!-- nasal logic -->
-            <default value="/instrumentation/waypoint-indicator/ja-tgt-heading-deg"/>
+            <default value="/instrumentation/waypoint-indicator/tgt-true-bearing-deg"/>
             <output>/instrumentation/waypoint-indicator/tgt-heading-index-goal</output>
         </switch>
 
@@ -448,10 +461,10 @@
              because property rules are easier to use for cyclic values
         -->
 
-        <!-- AJS waypoint distance indicator -->
+        <!-- AJS waypoint distance indicator (does not show popup points) -->
 
         <pure_gain name="instruments/waypoint/distance-km">
-            <input>/instrumentation/waypoint-indicator/dist-km</input>
+            <input>/instrumentation/waypoint-indicator/tgt-dist-km</input>
             <gain>1</gain>
         </pure_gain>
 
@@ -502,6 +515,8 @@
             <rate_limit>10</rate_limit>
             <output>/instrumentation/waypoint-indicator/distance-unit-flag</output>
         </actuator>
+
+        <!-- AJS waypoint ETA (shows popup point) -->
 
         <fcs_function name="instruments/waypoint/eta">
             <function>

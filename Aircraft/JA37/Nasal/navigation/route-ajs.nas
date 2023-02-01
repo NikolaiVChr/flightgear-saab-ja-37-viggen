@@ -7,6 +7,9 @@ var input = {
     wp_active:      "instrumentation/waypoint-indicator/active",
     wp_dist:        "instrumentation/waypoint-indicator/dist-km",
     wp_bearing:     "instrumentation/waypoint-indicator/true-bearing-deg",
+    # excluding popup points
+    tgt_dist:       "instrumentation/waypoint-indicator/tgt-dist-km",
+    tgt_bearing:    "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
 };
 
 foreach(var name; keys(input)) {
@@ -95,12 +98,19 @@ var has_popup = func(idx) {
     return is_tgt(idx) and tgt_wpt[idx].heading != nil and tgt_wpt[idx].dist != nil;
 }
 
+var popup_to_tgt = func(idx) {
+    return WPT.B | (idx & WPT.nb_mask);
+}
+
+var tgt_to_popup = func(idx) {
+    return WPT.U | (idx & WPT.nb_mask);
+}
+
+
 # Recompute popup point position.
 var update_popup = func(idx) {
-    var popup_idx = WPT.U | (idx & WPT.nb_mask);
-
     if (!is_set(idx) or !has_popup(idx)) {
-        unset_wpt(popup_idx);
+        unset_wpt(tgt_to_popup(idx));
         return;
     }
 
@@ -111,7 +121,7 @@ var update_popup = func(idx) {
     # So waypoint offset is opposite of that.
     var popup = Waypoint.offset_copy(wp, heading+180, dist);
 
-    set_wpt(popup_idx, popup);
+    set_wpt(tgt_to_popup(idx), popup);
 }
 
 
@@ -216,15 +226,26 @@ var update = func {
 
     var ac_pos = aircraft_pos();
     var wp_pos = current_wpt.coord;
+    var bearing = ac_pos.course_to(wp_pos);
+    var dist = ac_pos.distance_to(wp_pos);
 
     input.wp_active.setBoolValue(TRUE);
-    input.wp_bearing.setDoubleValue(ac_pos.course_to(wp_pos));
-    var dist = ac_pos.distance_to(wp_pos);
-    input.wp_dist.setDoubleValue(dist/1000.0);
+    input.wp_bearing.setDoubleValue(bearing);
+    input.wp_dist.setDoubleValue(dist / 1000.0);
 
-    if (!sequencing_enabled() or !can_sequence(current)) return;
+    if ((current & WPT.type_mask) == WPT.U) {
+        # For popup points, some instruments need distance/bearing to corresponding target.
+        var tgt_pos = get_wpt(popup_to_tgt(current)).coord;
+        input.tgt_bearing.setDoubleValue(ac_pos.course_to(tgt_pos));
+        input.tgt_dist.setDoubleValue(ac_pos.distance_to(tgt_pos) / 1000.0);
+    } else {
+        input.tgt_bearing.setDoubleValue(bearing);
+        input.tgt_dist.setDoubleValue(dist / 1000.0);
+    }
+
 
     # Sequencing
+    if (!sequencing_enabled() or !can_sequence(current)) return;
 
     if (last_dist < sequence_dist and last_dist < dist) {
         # remark: update is called from set_current(), but the sequencing condition

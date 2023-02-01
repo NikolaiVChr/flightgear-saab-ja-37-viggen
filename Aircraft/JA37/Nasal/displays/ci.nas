@@ -77,8 +77,8 @@ var input = {
     beam_dir:       "instrumentation/radar/effect/beam-dir",
     quality:        "instrumentation/radar/ground-radar-quality",
     antenna_angle:  "instrumentation/radar/antenna-angle-norm",
-    rm_dist:        "instrumentation/waypoint-indicator/dist-km",
-    rm_bearing:     "instrumentation/waypoint-indicator/true-bearing-deg",
+    rm_dist:        "instrumentation/waypoint-indicator/tgt-dist-km",
+    rm_bearing:     "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
     # shaders controls
     compositor:     "ja37/supported/compositor",
     force_shader:   "ja37/displays/use-CI-shader-on-min-settings",
