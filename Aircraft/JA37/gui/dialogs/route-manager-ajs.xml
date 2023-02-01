@@ -160,7 +160,6 @@
       <rowspan>12</rowspan>
     </vrule>
 
-    <!--
     <text>
       <row>0</row>
       <col>14</col>
@@ -168,6 +167,7 @@
       <label>Extra Waypoints</label>
     </text>
 
+    <!--
     <vrule>
       <row>0</row>
       <col>15</col>
@@ -180,7 +180,6 @@
       <halign>center</halign>
       <label>Polygon</label>
     </text>
-    -->
 
     <empty>
       <row>0</row>
@@ -188,6 +187,7 @@
       <rowspan>12</rowspan>
       <width>10</width>
     </empty>
+    -->
 
     <!-- bottom load/save buttons -->
 

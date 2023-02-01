@@ -204,10 +204,10 @@ var Dialog = {
         TGT: 9,
         POPUP_HEAD: 10,
         POPUP_DIST: 11,
-        #WPT_X_NAME: 13,
-        #WPT_X: 14,
-        #POLY_NAME: 16,
-        #POLY: 17,
+        WPT_X_NAME: 13,
+        WPT_X: 14,
+        POLY_NAME: 16,
+        POLY: 17,
     },
 
     airbase_desc: {
@@ -223,6 +223,10 @@ var Dialog = {
     #   idem L1,L2
     #   B: [
     #     { node, input, valid, leg_head, leg_dist, target, popup_head, popup_dist },
+    #     ...
+    #   ],
+    #   BX/R: [
+    #     { node, input, valid },
     #     ...
     #   ],
     # }
@@ -251,6 +255,19 @@ var Dialog = {
                 popup_head: node.getNode("popup-heading", 1),
                 popup_dist: node.getNode("popup-dist", 1),
             });
+        }
+
+        foreach (var type; ["BX", "R"]) {
+            me.data[type] = [nil];
+
+            for (var i=1; i<=9; i+=1) {
+                var node = me.data.node.getChild(type, i, 1);
+                append(me.data[type], {
+                    node: node,
+                    input: node.getNode("input", 1),
+                    valid: node.getNode("valid", 1)
+                });
+            }
         }
     },
 
@@ -297,21 +314,21 @@ var Dialog = {
         append(me.listeners, setlistener(prop, func { me.runway_callback(apt_name); }, 0, 0));
     },
 
-    setup_waypoint: func(i, row) {
-        var wp_name = "B"~i;
-        var wp_idx = route.WPT.B | i;
+    setup_waypoint: func(i, type, row) {
+        var wp_name = type~i;
+        var wp_idx = route.WPT[type] | i;
 
         me.table.addChild("text").setValues({
-            "col":      me.COL.WPT_NAME,
+            "col":      type == "B" ? me.COL.WPT_NAME : type == "BX" ? me.COL.WPT_X_NAME : me.COL.POLY_NAME,
             "row":      row,
             "halign":   "left",
             "label":    wp_name,
         });
 
-        var prop = me.data.B[i].input;
-        var name = "B"~i~"-input";
+        var prop = me.data[type][i].input;
+        var name = wp_name~"-input";
         me.table.addChild("input").setValues({
-            "col":          me.COL.WPT,
+            "col":          type == "B" ? me.COL.WPT : type == "BX" ? me.COL.WPT_X : me.COL.POLY,
             "row":          row,
             "name":         name,
             "pref-width":   180,
@@ -323,6 +340,9 @@ var Dialog = {
             },
         });
         append(me.listeners, setlistener(prop, func(node) { me.wpt_callback(node, wp_idx); }, 0, 0));
+
+        if (type != "B")
+            return;
 
         me.table.addChild("text").setValues({
             "col":      me.COL.HEAD,
@@ -343,7 +363,7 @@ var Dialog = {
 
         var prop = me.data.B[i].target;
         prop.setBoolValue(FALSE);
-        var name = "B"~i~"-target";
+        var name = wp_name~"-target";
         me.table.addChild("checkbox").setValues({
             "col":          me.COL.TGT,
             "row":          row,
@@ -361,7 +381,7 @@ var Dialog = {
         append(me.listeners, setlistener(prop, func { me.target_callback(i); }, 0, 0));
 
         var prop = me.data.B[i].popup_head;
-        var name = "B"~i~"-popup-heading";
+        var name = wp_name~"-popup-heading";
         me.table.addChild("input").setValues({
             "col":          me.COL.POPUP_HEAD,
             "row":          row,
@@ -381,7 +401,7 @@ var Dialog = {
         append(me.listeners, setlistener(prop, func { me.popup_callback(i); }, 0, 0));
 
         var prop = me.data.B[i].popup_dist;
-        var name = "B"~i~"-popup-dist";
+        var name = wp_name~"-popup-dist";
         me.table.addChild("input").setValues({
             "col":          me.COL.POPUP_DIST,
             "row":          row,
@@ -412,7 +432,11 @@ var Dialog = {
         # Waypoints
         for (var i=1; i<=9; i+=1) {
             var row = i+1;
-            me.setup_waypoint(i, row);
+            me.setup_waypoint(i, "B", row);
+        }
+        for (var i=1; i<=5; i+=1) {
+            var row = i+1;
+            me.setup_waypoint(i, "BX", row);
         }
 
         me.update_legs();
