@@ -11,13 +11,6 @@
      <reflection-rainbow type="float">0.1</reflection-rainbow>
      <reflection-noise type="float">0.5</reflection-noise>
 
-    <grain-texture-enabled type="int">1</grain-texture-enabled>
-    <grain-magnification type="float">10</grain-magnification>
-
-     <dirt-enabled type="int">0</dirt-enabled>
-     <dirt-factor type="float">0.0</dirt-factor>
-     <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
-
       <lightmap-enabled type="int">0</lightmap-enabled>
 
       <!-- TODO: remake light map for this -->
