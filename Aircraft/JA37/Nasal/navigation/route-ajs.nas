@@ -10,6 +10,7 @@ var input = {
     # excluding popup points
     tgt_dist:       "instrumentation/waypoint-indicator/tgt-dist-km",
     tgt_bearing:    "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
+    heading:        "instrumentation/heading-indicator/indicated-heading-deg",
 };
 
 foreach(var name; keys(input)) {
@@ -186,7 +187,8 @@ var find_next = func(idx, resolve=1) {
 
 # Test if current mode allows waypoint sequencing
 var sequencing_enabled = func {
-    return modes.selector_ajs != modes.COMBAT and modes.selector_ajs != modes.RECO;
+    return modes.selector_ajs != modes.COMBAT and modes.selector_ajs != modes.RECO
+        and !fix_mode_active();
 }
 
 
@@ -210,6 +212,7 @@ var set_current = func(idx) {
     last_dist = sequence_dist + 1.0;    # so that it doesn't immediately sequence
     update();
     set_display_fp_wpt(idx);
+    stop_fix_mode();
 }
 
 # reload current waypoint (to be used the waypoint position changed)
@@ -267,6 +270,66 @@ var callback_fp_changed = func {
     reload_current();
     write_display_fp();
     route_dialog.Dialog.update_legs();
+}
+
+
+### Target fix mode
+
+var fix_mode = FALSE;
+var fix_idx = nil;
+var fix_wpt = nil;
+# Temporary position during fix, and azimuth / distance.
+var fix_tmp_pos = nil;
+var fix_azi = nil;
+var fix_dist = nil;
+
+var start_fix_mode = func {
+    var type = current & WPT.type_mask;
+    if (type != WPT.B and type != WPT.U)
+        return FALSE;
+    if (type == WPT.B and !is_tgt(current))
+        return FALSE;
+
+    fix_mode = TRUE;
+    fix_idx = popup_to_tgt(current);
+    fix_wpt = get_wpt(fix_idx);
+    fix_tmp_pos = geo.Coord.new(fix_wpt.coord);
+    return TRUE;
+}
+
+var stop_fix_mode = func {
+    fix_mode = FALSE;
+}
+
+var fix_mode_active = func {
+    return fix_mode;
+}
+
+var confirm_fix_pos = func {
+    fix_wpt.coord.set(fix_tmp_pos);
+    fix_wpt.ghost = nil;    # if it had a ghost, it is invalid
+    update_popup(fix_idx);
+    callback_fp_changed();
+}
+
+var update_fix_mode = func(cursor_deltas) {
+    if (cursor_deltas[2] == 2)
+        confirm_fix_pos();
+
+    var ac_pos = geo.aircraft_position();
+    var heading = input.heading.getValue();
+
+    # Convert position to azimuth/distance
+    fix_azi = geo.normdeg180(ac_pos.course_to(fix_tmp_pos) - heading);
+    fix_dist = ac_pos.distance_to(fix_tmp_pos);
+    # Adjust azimuth/distance
+    fix_azi += cursor_deltas[0] * 50;
+    fix_dist -= cursor_deltas[1] * radar.ps37.getRangeM() / 2;
+    fix_azi = math.clamp(fix_azi, -ci.PPI_half_angle, ci.PPI_half_angle);
+    fix_dist = math.clamp(fix_dist, 0, ci.azimuth_range(fix_azi, radar.ps37.getRangeM(), 0));
+    # Convert back to coordinate
+    fix_tmp_pos.set(ac_pos);
+    fix_tmp_pos.apply_course_distance(fix_azi + heading, fix_dist);
 }
 
 

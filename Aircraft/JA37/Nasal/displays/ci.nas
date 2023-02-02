@@ -213,7 +213,11 @@ var RadarImage = {
         me.metadata[me.INFO.TIME2] = math.fmod(time / time2_factor, 1.0);
         me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
 
-        if (me.mode == MODE.RB04) {
+        if (me.mode == MODE.FIX) {
+            me.metadata[me.INFO.RANGE] = 0;
+            me.metadata[me.INFO.AZIMUTH] = route.fix_azi * 0.5 / PPI_half_angle + 0.5;
+            me.metadata[me.INFO.DISTANCE] = route.fix_dist / input.radar_range.getValue();
+        } elsif (me.mode == MODE.RB04) {
             var track = input.track_true.getValue() - input.head_true.getValue();
             track = math.clamp(geo.normdeg180(track), -PPI_half_angle, PPI_half_angle);
             me.metadata[me.INFO.AZIMUTH] = track * 0.5 / PPI_half_angle + 0.5;

@@ -95,6 +95,8 @@ var current_state = STATE.OFF;
 
 var memory = FALSE;
 
+var fix = FALSE;
+
 var ci_tmp_on = FALSE;
 var CI_TMP_ON_TIME = 45;
 var ci_tmp_on_timer = maketimer(CI_TMP_ON_TIME, func { ci_tmp_on = FALSE; });
@@ -107,15 +109,20 @@ var update_radar_ci_mode = func {
     if (memory) {
         radar_mode = RADAR_MODE.STBY;
         ci_mode = CI_MODE.MEMORY;
-    } else {
-        radar_mode = state_to_mode[current_state][0];
-        ci_mode = state_to_mode[current_state][1];
+        return;
+    }
+
+    radar_mode = state_to_mode[current_state][0];
+    ci_mode = state_to_mode[current_state][1];
+
+    if (fix) {
+        ci_mode = CI_MODE.FIX;
     }
 }
 
 
 # Return (but does not update) next state
-var decide_state = func(click) {
+var decide_state = func {
     var type = nil;
     var wpn_knob = nil;
 
@@ -156,7 +163,10 @@ var decide_state = func(click) {
             or (type == "M55" and wpn_knob == fire_control.WPN_SEL.AKAN_JAKT)
             or (type == "RB-05A" and wpn_knob == fire_control.WPN_SEL.RR_LUFT))
         {
-            return (current_state == STATE.AIR_RNG or click) ? STATE.AIR_RNG : STATE.AIR;
+            if (current_state == STATE.AIR_RNG or displays.common.getCursorDelta()[2])
+                return STATE.AIR_RNG;
+            else
+                return STATE.AIR;
         }
         elsif (type == "RB-04E" or type == "RB-15F" or type == "M90")
         {
@@ -177,12 +187,21 @@ var decide_state = func(click) {
     return (current_state == STATE.TERRAIN) ? STATE.TERRAIN : STATE.NORMAL;
 }
 
+var change_state = func(new_state, new_scan_mode) {
+    current_state = new_state;
+    scan_mode = new_scan_mode;
+
+    # Reset temporary modes
+    memory = FALSE;
+    if (ci_tmp_on and current_state != STATE.SILENT) {
+        ci_tmp_on = FALSE;
+        ci_tmp_on_timer.stop();
+    }
+}
+
 # Update current state
 var update_state = func {
-    # In AIR mode, this controller reads radar cursor controls
-    var click = (current_state == STATE.AIR and displays.common.getCursorDelta()[2]);
-
-    var new_state = decide_state(click);
+    var new_state = decide_state();
 
     # Downgrade mode if CI or radar is not available.
     if (!displays.common.ci_on) {
@@ -201,24 +220,34 @@ var update_state = func {
     else
         var new_scan_mode = SCAN_MODE.OTHER;
 
+    ## Fix mode
 
-    if (new_state == current_state and new_scan_mode == scan_mode)
-        # Nothing changed
-        return;
-
-    current_state = new_state;
-    scan_mode = new_scan_mode;
-
-    # Reset temporary modes
-    memory = FALSE;
-    if (ci_tmp_on and current_state != STATE.SILENT) {
-        ci_tmp_on = FALSE;
-        ci_tmp_on_timer.stop();
+    if (new_scan_mode == SCAN_MODE.WIDE
+        and new_state >= STATE.NORMAL and new_state <= STATE.BOMB and new_state != STATE.TERRAIN
+        and displays.common.getCursorDelta()[2] >= 1)
+    {
+        if (!fix)
+            route.start_fix_mode();
+    } else {
+        if (fix)
+            route.stop_fix_mode();
     }
 
-    if (current_state == STATE.AIR) displays.common.resetCursorDelta();
+    fix = route.fix_mode_active();
+    if (fix)
+        route.update_fix_mode(displays.common.getCursorDelta());
+
+
+    # Change mode
+    if (new_state != current_state or new_scan_mode != scan_mode)
+        change_state(new_state, new_scan_mode);
 
     update_radar_ci_mode();
+
+    # Reset cursor delta, except when off or in ground ranging,
+    # where the Rb75 might be using the cursor.
+    if (current_state != STATE.OFF and current_state != STATE.GND_RNG)
+        displays.common.resetCursorDelta();
 }
 
 

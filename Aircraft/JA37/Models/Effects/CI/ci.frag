@@ -161,6 +161,8 @@ float get_metadata(vec4 PPI_pos, int index)
 #define MIN_vec2(v)     min(v.x, v.y)
 #define MIN_vec4(v)     min(min(v.x, v.y), min(v.z, v.w))
 
+#define CURSOR_HALF_SIZE    (0.15 * PPI_RADIUS)
+
 float get_lines_PPI(vec4 PPI_pos)
 {
     // normalized distance to closest line
@@ -194,7 +196,22 @@ float get_lines_PPI(vec4 PPI_pos)
         vec4 arcs_dist = abs(RANGE_ARCS * range_factor - PPI_pos.z);
         dist = min(dist, MIN_vec4(arcs_dist));
     } else {
-        // TODO: Fix-taking mode
+        // Fix-taking mode
+
+        // Cursor position
+        float range = get_metadata(PPI_pos, INFO_DISTANCE) * PPI_RADIUS;
+        float azi = get_metadata(PPI_pos, INFO_AZIMUTH) * 2.0 * PPI_HALF_ANGLE - PPI_HALF_ANGLE;
+
+        // vertical line
+        if (distance(PPI_pos.z, range) <= CURSOR_HALF_SIZE) {
+            vec2 normal = vec2(cos(azi), -sin(azi));
+            dist = min(dist, abs(dot(PPI_pos.xy, normal)));
+        }
+        // horizontal line
+        float angle_size = CURSOR_HALF_SIZE / range;
+        if (distance(PPI_pos.w, azi) <= angle_size) {
+            dist = min(dist, distance(PPI_pos.z, range));
+        }
     }
 
     return (1.0 - smoothstep(LINE_HALF_WIDTH - p_size, LINE_HALF_WIDTH + p_size, dist));
