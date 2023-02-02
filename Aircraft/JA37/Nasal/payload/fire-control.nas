@@ -551,23 +551,27 @@ var Missile = {
         var cursor = displays.common.getCursorDelta();
         displays.common.resetCursorDelta();
 
-        if (cursor[2] and !me.last_click) {
-            # Clicked
-            if (me.rb75_lock) {
-                # Unlock and reset position
+        if (me.rb75_lock) {
+            # When locked, T0->T1 unlocks and resets.
+            if (!me.last_click and cursor[2] == 1)
                 me.reset_rb75_seeker();
-            } elsif (me.weapon.status == armament.MISSILE_LOCK) {
-                # Lock
-                me.rb75_lock = TRUE;
-                me._uncage_seeker();
+        } elsif (cursor[2] == 2 and me.weapon.status == armament.MISSILE_LOCK) {
+            # Lock target
+            me.rb75_lock = TRUE;
+            me._uncage_seeker();
+        } else {
+            # No lock
+            if (cursor[2] == 0) {
+                # reset position
+                me.rb75_pos_x = 0;
+                me.rb75_pos_y = -1.3;
+            } elsif (cursor[2] == 1) {
+                me.rb75_pos_x = math.clamp(me.rb75_pos_x + cursor[0]*5, -15, 15);
+                me.rb75_pos_y = math.clamp(me.rb75_pos_y - cursor[1]*5, -15, 15);
             }
-        }
-        if (!me.rb75_lock) {
-            # Slew cursor
-            me.rb75_pos_x = math.clamp(me.rb75_pos_x + cursor[0]*5, -15, 15);
-            me.rb75_pos_y = math.clamp(me.rb75_pos_y - cursor[1]*5, -15, 15);
             me.weapon.commandDir(me.rb75_pos_x, me.rb75_pos_y);
         }
+
         me.last_click = cursor[2];
     },
 
