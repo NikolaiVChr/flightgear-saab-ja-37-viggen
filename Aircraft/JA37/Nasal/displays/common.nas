@@ -552,13 +552,13 @@ var Common = {
 	# Cursor position low level updates are in JSBSim to not suffer from low refresh rate.
 	# These functions are the interface with this JSBSim system.
 	getCursorDelta: func {
-		return [me.input.cursor_dx.getValue(), me.input.cursor_dy.getValue(), me.input.cursor_clicked.getBoolValue()];
+		return [me.input.cursor_dx.getValue(), me.input.cursor_dy.getValue(), me.input.cursor_clicked.getValue()];
 	},
 
 	resetCursorDelta: func {
 		me.input.cursor_dx.setValue(0);
 		me.input.cursor_dy.setValue(0);
-		me.input.cursor_clicked.setBoolValue(0);
+		me.input.cursor_clicked.setValue(0);
 	},
 
 	unsetTISelection: func {

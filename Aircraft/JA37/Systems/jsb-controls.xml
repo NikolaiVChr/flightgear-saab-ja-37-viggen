@@ -1284,6 +1284,20 @@
         <output>/controls/displays/cursor-total-slew-y</output>
       </summer>
 
+      <!-- AJS 2 stage trigger -->
+      <switch name="names/cursor/cursor-click">
+        <!-- For JA, just use cursor-click -->
+        <test value="/controls/displays/cursor-click">
+          /ja37/systems/variant eq 0
+        </test>
+        <!-- For AJS, cursor-click is stage 2 -->
+        <test value="2">
+          /controls/displays/cursor-click eq 1
+        </test>
+        <default value="/controls/displays/cursor-click-stage1"/>
+        <output>/controls/displays/cursor-total-click</output>
+      </switch>
+
       <!-- Integrates cursor control, and allow the integrator to be reset from outside.
           Displays can know how much the cursor moved between two updates by
           reading this property then reseting it to 0.
@@ -1314,13 +1328,15 @@
         <output>/controls/displays/cursor-slew-y-delta</output>
       </fcs_function>
 
-      <switch name="names/cursor/cursor-was-clicked">
-        <default value="/controls/displays/cursor-was-clicked"/>
-        <test value="1">
-          /controls/displays/cursor-click == 1
-        </test>
+      <fcs_function name="names/cursor/cursor-was-clicked">
+        <function>
+          <max>
+            <property>/controls/displays/cursor-total-click</property>
+            <property>/controls/displays/cursor-was-clicked</property>
+          </max>
+        </function>
         <output>/controls/displays/cursor-was-clicked</output>
-      </switch>
+      </fcs_function>
 
       <!-- RB05 remote control. Currently hardwired to the cursor control.
            Will need to be improved when adding a cursor to the AJS -->

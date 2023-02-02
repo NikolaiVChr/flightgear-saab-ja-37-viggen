@@ -80,6 +80,48 @@
                 </binding>
             </mod-up>
         </key>
+        <key n="111">
+            <name>o</name>
+            <desc>Radar stick click stage 1</desc>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-assign</command>
+                <property>/controls/displays/cursor-click-stage1</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <condition>
+                        <not-equals>
+                            <property>/ja37/systems/variant</property>
+                            <value>0</value>
+                        </not-equals>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/controls/displays/cursor-click-stage1</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </key>
+        <key n="79">
+            <name>O</name>
+            <desc>Radar stick hold stage 1</desc>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>property-toggle</command>
+                <property>/controls/displays/cursor-click-stage1</property>
+            </binding>
+        </key>
         <key n="70">
             <name>F</name>
             <desc>Radar scan mode / Radar memory mode</desc>
@@ -649,8 +691,8 @@
                 </binding>
             </mod-shift>
         </key>
-        <key n="111">
-            <name>o</name>
+        <key n="15">
+            <name>Ctrl-O</name>
             <desc>Toggle canopy</desc>
             <binding>
                 <command>property-toggle</command>
