@@ -25,6 +25,20 @@ var containsVector = func (vec, item) {
 var TI_SEL_RADAR = 1;
 var TI_SEL_DL = 2;
 
+# AJS has control to hold stage 1 of radar stick trigger.
+# Show nice reminder message.
+var radar_stick_window = screen.window.new(x:nil, y:-2, maxlines:1, autoscroll:0);
+setlistener("controls/displays/cursor-click-stage1", func(node) {
+	if (!node.getBoolValue())
+		radar_stick_window.clear();
+});
+
+var radar_stick_held_reminder = func {
+	if (getprop("controls/displays/cursor-click-stage1"))
+		radar_stick_window.write("Radar stick stage 1 pressed", 0, 0.5, 0.5);
+};
+
+
 ### Numbers formatting functions.
 
 # Print in decimal with a _comma_, 'places' is the number of decimal places.

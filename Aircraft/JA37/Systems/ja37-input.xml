@@ -121,6 +121,16 @@
                 <command>property-toggle</command>
                 <property>/controls/displays/cursor-click-stage1</property>
             </binding>
+            <binding>
+                <condition>
+                    <not-equals>
+                        <property>/ja37/systems/variant</property>
+                        <value>0</value>
+                    </not-equals>
+                </condition>
+                <command>nasal</command>
+                <script>displays.radar_stick_held_reminder();</script>
+            </binding>
         </key>
         <key n="70">
             <name>F</name>
