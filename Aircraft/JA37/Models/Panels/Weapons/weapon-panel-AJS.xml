@@ -390,7 +390,7 @@
     <hovered>
       <binding>
         <command>set-tooltip</command>
-        <tooltip-id>jettison_tank</tooltip-id>
+        <tooltip-id>jettison_all</tooltip-id>
         <label>Jettison external load</label>
       </binding>
     </hovered>

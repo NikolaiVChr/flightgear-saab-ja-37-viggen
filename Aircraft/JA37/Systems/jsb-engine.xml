@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+
+<system name="Engine">
+
+  <channel execrate="1" name="Throttle"><!-- execrate must be 1 to overwrite fcs/throttle-pos-norm -->
+
+    <!-- from AJS-37 Description part 4
+
+    throttle pos (degrees, from 0 to 120):
+    7-9     = high pressure cutoff (colin: I don't think there is an indent/detent just here)
+    13-16   = ground idle - a catch prevents going back to cutoff
+    24.5    = flight idle - indent
+    62-65   = max mil - a catch prevents going into A/B, not simulated
+    69-72   = zone 1 indent
+    83-86   = zone 2 indent
+    97-100  = zone 3 indent
+    120     = zone 3 end
+
+    -->
+
+    <!-- Position, from regular throttle controls. Starts at 15 (ground idle) -->
+    <aerosurface_scale name="fcs/throttle-pos-deg-control">
+      <input>/controls/engines/engine/throttle</input>
+      <zero_centered> false </zero_centered>
+      <domain>
+        <min>0</min>
+        <max>1</max>
+      </domain>
+      <range>
+        <min>15</min>
+        <max>120</max>
+      </range>
+    </aerosurface_scale>
+
+    <!-- Throttle lever cutoff position control.
+       To limit risks, throttle must be close to ground idle to cutoff.
+    -->
+    <switch name="fcs/throttle-cutoff">
+      <default value="/controls/engines/engine/throttle-cutoff"/>
+      <test value="0">
+        fcs/throttle-pos-deg gt 21
+      </test>
+      <output>/controls/engines/engine/throttle-cutoff</output>
+    </switch>
+
+    <!-- Throttle lever position, taking cutoff control in account -->
+    <switch name="fcs/throttle-pos-deg-cutoff">
+      <default value="fcs/throttle-pos-deg-control"/>
+      <test value="0">
+        fcs/throttle-cutoff == 1
+      </test>
+    </switch>
+
+    <!-- Limit FG control when in cutoff position -->
+    <switch name="fcs/throttle-pos-norm-limited">
+      <default value="/controls/engines/engine/throttle"/>
+      <test value="0">
+        fcs/throttle-cutoff == 1
+      </test>
+      <output>/controls/engines/engine/throttle</output>
+    </switch>
+
+    <!-- Slow down throttle movement -->
+    <kinematic name="fcs/throttle-pos-deg">
+      <input>fcs/throttle-pos-deg-cutoff</input>
+      <traverse>
+        <setting>
+          <position>0</position>
+          <time>0</time>
+        </setting>
+        <setting>
+          <position>120</position>
+          <time>0.5</time>
+        </setting>
+      </traverse>
+      <noscale/>
+    </kinematic>
+
+    <!-- turbofan power control -->
+    <aerosurface_scale name="fcs/throttle-pos-norm-dry">
+      <input>fcs/throttle-pos-deg</input>
+      <zero_centered> false </zero_centered>
+      <domain>
+        <min> 15 </min>
+        <max> 62 </max>
+      </domain>
+      <range>
+        <min>  0.0 </min>
+        <max>  1.0 </max>
+      </range>
+      <clipto>
+        <min>  0 </min>
+        <max>  1 </max>
+      </clipto>
+    </aerosurface_scale>
+
+    <!-- mil to max augmented is throttle 1.0 to 2.0 -->
+    <summer name="fcs/throttle-pos-norm-augmented">
+      <input>propulsion/engine/zone-scaled</input>
+      <bias>1.0</bias>
+    </summer>
+
+    <switch name="fcs/throttle-pos-norm-tmp">
+      <test logic="AND" value="fcs/throttle-pos-norm-augmented">
+        fcs/throttle-pos-norm-dry eq 1
+        propulsion/engine/augmentation eq 1
+      </test>
+      <default value="fcs/throttle-pos-norm-dry"/>
+    </switch>
+
+    <!-- pure_gain is the only component that can overwrite fcs/throttle-pos-norm -->
+    <pure_gain name="names/throttle/pos-norm">
+      <input>fcs/throttle-pos-norm-tmp</input>
+      <gain>1.0</gain>
+      <output>fcs/throttle-pos-norm</output>
+    </pure_gain>
+  </channel>
+
+
+  <channel name="afterburner" execrate="1">
+
+    <switch name="propulsion/engine/zone">
+      <test logic="OR" value="0">
+        propulsion/engine/n2 lt 84
+        /controls/engines/engine/cutoff-augmentation eq 1
+        /engines/engine/is-reversed eq 1
+        /engines/engine/afterburner/serviceable eq 0
+        /engines/engine/running eq 0
+      </test>
+      <test logic="AND" value="0">
+        fcs/throttle-pos-deg lt 69
+      </test>
+      <test logic="AND" value="1">
+        <!-- zone 1 -->
+        fcs/throttle-pos-deg ge 72
+        fcs/throttle-pos-deg le 83
+      </test>
+      <test logic="AND" value="2">
+        <!-- zone 2 -->
+        fcs/throttle-pos-deg ge 86
+        fcs/throttle-pos-deg le 97
+      </test>
+      <test logic="AND" value="3">
+        <!-- zone 3 -->
+        fcs/throttle-pos-deg ge 100
+      </test>
+      <default value="propulsion/engine/zone"/>
+    </switch>
+
+    <actuator name="propulsion/engine/zone-limited">
+      <input>propulsion/engine/zone</input>
+      <rate_limit sense="incr">1.5</rate_limit>
+      <rate_limit sense="decr">1000</rate_limit>
+    </actuator>
+
+    <fcs_function name="propulsion/engine/zone-active">
+      <function>
+        <integer>
+          <property>propulsion/engine/zone-limited</property>
+        </integer>
+      </function>
+    </fcs_function>
+
+    <switch name="propulsion/engine/augmentation">
+      <test value="1">
+        propulsion/engine/zone-active ge 1
+      </test>
+      <default value="0"/>
+      <output>/controls/engines/engine/augmentation</output>
+    </switch>
+
+    <fcs_function name="propulsion/engine/zone-frac">
+      <function>
+        <fraction>
+          <property>propulsion/engine/zone-limited</property>
+        </fraction>
+      </function>
+    </fcs_function>
+
+    <switch name="propulsion/engine/zone-ignition">
+      <test logic="AND" value="1">
+        propulsion/engine/zone-frac gt 0.2
+        propulsion/engine/zone-frac lt 0.99
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <fcs_function name="propulsion/engine/zone-scaled">
+      <function>
+        <table>
+          <!-- augmentation thrust, normalised between 0 (mil) and 1 (max augmented)
+            zone 1 is 0.1-0.3, zone 2 is 0.4-0.6, zone 3 is 0.7-1.0
+          -->
+          <independentVar lookup="row">fcs/throttle-pos-deg</independentVar>
+          <independentVar lookup="column">propulsion/engine/zone-active</independentVar>
+          <tableData>
+                0   1   2   3
+            72  0   0.1 0.4 0.7
+            83  0   0.3 0.4 0.7
+            86  0   0.3 0.4 0.7
+            97  0   0.3 0.6 0.7
+            100 0   0.3 0.6 0.7
+            120 0   0.3 0.6 1.0
+          </tableData>
+        </table>
+      </function>
+    </fcs_function>
+
+  </channel>
+
+
+  <channel name="cutoff" execrate="4">
+
+    <!-- inverted flight will make oil pressure drop -->
+
+    <fcs_function name="systems/flight/oil/inverted-flight">
+      <description>G of -1 will become +0.75, -0.25 will become +0</description>
+      <function>
+        <max>
+          <sum>
+            <product>
+              <property>accelerations/Nz</property>
+              <v>-1</v>
+            </product>
+            <v>-0.25</v>
+          </sum>
+          <v>0</v>
+        </max>
+      </function>
+      <clipto>
+        <min>0</min>
+        <max>0.75</max>
+      </clipto>
+    </fcs_function>
+
+    <kinematic name="systems/flight/oil/pressure-drop-norm">
+      <input>systems/flight/oil/inverted-flight</input>
+      <noscale/>
+      <traverse>
+        <setting>
+          <position>0</position>
+          <time>0.0</time>
+        </setting>
+        <setting>
+          <position>0.75</position>
+          <time>15</time>
+        </setting>
+      </traverse>
+    </kinematic>
+
+    <fcs_function name="systems/flight/oil/pressure-drop-psi">
+      <function>
+        <product>
+          <property>/engines/engine/oil-pressure-psi</property>
+          <property>systems/flight/oil/pressure-drop-norm</property>
+        </product>
+      </function>
+    </fcs_function>
+
+    <fcs_function name="propulsion/engine/oil-pressure-psi">
+      <function>
+        <max>
+          <value>0</value>
+          <difference>
+            <property>/engines/engine/oil-pressure-psi</property>
+            <property>systems/flight/oil/pressure-drop-psi</property>
+          </difference>
+        </max>
+      </function>
+    </fcs_function>
+
+    <switch name="propulsion/engine/cutoff-low-pressure">
+      <default value="1"/>
+      <test logic="AND" value="0">
+        propulsion/engine/cutoff-commanded == 0
+        systems/flight/oil/pressure-drop-norm lt 0.5625
+      </test>
+    </switch>
+
+    <switch name="propulsion/engine/cutoff-high-pressure">
+      <default value="1"/>
+      <test logic="AND" value="0">
+        fcs/throttle-pos-deg ge 8
+        systems/flight/oil/pressure-drop-norm lt 0.5625
+        propulsion/engine/n2 gt 16 <!-- source: 11-16% -->
+      </test>
+    </switch>
+
+    <switch name="propulsion/engine/cutoff-jsbsim">
+      <default value="1"/>
+      <test logic="AND" value="0">
+        propulsion/engine/cutoff-low-pressure == 0
+        propulsion/engine/cutoff-high-pressure == 0
+      </test>
+      <output>propulsion/cutoff_cmd</output>
+    </switch>
+  </channel>
+
+
+  <channel execrate="4" name="reverser">
+
+    <!--
+      tertiary engine opening, page 188 of JA37Di manual
+    -->
+    <switch name="systems/flight/tertiary/state-cmd">
+      <default value="systems/flight/tertiary/state-cmd"/>
+      <test logic="AND" value="0">
+        <!-- gate closes -->
+      systems/flight/tertiary/state-cmd == 1
+      velocities/mach gt 0.67
+      gear/gear-cmd-norm == 0
+      propulsion/engine/zone gt 1
+      /controls/engines/engine/cutoff-augmentation == 0
+      </test>
+      <test logic="AND" value="1">
+        <!-- gate opens -->
+      systems/flight/tertiary/state-cmd == 0
+      velocities/mach lt 0.64
+      </test>
+      <test logic="AND" value="1">
+        <!-- gate opens -->
+      systems/flight/tertiary/state-cmd == 0
+      gear/gear-cmd-norm ne 0
+      </test>
+      <test logic="AND" value="1">
+        <!-- gate opens -->
+      systems/flight/tertiary/state-cmd == 0
+      propulsion/engine/zone le 1
+      </test>
+      <test logic="AND" value="1">
+        <!-- gate opens -->
+      systems/flight/tertiary/state-cmd == 0
+      /controls/engines/engine/cutoff-augmentation == 1
+      </test>
+    </switch>
+
+    <switch name="systems/flight/tertiary/state-current">
+      <default value="systems/flight/tertiary/state"/>
+      <test logic="AND" value="systems/flight/tertiary/state-cmd">
+        /ja37/elec/dc-bus-main-bool == 1
+      </test>
+    </switch>
+
+    <kinematic name="systems/flight/tertiary/state">
+      <input>systems/flight/tertiary/state-current</input>
+      <traverse>
+        <setting>
+          <position>0</position>
+          <time>0.0</time>
+        </setting>
+        <setting>
+          <position>1</position>
+          <time>5.0</time><!-- closing takes 5s as per manual -->
+        </setting>
+      </traverse>
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+      <output> /ja37/systems/tertiary-opening </output>
+    </kinematic>
+
+    <!--
+      Engine reversing, page 189 of JA37Di manual, page 220 of JA37C manual
+
+      Todo: Blow off reverser doors if reversing is active while tertiary is closed or semi-closed.
+    -->
+
+    <switch name="systems/flight/reverse/R1-time">
+      <default value="sim-time-sec"/>
+      <test value="0"><!-- reset when restarting FDM -->
+        sim-time-sec lt 1
+      </test>
+      <test logic="OR" value="systems/flight/reverse/R1-time">
+        gear/unit[2]/WOW == 1
+      </test>
+    </switch>
+
+    <fcs_function name="systems/flight/reverse/R1-time-release">
+      <function>
+        <sum>
+          <p>systems/flight/reverse/R1-time</p>
+          <v>1</v>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <switch name="systems/flight/reverse/R1">
+      <default value="1"/>
+      <test logic="OR" value="0">
+        sim-time-sec gt systems/flight/reverse/R1-time-release
+      </test>
+    </switch>
+
+    <switch name="systems/flight/reverse/R2-time">
+      <default value="sim-time-sec"/>
+      <test value="0"><!-- reset when restarting FDM -->
+        sim-time-sec lt 1
+      </test>
+      <test logic="OR" value="systems/flight/reverse/R2-time">
+        gear/unit[0]/WOW == 0
+      </test>
+    </switch>
+
+    <fcs_function name="systems/flight/reverse/R2-time-release">
+      <function>
+        <sum>
+          <p>systems/flight/reverse/R2-time</p>
+          <v>30</v>
+        </sum>
+      </function>
+    </fcs_function>
+
+    <switch name="systems/flight/reverse/R2">
+      <default value="0"/>
+      <test logic="AND" value="1">
+        sim-time-sec lt systems/flight/reverse/R2-time-release
+        systems/flight/reverse/R2-time lt sim-time-sec
+      </test>
+    </switch>
+
+    <switch name="systems/flight/reverse/state-cmd">
+      <default value="0"/>
+      <test logic="AND" value="1">
+      /ja37/systems/tertiary-opening == 1
+      gear/gear-cmd-norm == 1
+      gear/unit[0]/WOW == 1
+      /controls/engines/engine[0]/reverser-cmd == 1
+      </test>
+      <test logic="AND" value="1">
+      /controls/engines/engine[0]/reverser-cmd == 1
+      /ja37/systems/tertiary-opening == 1
+      gear/unit[2]/WOW == 1
+      gear/gear-cmd-norm == 1
+      systems/flight/reverse/R1 == 1
+      </test>
+      <test logic="AND" value="1">
+      /controls/engines/engine[0]/reverser-cmd == 1
+      /ja37/systems/tertiary-opening == 1
+      gear/unit[2]/WOW == 1
+      gear/gear-cmd-norm == 1
+      systems/flight/reverse/R2 == 1
+      </test>
+    </switch>
+
+    <switch name="systems/flight/reverse/state-current">
+      <default value="systems/flight/reverse/state"/>
+      <test logic="AND" value="systems/flight/reverse/state-cmd">
+        /ja37/elec/dc-bus-main-bool == 1
+        systems/hydraulics/system1/pressure == 1
+        /controls/engines/engine[0]/reverse-system/serviceable == 1
+      </test>
+    </switch>
+
+    <kinematic name="systems/flight/reverse/state">
+      <input>systems/flight/reverse/state-current</input>
+      <traverse>
+        <setting>
+          <position>0</position>
+          <time>0.0</time>
+        </setting>
+        <setting>
+          <position>1</position>
+          <time>1.5</time><!-- reversing takes 1.5s as per manual -->
+        </setting>
+      </traverse>
+      <clipto>
+        <min>0</min>
+        <max>1</max>
+      </clipto>
+      <output> /engines/engine[0]/reverser-pos-norm </output>
+    </kinematic>
+
+    <aerosurface_scale name="systems/flight/reverse/state-angle">
+      <input>systems/flight/reverse/state</input>
+      <zero_centered> true </zero_centered>
+      <domain>
+        <min> 0 </min>
+        <max> 1 </max>
+      </domain>
+      <range>
+        <min>0</min>
+        <max>2.0669551</max><!-- Max 7716.18lbs thrust. So acos(-34323.27876347009N / 72100N). -->
+      </range>
+      <output> propulsion/engine[0]/reverser-angle-rad </output>
+    </aerosurface_scale>
+
+    <switch name="systems/flight/reverse/is-reversed">
+      <default value="0"/>
+      <test logic="AND" value="1">
+        systems/flight/reverse/state == 1
+      </test>
+      <output> /engines/engine[0]/is-reversed </output>
+    </switch>
+
+    <fcs_function name="names/flight/reverser-position">
+      <function>
+        <difference>
+          <value>1</value>
+          <property>/engines/engine/reverser-pos-norm</property>
+        </difference>
+      </function>
+      <output>/engines/engine/reverser-position</output>
+    </fcs_function>
+  </channel>
+
+
+  <channel name="effects" execrate="4">
+
+    <!-- absolute thrust (used for sound) -->
+    <fcs_function name="systems/flight/engine/thrust_abs">
+      <function>
+        <abs>
+          <property>/engines/engine/thrust_lb</property>
+        </abs>
+      </function>
+      <output>/engines/engine/thrust_lb-absolute</output>
+    </fcs_function>
+
+    <!-- used for animating afterburner flame -->
+    <pure_gain name="propulsion/engine/aug-flame">
+      <input>propulsion/engine/zone-scaled</input>
+      <gain>1.0</gain>
+      <output>/sim/multiplay/generic/float[3]</output>
+    </pure_gain>
+
+    <!-- Throttle zone (between indents), for displays
+
+      This does not check if engine is actually running, etc.
+    -->
+    <switch name="fcs/throttle-pos-section">
+      <test logic="AND" value="1">
+        <!-- below flight idle -->
+        fcs/throttle-pos-deg le 23
+      </test>
+      <test logic="AND" value="2">
+        <!-- dry -->
+        fcs/throttle-pos-deg ge 26
+        fcs/throttle-pos-deg le 69
+      </test>
+      <test logic="AND" value="3">
+        <!-- zone 1 -->
+        fcs/throttle-pos-deg ge 72
+        fcs/throttle-pos-deg le 83
+      </test>
+      <test logic="AND" value="4">
+        <!-- zone 2 -->
+        fcs/throttle-pos-deg ge 86
+        fcs/throttle-pos-deg le 97
+      </test>
+      <test logic="AND" value="5">
+        <!-- zone 3 -->
+        fcs/throttle-pos-deg ge 100
+      </test>
+      <default value="fcs/throttle-pos-section"/>
+    </switch>
+
+    <!-- augmentation zone, for indicator lights -->
+    <summer name="propulsion/engine/zone-display">
+      <input>fcs/throttle-pos-section</input>
+      <bias>-2</bias>
+      <clipto>
+        <min>0</min>
+        <max>3</max>
+      </clipto>
+    </summer>
+
+  </channel>
+</system>

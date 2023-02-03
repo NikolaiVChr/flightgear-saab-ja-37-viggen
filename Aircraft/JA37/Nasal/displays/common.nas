@@ -99,8 +99,8 @@ var Common = {
 			launch_alt_warn:  "fdm/jsbsim/systems/mkv/ajs-launch-altitude-enable",
 			launch_alt_min:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-min",
 			launch_alt_max:   "fdm/jsbsim/systems/mkv/ajs-launch-altitude-max",
-			ja_head_bug:      "instrumentation/waypoint-indicator/ja-bearing-deg",
-			ja_head_tgt:      "instrumentation/waypoint-indicator/ja-tgt-heading-deg",
+			ja_head_bug:      "instrumentation/waypoint-indicator/true-bearing-deg",
+			ja_head_tgt:      "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
       	};
    
       	foreach(var name; keys(co.input)) {
@@ -359,8 +359,8 @@ var Common = {
 		# Condition: landing mode LB, LF, or (L and within 40km of destination)
 		# Used by MKV and QFE warnings
 		var res = 0;
-		if (land.mode_LB_active or land.mode_LF_active) res = 1;
-		if (land.mode_L_active
+		if (modes.nav_ja == modes.LB or modes.nav_ja == modes.LF) res = 1;
+		if (modes.nav_ja == modes.L
 			and (var airbase = route.Polygon.flyRTB.plan.destination) != nil) {
 			res = (geo.Coord.new().set_latlon(airbase.lat, airbase.lon, 0)
 				.distance_to(geo.aircraft_position()) < 40000);
@@ -568,7 +568,7 @@ var Common = {
 	setTISelection: func(s, type) {
 		me.ti_sel_type = type;
 		me.ti_selection = s;
-		if (s != nil) land.RR();
+		if (s != nil) modes.buttons.RR();
 	},
 };
 

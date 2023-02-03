@@ -96,7 +96,7 @@ var Delegate = {
             if (nextIndex >= me.flightplan.getPlanSize()) {
                 # End of flightplan. Custom Viggen behaviour here, instead of finishing flightplan.
                 me._deactivate();
-                route.Polygon._finishedPrimary(me.flightplan);
+                if (variant.JA) route.Polygon._finishedPrimary(me.flightplan);
             } else {
                 logprint(LOG_INFO, "navigation sequencing to next WP");
                 me.flightplan.current = nextIndex;
@@ -111,7 +111,7 @@ var Delegate = {
         # Polygon._wpChanged() can enable landing mode, which can re-trigger waypoint change signals.
         # The 0 timer is a stupid way to avoid this from causing recursive / re-entering
         # calls to functions which are not designed for it.
-        settimer(func {route.Polygon._wpChanged()}, 0);
+        if (variant.JA) settimer(func {route.Polygon._wpChanged()}, 0);
     }
 };
 

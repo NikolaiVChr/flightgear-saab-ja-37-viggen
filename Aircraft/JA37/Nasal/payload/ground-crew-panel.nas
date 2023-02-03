@@ -41,7 +41,7 @@ var WPN_SEL = {
 # Meta remark: this is supposed to represent the ground crew checking and
 # correcting loadout and settings, not some aircraft computer logic.
 # For instance, combining high and low drag bombs is reported as invalid,
-# even if I the weapon computer is likely not able to tell the difference.
+# even if the weapon computer is likely not able to tell the difference.
 
 # Loadout, as an array of size 6. Same indices as in loadout.nas
 var get_current_loadout = func {

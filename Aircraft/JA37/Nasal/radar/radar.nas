@@ -319,10 +319,8 @@ var AirborneRadar = {
 				sttSend.setValue("");
 				#datalink.clear_data();
 			}
-			armament.contact = me.focus;
 			stbySend.setIntValue(0);
 		} else {
-			armament.contact = nil;
 			sttSend.setValue("");
 			stbySend.setIntValue(1);
 			#datalink.clear_data();

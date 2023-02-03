@@ -102,14 +102,14 @@ var Station = {
 						};
 					} elsif (me.weaponName == "AIM-120") {
 						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "inertial") {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "sample") {
 								return {"guidance":"radar"};
 							}
 							return {};
 						};
 					} elsif (me.weaponName == "RB-99") {
 						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "inertial") {
+							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "sample") {
 								fire_control.fireLog.push("RB-99: Pitbull");
 								return {"guidance":"radar"};
 							}

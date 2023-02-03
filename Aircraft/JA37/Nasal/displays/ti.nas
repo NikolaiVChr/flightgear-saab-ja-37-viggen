@@ -213,11 +213,6 @@ var maxMissiles = 4;
 var maxSteers   = 48;#careful with this one
 var maxBases    = 50;
 
-var roundabout = func(x) {
-  var y = x - int(x);
-  return y < 0.5 ? int(x) : 1 + int(x) ;
-};
-
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
 var circlePos = func (deg, radius) {
@@ -2199,20 +2194,20 @@ var TI = {
 				if (me.input.datalink.getBoolValue()) {
 					me.menuButtonBox[2].show();
 				}
-				if (land.mode_B_active == TRUE or land.mode_LA_active == TRUE) {
+				if (modes.nav_ja == modes.B or modes.nav_ja == modes.LA) {
 					# is kind of a hack. It pretends that LÅ is a submode in S.
 					me.menuButtonBox[4].show();
 				}
-				if (land.mode_LA_active == TRUE) {
+				if (modes.nav_ja == modes.LA) {
 					me.menuButtonBox[17].show();
 				}
-				if (land.mode_LF_active == TRUE) {
+				if (modes.nav_ja == modes.LF) {
 					me.menuButtonBox[18].show();
 				}
-				if (land.mode_LB_active == TRUE) {
+				if (modes.nav_ja == modes.LB) {
 					me.menuButtonBox[19].show();
 				}
-				if (land.mode_L_active == TRUE) {
+				if (modes.nav_ja == modes.L) {
 					me.menuButtonBox[20].show();
 				}
 				if (me.ModeAttack == FALSE) {
@@ -2448,10 +2443,10 @@ var TI = {
 			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.getNameNumber()));
 			me.menuButtonSub[17].show();
 			me.menuButtonSub[15].show();
-			if (route.Polygon.editing != nil and (route.Polygon.editing.type == route.TYPE_MISS or route.Polygon.editing.type == route.TYPE_MIX)) {
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_MISS) {
 				me.menuButtonSubBox[16].show();
 			}
-			if (route.Polygon.editing != nil and (route.Polygon.editing.type == route.TYPE_RTB or route.Polygon.editing.type == route.TYPE_MIX)) {
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_RTB) {
 				me.menuButtonSubBox[14].show();
 			}
 			me.menuButtonSub[14].show();
@@ -3570,14 +3565,14 @@ var TI = {
 				me.tgt_alt *= FT2M;
 				me.tgtTextHeiDesc.setText("H");
 				if(me.tgt_alt < 1000) {
-					me.text = str(int(roundabout(me.tgt_alt/10)*10));
+					me.text = str(math.round(me.tgt_alt, 10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
 			} else {
 				me.tgtTextHeiDesc.setText("A");
 				if(me.tgt_alt < 1000) {
-					me.text = str(int(roundabout(me.tgt_alt/10)*10));
+					me.text = str(math.round(me.tgt_alt, 10));
 				} else {
 					me.text = sprintf("%.1f", me.tgt_alt/1000);
 				}
@@ -3833,7 +3828,7 @@ var TI = {
 					me.wpSpeed = sprintf("%0.2f", me.wpSpeed);
 				}
 
-				me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
+				me.wpETA  = math.ceil(getprop("autopilot/route-manager/ete")/60);#mins
 				me.wpETAText = sprintf("%d", me.wpETA);
 				if (me.wpETA > 500) {
 					me.wpETAText = "---";#todo should be time predicted when steerpoint is passed like 12:40:31. Also There should be a T field above it same formating, no clue what for.
@@ -3899,40 +3894,32 @@ var TI = {
 		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
 		me.steerRot = -me.input.heading.getValue()*D2R;
 		if (me.menuMain == MAIN_MISSION_DATA) {
-			if (route.Polygon.primary.type == route.TYPE_MIX) {
-				me.all_plans = [[route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
-			} else {
-				append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["2A"], route.Polygon.polys["2A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["2B"], route.Polygon.polys["2B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["3A"], route.Polygon.polys["3A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["3B"], route.Polygon.polys["3B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["4A"], route.Polygon.polys["4A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["4B"], route.Polygon.polys["4B"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP4"], route.Polygon.polys["OP4"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP5"], route.Polygon.polys["OP5"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
-			}
+			append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2A"], route.Polygon.polys["2A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2B"], route.Polygon.polys["2B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3A"], route.Polygon.polys["3A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3B"], route.Polygon.polys["3B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4A"], route.Polygon.polys["4A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4B"], route.Polygon.polys["4B"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP4"], route.Polygon.polys["OP4"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP5"], route.Polygon.polys["OP5"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
 		} else {
-			if (route.Polygon.primary.type != route.TYPE_MIX) {
-				me.all_plans = [[route.Polygon.primary, FALSE, FALSE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
-				append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
-				append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
-			} else {
-				me.all_plans = [[route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
-			}
+			me.all_plans = [[route.Polygon.primary, FALSE, FALSE],nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil];
+			append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
 		}
 
 		me.nextDist = getprop("autopilot/route-manager/wp/dist");
@@ -4006,7 +3993,7 @@ var TI = {
 						me.steerpoint[me.wpIndex].set("z-index", 11);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
-					} elsif ((land.showActiveSteer == FALSE and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
+					} elsif ((!modes.TI_show_wp and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
 						# The route is being flown. We are not in MSDA and waypoint is current but should not be shown.
 						me.steerpoint[me.wpIndex].hide();
 						if (wp != me.points-1) {
@@ -4085,7 +4072,7 @@ var TI = {
 					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
 					if (me.curr_plan[1] or (!me.curr_plan[1] and !me.curr_plan[2])) {
 						# plan is being edited or we are not in MSDA page so set text name by it.
-						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA?"":(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA)));
+						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA ?"":(me.target_wp?me.steerM:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA));
 						me.steerpointText[me.wpIndex].setText(me.wp_pre~(wp+1));
 						me.steerpointText[me.wpIndex].show();
 					} else {
@@ -4360,8 +4347,8 @@ var TI = {
 	showFlightTime: func {
 		# set true from DAP, when DAP knob is in TI (OUT).
 		if (me.displayFTime == TRUE) {
-			me.fhour = int(displays.common.ftime/60/60);
-			me.fmin  = int((displays.common.ftime-me.fhour*60*60)/60);
+			me.fhour = math.floor(displays.common.ftime/60/60);
+			me.fmin  = math.floor((displays.common.ftime-me.fhour*60*60)/60);
 			me.textFTime.setText(sprintf("FTIME %d:%02d",  me.fhour, me.fmin));
 			me.textFTime.show();
 		} else {
@@ -4411,13 +4398,13 @@ var TI = {
 			me.text = "";
 			if (me.swedishMode) {
 				if(me.alt*FT2M < 1000) {
-					me.text = str(roundabout(me.alt*FT2M/10)*10);
+					me.text = str(math.round(me.alt*FT2M, 10));
 				} else {
 					me.text = sprintf("%.1f", me.alt*FT2M/1000);
 				}
 			} else {
 				if(me.alt < 1000) {
-					me.text = str(roundabout(me.alt/10)*10);
+					me.text = str(math.round(me.alt, 10));
 				} else {
 					me.text = sprintf("%.1f", me.alt/1000);
 				}
@@ -4502,24 +4489,24 @@ var TI = {
 		if (displays.common.ti_selection != nil) {
 			me.mode = "RR";# landing steerpoint
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif (land.mode_LB_active == TRUE) {
+		} elsif (modes.nav_ja == modes.LB) {
 			me.mode = me.swedishMode?"LB":"LS";# landing steerpoint
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif (land.mode_LF_active == TRUE) {
+		} elsif (modes.nav_ja == modes.LF) {
 			me.mode = me.swedishMode?"LF":"LT";# landing touchdown point
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif (land.mode_L_active == TRUE) {
+		} elsif (modes.nav_ja == modes.L) {
 			me.mode = "L ";# steering to landing base
 			me.textBMode.setColor(COLOR_TYRK);
-		} elsif (land.mode_OPT_active == TRUE) {
+		} elsif (modes.nav_ja == modes.OPT) {
 			me.mode = "OP";# visual landing phase
 			me.textBMode.setColor(COLOR_WHITE);
-		} elsif ((land.mode_B_active == TRUE or land.mode_LA_active == TRUE) and route.Polygon.primary != nil) {
+		} elsif ((modes.nav_ja == modes.B or modes.nav_ja == modes.LA) and route.Polygon.primary != nil) {
 			me.target_wp = route.Polygon.primary.isTarget(route.Polygon.primary.getIndex());
-			me.wp_pre = route.Polygon.primary.type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA));
+			me.wp_pre = me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA);
 			me.wp_post = route.Polygon.primary.getIndex()+1;
 			me.mode = me.wp_pre~me.wp_post;
-			if (route.Polygon.primary.type == route.TYPE_MIX or !me.target_wp) {
+			if (!me.target_wp) {
 				me.textBMode.setColor(COLOR_TYRK);
 			} else {
 				me.textBMode.setColor(COLOR_WHITE);
@@ -4689,9 +4676,12 @@ var TI = {
 	},
 
 	showRunway: func {
-		if (land.mode_B_active == FALSE and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
-		  me.x = math.cos(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
-		  me.y = math.sin(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
+		if (modes.nav_ja != modes.B and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
+		  me.heading = me.input.heading.getValue();#true
+		  me.rwy_dist = (me.input.rmDist.getValue() or 0) * NM2M;
+		  me.rwy_bearing = (me.input.rmBearing.getValue() or 0) - me.heading;
+		  me.x = math.cos(-(me.rwy_bearing - 90) * D2R) * me.rwy_dist * M2TEX;
+		  me.y = math.sin(-(me.rwy_bearing - 90) * D2R) * me.rwy_dist * M2TEX;
 
 		  me.dest.setTranslation(me.x, -me.y);
 
@@ -4708,7 +4698,6 @@ var TI = {
 		    me.runway_l = land.line*1000;
 		    me.scale = clamp(me.runway_l*M2TEX,10*MM2TEX,1000);#in the real they are always 10mm, cheated abit.
 		    me.approach_line.setScale(1, me.scale);
-		    me.heading = me.input.heading.getValue();#true
 		    me.dest.setRotation((180+land.head-me.heading)*D2R);
 		    me.runway_name.setText(land.runway);
 		    me.runway_name.setRotation(-(180+land.head)*D2R);
@@ -5186,7 +5175,7 @@ var TI = {
 	b4: func {
 		edgeButtonsStruct[4] = me.input.timeElapsed.getValue();
 		if (!me.active) {
-			land.B();
+			modes.buttons.B();
 			dap.syst();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
@@ -5197,7 +5186,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				#me.showSteers = !me.showSteers;
-				land.B();
+				modes.buttons.B();
 				dap.syst();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
@@ -5584,7 +5573,7 @@ var TI = {
 		edgeButtonsStruct[17] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.LA();
+			modes.buttons.LA();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5594,7 +5583,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.LA();
+				modes.buttons.LA();
 			} elsif (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact reports (all of them)
 				me.closeTraps();
@@ -5629,7 +5618,7 @@ var TI = {
 		edgeButtonsStruct[18] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.LF();
+			modes.buttons.LF();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5642,7 +5631,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.LF();
+				modes.buttons.LF();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.editSteerpoint();#toogle draggable steerpoints
@@ -5654,7 +5643,7 @@ var TI = {
 		edgeButtonsStruct[19] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.LB();
+			modes.buttons.LB();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5667,7 +5656,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.LB();
+				modes.buttons.LB();
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
 				me.day = !me.day;
@@ -5700,7 +5689,7 @@ var TI = {
 		edgeButtonsStruct[20] = me.input.timeElapsed.getValue();
 		if (!me.active) {
 			dap.syst();
-			land.L();
+			modes.buttons.L();
 		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -5716,7 +5705,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				land.L();
+				modes.buttons.L();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				me.dragMapEnabled = !me.dragMapEnabled;
@@ -5801,12 +5790,12 @@ var TI = {
 			(1 - math.ln(math.tan(me.lat * D2R) + 1 / math.cos(me.lat * D2R)) / math.pi) / 2 * me.n
 		];
 		# center_tile_offset[1]
-		me.center_tile_int = [int(me.center_tile_float[0]), int(me.center_tile_float[1])];
+		me.center_tile_int = [math.floor(me.center_tile_float[0]), math.floor(me.center_tile_float[1])];
 
 		me.center_tile_fraction_x = me.center_tile_float[0] - me.center_tile_int[0];
 		me.center_tile_fraction_y = me.center_tile_float[1] - me.center_tile_int[1];
-#printf("centertile: %d,%d fraction %.2f,%.2f",me.center_tile_int[0],me.center_tile_int[1],me.center_tile_fraction_x,me.center_tile_fraction_y);
-		me.tile_offset = [int(num_tiles[0]/2), int(num_tiles[1]/2)];
+		#printf("centertile: %d,%d fraction %.2f,%.2f",me.center_tile_int[0],me.center_tile_int[1],me.center_tile_fraction_x,me.center_tile_fraction_y);
+		me.tile_offset = [math.floor(num_tiles[0]/2), math.floor(num_tiles[1]/2)];
 
 		# 3x3 example: (same for both canvas-tiles and map-tiles)
 		#  *************************
@@ -5817,10 +5806,17 @@ var TI = {
 		#  * -1, 1 *  0, 1 *  1, 1 *
 		#  *************************
 		#
+		# x goes from -180 lon to +180 lon (zero to me.n)
+		# y goes from +85.0511 lat to -85.0511 lat (zero to me.n)
+		#
+		# me.center_tile_float is always positives, it denotes where we are in x,y (floating points)
+		# me.center_tile_int is the x,y tile that we are in (integers)
+		# me.center_tile_fraction is where in that tile we are located (normalized)
+		# me.tile_offset is the negative buffer so that we show tiles all around us instead of only in x,y positive direction
 
 		for(var xxx = 0; xxx < num_tiles[0]; xxx += 1) {
 			for(var yyy = 0; yyy < num_tiles[1]; yyy += 1) {
-				tiles[xxx][yyy].setTranslation(-int((me.center_tile_fraction_x - xxx+me.tile_offset[0]) * tile_size), -int((me.center_tile_fraction_y - yyy+me.tile_offset[1]) * tile_size));
+				tiles[xxx][yyy].setTranslation(-math.floor((me.center_tile_fraction_x - xxx+me.tile_offset[0]) * tile_size), -math.floor((me.center_tile_fraction_y - yyy+me.tile_offset[1]) * tile_size));
 			}
 		}
 

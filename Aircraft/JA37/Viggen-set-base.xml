@@ -527,8 +527,6 @@
         </accelerations>
         <supported>
             <initialized type="bool">false</initialized>
-            <picking type="bool">false</picking>
-            <multiple-flightplans type="bool">false</multiple-flightplans>
             <compositor type="bool">false</compositor>
             <!-- Nasal SVG parser bug https://sourceforge.net/p/flightgear/codetickets/2569/ -->
             <canvas-arcs type="bool">false</canvas-arcs>
@@ -626,6 +624,9 @@
             <dist-thunder1 type="double">0.0</dist-thunder1>
             <dist-thunder2 type="double">0.0</dist-thunder2>
             <dist-thunder3 type="double">0.0</dist-thunder3>
+            <jettison-tank type="bool">false</jettison-tank>
+            <jettison-stores type="bool">false</jettison-stores>
+            <weapon-release type="bool">false</weapon-release>
             <environment-volume type="double">0.0</environment-volume>
             <rain-volume type="double">0.0</rain-volume>
             <floor-ft type="double">-10000</floor-ft>
@@ -1001,7 +1002,6 @@
                 <engine>
                     <augmentation type="double">0</augmentation>
                     <zone type="double">0</zone>
-                    <zone-factor type="double">1</zone-factor>
                     <aug-flame type="double">0</aug-flame>
                     <cutoff-commanded type="bool">true</cutoff-commanded>
                 </engine>
@@ -1246,11 +1246,6 @@
     </environment>
     <autopilot>
         <route-manager>
-            <wp>
-                <!-- Initialization required for JSBSim -->
-                <dist type="double">0</dist>
-                <true-bearing-deg type="double">0</true-bearing-deg>
-            </wp>
             <!-- disable default GPS delegate, replaced in Nasal/flightPlanDelegate.nas -->
             <disable-fms type="bool">true</disable-fms>
         </route-manager>
@@ -1388,19 +1383,6 @@
     <position n="0">
         <altitude-agl-ft type="double">0</altitude-agl-ft>
     </position>
-
-    <!--**********************************************************************
-
-                                          Limits
-
-
-*************************************************************************-->
-    <limits>
-        <!--<max-gear-extension-speed>334.77</max-gear-extension-speed> -->       <!-- as per manual -->
-        <max-positive-g>8.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
-        <max-negative-g>-3.0</max-negative-g> <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
-        <vroll>172.8</vroll> <!-- source: SFI Fragår JA37 (is KIAS) -->
-    </limits>
 
     <!--**********************************************************************
 
@@ -1551,6 +1533,16 @@
             <freq n="7" type="double">1000</freq>
             <freq n="8" type="double">1000</freq>
             <freq n="9" type="double">1000</freq>
+            <vol n="0" type="double">1</vol>
+            <vol n="1" type="double">1</vol>
+            <vol n="2" type="double">1</vol>
+            <vol n="3" type="double">1</vol>
+            <vol n="4" type="double">1</vol>
+            <vol n="5" type="double">1</vol>
+            <vol n="6" type="double">1</vol>
+            <vol n="7" type="double">1</vol>
+            <vol n="8" type="double">1</vol>
+            <vol n="9" type="double">1</vol>
           </sound>
         </rwr>
         <displays>
@@ -1617,15 +1609,22 @@
             <reset-button type="int">0</reset-button>
         </accelerometer>
         <waypoint-indicator>
+            <active type="bool">false</active>
+            <dist-km type="double">0.0</dist-km>
+            <true-bearing-deg type="double">0.0</true-bearing-deg>
+            <tgt-dist-km type="double">0.0</tgt-dist-km>
+            <tgt-true-bearing-deg type="double">0.0</tgt-true-bearing-deg>
+            <!-- displays -->
             <type type="int">0</type>
             <number type="int">0</number>
             <indicator-light type="double" alias="/systems/electrical/dc-light"/>
             <distance-needle type="double">-5</distance-needle><!-- Hidden position -->
             <distance-unit-flag type="double">0</distance-unit-flag>
             <bearing-index type="double">0</bearing-index>
-            <ja-bearing-deg type="double">0</ja-bearing-deg>
-            <ja-tgt-heading-deg type="double">0</ja-tgt-heading-deg>
         </waypoint-indicator>
+        <route>
+            <!-- custom route manager -->
+        </route>
         <fuel>
             <ratio type="double">0</ratio>
             <needle type="double">0</needle>
@@ -1779,15 +1778,9 @@
         <scheduler>
             <file>Aircraft/JA37/Nasal/scheduler.nas</file>
         </scheduler>
-        <modes>
-            <file>Aircraft/JA37/Nasal/modes.nas</file>
-        </modes>
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
         </tyre>
-        <route>
-            <file>Aircraft/JA37/Nasal/navigation/flightplans.nas</file>
-        </route>
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>
@@ -1876,6 +1869,10 @@
         <lm>
             <file>Aircraft/JA37/Nasal/light-manager.nas</file>
         </lm>
+
+        <str_debug>
+          <file>Aircraft/JA37/Nasal/str_debug.nas</file>
+        </str_debug>
 
         <!-- Uncomment below to enable FGplot -->
         <!--

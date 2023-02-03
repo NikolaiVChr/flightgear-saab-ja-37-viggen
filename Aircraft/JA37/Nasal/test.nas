@@ -90,7 +90,7 @@ var test_conditions = func {
 
 	if (!power.prop.acSecondBool.getBoolValue()) return 0;
 	if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") == 0) return 0;
-	if (getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") >= 0.9) return 0;
+	if (getprop("fdm/jsbsim/fcs/throttle-pos-norm") >= 0.9) return 0;
 
 	return 1;
 }

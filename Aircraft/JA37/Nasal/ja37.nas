@@ -9,21 +9,15 @@ var bingoFuel = FALSE;
 var mainOn = FALSE;
 var mainTimer = -1;
 
-var TILSprev = FALSE;
 var acPrev = 0;
 var acTimer = 0;
-
-var MISSILE_STANDBY = -1;
-var MISSILE_SEARCH = 0;
-var MISSILE_LOCK = 1;
-var MISSILE_FLYING = 2;
 
 var flareCount = -1;
 var flareStart = -1;
 
 ############### Main loop ###############
 
-input = {
+var input = {
   aeroSmoke:        "/ja37/effect/smoke",
   aeroSmokeCmd:     "/ja37/effect/smoke-cmd",
   airspeed:         "velocities/airspeed-kt",
@@ -34,9 +28,7 @@ input = {
   apLockHead:       "autopilot/locks/heading",
   apLockSpeed:      "autopilot/locks/speed",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
-  augmentation:     "/controls/engines/engine[0]/augmentation",
   #autoReverse:      "ja37/autoReverseThrust",
-  breathVol:        "ja37/sound/breath-volume",
   buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
@@ -52,7 +44,6 @@ input = {
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
   envVol:           "ja37/sound/environment-volume",
-  fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   fuelRatio:        "/instrumentation/fuel/ratio",
@@ -173,8 +164,6 @@ var Saab37 = {
       }    
     }
     me.oldUnit = me.currentUnit;
-    # breath sound volume
-    input.breathVol.setDoubleValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
     # Properties to adjust color depending on scene light.
     var red = input.sceneRed.getValue();
@@ -249,9 +238,6 @@ var Saab37 = {
       input.aeroSmoke.setIntValue(1);
     }
 
-    # AJS waypoint name indicator.
-    if (variant.AJS) navigation.update_wp_indicator();
-
     #if(!variant.JA and getprop("/instrumentation/radar/range") == 180000) {
     #  setprop("/instrumentation/radar/range", 120000);
     #}
@@ -293,16 +279,9 @@ var Saab37 = {
       return;
     }
 
-    ## control augmented thrust ##
     me.n1 = input.n1.getValue();
     me.n2 = input.n2.getValue();
     me.reversed = input.reversed.getValue();
-
-    if ( input.fdmAug.getValue() == TRUE) { #was 99 and 97
-      input.augmentation.setBoolValue(TRUE);
-    } else {
-      input.augmentation.setBoolValue(FALSE);
-    }
 
     # RWR
     rwr.loop();
@@ -788,7 +767,8 @@ var Saab37 = {
     modes.update();
 
     # flightplans
-    route.poly_start();
+    if (variant.JA) route.poly_start();
+    else route.init();
 
     # displays commons
     displays.common.loop();
@@ -884,25 +864,6 @@ var map = func (value, leftMin, leftMax, rightMin, rightMax) {
 
       # Convert the 0-1 range into a value in the right range.
       return rightMin + (valueScaled * rightSpan);
-}
-
-
-
-###########  loop for handling the battery signal for cockpit sound #########
-var voltage = 0;
-var signalInProgress = FALSE;
-var battery_listener = func {
-
-    if (signalInProgress == FALSE and !voltage and power.prop.dcMainBool.getValue()) {
-      setprop("/systems/electrical/batterysignal", TRUE);
-      signalInProgress = TRUE;
-      settimer(func {
-        setprop("/systems/electrical/batterysignal", FALSE);
-        signalInProgress = FALSE;
-        }, 6);
-    }
-    voltage = power.prop.dcMainBool.getValue();
-    settimer(battery_listener, 0.5);
 }
 
 
@@ -1006,8 +967,6 @@ var test_support = func {
   var version = split(".", versionString);
   var minVersion = split(".", minVersionString);
 
-  setprop("ja37/supported/picking", lexi_compare(version, [2017,2]) >= 0);
-  setprop("ja37/supported/multiple-flightplans", lexi_compare(version, [2017,3,1]) >= 0);
   setprop("ja37/supported/compositor", lexi_compare(version, [2020,4,0]) >= 0);
   setprop("ja37/supported/canvas-arcs", lexi_compare(version, [2020,4,0]) >= 0);
 
@@ -1161,10 +1120,6 @@ var main_init = func {
 
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
-
-  battery_listener();
-  #code_ct();
-  #not();
 
   # asymmetric vortex detachment
   asymVortex();
@@ -1483,10 +1438,6 @@ var clickOff = func {
     clicking = FALSE;
 }
 
-var noop = func {
-  #does nothing, but important
-}
-
 # Simplified, single button controls for speedbrakes
 var speedbrakes_simple_command = -1; # last command. -1: retract, 1: extend
 var speedbrakes_release_timer = maketimer(2, func {setprop("/controls/flight/speedbrake-switch", 0);});
@@ -1612,18 +1563,6 @@ var _popupTip = func(label, y, delay) {
     canvas.tooltip._hideTimer.restart(delay==nil?4:delay);
     #canvas.tooltip.showMessage(delay);
 }
-
-var on_damage_enabled = func() {
-    var internal = view.current.getNode("internal");
-    if (internal == nil or !internal.getBoolValue()) {
-        view.setViewByIndex(0);
-        screen.log.write("External views are disabled with damage on");
-    }
-}
-
-var damage_listener = setlistener("/payload/armament/msg", func (node) {
-    if (node.getBoolValue()) on_damage_enabled();
-}, 1, 0);
 
 var reload_allowed = func(msg = nil) {
     var b = input.reload_allowed.getBoolValue();
@@ -1804,30 +1743,6 @@ var stringToLat = func (str) {
 }
 #myPosToString();
 
-view.stepView = func(step, force = 0) {
-    step = step > 0 ? 1 : -1;
-    var n = view.index;
-    for (var i = 0; i < size(view.views); i += 1) {
-        n += step;
-        if (n < 0)
-            n = size(view.views) - 1;
-        elsif (n >= size(view.views))
-            n = 0;
-        var e = view.views[n].getNode("enabled");
-        var internal = view.views[n].getNode("internal");
-
-        if ((force or e == nil or e.getBoolValue())
-            and view.views[n].getNode("name") != nil
-            and ((internal != nil and internal.getBoolValue()) or !getprop("/payload/armament/msg")))
-            break;
-    }
-    view.setView(n);
-
-    # And pop up a nice reminder
-    var popup=getprop("/sim/view-name-popup");
-    if(popup == 1 or popup==nil) gui.popupTip(view.views[n].getNode("name").getValue());
-}
-
 var action_view_handler = {
   init : func {
     me.latN = props.globals.getNode("/sim/viewer/latitude-deg", 1);
@@ -1932,15 +1847,5 @@ var action_view_handler = {
 
 view.manager.register("Fly-By View", action_view_handler);
 
-
-var KIAStoGS = func (kt,ft) {
-  return (0.02*(ft*0.001)+1)*kt;
-}
-
-var horiSpeed = func () {
-  var e = getprop("velocities/speed-east-fps");
-  var n = getprop("velocities/speed-north-fps");
-  return math.sqrt(n*n+e*e)*FPS2KT;
-}
 
 setprop("ja37/normalmap", !getprop("sim/rendering/rembrandt/enabled"));

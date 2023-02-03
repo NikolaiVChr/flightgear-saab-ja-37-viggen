@@ -119,8 +119,7 @@ var Horizon = {
             # locked on forward axis at takeoff
             me.ref_point_offset = 0;
         } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue()
-                and (land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils))) {
+            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue() and land.has_waypoint > 1 and land.ils) {
                 # TILS command
                 var heading = input.nav_rdl.getValue() + input.nav_defl.getValue()*2;
                 me.ref_point_offset = me.bearing_to_offset(heading, fpv_rel_bearing);
@@ -297,8 +296,7 @@ var AltitudeBars = {
         if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) return;
 
         if (me.mode == HUD.MODE_FINAL_NAV) {
-            if ((land.has_waypoint < 1 or (land.has_waypoint > 1 and land.ils))
-                and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
+            if (land.has_waypoint > 1 and land.ils and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
                 me.set_bars_pos(math.clamp(-input.nav_gs_defl.getValue(), -0.5, 1));
                 me.group.show();
             } else {
@@ -473,12 +471,21 @@ var DistanceLine = {
             me.set_line(input.speed.getValue() * 0.667 / input.rotation_speed.getValue());
         } elsif (me.mode == HUD.MODE_NAV) {
             var eta = input.eta.getValue();
-            if (eta != nil and eta > 0 and eta <= 60) {
-                me.group.show();
+            var popup = (route.get_current_idx() & route.WPT.type_mask) == route.WPT.U;
+
+            if (eta == nil or eta <= 0 or eta > 60 or (popup and eta > 40)) {
+                me.group.hide();
+            } else {
+                if (popup) {
+                    # marker at 1/3, eta decrease from 40s to these markers
+                    eta += 20;
+                    me.set_side_marks(0.333);
+                } else {
+                    me.set_side_marks(0);
+                }
                 me.set_line(eta / 60);
                 me.group.setTranslation(0, alt_bars_pos);
-            } else {
-                me.group.hide();
+                me.group.show();
             }
         }
     },

@@ -1,4 +1,3 @@
-var TYPE_MIX  = 0;# plan has both mission and RTB
 var TYPE_RTB  = 1;# return to base plan
 var TYPE_MISS = 2;# mission plan
 var TYPE_AREA = 3;# polygon area
@@ -49,48 +48,39 @@ var Polygon = {
 		#class:
 		# setup 4 mission and 2 RTB plans. Plus 6 polygon areas.
 		#
-		me.multi = getprop("ja37/supported/multiple-flightplans");
-		if (me.multi == TRUE) {
-			var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
-			Polygon.polys["1"] = poly1;
-			for (var i = 2; i<=4; i+=1) {
-				var poly = Polygon.new(str(i), "", TYPE_MISS, getprop("xmlPlans/mission"~i));
-				Polygon.polys[str(i)] = poly;
-			}
-			for (var i = 1; i<=4; i+=1) {
-				var polyA = Polygon.new(str(i), "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
-				Polygon.polys[polyA.getName()]   = polyA;
-
-				var polyB = Polygon.new(str(i), "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
-				Polygon.polys[polyB.getName()]   = polyB;
-			}
-			for (var i = 1; i<=6; i+=1) {
-				var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
-				Polygon.polys["OP"~i] = poly;
-			}
-		
-			Polygon.editRTB      = Polygon.polys["1A"];
-			Polygon.editMiss     = poly1;
-			Polygon.flyRTB       = Polygon.polys["1A"];
-			Polygon.flyMiss      = poly1;
-			poly1.setAsPrimary();
-			
-			#now set current pos as start base:
-            #var apts = findAirportsWithinRange(25.0);
-            #if (size(apts)) {
-            #	Polygon.takeoffBase = apts[0];
-            #   	Polygon.setTakeoff();
-            #}
-		} else {
-			var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
-			Polygon.primary      = poly1;
-			Polygon.flyRTB       = poly1;
-			Polygon.flyMiss      = poly1;
-			Polygon.editRTB      = poly1;
-			Polygon.editMiss     = poly1;
+		var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
+		Polygon.polys["1"] = poly1;
+		for (var i = 2; i<=4; i+=1) {
+			var poly = Polygon.new(str(i), "", TYPE_MISS, getprop("xmlPlans/mission"~i));
+			Polygon.polys[str(i)] = poly;
 		}
+		for (var i = 1; i<=4; i+=1) {
+			var polyA = Polygon.new(str(i), "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
+			Polygon.polys[polyA.getName()]   = polyA;
+
+			var polyB = Polygon.new(str(i), "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
+			Polygon.polys[polyB.getName()]   = polyB;
+		}
+		for (var i = 1; i<=6; i+=1) {
+			var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
+			Polygon.polys["OP"~i] = poly;
+		}
+
+		Polygon.editRTB      = Polygon.polys["1A"];
+		Polygon.editMiss     = poly1;
+		Polygon.flyRTB       = Polygon.polys["1A"];
+		Polygon.flyMiss      = poly1;
+		poly1.setAsPrimary();
+
+		#now set current pos as start base:
+		#var apts = findAirportsWithinRange(25.0);
+		#if (size(apts)) {
+		#	Polygon.takeoffBase = apts[0];
+		#   	Polygon.setTakeoff();
+		#}
+
 		Polygon._setupListeners();
-		var dlg = gui.Dialog.new("/sim/gui/dialogs/route-manager/dialog", "Aircraft/JA37/gui/dialogs/route-manager.xml", "route-manager");
+		var dlg = gui.Dialog.new("/sim/gui/dialogs/route-manager/dialog", "Aircraft/JA37/gui/dialogs/route-manager-ja.xml", "route-manager");
 		printDA("JA: finished plan Init");
 	},
 	
@@ -229,7 +219,7 @@ var Polygon = {
 				Polygon.setLand(pln);
 			}
 			newPlan.id = pln;
-			#Polygon._setDestDep(Polygon.polys[pln]);# gpx does not have destination support, so we check if its likely to be an airport and set it
+
 			if (Polygon.polys[pln].isPrimary()) {
 				Polygon._activating = TRUE;
 				Polygon.polys[pln].plan.activate();
@@ -243,20 +233,6 @@ var Polygon = {
 			#	Polygon.setLand("1B");
 			#} els
 		}
-	},
-
-	setupAJPolygons: func {
-		#class:
-		# setup 1 plan.
-		#
-		Polygon._setupListeners();
-		var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
-		Polygon.primary      = poly1;
-		Polygon.flyRTB       = poly1;
-		Polygon.flyMiss      = poly1;
-		Polygon.editRTB      = poly1;
-		Polygon.editMiss     = poly1;
-		printDA("AJ: finished plan Init");
 	},
 
 	loadAll: func (path) {
@@ -661,7 +637,6 @@ var Polygon = {
 			} else {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
-			#Polygon._setDestDep(Polygon.editing);
 			Polygon.selectSteer = nil;
 			Polygon._apply = FALSE;
 			printDA("toggle delete. ");
@@ -763,7 +738,7 @@ var Polygon = {
 		Polygon.insertSteer = FALSE;
 		Polygon.editDetail  = FALSE;
 		Polygon.dragSteer   = FALSE;
-		if (variant.JA and TI.ti != nil) {
+		if (TI.ti != nil) {
 			TI.ti.stopDAP();
 		}
 	},
@@ -894,12 +869,12 @@ var Polygon = {
 		#class:
 		# Called form auto.Delegate just after the current waypoint is changed.
 		# Check if it was to last in RTB plan, if so activate L.
-		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and !land.mode_L_active) {
+		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and modes.nav_ja != modes.L) {
 			var ind = Polygon.primary.getIndex();
 			var max = Polygon.primary.plan.getPlanSize()-1;
 			if (ind == max) {
 				dap.syst();# TI will do this when clicking 'L', but should we do it here also?
-				land.L();
+				modes.buttons.L();
 				# this listener can trigger delicate order of execution in landing-mode.nas
 			}
 		}
@@ -931,43 +906,12 @@ var Polygon = {
 			poly.plan.id = poly.name;
 			#me.alreadyApply = Polygon._apply;
 			#Polygon._apply = TRUE;
-			Polygon._setDestDep(poly);
 			#Polygon._apply = me.alreadyApply;
 			printDA("..it was unexpected");
 		}
 		if (Polygon.primary == Polygon.editing) {
 			Polygon.editSteerpointStop();
 			Polygon.selectSteer = nil;
-		}
-	},
-
-	_setDestDep: func (poly) {
-		#class:
-		# Checks the first and last steerpoints of the plan and sets dest/dep if it is airports.
-		# Must only be called inside _apply or on non-active plan
-		#
-		if (poly.type == TYPE_MIX) {
-			# prioritize setting dest on rtb/mix
-			if (poly.plan.destination == nil and poly.getSize()>0) {
-				me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
-				if (me.lookupID != nil) {
-					me.airport = airportinfo(me.lookupID);
-					if (me.airport != nil and ghosttype(me.airport) == "airport") {
-						poly.plan.deleteWP(poly.getSize()-1);
-						poly.plan.destination = me.airport;
-					}
-				}
-			}
-			if (poly.plan.departure == nil and poly.getSize()>1) {
-				me.lookupID = poly.plan.getWP(0).id;
-				if (me.lookupID != nil) {
-					me.airport = airportinfo(me.lookupID);
-					if (me.airport != nil and ghosttype(me.airport) == "airport") {
-						poly.plan.deleteWP(0);
-						poly.plan.departure = me.airport;
-					}
-				}
-			}
 		}
 	},
 
@@ -1255,7 +1199,6 @@ var Polygon = {
 		# A loop that set the DAP display info on next steerpoint, will only be shown in DAP POS/OUT mode.
 		# It also enables the save buttons in the dialog.
 		#
-		if(!Polygon.multi) return;
 		dap.posOutDisplay = "       ";
 		if (Polygon.isPrimaryActive()) {
 			me.steer = Polygon.primary.getSteerpoint();
@@ -1301,11 +1244,7 @@ var poly_start = func {
 	# Setup the polygon system for the aircraft.
 	#
 	#removelistener(lsnr);
-	if (variant.JA) {
-		Polygon.setupJAPolygons();
-	} else {
-		Polygon.setupAJPolygons();
-	}
+	Polygon.setupJAPolygons();
 }
 
 #var lsnr = setlistener("ja37/supported/initialized", poly_start);

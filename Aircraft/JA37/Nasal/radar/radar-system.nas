@@ -63,7 +63,7 @@ var GPS = 1;
 
 var DualSeaterCallsign = props.globals.getNode("/sim/remote/pilot-callsign", 1);
 
-var emptyCoord = geo.Coord.new().set_xyz(0,0,0);
+var emptyCoord = geo.Coord.new().set_xyz(10,10,10);
 
 
 var VectorNotification = {
@@ -235,6 +235,11 @@ var AIToNasal = {
 	    	me.aircraftPos = geo.Coord.new().set_xyz(me.x.getValue(), me.y.getValue(), me.z.getValue());
 	    	me.aircraftPos.alt();# TODO: once fixed in FG this line is no longer needed.
 	    }
+
+	    if (me.aircraftPos.alt() == nil or me.aircraftPos.lat() == nil or me.aircraftPos.lon() == nil) {
+	    	me.nextReadTreeFrame();
+		    return;
+        }
 	    
 	    
         
@@ -348,7 +353,7 @@ var AIToNasal = {
 			me.lookupCallsignNew[callsignKey] = callsignsRaw;
 			foreach(me.newContact; callsignsRaw) {
 				append(me.vector_aicontacts, me.newContact);
-				me.newContact.init();
+				me.newContact.init();				
 			}
 		}		
 	},
@@ -400,6 +405,51 @@ var Contact = {
 	},
 };
 
+
+#   ██████  █████  ██      ██      ███████ ██  ██████  ███    ██     ██       ██████   ██████  ██   ██ ██    ██ ██████  
+#  ██      ██   ██ ██      ██      ██      ██ ██       ████   ██     ██      ██    ██ ██    ██ ██  ██  ██    ██ ██   ██ 
+#  ██      ███████ ██      ██      ███████ ██ ██   ███ ██ ██  ██     ██      ██    ██ ██    ██ █████   ██    ██ ██████  
+#  ██      ██   ██ ██      ██           ██ ██ ██    ██ ██  ██ ██     ██      ██    ██ ██    ██ ██  ██  ██    ██ ██      
+#   ██████ ██   ██ ███████ ███████ ███████ ██  ██████  ██   ████     ███████  ██████   ██████  ██   ██  ██████  ██      
+#                                                                                                                       
+#                                                                                                                       
+var CallsignToContact = {
+	# 
+	new: func () {
+		var ctc = {parents: [CallsignToContact, Radar]};
+				
+		ctc.struct_csContact = {};
+
+		ctc.CallsignToContactRecipient = emesary.Recipient.new("CallsignToContactRecipient");
+		ctc.CallsignToContactRecipient.radar = ctc;
+		ctc.CallsignToContactRecipient.Receive = func(notification) {
+	        if (notification.NotificationType == "AINotification") {
+	        	#printf("OmniRadar recv: %s", notification.NotificationType);
+	            if (me.radar.enabled == 1) {
+	    		    me.radar.struct_csContact = {};
+	    		    foreach(contact ; notification.vector) {
+	    		    	var cs = contact.getCallsign();
+	    		    	if (cs == nil or cs == "") continue;
+	    		    	me.radar.struct_csContact[cs] = contact;
+	    		    }
+	    	    }
+	            return emesary.Transmitter.ReceiptStatus_OK;
+	        }
+	        return emesary.Transmitter.ReceiptStatus_NotProcessed;
+	    };
+		emesary.GlobalTransmitter.Register(ctc.CallsignToContactRecipient);
+		return ctc;
+	},
+
+	get: func (cs) {
+		if (!me.enabled) return nil;
+		return me.struct_csContact[cs];
+	},
+
+	del: func {
+        emesary.GlobalTransmitter.DeRegister(me.CallsignToContactRecipient);
+    },
+};
 
 
 #   ██████  ██     ██ ███    ██ ███████ ██   ██ ██ ██████  
@@ -563,6 +613,7 @@ var Blep = {
 	new: func (valueVector) {
 		var b = {parents: [Blep]};
 		b.values = valueVector;
+		b.mutex = thread.newlock();
 		return b;
 	},
 
@@ -662,6 +713,16 @@ var Blep = {
 		me.clr = me.values[6];
 		return me.clr==nil?0:me.clr;
 	},
+
+	getID: func {
+		return me.ID;
+	},
+
+	getECEFVelocity: func {
+		if (me["ECEFVelocity"] != nil) return me["ECEFVelocity"];
+		me.ECEFVelocity = vector.Math.vectorToGeoVector(vector.Math.getCartesianVelocity(-me.getHeading(), me.values[10], me.values[11], me.values[12],me.values[13],me.values[14]), me.getCoord()).vector;
+		return me.ECEFVelocity;# m per sec
+	},
 };
 
 
@@ -693,6 +754,7 @@ var AIContact = {
 		c.aitype = aitype;
 		c.sign = sign;
 		c.bleps = [];
+		c.groundTrackBlep = nil;
 		c.lastRegisterWasTrack = 0;
 		c.virt = nil;
 		c.virtTGP = nil;
@@ -830,7 +892,7 @@ var AIContact = {
 		    }
 		    me.coord = geo.Coord.new().set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue()*FT2M);
 	    }
-	    if (me.coord.lat() == nil or me.coord.lon() == nil or me.coord.alt() == nil) me.coord = me.oldCoord;# This is due to an error Sammy had
+	    if (me.coord.lat() == nil or me.coord.lon() == nil or me.coord.alt() == nil or me.coord.x() == nil or me.coord.y() == nil or me.coord.z() == nil) me.coord = me.oldCoord;# This is due to an error Sammy had
 	    return me.coord;
 	},
 
@@ -883,7 +945,7 @@ var AIContact = {
 		me.virtTGP.getType = func {
 			return POINT;
 		};
-		me.virtTGP.callsign = "On "~me.get_Callsign();
+		me.virtTGP.callsign = me.get_Callsign();
 		return me.virtTGP;
 	},
 
@@ -1101,7 +1163,19 @@ var AIContact = {
 		}
 		append(newArray, me.coord);#8 coord
 		append(newArray, stt);#9 if was detected in a STT or FTT mode.
-		append(me.bleps, Blep.new(newArray));
+		if (me.lastRegisterWasTrack) {
+			append(newArray, me.getPitch());#10
+			append(newArray, me.getRoll());#11
+			append(newArray, me.get_uBody()*FT2M);#12
+			append(newArray, me.get_vBody()*FT2M);#13
+			append(newArray, me.get_wBody()*FT2M);#14
+		}
+		me.freshBlep = Blep.new(newArray);
+		append(me.bleps, me.freshBlep);
+		if (me.lastRegisterWasTrack) {
+			me.groundTrackBlep = me.freshBlep;
+			me.freshBlep.ID = rand();
+		}
 	},
 
 	getBleps: func {
@@ -1115,6 +1189,10 @@ var AIContact = {
 		#
 		if (!size(me.bleps)) return nil;
 		return me.bleps[size(me.bleps)-1];
+	},
+
+	getLastGroundTrackBlep: func {
+		return me.groundTrackBlep;
 	},
 
 	setBleps: func (bleps_cleaned) {
@@ -1287,7 +1365,8 @@ var AIContact = {
 		me.getType();
 	},
 	getUnique: func {
-		return me.callsign ~ me.model ~ me.ainame ~ me.sign ~ me.aitype ~ me.subid ~ me.prop.getName();
+		# The isVirtual at the end, is so multiexplosion in missile-code can tell apart a virtual from the real thing.
+		return me.callsign ~ me.model ~ me.ainame ~ me.sign ~ me.aitype ~ me.subid ~ me.prop.getName() ~ me.isVirtual();
 	},
 	isValid: func {
 		if (!me.valid.getValue() and me["dlinkNode"] != nil) {
@@ -2305,11 +2384,29 @@ var enable_tacobject = 0;
 var isOmniRadiating = func (model) {
 	# Override this method in your aircraft to do this in another way
 	# Return 1 if this contacts radar is not constricted to a cone.
-	return model == "gci" or model == "S-75" or model == "buk-m2" or model == "MIM104D" or model == "missile_frigate" or model == "fleet" or model == "s-300" or model == "ZSU-23-4M";
+	return model == "gci" or model == "S-75" or model == "SA-6" or model == "buk-m2" or model == "MIM104D" or model == "missile_frigate" or model == "fleet" or model == "s-200" or model == "s-300" or model == "ZSU-23-4M";
 }
 
 var getRadarFieldRadius = func (model) {
 	# Override this method in your aircraft to do this in another way
+	if (model == "A-50" or model == "EC-137R" or model == "E-3") {
+		return 180;
+	}
+	if (model == "S-75" or model == "s-200") {
+		return 180;
+	}
+	if (model == "SA-6" or model == "buk-m2") {
+		return 180;
+	}
+	if (model == "s-300" or model == "MIM104D") {
+		return 180;
+	}
+	if (model == "gci" or model == "ZSU-23-4M") {
+		return 180;
+	}
+	if (model == "fleet" or model == "missile-frigate") {
+		return 180;
+	}
 	return 60;
 }
 
@@ -2327,6 +2424,10 @@ var isKnownSurface = func (model) {
 	contains(knownSurface, model);
 }
 
+var isKnownAwacs = func (model) {
+	contains(knownAwacs, model);
+}
+
 var isKnownHeli = func (model) {
 	contains(knownHelis, model);
 }
@@ -2342,6 +2443,12 @@ var knownCarriers = {
 	"mp-vinson": nil,
 };
 
+var knownAwacs = {
+	"A-50": nil,
+	"EC-137R": nil,
+	"E-3": nil,
+};
+
 var knownShips = {
     "missile_frigate":       nil,
     "frigate":       nil,
@@ -2355,7 +2462,9 @@ var knownShips = {
 var knownSurface = {
     "S-75":       nil,
     "buk-m2":       nil,
+    "SA-6":       nil,
     "s-300":       nil,
+    "s-200":       nil,
     "depot":       nil,
     "struct":       nil,
     "point":       nil,

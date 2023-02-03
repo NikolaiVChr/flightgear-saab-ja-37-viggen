@@ -35,10 +35,6 @@
         <!-- Misc -->
         <signal>
             <type>bool</type>
-            <property type="string">systems/electrical/batterysignal</property>
-        </signal>
-        <signal>
-            <type>bool</type>
             <property type="string">instrumentation/displays/serviceable</property>
         </signal>
         <signal>

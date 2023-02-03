@@ -12,6 +12,8 @@ var input = {
     wow1:       "fdm/jsbsim/gear/unit[1]/WOW",
     xtank_load: "/payload/weight[6]",
     xtank_fuel: "/consumables/fuel/tank[8]",
+    sound_tank: "/ja37/sound/jettison-tank",
+    sound_jett: "/ja37/sound/jettison-stores",
 };
 
 foreach (var prop; keys(input)) {
@@ -82,25 +84,25 @@ var M75 = stations.SubModelWeapon.new(
 
 ### Pylon load options.
 var load_options = {
-    "none": {name: "none", content: [], fireOrder: [], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "M75": {name: "m/75 AKAN", content: [M75], fireOrder: [0], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-24": {name: "RB 24 Sidewinder", content: ["RB-24"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-24J": {name: "RB 24J Sidewinder", content: ["RB-24J"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-74": {name: "RB 74 Sidewinder", content: ["RB-74"], fireOrder: [0], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-71": {name: "RB 71 Skyflash", content: ["RB-71"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-99": {name: "RB 99 AMRAAM", content: ["RB-99"], fireOrder: [0], launcherMass: 90, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-04E": {name: "RB 04E", content: ["RB-04E"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-15F": {name: "RB 15F", content: ["RB-15F"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-05A": {name: "RB 05A", content: ["RB-05A"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "RB-75": {name: "RB 75 Maverick", content: ["RB-75"], fireOrder: [0], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "M90": {name: "m/90", content: ["M90"], fireOrder: [0], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "M71": {name: "m/71 x4", content: ["M71","M71","M71","M71"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
-    "M71R": {name: "m/71 x4 (high drag)", content: ["M71R","M71R","M71R","M71R"], fireOrder: [0,1,2,3], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "none": {name: "none", content: [], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M75": {name: "m/75 AKAN", content: [M75], launcherMass: 0, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-24": {name: "RB 24 Sidewinder", content: ["RB-24"], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-24J": {name: "RB 24J Sidewinder", content: ["RB-24J"], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-74": {name: "RB 74 Sidewinder", content: ["RB-74"], launcherMass: 86, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-71": {name: "RB 71 Skyflash", content: ["RB-71"], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-99": {name: "RB 99 AMRAAM", content: ["RB-99"], launcherMass: 90, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-04E": {name: "RB 04E", content: ["RB-04E"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-15F": {name: "RB 15F", content: ["RB-15F"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-05A": {name: "RB 05A", content: ["RB-05A"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-75": {name: "RB 75 Maverick", content: ["RB-75"], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M90": {name: "m/90", content: ["M90"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M71": {name: "m/71 x4", content: ["M71","M71","M71","M71"], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "M71R": {name: "m/71 x4 (high drag)", content: ["M71R","M71R","M71R","M71R"], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
     "M70": func(pylon) {
-        return {name: "m/70 ARAK", content: [make_M70(pylon)], fireOrder: [0], launcherMass: 230, launcherDragArea: 0.4, launcherJettisonable: 1, showNameInsteadOfCount: 1};
+        return {name: "m/70 ARAK", content: [make_M70(pylon)], launcherMass: 230, launcherDragArea: 0.4, launcherJettisonable: 1, showNameInsteadOfCount: 1};
     },
     "M55": func(pylon) {
-        return {name: "m/55 AKAN", content: [make_M55(pylon)], fireOrder: [0], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showNameInsteadOfCount: 1};
+        return {name: "m/55 AKAN", content: [make_M55(pylon)], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showNameInsteadOfCount: 1};
     },
 };
 
@@ -334,17 +336,28 @@ var jettison_pylon = func (pylon) {
 var jettison_tank = func {
     ja37.click();
     if (!can_jettison()) return;
+    if (xtank_props.jettisoned.getBoolValue()) return;
 
     set_droptank(FALSE);
+    input.sound_tank.setBoolValue(TRUE);
+    settimer(func { input.sound_tank.setBoolValue(FALSE); }, 1.0);
 }
 
 var jettison_stores = func {
     ja37.click();
     if (!can_jettison()) return;
 
+    jettison_tank();
+
     # Do not jettison outer pylons.
+    var released = FALSE;
     foreach(var pylon; [STATIONS.V7V, STATIONS.V7H, STATIONS.S7V, STATIONS.S7H]) {
+        if (get_pylon_load(pylon) != '') released = TRUE;
         jettison_pylon(pylon);
     }
-    jettison_tank();
+
+    if (released) {
+        input.sound_jett.setBoolValue(TRUE);
+        settimer(func { input.sound_jett.setBoolValue(FALSE); }, 1.0);
+    }
 }

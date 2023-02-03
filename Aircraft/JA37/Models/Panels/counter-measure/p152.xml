@@ -59,7 +59,7 @@
         <type>knob</type>
         <object-name>knob2</object-name>
         <property>instrumentation/rwr/sound/volume</property>
-        <factor>240</factor>
+        <factor>600</factor>
         <offset-deg>-210</offset-deg>
         <center>
             <x-m>  0.0207 </x-m>
@@ -75,9 +75,9 @@
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/rwr/sound/volume</property>
-                <factor>0.05</factor>
+                <factor>0.02</factor>
                 <min>0</min>
-                <max>1</max>
+                <max>0.4</max>
                 <wrap>false</wrap>
            </binding>
         </action>

@@ -169,7 +169,7 @@ var RWR_SQUAWK = 1; # Unused, fairly confident that it is not realistic
 var RWR_SCAN = 2;
 var RWR_LOCK = 3;
 var RWR_LAUNCH = 4;
-var RWR_MISSILE = 5;
+var RWR_MISSILE = 5;  # includes CW illumination for semi-active radar
 var RWR_SIGNAL_MIN = RWR_SQUAWK;
 var RWR_SIGNAL_MAX = RWR_MISSILE;
 
@@ -478,13 +478,16 @@ missileRecipient.Receive = func(notification) {
         return emesary.Transmitter.ReceiptStatus_NotProcessed;
     }
 
-    if (bits.test(notification.Flags, 0)) {
+    var radar_on = bits.test(notification.Flags, 0);
+    var motor_on = bits.test(notification.Flags, 1);
+    var CW_illum = bits.test(notification.Flags, 2);
+
+    if (radar_on or CW_illum) {
         # Missile radar on
         signal(notification.Callsign~notification.UniqueIdentity, RWR_MISSILE, notification.Position);
     }
 
-    if (bits.test(notification.Flags, 1)) {
-        # Motor on
+    if (motor_on) {
         var launch = launched[notification.Callsign~notification.UniqueIdentity];
         var elapsed = input.time.getValue();
 
