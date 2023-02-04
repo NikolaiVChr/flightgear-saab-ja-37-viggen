@@ -224,6 +224,8 @@ var update_state = func {
 
     if (new_scan_mode == SCAN_MODE.WIDE
         and new_state >= STATE.NORMAL and new_state <= STATE.BOMB and new_state != STATE.TERRAIN
+        # Inhibit when using Rb 75 in NAV mode. Manual doesn't say what happens in that case exactly...
+        and (fire_control.get_type() != "RB-75" or !fire_control.is_armed())
         and displays.common.getCursorDelta()[2] >= 1)
     {
         if (!fix)
@@ -244,9 +246,9 @@ var update_state = func {
 
     update_radar_ci_mode();
 
-    # Reset cursor delta, except when off or in ground ranging,
-    # where the Rb75 might be using the cursor.
-    if (current_state != STATE.OFF and current_state != STATE.GND_RNG)
+    # Reset cursor delta (if we're using it)
+    if (current_state != STATE.OFF and current_state != STATE.GND_RNG
+        and (fire_control.get_type() != "RB-75" or !fire_control.is_armed()))
         displays.common.resetCursorDelta();
 }
 
