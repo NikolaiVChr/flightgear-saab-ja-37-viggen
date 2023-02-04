@@ -684,6 +684,8 @@ var AimingMode = {
         # In a separate group, so that its position is given in HUD coordinates.
         me.target = make_circle(me.hud_grp, 0, 0, 50);
 
+        # Made up, Rb75 seeker position
+        me.seeker = make_circle(me.hud_grp, 0, 0, 25);
     },
 
     set_mode: func(mode) {
@@ -692,6 +694,7 @@ var AimingMode = {
         } else {
             me.group.hide();
             me.target.hide();
+            me.seeker.hide();
             me.set_AG_flag(FALSE);
         }
     },
@@ -764,6 +767,7 @@ var AimingMode = {
         me.range_mark.hide();
         me.break_bars.hide();
         me.target.hide();
+        me.seeker.hide();
         me.reticle.setVisible(radar_dist != nil or type == "M55");
         me.firing_mark.setVisible(g_warning and input.fiveHz.getBoolValue());
         me.wing.setVisible(radar_dist == nil);
@@ -801,6 +805,7 @@ var AimingMode = {
         me.bars.show();
         me.wing.hide();
         me.target.hide();
+        me.seeker.hide();
 
         me.reticle_pos[0] = pos[0] * MIL2HUD;
         me.reticle_pos[1] = pos[1] * MIL2HUD;
@@ -863,6 +868,7 @@ var AimingMode = {
         me.firing_mark.hide();
         me.break_bars.hide();
         me.target.hide();
+        me.seeker.hide();
         if ((var bomb = fire_control.get_weapon()) != nil and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
             var pos = vector.AircraftPosition.coordToLocalAziElev(ccip[0]);
             me.reticle_pos[0] = pos[0]*100;
@@ -891,18 +897,19 @@ var AimingMode = {
         me.range_mark.hide();
         me.firing_mark.hide();
         me.break_bars.hide();
+        me.target.hide();
         # Default position of Rb 75 seeker
         me.reticle_pos[0] = 0;
         me.reticle_pos[1] = 130;
-        # Display seeker position with secondary reticle, to compensate for the lack of EP13.
+        # Display seeker position with small circle, to compensate for the lack of EP13.
         if ((var rb75 = fire_control.get_weapon()) != nil
             and (var pos = rb75.getSeekerInfo()) != nil
             # Don't display if lock was lost (uncaged + no lock).
             and (rb75.isCaged() or rb75.status == armament.MISSILE_LOCK)) {
-            me.target.setTranslation(pos[0]*100, pos[1]*-100);
-            me.target.show();
+            me.seeker.setTranslation(pos[0]*100, pos[1]*-100);
+            me.seeker.show();
         } else {
-            me.target.hide();
+            me.seeker.hide();
         }
 
         me.dist_line.enabled = FALSE;
