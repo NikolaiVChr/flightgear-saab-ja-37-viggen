@@ -33,7 +33,7 @@
 # - Radar echoes are drawn in the Green channel, as a B-scope spanning the entire texture.
 #   The shader then does the coordinate transformation.
 # - The blue channel is organized in a number of horizontal strips, containing metadata:
-#   * time of writing (modulo 1min)
+#   * time of writing
 #   * the radar range
 #   * the position of the cross (and whether or not it is displayed)
 #   * deviation of the centerline (used for some aiming modes)
@@ -376,7 +376,12 @@ var NavSymbols = {
         var bearing = input.rm_bearing.getValue() or 0;
         var dist = (input.rm_dist.getValue() or 0) * 1000;
 
-        me.set_elt_pos_polar(me.wpt_group, dist, bearing - heading, scale);
+        if (route.fix_mode_active()) {
+            me.set_elt_pos_polar(me.wpt_group, route.fix_dist, route.fix_azi, scale);
+        } else {
+            me.set_elt_pos_polar(me.wpt_group, dist, bearing - heading, scale);
+        }
+
 
         if (line_visible) {
             me.set_line_length(land.line*1000, scale);
