@@ -683,6 +683,7 @@ var AimingMode = {
         # Secondary reticle (target position, and some other functions).
         # In a separate group, so that its position is given in HUD coordinates.
         me.target = make_circle(me.hud_grp, 0, 0, 50);
+        me.target_pos = geo.Coord.new();
 
         # Made up, Rb75 seeker position
         me.seeker = make_circle(me.hud_grp, 0, 0, 25);
@@ -804,7 +805,7 @@ var AimingMode = {
         me.reticle.show();
         me.bars.show();
         me.wing.hide();
-        me.target.hide();
+        me.update_target_ring();
         me.seeker.hide();
 
         me.reticle_pos[0] = pos[0] * MIL2HUD;
@@ -867,8 +868,9 @@ var AimingMode = {
         me.range_mark.hide();
         me.firing_mark.hide();
         me.break_bars.hide();
-        me.target.hide();
+        me.update_target_ring();
         me.seeker.hide();
+
         if ((var bomb = fire_control.get_weapon()) != nil and (var ccip = bomb.getCCIPadv(16, 0.2)) != nil) {
             var pos = vector.AircraftPosition.coordToLocalAziElev(ccip[0]);
             me.reticle_pos[0] = pos[0]*100;
@@ -886,8 +888,6 @@ var AimingMode = {
         }
     },
 
-    ## Misc
-
     update_RB75: func {
         me.set_AG_flag(FALSE);
 
@@ -897,10 +897,11 @@ var AimingMode = {
         me.range_mark.hide();
         me.firing_mark.hide();
         me.break_bars.hide();
-        me.target.hide();
+        me.update_target_ring();
         # Default position of Rb 75 seeker
         me.reticle_pos[0] = 0;
         me.reticle_pos[1] = 130;
+
         # Display seeker position with small circle, to compensate for the lack of EP13.
         if ((var rb75 = fire_control.get_weapon()) != nil
             and (var pos = rb75.getSeekerInfo()) != nil
@@ -913,6 +914,20 @@ var AimingMode = {
         }
 
         me.dist_line.enabled = FALSE;
+    },
+
+    # Target waypoint position ring, shown before unsafing.
+    update_target_ring: func {
+        if (fire_control.is_armed() or route.get_current_wpt() == nil or !route.is_tgt(route.get_current_idx())) {
+            me.target.hide();
+            return;
+        }
+
+        me.target_pos.set(route.get_current_wpt().coord);
+        me.target_pos.set_alt(input.true_alt_ft.getValue() * FT2M - input.alt.getValue());
+        var pos = vector.AircraftPosition.coordToLocalAziElev(me.target_pos);
+        me.target.setTranslation(pos[0]*100, pos[1]*-100);
+        me.target.show();
     },
 
     ## Main update function
