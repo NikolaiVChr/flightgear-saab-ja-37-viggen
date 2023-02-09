@@ -144,14 +144,14 @@
       <row>1</row>
       <col>10</col>
       <halign>center</halign>
-      <label>from</label>
+      <label>heading</label>
     </text>
 
     <text>
       <row>1</row>
       <col>11</col>
       <halign>center</halign>
-      <label>dist</label>
+      <label>dist. (km)</label>
     </text>
 
     <vrule>
@@ -180,6 +180,7 @@
       <halign>center</halign>
       <label>Polygon</label>
     </text>
+    -->
 
     <empty>
       <row>0</row>
@@ -187,7 +188,6 @@
       <rowspan>12</rowspan>
       <width>10</width>
     </empty>
-    -->
 
     <!-- bottom load/save buttons -->
 

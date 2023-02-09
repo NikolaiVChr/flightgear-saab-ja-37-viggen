@@ -322,7 +322,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label> - Press 'y' to control the cursor with the main flight controls. 'n' clicks.</label>
+      <label> - Press 'y' to control the cursor with the main flight controls. 'l' clicks.</label>
     </text>
 
     <!-- MP damage -->

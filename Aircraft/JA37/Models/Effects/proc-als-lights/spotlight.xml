@@ -8,63 +8,9 @@
     <object-name>procedural_light</object-name>
   </effect>
 
-  <light>
-    <name>spotlight</name>
-    <type>point</type>
-    <position>
-      <x-m>0</x-m>
-      <y-m>0</y-m>
-      <z-m>0</z-m>
-    </position>
-    <ambient>
-      <r>0.0</r>
-      <g>0.0</g>
-      <b>0.0</b>
-      <a>1</a>
-    </ambient>
-    <diffuse>
-      <r>1.0</r>
-      <g>1.0</g>
-      <b>0.8</b>
-      <a>1</a>
-    </diffuse>
-    <specular>
-      <r>1.0</r>
-      <g>1.0</g>
-      <b>0.8</b>
-      <a>1</a>
-    </specular>
-    <attenuation>
-      <c>2.0</c>
-      <l>3.0</l>
-      <q>15.0</q>
-    </attenuation>
-    <range-m>7</range-m>
-    <dim-factor>
-      <expression>
-        <product>
-          <!-- /ja37/effect/navigation-light (0-100 scale) -->
-          <property>sim/multiplay/generic/short[1]</property>
-          <value>0.02</value>
-          <table>
-            <!-- adjust intensity depending on surrounding light 
-            for reference, time of day corresponding to the value is indicated
-            (late spring, clear weather, around 45deg latitude) -->
-            <property>/rendering/scene/diffuse/red</property>
-            <entry><ind>0.0</ind><dep>1.0</dep></entry><!-- night -->
-            <entry><ind>0.7</ind><dep>0.8</dep></entry><!-- dusk -->
-            <entry><ind>0.9</ind><dep>0.3</dep></entry><!-- afternoon -->
-            <entry><ind>1.0</ind><dep>0.2</dep></entry><!-- noon -->
-          </table>
-        </product>
-      </expression>
-    </dim-factor>
-  </light>
-
   <animation>
     <type>select</type>
     <object-name>procedural_light</object-name>
-    <object-name>spotlight</object-name>
     <condition>
       <or>
         <property>fdm/jsbsim/structural/wings/serviceable</property>

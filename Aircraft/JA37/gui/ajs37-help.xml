@@ -26,7 +26,7 @@
         <desc>Jettison Drop tank in flight</desc>
     </key>
     <key>
-        <name>o</name>
+        <name>Ctrl-O</name>
         <desc>Toggle canopy</desc>
     </key>
     <key>
@@ -95,7 +95,15 @@
     </key>
     <key>
         <name>l</name>
-        <desc>Cursor click / select</desc>
+        <desc>Cursor click 2nd stage</desc>
+    </key>
+    <key>
+        <name>o</name>
+        <desc>Cursor click 1st stage</desc>
+    </key>
+    <key>
+        <name>O</name>
+        <desc>Hold 1st stage cursor click</desc>
     </key>
     <key>
         <name>f / r</name>

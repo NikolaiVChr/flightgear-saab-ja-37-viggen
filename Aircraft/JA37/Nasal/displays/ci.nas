@@ -33,7 +33,7 @@
 # - Radar echoes are drawn in the Green channel, as a B-scope spanning the entire texture.
 #   The shader then does the coordinate transformation.
 # - The blue channel is organized in a number of horizontal strips, containing metadata:
-#   * time of writing (modulo 1min)
+#   * time of writing
 #   * the radar range
 #   * the position of the cross (and whether or not it is displayed)
 #   * deviation of the centerline (used for some aiming modes)
@@ -210,7 +210,11 @@ var RadarImage = {
         me.metadata[me.INFO.TIME2] = math.fmod(time / time2_factor, 1.0);
         me.metadata[me.INFO.RANGE] = me.NORM_RANGE[input.radar_range.getValue()];
 
-        if (me.mode == MODE.RB04) {
+        if (me.mode == MODE.FIX) {
+            me.metadata[me.INFO.RANGE] = 0;
+            me.metadata[me.INFO.AZIMUTH] = route.fix_azi * 0.5 / PPI_half_angle + 0.5;
+            me.metadata[me.INFO.DISTANCE] = route.fix_dist / input.radar_range.getValue();
+        } elsif (me.mode == MODE.RB04) {
             var track = input.track_true.getValue() - input.head_true.getValue();
             track = math.clamp(geo.normdeg180(track), -PPI_half_angle, PPI_half_angle);
             me.metadata[me.INFO.AZIMUTH] = track * 0.5 / PPI_half_angle + 0.5;
@@ -369,7 +373,12 @@ var NavSymbols = {
         var bearing = input.rm_bearing.getValue() or 0;
         var dist = (input.rm_dist.getValue() or 0) * 1000;
 
-        me.set_elt_pos_polar(me.wpt_group, dist, bearing - heading, scale);
+        if (route.fix_mode_active()) {
+            me.set_elt_pos_polar(me.wpt_group, route.fix_dist, route.fix_azi, scale);
+        } else {
+            me.set_elt_pos_polar(me.wpt_group, dist, bearing - heading, scale);
+        }
+
 
         if (line_visible) {
             me.set_line_length(land.line*1000, scale);

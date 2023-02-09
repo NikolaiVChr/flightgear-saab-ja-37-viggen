@@ -575,8 +575,8 @@ var Dialog = {
                 var input = me.data.B[i].input.getValue();
                 if (input != nil and input != "") {
                     # input parse error
-                    head_prop.setValue("err");
-                    dist_prop.setValue("");
+                    me.data.B[i].leg_head.setValue("err");
+                    me.data.B[i].leg_dist.setValue("");
                 }
 
                 # Clear and disable other input fields

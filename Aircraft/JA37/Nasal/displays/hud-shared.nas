@@ -38,6 +38,7 @@ var input = {
     pres_alt:       "/instrumentation/altimeter/pressure-alt-meter",
     ref_alt:        "/ja37/displays/reference-altitude-m",
     terrain_hgt:    "/ja37/avionics/terrain-height-m",
+    true_alt_ft:    "/position/altitude-ft",
     rm_active:      "/instrumentation/waypoint-indicator/active",
     wp_bearing:     "/instrumentation/waypoint-indicator/true-bearing-deg",
     eta:            "/instrumentation/waypoint-indicator/eta-s",

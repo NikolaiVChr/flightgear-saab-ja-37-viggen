@@ -25,6 +25,20 @@ var containsVector = func (vec, item) {
 var TI_SEL_RADAR = 1;
 var TI_SEL_DL = 2;
 
+# AJS has control to hold stage 1 of radar stick trigger.
+# Show nice reminder message.
+var radar_stick_window = screen.window.new(x:nil, y:-2, maxlines:1, autoscroll:0);
+setlistener("controls/displays/cursor-click-stage1", func(node) {
+	if (!node.getBoolValue())
+		radar_stick_window.clear();
+});
+
+var radar_stick_held_reminder = func {
+	if (getprop("controls/displays/cursor-click-stage1"))
+		radar_stick_window.write("Radar stick stage 1 pressed", 0, 0.5, 0.5);
+};
+
+
 ### Numbers formatting functions.
 
 # Print in decimal with a _comma_, 'places' is the number of decimal places.
@@ -552,13 +566,13 @@ var Common = {
 	# Cursor position low level updates are in JSBSim to not suffer from low refresh rate.
 	# These functions are the interface with this JSBSim system.
 	getCursorDelta: func {
-		return [me.input.cursor_dx.getValue(), me.input.cursor_dy.getValue(), me.input.cursor_clicked.getBoolValue()];
+		return [me.input.cursor_dx.getValue(), me.input.cursor_dy.getValue(), me.input.cursor_clicked.getValue()];
 	},
 
 	resetCursorDelta: func {
 		me.input.cursor_dx.setValue(0);
 		me.input.cursor_dy.setValue(0);
-		me.input.cursor_clicked.setBoolValue(0);
+		me.input.cursor_clicked.setValue(0);
 	},
 
 	unsetTISelection: func {

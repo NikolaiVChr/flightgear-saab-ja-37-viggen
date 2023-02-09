@@ -71,6 +71,9 @@ var set_wp_indicator = func(idx) {
     if (type == WP_TYPE.WPT and route.is_tgt(idx))
         type = WP_TYPE.TGT;
 
+    if (type == WP_TYPE.POPUP and route.fix_mode_active())
+        type = WP_TYPE.TGT;
+
     if (type == WP_TYPE.LAND and input.landing_mode.getBoolValue()) {
         if (land.mode == 1)
             type = WP_TYPE.LAND_B;
