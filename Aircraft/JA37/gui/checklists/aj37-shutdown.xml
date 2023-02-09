@@ -170,7 +170,7 @@
     </item>
     <item>
         <name>Canopy</name>
-        <value>OPEN (O)</value>
+        <value>OPEN (Ctrl-O)</value>
         <marker>
             <x-m>-3.6926</x-m>
             <y-m>-0.3033</y-m>

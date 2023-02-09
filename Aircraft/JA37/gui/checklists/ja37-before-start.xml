@@ -895,7 +895,7 @@
         </item>
         <item>
             <name>Canopy</name>
-            <value>CLOSE (O), CHECK LOCKED</value>
+            <value>CLOSE (Ctrl-O), CHECK LOCKED</value>
             <marker>
                 <x-m>-3.6926</x-m>
                 <y-m>-0.3033</y-m>
