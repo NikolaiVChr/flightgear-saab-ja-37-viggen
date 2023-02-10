@@ -50,6 +50,7 @@ var load_fp = func(path_prop) {
     call(func { plan = createFlightplan(path); }, nil, nil, nil, var err = []);
     if (size(err) or plan == nil) {
         logprint(LOG_ALERT, "Failed to load flightplan from: "~path);
+        screen.log.write("Failed to load flightplan.", 1, 0, 0);
         return;
     }
 
