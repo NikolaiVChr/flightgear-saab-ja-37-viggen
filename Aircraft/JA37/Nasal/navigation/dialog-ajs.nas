@@ -20,7 +20,10 @@ var with_input_inhibit = func(f, args=nil, m=nil, locals=nil) {
 
     inhibit_input_callback = previous;
 
-    if (size(err)) die(err);
+    if (size(err) > 0) {
+        debug.printerror(err[0]);
+        die(err);
+    }
 }
 
 # NEVER touch this variable directly, use wrapper above.
@@ -50,90 +53,8 @@ var load_fp = func(path_prop) {
         return;
     }
 
-    # Load new route
-    with_input_inhibit(func {
-        route.unset_all_wpt();
-
-        if (plan.departure != nil) {
-            var dep = route.Airbase.from_ghost(plan.departure);
-            route.set_wpt(route.WPT.LS, dep);
-
-            Dialog.data.LS.icao.setValue(plan.departure.id);
-            Dialog.update_runways("LS");
-
-            if (plan.departure_runway != nil) {
-                route.set_wpt(route.WPT.LS, dep.runways[plan.departure_runway.id]);
-                Dialog.data.LS.runway.setValue(plan.departure_runway.id);
-            }
-        } else {
-            Dialog.data.LS.icao.setValue("");
-            Dialog.update_runways("LS");
-        }
-
-        if (plan.destination != nil) {
-            var dest = route.Airbase.from_ghost(plan.destination);
-            route.set_wpt(route.WPT.L1, dest);
-
-            Dialog.data.L1.icao.setValue(plan.destination.id);
-            Dialog.update_runways("L1");
-
-            if (plan.destination_runway != nil) {
-                Dialog.data.L1.runway.setValue(plan.destination_runway.id);
-                route.set_wpt(route.WPT.L1, dest.runways[plan.destination_runway.id]);
-            }
-        } else {
-            Dialog.data.L1.icao.setValue("");
-            Dialog.update_runways("L1");
-        }
-
-        # FG flightplans don't have alternates.
-        Dialog.data.L2.icao.setValue("");
-        Dialog.update_runways("L2");
-
-        # output waypoint number (for the AJS system)
-        var wp_idx = 1;
-        var skipped_complex = FALSE;
-
-        for (var i=0; i<plan.getPlanSize(); i+=1) {
-            var wp = plan.getWP(i);
-
-            # If first / last waypoints are departure/destination, skip them.
-            if (i == 0 and navigation.departure_set(plan))
-                continue;
-            if (i == plan.getPlanSize()-1 and navigation.destination_set(plan))
-                continue;
-
-            if (!navigation.wp_has_position(wp)) {
-                # Waypoint does not have a meaningfull position (e.g. heading to alt instructions).
-                # AJS can't do anything with it, skip it.
-                skipped_complex = TRUE;
-                logprint(LOG_INFO, "Skipping complex flightplan instructions for waypoint "~wp.id);
-                continue;
-            }
-
-            if (wp_idx > 9) {
-                var msg = sprintf("Flightplan truncated at waypoint %s. AJS is limited 9 waypoints.", wp.id);
-                logprint(LOG_ALERT, msg);
-                screen.log.write(msg, 1, 0, 0);
-                break;
-            }
-
-            route.set_wpt(route.WPT.B | wp_idx, route.Waypoint.from_ghost(wp));
-            Dialog.data.B[wp_idx].input.setValue(wp.id);
-
-            wp_idx += 1;
-        }
-
-        if (skipped_complex)
-            screen.log.write("Some complex flightplan legs were skipped.", 1, 0.5, 0);
-
-        # Clear remaining waypoints
-        for (; wp_idx<=9; wp_idx+=1) {
-            Dialog.data.B[wp_idx].input.setValue("");
-        }
-    });
-
-    route.callback_fp_changed();
+    route.load_fp(plan);
+    Dialog.update_from_route();
 }
 
 
@@ -535,7 +456,6 @@ var Dialog = {
     update_runways: func(apt_name) {
         var apt_id = route.WPT[apt_name];
         var apt = route.as_airbase(route.get_wpt(apt_id));
-        var apt = route.get_wpt(apt_id);
         var combo = me.runway_fields[apt_name];
 
         with_input_inhibit(func { me.data[apt_name].runway.setValue(""); });
@@ -587,6 +507,56 @@ var Dialog = {
                     me.data.B[i].popup_dist.setValue("");
                 });
             }
+        }
+    },
+
+    update_from_route: func {
+        with_input_inhibit(func { me._update_from_route(); });
+        me.update_legs();
+    },
+
+    _update_apt_from_route: func(apt_name) {
+        var apt_id = route.WPT[apt_name];
+        var apt = route.as_airbase(route.get_wpt(apt_id));
+
+        me.data[apt_name].icao.setValue(apt != nil ? apt.name : "");
+        me.update_runways(apt_name);
+
+        var rwy = route.as_runway(route.get_wpt(apt_id));
+        if (rwy != nil) {
+            me.data[apt_name].runway.setValue(rwy.name);
+        }
+    },
+
+    _update_wpt_from_route: func(type, idx) {
+        var wpt_name = type~idx;
+        var wpt_id = route.WPT[type] | idx;
+        var wpt = route.get_wpt(wpt_id);
+
+        me.data[type][idx].input.setValue(wpt != nil ? wpt.name : "");
+
+        if (type != "B") return;
+
+        me.data.B[idx].target.setBoolValue(route.is_tgt(wpt_id));
+        if (route.has_popup(wpt_id)) {
+            me.data.B[idx].popup_head.setValue(route.tgt_wpt[wpt_id].heading);
+            me.data.B[idx].popup_dist.setValue(route.tgt_wpt[wpt_id].dist);
+        } else {
+            me.data.B[idx].popup_head.setValue("");
+            me.data.B[idx].popup_dist.setValue("");
+        }
+    },
+
+    _update_from_route: func {
+        foreach (var apt; keys(me.airbase_desc)) {
+            me._update_apt_from_route(apt);
+        }
+
+        for (var i=1; i<=9; i+=1) {
+            me._update_wpt_from_route("B", i);
+        }
+        for (var i=1; i<=5; i+=1) {
+            me._update_wpt_from_route("BX", i);
         }
     },
 

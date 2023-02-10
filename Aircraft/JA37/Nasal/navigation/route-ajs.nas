@@ -386,6 +386,68 @@ var get_fp_ghost = func {
     return display_fp;
 }
 
+# Import FG flightplan
+var load_fp = func(plan) {
+    unset_all_wpt();
+
+    if (plan.departure != nil) {
+        var dep = Airbase.from_ghost(plan.departure);
+
+        if (plan.departure_runway != nil) {
+            set_wpt(WPT.LS, dep.runways[plan.departure_runway.id]);
+        } else {
+            set_wpt(WPT.LS, dep);
+        }
+    }
+
+    if (plan.destination != nil) {
+        var dest = Airbase.from_ghost(plan.destination);
+
+        if (plan.destination_runway != nil) {
+            set_wpt(WPT.L1, dest.runways[plan.destination_runway.id]);
+        } else {
+            set_wpt(WPT.L1, dest);
+        }
+    }
+
+    # output waypoint number (for the AJS system)
+    var wp_idx = 1;
+    var skipped_complex = FALSE;
+
+    for (var i=0; i<plan.getPlanSize(); i+=1) {
+        var wp = plan.getWP(i);
+
+        # If first / last waypoints are departure/destination, skip them.
+        if (i == 0 and navigation.departure_set(plan))
+            continue;
+        if (i == plan.getPlanSize()-1 and navigation.destination_set(plan))
+            continue;
+
+        if (!navigation.wp_has_position(wp)) {
+            # Waypoint does not have a meaningfull position (e.g. heading to alt instructions).
+            # AJS can't do anything with it, skip it.
+            skipped_complex = TRUE;
+            logprint(LOG_INFO, "Skipping complex flightplan instructions for waypoint "~wp.id);
+            continue;
+        }
+
+        if (wp_idx > 9) {
+            var msg = sprintf("Flightplan truncated at waypoint %s. AJS is limited 9 waypoints.", wp.id);
+            logprint(LOG_ALERT, msg);
+            screen.log.write(msg, 1, 0, 0);
+            break;
+        }
+
+        set_wpt(WPT.B | wp_idx, Waypoint.from_ghost(wp));
+        wp_idx += 1;
+    }
+
+    if (skipped_complex)
+        screen.log.write("Some complex flightplan legs were skipped.", 1, 0.5, 0);
+
+    callback_fp_changed();
+}
+
 
 
 var loop = func {

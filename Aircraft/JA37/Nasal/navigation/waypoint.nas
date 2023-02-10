@@ -265,3 +265,12 @@ var as_airbase = func(wpt) {
     else
         return nil;
 };
+
+var as_runway = func(wpt) {
+    if (typeof(wpt) != "hash" or !contains(wpt, "type"))
+        return nil;
+    elsif (wpt.type == TYPE.RUNWAY)
+        return wpt;
+    else
+        return nil;
+};
