@@ -998,7 +998,6 @@
                 <pointmass-dragarea-sqft n="6" type="double">0</pointmass-dragarea-sqft>
             </inertia>
             <propulsion>
-                <starter_cmd_copy type="bool">false</starter_cmd_copy>
                 <engine>
                     <augmentation type="double">0</augmentation>
                     <zone type="double">0</zone>

@@ -1366,20 +1366,10 @@
         </switch>
 
 
-        <!-- Swedish: TÄNDSYST (blinking)
-
-          # manual says between 11-16% it goes on, so 16 is fine
-
-        -->
+        <!-- Swedish: TÄNDSYST (blinking) -->
 
         <switch name="systems/indicators/ignition-system-primary">
-            <test logic="AND" value="1">
-                propulsion/engine/cutoff-low-pressure == 0
-                propulsion/engine[0]/n2 lt 50
-                propulsion/engine[0]/n2 gt 16
-                /engines/engine/thrust_lb == 0
-            </test>
-            <default value="0"/>
+          <default value="propulsion/starter/ignition"/>
         </switch>
 
         <switch name="systems/indicators/ignition-system-level">
@@ -1411,27 +1401,13 @@
         <!-- Swedish: STARTSYST (steady)
         -->
 
-        <fcs_function name="systems/indicators/start-system">
-            <function>
-                <or>
-                    <and>
-                        <eq>
-                            <property>/controls/engines/engine[0]/starter-cmd</property>
-                            <value>1</value>
-                        </eq>
-                        <lt>
-                            <property>propulsion/engine[0]/n2</property>
-                            <value>50</value>
-                        </lt>
-                        <eq>
-                            <property>/engines/engine/thrust_lb</property>
-                            <value>0</value>
-                        </eq>
-                    </and>
-                    <property>/controls/lighting/test-indicator-panels</property>
-                </or>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/start-system">
+            <test logic="OR" value="1">
+                /controls/lighting/test-indicator-panels == 1
+                propulsion/starter/gts-running == 1
+            </test>
+            <default value="0"/>
+        </switch>
 
 
         <!-- Swedish: MAN BR REG (steady)
@@ -2281,15 +2257,12 @@
 
         <switch name="systems/indicators/master-warning/engine-startup">
             <description>
-                            Engine is starting up
-
-                            Maybe make more detailed check in future.
+                Master warning inhibit due to engine startup
             </description>
-            <default value="0"/>
-            <test logic="OR" value="1">
-                systems/electrical/starter-relay-R1 == 1
-                /controls/engines/engine[0]/starter-cmd == 1
+            <test value="1">
+              propulsion/starter/relay-R1-closed gt 0
             </test>
+            <default value="0"/>
         </switch>
 
         <fcs_function name="systems/indicators/master-warning/max-level">

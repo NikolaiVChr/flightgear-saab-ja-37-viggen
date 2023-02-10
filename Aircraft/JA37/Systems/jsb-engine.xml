@@ -209,7 +209,24 @@
   </channel>
 
 
-  <channel name="cutoff" execrate="4">
+  <channel name="engine start" execrate="4">
+
+    <!-- cutoff -->
+
+    <switch name="propulsion/engine/cutoff-low-pressure">
+      <test value="0">
+        propulsion/engine/cutoff-commanded == 0
+      </test>
+      <default value="1"/>
+    </switch>
+
+    <switch name="propulsion/engine/cutoff-high-pressure">
+      <test logic="AND" value="0">
+        fcs/throttle-pos-deg ge 8
+        propulsion/engine/n2 gt 11.5 <!-- manual: 11-16% for AJS, 11-12% for JA -->
+      </test>
+      <default value="1"/>
+    </switch>
 
     <!-- inverted flight will make oil pressure drop -->
 
@@ -269,30 +286,166 @@
       </function>
     </fcs_function>
 
-    <switch name="propulsion/engine/cutoff-low-pressure">
-      <default value="1"/>
+    <switch name="propulsion/engine/fuel-starved">
+      <test value="1">
+        systems/flight/oil/pressure-drop-norm gt 0.5625
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <!-- does the engine have fuel -->
+    <switch name="propulsion/engine/cutoff">
+      <test logic="OR" value="1">
+        propulsion/engine/fuel-starved == 1
+        propulsion/engine/cutoff-low-pressure == 1
+        propulsion/engine/cutoff-high-pressure == 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+
+    <!-- Starter system, SFI part 1 chap. 9 sec. 12 -->
+
+    <switch name="propulsion/starter/dc-power">
+      <test value="0">
+        /ja37/fuses/motor == 0
+      </test>
+      <!-- JA only, throttle cutoff powers down the start system -->
       <test logic="AND" value="0">
+        /ja37/systems/variant == 0
+        fcs/throttle-pos-deg le 6
+      </test>
+      <default value="/ja37/elec/dc-bus-main-bool"/>
+    </switch>
+
+    <switch name="propulsion/starter/start-power">
+      <test logic="AND" value="1">
+        propulsion/starter/dc-power == 1
+        /controls/engines/engine[0]/starter-cmd == 1
         propulsion/engine/cutoff-commanded == 0
-        systems/flight/oil/pressure-drop-norm lt 0.5625
       </test>
+      <default value="0"/>
     </switch>
 
-    <switch name="propulsion/engine/cutoff-high-pressure">
-      <default value="1"/>
-      <test logic="AND" value="0">
-        fcs/throttle-pos-deg ge 8
-        systems/flight/oil/pressure-drop-norm lt 0.5625
-        propulsion/engine/n2 gt 16 <!-- source: 11-16% -->
+    <!-- starter switch logic -->
+
+    <switch name="propulsion/starter/relay-R1-power">
+      <test logic="AND" value="1">
+        propulsion/starter/start-power == 1
+        propulsion/engine[0]/n2 lt 50
       </test>
+      <default value="0"/>
     </switch>
 
-    <switch name="propulsion/engine/cutoff-jsbsim">
-      <default value="1"/>
-      <test logic="AND" value="0">
-        propulsion/engine/cutoff-low-pressure == 0
+    <actuator name="propulsion/starter/relay-R1-closed">
+      <input>propulsion/starter/relay-R1-power</input>
+      <rate_limit sense="incr">0.5</rate_limit><!-- 2 seconds -->
+      <rate_limit sense="decr">5.0</rate_limit><!-- fast to release -->
+    </actuator>
+
+    <switch name="propulsion/starter/start-switch">
+      <test logic="OR" value="1">
+        /controls/engines/engine[0]/starter-cmd-hold == 1
+        propulsion/starter/relay-R1-closed == 1
+      </test>
+      <default value="0"/>
+      <output>/controls/engines/engine[0]/starter-cmd</output>
+    </switch>
+
+    <!-- gas turbine starter (GTS) -->
+
+    <pure_gain name="propulsion/starter/gts-rpm-norm">
+      <!-- 100% GTS rpm == 20% N2, made up value -->
+      <input>propulsion/engine/n2</input>
+      <gain>0.05</gain>
+    </pure_gain>
+
+    <switch name="propulsion/starter/gts-running">
+      <test logic="AND" value="1">
+        propulsion/starter/start-power == 1
+        propulsion/starter/gts-rpm-norm gt 0.4
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <!-- ignition -->
+
+    <switch name="propulsion/starter/ignition">
+      <!-- power -->
+      <test logic="OR" value="0">
+        /ja37/engine/sparkplug == 0
+        /ja37/elec/dc-bus-main-bool == 0
+        <!-- TODO: manual ignition -->
+      </test>
+      <!-- activation relay R2 -->
+      <test logic="AND" value="1">
+        propulsion/starter/start-power == 1
         propulsion/engine/cutoff-high-pressure == 0
       </test>
+      <!-- flameout sensor -->
+      <test logic="AND" value="1">
+        propulsion/engine/n2 gt 30
+        propulsion/engine/n2 lt 47
+        /engines/engine/running == 0
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <!-- since we want to control ignition, we need to simulate flameout ourselves -->
+    <switch name="propulsion/engine/ignition">
+      <test value="1">
+        propulsion/starter/ignition == 1
+        propulsion/engine/cutoff == 0
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <switch name="propulsion/engine/ignition-start-time">
+      <default value="sim-time-sec"/>
+      <test value="0"><!-- reset when restarting FDM -->
+        sim-time-sec lt 1
+      </test>
+      <test value="propulsion/engine/ignition-start-time">
+        propulsion/engine/ignition == 1
+      </test>
+    </switch>
+
+    <summer name="propulsion/engine/ignition-end-time">
+      <input>propulsion/engine/ignition-start-time</input>
+      <bias>0.5</bias>
+    </summer>
+
+    <switch name="propulsion/engine/flameout">
+      <test value="1">
+        propulsion/engine/cutoff == 1
+      </test>
+      <test logic="OR" value="0">
+        /engines/engine/running == 1
+        sim-time-sec gt propulsion/engine/ignition-end-time
+      </test>
+      <default value="propulsion/engine/flameout"/>
+      <!-- JSBsim assumes that the engine is lit as soon as it can.
+           To simulate flameout ourselves, set cutoff=1 in jsbsim for flameout
+      -->
       <output>propulsion/cutoff_cmd</output>
+    </switch>
+
+    <switch name="propulsion/engine/starter-jsbsim">
+      <test value="0">
+        /engines/engine/running == 1
+      </test>
+      <!-- GTS is spooling up the engine-->
+      <test logic="AND" value="1">
+        propulsion/starter/start-power == 1
+        propulsion/engine/n2 le 20 <!-- GTS is only effective up to this point -->
+      </test>
+      <!-- engine is self-sustained (jsbsim still requires starter until idle) -->
+      <test logic="AND" value="1">
+        propulsion/engine/n2 ge 19
+        propulsion/engine/flameout == 0 <!-- let's say this is self-sustained speed -->
+      </test>
+      <default value="0"/>
+      <output>propulsion/starter_cmd</output>
     </switch>
   </channel>
 
