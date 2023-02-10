@@ -9,12 +9,18 @@
     <tsfc>            0.63547 </tsfc>    <!-- lbm/hr/lbf from page 5, Australian document and www.globalaircraft.org -->
     <atsfc>           2.5065799568 </atsfc>    <!-- from page 5, Australian document and www.globalaircraft.org -->
     <bleed>           0.03</bleed>    <!-- -->
-    <idlen1>         30.0 </idlen1>    <!-- http://www.airliners.net/  Also has a source saying 22%, but had to choose -->
+    <ignitionn1>      5   </ignitionn1> <!-- made up -->
+    <ignitionn2>      20  </ignitionn2> <!-- should match 100% GTS rpm in jsb-engine.xml -->
+    <idlen1>         30.0 </idlen1>    <!-- http://www.airliners.net/  Also has a source saying 22%, had to choose -->
     <idlen2>         57.0 </idlen2>    <!-- JA-37Di manual -->    <!-- http://www.boeing-727.com/ - JT8D-17A : 58.5 -->
-    <n1spinup>        1.0 </n1spinup>    <!-- Fan rotor rpm starter acceleration (default 1.0%/sec) -->
-    <n2spinup>        3.0 </n2spinup>    <!-- Core rotor rpm starter acceleration (default 3.0%/sec) -->
     <maxn1>         102.4 </maxn1>    <!-- http://www.boeing-727.com/ -->
-    <maxn2>         100.0 </maxn2>    <!-- http://www.boeing-727.com/ -->
+    <maxn2>          94.8 </maxn2>    <!-- JA-37Di manual -->
+    <n1spinup>        0.5 </n1spinup>   <!-- acceleration by starter, up to igitionn* -->
+    <n2spinup>        2.5 </n2spinup>   <!-- <5s to 50% GTS (= 10% N2) -->
+    <n1startrate>     1.0 </n1startrate>    <!-- acceleration after 15% N2 up to idle -->
+    <n2startrate>     1.6 </n2startrate>    <!-- 30 / 40s to idle from full stop, so a bit less than 30s from 15% -->
+    <n1spindown>      1.5 </n1spindown>     <!-- spindown factor -->
+    <n2spindown>      1.5 </n2spindown>
     <augmented>         1 </augmented>
     <augmethod>         2 </augmethod>    <!-- throttle 1.0-2.0 for augmentation -->
     <injected>          0 </injected>
