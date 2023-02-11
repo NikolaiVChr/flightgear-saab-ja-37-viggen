@@ -1217,14 +1217,12 @@
             not authentic implemented
         -->
 
-        <fcs_function name="systems/indicators/pitch-gearing-primary">
-            <function>
-                <eq>
-                    <property>fcs/elevator/gearing-enable</property>
-                    <value>0</value>
-                </eq>
-            </function>
-        </fcs_function>
+        <switch name="systems/indicators/pitch-gearing-primary">
+            <test logic="OR" value="1">
+                fcs/elevator/gearing-enable == 0
+                fcs/elevon/pitch-gear/serviceable == 0
+            </test>
+        </switch>
 
         <switch name="systems/indicators/pitch-gearing-level">
             <test logic="AND" value="0">

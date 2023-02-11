@@ -302,8 +302,9 @@
 		
 		<switch name="fcs/elevon/pitch-gearing-switched">
 			<default value="fcs/elevon/pitch-gearing"/>
-			<test value="fcs/elevon/pitch-gearing-feedback">
+			<test logic="OR" value="fcs/elevon/pitch-gearing-feedback">
 				/ja37/elec/ac-bus-main-bool ne 1
+				fcs/elevon/pitch-gear/serviceable ne 1
 			</test>
 			<output>fcs/elevon/pitch-gearing-feedback</output>
 		</switch>

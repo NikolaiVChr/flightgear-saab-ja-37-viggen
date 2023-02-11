@@ -138,15 +138,11 @@ var install_failures = func {
     prop = "fdm/jsbsim/fcs/elevon/left";
     var actuator_left_elevon = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(name, "Left elevon", actuator_left_elevon);
-    var trigger_left_elevon = compat_failure_modes.MtbfTrigger.new(0);
-    FailureMgr.set_trigger(name, trigger_left_elevon);
 
     name = "controls/flight/right-elevon";
     prop = "fdm/jsbsim/fcs/elevon/right";
     var actuator_right_elevon = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(name, "Right elevon", actuator_right_elevon);
-    var trigger_right_elevon = compat_failure_modes.MtbfTrigger.new(0);
-    FailureMgr.set_trigger(name, trigger_right_elevon);
 
     name = "controls/flight/rudder";
     prop = "/sim/failure-manager/controls/flight/rudder";
@@ -174,6 +170,11 @@ var install_failures = func {
         jsbsim_prop.unalias();
         jsbsim_prop.alias(prop~"/serviceable");
     }
+
+    name = "controls/flight/pitch-gearing";
+    prop = "fdm/jsbsim/fcs/elevon/pitch-gear";
+    var actuator_pitch_gear = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(name, "Pitch gearing", actuator_pitch_gear);
 
     #gears
 

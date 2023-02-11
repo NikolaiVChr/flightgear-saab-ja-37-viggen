@@ -884,6 +884,9 @@
                     <right>
                         <serviceable type="bool">true</serviceable>
                     </right>
+                    <pitch-gear>
+                        <serviceable type="bool">true</serviceable>
+                    </pitch-gear>
                 </elevon>
                 <mouse-optimized type="bool">false</mouse-optimized>
             </fcs>
