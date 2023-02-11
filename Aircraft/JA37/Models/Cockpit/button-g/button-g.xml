@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>button-g.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>button</object-name>
+    <object-name>plate</object-name>
+    <object-name>ring</object-name>
+  </effect>
+
+  <params>
+    <prop/>           <!-- 0/1 property corresponding to button position -->
+    <texture/>        <!-- Texture file name (inside this directory -->
+    <tooltip-text/>   <!-- text for mouse-over tooltip -->
+    <tooltip-id/>     <!-- some unique ID for the tooltip -->
+  </params>
+
+  <animation>
+    <type>pick</type>
+    <object-name>plate</object-name>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id alias="../../../../params/tooltip-id"/>
+        <label alias="../../../../params/tooltip-text"/>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>button</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>property-assign</command>
+        <property alias="../../../../params/prop"/>
+        <value>1</value>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>property-assign</command>
+          <property alias="../../../../../params/prop"/>
+          <value>0</value>
+        </binding>
+      </mod-up>
+    </action>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>button</object-name>
+    <property alias="../../params/prop"/>
+    <factor>-0.0020</factor>
+    <axis>
+      <x> 0.0 </x>
+      <y> 0.0 </y>
+      <z> 1.0 </z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>plate</object-name>
+    <texture alias="../../params/texture"/>
+  </animation>
+</PropertyList>

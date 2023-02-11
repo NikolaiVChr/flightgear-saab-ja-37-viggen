@@ -1126,8 +1126,12 @@
                 <reverser-cmd type="bool">false</reverser-cmd>
                 <starter-cmd-hold type="bool">false</starter-cmd-hold>
                 <starter-cmd type="bool">false</starter-cmd>
+                <man-ignition type="bool">false</man-ignition>
+                <man-ignition-hold type="bool">false</man-ignition-hold>
+                <restart type="bool">false</restart>
                 <cutoff type="bool">true</cutoff>
                 <throttle-cutoff type="bool">true</throttle-cutoff>
+                <deice type="bool">false</deice>
             </engine>
         </engines>
         <gear>
@@ -1156,7 +1160,8 @@
             <test-indicator-panels type="bool">false</test-indicator-panels>
         </lighting>
         <fuel>
-            <auto type="bool">true</auto>            <!-- on/off -->
+            <auto type="bool">true</auto>
+            <tank-pump type="bool">true</tank-pump>
         </fuel>
         <ventilation>
             <airconditioning-type type="int">0</airconditioning-type><!-- cold for 12s: -1 auto: 0 warm for 12s: 1 -->

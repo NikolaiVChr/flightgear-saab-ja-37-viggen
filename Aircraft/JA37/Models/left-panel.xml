@@ -16,8 +16,8 @@
     <name>cabin-mano</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.055</x-m>
-      <y-m> -0.065</y-m>
+      <x-m>  0.105</x-m>
+      <y-m> -0.040</y-m>
       <z-m>  0</z-m>
     </offsets>
   </model>
@@ -25,9 +25,14 @@
   <animation>
     <type>scale</type>
     <object-name>cabin-mano</object-name>
-    <x-offset>0.7</x-offset>
-    <y-offset>0.7</y-offset>
-    <z-offset>0.7</z-offset>
+    <x-offset>0.85</x-offset>
+    <y-offset>0.85</y-offset>
+    <z-offset>0.85</z-offset>
+    <center>
+      <x-m>  0.105</x-m>
+      <y-m>  -0.040</y-m>
+      <z-m>  0</z-m>
+    </center>
   </animation>
 
   <model>
@@ -35,8 +40,8 @@
     <name>brake-mano</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.125</x-m>
-      <y-m> -0.065</y-m>
+      <x-m>  0.165</x-m>
+      <y-m> -0.040</y-m>
       <z-m>  0</z-m>
     </offsets>
   </model>
@@ -44,9 +49,14 @@
   <animation>
     <type>scale</type>
     <object-name>brake-mano</object-name>
-    <x-offset>0.7</x-offset>
-    <y-offset>0.7</y-offset>
-    <z-offset>0.7</z-offset>
+    <x-offset>0.85</x-offset>
+    <y-offset>0.85</y-offset>
+    <z-offset>0.85</z-offset>
+    <center>
+      <x-m>  0.165</x-m>
+      <y-m>  -0.040</y-m>
+      <z-m>  0</z-m>
+    </center>
   </animation>
 
   <model>
@@ -54,8 +64,8 @@
     <name>trim-pitch</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.195</x-m>
-      <y-m> -0.065</y-m>
+      <x-m>  0.225</x-m>
+      <y-m> -0.040</y-m>
       <z-m>  0</z-m>
     </offsets>
   </model>
@@ -63,9 +73,14 @@
   <animation>
     <type>scale</type>
     <object-name>trim-pitch</object-name>
-    <x-offset>0.7</x-offset>
-    <y-offset>0.7</y-offset>
-    <z-offset>0.7</z-offset>
+    <x-offset>0.85</x-offset>
+    <y-offset>0.85</y-offset>
+    <z-offset>0.85</z-offset>
+    <center>
+      <x-m>  0.225</x-m>
+      <y-m>  -0.040</y-m>
+      <z-m>  0</z-m>
+    </center>
   </animation>
 
     <model>
@@ -73,48 +88,9 @@
     <name>trim-roll</name>
     <offsets>
       <pitch-deg>0</pitch-deg>
-      <x-m>  0.17</x-m>
-      <y-m> -0.045</y-m>
+      <x-m>  0.265</x-m>
+      <y-m> -0.050</y-m>
       <z-m>  0</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/button-g/test-indicators.xml</path>
-    <name>test ind</name>
-    <offsets>
-      <x-m>  0.225</x-m>
-      <y-m> -0.045</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
-    <name>generator</name>
-    <overlay>
-      <params>
-        <prop>controls/electric/engine[0]/generator</prop>
-        <texture>GENERATOR.png</texture>
-        <tooltip-text>Generator</tooltip-text>
-        <tooltip-id>switch-generator</tooltip-id>
-      </params>
-    </overlay>
-    <offsets>
-      <heading-deg>180</heading-deg>
-      <x-m>  0.35</x-m>
-      <y-m> -0.040</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/engine-start.xml</path>
-    <name>starter</name>
-    <offsets>
-      <x-m>  0.35</x-m>
-      <y-m> -0.090</y-m>
-      <z-m>  0.00</z-m>
     </offsets>
   </model>
 
@@ -166,6 +142,65 @@
       <z-m>  0.00</z-m>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/ignition.xml</path>
+    <name>ignition</name>
+    <offsets>
+      <x-m>  0.335</x-m>
+      <y-m> -0.090</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/engine-start.xml</path>
+    <name>starter</name>
+    <offsets>
+      <x-m>  0.365</x-m>
+      <y-m> -0.090</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>generator</name>
+    <overlay>
+      <params>
+        <prop>controls/electric/engine[0]/generator</prop>
+        <texture>GENERATOR.png</texture>
+        <tooltip-text>Generator</tooltip-text>
+        <tooltip-id>switch-generator</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.35</x-m>
+      <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/button-g/button-g.xml</path>
+    <name>engine-restart</name>
+    <overlay>
+      <params>
+        <prop>controls/engines/engine[0]/restart</prop>
+        <texture>engine-restart.png</texture>
+        <tooltip-text>Engine restart</tooltip-text>
+        <tooltip-id>engine-restart</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.38</x-m>
+      <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
 
   <model>
       <path>Aircraft/JA37/Models/Panels/Datapanel/trim-reset.xml</path>

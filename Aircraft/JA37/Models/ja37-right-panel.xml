@@ -65,7 +65,7 @@
     <offsets>
       <pitch-deg>-90</pitch-deg>
       <x-m>0.225</x-m>
-      <y-m>0.050</y-m>
+      <y-m>0.040</y-m>
       <z-m>0</z-m>
     </offsets>
   </model>
@@ -75,7 +75,7 @@
     <object-name>oxy-mano</object-name>
     <center>
       <x-m>0.225</x-m>
-      <y-m>0.050</y-m>
+      <y-m>0.040</y-m>
       <z-m>0</z-m>
     </center>
     <x-offset>0.85</x-offset>
