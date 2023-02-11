@@ -1012,11 +1012,17 @@
                       Instrument light power
             </description>
             <function>
-                <product>
-                    <property>/instrumentation/instrumentation-light/serviceable</property>
-                    <property>/controls/lighting/instruments-knob</property>
-                    <property>/systems/electrical/dc-light</property>
-                </product>
+                <sum>
+                    <product>
+                        <property>/instrumentation/instrumentation-light/serviceable</property>
+                        <property>/controls/lighting/instruments-knob</property>
+                        <property>/systems/electrical/dc-light</property>
+                    </product>
+                    <product>
+                        <property>/controls/lighting/flood-norm</property>
+                        <value>3</value>
+                    </product>
+                </sum>
             </function>
             <clipto>
                 <min> 0 </min>
