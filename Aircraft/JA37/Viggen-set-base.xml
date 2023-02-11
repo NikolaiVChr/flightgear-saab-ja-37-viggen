@@ -877,6 +877,14 @@
                     <pos-norm type="double">0.0</pos-norm>
                     <serviceable alias="/sim/failure-manager/controls/flight/speedbrake/serviceable"/>
                 </speedbrake>
+                <elevon>
+                    <left>
+                        <serviceable type="bool">true</serviceable>
+                    </left>
+                    <right>
+                        <serviceable type="bool">true</serviceable>
+                    </right>
+                </elevon>
                 <mouse-optimized type="bool">false</mouse-optimized>
             </fcs>
             <gear>

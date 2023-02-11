@@ -114,10 +114,70 @@ var install_failures = func {
 
     var failure_root = "/sim/failure-manager";
 
+    # This failure modes from Aircraft/Generic/Systems/compat_failure_modes.nas
+    # just set the control properties to read only, which is pretty stupid.
+    # Delete them.
+
+    # I'm slightly concerned about initialisation order here, so catch errors
+    call(func {
+        FailureMgr.remove_failure_mode("controls/flight/aileron");
+        FailureMgr.remove_failure_mode("controls/flight/elevator");
+        FailureMgr.remove_failure_mode("controls/flight/rudder");
+        FailureMgr.remove_failure_mode("controls/flight/flaps");
+        FailureMgr.remove_failure_mode("controls/flight/speedbrake");
+    }, nil, nil, nil, var err = []);
+    if (size(err) > 0) debug.printerror(err);
+
+    var prop = nil;
+    var name = nil;
+    var jsbsim_prop = nil;
+
+    # Flight controls
+
+    name = "controls/flight/left-elevon";
+    prop = "fdm/jsbsim/fcs/elevon/left";
+    var actuator_left_elevon = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(name, "Left elevon", actuator_left_elevon);
+    var trigger_left_elevon = compat_failure_modes.MtbfTrigger.new(0);
+    FailureMgr.set_trigger(name, trigger_left_elevon);
+
+    name = "controls/flight/right-elevon";
+    prop = "fdm/jsbsim/fcs/elevon/right";
+    var actuator_right_elevon = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(name, "Right elevon", actuator_right_elevon);
+    var trigger_right_elevon = compat_failure_modes.MtbfTrigger.new(0);
+    FailureMgr.set_trigger(name, trigger_right_elevon);
+
+    name = "controls/flight/rudder";
+    prop = "/sim/failure-manager/controls/flight/rudder";
+    var actuator_rudder = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(name, "Rudder", actuator_rudder);
+    jsbsim_prop = props.globals.getNode("fdm/jsbsim/fcs/rudder/serviceable");
+    jsbsim_prop.unalias();
+    jsbsim_prop.alias(prop~"/serviceable");
+
+    name = "controls/flight/flaps";
+    prop = "/sim/failure-manager/controls/flight/flaps";
+    var actuator_flaps = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(name, "Flaps", actuator_flaps);
+    jsbsim_prop = props.globals.getNode("fdm/jsbsim/fcs/flaps/serviceable");
+    jsbsim_prop.unalias();
+    jsbsim_prop.alias(prop~"/serviceable");
+
+
+    if (!variant.JA) {
+        prop = "sim/failure-manager/controls/flight/speedbrake";
+        name = "controls/flight/speedbrake";
+        var actuator_speedbrake = compat_failure_modes.set_unserviceable(prop);
+        FailureMgr.add_failure_mode(name, "Speedbrakes", actuator_speedbrake);
+        jsbsim_prop = props.globals.getNode("fdm/jsbsim/fcs/speedbrake/serviceable");
+        jsbsim_prop.unalias();
+        jsbsim_prop.alias(prop~"/serviceable");
+    }
 
     #gears
 
-    var prop = "gear/gear[0]/position-norm";
+    prop = "gear/gear[0]/position-norm";
     var trigger_gear0 = RandSpeedTrigger.new(350, 500, prop);
     var actuator_gear0 = set_value("fdm/jsbsim/gear/unit[0]/z-position", 0.001);
     FailureMgr.add_failure_mode("controls/gear0", "Front gear locking mechanism", actuator_gear0);
@@ -235,43 +295,6 @@ var install_failures = func {
     var actuator_annunciator = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Annunciator", actuator_annunciator);
 
-    if (!variant.JA) {
-        prop = "sim/failure-manager/controls/flight/speedbrake";
-        var actuator_speedbrake = compat_failure_modes.set_unserviceable(prop);
-        FailureMgr.add_failure_mode("controls/flight/speedbrakes", "Speedbrakes", actuator_speedbrake);
-    }
-
-    # replace actuators on control surfaces due to jsbsim takes care of jamming
-
-#    prop = "controls/flight/aileron";
-#    var actuator_aileron = compat_failure_modes.set_unserviceable("fdm/jsbsim/fcs/aileron-serviceable");
-#    FailureMgr.remove_failure_mode(prop);
-#    FailureMgr.add_failure_mode(prop, "Aileron", actuator_aileron);
-#    var trigger_aileron = compat_failure_modes.McbfTrigger.new(prop, 0);
-#    FailureMgr.set_trigger(prop, trigger_aileron);
-
-#    prop = "controls/flight/elevator";
-#    var actuator_elevator = compat_failure_modes.set_unserviceable("fdm/jsbsim/fcs/elevator-serviceable");
-#    FailureMgr.remove_failure_mode(prop);
-#    FailureMgr.add_failure_mode(prop, "Elevator", actuator_elevator);
-#    var trigger_elev = compat_failure_modes.McbfTrigger.new(prop, 0);
-#    FailureMgr.set_trigger(prop, trigger_elev);
-
-#    prop = "controls/flight/rudder";
-#    var actuator_rudder = compat_failure_modes.set_unserviceable("fdm/jsbsim/fcs/rudder-serviceable");
-#    FailureMgr.remove_failure_mode(prop);
-#    FailureMgr.add_failure_mode(prop, "Rudder", actuator_rudder);
-#    var trigger_rudder = compat_failure_modes.McbfTrigger.new(prop, 0);
-#    FailureMgr.set_trigger(prop, trigger_rudder);
-
-#    prop = "controls/flight/flaps";
-#    var actuator_flaps = compat_failure_modes.set_unserviceable("fdm/jsbsim/fcs/flaps-serviceable");
-#    FailureMgr.remove_failure_mode(prop);
-#    FailureMgr.add_failure_mode(prop, "Flaps", actuator_flaps);
-#    var trigger_flaps = compat_failure_modes.McbfTrigger.new(prop, 0);
-#    FailureMgr.set_trigger(prop, trigger_flaps);
-
-
     ##
     # Returns an actuator object that will set the serviceable property at
     # the given node to zero when the level of failure is > 0.
@@ -380,9 +403,9 @@ var install_failures = func {
 
 
 var _init = func {
-        removelistener(lsnr_s);
-        install_failures();
-    }
+    removelistener(lsnr_s);
+    install_failures();
+}
 
 var lsnr_s = setlistener("ja37/supported/initialized", _init, 0, 0);
 
