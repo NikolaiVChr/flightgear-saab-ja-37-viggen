@@ -999,20 +999,22 @@ var rand_double = func (min, max) {
 
 # Random switches in the cockpit. Value is probability that it is on.
 var random_switches = {
-  "controls/ventilation/airconditioning-enabled": 0.5,
   "controls/electric/lights-ext-beacon": 0.5,
   "controls/electric/lights-ext-form": 0.5,
   "controls/altimeter-radar": 0.5,
   "controls/electric/engine[0]/generator": 0.5,
-  "controls/engines/engine/reverser-cmd": 0.5,
+  "controls/engines/engine/reverser-cmd": 0.3,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
   "instrumentation/comm[0]/transmitter": 0.5,
   # Not used under normal operation: usual position with high probability.
-  "controls/engines/engine[0]/cutoff-augmentation": 0.2,
-  "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
-  "controls/electric/reserve": 0.2,
-  "controls/fuel/auto": 0.8,
+  "controls/ventilation/airconditioning-enabled": 0.9,
+  "controls/fuel/auto": 0.9,
+  "controls/fuel/tank-pump": 0.9,
+  "controls/engines/engine[0]/cutoff-augmentation": 0.1,
+  "controls/electric/reserve": 0.1,
+  "fdm/jsbsim/fcs/elevator/gearing-enable": 0.9,
+  "controls/engines/engine[0]/deice": 0.3,
 };
 
 # Variant specific switches
@@ -1045,7 +1047,7 @@ var random_multipos = {
 var random_continuous = {
   "controls/lighting/flood-knob": [0,1],
   "controls/lighting/instruments-knob": [0,1],
-  "controls/ventilation/airconditioning-temperature": [12,26],
+  "controls/ventilation/airconditioning-temperature": [15,26],
   "controls/ventilation/windshield-hot-air-knob": [0,1],
   "instrumentation/altimeter/setting-hpa": [990,1030],
   "instrumentation/altimeter[1]/setting-hpa": [990,1030],
