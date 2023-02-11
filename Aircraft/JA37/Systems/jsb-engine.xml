@@ -310,15 +310,19 @@
       <test value="0">
         /ja37/fuses/motor == 0
       </test>
-      <!-- JA only, throttle cutoff powers down the start system -->
-      <test logic="AND" value="0">
-        /ja37/systems/variant == 0
-        fcs/throttle-pos-deg le 6
-      </test>
       <default value="/ja37/elec/dc-bus-main-bool"/>
     </switch>
 
     <switch name="propulsion/starter/start-power">
+      <test logic="AND" value="0">
+        <!-- JA only, throttle cutoff powers down the start system. -->
+        /ja37/systems/variant == 0
+        fcs/throttle-pos-deg le 6
+        <!-- overriden by manual restart system -->
+        propulsion/starter/manual-ignition-switch == 0
+        /controls/engines/engine[0]/restart == 0
+        /ja37/engine/sparkplug == 1
+      </test>
       <test logic="AND" value="1">
         propulsion/starter/dc-power == 1
         /controls/engines/engine[0]/starter-cmd == 1
@@ -368,14 +372,74 @@
       <default value="0"/>
     </switch>
 
-    <!-- ignition -->
+    <!-- manual ignition controls -->
+
+    <switch name="propulsion/starter/manual-ignition-switch">
+      <test value="1">
+        /controls/engines/engine[0]/man-ignition-hold == 1
+      </test>
+      <test logic="AND" value="/controls/engines/engine[0]/man-ignition">
+        <!-- If relay is powered, hold in position. Restart button releases. -->
+        propulsion/starter/dc-power == 1
+        /controls/engines/engine[0]/restart == 0
+      </test>
+      <default value="0"/>
+      <output>/controls/engines/engine[0]/man-ignition</output>
+    </switch>
+
+    <switch name="propulsion/starter/restart-relay-power">
+      <test logic="AND" value="1">
+        propulsion/starter/dc-power == 1
+        /controls/engines/engine[0]/restart == 1
+      </test>
+      <default value="0"/>
+    </switch>
+
+    <actuator name="propulsion/starter/restart-relay-closed">
+      <input>propulsion/starter/restart-relay-power</input>
+      <rate_limit sense="incr">0.5</rate_limit><!-- 2 seconds -->
+      <rate_limit sense="decr">100.0</rate_limit>
+    </actuator>
+
+    <switch name="propulsion/starter/restart-timer-start">
+      <test logic="AND" value="sim-time-sec">
+        propulsion/starter/dc-power == 1
+        propulsion/starter/restart-relay-closed == 1
+      </test>
+      <default value="propulsion/starter/restart-timer-start"/>
+    </switch>
+
+    <summer name="propulsion/starter/restart-timer-end">
+      <input>propulsion/starter/restart-timer-start</input>
+      <bias>60</bias>
+    </summer>
+
+    <switch name="propulsion/starter/restart-timer">
+      <test value="0">
+        propulsion/starter/dc-power == 0
+      </test>
+      <test value="1">
+        propulsion/starter/restart-relay-closed == 1
+      </test>
+      <test value="0">
+        sim-time-sec gt propulsion/starter/restart-timer-end
+      </test>
+      <default value="propulsion/starter/restart-timer"/>
+    </switch>
+
+    <!-- ignition power -->
 
     <switch name="propulsion/starter/ignition">
       <!-- power -->
       <test logic="OR" value="0">
-        /ja37/engine/sparkplug == 0
         /ja37/elec/dc-bus-main-bool == 0
-        <!-- TODO: manual ignition -->
+        /ja37/engine/sparkplug == 0
+        propulsion/starter/manual-ignition-switch == 1
+      </test>
+      <!-- manual restart circuit -->
+      <test logic="AND" value="1">
+        propulsion/starter/dc-power == 1
+        propulsion/starter/restart-timer == 1
       </test>
       <!-- activation relay R2 -->
       <test logic="AND" value="1">
