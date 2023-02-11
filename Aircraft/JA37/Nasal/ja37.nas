@@ -1266,7 +1266,7 @@ var stopAutostart = func {
   settimer(stopFinal, 5, 1);#allow time for ram air and flaps to retract
 }
 
-stopFinal = func {
+var stopFinal = func {
   setprop("/controls/engines/engine/throttle", 0);
   setprop("/controls/engines/engine/throttle-cutoff", TRUE);
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
@@ -1337,7 +1337,6 @@ var autostart = func {
   setprop("/instrumentation/altimeter/setting-std", 0);
   setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-inhg"));
   setprop("/instrumentation/altimeter[1]/setting-inhg", getprop("/environment/pressure-inhg"));
-  setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   notice("Starting engine..");
   click();
@@ -1367,8 +1366,17 @@ var waiting_n1 = func {
     stopAutostart();
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
-      settimer(waiting_n1, 0.5, 1);
-    }  elsif (getprop("/engines/engine[0]/n1") > 10) {
+      if (getprop("/controls/engines/engine[0]/starter-cmd-hold") == TRUE) {
+        click();
+        setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
+        setprop("/controls/engines/engine/throttle-cutoff", FALSE);
+        setprop("/controls/engines/engine/throttle", 0);
+        notice("Engine igniting.");
+        settimer(waiting_n1, 0.5, 1);
+      } else {
+        settimer(waiting_n1, 0.5, 1);
+      }
+    }  elsif (getprop("/engines/engine[0]/n1") > 10 and getprop("/controls/engines/engine[0]/starter-cmd-hold") == FALSE) {
       #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
