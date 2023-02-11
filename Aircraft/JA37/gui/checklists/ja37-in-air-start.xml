@@ -49,12 +49,7 @@
             <command>nasal</command>
             <script>
               setprop("controls/engines/engine[0]/restart", 1);
-              var timer = maketimer(2.1, func(){
-                  setprop("controls/engines/engine[0]/restart", 0);
-              });
-              timer.singleShot = 1;
-              timer.simulatedTime = 1;
-              timer.start();
+              settimer(func { setprop("controls/engines/engine[0]/restart", 0); }, 2.5);
             </script>
         </binding>
     </item>
@@ -101,12 +96,7 @@
               setprop("controls/engines/engine[0]/starter-cmd-hold", 1);
               setprop("controls/engines/engine[0]/starter-cmd", 1);
               ja37.click();
-              var timer = maketimer(2.1, func(){
-                  setprop("controls/engines/engine[0]/starter-cmd-hold", 0);
-              });
-              timer.singleShot = 1;
-              timer.simulatedTime = 1;
-              timer.start();
+              settimer(func { setprop("controls/engines/engine[0]/starter-cmd-hold", 0); }, 2.5);
             </script>
         </binding>
     </item>

@@ -23,12 +23,7 @@
               setprop("controls/engines/engine[0]/starter-cmd-hold", 1);
               setprop("controls/engines/engine[0]/starter-cmd", 1);
               ja37.click();
-              var timer = maketimer(2.1, func(){
-                  setprop("controls/engines/engine[0]/starter-cmd-hold", 0);
-              });
-              timer.singleShot = 1;
-              timer.simulatedTime = 1;
-              timer.start();
+              settimer(func { setprop("controls/engines/engine[0]/starter-cmd-hold", 0); }, 2.5);
             </script>
         </binding>
     </item>
@@ -218,12 +213,7 @@
               setprop("ja37/avionics/button-stck", 1);
               autoflight.System.engageMode(1);
               ja37.click();
-              var timer = maketimer(0.3, func(){
-                  setprop("ja37/avionics/button-stck", 0);
-              });
-              timer.singleShot = 1;
-              timer.simulatedTime = 1;
-              timer.start();
+              settimer(func { setprop("ja37/avionics/button-stck", 0); }, 0.3);
             </script>
         </binding>
     </item>
