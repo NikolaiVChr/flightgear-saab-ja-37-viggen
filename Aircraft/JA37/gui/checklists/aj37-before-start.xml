@@ -431,9 +431,9 @@
             <name>Roll trim</name>
             <value>CHECK, CENTERED (green)</value>
             <marker>
-                <x-m>-3.9008</x-m>
-                <y-m>-0.4116</y-m>
-                <z-m>0.1612</z-m>
+                <x-m>-3.795</x-m>
+                <y-m>-0.41</y-m>
+                <z-m>0.15</z-m>
                 <scale>1.0000</scale>
             </marker>
             <condition>
@@ -740,9 +740,9 @@
             <name>Warning lights test</name>
             <value>HOLD DOWN, CHECK INDICATORS</value>
             <marker>
-                <x-m>-3.8438</x-m>
-                <y-m>-0.4231</y-m>
-                <z-m>0.1488</z-m>
+                <x-m>-3.71</x-m>
+                <y-m>0.433</y-m>
+                <z-m>0.235</z-m>
                 <scale>1.0000</scale>
             </marker>
             <binding>
@@ -799,28 +799,6 @@
         </item>
         <!-- The remainder of the checklist is not in the real checklist. -->
         <item>
-            <name>Pitch gearing</name>
-            <value>ON</value>
-            <marker>
-                <x-m>-3.585</x-m>
-                <y-m>0.443</y-m>
-                <z-m>0.230</z-m>
-                <scale>1.0000</scale>
-            </marker>
-            <condition>
-                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
-                <value>1</value>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
-            </binding>
-        </item>
-        <item>
             <name>Fuel regulation</name>
             <value>AUTO</value>
             <marker>
@@ -835,6 +813,50 @@
             <binding>
                 <command>property-assign</command>
                 <property>controls/fuel/auto</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </item>
+        <item>
+            <name>Tank feed pumps</name>
+            <value>NORM</value>
+            <marker>
+                <x-m>-3.68</x-m>
+                <y-m>0.436</y-m>
+                <z-m>0.235</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <property>controls/fuel/tank-pump</property>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/fuel/tank-pump</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </item>
+        <item>
+            <name>Pitch gearing</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.585</x-m>
+                <y-m>0.443</y-m>
+                <z-m>0.230</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
                 <value>1</value>
             </binding>
             <binding>

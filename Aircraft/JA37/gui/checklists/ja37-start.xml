@@ -6,13 +6,16 @@
         <name>Hold engine starter (2 sec)</name>
         <value>ON</value>
         <marker>
-            <x-m>-3.7322</x-m>
+            <x-m>-3.720</x-m>
             <y-m>-0.4727</y-m>
             <z-m>0.1116</z-m>
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
+            <equals>
+                <property>fdm/jsbsim/propulsion/starter/relay-R1-closed</property>
+                <value>1</value>
+            </equals>
         </condition>
         <binding>
             <command>nasal</command>

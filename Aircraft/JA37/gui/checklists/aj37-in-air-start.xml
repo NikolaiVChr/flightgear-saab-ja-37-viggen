@@ -33,7 +33,31 @@
         <name>Descend below 12km(40000ft)</name>
         <value></value>
     </item>
-    <!-- Real checklist: press engine restart button 2s, does not exist on this model -->
+    <item>
+        <name>Engine restart (2 sec)</name>
+        <value>ON</value>
+        <marker>
+            <x-m>-3.6900</x-m>
+            <y-m>-0.4240</y-m>
+            <z-m>0.1050</z-m>
+            <scale>1.0000</scale>
+        </marker>
+        <condition>
+            <property>fdm/jsbsim/propulsion/starter/restart-timer</property>
+        </condition>
+        <binding>
+            <command>nasal</command>
+            <script>
+              setprop("controls/engines/engine[0]/restart", 1);
+              var timer = maketimer(2.1, func(){
+                  setprop("controls/engines/engine[0]/restart", 0);
+              });
+              timer.singleShot = 1;
+              timer.simulatedTime = 1;
+              timer.start();
+            </script>
+        </binding>
+    </item>
     <item>
         <name>Below 9km(30000ft), fuel regulation</name>
         <value>MANUAL</value>
@@ -60,13 +84,16 @@
         <name>If no RPM or EGT increase in 20s, hold engine starter (2 sec)</name>
         <value>ON</value>
         <marker>
-            <x-m>-3.7322</x-m>
+            <x-m>-3.720</x-m>
             <y-m>-0.4727</y-m>
             <z-m>0.1116</z-m>
             <scale>3.0000</scale>
         </marker>
         <condition>
-            <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
+            <equals>
+                <property>fdm/jsbsim/propulsion/starter/relay-R1-closed</property>
+                <value>1</value>
+            </equals>
         </condition>
         <binding>
             <command>nasal</command>
