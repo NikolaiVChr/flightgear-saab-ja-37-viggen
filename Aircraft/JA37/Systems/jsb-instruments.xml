@@ -341,7 +341,7 @@
             <rate_limit>0.5</rate_limit>
             <clipto>
                 <min>0</min>
-                <max>2.5</max>
+                <max>9.9</max>
             </clipto>
             <output>/instrumentation/airspeed-indicator/mach-indicator</output>
         </actuator>

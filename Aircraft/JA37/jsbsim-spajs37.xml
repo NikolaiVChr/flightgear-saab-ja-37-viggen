@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
+
+
+<!--**********************************************************************
+
+                            Main JSBSim Flight Dynamics Model file for AJ(S)-37
+
+
+*************************************************************************-->   
+
+<fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Saab AJ-37 Viggen" version="2.0" release="BETA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
+  <fileheader>
+    <author> Nikolai V. Chr. </author>
+    <filecreationdate> 2016-06-10 </filecreationdate>
+    <version>5.3.0</version>
+    <license>
+      <licenseName>GPL 2 (General Public License version 2)</licenseName>
+      <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
+    </license>
+    <description> Models a Saab AJ(S)-37 Viggen </description>
+    <note>
+         This model was created using data that is, or has been, publically
+         available by means of (declassified) technical reports, textbooks, image graphs or
+         published code. This aircraft description file is in no way related 
+         to the manufacturer of the real aircraft.
+         Neither the name of (any of) the authors nor the names of (any of) the
+         manufacturers may be used to endorse or promote products derived from
+         this file.
+ 
+         The data is provided ''as is'' and any express or implied
+         warranties, including, but not limitted to the implied warranties of
+         merchantability and fitness for a particular purpose are disclaimed.
+      </note>
+
+      <!-- the references are in no particular order. More were used, but tried to keep the list minimal -->
+
+      <reference refID="NASA TM-88403" author="Krister Karling"
+       title="Aerodynamics of the Viggen 37 Aircraft" date="June 1986"
+       link="http://hdl.handle.net/2060/19860019453"/>
+
+      <reference refID="Temporal final" author="John McIver"
+       title="Saab JA-37 Viggen Performance Assessment" date="5th August 2003"
+       link="www.temporal.com.au/viggen_final.pdf"/>
+
+      <reference refID="NASA CR-2501" author="Johnston, D. E."
+       title="Flight control systems properties and problems. Volume 2: Block diagram compendium"
+       date="Feb 01, 1975" link="http://hdl.handle.net/2060/19750009300"/>
+
+      <reference refID="TCDS E2EA" author="U.S. DEPARTMENT OF TRANSPORTATION"
+       title="TYPE CERTIFICATE SHEET NO. E2EA: PRATT AND WHITNEY MODELS" date="AUGUST 28, 2007"/>
+
+      <reference refID="NASA TN D-6460" author="Langley Research Center"
+       title="PERFORMANCE CHARACTERISTICS OF A SINGLE-ENGINE FIGHTER MODEL FITTED WITH AN IN-FLIGHT THRUST REVERSER" date="SEPTEMBER 1971"
+       link="http://hdl.handle.net/2060/19710027908"/>
+
+      <reference refID="NASA-TM-88354" author="Seth B. Anderson"
+       title="A Look at Handling Qualities of Canard Configurations" date="September 1986"
+       link="http://hdl.handle.net/2060/19870013196"/>
+
+      <reference refID="NASA TM 110394" author="Eugene L. Tu"
+       title="Numerical Study of Steady and Unsteady Canard-Wing-Body Aerodynamics" date="August 1996"
+       link="http://hdl.handle.net/2060/19960047050"/>
+
+      <reference refID="Bethesda, Md. 20084" author="David W. Lacey"
+       title="AERODYNAMIC CHARACTERISTICS OF THE CLOSE-COUPLED CANARD" date="Jan 1979"
+       link="http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19750004860.pdf"/>
+
+      <reference refID="NASA-TN-D-7505" author="Gloss, B. B."
+       title="Effect of canard location and size on canard-wing interference and aerodynamic center shift related to maneuvering aircraft at transonic speeds" date="Jun 01, 1974"
+       link="http://hdl.handle.net/2060/19740020361"/>
+
+      <reference refID="SFI-AJ-37-Del-2" author="Försvarets Materielverk"
+       title="FPL AJ37 Speciel Förarinstruktion Del 2" date="1975"/>
+
+      <reference refID="SFI-AJ-37-Del-3" author="Försvarets Materielverk"
+       title="FPL AJ37 Speciel Förarinstruktion Del 3" date="1979"/>
+
+      <reference refID="SFI-AJS-37-Del-1" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 1" date="1994"/>
+
+      <reference refID="SFI-AJS-37-Del-1" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 1" date="1996"/>
+
+      <reference refID="SFI-AJS-37-Del-2" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 2" date="1994"/>
+
+      <reference refID="SFI-AJS-37-Del-3" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 3" date="1994"/>
+
+      <reference refID="SFI-JA-37C-Del-1" author="Försvarets Materielverk"
+       title="A/C 37 Flight Manual Part 1" date="1999"/>
+
+      <reference refID="SFI-JA-37Di-Del-1" author="Försvarets Materielverk"
+       title="FPL JA37Di Speciel Förarinstruktion Del 1" date="2003"/>
+
+      <reference refID="SFI-JA-37D-Del-2" author="Försvarets Materielverk"
+       title="FPL JA37D Speciel Förarinstruktion Del 2 Kap 4-5" date="1999"/>
+
+      <reference refID="SFI-JA-37D-Del-3" author="Försvarets Materielverk"
+       title="FPL JA37D Speciel Förarinstruktion Del 3 Kap 1 Sida 3" date="1999"/>
+
+      <reference refID="SFI-SK-37E-Del-1" author="Försvarets Materielverk"
+       title="FPL SK37E Speciel Förarinstruktion Del 1" date="1998"/>
+
+      <reference refID="SFI-AJSH-37-Del-1" author="Försvarets Materielverk"
+       title="FPL AJSF37 AJSF37 Speciel Förarinstruktion Del 1" date="1995"/>
+
+      <reference refID="SSI-AJS-37" author="Försvarets Materielverk"
+       title="FPL 37 Speciel Startnings-instruktion" date="1997"/>
+
+      <reference refID="SSI-F21-JA37" author="F 21 - 3 Div"
+       title="SFI frågor del 2"/>
+
+      <reference refID="ATIS-37" author="Flygvapnet"
+       title="Anvisningar för typinflygning fpl 37" date="1985"/>
+
+      <reference refID="BSK-AJS37" author="Försvarets Materielverk"
+       title="FPL AJS37 Beskrivning Del 4" date="1998"/>
+
+      <reference refID="BSK-M90" author="Försvarets Materielverk"
+       title="Beskrivning Bombkapsel M90" date="1998"/>
+
+      <reference refID="NOTES-37" author="Försvarets Materielverk"
+       title="Flygplan Saab 37 Viggen med föregångare, projektarkiv öppna" date="1979"/>
+
+      <reference refID="SKI-37" author="Försvarets Materielverk"
+       title="Speciell Klargöringsinstruktion FPL AJS, AJSH, AJSF37 Vapen/Spaning" date="1995"/>
+
+      <reference refID="CHECKLISTS-JA37" author="Försvarets Materielverk"
+       title="Minneslista för ff i fpl JA37" date="2001"/>
+
+      <reference refID="CHECKLISTS-EMERG" author="Försvarets Materielverk"
+       title="Minneslista för ff i fpl 37 NÖD" date="1999"/>
+
+      <reference refID="CHECKLISTS-AJS37" author="Försvarets Materielverk"
+       title="Minneslista för ff i fpl AJS37" date="2000"/>
+
+      <reference refID="CHECKLISTS-37" author="Försvarets Materielverk"
+       title="Minneslista för ff i fpl 37" date="2005"/>
+
+      <reference refID="KOMP-AERODYN-FPL-37" author="Försvarets Materielverk"
+       title="Aerodynamik fpl 37 - Kompendium I" date="1975"/>
+
+      <reference refID="KOMP-AERODYN3-FPL-37" author="Försvarets Materielverk"
+       title="Aerodynamik fpl 37 - Kompendium III" date="1981"/>
+
+      <reference refID="JET-DATABASE" author="Elodie Roux"
+       title="Turbofan and Turbojet Engines: Database Handbook" date="2007"/>
+
+      <!-- note: the following 3 books is missing date -->
+
+      <reference refID="VIGGEN" author="Sven Stridsberg"
+       title="Viggen"/>
+
+      <reference refID="SYS-37-VIGGEN" author="Flyg Historisk Revy"
+       title="System 37 Viggen"/>
+
+      <reference refID="PIC-BOOK-VIGGEN"
+       title="Nordic Airpower - Saab 37 Viggen"/>
+       
+  </fileheader>
+  
+
+
+ <metrics>
+      <!-- from NASA document -->
+      <wingarea unit="M2">       46.0     </wingarea><!-- main wings --><!-- from Saab windtunnel data document -->
+      <wingspan unit="M">        10.0     </wingspan><!-- main wings --><!-- from Saab windtunnel data document -->
+      <chord unit="M">            7.4     </chord><!-- ref. chord from Saab windtunnel data document (its the root chord),
+                                                       the real MAC is 4.73 meter (Datcom+ Pro) -->
+      <htailarea unit="M2">      46.0     </htailarea><!-- using main wings for this since they act as htail also -->
+      <!-- data calculated using DATCOM+ Pro -->
+      <vtailarea unit="M2">      5.115   </vtailarea>
+      <htailarm  unit="M" >      4.5785  </htailarm>
+      <vtailarm  unit="M" >      5.8515  </vtailarm>
+      <!-- Measured using Saab diagram in Gimp -->
+      <wing_incidence unit="DEG"> 0.00    </wing_incidence>
+    <location name="AERORP" unit="M">
+      <x> 1.5517 </x><!-- same as CG, its modified in aero_ref_pt_shift_x according to current static margin -->
+      <y> 0 </y>
+      <z> -0.20081 </z>
+    </location>
+    <location name="EYEPOINT" unit="M">
+      <x> -3.40 </x>
+      <y>  0.00 </y>
+      <z>  0.70 </z>
+    </location>
+    <location name="VRP" unit="M"><!-- Vehicle Reference Point -->
+      <x> 0 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+    <pitot_angle unit="DEG"> 0.0 </pitot_angle>
+  </metrics>
+  
+
+  <mass_balance>
+    <!-- Datcom+ Pro -->
+    <ixx unit="KG*M2">  19541.0273  </ixx>
+    <iyy unit="KG*M2">  71224.5781  </iyy>
+    <izz unit="KG*M2">  65561.6250  </izz>
+    <ixz unit="KG*M2">   3210.2346  </ixz>
+    <!-- AeromatiC++ 3.2.5 -->
+    <!--<ixx unit="KG*M2">  21960.58  </ixx>
+    <iyy unit="KG*M2">  88334.06  </iyy>
+    <izz unit="KG*M2">  78179.33  </izz>-->
+    <emptywt unit="KG" > 10500 </emptywt><!-- AJ37 manual -->
+    <location name="CG" unit="M">
+      <x> 1.5517 </x>
+      <!--  -->
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+    <pointmass name="Pilot">
+      <weight unit="KG"> 72 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> -3.3 </x>
+        <y>  0.0 </y>
+        <z>  0.2 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Left wing pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> 3.15986 </x>
+        <y> -2.70311 </y>
+        <z> -0.67645 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Left fuselage pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> -1.02697 </x>
+        <y> -0.98148 </y>
+        <z> -0.94307 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Right wing pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> 3.15986 </x>
+        <y> 2.70311 </y>
+        <z> -0.67645 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Right fuselage pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> -1.02697 </x>
+        <y> 0.98148 </y>
+        <z> -0.94307 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Left outer wing pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> 4.05216 </x>
+        <y> -3.94417 </y>
+        <z> -0.73722 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Right outer wing pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> 4.05216 </x>
+        <y> 3.94417 </y>
+        <z> -0.73722 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Center fuselage pylon">
+      <weight unit="LBS"> 211.64 </weight> <!-- JA37 manual, notice when this change also change it in nasal scripts and aero section -->
+      <location name="POINTMASS" unit="M">
+        <x>  0.52406 </x>
+        <y>  0.00 </y>
+        <z> -1.25748 </z>
+      </location>
+    </pointmass>
+  </mass_balance>
+  
+  <propulsion file="Systems/jsb-propulsion-spajs37"/>
+  <system file="jsb-input"/> <!-- BEFORE autoflight -->
+  <system file="autoflight"/> <!-- BEFORE control drivers -->
+  <system file="jsb-control-drivers"/> <!-- BEFORE flight controls -->
+  <flight_control file="Systems/jsb-controls"/>
+  <aerodynamics file="ja37-aerodynamics.xml"/>
+  <system file="jsb-hydraulic"/>
+  <system file="jsb-engine"/>
+  <system file="jsb-flight"/>
+  <system file="jsb-electric"/>
+  <system file="jsb-instruments"/>
+  <system file="jsb-warnings"/>
+  <system file="jsb-indicators"/>
+  <system file="jsb-cannon_recoil"/>
+  <system file="jsb-fuel"/>
+  <external_reactions file="Systems/jsb-external-reactions"/>
+  <ground_reactions file="Systems/jsb-ground-reactions"/>
+
+</fdm_config>

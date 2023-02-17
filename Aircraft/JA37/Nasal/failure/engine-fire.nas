@@ -18,7 +18,7 @@ input = {
 
 var airspeed_safe_reverse_kt = 64.8;
 var thrust_reverse_max = -7716.18;# max reverse thrust lbf at sealevel
-var temp_safe = 925;
+var temp_safe = variant.SPAJS ? 3000 : 925;
 var TRUE = 1;
 var FALSE = 0;
 var start_time = -1;

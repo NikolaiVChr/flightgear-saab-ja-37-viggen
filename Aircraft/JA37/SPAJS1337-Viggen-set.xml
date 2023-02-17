@@ -1,0 +1,369 @@
+<?xml version="1.0"?>
+<!--**********************************************************************
+
+                                          Main file for AJS-37 Flightgear aircraft
+
+
+*************************************************************************-->   
+
+<PropertyList include="Viggen-set-base.xml">
+    <sim>
+        <description>Saab SPAJS-1337 Viggen</description>
+        <status>Early production</status>
+        <long-description>
+          The Saab SPAJS-1337 Viggen is a Swedish all-weather single-engine spaceship. It has reverse thrust and very large canards.
+        </long-description>
+
+        <rating>
+            <FDM type="int">4</FDM>
+            <systems type="int">4</systems>
+            <cockpit type="int">4</cockpit>
+            <model type="int">4</model>
+        </rating>
+
+        <variant-of>JA37-Viggen</variant-of>
+
+        <exclude-from-gui type="bool">false</exclude-from-gui>
+
+        <flight-model>jsb</flight-model>
+        <aero>jsbsim-spajs37</aero>
+
+        <startup>
+            <splash-title>Swedish post coldwar spaceship</splash-title>
+            <splash-texture>Aircraft/JA37/gui/ajs37-splash.png</splash-texture>
+        </startup>
+
+        <gui>
+            <style>
+                <colors>
+                    <splash-font>
+                        <red>1.0</red>
+                        <green>1.00</green>
+                        <blue>1.00</blue>
+                    </splash-font>
+                    <splash-screen>
+                        <red>0.9</red>
+                        <green>0.2</green>
+                        <blue>0.15</blue>
+                    </splash-screen>
+                </colors>
+            </style>
+        </gui>
+
+        <previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs1.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs2.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs3.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs6.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs7.png</path>
+            </preview>
+        </previews>
+
+        <model>
+            <path>Aircraft/JA37/Models/AJS37-Viggen.xml</path>
+
+            <livery>
+                <!-- Default Livery -->
+                <file type="string">saf01</file>
+                <texture type="string">Liveries/SAF01/saf01.png</texture><!--
+                <name type="string">Swedish Air Force 31</name>
+                <owner type="string">SAF</owner>-->
+            </livery>
+
+        </model>
+
+        <help include="gui/ajs37-help.xml">
+            <title>Saab SPAJS-1337 Viggen</title>
+        </help>
+
+
+        <!--**********************************************************************
+
+                                          AJS-37 Menu
+
+
+*************************************************************************-->
+        <menubar>
+            <default>
+                <menu n="100">
+                    <label>SPAJS-1337</label>
+                    <enabled type="bool">true</enabled>
+                    <item>
+                        <label>Manual (open in browser)</label>
+                        <binding>
+                            <command>open-browser</command>
+                            <path>Aircraft/JA37/Doc/AJS_manual.pdf</path>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Auto start/stop</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.autostarttimer();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Repair</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.repair();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>--- Ground services ---</label>
+                        <enabled>false</enabled>
+                    </item>
+                    <item>
+                        <label>Toggle chocks</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.toggleChocks();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Toggle external power</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.toggleExternalPower();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Ground crew panel</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ground_panel.Dialog.open();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>--- Configuration ---</label>
+                        <enabled>false</enabled>
+                    </item>
+                    <item>
+                        <label>Options</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>saab37options</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Load radio channels</label>
+                        <name>comm-channels</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>comm-channels</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Select livery</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                aircraft.livery.dialog.toggle();
+                            </script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>--- Monitoring ---</label>
+                        <enabled>false</enabled>
+                    </item>
+                    <item>
+                        <label>Combat log</label>
+                        <name>flightlog</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>flightlog</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Tacview recorder</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>tacview</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Performance monitor</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                  monitor.PerformanceMonitor.instance().start();
+                            </script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Systems monitor</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                monitor2.SystemsMonitor.instance().start();
+                            </script>
+                        </binding>
+                    </item>
+                </menu>
+            </default>
+        </menubar>
+
+        <checklists>
+            <group>
+                <name>SPAJS1337 Normal Operations</name>
+                <checklist include="gui/checklists/aj37-before-start.xml"/>
+                <checklist include="gui/checklists/aj37-start.xml"/>
+                <checklist include="gui/checklists/aj37-after-start.xml"/>
+                <checklist include="gui/checklists/aj37-before-taxi.xml"/>
+                <checklist include="gui/checklists/aj37-before-takeoff.xml"/>
+                <checklist include="gui/checklists/takeoff.xml"/>
+                <checklist include="gui/checklists/landing.xml"/>
+                <checklist include="gui/checklists/aj37-after-landing.xml"/>
+                <checklist include="gui/checklists/aj37-shutdown.xml"/>
+            </group>
+            <group>
+                <name>Emergency Procedures</name>
+                <checklist include="gui/checklists/fire.xml"/>
+                <checklist include="gui/checklists/aj37-in-air-start.xml"/>
+                <checklist include="gui/checklists/generator-failure.xml"/>
+            </group>
+            <!-- Disable tutorials generated from checklists.
+                 They are broken due to parts of the checklists that are only done under some circumstances. -->
+            <auto-tutorials type="bool">false</auto-tutorials>
+        </checklists>
+    </sim>
+
+    <!-- overwrite some input stuff -->
+    <input n="0">
+      <keyboard n="0">
+        <!-- c/C should be repeatable in the AJS (weapon selector knob)
+             but not in the JA (cycle weapon, select cannon) -->
+        <key n="99"><!-- c -->
+          <repeatable>true</repeatable>
+        </key>
+        <key n="67"><!-- C -->
+          <repeatable>true</repeatable>
+        </key>
+      </keyboard>
+    </input>
+    <!--**********************************************************************
+
+                                          Payload
+
+
+*************************************************************************-->
+
+    <ja37>
+        <systems>
+            <variant type="int">3</variant>
+        </systems>
+        <effect>
+            <g-suit type="int">3</g-suit><!-- 1:71 2:79 3:97 -->
+        </effect>
+    </ja37>
+
+    <limits>
+        <vne-mach>30.00</vne-mach>
+        <!-- all values below from SFI part 2 -->
+        <vne>1000</vne>
+        <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
+        <max-positive-g>20.0</max-positive-g>
+        <max-negative-g>-10.0</max-negative-g>
+        <vroll>172.8</vroll>
+    </limits>
+
+    <fdm>
+        <jsbsim>
+            <fcs>
+                <max-alpha-deg type="int">28</max-alpha-deg>
+                <max-alpha-default-deg type="int">28</max-alpha-default-deg>
+            </fcs>
+        </jsbsim>
+    </fdm>
+
+    <instrumentation>
+        <fuel>
+            <!-- AJS37 SFI part 1: fuel gauge indicates 107% with full internal
+                 tanks, and 133% with external tank in addition.
+
+                 AJS SFI part 3 gives a more detailed table. The ratios
+                 'indicated fuel%'/'fuel liters'
+                 in that table are not quite consistent.
+                 This value gives ~108% with full internal, 132% with external.
+            -->
+            <indicated-ratio-factor>1.32</indicated-ratio-factor>
+        </fuel>
+        <heading-indicator>
+            <max-speed-deg-sec type="double">30</max-speed-deg-sec><!-- from AJS37 beskrivning vol. 4 -->
+        </heading-indicator>
+        <waypoint-indicator>
+            <max-speed-deg-sec type="double">25</max-speed-deg-sec><!-- from AJS37 beskrivning vol. 4 -->
+        </waypoint-indicator>
+        <radar-altimeter>
+            <max-usable-altitude-m type="double">600</max-usable-altitude-m>
+        </radar-altimeter>
+        <comm n="1">
+            <!-- transmission power (W), used by FGCom-mumble. -->
+            <tx-power type="double">3</tx-power> <!-- FR24 -->
+        </comm>
+    </instrumentation>
+
+    <nasal>
+        <modes>
+            <file>Aircraft/JA37/Nasal/modes-ajs.nas</file>
+        </modes>
+        <route>
+            <file>Aircraft/JA37/Nasal/navigation/waypoint.nas</file>
+            <file>Aircraft/JA37/Nasal/navigation/route-ajs.nas</file>
+        </route>
+        <navpanel>
+            <file>Aircraft/JA37/Nasal/navigation/navpanel-ajs.nas</file>
+        </navpanel>
+        <wpt_ind>
+            <file>Aircraft/JA37/Nasal/navigation/wpt-indicator.nas</file>
+        </wpt_ind>
+        <route_dialog>
+            <file>Aircraft/JA37/Nasal/navigation/dialog-ajs.nas</file>
+        </route_dialog>
+        <gnd_rdr>
+            <file>Aircraft/JA37/Nasal/radar/ground-radar.nas</file>
+        </gnd_rdr>
+        <ps37_mode>
+            <file>Aircraft/JA37/Nasal/radar/ps37_mode.nas</file>
+        </ps37_mode>
+        <radar>
+            <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/ps37.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/point.nas</file>
+        </radar>
+        <hud>
+            <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>
+            <file>Aircraft/JA37/Nasal/displays/ajs-hud.nas</file>
+        </hud>
+        <ci>
+            <file>Aircraft/JA37/Nasal/displays/ci.nas</file>
+        </ci>
+        <ground_panel>
+            <file>Aircraft/JA37/Nasal/payload/ground-crew-panel.nas</file>
+        </ground_panel>
+        <freq_sel>
+            <file>Aircraft/JA37/Nasal/radios/ajs-freq-selector.nas</file>
+        </freq_sel>
+    </nasal>
+
+</PropertyList>
