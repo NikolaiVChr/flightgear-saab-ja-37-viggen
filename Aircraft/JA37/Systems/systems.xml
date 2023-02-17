@@ -29,11 +29,4 @@
         <type>2</type><!-- static port on pitot -->
         <error-factor>0.05</error-factor>
     </static>
-    
-    <vacuum>
-        <name>vacuum</name>
-        <number>0</number>
-        <rpm>ja37/elec/ac-bus-main-volt</rpm>
-        <scale>50.0</scale>
-    </vacuum>
 </PropertyList>
