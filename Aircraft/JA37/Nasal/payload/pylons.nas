@@ -77,7 +77,7 @@ var make_M55 = func(pylon) {
 
 var make_M5555 = func(pylon) {
     return stations.SubModelWeapon.new(
-        "M5555", 0.5, 150, [9+pylon], [8+pylon],
+        "M5555", 0.5, 1000, [9+pylon], [8+pylon],
         input.ctrl_arm.getChild("station", pylon).getChild("trigger-m55"),
         TRUE, operable, FALSE,
         [(pylon == STATIONS.V7V) ? 17 : 18], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));

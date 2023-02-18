@@ -27,4 +27,27 @@
 	</entry>
     </interpolation>
   </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>trace</object-name>
+    <condition>
+      <property>/ja37/systems/variant-spajs</property>
+    </condition>
+    <diffuse>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.4</blue>
+    </diffuse>
+    <ambient>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.4</blue>
+    </ambient>
+    <emission>
+      <red>1</red>
+      <green>0.2</green>
+      <blue>0.4</blue>
+    </emission>
+  </animation>
 </PropertyList>

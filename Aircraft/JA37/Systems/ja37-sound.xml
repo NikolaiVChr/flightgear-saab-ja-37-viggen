@@ -1977,6 +1977,7 @@
             <path>Aircraft/JA37/Sounds/weapons/KCA.wav</path>
             <condition>
                 <and>
+                    <not><property>/ja37/systems/variant-spajs</property></not>
                     <property>controls/armament/station[1]/trigger-m55</property>
                     <greater-than>
                         <property>ai/submodels/submodel[10]/count</property>
@@ -2007,6 +2008,69 @@
             <path>Aircraft/JA37/Sounds/weapons/KCA.wav</path>
             <condition>
                 <and>
+                    <not><property>/ja37/systems/variant-spajs</property></not>
+                    <property>controls/armament/station[3]/trigger-m55</property>
+                    <greater-than>
+                        <property>ai/submodels/submodel[12]/count</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <mode>looped</mode>
+            <position>
+                <x-m>1.3146</x-m>
+                <y-m>-2.6986</y-m>
+                <z-m>-0.8670</z-m>
+            </position>
+            <reference-dist>40</reference-dist>
+            <max-dist>3000</max-dist>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </cannon>
+        <cannon>
+            <name>left M5555 cannon</name>
+            <path>Aircraft/JA37/Sounds/weapons/laser.wav</path>
+            <condition>
+                <and>
+                    <property>/ja37/systems/variant-spajs</property>
+                    <property>controls/armament/station[1]/trigger-m55</property>
+                    <greater-than>
+                        <property>ai/submodels/submodel[10]/count</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <mode>looped</mode>
+            <position>
+                <x-m>1.3146</x-m>
+                <y-m>2.6986</y-m>
+                <z-m>-0.8670</z-m>
+            </position>
+            <reference-dist>40</reference-dist>
+            <max-dist>3000</max-dist>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1</dep></entry>
+                        <entry><ind>1</ind><dep>0.3</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </cannon>
+        <cannon>
+            <name>right M5555 cannon</name>
+            <path>Aircraft/JA37/Sounds/weapons/laser.wav</path>
+            <condition>
+                <and>
+                    <property>/ja37/systems/variant-spajs</property>
                     <property>controls/armament/station[3]/trigger-m55</property>
                     <greater-than>
                         <property>ai/submodels/submodel[12]/count</property>
@@ -2159,6 +2223,30 @@
             <mode>once</mode>
             <condition>
                 <property>payload/armament/rb-05a/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -1.02697 </x>
+                <y> 0.98148 </y>
+                <z> -0.94307 </z>
+            </position>
+            <volume>
+                <expression>
+                    <table>
+                        <property>sim/current-view/internal</property>
+                        <entry><ind>0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1</ind><dep>0.5</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </missile>
+        <missile>
+            <name>missile-rb5005</name>
+            <path>Aircraft/JA37/Sounds/weapons/big-laser.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-5005x/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
