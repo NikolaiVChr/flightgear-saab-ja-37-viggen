@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">Swedish Space Force 666</name>
+    <texture>Liveries/SSF666/ssf666.png</texture>
+    <owner type="string">SSF</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>

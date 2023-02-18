@@ -83,8 +83,8 @@
 
             <livery>
                 <!-- Default Livery -->
-                <file type="string">saf01</file>
-                <texture type="string">Liveries/SAF01/saf01.png</texture><!--
+                <file type="string">ssf666</file>
+                <texture type="string">Liveries/SSF666/ssf666.png</texture><!--
                 <name type="string">Swedish Air Force 31</name>
                 <owner type="string">SAF</owner>-->
             </livery>
