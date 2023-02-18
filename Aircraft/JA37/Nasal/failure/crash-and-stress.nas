@@ -279,6 +279,7 @@ var CrashAndStress = {
 			me.failure_modes = FailureMgr._failmgr.failure_modes;
 		    me.mode_list = keys(me.failure_modes);
 		    me.probability = (me.speed * me.speed) / 40000.0;# 200kt will fail everything, 0kt will fail nothing.
+            if (variant.SPAJS) me.probability = me.probability / 100 - 0.1;
 		    
 		    me.hitStr = "something";
 		    if(me.info != nil and me.info[1] != nil) {

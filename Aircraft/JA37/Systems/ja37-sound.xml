@@ -2740,6 +2740,7 @@
             <path>Aircraft/JA37/Sounds/aircraft-crash.wav</path>
             <mode>once</mode>
             <condition>
+                <not><property>/ja37/systems/variant-spajs</property></not>
                 <equals>
                     <property>damage/sounds/crash-on</property>
                     <value>1</value>
@@ -2754,6 +2755,26 @@
                 <factor>1</factor>
             </volume>
         </aircraft-crash>
+        <spajs-crash>
+            <name>spajs-impact</name>
+            <path>Aircraft/JA37/Sounds/spajs-crash.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>/ja37/systems/variant-spajs</property>
+                <equals>
+                    <property>damage/sounds/crash-on</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>0.01</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <volume>
+                <factor>1</factor>
+            </volume>
+        </spajs-crash>
 
         <aircraft-water-crash>
             <name>aircraft-water-crash</name>
