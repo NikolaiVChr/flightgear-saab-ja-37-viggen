@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+  <path>Models/Effects/procedural_light.ac</path>
+    
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effect/proc-als-lights/rb5005-flare</inherits-from>
+    <object-name>procedural_light</object-name>
+  </effect>
+
+  <!-- dist-scale causes issues with some FG LOD mechanism: high dist-scale factors
+    cause the object to become invisible when it should not be.
+    Split between a scale and a dist-scale to work around the issue. -->
+  <animation>
+    <type>scale</type>
+    <object-name>procedural_light</object-name>
+    <x-offset>3000</x-offset>
+    <y-offset>3000</y-offset>
+    <z-offset>3000</z-offset>
+  </animation>
+
+  <animation>
+    <type>dist-scale</type>
+    <object-name>procedural_light</object-name>
+    <interpolation>
+      <entry><ind>0</ind><dep>0.005</dep></entry>
+      <entry><ind>10000</ind><dep>10</dep></entry>
+    </interpolation>
+  </animation>
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>procedural_light</object-name>
+  </animation>
+</PropertyList>
