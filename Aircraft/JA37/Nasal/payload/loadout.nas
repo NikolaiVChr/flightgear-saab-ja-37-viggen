@@ -61,6 +61,10 @@ var loadouts = {
     "8x m/71 (high drag)":  ["none", "M71R", "none", "M71R", "skip", "skip"],
     "16x m/71 (high drag)": ["M71R", "M71R", "M71R", "M71R", "skip", "skip"],
     "2x m/90":              ["M90", "none", "M90", "none", "skip", "skip"],
+
+    # SPAJS
+    "2x RB 5005, 2x ABLA":  ["M5555", "RB-5005X", "M5555", "RB-5005X", "skip", "skip"],
+    "4x RB 5005":           ["RB-5005X", "RB-5005X", "RB-5005X", "RB-5005X", "skip", "skip"],
 };
 
 # List of loadouts to include in the dialogs.
@@ -73,6 +77,9 @@ var loadout_list = variant.JA ? [
     "2x RB 99, 2x RB 71, 2x RB 74",
     "2x RB 71, 4x RB 74",
     "2x RB 71, 2x RB 74",
+] : variant.SPAJS ? [
+    "2x RB 5005, 2x ABLA",
+    "4x RB 5005",
 ] : [
     # AJS loadouts
     "2x RB 04",
@@ -385,7 +392,7 @@ var Dialog = {
         io.read_properties(me.path, me.prop);
         me.prop.setValue("dialog-name", "loadout");
 
-        if (variant.JA) {
+        if (variant.JA or variant.SPAJS) {
             # Element to be removed for the JA 37.
             var ajs_options = find_node_with_tag(me.prop, "name", "ajs_options", "group");
             if (ajs_options != nil) ajs_options.remove();
@@ -563,12 +570,14 @@ var Dialog = {
         "RB-04E": "rb04",
         "RB-15F": "rb15",
         "RB-05A": "rb05",
+        "RB-5005X": "rb05",
         "RB-75": "rb75",
         "M90": "m90",
         "M71": "m71",
         "M71R": "m71",
         "M70": "ARAK",
         "M55": "AKAN",
+        "M5555": "AKAN",
     },
 
     setup_canvas: func() {

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+
+
+<PropertyList>
+
+	<name>rb-05</name>
+	<path>rb5005x.ac</path>
+
+	<model>
+		<path>Aircraft/JA37/Models/Armament/Weapons/RB-5005X/motor-smoke-200.xml</path>
+		<offsets>
+			<x-m>1.90437</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<model>
+		<name>flare</name>
+		<path>Aircraft/JA37/Models/Effects/proc-als-lights/rb5005-flare.xml</path>
+		<offsets>
+			<x-m>1.90437</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+	
+	<model>
+		<name>explosion</name>
+		<path>Aircraft/JA37/Models/Armament/Weapons/RB-5005X/explosion-200.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<animation>
+		<type>select</type>
+		<object-name>rb05</object-name>
+		<object-name>flare</object-name>
+		<condition>
+			<property>payload/armament/rb-5005x/flags/msl-id-200</property>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>scale</type>
+		<object-name>flare</object-name>
+		<property>payload/armament/rb-5005x/flags/deploy-id-200</property>
+	</animation>
+
+	<animation>
+		<object-name>rb05</object-name>
+		<object-name>flare</object-name>
+		<enable-hot type="bool">false</enable-hot>
+	</animation>
+
+</PropertyList>

@@ -75,6 +75,14 @@ var make_M55 = func(pylon) {
         [(pylon == STATIONS.V7V) ? 17 : 18], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
 }
 
+var make_M5555 = func(pylon) {
+    return stations.SubModelWeapon.new(
+        "M5555", 0.5, 150, [9+pylon], [8+pylon],
+        input.ctrl_arm.getChild("station", pylon).getChild("trigger-m55"),
+        TRUE, operable, FALSE,
+        [(pylon == STATIONS.V7V) ? 17 : 18], input.ctrl_arm.getChild("station", pylon).getChild("jettison-pod"));
+}
+
 var M75 = stations.SubModelWeapon.new(
     "M75", 1, 146, [3], [2,4],
     input.ctrl_arm.getNode("station[0]/trigger"),
@@ -94,6 +102,7 @@ var load_options = {
     "RB-04E": {name: "RB 04E", content: ["RB-04E"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
     "RB-15F": {name: "RB 15F", content: ["RB-15F"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
     "RB-05A": {name: "RB 05A", content: ["RB-05A"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
+    "RB-5005X": {name: "RB 5005X Torpedo", content: ["RB-5005X"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
     "RB-75": {name: "RB 75 Maverick", content: ["RB-75"], launcherMass: 100, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
     "M90": {name: "m/90", content: ["M90"], launcherMass: 80, launcherDragArea: 0.0, launcherJettisonable: 0, showNameInsteadOfCount: 1},
     "M71": {name: "m/71 x4", content: ["M71","M71","M71","M71"], launcherMass: 275, launcherDragArea: 0.15, launcherJettisonable: 0, showNameInsteadOfCount: 1},
@@ -103,6 +112,9 @@ var load_options = {
     },
     "M55": func(pylon) {
         return {name: "m/55 AKAN", content: [make_M55(pylon)], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showNameInsteadOfCount: 1};
+    },
+    "M5555": func(pylon) {
+        return {name: "m/5555 ABLA", content: [make_M5555(pylon)], launcherMass: 725, launcherDragArea: 0.3, launcherJettisonable: 1, showNameInsteadOfCount: 1};
     },
 };
 
@@ -126,6 +138,13 @@ if (variant.JA) {
     sets[STATIONS.S7H] = ["none", "RB-74", "RB-99"];
     sets[STATIONS.R7V] = ["none", "RB-74"];
     sets[STATIONS.R7H] = ["none", "RB-74"];
+} elsif (variant.SPAJS) {
+    sets[STATIONS.V7V] = ["none", "RB-5005X", "M5555"];
+    sets[STATIONS.V7H] = ["none", "RB-5005X", "M5555"];
+    sets[STATIONS.S7V] = ["none", "RB-5005X"];
+    sets[STATIONS.S7H] = ["none", "RB-5005X"];
+    sets[STATIONS.R7V] = ["none"];
+    sets[STATIONS.R7H] = ["none"];
 } else {
     sets[STATIONS.V7V] = ["none", "RB-24J", "RB-74", "RB-04E", "RB-15F", "RB-75", "M55", "M70", "M71", "M71R", "M90"];
     sets[STATIONS.V7H] = ["none", "RB-24J", "RB-74", "RB-04E", "RB-15F", "RB-75", "M55", "M70", "M71", "M71R", "M90"];
@@ -249,12 +268,14 @@ var weapon_id = {
     "RB-04E": 4,
     "RB-15F": 5,
     "RB-05A": 6,
+    "RB-5005X": 6,
     "RB-75": 7,
     "M90": 8,
     "M71": 9,
     "M71R": 10,
     "M70": 11,
     "M55": 12,
+    "M5555": 12,
 };
 
 var make_weapon_id_listener = func(pylon) {

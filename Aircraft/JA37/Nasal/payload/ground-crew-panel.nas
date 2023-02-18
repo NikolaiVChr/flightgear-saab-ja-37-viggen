@@ -99,7 +99,7 @@ var valid_switch_settings = {
 # Weapon types for which -7deg flaps position is used.
 # The -7deg flaps position is used precisely if a weapon of one of the
 # following types is loaded under both wing pylons.
-var flaps7_types = { "M55": 1, "M70": 1, };
+var flaps7_types = { "M55": 1, "M70": 1, "M5555": 1, };
 
 # Check that the ground panel settings match a given loadout.
 # If auto_correct is true, modify settings to make them correct, if possible.
@@ -110,6 +110,11 @@ var check_settings = func(loadout, auto_correct=0, zealous_auto_correct=0) {
     var wpns = {};
     foreach (var type; loadout) {
         if (type == "") continue; # no load
+
+        # rename SPAJS weapons
+        if (type == "M5555") type = "M55";
+        if (type == "RB-5005X") type = "RB-05A";
+
         if (!contains(wpns, type)) wpns[type] = 0;
         wpns[type] += 1;
     }

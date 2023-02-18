@@ -269,7 +269,8 @@
 
     <ja37>
         <systems>
-            <variant type="int">3</variant>
+            <variant type="int">2</variant>
+            <variant-spajs type="int">1</variant-spajs>
         </systems>
         <effect>
             <g-suit type="int">3</g-suit><!-- 1:71 2:79 3:97 -->

@@ -96,7 +96,7 @@ var set_current_wpt_as_contact = func(true_alt) {
 ### Weapon logic API (abstract class)
 #
 # Different weapon types should inherit this object and define the methods,
-# so as to implement custom firing logic.
+
 var WeaponLogic = {
     # Args:
     # - type: the weapon type (as used by missile.nas, uppercase)
@@ -638,7 +638,7 @@ var Missile = {
 
 ### Rb-05 has some special additional logic for remote control.
 var Rb05 = {
-    parents: [Missile.new(type:"RB-05A", cycling:0, can_start_right:1)],
+    parents: [Missile.new(type:"RB-05A", multi_types: ["RB-05A", "RB-5005X"], cycling:0, can_start_right:1)],
 
     active_rb05: nil,
 
@@ -1116,7 +1116,7 @@ if (variant.JA) {
         # On the other hand the seeker would remain straight, so realistically wouldn't find a target.
         # missile.nas lock after launch is not appropriate for this (it would do a search pattern).
         ir_rb: Missile.new(type:"IR-RB", multi_types: ["RB-24", "RB-24J", "RB-74"], fire_delay:0.7),
-        akan: SubModelWeapon.new("M55"),
+        akan: SubModelWeapon.new(type:"M55", multi_types: ["M55", "M5555"]),
         arak: SubModelWeapon.new("M70"),
         rb04: Missile.new(type:"RB-04E", falld_last:1, fire_delay:1, fire_multi_delay:2.0,
                           at_everything:1, cycling:0, release_sound:1),
@@ -1314,11 +1314,11 @@ if (variant.AJS) {
         # IR_RB
         [[], []],
         # AKAN
-        [["M55"], ["M55"]],
+        [["M55", "M5555"], ["M55", "M5555"]],
         # AKAN / RB 05 / RB 75
-        [["M55", "RB-05A"], ["M55", "RB-75"]],
+        [["M55", "M5555", "RB-05A", "RB-5005X"], ["M55", "M5555", "RB-75"]],
         # RB 05 / RB 75
-        [["RB-05A"], ["RB-75"]],
+        [["RB-05A", "RB-5005X"], ["RB-75"]],
         # LYSB
         [[], []],
         # BOMB

@@ -398,6 +398,53 @@
         <all-aspect type="bool">true</all-aspect>
         <class type="string">AGM</class>
     </rb-05a>
+    <rb-5005x>
+        <type-id type="int">85</type-id>
+        <short-name type="string">rb5005</short-name>
+        <long-name type="string">RB 5005X</long-name>
+        <sound-fire-on-off type="bool">false</sound-fire-on-off>
+        <vol-search type="double">0</vol-search>
+        <vol-track type="double">0</vol-track>
+        <guidance type="string">remote-stable</guidance>
+        <navigation type="string">direct</navigation>
+        <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
+        <FCS-field-deg type="int">0</FCS-field-deg>
+        <max-g type="int">25</max-g>
+        <max-launch-g type="int">7</max-launch-g>
+        <!-- Source: AJ37 SFI part 2 (has a time/speed/distance travelled graph)
+             Acceleration is mainly in the first 5s, then constant ~1.5mach until 13s -->
+        <thrust-lbf-stage-1 type="double">10000</thrust-lbf-stage-1>
+        <thrust-lbf-stage-2 type="double">2000</thrust-lbf-stage-2>
+        <stage-1-duration-sec type="double">5</stage-1-duration-sec>
+        <stage-2-duration-sec type="double">60</stage-2-duration-sec>
+        <weight-launch-lbs type="double">672.4</weight-launch-lbs>            <!-- source -->
+        <weight-warhead-lbs type="double">353</weight-warhead-lbs>            <!-- source -->
+        <drag-coeff type="double">0.06</drag-coeff>
+        <cross-section-sqft type="double">3.04</cross-section-sqft>           <!-- source -->
+        <arming-time-sec type="double">4.5</arming-time-sec>                  <!-- manual -->
+        <min-speed-for-guiding-mach type="double">0.5</min-speed-for-guiding-mach>
+        <self-destruct-time-sec type="double">120</self-destruct-time-sec>
+        <loft-altitude type="int">0</loft-altitude>
+        <min-fire-range-nm type="double">0.2</min-fire-range-nm>
+        <rail type="bool">true</rail>
+        <rail-length-m type="double">2</rail-length-m>                        <!-- guess -->
+        <rail-point-forward type="bool">true</rail-point-forward>
+        <max-report-distance type="double">65</max-report-distance>
+        <fire-msg type="string">Rifle</fire-msg>
+        <hit-everything-nearby type="bool">true</hit-everything-nearby>
+        <deploy-time type="double">0.1</deploy-time>                          <!-- used for the flare -->
+        <!-- Hack: to allow the proximity fuse to work on air targets, the missile
+             technically uses lock after launch, with a very short range and 360 FOV.
+             This way it will 'lock' just before hitting the target and allows the
+             fuse to trigger.
+        -->
+        <lock-on-after-launch type="bool">true</lock-on-after-launch>
+        <auto-switch-target-allowed type="bool">true</auto-switch-target-allowed>
+        <detect-range-nm type="double">0.035</detect-range-nm>
+        <seeker-field-deg type="int">360</seeker-field-deg>
+        <all-aspect type="bool">true</all-aspect>
+        <class type="string">AGM</class>
+    </rb-5005x>
     <rb-75>
         <!-- Swedish version of AGM-65B Maverick RB-75 620kt -->
         <type-id type="int">39</type-id>
