@@ -401,7 +401,7 @@ var Dialog = {
             var row = i+1;
             me.setup_waypoint(i, "B", row);
         }
-        for (var i=1; i<=5; i+=1) {
+        for (var i=1; i<=9; i+=1) {
             var row = i+1;
             me.setup_waypoint(i, "BX", row);
         }
@@ -601,7 +601,7 @@ var Dialog = {
         for (var i=1; i<=9; i+=1) {
             me._update_wpt_from_route("B", i);
         }
-        for (var i=1; i<=5; i+=1) {
+        for (var i=1; i<=9; i+=1) {
             me._update_wpt_from_route("BX", i);
         }
     },
