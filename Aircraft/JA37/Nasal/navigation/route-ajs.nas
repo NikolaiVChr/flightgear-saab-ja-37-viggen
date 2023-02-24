@@ -60,6 +60,12 @@ var unset_wpt = func(idx) {
         unset_tgt(idx);
 }
 
+var unset_type = func(type) {
+    for (var i=0; i<=9; i+=1) {
+        unset_wpt(type | i);
+    }
+}
+
 var unset_all_wpt = func {
     wpt_table = {};
     tgt_wpt = {};
@@ -107,7 +113,6 @@ var popup_to_tgt = func(idx) {
 var tgt_to_popup = func(idx) {
     return WPT.U | (idx & WPT.nb_mask);
 }
-
 
 # Recompute popup point position.
 var update_popup = func(idx) {
@@ -308,7 +313,7 @@ var fix_mode_active = func {
 
 var confirm_fix_pos = func {
     fix_wpt.coord.set(fix_tmp_pos);
-    fix_wpt.ghost = nil;    # if it had a ghost, it is invalid
+    fix_wpt.ghost = nil;    # waypoint ghost no longer matches position
     update_popup(fix_idx);
     callback_fp_changed();
 }
@@ -334,7 +339,7 @@ var update_fix_mode = func(cursor_deltas) {
 }
 
 
-### Read-only flightplan for FlightGear (used by map, etc.)
+### Read-only, nice looking flightplan for FlightGear (used by map, etc.)
 
 var display_fp = createFlightplan();
 var display_fp_idx_table = {};          # waypoint to flightplan index table
@@ -383,13 +388,14 @@ var set_display_fp_wpt = func(idx) {
     display_fp.current = display_fp_idx_table[idx] or -1;
 }
 
-var get_fp_ghost = func {
+var get_display_fp_ghost = func {
     return display_fp;
 }
 
 # Import FG flightplan
 var load_fp = func(plan) {
-    unset_all_wpt();
+    unset_type(WPT.L);
+    unset_type(WPT.B);
 
     if (plan.departure != nil) {
         var dep = Airbase.from_ghost(plan.departure);
@@ -448,6 +454,48 @@ var load_fp = func(plan) {
 
     callback_fp_changed();
 }
+
+# Create FG flightplan from waypoints of a given type.
+#
+# Unlike the "nice" display flightplan above, this avoids any information loss.
+# Waypoint indices are respected, discontinuities are added for unset waypoints.
+var get_wpts_as_fp = func(type) {
+    var fp = createFlightplan();
+
+    var skipped = 0;
+
+    for (var i = 1; i <= 9; i += 1) {
+        if (!is_set(type | i)) {
+            skipped += 1;
+            continue;
+        }
+        # We have a waypoint, pad with discontinuities to preserve indices.
+        for (var j=0; j<skipped; j+=1)
+            fp.appendWP(createDiscontinuity());
+
+        skipped = 0;
+
+        # And add the actual waypoint
+        fp.appendWP(get_wpt(type | i).to_wp_ghost());
+    }
+
+    return fp;
+}
+
+# Load waypoints of a given type from FG flightplan.
+#
+# This is the inverse of get_wpts_as_fp(), waypoint indices are respected.
+var load_wpts_from_fp = func(type, plan) {
+    unset_type(type);
+    for (var i=0; i<plan.getPlanSize() and i<9; i+=1) {
+        var wp = plan.getWP(i);
+        if (navigation.wp_has_position(wp))
+            set_wpt(type | (i+1), Waypoint.from_ghost(wp));
+    }
+
+    callback_fp_changed();
+}
+
 
 
 
