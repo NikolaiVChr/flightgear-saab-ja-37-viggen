@@ -8,7 +8,8 @@
   <nasal>
     <open><![CDATA[
       var export_dir = getprop("/sim/fg-home")~"/Export";
-      var load_selector = gui.FileSelector.new(
+
+      var load_fp_selector = gui.FileSelector.new(
           callback: route_dialog.load_fp,
           title: "Load flightplan",
           button: "Load",
@@ -16,7 +17,7 @@
           dotfiles: 1,
           pattern: ["*.xml", "*.gpx", "*.fgfp"]
       );
-      var save_selector = gui.FileSelector.new(
+      var save_fp_selector = gui.FileSelector.new(
           callback: route_dialog.save_fp,
           title: "Save flightplan",
           button: "Save",
@@ -24,10 +25,30 @@
           dotfiles: 1,
           pattern: ["*.fgfp"]
       );
+
+      var load_extra_selector = gui.FileSelector.new(
+          callback: route_dialog.load_extra,
+          title: "Load extra waypoints",
+          button: "Load",
+          dir: export_dir,
+          dotfiles: 1,
+          pattern: ["*.xml", "*.gpx", "*.fgfp"]
+      );
+      var save_extra_selector = gui.FileSelector.new(
+          callback: route_dialog.save_extra,
+          title: "Save extra waypoints",
+          button: "Save",
+          dir: export_dir,
+          dotfiles: 1,
+          pattern: ["*.fgfp"]
+      );
+
     ]]></open>
     <close><![CDATA[
-      load_selector.del();
-      save_selector.del();
+      load_fp_selector.del();
+      save_fp_selector.del();
+      load_extra_selector.del();
+      save_extra_selector.del();
     ]]></close>
   </nasal>
 
@@ -193,15 +214,24 @@
 
     <group>
       <row>11</row>
-      <col>6</col>
+      <col>1</col>
+      <colspan>3</colspan>
       <layout>hbox</layout>
 
+      <button>
+        <legend>Clear All</legend>
+        <binding>
+          <command>nasal</command>
+          <script>route_dialog.clear_all();</script>
+        </binding>
+      </button>
+      <!--
       <button>
         <legend>Load</legend>
         <equal>true</equal>
         <binding>
           <command>nasal</command>
-          <script>load_selector.open()</script>
+          <script>route_dialog.clear_fp();</script>
         </binding>
       </button>
       <button>
@@ -209,7 +239,70 @@
         <equal>true</equal>
         <binding>
           <command>nasal</command>
-          <script>save_selector.open();</script>
+          <script>route_dialog.clear_fp();</script>
+        </binding>
+      </button>
+      -->
+    </group>
+
+    <group>
+      <row>11</row>
+      <col>5</col>
+      <colspan>7</colspan>
+      <layout>hbox</layout>
+
+      <button>
+        <legend>Clear</legend>
+        <binding>
+          <command>nasal</command>
+          <script>route_dialog.clear_fp()</script>
+        </binding>
+      </button>
+      <button>
+        <legend>Import flightplan</legend>
+        <equal>true</equal>
+        <binding>
+          <command>nasal</command>
+          <script>load_fp_selector.open()</script>
+        </binding>
+      </button>
+      <button>
+        <legend>Export flightplan</legend>
+        <equal>true</equal>
+        <binding>
+          <command>nasal</command>
+          <script>save_fp_selector.open();</script>
+        </binding>
+      </button>
+
+      <empty><stretch>1</stretch></empty>
+    </group>
+
+    <group>
+      <row>11</row>
+      <col>13</col>
+      <colspan>2</colspan>
+      <layout>hbox</layout>
+
+      <button>
+        <legend>Clear</legend>
+        <binding>
+          <command>nasal</command>
+          <script>route_dialog.clear_extra();</script>
+        </binding>
+      </button>
+      <button>
+        <legend>Import</legend>
+        <binding>
+          <command>nasal</command>
+          <script>load_extra_selector.open()</script>
+        </binding>
+      </button>
+      <button>
+        <legend>Export</legend>
+        <binding>
+          <command>nasal</command>
+          <script>save_extra_selector.open()</script>
         </binding>
       </button>
     </group>

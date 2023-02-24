@@ -34,27 +34,72 @@ var inhibit_input_callback = FALSE;
 
 ## Load/save fgfp files
 
-var save_fp = func(path_prop) {
+var write_fp = func(path_prop, fp) {
     var path = path_prop.getValue();
     var res = FALSE;
-    call(func { res = route.get_fp_ghost().save(path); }, nil, nil, nil, var err = []);
+    call(func { res = fp.save(path); }, nil, nil, nil, var err = []);
     if (size(err) or !res) {
         logprint(LOG_ALERT, "Failed to save flightplan to: "~path);
         gui.showDialog("savefail");
     }
 }
 
-var load_fp = func(path_prop) {
+var open_fp = func(path_prop) {
     var path = path_prop.getValue();
     var plan = nil;
     call(func { plan = createFlightplan(path); }, nil, nil, nil, var err = []);
     if (size(err) or plan == nil) {
         logprint(LOG_ALERT, "Failed to load flightplan from: "~path);
         screen.log.write("Failed to load flightplan.", 1, 0, 0);
-        return;
+        return nil;
     }
+    return plan;
+}
+
+
+var clear_all = func {
+    route.unset_all_wpt();
+    route.callback_fp_changed();
+    Dialog.update_from_route();
+}
+
+# Normal waipoints
+
+var save_fp = func(path_prop) {
+    write_fp(path_prop, route.get_display_fp_ghost());
+}
+
+var load_fp = func(path_prop) {
+    var plan = open_fp(path_prop);
+    if (plan == nil) return;
 
     route.load_fp(plan);
+    Dialog.update_from_route();
+}
+
+var clear_fp = func {
+    route.unset_type(route.WPT.B);
+    route.callback_fp_changed();
+    Dialog.update_from_route();
+}
+
+# Extra waypoints
+
+var save_extra = func(path_prop) {
+    write_fp(path_prop, route.get_wpts_as_fp(route.WPT.BX));
+}
+
+var load_extra = func(path_prop) {
+    var plan = open_fp(path_prop);
+    if (plan == nil) return;
+
+    route.load_wpts_from_fp(route.WPT.BX, plan);
+    Dialog.update_from_route();
+}
+
+var clear_extra = func {
+    route.unset_type(route.WPT.BX);
+    route.callback_fp_changed();
     Dialog.update_from_route();
 }
 
