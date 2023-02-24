@@ -57,11 +57,12 @@ var unset_wpt = func(idx) {
     delete(wpt_table, idx);
 
     if ((idx & WPT.type_mask) == WPT.B)
-        update_popup(idx);
+        unset_tgt(idx);
 }
 
 var unset_all_wpt = func {
     wpt_table = {};
+    tgt_wpt = {};
 }
 
 var is_set = func(idx) {
