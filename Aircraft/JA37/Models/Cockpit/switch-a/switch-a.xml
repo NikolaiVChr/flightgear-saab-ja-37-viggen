@@ -6,7 +6,6 @@
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
     <object-name>switchMount</object-name>
-    <object-name>switchRed</object-name>
     <object-name>switchLever</object-name>
   </effect>
 
