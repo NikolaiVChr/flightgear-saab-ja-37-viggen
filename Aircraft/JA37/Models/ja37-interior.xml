@@ -44,22 +44,11 @@
     <object-name>ja37clockMount</object-name>
     <object-name>dashPanelTap</object-name>
     <object-name>hudBottomPlate</object-name>
-    <object-name>hudRestPlaque</object-name>
     <object-name>knobSI</object-name>
     <object-name>knobRES</object-name>
-    <object-name>plaqueLeftMount</object-name>
-    <object-name>plaqueRightMount</object-name>
-    <object-name>plaqueLeft</object-name>
-    <object-name>plaqueRight</object-name>
-    <object-name>sidePanel_L_minor</object-name>
-    <object-name>sidePanel_L_minor_forward</object-name>
-    <object-name>sidePanel_R_minor_top</object-name>
-    <object-name>sidePanel_R_minor_bottom</object-name>
-    <object-name>sidePanel_R_mount_A</object-name>
-    <object-name>sidePanel_R_mount_B</object-name>
-    <object-name>sidePanel_R_mount_C</object-name>
-    <object-name>sidePanel_L_mount_A</object-name>
-    <object-name>sidePanel_L_mount_B</object-name>
+    <object-name>plaques</object-name>
+    <object-name>plaquesMount</object-name>
+    <object-name>sides</object-name>
   </effect>
 
   <effect>
