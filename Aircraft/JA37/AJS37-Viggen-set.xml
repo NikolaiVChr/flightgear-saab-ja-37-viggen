@@ -330,6 +330,7 @@
             <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
             <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
             <file>Aircraft/JA37/Nasal/radar/ps37.nas</file>
+            <file>Aircraft/JA37/Nasal/radar/point.nas</file>
         </radar>
         <hud>
             <file>Aircraft/JA37/Nasal/displays/hud-shared.nas</file>

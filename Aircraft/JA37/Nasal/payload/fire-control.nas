@@ -30,6 +30,8 @@ var input = {
     bomb_int:       "/controls/armament/wingspan",
     fire_single:    "/controls/armament/weapon-panel/switch-impulse",
     ep13:           "ja37/avionics/vid",
+    true_alt_ft:    "/position/altitude-ft",
+    alt:            "/instrumentation/altimeter/displays-altitude-meter",
     # Ground crew weapon panel settings
     start_left:     "/controls/armament/ground-panel/start-left",
     gnd_wpn_knob:   "/controls/armament/ground-panel/weapon-selector-knob",
@@ -59,6 +61,33 @@ var STATIONS = pylons.STATIONS;
 ### Don't do anything as long as this is off.
 var firing_computer_on = func {
     return power.prop.acMainBool.getBoolValue();
+}
+
+
+### Set armament.contact from current waypoint.
+#
+# true_alt: If true, query terrain for waypoint altitude (requires terrain to be loaded).
+#           If false, set waypoint altitude to match use display altitude 0.
+# For AJS only
+var set_current_wpt_as_contact = func(true_alt) {
+    var wp = route.get_wpt(route.popup_to_tgt(route.get_current_idx()));
+    if (wp == nil) {
+        armament.contact = nil;
+        return;
+    }
+
+    var coord = geo.Coord.new(wp.coord);
+    if (true_alt) {
+        coord.set_alt(geo.elevation(coord.lat, coord.lon) or 0);
+    } else {
+        coord.set_alt(input.true_alt_ft.getValue() * FT2M - input.alt.getValue());
+    }
+
+    if (armament.contact == nil or armament.contact.get_type() != armament.POINT) {
+        armament.contact = radar.ContactPoint.new(wp.name, coord);
+    } else {
+        armament.contact.update_coord(coord);
+    }
 }
 
 
@@ -209,9 +238,11 @@ var Missile = {
         # Flags for special weapons
         w.is_IR = TRUE;
         w.is_rb75 = TRUE;
+        w.is_m90 = TRUE;
         foreach (var ty; w.types) {
             if (ty != "RB-24" and ty != "RB-24J" and ty != "RB-74") w.is_IR = FALSE;
             if (ty != "RB-75") w.is_rb75 = FALSE;
+            if (ty != "M90") w.is_m90 = FALSE;
         }
         if (w.is_IR and variant.JA) {
             w.IR_boresight = FALSE;
@@ -350,6 +381,12 @@ var Missile = {
 
         me.weapon = nil;
         me.fired = TRUE;
+
+        if (me.is_m90)
+            # For the m90, the 'armament.contact' is continuously modified.
+            # We do not want to modify the object used by the launched weapon.
+            # Unsetting the variable forces to create a new object.
+            armament.contact = nil;
 
         # Fire more?
         if (me.fire_multi_delay > 0 and me.fire_multiple and me._cycle_selection()) {
@@ -492,22 +529,25 @@ var Missile = {
         }
 
         # Update list of contacts on which to lock on.
-        # For IR/Rb 75, don't do anything if the missile has already locked. It would mess with the lock.
-        if ((!me.is_IR and !me.is_rb75) or me.weapon.status != armament.MISSILE_LOCK) {
+        if ((me.is_IR or me.is_rb75) and me.weapon.status == armament.MISSILE_LOCK) {
+            # For IR/Rb 75, don't do anything if the missile has already locked. It would mess with the lock.
+        } elsif ((me.is_IR or me.is_rb75) and (!me.weapon.isCaged() or !me.weapon.isRadarSlaved())) {
             # IR missiles and Rb 75 can lock without radar command.
-            if ((me.is_IR or me.is_rb75) and (!me.weapon.isCaged() or !me.weapon.isRadarSlaved())) {
-                # Send list of all contacts to allow searching.
-                me.weapon.setContacts(radar.get_complete_list());
-                armament.contact = nil;
-            } elsif (variant.AJS) {
-                # other AJS weapons don't lock before launch
-                me.weapon.setContacts([]);
-                armament.contact = nil;
-            } else {
-                # JA: slave onto radar target.
-                me.weapon.setContacts([]);
-                armament.contact = radar.ps46.getPriorityTarget();
-            }
+            # Send list of all contacts to allow searching.
+            me.weapon.setContacts(radar.get_complete_list());
+            armament.contact = nil;
+        } elsif (me.is_m90) {
+            # Current waypoint as target
+            me.weapon.setContacts([]);
+            set_current_wpt_as_contact(true_alt:TRUE);
+        } elsif (variant.AJS) {
+            # other AJS weapons don't lock before launch
+            me.weapon.setContacts([]);
+            armament.contact = nil;
+        } else {
+            # JA: slave onto radar target.
+            me.weapon.setContacts([]);
+            armament.contact = radar.ps46.getPriorityTarget();
         }
 
         # Log lock event
