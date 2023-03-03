@@ -107,7 +107,10 @@ var has_popup = func(idx) {
 }
 
 var popup_to_tgt = func(idx) {
-    return WPT.B | (idx & WPT.nb_mask);
+    if ((idx & WPT.type_mask) != WPT.U)
+        return idx;
+    else
+        return WPT.B | (idx & WPT.nb_mask);
 }
 
 var tgt_to_popup = func(idx) {
