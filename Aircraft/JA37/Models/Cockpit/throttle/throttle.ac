@@ -19,7 +19,7 @@ OBJECT poly
 name "ButtonBottom"
 loc -0.0000000 0.1366182 -0.0357151
 crease 34.99999983559887
-texture "../black.png"
+texture "../../black.png"
 texrep 1 1
 numvert 12
 -0.0015594 -0.0144317 -0.1324805
@@ -103,7 +103,7 @@ OBJECT poly
 name "ButtonTop"
 loc -0.0000000 0.1366182 -0.0357151
 crease 34.99999983559887
-texture "../black.png"
+texture "../../black.png"
 texrep 1 1
 numvert 12
 -0.0221696 -0.0083532 -0.1313049
@@ -187,7 +187,7 @@ OBJECT poly
 name "CylinderBASEofROTATION"
 loc 0.0000000 0.0035903 0.0000000
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 64
 0.0000000 0.0272573 -0.0332500
@@ -553,7 +553,7 @@ kids 0
 OBJECT poly
 name "CylindricGuide"
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 208
 -0.0000000 0.0584088 0.0071225
@@ -1948,7 +1948,7 @@ OBJECT poly
 name "Handle"
 loc -0.0000000 0.1366182 -0.0357151
 crease 30.000000834826057
-texture "../black.png"
+texture "../../black.png"
 texrep 1 1
 numvert 322
 -0.0032291 -0.0277167 -0.1302209
@@ -4302,7 +4302,7 @@ OBJECT poly
 name "HandleCapL"
 loc -0.0000000 0.1366182 -0.0357151
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 64
 0.0037589 -0.0298083 -0.0173817
@@ -4634,7 +4634,7 @@ OBJECT poly
 name "HandleCapR"
 loc -0.0000000 0.1366182 -0.0357151
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 110
 0.0220018 -0.0058951 -0.1267176
@@ -5209,7 +5209,7 @@ OBJECT poly
 name "Kernel"
 loc 0.0000000 0.0035903 0.0000161
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 73
 0.0012228 0.0198622 0.0344318
@@ -5627,7 +5627,7 @@ kids 0
 OBJECT poly
 name "Mount"
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 170
 -0.0525000 0.0194362 -0.0331908
@@ -6693,7 +6693,7 @@ kids 0
 OBJECT poly
 name "Rot0arm"
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 62
 0.0027066 0.0277541 0.0229541
@@ -7077,7 +7077,7 @@ OBJECT poly
 name "Rot1-0_bolt"
 loc 0.0095217 0.0402778 0.0095932
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 12
 0.0033674 0.0014609 -0.0037682
@@ -7148,7 +7148,7 @@ kids 0
 OBJECT poly
 name "Rot1-0_cyl"
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 64
 -0.0095217 0.0402778 0.0170626
@@ -7515,7 +7515,7 @@ OBJECT poly
 name "Rot1-0_screw"
 loc 0.0095217 0.0402778 0.0095932
 crease 39.99999883637168
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 50
 0.0046521 0.0021543 0.0003799
@@ -7867,7 +7867,7 @@ OBJECT poly
 name "Rot1-0_screwHead"
 loc -0.0095217 0.0402778 0.0095932
 crease 34.99999983559887
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 12
 -0.0029783 -0.0003522 -0.0040260
@@ -7939,7 +7939,7 @@ OBJECT poly
 name "Rot1-2_bolt"
 loc 0.0100674 0.0567917 -0.0520374
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 12
 0.0033674 0.0014609 -0.0037682
@@ -8011,7 +8011,7 @@ OBJECT poly
 name "Rot1-2_screw"
 loc 0.0100674 0.0567917 -0.0520374
 crease 39.99999883637168
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 50
 0.0046521 0.0021543 0.0003799
@@ -8363,7 +8363,7 @@ OBJECT poly
 name "Rot1-2cyl"
 loc 0.0000000 0.0567917 -0.0520374
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 152
 -0.0100674 -0.0026547 0.0056930
@@ -9243,7 +9243,7 @@ kids 0
 OBJECT poly
 name "Rot1_arm"
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 24
 0.0089043 0.0332333 0.0077589
@@ -9390,7 +9390,7 @@ OBJECT poly
 name "Rot2-1cyl"
 loc 0.0000000 0.0567917 -0.0520374
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 76
 -0.0053742 -0.0012333 0.0069946
@@ -9823,7 +9823,7 @@ OBJECT poly
 name "Rot2-3cyl"
 loc 0.0000000 -0.0081734 -0.0106523
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 64
 -0.0078870 0.1050959 -0.0260671
@@ -10190,7 +10190,7 @@ OBJECT poly
 name "Rot2arm"
 loc 0.0000000 -0.0081734 -0.0106523
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 8
 -0.0037359 0.0651907 -0.0348202
@@ -10242,7 +10242,7 @@ OBJECT poly
 name "Rot3-2_bolt"
 loc 0.0161886 0.0983334 -0.0447125
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 12
 0.0033674 0.0014609 -0.0037682
@@ -10314,7 +10314,7 @@ OBJECT poly
 name "Rot3-2_cyl"
 loc 0.0000000 -0.0081734 -0.0106523
 crease 30.000000834826057
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 64
 -0.0161886 0.1053790 -0.0276641
@@ -10681,7 +10681,7 @@ OBJECT poly
 name "Rot3-2_screw"
 loc 0.0161886 0.0983334 -0.0447125
 crease 39.99999883637168
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 50
 0.0046521 0.0021543 0.0003799
@@ -11033,7 +11033,7 @@ OBJECT poly
 name "Rot3-2_screwHead"
 loc -0.0161886 0.0983334 -0.0447125
 crease 34.99999983559887
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 12
 -0.0029783 -0.0003522 -0.0040260
@@ -11105,7 +11105,7 @@ OBJECT poly
 name "Rot1-2_screwHead"
 loc -0.0100674 0.0567917 -0.0520374
 crease 34.99999983559887
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 12
 -0.0029783 -0.0003522 -0.0040260
@@ -11177,7 +11177,7 @@ OBJECT poly
 name "Rot3arm"
 loc 0.0000000 -0.0006408 0.0073249
 crease 34.99999983559887
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 16
 -0.0154344 0.1169323 -0.0576982

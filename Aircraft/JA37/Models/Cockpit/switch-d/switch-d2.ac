@@ -10,7 +10,7 @@ name "D2_lever"
 data 13
 D2_lever.mesh
 crease 35.0
-texture "../alu.png"
+texture "../../alu.png"
 numvert 80
 0 -0.00076 -0.00813
 0.00075 -0.00076 -0.00798
