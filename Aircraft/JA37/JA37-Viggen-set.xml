@@ -215,6 +215,13 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Tacview recorder</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>tacview</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Load radio channels</label>
                         <name>comm-channels</name>
                         <binding>
@@ -278,6 +285,7 @@
                  They are broken due to parts of the checklists that are only done under some circumstances. -->
             <auto-tutorials type="bool">false</auto-tutorials>
         </checklists>
+        <tacview-recording type="bool">0</tacview-recording>
     </sim>
     <!--**********************************************************************
 
@@ -375,5 +383,8 @@
         <elev>
             <file>Aircraft/JA37/Nasal/terrain-profile.nas</file>
         </elev>
+        <tacview>
+            <file>Aircraft/JA37/Nasal/tacview.nas</file>
+        </tacview>
     </nasal>
 </PropertyList>

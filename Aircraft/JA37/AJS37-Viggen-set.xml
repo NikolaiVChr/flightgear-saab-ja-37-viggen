@@ -171,6 +171,13 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Tacview recorder</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>tacview</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Load radio channels</label>
                         <name>comm-channels</name>
                         <binding>
