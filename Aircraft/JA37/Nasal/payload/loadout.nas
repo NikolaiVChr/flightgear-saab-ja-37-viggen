@@ -411,7 +411,7 @@ var Dialog = {
         fgcommand("dialog-new", me.prop);
 
         # Use this dialog instead of the default fuel and equipment one.
-        gui.menuBind("fuel-and-payload", "loadout.Dialog.open();");
+        gui.showWeightDialog = func { loadout.Dialog.open(); };
 
         if(state) me.open();
     },

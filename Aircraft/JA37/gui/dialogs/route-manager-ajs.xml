@@ -68,8 +68,7 @@
       <keynum>27</keynum>
       <border>2</border>
       <binding>
-        <command>nasal</command>
-        <script>route_dialog.Dialog.close()</script>
+        <command>dialog-close</command>
       </binding>
     </button>
   </group>

@@ -107,7 +107,7 @@ var clear_extra = func {
 ## Custom route manager dialog for AJS
 var Dialog = {
     init: func {
-        var prop = props.globals.getNode("/sim/gui/dialogs/route-manager-ajs", 1);
+        var prop = props.globals.getNode("/sim/gui/dialogs/route-manager", 1);
         me.dialog_prop = prop.getNode("dialog", 1);
         me.data_root = prop.getNode("data", 1);
         me.setup_data_props();
@@ -130,7 +130,8 @@ var Dialog = {
         # Load dialog xml file
         me.dialog_prop.removeChildren();
         io.read_properties(me.path, me.dialog_prop);
-        me.dialog_prop.setValue("dialog-name", "route-manager-ajs");
+        me.dialog_prop.setValue("dialog-name", "route-manager");
+        me.dialog_prop.setValue("name", "route-manager");
 
         # Fill table
         me.table = nil;
@@ -151,8 +152,6 @@ var Dialog = {
         # Register
         fgcommand("dialog-new", me.dialog_prop);
 
-        # Use this dialog instead of the default one.
-        gui.menuBind("route-manager", "route_dialog.Dialog.open();");
         gui.menuEnable("previous-waypoint", 0);
         gui.menuEnable("next-waypoint", 0);
 
@@ -513,7 +512,7 @@ var Dialog = {
             }
         }
 
-        gui.dialog_update("route-manager-ajs", apt_name~"-runway");
+        gui.dialog_update("route-manager", apt_name~"-runway");
     },
 
     update_legs: func {
@@ -607,12 +606,10 @@ var Dialog = {
     },
 
     open: func {
-        if(me.state) return;
         fgcommand("dialog-show", me.dialog_prop);
         me.state = 1;
     },
     close: func {
-        if(!me.state) return;
         fgcommand("dialog-close", me.dialog_prop);
         me.state = 0;
     },
