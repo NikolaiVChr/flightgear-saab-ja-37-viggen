@@ -115,15 +115,6 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Select Livery</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>
-                                aircraft.livery.dialog.toggle();
-                            </script>
-                        </binding>
-                    </item>
-                    <item>
                         <label>Auto start/stop</label>
                         <binding>
                             <command>nasal</command>
@@ -138,29 +129,61 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Ground Crew Panel</label>
+                        <label>--- Ground services ---</label>
+                        <enabled>false</enabled>
+                    </item>
+                    <item>
+                        <label>Toggle chocks</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.toggleChocks();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Toggle external power</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>ja37.toggleExternalPower();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Ground crew panel</label>
                         <binding>
                             <command>nasal</command>
                             <script>ground_panel.Dialog.open();</script>
                         </binding>
                     </item>
                     <item>
-                        <label>Performance Monitor</label>
+                        <label>--- Configuration ---</label>
+                        <enabled>false</enabled>
+                    </item>
+                    <item>
+                        <label>Options</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>saab37options</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Load radio channels</label>
+                        <name>comm-channels</name>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>comm-channels</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Select livery</label>
                         <binding>
                             <command>nasal</command>
                             <script>
-                                  monitor.PerformanceMonitor.instance().start();
+                                aircraft.livery.dialog.toggle();
                             </script>
                         </binding>
                     </item>
                     <item>
-                        <label>Systems Monitor</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>
-                                monitor2.SystemsMonitor.instance().start();
-                            </script>
-                        </binding>
+                        <label>--- Monitoring ---</label>
+                        <enabled>false</enabled>
                     </item>
                     <item>
                         <label>Combat log</label>
@@ -178,32 +201,21 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Load radio channels</label>
-                        <name>comm-channels</name>
-                        <binding>
-                            <command>dialog-show</command>
-                            <dialog-name>comm-channels</dialog-name>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Toggle chocks</label>
+                        <label>Performance monitor</label>
                         <binding>
                             <command>nasal</command>
-                            <script>ja37.toggleChocks();</script>
+                            <script>
+                                  monitor.PerformanceMonitor.instance().start();
+                            </script>
                         </binding>
                     </item>
                     <item>
-                        <label>Toggle external power</label>
+                        <label>Systems monitor</label>
                         <binding>
                             <command>nasal</command>
-                            <script>ja37.toggleExternalPower();</script>
-                        </binding>
-                    </item>
-                    <item>
-                        <label>Options</label>
-                        <binding>
-                            <command>dialog-show</command>
-                            <dialog-name>saab37options</dialog-name>
+                            <script>
+                                monitor2.SystemsMonitor.instance().start();
+                            </script>
                         </binding>
                     </item>
                 </menu>

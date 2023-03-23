@@ -166,15 +166,6 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Select Livery</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>
-                                aircraft.livery.dialog.toggle();
-                            </script>
-                        </binding>
-                    </item>
-                    <item>
                         <label>Auto start/stop</label>
                         <binding>
                             <command>nasal</command>
@@ -189,36 +180,32 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Performance Monitor</label>
+                        <label>--- Ground services ---</label>
+                        <enabled>false</enabled>
+                    </item>
+                    <item>
+                        <label>Toggle chocks</label>
                         <binding>
                             <command>nasal</command>
-                            <script>
-                                  monitor.PerformanceMonitor.instance().start();
-                            </script>
+                            <script>ja37.toggleChocks();</script>
                         </binding>
                     </item>
                     <item>
-                        <label>Systems Monitor</label>
+                        <label>Toggle external power</label>
                         <binding>
                             <command>nasal</command>
-                            <script>
-                                monitor2.SystemsMonitor.instance().start();
-                            </script>
+                            <script>ja37.toggleExternalPower();</script>
                         </binding>
                     </item>
                     <item>
-                        <label>Combat log</label>
-                        <name>flightlog</name>
-                        <binding>
-                            <command>dialog-show</command>
-                            <dialog-name>flightlog</dialog-name>
-                        </binding>
+                        <label>--- Configuration ---</label>
+                        <enabled>false</enabled>
                     </item>
                     <item>
-                        <label>Tacview recorder</label>
+                        <label>Options</label>
                         <binding>
                             <command>dialog-show</command>
-                            <dialog-name>tacview</dialog-name>
+                            <dialog-name>saab37options</dialog-name>
                         </binding>
                     </item>
                     <item>
@@ -238,24 +225,49 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Toggle chocks</label>
+                        <label>Select livery</label>
                         <binding>
                             <command>nasal</command>
-                            <script>ja37.toggleChocks();</script>
+                            <script>
+                                aircraft.livery.dialog.toggle();
+                            </script>
                         </binding>
                     </item>
                     <item>
-                        <label>Toggle external power</label>
-                        <binding>
-                            <command>nasal</command>
-                            <script>ja37.toggleExternalPower();</script>
-                        </binding>
+                        <label>--- Monitoring ---</label>
+                        <enabled>false</enabled>
                     </item>
                     <item>
-                        <label>Options</label>
+                        <label>Combat log</label>
+                        <name>flightlog</name>
                         <binding>
                             <command>dialog-show</command>
-                            <dialog-name>saab37options</dialog-name>
+                            <dialog-name>flightlog</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Tacview recorder</label>
+                        <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>tacview</dialog-name>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Performance monitor</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                  monitor.PerformanceMonitor.instance().start();
+                            </script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Systems monitor</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                monitor2.SystemsMonitor.instance().start();
+                            </script>
                         </binding>
                     </item>
                 </menu>
