@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <key n="99">
+    <name>c</name>
+    <desc>Toggle chocks</desc>
+    <exit/>
+    <binding>
+      <command>nasal</command>
+      <script>ja37.toggleChocks();</script>
+    </binding>
+  </key>
+
+  <key n="112">
+    <name>p</name>
+    <desc>Toggle external power</desc>
+    <exit/>
+    <binding>
+      <command>nasal</command>
+      <script>ja37.toggleExternalPower();</script>
+    </binding>
+  </key>
+
+  <key n="114">
+    <name>r</name>
+    <desc>Repair</desc>
+    <exit/>
+    <binding>
+      <command>nasal</command>
+      <script>ja37.repair();</script>
+    </binding>
+  </key>
+
+  <key n="65">
+    <name>A</name>
+    <desc>Autostart</desc>
+    <exit/>
+    <binding>
+      <command>nasal</command>
+      <script>ja37.autostarttimer();</script>
+    </binding>
+  </key>
+
+  <key n="76">
+    <name>L</name>
+    <desc>Payload</desc>
+
+    <key n="99">
+      <name>c</name>
+      <desc>Remove payload</desc>
+      <exit/>
+      <binding>
+        <command>nasal</command>
+        <script>loadout.load_clean();</script>
+      </binding>
+    </key>
+
+    <key n="114">
+      <name>r</name>
+      <desc>Reload</desc>
+      <exit/>
+      <binding>
+        <command>nasal</command>
+        <script>loadout.reload();</script>
+      </binding>
+    </key>
+
+    <key n="116">
+      <name>t</name>
+      <desc>Toggle drop tank</desc>
+      <exit/>
+      <binding>
+        <command>nasal</command>
+        <script>
+          var prop = "/consumables/fuel/tank[8]/mounted";
+          loadout.set_droptank(!getprop(prop));
+          screen.log.write("Drop tank " ~ (getprop(prop) ? "mounted" : "removed"), 0.0, 1.0, 0.0);
+        </script>
+      </binding>
+    </key>
+
+    <key n="102">
+      <name>f</name>
+      <desc>Set fuel to max</desc>
+      <exit/>
+      <binding>
+        <command>nasal</command>
+        <script>loadout.refuel(1.4);</script>
+      </binding>
+    </key>
+
+    <key n="70">
+      <name>F</name>
+      <desc>Set fuel quantity</desc>
+
+      <key n="901">
+        <name>%u</name>
+        <desc>Fuel quantity: %.0f%%</desc>
+        <binding>
+          <command>nasal</command>
+          <script>loadout.refuel(arg[0] / 100.0);</script>
+        </binding>
+      </key>
+    </key>
+  </key>
+</PropertyList>
