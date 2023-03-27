@@ -193,10 +193,10 @@
                 <scale>1.0000</scale>
             </marker>
             <condition>
-                <less-than-equals>
-                    <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
-                    <value>1</value>
-                </less-than-equals>
+                <equals>
+                    <property>fdm/jsbsim/systems/indicators/master-warning/visual</property>
+                    <value>0</value>
+                </equals>
             </condition>
             <binding>
                 <command>nasal</command>

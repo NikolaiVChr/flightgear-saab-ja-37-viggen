@@ -97,7 +97,7 @@
         </marker>
         <condition>
             <equals>
-                <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
+                <property>fdm/jsbsim/systems/indicators/master-warning/visual</property>
                 <value>0</value>
             </equals>
         </condition>
