@@ -1354,7 +1354,7 @@ var autostart = func {
 var waiting_n1 = func {
   start_count += 1* getprop("sim/speed-up");
   #print(start_count);
-  if (start_count > 45) {
+  if (start_count > 55) {
     if(bingoFuel == TRUE) {
       notice("Engine start failed. Check fuel.");
     } elsif (!power.prop.dcSecondBool.getValue()) {
@@ -1393,7 +1393,7 @@ var waiting_n1 = func {
 
 var final_engine = func () {
   start_count += 1* getprop("sim/speed-up");
-  if (start_count > 70) {
+  if (start_count > 80) {
     if(bingoFuel == TRUE) {
       notice("Engine start failed. Check fuel.");
     } elsif (!power.prop.dcSecondBool.getValue()) {
