@@ -96,5 +96,17 @@
     </button>
   </group>
 
+  <text>
+    <halign>left</halign>
+    <label>Tacview (.acmi) files are saved to:</label>
+  </text>
+
+  <text>
+    <halign>left</halign>
+    <label>/home/very long directory name/.fgfs/Export/</label>
+    <format>%s/Export/</format>
+    <property>/sim/fg-home</property>
+  </text>
+
   <empty><stretch>1</stretch></empty>
 </PropertyList>
