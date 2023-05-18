@@ -577,20 +577,28 @@
   	<animation>
         <type>pick</type>
         <object-name>button_reg</object-name>
-        <!--<action>
+        <action>
             <name>record on/off</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-toggle</command>
-                <property>sim/replay/disable</property>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/sim/tacview-recording") == 0) {
+                        tacview.startwrite();
+                        setprop("/sim/tacview-recording", 1);
+                    } else {
+                        tacview.stopwrite();
+                        setprop("/sim/tacview-recording", 0);
+                    };
+                </script>
             </binding>
-        </action>-->
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Reg</tooltip-id>
-                <label>Recording Flight Tape (not implemented)</label>
+                <label>Toggle tacview recording</label>
             </binding>
         </hovered>
     </animation> 
