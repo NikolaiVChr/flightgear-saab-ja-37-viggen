@@ -1070,6 +1070,11 @@ var main_init = func {
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
+  # Hint to MP server for how far away MP planes should transmit to this aircraft.
+  # Increased 100->200 for the S-200 (needs to be at least the missile range, which is ~160)
+  # Do NOT set this property in -set.xml, FG overrides it at startup.
+  setprop("/sim/multiplay/visibility-range-nm", 200);
+
   test_support();
 
   hack.init();

@@ -436,7 +436,6 @@
                 <bool n="21" type="bool" alias="/instrumentation/gci/bogeydope"/>
                 <bool n="22" type="bool" alias="/instrumentation/gci/cutoff"/>
             </generic>
-            <visibility-range-nm type="int">100</visibility-range-nm><!-- hint to MP server for how far away MP planes should transmit to this aircraft -->
         </multiplay>
         <hitches>
             <aerotow>
