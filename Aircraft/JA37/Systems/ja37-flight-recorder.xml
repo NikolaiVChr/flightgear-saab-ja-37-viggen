@@ -310,6 +310,10 @@
         <!-- Gears -->
 
         <signal>
+            <type>bool</type>
+            <property>controls/gear/chocks</property>
+        </signal>
+        <signal>
           <type>bool</type>
           <property type="string">fdm/jsbsim/gear/unit[0]/WOW</property>
         </signal>
