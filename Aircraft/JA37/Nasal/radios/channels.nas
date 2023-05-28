@@ -152,11 +152,11 @@ var read_file = func(path, load_group_channels=1, load_base_channels=1) {
     call(func { file = io.open(path, "r"); }, nil, nil, nil, var err = []);
     if (size(err)) {
         debug.printerror(err);
-        printf("Failed to load radio channels file: %s\n", path);
+        printf("Failed to load radio channels file: %s", path);
         if (file != nil) io.close(file);
         return;
     }
-    printf("Reading radio channels file %s\n", path);
+    printf("Reading radio channels file %s", path);
 
     # Memorize loaded file paths, for GUI only.
     var short_path = path;
@@ -256,6 +256,7 @@ var get_base = func(channel) {
 ### Load initial configuration file
 
 var default_group_channels = getprop("/sim/aircraft-dir")~"/Nasal/radios/channels-default.txt";
+var default_base_channels = getprop("/sim/aircraft-dir")~"/Doc/channels-swedish-airbases.txt";
 
 var init = func {
     # Load channels configuration files
@@ -264,7 +265,9 @@ var init = func {
     var base_path = input.preset_base_file.getValue();
 
     # Load default channels configuration
-    read_file(default_group_channels);
+    read_group_file(default_group_channels);
+    read_base_file(default_base_channels);
+
     # Load custom ones
     if (path != nil)        read_file(path);
     if (group_path != nil)  read_group_file(group_path);
