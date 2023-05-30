@@ -79,51 +79,15 @@ var Station = {
 				if (typeof(me.weaponName) == "scalar") {
 					#print("attempting to create weapon id="~(me.id*100+me.i));
 					var mf = nil;
-					if (me.weaponName == "AGM-154A") {
-						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 4) {
-								return {"guidanceLaw":"PN"};
-							}
-							return {};
-						};
-					} elsif (me.weaponName == "AGM-158") {
-						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 7 and struct.guidance == "gps") {
-								return {"guidance":"vision","class":"GM","target":"nil","guidanceLaw":"PN"};
-							}
-							return {};
-						};
-					} elsif (me.weaponName == "AIM-54") {
-						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 11 and struct.guidance == "semi-radar") {
-								return {"guidance":"radar"};
-							}
-							return {};
-						};
-					} elsif (me.weaponName == "AIM-120") {
-						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "sample") {
-								return {"guidance":"radar"};
-							}
-							return {};
-						};
-					} elsif (me.weaponName == "RB-99") {
+					if (me.weaponName == "RB-99") {
 						mf = func (struct) {
 							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "sample") {
 								fire_control.fireLog.push("RB-99: Pitbull");
-								return {"guidance":"radar"};
-							}
-							return {};
-						};
-					} elsif (me.weaponName == "MICA-EM") {
-						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 12 and struct.guidance == "inertial") {
-								return {"guidance":"radar"};
+								return {"guidance": "radar", "abort_midflight_function": 1};
 							}
 							return {};
 						};
 					}
-					
 					me.aim = armament.AIM.new(me.id*100+me.i, me.weaponName, "", mf, me.position);
 					if (me.aim == -1) {
 						print("Pylon could not create "~me.weaponName);
