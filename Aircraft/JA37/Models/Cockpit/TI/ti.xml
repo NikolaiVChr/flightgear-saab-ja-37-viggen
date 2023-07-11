@@ -109,30 +109,22 @@
     <animation>
         <type>material</type>
         <object-name>ti_screen</object-name>
-        <!--<condition>
-            <equals>
-              <property>/sim/rendering/rembrandt/enabled</property>
-              <value>1</value>
-            </equals>
-        </condition>
-        <ambient>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>ja37/avionics/brightness-ti</factor-prop>
-        </ambient>
-        <diffuse>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>ja37/avionics/brightness-ti</factor-prop>
-        </diffuse>-->
         <emission>
             <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
             <factor-prop>ja37/avionics/brightness-ti</factor-prop>
         </emission>
+        <!-- Workaround: for AMD and Intel windows drivers the displays are way too bright.
+          After some testing, it seems that the material diffuse value is wrong.
+          I don't know how this happens, but setting it here works around the issue.
+          This is the same value as in the .ac file.
+        -->
+        <diffuse>
+            <red>0.0</red>
+            <green>0.0</green>
+            <blue>0.0</blue>
+        </diffuse>
     </animation>
 
   	<!--
@@ -809,4 +801,4 @@
       </emission>
     </animation>
 
-</PropertyList>  
+</PropertyList>
