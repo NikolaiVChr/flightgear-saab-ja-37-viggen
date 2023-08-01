@@ -216,10 +216,10 @@ ACDATA:
 - OUT: If 2 first digits entered will show value of address in last 4 digits.
 - ADDRESSES:
     15xyzd Interoperability mode.
-      * y: 1=interoperability mode, 0=Swedish/metric mode
-      * x: Controls HUD altitude scale features in metric mode only:
+      * x: Controls HUD altitude scale features (in interoperability mode only):
          - current altitude window, enabled with x=2,3
          - airbase altitude index, enabled with x=1,3 (requires QNH mode)
+      * y: 1=interoperability mode, 0=Swedish/metric mode
       * z: 1=use QNH, 0=use QFE (QFE is always used in metric mode)
       * d is ignored
     30xbcd GPS Installed = 1, NO GPS = 0. b, c and d is ignored.
