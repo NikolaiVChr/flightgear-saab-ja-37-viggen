@@ -202,13 +202,15 @@ Below is listed what combination of IN/OUT with the knob will produce (if the ot
 OUT
 - TILS:   Shows current TILS frequency on display.
 - CL/DA:  Show date/time on display. Cycle with OK.
-- FUEL:   Show extra fuel warning setting in percent on display.
+- FUEL:   Show additional fuel reserve for low fuel warning (in %).
+          This is in addition to the base warning level of 24%.
+          (Fuel quantity required to fly the route should also be added, but this is not implemented.)
 - LOLA:   Show current LON/LAT on display. Cycle with OK.
 
 IN
 - TILS:  
 - CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
-- FUEL:   Set extra fuel warning in percent. (threshold will trigger master warning)
+- FUEL:   Set additional fuel reserve for low fuel warning (in %).
 - LOLA:  
 
 ACDATA:
