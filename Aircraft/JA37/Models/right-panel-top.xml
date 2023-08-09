@@ -21,6 +21,43 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/button-g/button-g.xml</path>
+    <name>indicators-control</name>
+    <overlay>
+      <params>
+        <prop>controls/lighting/test-indicator-panels</prop>
+        <texture>test-indicators.png</texture>
+        <tooltip-text>Test indicators</tooltip-text>
+        <tooltip-id>button-test-ind</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m>0.07</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-tank-pump</name>
+    <overlay>
+      <params>
+        <prop>controls/fuel/tank-pump</prop>
+        <texture>TANK-PUMP.png</texture>
+        <tooltip-text>Fuel feed pumps (not implemented)</tooltip-text>
+        <tooltip-id>switch-tank-pump</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>0.10</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
     <name>switch-cutoff-afterburner</name>
     <overlay>
@@ -71,6 +108,24 @@
     </overlay>
     <offsets>
       <x-m>0.19</x-m>
+      <y-m>0.02</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/switch-a.xml</path>
+    <name>switch-engine-deice</name>
+    <overlay>
+      <params>
+        <prop>controls/engines/engine/deice</prop>
+        <texture>ENGINE-DEICE.png</texture>
+        <tooltip-text>Engine de-icing (not implemented)</tooltip-text>
+        <tooltip-id>switch-engine-deice</tooltip-id>
+      </params>
+    </overlay>
+    <offsets>
+      <x-m>0.22</x-m>
       <y-m>0.02</y-m>
       <z-m>0</z-m>
     </offsets>

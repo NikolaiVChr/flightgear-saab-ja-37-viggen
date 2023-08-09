@@ -244,8 +244,44 @@
         </flybylowest>
 
 
-        <!--                               Cockpit View                      engine                                   -->
+        <!--                               Cockpit View engine                                   -->
 
+        <starter>
+            <name>starter</name>
+            <path>Sounds/whine.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <property>fdm/jsbsim/propulsion/starter/start-power</property>
+            </condition>
+            <reference-dist>30</reference-dist>
+            <max-dist>100</max-dist>
+            <position>
+                <x>-0.6</x>
+                <y>0.00</y>
+                <z>0.20</z>
+            </position>
+            <orientation>
+                <x>-0.98</x>
+                <y>0.0</y>
+                <z>0.0</z>
+            </orientation>
+            <pitch>
+                <property>fdm/jsbsim/propulsion/starter/gts-rpm-norm</property>
+                <offset>1.0</offset>
+                <factor>1.0</factor>
+            </pitch>
+            <volume>
+                <expression>
+                    <table>
+                        <property>fdm/jsbsim/propulsion/starter/gts-rpm-norm</property>
+                        <entry><ind>0</ind><dep>0</dep></entry>
+                        <entry><ind>0.5</ind><dep>0.05</dep></entry>
+                        <entry><ind>0.8</ind><dep>0.05</dep></entry>
+                        <entry><ind>1.6</ind><dep>0.00</dep></entry>
+                    </table>
+                </expression>
+            </volume>
+        </starter>
 
         <engine_idle_cockpit>
             <name>internal fan</name>

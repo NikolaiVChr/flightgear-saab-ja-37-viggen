@@ -57,7 +57,7 @@
     <button>
       <legend>Remove payload</legend>
       <pref-width>120</pref-width>
-      <enable>/ja37/reload/allowed</enable>
+      <enable><property>/ja37/reload-allowed</property></enable>
       <binding>
         <command>nasal</command>
         <script>loadout.load_clean();</script>
@@ -69,7 +69,7 @@
     <button>
       <legend>Reload</legend>
       <pref-width>120</pref-width>
-      <enable>/ja37/reload/allowed</enable>
+      <enable><property>/ja37/reload-allowed</property></enable>
       <binding>
         <command>nasal</command>
         <script>loadout.reload();</script>
@@ -103,7 +103,7 @@
           <max>136</max>
           <property>/sim/gui/dialogs/loadout/dialog/fuel/request-percent</property>
           <live>true</live>
-          <enable>/ja37/reload-allowed</enable>
+          <enable><property>/ja37/reload-allowed</property></enable>
           <binding>
             <command>dialog-apply</command>
           </binding>
@@ -137,7 +137,7 @@
         <label>External fuel tank</label>
         <property>/consumables/fuel/tank[8]/mounted</property>
         <live>true</live>
-        <enable>/ja37/reload-allowed</enable>
+        <enable><property>/ja37/reload-allowed</property></enable>
         <binding>
           <command>dialog-apply</command>
         </binding>
@@ -194,7 +194,7 @@
             <pref-width>55</pref-width>
             <pref-height>25</pref-height>
             <legend>Load</legend>
-            <enable>/ja37/reload-allowed</enable>
+            <enable><property>/ja37/reload-allowed</property></enable>
             <binding>
               <command>nasal</command>
               <script>loadout.load_AJS_rb24j(1);</script>
@@ -207,7 +207,7 @@
             <pref-width>55</pref-width>
             <pref-height>25</pref-height>
             <legend>Unload</legend>
-            <enable>/ja37/reload-allowed</enable>
+            <enable><property>/ja37/reload-allowed</property></enable>
             <binding>
               <command>nasal</command>
               <script>loadout.load_AJS_rb24j(0);</script>
@@ -227,7 +227,7 @@
             <pref-width>55</pref-width>
             <pref-height>25</pref-height>
             <legend>Single</legend>
-            <enable>/ja37/reload-allowed</enable>
+            <enable><property>/ja37/reload-allowed</property></enable>
             <binding>
               <command>nasal</command>
               <script>loadout.load_AJS_rb74(1);</script>
@@ -240,7 +240,7 @@
             <pref-width>55</pref-width>
             <pref-height>25</pref-height>
             <legend>Double</legend>
-            <enable>/ja37/reload-allowed</enable>
+            <enable><property>/ja37/reload-allowed</property></enable>
             <binding>
               <command>nasal</command>
               <script>loadout.load_AJS_rb74(2);</script>

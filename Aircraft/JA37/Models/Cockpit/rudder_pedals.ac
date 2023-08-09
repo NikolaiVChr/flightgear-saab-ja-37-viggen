@@ -8,7 +8,7 @@ OBJECT poly
 name "Pedal.1"
 loc 0.0012635 0.0826628 0.1700000
 crease 30.000000834826057
-texture "alu.png"
+texture "../alu.png"
 texrep 1 1
 numvert 76
 0.0485875 -0.0706243 -0.0586976
@@ -234,7 +234,7 @@ OBJECT poly
 name "Pedal.2"
 loc 0.0013468 0.0830268 -0.1700000
 crease 30.000000834826057
-texture "alu.png"
+texture "../alu.png"
 texrep 1 1
 numvert 76
 0.0485041 -0.0709354 -0.0586981

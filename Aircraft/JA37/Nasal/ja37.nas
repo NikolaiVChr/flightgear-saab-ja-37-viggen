@@ -4,8 +4,6 @@ var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
 var FALSE = 0;
 var TRUE = 1;
 
-var bingoFuel = FALSE;
-
 var mainOn = FALSE;
 var mainTimer = -1;
 
@@ -46,7 +44,7 @@ var input = {
   envVol:           "ja37/sound/environment-volume",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
-  fuelRatio:        "/instrumentation/fuel/ratio",
+  fuelFeedTank:     "/consumables/fuel/tank[0]/level-norm",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
   gearSteerNorm:    "/gear/gear[0]/steering-norm",
@@ -111,7 +109,6 @@ var input = {
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   sunAngle:         "sim/time/sun-angle-rad",
-  tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   taxiLight:        "ja37/effect/taxi-light",
   tempDegC:         "environment/temperature-degc",
   thrustLb:         "engines/engine/thrust_lb",
@@ -190,12 +187,6 @@ var Saab37 = {
       input.fullInit.setBoolValue(TRUE);
     } else {
       input.fullInit.setBoolValue(FALSE);
-    }
-
-    if (input.fuelRatio.getValue() > 0 and input.tank8LvlNorm.getValue() > 0) {
-      bingoFuel = FALSE;
-    } else {
-      bingoFuel = TRUE;
     }
 
     #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
@@ -999,20 +990,22 @@ var rand_double = func (min, max) {
 
 # Random switches in the cockpit. Value is probability that it is on.
 var random_switches = {
-  "controls/ventilation/airconditioning-enabled": 0.5,
   "controls/electric/lights-ext-beacon": 0.5,
   "controls/electric/lights-ext-form": 0.5,
   "controls/altimeter-radar": 0.5,
   "controls/electric/engine[0]/generator": 0.5,
-  "controls/engines/engine/reverser-cmd": 0.5,
+  "controls/engines/engine/reverser-cmd": 0.3,
   "instrumentation/transponder/switch-power": 0.5,
   "instrumentation/transponder/switch-mode": 0.5,
   "instrumentation/comm[0]/transmitter": 0.5,
   # Not used under normal operation: usual position with high probability.
-  "controls/engines/engine[0]/cutoff-augmentation": 0.2,
-  "fdm/jsbsim/fcs/elevator/gearing-enable": 0.8,
-  "controls/electric/reserve": 0.2,
-  "controls/fuel/auto": 0.8,
+  "controls/ventilation/airconditioning-enabled": 0.9,
+  "controls/fuel/auto": 0.9,
+  "controls/fuel/tank-pump": 0.9,
+  "controls/engines/engine[0]/cutoff-augmentation": 0.1,
+  "controls/electric/reserve": 0.1,
+  "fdm/jsbsim/fcs/elevator/gearing-enable": 0.9,
+  "controls/engines/engine[0]/deice": 0.3,
 };
 
 # Variant specific switches
@@ -1045,7 +1038,7 @@ var random_multipos = {
 var random_continuous = {
   "controls/lighting/flood-knob": [0,1],
   "controls/lighting/instruments-knob": [0,1],
-  "controls/ventilation/airconditioning-temperature": [12,26],
+  "controls/ventilation/airconditioning-temperature": [15,26],
   "controls/ventilation/windshield-hot-air-knob": [0,1],
   "instrumentation/altimeter/setting-hpa": [990,1030],
   "instrumentation/altimeter[1]/setting-hpa": [990,1030],
@@ -1076,6 +1069,11 @@ var main_init = func {
   power.init();
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
+
+  # Hint to MP server for how far away MP planes should transmit to this aircraft.
+  # Increased 100->200 for the S-200 (needs to be at least the missile range, which is ~160)
+  # Do NOT set this property in -set.xml, FG overrides it at startup.
+  setprop("/sim/multiplay/visibility-range-nm", 200);
 
   test_support();
 
@@ -1264,7 +1262,7 @@ var stopAutostart = func {
   settimer(stopFinal, 5, 1);#allow time for ram air and flaps to retract
 }
 
-stopFinal = func {
+var stopFinal = func {
   setprop("/controls/engines/engine/throttle", 0);
   setprop("/controls/engines/engine/throttle-cutoff", TRUE);
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
@@ -1276,8 +1274,6 @@ stopFinal = func {
 }
 
 var startSupply = func {
-  setprop("/controls/engines/engine[0]/starter-cmd-hold", TRUE);
-  setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   if (getprop("fdm/jsbsim/systems/electrical/external/available") == TRUE) {
     # using ext. power
     click();
@@ -1337,15 +1333,15 @@ var autostart = func {
   setprop("/instrumentation/altimeter/setting-std", 0);
   setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-inhg"));
   setprop("/instrumentation/altimeter[1]/setting-inhg", getprop("/environment/pressure-inhg"));
-  setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   notice("Starting engine..");
   click();
-  setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
-  setprop("/controls/engines/engine/throttle-cutoff", TRUE);
+  setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", FALSE);
+  setprop("/controls/engines/engine/throttle-cutoff", FALSE);
   setprop("/controls/engines/engine/throttle", 0);
   setprop("/controls/engines/engine/cutoff-augmentation", FALSE);
-  #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
+  setprop("/controls/engines/engine[0]/starter-cmd-hold", TRUE);
+  setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
 }
@@ -1354,35 +1350,29 @@ var autostart = func {
 var waiting_n1 = func {
   start_count += 1* getprop("sim/speed-up");
   #print(start_count);
-  if (start_count > 45) {
-    if(bingoFuel == TRUE) {
+  if (start_count > 55) {
+    if(input.fuelFeedTank.getValue() < 0.01) {
       notice("Engine start failed. Check fuel.");
     } elsif (!power.prop.dcSecondBool.getValue()) {
       notice("Engine start failed. Check battery.");
     } else {
-      notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
+      notice("Autostart failed.");
     }
-    logprint(DEV_WARN, "Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    logprint(DEV_WARN, "Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~getprop("/instrumentation/fuel/ratio"));
     stopAutostart();
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
-      if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == TRUE) {
+      if (getprop("/controls/engines/engine[0]/starter-cmd-hold") == TRUE) {
         click();
-        setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", FALSE);
+        setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
         setprop("/controls/engines/engine/throttle-cutoff", FALSE);
         setprop("/controls/engines/engine/throttle", 0);
-        if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
-          notice("Engine igniting.");
-          settimer(waiting_n1, 0.5, 1);
-        } else {
-          logprint(DEV_WARN, "Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-          stopAutostart();
-          notice("Engine not igniting. Aborting engine start.");
-        }
+        notice("Engine igniting.");
+        settimer(waiting_n1, 0.5, 1);
       } else {
         settimer(waiting_n1, 0.5, 1);
       }
-    }  elsif (getprop("/engines/engine[0]/n1") > 10 and getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
+    }  elsif (getprop("/engines/engine[0]/n1") > 10 and getprop("/controls/engines/engine[0]/starter-cmd-hold") == FALSE) {
       #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
@@ -1399,16 +1389,16 @@ var waiting_n1 = func {
 
 var final_engine = func () {
   start_count += 1* getprop("sim/speed-up");
-  if (start_count > 70) {
-    if(bingoFuel == TRUE) {
+  if (start_count > 80) {
+    if(input.fuelFeedTank.getValue() < 0.01) {
       notice("Engine start failed. Check fuel.");
     } elsif (!power.prop.dcSecondBool.getValue()) {
       notice("Engine start failed. Check battery.");
     } else {
-      notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
-    }    
-    logprint(DEV_WARN, "Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-    stopAutostart();  
+      notice("Autostart failed.");
+    }
+    logprint(DEV_WARN, "Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~~getprop("/instrumentation/fuel/ratio"));
+    stopAutostart();
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     notice("Engine ready.");
     setprop("/controls/gear/chocks", FALSE);

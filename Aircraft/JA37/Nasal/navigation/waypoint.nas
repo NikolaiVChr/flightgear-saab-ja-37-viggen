@@ -50,12 +50,12 @@ var parse_wp = func(string, fp=nil) {
 
 ## Waypoint objects (geo.Coord wrapper)
 var Waypoint = {
-    from_ghost: func(ghost) {
+    from_ghost: func(ghost, name=nil) {
         var wpt = {
             parents: [Waypoint],
             type: TYPE.WAYPOINT,
             coord: geo.Coord.new().set_latlon(ghost.lat, ghost.lon),
-            name: ghost.id,
+            name: name != nil ? name : ghost.id,
             ghost: ghost,
         };
         return wpt;
@@ -88,7 +88,7 @@ var Waypoint = {
         if (wp == nil)
             return nil;
         else
-            return Waypoint.from_ghost(wp);
+            return Waypoint.from_ghost(wp, string);
     },
 
     to_wp_ghost: func {
@@ -262,6 +262,15 @@ var as_airbase = func(wpt) {
         return wpt;
     elsif (wpt.type == TYPE.RUNWAY)
         return wpt.parent;
+    else
+        return nil;
+};
+
+var as_runway = func(wpt) {
+    if (typeof(wpt) != "hash" or !contains(wpt, "type"))
+        return nil;
+    elsif (wpt.type == TYPE.RUNWAY)
+        return wpt;
     else
         return nil;
 };

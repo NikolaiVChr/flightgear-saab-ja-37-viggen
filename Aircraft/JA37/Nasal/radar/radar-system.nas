@@ -29,6 +29,7 @@
 #                       Added ANSI art to be able to quicker navigate this file.
 # v9.1 Jan 6th 2022 - Many kinks ironed out.
 # v10.0 Jan 17th 2022 - Chaff handling. Re-coded antennae movement code. Code cleanup.
+# v10.1 May 30th 2023 - Some beautifying of OmniRadar code.
 #
 # 
 # Properties is only being read in the modules that represent RadarSystem.
@@ -219,21 +220,21 @@ var AIToNasal = {
 	    me.x = me.pos.getNode("global-x");
 	    me.y = me.pos.getNode("global-y");
 	    me.z = me.pos.getNode("global-z");
-	    if(me.x == nil or me.y == nil or me.z == nil) {
-	    	me.alt = me.pos.getNode("altitude-ft");
-	    	me.lat = me.pos.getNode("latitude-deg");
-	    	me.lon = me.pos.getNode("longitude-deg");	
-	    	if(me.alt == nil or me.lat == nil or me.lon == nil) {
+	    me.alt = me.pos.getNode("altitude-ft");
+    	me.lat = me.pos.getNode("latitude-deg");
+    	me.lon = me.pos.getNode("longitude-deg");
+	    if(me.alt == nil or me.lat == nil or me.lon == nil) {
+	    	if(me.x == nil or me.y == nil or me.z == nil) {
 	    		# No valid position data found, giving up.
 		      	me.nextReadTreeFrame();
 		      	return;
 			}
-		    me.pos_type = GPS;
-		    me.aircraftPos = geo.Coord.new().set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue()*FT2M);
-	    } else {
-	    	me.pos_type = ECEF;
+			me.pos_type = ECEF;
 	    	me.aircraftPos = geo.Coord.new().set_xyz(me.x.getValue(), me.y.getValue(), me.z.getValue());
 	    	me.aircraftPos.alt();# TODO: once fixed in FG this line is no longer needed.
+	    } else {
+	    	me.pos_type = GPS;
+		    me.aircraftPos = geo.Coord.new().set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue()*FT2M);
 	    }
 
 	    if (me.aircraftPos.alt() == nil or me.aircraftPos.lat() == nil or me.aircraftPos.lon() == nil) {
@@ -900,19 +901,20 @@ var AIContact = {
 		# This is for inaccurate radar locking of surface targets with TGP.
 		if (me.virt != nil) return me.virt;
 		me.virt = {parents: [me, AIContact, Contact]};
-		me.getCoord();
-		me.coord.set_xyz(me.coord.x()+rand()*spheric_dist_m*2-spheric_dist_m,me.coord.y()+rand()*spheric_dist_m*2-spheric_dist_m,me.coord.z()+rand()*spheric_dist_m*2-spheric_dist_m);
-		me.virt.elevpick = geo.elevation(me.coord.lat(),me.coord.lon());
-		if (spheric_dist_m != 0 and me.virt.elevpick != nil) me.coord.set_alt(me.virt.elevpick);# TODO: Not convinced this is the place for the 1m offset since both missiles and radar subtract 1m from targetdistance, but for slanted picking with undulations its still good idea to not place it at the base.
-		me.virt.coord = me.coord;
+		me.virtCoord = me.getCoord();
+		me.virtCoord.set_xyz(me.virtCoord.x()+rand()*spheric_dist_m*2-spheric_dist_m,me.virtCoord.y()+rand()*spheric_dist_m*2-spheric_dist_m,me.virtCoord.z()+rand()*spheric_dist_m*2-spheric_dist_m);
+		me.virt.elevpick = geo.elevation(me.virtCoord.lat(),me.virtCoord.lon());
+		if (spheric_dist_m != 0 and me.virt.elevpick != nil) me.virtCoord.set_alt(me.virt.elevpick);# TODO: Not convinced this is the place for the 1m offset since both missiles and radar subtract 1m from targetdistance, but for slanted picking with undulations its still good idea to not place it at the base.
+		me.virt.coord = me.virtCoord;
+		me.getCoord();# Make sure me.coord is not the altered one
 		me.virt.getNearbyVirtualTGPContact = func {
-			return me.parents[0].getNearbyVirtualTGPContact();
+			return me.virt.parents[0].getNearbyVirtualTGPContact();
 		};
 		me.virt.getNearbyVirtualContact = func (d) {
-			return me.parents[0].getNearbyVirtualContact(d);
+			return me.virt;
 		};
 		me.virt.getCoord = func {
-			return me.coord;
+			return me.virt.coord;
 		};
 		me.virt.isVirtual = func {
 			return 1;
@@ -920,8 +922,16 @@ var AIContact = {
 		me.virt.getType = func {
 			return POINT;
 		};
+		me.virt.getVirtualType = func {
+			return "radar-inprecise";
+		};
 		#me.virt.callsign = me.get_Callsign();
 		return me.virt;
+	},
+
+	getVirtualType: func {
+		# Used to debug issue #532
+		return "orig";
 	},
 
 	getNearbyVirtualTGPContact: func () {
@@ -933,17 +943,24 @@ var AIContact = {
 		#	me.coord.set_alt(me.coord.alt()+0.0);
 		#	return me.coord;
 		#};
+		if (me.getVirtualType() != "orig") {
+			# Used to debug issue #532
+			print("** ALERT **: Making a TGP point from "~me.getVirtualType());
+		}
 		me.virtTGP.getNearbyVirtualTGPContact = func {
-			return me.parents[0].getNearbyVirtualTGPContact();
+			return me.virtTGP;
 		};
 		me.virtTGP.getNearbyVirtualContact = func (d) {
-			return me.parents[0].getNearbyVirtualContact(d);
+			return me.virtTGP.parents[0].getNearbyVirtualContact(d);
 		};
 		me.virtTGP.isVirtual = func {
 			return 1;
 		};
 		me.virtTGP.getType = func {
 			return POINT;
+		};
+		me.virtTGP.getVirtualType = func {
+			return "tgp-precise";
 		};
 		me.virtTGP.callsign = me.get_Callsign();
 		return me.virtTGP;
@@ -2037,17 +2054,35 @@ var OmniRadar = {
 		me.vector_aicontacts_for = [];
 		foreach(contact ; me.vector_aicontacts) {
 			if (!contact.isVisible()) {
-				# This is expensive as hell, so don't run OmniRadar with too high rate.
+				# This is not expensive as terrain manager set this in a loop.
 				continue;
 			}
-			me.ber = contact.getBearing();
-			me.head = contact.getHeading();
-			me.test = me.ber+180-me.head;
+			me.rangeDirectNM = contact.getRangeDirect()*M2NM;
+			if (me.rangeDirectNM > me.max_dist_nm) {
+				continue;
+			}
+			me.bearing = contact.getBearing();
+			me.heading = contact.getHeading();
+			me.test = me.bearing+180-me.heading;# The deviation of us seen from his nose
 			me.tp = contact.isTransponderEnable();
 			me.radar = contact.isRadarEnable();
-			me.spiking = contact.isSpikingMe();
-            if ((me.radar and math.abs(geo.normdeg180(me.test)) < getRadarFieldRadius(contact.getModel()) or (me.tp and contact.getRangeDirect()*M2NM < me.tp_dist_nm) or me.spiking) and contact.getRangeDirect()*M2NM < me.max_dist_nm) {
-            	contact.storeThreat([me.ber,me.head,contact.getCoord(),me.tp,me.radar,contact.getDeviationHeading(),contact.getRangeDirect()*M2NM, contact.getCallsign(), contact.getSpeed(), contact.getClosureRate(), me.spiking]);
+			me.seeSpike = contact.isSpikingMe();
+			me.seeRadar = me.radar and math.abs(geo.normdeg180(me.test)) < getRadarFieldRadius(contact.getModel());
+			me.seeTp = me.tp and me.rangeDirectNM < me.tp_dist_nm;
+            if (me.seeRadar or me.seeSpike or me.seeTp) {
+            	contact.storeThreat([
+            		me.bearing,  #  0
+            		me.heading,
+            		contact.getCoord(),
+            		me.tp,
+            		me.radar,    #  4
+            		contact.getDeviationHeading(),
+            		me.rangeDirectNM, 
+            		contact.getCallsign(), 
+            		contact.getSpeed(), 
+            		contact.getClosureRate(), 
+            		me.seeSpike  # 10
+            	]);
 				append(me.vector_aicontacts_for, contact);
 				#printf("In omni Field: %s %d", contact.getModel(), contact.getRange()*M2NM);
 			}

@@ -1,0 +1,178 @@
+#### Saab 37 Viggen radio configuration for Swedish airbases
+
+# See JA37/Doc/channels-example.txt for a description of the file syntax and content.
+
+# Radio channels for Swedish airbases (F1-F69).
+# The frequencies are current, not historical, obtained from AIP.
+# Many of these airbases have been decomissioned since 2000, hence the gaps.
+#
+# Channels are attributed as follows:
+# A:    TWR
+# B:    PAR, or other tower
+# C/C2: approach
+# D:    ATIS (should be regional control)
+#
+# 8.3KHz frequencies are converted to 25KHz where possible.
+
+B001    ESOW Västerås / Hässlö
+B001A   130.600     # TWR
+B001C   125.950     # APP
+B001D   127.550     # ATIS
+
+B002    ESSA Arlanda
+B002A   118.500     # TWR West
+B002B   128.725     # TWR East
+# missing TWR: 125.125, 123.100
+# missing GND: 121.700, 121.975, 121.925
+# missing Delivery: 121.825
+B002C   123.750     # APP
+B002D   119.000     # ATIS ARR
+# missing ATIS DEP: 121.625
+
+B003    ESCF Malmen
+B003A   129.800     # TWR
+# missing TWR: 121.050, 132.600, GND: 121.850
+B003B   125.200     # PAR
+B003C   132.950     # APP
+B003C2  135.850     # APP
+# missing APP: 126.400, 127.350
+
+B004    ESNZ Åre Östersund / Frösön
+B004A   135.650     # TWR/APP
+B004C   130.900     # TWR/APP
+B004C2  122.100     # TWR/APP
+
+B005    ESTL Ljungbyhed
+B005A   130.700     # TWR
+# missing TWR: 129.700
+B005B   121.650     # GND
+B005C   129.550     # APP
+B005D   132.750     # ATIS
+
+B006    ESIA Karlsborg
+B006A   133.000     # TWR/APP
+B006C   132.050     # TWR/APP
+
+B007    ESIB Såtenäs
+B007A   128.200     # TWR
+# missing GND: 121.850
+B007B   119.300     # PAR
+B007C   134.550     # APP
+B007C2  123.000     # APP
+
+B009    ESGP Göteborg Säve
+B009    119.050     # TWR
+
+B010    ESTA Ängelholm
+B010A   127.100     # TWR
+B010C   132.450     # APP
+
+B011    ESKN Skavsta / Nyköping
+B011A   127.700     # TWR
+B011C   132.950     # ESCF APP
+B011D   126.275     # ATIS
+
+B012    ESMQ Kalmar
+B012A   130.800     # TWR
+B012B   127.050     # TWR
+
+B014    ESMT Halmstad
+B014A   130.100     # TWR
+B014B   135.050     # TWR
+
+B016    ESCM Uppsala
+B016A   119.200     # TWR
+B016C   130.400     # APP
+
+B017    ESDF Ronneby
+B017A   119.200     # TWR
+# missing GND: 121.850
+B017B   134.100     # PAR
+B017C   128.450     # APP
+B017C2  129.900     # APP
+
+B020    ESMK Kristianstad / Everöd
+B020A   129.350     # TWR
+
+B021    ESPA Luleå / Kallax
+B021A   128.200     # TWR
+B021B   119.000     # PAR
+B021C   125.450     # APP
+B021C2  130.800     # APP
+
+B022    ESMS Malmö / Sturup
+B022A   118.800     # TWR
+B022B   121.700     # TWR
+B022D   129.275     # ATIS
+
+B033    ESGG Göteborg Landvetter
+B033A   118.600     # TWR
+# missing TWR: 123.100
+B033B   121.900     # GND
+# missing Delivery: 121.675
+B033D   114.600     # ATIS
+# missing ATIS: 118.375
+
+B038    ESGJ Jönköping
+B038A   118.250     # TWR
+
+B040    ESSL SAAB
+B040A   118.800     # TWR
+B040B   133.100     # TWR
+B040C   132.950     # ESCF APP
+B040C2  135.850     # ESCF APP
+
+B041    ESSP Kungsängen
+B041A   120.350     # TWR
+B041C   132.950     # APP
+
+B043    ESSV Visby
+B043A   120.300     # TWR
+B043C   126.150     # APP
+
+B044    ESSD Borlänge
+B044A   127.300     # TWR
+
+B045    ESSB Bromma
+B045A   118.100     # TWR
+B045B   121.600     # GND
+B045D   122.450     # ATIS
+
+B046    ESSU Eskilstuna
+B046A   126.850     # AFIS
+
+B047    ESOE Örebro
+B047A   120.275     # TWR
+B047B   133.600     # TWR
+
+B053    ESOK Karlstad
+B053A   119.450     # TWR
+
+B054    ESNN Sundsvall
+B054A   129.550     # TWR
+B054B   118.100     # TWR
+B054D   127.400     # ATIS
+
+B055    ESNO Örnsköldsvik
+B055A   122.250     # TWR
+B055B   118.900     # TWR
+
+B056    ESNK Kramfors
+B056A   122.150     # AFIS
+
+B062    ESPE Vidsel
+B062A   130.400     # TWR
+B062B   135.400     # PAR
+B062C   124.150     # APP
+B062C2  119.200     # APP
+
+B063    ESNQ Kiruna
+B063A   130.150
+B063B   122.100
+
+B064    ESNS Skellefteå
+B064A   122.050     # TWR
+
+B065    ESNU Umeå
+B065A   119.800     # TWR
+B065B   118.075     # TWR

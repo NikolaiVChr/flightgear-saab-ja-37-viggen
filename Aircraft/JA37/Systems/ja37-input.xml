@@ -1561,5 +1561,11 @@
             </script>
           </binding>
         </key>
+
+        <!-- vi-like commands -->
+        <multikey n="0">
+            <!-- prefix ':A' reserved for aircraft -->
+            <key n="65" include="Aircraft/JA37/Systems/multikey.xml"/>
+        </multikey>
     </keyboard>
 </PropertyList>

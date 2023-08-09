@@ -302,8 +302,9 @@
 		
 		<switch name="fcs/elevon/pitch-gearing-switched">
 			<default value="fcs/elevon/pitch-gearing"/>
-			<test value="fcs/elevon/pitch-gearing-feedback">
+			<test logic="OR" value="fcs/elevon/pitch-gearing-feedback">
 				/ja37/elec/ac-bus-main-bool ne 1
+				fcs/elevon/pitch-gear/serviceable ne 1
 			</test>
 			<output>fcs/elevon/pitch-gearing-feedback</output>
 		</switch>
@@ -461,14 +462,6 @@
 			</function>
 		</fcs_function>
 		
-		<switch name="fcs/elevon/serviceable">
-			<default value="1"/>
-			<test logic="AND" value="0">
-				fcs/aileron/serviceable eq 0
-				fcs/elevator/serviceable eq 0
-			</test>
-		</switch>
-		
 		<switch name="fcs/elevon/left-outer-switched">
 			<default value="fcs/elevon/left-outer-mixer"/>
 			<test value="0">
@@ -476,7 +469,7 @@
 			</test>
 			<test logic="OR" value="fcs/elevon/droop">
 				systems/hydraulics/flight-surface-actuation eq 0
-				fcs/elevon/serviceable eq 0
+				fcs/elevon/left/serviceable eq 0
 			</test>
 		</switch>
 		
@@ -487,7 +480,7 @@
 			</test>
 			<test logic="OR" value="fcs/elevon/droop">
 				systems/hydraulics/flight-surface-actuation eq 0
-				fcs/elevon/serviceable eq 0
+				fcs/elevon/right/serviceable eq 0
 			</test>
 		</switch>
 		
@@ -1063,7 +1056,7 @@
                         <property>fcs/speedbrake/command</property>
                         <property>simulation/channel-dt</property>
                         <property>systems/hydraulics/system1/pressure</property>
-                        <property>/sim/failure-manager/controls/flight/speedbrake/serviceable</property>
+                        <property>fcs/speedbrake/serviceable</property>
                         <value>0.5</value>
                     </product>
                 </sum>

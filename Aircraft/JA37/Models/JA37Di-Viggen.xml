@@ -323,10 +323,7 @@
     <object-name>gearRightOuterDoor</object-name>
     <object-name>gearRightInnerDoor</object-name>
     <object-name>landingLightMount</object-name>
-    <object-name>lightFormationFrontRight</object-name>
-    <object-name>lightFormationFrontLeft</object-name>
-    <object-name>lightFormationRearRight</object-name>
-    <object-name>lightFormationRearLeft</object-name>
+    <object-name>lightFormation</object-name>
     <object-name>bottomAirInlet</object-name>
     <object-name>ja37fin</object-name>
     <object-name>ja37dropTank</object-name>
@@ -340,10 +337,7 @@
     <object-name>ja37dashPanel</object-name>
     <object-name>bottom</object-name>
     <object-name>innerWall_back</object-name>
-    <object-name>innerWall_front</object-name>
-    <object-name>innerWall_sides</object-name>
-    <object-name>sidePanel_L</object-name>
-    <object-name>sidePanel_R</object-name>
+    <object-name>innerWall</object-name>
     <object-name>seat</object-name>
   </effect>
 
@@ -2505,10 +2499,7 @@
   <!-- formation lights -->
   <animation>
     <type>material</type>
-    <object-name>lightFormationFrontRight</object-name>
-    <object-name>lightFormationFrontLeft</object-name>
-    <object-name>lightFormationRearRight</object-name>
-    <object-name>lightFormationRearLeft</object-name>
+    <object-name>lightFormation</object-name>
     <!-- Formation lights are yellow when off, green when on.
          To get the correct effect, the texture is white and materials are adjusted.
     -->

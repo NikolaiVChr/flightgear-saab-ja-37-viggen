@@ -7,7 +7,7 @@ kids 1
 OBJECT poly
 name "handleObj"
 crease 50.0
-texture "alu.png"
+texture "../alu.png"
 texrep 1 1
 numvert 248
 0.0269906 0.0010500 -0.0379567

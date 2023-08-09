@@ -361,6 +361,12 @@
 
 
     <channel execrate="4" name="heading-indicators">
+        <pure_gain name="instruments/heading/power">
+            <input>/ja37/elec/ac-bus-main-norm</input>
+            <gain>5</gain>
+            <output>/instrumentation/heading-indicator[0]/power</output>
+        </pure_gain>
+
         <pure_gain name="instruments/heading-backup/gyro-power">
             <input>/ja37/elec/ac-bus-main-norm</input>
             <gain>5</gain>
@@ -390,6 +396,12 @@
 
 
     <channel execrate="4" name="attitude-indicators">
+        <pure_gain name="instruments/attitude/gyro-power">
+            <input>/ja37/elec/ac-bus-main-norm</input>
+            <gain>5</gain>
+            <output>/instrumentation/attitude-indicator[0]/power</output>
+        </pure_gain>
+
         <pure_gain name="instruments/attitude-backup/gyro-power">
             <input>/ja37/elec/ac-bus-main-norm</input>
             <gain>5</gain>

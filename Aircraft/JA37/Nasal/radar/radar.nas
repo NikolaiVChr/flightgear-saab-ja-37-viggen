@@ -1134,6 +1134,8 @@ var maxDt = 0.1;
 var wndprop = props.globals.getNode("environment/wind-speed-kt",0);
 var iffProp = props.globals.getNode("instrumentation/radar/iff",1);
 
+enable_tacobject = 1;
+
 
 #### Generic radar systems
 #
@@ -1151,7 +1153,7 @@ var init_generic = func {
     nose_radar = NoseRadar.new();               # radar backend
     terrain = TerrainChecker.new(0.05, 30);     # LoS test
     ecm = ECMChecker.new(0.05, 6);              # chaff / flare test
-    omni = OmniRadar.new(1.0, 125, 0);          # for RWR
+    omni = OmniRadar.new(1.0, 200, 0);          # for RWR
 }
 
 

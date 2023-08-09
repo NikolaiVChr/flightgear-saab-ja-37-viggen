@@ -210,7 +210,6 @@ var programTest = func {
 		if (   getprop("instrumentation/altimeter/serviceable") == 0
 			or getprop("instrumentation/airspeed-indicator/serviceable") == 0
 			or getprop("systems/pitot/serviceable") == 0
-			or getprop("systems/vacuum/serviceable") == 0
 			or getprop("systems/static/serviceable") == 0) {
 			return 0;#fail
 		}		

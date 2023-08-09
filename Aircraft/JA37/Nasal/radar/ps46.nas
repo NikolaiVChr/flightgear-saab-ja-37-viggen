@@ -10,11 +10,27 @@ var input = {
     antenna_angle:      "instrumentation/radar/antenna-angle-norm",
     nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
     gear_pos:           "gear/gear/position-norm",
+    lock_sound:         "ja37/sound/tones/radar-lock",
 };
 
 foreach(var name; keys(input)) {
     input[name] = props.globals.getNode(input[name], 1);
 };
+
+
+
+var lock_sound_timer = maketimer(1.1, func { input.lock_sound.setValue(FALSE); });
+lock_sound_timer.singleShot = 1;
+lock_sound_timer.simulatedTime = 1;
+
+var play_lock_sound = func {
+    if (lock_sound_timer.isRunning)
+        # Ignore duplicate
+        return;
+
+    input.lock_sound.setValue(TRUE);
+    lock_sound_timer.start();
+}
 
 
 ### Radar parameters (used as subclass of AirborneRadar from radar.nas)
@@ -76,16 +92,24 @@ var PS46 = {
         return me.currentMode.getRangeM();
     },
 
+    # List of tracked contacts
     getTracks: func {
         return me.currentMode.getTracks();
     },
 
+    # Test for tracked contact
     isTracking: func(contact) {
         return me.currentMode.isTracking(contact);
     },
 
+    # Test for primary contact
     isPrimary: func(contact) {
         return contact.equals(me.getPriorityTarget());
+    },
+
+    # Test if there is valid tracking info available
+    hasValidTrack: func(contact) {
+        return contact["has_valid_track"];
     },
 
     runIFF: func(contact) {
@@ -98,7 +122,21 @@ var PS46 = {
         }
     },
 
-    updateStoredIFF: func(contact, tracking) {
+    # Update stored IFF and valid track check
+    updateContact: func(contact, tracking) {
+        # Track
+        var has_valid_track = tracking
+            and (var info = contact.getLastBlep()) != nil
+            and info.hasTrackInfo()
+            and me.elapsed - info.getBlepTime() < me.currentMode.timeToFadeBleps;
+
+        if (has_valid_track and !contact["has_valid_track"]) {
+            play_lock_sound();
+        }
+
+        contact.has_valid_track = has_valid_track;
+
+        # IFF
         if (!tracking) {
             contact.stored_iff = 0;
             return;
@@ -198,7 +236,7 @@ var PS46Mode = {
     # type of information given by this mode
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func (contact) {
-        ps46.updateStoredIFF(contact, 0);
+        ps46.updateContact(contact, 0);
         return [1,0,1,0,0,1];
     },
 
@@ -385,11 +423,11 @@ var TWSMode = {
     getSearchInfo: func (contact) {
         foreach (var track; me.tracks) {
             if (contact.equals(track) and me.radar.elapsed - contact.getLastBlepTime() < me.max_scan_interval) {
-                ps46.updateStoredIFF(contact, 1);
+                ps46.updateContact(contact, 1);
                 return [1,1,1,1,1,1];
             }
         }
-        ps46.updateStoredIFF(contact, 0);
+        ps46.updateContact(contact, 0);
         return [1,0,1,0,0,1];
     },
 
@@ -443,7 +481,7 @@ var DiskSearchMode = {
     getSearchInfo: func (contact) {
         # This gets called as soon as the radar finds something -> autolock
         STT_contact(contact);
-        ps46.updateStoredIFF(contact, 1);
+        ps46.updateContact(contact, 1);
         return [1,1,1,1,1,1];
     },
 };
@@ -520,10 +558,10 @@ var STTMode = {
     # [dist, groundtrack, deviations, speed, closing-rate, altitude]
     getSearchInfo: func(contact) {
         if (me.priorityTarget != nil and contact.equals(me.priorityTarget)) {
-            ps46.updateStoredIFF(contact, 1);
+            ps46.updateContact(contact, 1);
             return [1,1,1,1,1,1];
         } else {
-            ps46.updateStoredIFF(contact, 0);
+            ps46.updateContact(contact, 0);
             return nil;
         }
     },

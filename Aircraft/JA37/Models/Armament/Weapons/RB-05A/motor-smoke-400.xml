@@ -24,9 +24,9 @@
    </offsets>
 
    <shooter>
-     <theta-min-deg>-400.5</theta-min-deg>
+     <theta-min-deg>-1.5</theta-min-deg>
      <theta-max-deg>1.5</theta-max-deg>
-     <phi-min-deg>-400.5</phi-min-deg>
+     <phi-min-deg>-1.5</phi-min-deg>
      <phi-max-deg>1.5</phi-max-deg>
      <speed-mps>
        <value>0</value>

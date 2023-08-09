@@ -436,7 +436,6 @@
                 <bool n="21" type="bool" alias="/instrumentation/gci/bogeydope"/>
                 <bool n="22" type="bool" alias="/instrumentation/gci/cutoff"/>
             </generic>
-            <visibility-range-nm type="int">100</visibility-range-nm><!-- hint to MP server for how far away MP planes should transmit to this aircraft -->
         </multiplay>
         <hitches>
             <aerotow>
@@ -877,6 +876,17 @@
                     <pos-norm type="double">0.0</pos-norm>
                     <serviceable alias="/sim/failure-manager/controls/flight/speedbrake/serviceable"/>
                 </speedbrake>
+                <elevon>
+                    <left>
+                        <serviceable type="bool">true</serviceable>
+                    </left>
+                    <right>
+                        <serviceable type="bool">true</serviceable>
+                    </right>
+                    <pitch-gear>
+                        <serviceable type="bool">true</serviceable>
+                    </pitch-gear>
+                </elevon>
                 <mouse-optimized type="bool">false</mouse-optimized>
             </fcs>
             <gear>
@@ -998,7 +1008,6 @@
                 <pointmass-dragarea-sqft n="6" type="double">0</pointmass-dragarea-sqft>
             </inertia>
             <propulsion>
-                <starter_cmd_copy type="bool">false</starter_cmd_copy>
                 <engine>
                     <augmentation type="double">0</augmentation>
                     <zone type="double">0</zone>
@@ -1127,8 +1136,12 @@
                 <reverser-cmd type="bool">false</reverser-cmd>
                 <starter-cmd-hold type="bool">false</starter-cmd-hold>
                 <starter-cmd type="bool">false</starter-cmd>
+                <man-ignition type="bool">false</man-ignition>
+                <man-ignition-hold type="bool">false</man-ignition-hold>
+                <restart type="bool">false</restart>
                 <cutoff type="bool">true</cutoff>
                 <throttle-cutoff type="bool">true</throttle-cutoff>
+                <deice type="bool">false</deice>
             </engine>
         </engines>
         <gear>
@@ -1157,7 +1170,8 @@
             <test-indicator-panels type="bool">false</test-indicator-panels>
         </lighting>
         <fuel>
-            <auto type="bool">true</auto>            <!-- on/off -->
+            <auto type="bool">true</auto>
+            <tank-pump type="bool">true</tank-pump>
         </fuel>
         <ventilation>
             <airconditioning-type type="int">0</airconditioning-type><!-- cold for 12s: -1 auto: 0 warm for 12s: 1 -->
@@ -1675,7 +1689,7 @@
             <hitable_by_cannon type="bool">true</hitable_by_cannon>
             <is_fleet type="bool">false</is_fleet>
             <rwr_to_screen type="bool">false</rwr_to_screen>
-            <tacview_supported type="bool">false</tacview_supported>
+            <tacview_supported type="bool">true</tacview_supported>
             <m28_auto type="bool">false</m28_auto>
             <mlw_max type="double">2.25</mlw_max>
             <auto_flare_caller type="bool">false</auto_flare_caller>
@@ -1870,6 +1884,9 @@
         <lm>
             <file>Aircraft/JA37/Nasal/light-manager.nas</file>
         </lm>
+        <tacview>
+            <file>Aircraft/JA37/Nasal/tacview.nas</file>
+        </tacview>
 
         <str_debug>
           <file>Aircraft/JA37/Nasal/str_debug.nas</file>

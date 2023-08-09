@@ -339,8 +339,7 @@ var MI = {
 			}
 			me.grp.setTranslation(pos[0], pos[1]);
 
-			var tracking = info.hasTrackInfo()
-				and current_time - info.getBlepTime() < radar.ps46.currentMode.timeToFadeBleps;
+			var tracking = radar.ps46.hasValidTrack(contact);
 			var primary = radar.ps46.isPrimary(contact);
 
 			me.primary.setVisible(primary and tracking);

@@ -131,7 +131,7 @@ N019    350.050
 # number is selected without leading 0 on the corresponding channel selectors.
 #
 # Optional group descriptions of the form BXXX <description> are allowed.
-B021    ESPE F21 Luleå
+B021    ESPA F21 Luleå
 B021A   128.200     # TWR
 B021B   119.000     # PAR
 B021C   125.450     # APP

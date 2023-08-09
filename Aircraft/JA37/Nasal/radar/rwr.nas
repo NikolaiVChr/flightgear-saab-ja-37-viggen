@@ -82,19 +82,23 @@ var stop_beep = func(i) {
 
 
 ### Radars characteristics database.
+#
 # Most of the values are for much earlier radars with similar use.
 # main source for values: https://www.radartutorial.eu
+#
+# 'range' (nm) is the range at which the RWR will pick up the radar,
+# which should be (much) more than the actual radar range.
 var radar_types = {
     # AJS37 SFI part 3 (475Hz and 1900Hz are actual frequency, but do not correspond to scan/lock)
-    "AJS37-Viggen":     { scan_freq: 475, scan_period: 2.24, scan_length: 0.4, lock_freq: 1900, half_angle: 61.5 },
+    "AJS37-Viggen":     { range: 100, scan_freq: 475, scan_period: 2.24, scan_length: 0.4, lock_freq: 1900, half_angle: 61.5 },
     "AJ37-Viggen":      "AJS37-Viggen",
     "JA37Di-Viggen":    "default",
-    "f-14b":            "default",
-    "F-15C":            "default",
+    "f-14b":            { range: 200, scan_freq: 600, scan_period: 3, scan_length: 0.5, lock_freq: 1900, half_angle: 60 },
+    "F-15C":            "f-14b",
     "F-15D":            "F-15C",
-    "F-16":             "default",
+    "F-16":             { range: 160, scan_freq: 600, scan_period: 2, scan_length: 0.4, lock_freq: 1900, half_angle: 60 },
     "YF-16":            "F-16",
-    "m2000-5":          "default",
+    "m2000-5":          "F-16",
     "m2000-5B":         "m2000-5",
     "SU-27":            "default",
     "J-11A":            "SU-27",
@@ -103,7 +107,7 @@ var radar_types = {
     "SU-37":            "SU-27",
     "MiG-29":           "default",
     "T-50":             "default",
-    "MiG-21bis":        "default",
+    "MiG-21bis":        { range: 80, scan_freq: 600, scan_period: 2, scan_length: 0.4, lock_freq: 1900, half_angle: 60 },
     "MiG-21MF-75":      "MiG-21bis",
     "Typhoon":          "default",
     "EF2000":           "default",
@@ -119,29 +123,29 @@ var radar_types = {
     "f-20prototype":    "f-20A",
     "f-20bmw":          "f-20A",
     "f-20-dutchdemo":   "f-20A",
-    "EC-137R":          { scan_freq: 450, scan_period: 4.2, scan_length: 0.5, lock_freq: 1900, half_angle: 180 },
+    "EC-137R":          { range:200, scan_freq: 450, scan_period: 4.2, scan_length: 0.5, lock_freq: 1900, half_angle: 180 },
     "EC-137D":          "EC-137R",
     "E-3":              "EC-137R",
     "A-50":             "EC-137R",
     # Scan: P-40, lock: SNR-125
-    "buk-m2":           { scan_freq: 400, scan_period: 3.7, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
+    "buk-m2":           { range: 120, scan_freq: 400, scan_period: 3.7, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
     "SA-6":             "buk-m2",
     # Scan: P-37, lock: SNR-75
-    "S-75":             { scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
+    "S-75":             { range: 200, scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
     "s-200":            "S-75",
     "s-300":            "S-75",
     # Scan: AN/MPQ-35, lock: AN/
-    "MIM104D":          { scan_freq: 800, scan_period: 7, scan_length: 0.8, lock_freq: 2000, half_angle: 180 },
-    "ZSU-23-4M":        { scan_freq: 700, scan_period: 3, scan_length: 0.5, lock_freq: 2400, half_angle: 180 },
+    "MIM104D":          { range: 200, scan_freq: 800, scan_period: 7, scan_length: 0.8, lock_freq: 2000, half_angle: 180 },
+    "ZSU-23-4M":        { range: 40, scan_freq: 700, scan_period: 3, scan_length: 0.5, lock_freq: 2400, half_angle: 180 },
     # Scan: AN/SPS-49, lock: AN/SPG-60
-    "frigate":          { scan_freq: 800, scan_period: 5.1, scan_length: 0.6, lock_freq: 1800, half_angle: 180 },
+    "frigate":          { range: 200, scan_freq: 800, scan_period: 5.1, scan_length: 0.6, lock_freq: 1800, half_angle: 180 },
     "missile_frigate":  "frigate",
     "USS-NORMANDY":     "frigate",
     "USS-LakeChamplain":"frigate",
     "USS-OliverPerry":  "frigate",
     "USS-SanAntonio":   "frigate",
     "fleet":            "frigate",
-    "default":          { scan_freq: 600, scan_period: 2, scan_length: 0.4, lock_freq: 1900, half_angle: 60 },
+    "default":          { range: 120, scan_freq: 600, scan_period: 2, scan_length: 0.4, lock_freq: 1900, half_angle: 60 },
 };
 
 # Resolve aliases
@@ -426,6 +430,8 @@ var getRadarFieldRadius = func(model) {
 var handle_aircraft = func(contact) {
     var model = contact.getModel();
     if (!contains(radar_types, model)) return;
+
+    if (contact.getRangeDirect() > radar_types[model].range * NM2M) return;
 
     var rwr_info = contact.getThreatStored();
     var radar = rwr_info[4];

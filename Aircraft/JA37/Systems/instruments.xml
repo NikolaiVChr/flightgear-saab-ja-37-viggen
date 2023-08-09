@@ -113,7 +113,7 @@
   <attitude-indicator>
     <name>attitude-indicator</name>
     <number>0</number>
-    <suction>/systems/vacuum/suction-inhg</suction>
+    <suction>/instrumentation/attitude-indicator[0]/power</suction>
   </attitude-indicator>
 
   <clock>
@@ -124,7 +124,7 @@
   <heading-indicator>
     <name>heading-indicator</name>
     <number>0</number>
-    <suction>/systems/vacuum/suction-inhg</suction>
+    <suction>/instrumentation/heading-indicator[0]/power</suction>
   </heading-indicator>
 
   <slip-skid-ball>

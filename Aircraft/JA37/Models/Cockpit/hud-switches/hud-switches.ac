@@ -281,7 +281,7 @@ name "switch_alt"
 data 12
 Cylinder.007
 crease 30.0
-texture "../alu.png"
+texture "../../alu.png"
 numvert 65
 -0.00023 -0.00251 -0.01266
 -0.00023 -0.00262 -0.01312
@@ -787,7 +787,7 @@ name "switch_base"
 data 8
 Cylinder
 crease 40.0
-texture "../alu.png"
+texture "../../alu.png"
 numvert 24
 0 -0.00042 0.01903
 0.00303 -0.00042 0.01903
@@ -922,7 +922,7 @@ name "switch_slav"
 data 12
 Cylinder.007
 crease 30.0
-texture "../alu.png"
+texture "../../alu.png"
 numvert 65
 0.00077 -0.00093 0.02373
 0.00077 -0.00103 0.02327

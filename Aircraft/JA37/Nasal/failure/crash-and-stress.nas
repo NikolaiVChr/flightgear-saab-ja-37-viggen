@@ -564,9 +564,9 @@ var crashCode = nil;
 var crash_start = func {
 	removelistener(lsnr);
     if (variant.JA) {
-        crashCode = CrashAndStress.new([0,1,2], {"weightLbs": 35000, "maxG": 10.5, "minG": -4.5}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
+        crashCode = CrashAndStress.new([0,1,2], {"weightLbs": 35000, "maxG": 10.5, "minG": -4.5}, ["controls/gear1", "controls/gear2", "controls/flight/left-elevon", "controls/flight/right-elevon"]);
     } else {
-        crashCode = CrashAndStress.new([0,1,2], {"weightLbs": 33000, "maxG": 9, "minG": -3}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
+        crashCode = CrashAndStress.new([0,1,2], {"weightLbs": 33000, "maxG": 9, "minG": -3}, ["controls/gear1", "controls/gear2", "controls/flight/left-elevon", "controls/flight/right-elevon"]);
     }
     crashCode.start();
 }

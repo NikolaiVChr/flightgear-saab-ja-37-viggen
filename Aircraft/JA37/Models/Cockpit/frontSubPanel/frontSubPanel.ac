@@ -562,7 +562,7 @@ name "extrudeLeft"
 data 8
 Cylinder
 crease 30.0
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 44
 0 -0.025 0.07479
@@ -820,7 +820,7 @@ name "extrudeRight"
 data 12
 Cylinder.001
 crease 30.0
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 320
 -0 -0.025 -0.03521
@@ -10982,7 +10982,7 @@ name "subPanel"
 data 5
 Plane
 crease 30.0
-texture "../alu.png"
+texture "../../alu.png"
 texrep 1 1
 numvert 56
 -0.05 0.0875 -0.09665
