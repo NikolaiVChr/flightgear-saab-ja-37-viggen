@@ -455,15 +455,15 @@ var Dialog = {
                 "max": 1.0,
                 "property": tank_prop.getNode("level-norm").getPath(),
                 "live": "true",
-                "enable": {
+                "enable": external ? {
                     "and": {
-                        "property": external ? [
+                        "property": [
                             "/ja37/reload-allowed",
                             tank_prop.getNode("mounted").getPath(),
-                        ] : [
-                            "/ja37/reload-allowed",
                         ],
                     },
+                } : {
+                    "property": "/ja37/reload-allowed",
                 },
                 "binding": { "command": "dialog-apply", },
             });
@@ -501,7 +501,7 @@ var Dialog = {
                 "col": i,
                 "pref-width": 130,
                 "property": "/payload/weight["~weight_id~"]/selected",
-                "enable": "/ja37/reload-allowed",
+                "enable": { "property": "/ja37/reload-allowed" },
                 "live": "true",
                 "binding": [
                     { "command": "dialog-apply", },
@@ -530,7 +530,7 @@ var Dialog = {
                 "pref-width": 55,
                 "pref-height": 25,
                 "legend": "load",
-                "enable": "/ja37/reload-allowed",
+                "enable": { "property": "/ja37/reload-allowed" },
                 "binding": {
                     "command": "nasal",
                     "script": "loadout.Dialog.apply_loadout(\"" ~ name ~ "\")",
