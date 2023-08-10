@@ -1,3 +1,7 @@
+#### Viggen landing mode
+#
+# This is the main file, all other files in this directory are included in the same namespace.
+
 var TRUE = 1;
 var FALSE = 0;
 
