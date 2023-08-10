@@ -139,3 +139,48 @@ var update_tangent = func {
         tangent_bearing = center_bearing + 90 * pattern_side;   # heading tangent to circle
     }
 }
+
+
+### Load runway from route manager
+# TODO: ILS
+
+var set_runway_ja = func(rwy_ghost) {
+    if (rwy_ghost == nil or ghosttype(rwy_ghost) != "runway") {
+        unset_runway();
+        return FALSE;
+    }
+
+    var coord = geo.Coord.new().set_latlon(rwy_ghost.lat, rwy_ghost.lon);
+    set_runway(coord, rwy_ghost.heading);
+    return TRUE;
+}
+
+var set_runway_ajs = func(wpt) {
+    if (wpt == nil or wpt.type != route.TYPE.RUNWAY) {
+        unset_runway();
+        return FALSE;
+    }
+
+    set_runway(wpt.coord, wpt.heading);
+    return TRUE;
+}
+
+var load_runway_ja = func {
+    if (route.Polygon.primary.type != route.TYPE_RTB) {
+        unset_runway();
+        return FALSE;
+    }
+
+    return set_runway_ja(route.Polygon.primary.getSteerpoint()[0]);
+}
+
+var load_runway_ajs = func {
+    if ((route.get_current_idx() & route.WPT.type_mask) != route.WPT.L) {
+        unset_runway();
+        return FALSE;
+    }
+
+    return set_runway_ajs(route.get_current_wpt());
+}
+
+var load_runway = variant.JA ? load_runway_ja : load_runway_ajs;
