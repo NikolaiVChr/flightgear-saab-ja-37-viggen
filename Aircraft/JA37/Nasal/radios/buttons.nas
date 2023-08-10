@@ -3,12 +3,6 @@
 var TRUE = 1;
 var FALSE = 0;
 
-# Convert a string to a prop. Do nothing if the input is not a string.
-var ensure_prop = func(path) {
-    if (typeof(path) == "scalar") return props.globals.getNode(path, 1);
-    else return path;
-}
-
 
 # Controls an array of button boolean properties, ensuring that at most one of them is true at a time.
 # An additional control property indicates the index of the true property (-1 if none).
@@ -38,17 +32,17 @@ var RadioButtons = {
     },
 
     init: func(button_props, control_prop, n_buttons) {
-        me.control_prop = ensure_prop(control_prop);
+        me.control_prop = utils.ensure_prop(control_prop);
 
         if (typeof(button_props) == "vector") {
             me.n_buttons = size(button_props);
             me.control_prop_offset = 0;
             me.button_props = [];
             setsize(me.button_props, me.n_buttons);
-            forindex (var i; me.button_props) me.button_props[i] = ensure_prop(button_props[i]);
+            forindex (var i; me.button_props) me.button_props[i] = utils.ensure_prop(button_props[i]);
         } else {
             me.n_buttons = n_buttons;
-            button_props = ensure_prop(button_props);
+            button_props = utils.ensure_prop(button_props);
             var parent = button_props.getParent();
             var name = button_props.getName();
             me.control_prop_offset = button_props.getIndex();

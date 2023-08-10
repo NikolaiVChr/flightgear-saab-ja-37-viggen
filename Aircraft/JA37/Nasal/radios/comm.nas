@@ -2,13 +2,6 @@ var TRUE = 1;
 var FALSE = 0;
 
 
-# Convert a string to a prop. Do nothing if the input is not a string.
-var ensure_prop = func(path) {
-    if (typeof(path) == "scalar") return props.globals.getNode(path, 1);
-    else return path;
-}
-
-
 #### API for comm radio frequency properties.
 
 ### Interface to set frequency for a comm radio.
@@ -25,7 +18,7 @@ var comm_radio = {
     # - uhf:    Same as 'vhf' for the UHF band.
     new: func(node, vhf, uhf) {
         var r = { parents: [comm_radio], vhf: vhf, uhf: uhf, };
-        r.node = ensure_prop(node);
+        r.node = utils.ensure_prop(node);
         r.uhf_node = r.node.getNode("uhf", 1);
         r.freq_node = r.node.getNode("frequencies/selected-mhz", 1);
         return r;
@@ -94,7 +87,7 @@ if (variant.JA) {
 
 # Set a listener, copying values from 'target' to 'link'.
 var prop_link = func(target, link) {
-    link = ensure_prop(link);
+    link = utils.ensure_prop(link);
     return setlistener(target, func (node) {
         link.setValue(node.getValue());
     }, 1, 0);

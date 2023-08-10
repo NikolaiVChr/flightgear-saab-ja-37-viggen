@@ -18,14 +18,6 @@ foreach (var name; keys(input)) {
 }
 
 
-
-# Convert a string to a prop. Do nothing if the input is not a string.
-var ensure_prop = func(path) {
-    if (typeof(path) == "scalar") return props.globals.getNode(path, 1);
-    else return path;
-}
-
-
 ### KV1 channel selector logic
 
 radio_buttons.RadioButtons.new([input.kv1_freq, input.kv1_group, input.kv1_base], input.kv1_button);
@@ -98,7 +90,7 @@ var InputScreen = {
         me.focused = FALSE;
 
         # Initialize property and content arrays.
-        me.digit_base_prop = ensure_prop(me.digit_base_prop);
+        me.digit_base_prop = utils.ensure_prop(me.digit_base_prop);
         var parent_prop = me.digit_base_prop.getParent();
         var prop_name = me.digit_base_prop.getName();
         me.digits = [];
