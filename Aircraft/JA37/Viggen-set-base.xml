@@ -1802,6 +1802,7 @@
         <landing>
             <file>Aircraft/JA37/Nasal/navigation/landing/landing.nas</file>
             <file>Aircraft/JA37/Nasal/navigation/landing/pattern.nas</file>
+            <file>Aircraft/JA37/Nasal/navigation/landing/modes.nas</file>
         </landing>
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
