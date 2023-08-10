@@ -2,7 +2,7 @@ var TRUE = 1;
 var FALSE = 0;
 
 
-var input = {
+var input = utils.property_map({
     time:           "sim/time/elapsed-sec",
     sound_high_prf: "instrumentation/rwr/sound/high-prf",
     sound_incoming: "instrumentation/rwr/sound/incoming",
@@ -10,10 +10,8 @@ var input = {
     damage:         "/payload/armament/msg",
     spectator:      "/payload/armament/spectator",
     gear_pos:       "/gear/gear/position-norm",
-};
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
+
 
 input.ja_lights = props.globals.getNode("instrumentation/rwr/ja-lights").getChildren("sector");
 input.ajs_lights = props.globals.getNode("instrumentation/rwr/ajs-lights").getChildren("sector");

@@ -3,7 +3,7 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     fr29_knob:          "instrumentation/radio/mode",
     kv1_freq:           "instrumentation/kv1/button-mhz",
     kv1_group:          "instrumentation/kv1/button-nr",
@@ -11,11 +11,7 @@ var input = {
     kv1_button:         "instrumentation/kv1/button-selected",
     kv3_channel:        "instrumentation/datalink/channel",
     kv3_ident:          "instrumentation/datalink/ident",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 ### KV1 channel selector logic

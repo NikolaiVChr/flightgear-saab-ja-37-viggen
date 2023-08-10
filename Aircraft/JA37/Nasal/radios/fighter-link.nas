@@ -3,15 +3,11 @@
 # This file contains wrappers / helpers and so on for the Viggen fighter link.
 # See datalink.nas for the generic datalink implementation.
 
-var input = {
+var input = utils.property_map({
     on:             "instrumentation/datalink/on",
     power:          "instrumentation/datalink/power",
     identifier:     "instrumentation/datalink/ident",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 var IFF_UNKNOWN = datalink.IFF_UNKNOWN;

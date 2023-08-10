@@ -18,7 +18,7 @@
 var printf = func { print(call(sprintf, arg)) }
 
 # setup property nodes
-input = {
+var input = utils.property_map({
   speedG:           "velocities/groundspeed-kt",
   running:          "engines/engine/running",
   perfEff:          "/sim/gui/dialogs/performance-monitor/efficiency",
@@ -85,10 +85,8 @@ input = {
   cg:               "fdm/jsbsim/inertia/cg-x-in",
   stall:            "fdm/jsbsim/aero/stall-hyst-norm",
   spin:             "fdm/jsbsim/aero/spin-norm",
-};
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
+
 
 #
 # calculate distance between two position in meter.

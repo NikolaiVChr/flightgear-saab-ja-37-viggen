@@ -2,7 +2,7 @@ var FALSE = 0;
 var TRUE = 1;
 
 
-var input = {
+var input = utils.property_map({
     selector_ajs:   "/ja37/mode/selector-ajs",
     landing:        "/ja37/hud/landing-mode",
     approach:       "/ja37/avionics/approach",
@@ -13,11 +13,7 @@ var input = {
     wow_nose:       "/fdm/jsbsim/gear/unit[0]/WOW",
     time_sec:       "/sim/time/elapsed-sec",
     rm_active:      "/autopilot/route-manager/active",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 ## Main modes

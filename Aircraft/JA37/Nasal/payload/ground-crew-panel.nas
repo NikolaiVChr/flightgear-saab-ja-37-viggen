@@ -1,7 +1,7 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var input = {
+var input = utils.property_map({
     flaps_setting:      "/controls/flight/flaps-up-position",
     wpn_sel_knob:       "/controls/armament/ground-panel/weapon-selector-knob",
     wpn_sel_switch:     "/controls/armament/ground-panel/weapon-selector-switch",
@@ -13,12 +13,7 @@ var input = {
     swedish_labels:     "/ja37/effect/swedish-labels",
     tooltip_delay_msec: "/sim/mouse/tooltip-delay-msec",
     auto_ground_panel:  "/controls/armament/ground-panel/automatic-settings",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
+});
 
 
 #### Ground panel logic

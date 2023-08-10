@@ -4,17 +4,12 @@ var TRUE = 1;
 var FALSE = 0;
 
 
-var input = {
+var input = utils.property_map({
     payload:    "payload",
     fuel:       "consumables/fuel",
     drop_tank:  "consumables/fuel/tank[8]/mounted",
     fuel_ratio: "fdm/jsbsim/instruments/fuel/true-ratio",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
+});
 
 
 # A loadout is specified as an array of six weapon names, corresponding to the

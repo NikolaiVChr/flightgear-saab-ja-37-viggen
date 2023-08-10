@@ -1,10 +1,6 @@
-var input = {
+var input = utils.property_map({
     time:   "sim/time/elapsed-sec",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 # Period of the scheduler loop.

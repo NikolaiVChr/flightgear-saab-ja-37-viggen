@@ -3,19 +3,14 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     preset_file:        "ja37/radio/channels-file",
     preset_group_file:  "ja37/radio/group-channels-file",
     preset_base_file:   "ja37/radio/base-channels-file",
     gui_file:           "sim/gui/dialogs/comm-channels/channels-file",
     gui_group_file:     "sim/gui/dialogs/comm-channels/group-channels-file",
     gui_base_file:      "sim/gui/dialogs/comm-channels/base-channels-file",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
+});
 
 
 ### Character type functions.

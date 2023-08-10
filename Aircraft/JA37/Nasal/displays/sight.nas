@@ -1,7 +1,7 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var input = {
+var input = utils.property_map({
     elev_pri:   "/instrumentation/gunsight/elevation-mil",
     azi_pri:    "/instrumentation/gunsight/azimuth-mil",
     elev_sec:   "/instrumentation/gunsight/secondary-elevation-mil",
@@ -24,11 +24,7 @@ var input = {
     fpv_pitch:  "/instrumentation/fpv/pitch-deg",
     safety_dist: "/controls/armament/safety-distance",
     arak_long:  "/controls/armament/weapon-panel/switch-impulse",
-};
-
-foreach (var prop; keys(input)) {
-    input[prop] = props.globals.getNode(input[prop], 1);
-}
+});
 
 
 ### Nasal interface to the AFALCOS A/A gunsight implemented in JSBSim

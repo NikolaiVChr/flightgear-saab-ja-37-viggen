@@ -3,15 +3,11 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     wp_ind_type:    "instrumentation/waypoint-indicator/type",
     wp_ind_num:     "instrumentation/waypoint-indicator/number",
     landing_mode:   "ja37/hud/landing-mode",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 ## Texture symbols codes (=offset on the texture)

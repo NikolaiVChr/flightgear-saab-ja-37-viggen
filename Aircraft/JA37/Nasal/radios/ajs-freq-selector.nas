@@ -3,7 +3,7 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     fr24_knob:          "instrumentation/radio/mode",
     freq_sel_10mhz:     "instrumentation/fr22/frequency-10mhz",
     freq_sel_1mhz:      "instrumentation/fr22/frequency-1mhz",
@@ -18,12 +18,7 @@ var input = {
     fr22_base_knob:     "instrumentation/fr22/base-knob",
     fr22_base_dig1:     "instrumentation/fr22/base-digit[1]",
     fr22_base_dig10:    "instrumentation/fr22/base-digit[0]",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
+});
 
 
 ### Callbacks for FR22 panel knobs to update displays.

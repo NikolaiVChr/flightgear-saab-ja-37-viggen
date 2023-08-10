@@ -13,7 +13,7 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 var MIL2HUD = R2D/10;
 
 
-var input = {
+var input = utils.property_map({
     heading:        "/instrumentation/heading-indicator/indicated-heading-deg",
     pitch:          "/instrumentation/attitude-indicator/indicated-pitch-deg",
     roll:           "/instrumentation/attitude-indicator/indicated-roll-deg",
@@ -82,11 +82,7 @@ var input = {
     true_alt_ft:    "/fdm/jsbsim/position/h-sl-ft",
     true_alt_agl_ft:"/fdm/jsbsim/position/h-agl-ft",
     scene_red:      "/rendering/scene/diffuse/red",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 ### /!\ NOTE ON CANVAS STYLE PROPERTIES

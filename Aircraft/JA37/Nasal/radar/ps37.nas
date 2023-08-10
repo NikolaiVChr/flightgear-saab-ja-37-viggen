@@ -62,7 +62,7 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var input = {
+var input = utils.property_map({
     radar_serv:         "instrumentation/radar/serviceable",
     range:              "instrumentation/radar/range",
     antenna_angle:      "instrumentation/radar/antenna-angle-norm",
@@ -72,11 +72,7 @@ var input = {
     gain:               "ja37/radar/panel/gain",
     filter:             "ja37/radar/panel/filter",
     display_alt:        "instrumentation/altimeter/displays-altitude-meter",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-};
+});
 
 
 ### Radar parameters (used as subclass of AirborneRadar from radar.nas)

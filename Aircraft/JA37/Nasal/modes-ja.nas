@@ -2,7 +2,7 @@ var FALSE = 0;
 var TRUE = 1;
 
 
-var input = {
+var input = utils.property_map({
     landing:        "/ja37/hud/landing-mode",
     approach:       "/ja37/avionics/approach",
     takeoff:        "/ja37/mode/takeoff",
@@ -13,11 +13,7 @@ var input = {
     time_sec:       "/sim/time/elapsed-sec",
     rm_active:      "/autopilot/route-manager/active",
     ground_warning: "/fdm/jsbsim/systems/mkv/ja-warning",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 var debugAll = FALSE;

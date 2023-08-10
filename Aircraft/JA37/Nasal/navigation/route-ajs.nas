@@ -3,7 +3,7 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     wp_active:      "instrumentation/waypoint-indicator/active",
     wp_dist:        "instrumentation/waypoint-indicator/dist-km",
     wp_bearing:     "instrumentation/waypoint-indicator/true-bearing-deg",
@@ -11,12 +11,7 @@ var input = {
     tgt_dist:       "instrumentation/waypoint-indicator/tgt-dist-km",
     tgt_bearing:    "instrumentation/waypoint-indicator/tgt-true-bearing-deg",
     heading:        "instrumentation/heading-indicator/indicated-heading-deg",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
+});
 
 
 ### Waypoints reference numbers

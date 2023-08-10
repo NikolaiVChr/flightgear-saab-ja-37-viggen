@@ -8,16 +8,12 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
     radar_mode:         "instrumentation/radar/mode",
     wpn_knob:           "/controls/armament/weapon-panel/selector-knob",
     passive_mode:       "ja37/radar/panel/passive",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-};
+});
 
 
 ## Radar / CI operation mode.

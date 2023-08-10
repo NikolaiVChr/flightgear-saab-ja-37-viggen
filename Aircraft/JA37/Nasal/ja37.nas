@@ -15,7 +15,7 @@ var flareStart = -1;
 
 ############### Main loop ###############
 
-var input = {
+var input = utils.property_map({
   aeroSmoke:        "/ja37/effect/smoke",
   aeroSmokeCmd:     "/ja37/effect/smoke-cmd",
   airspeed:         "velocities/airspeed-kt",
@@ -140,7 +140,7 @@ var input = {
   tonePreA1: "ja37/sound/tones/alpha-pre-1",
   tonePreL2: "ja37/sound/tones/load-pre-2",
   tonePreL1: "ja37/sound/tones/load-pre-1",
-};
+});
 
 var Saab37 = {
   new: func {
@@ -807,9 +807,6 @@ var Saab37 = {
       elev.init();
     }
 
-    # fire
-    failureSys.init_fire();
-
     # Old ALS landing/taxi lights
     if (!getprop("/ja37/supported/compositor")) lm.light_manager.init();
 
@@ -1066,8 +1063,6 @@ var random_cockpit_state = func {
 var main_init = func {
   srand();
   
-  power.init();
-  
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
   # Hint to MP server for how far away MP planes should transmit to this aircraft.
@@ -1104,11 +1099,6 @@ var main_init = func {
   setprop("/instrumentation/instrumentation-light/r", 1.0);
   setprop("/instrumentation/instrumentation-light/g", 0.3);
   setprop("/instrumentation/instrumentation-light/b", 0.0);
-
-  # setup property nodes for the loop
-  foreach(var name; keys(input)) {
-      input[name] = props.globals.getNode(input[name], 1);
-  }
 
   screen.log.write("Welcome to "~getprop("sim/description")~", version "~getprop("sim/aircraft-version"), 1.0, 0.2, 0.2);
 

@@ -4,7 +4,7 @@ var TRUE = 1;
 var FALSE = 0;
 
 
-var input = {
+var input = utils.property_map({
     ctrl_arm:   "/controls/armament",
     inertia:    "/fdm/jsbsim/inertia",
     station:    "/payload/armament/station",
@@ -14,11 +14,7 @@ var input = {
     xtank_fuel: "/consumables/fuel/tank[8]",
     sound_tank: "/ja37/sound/jettison-tank",
     sound_jett: "/ja37/sound/jettison-stores",
-};
-
-foreach (var prop; keys(input)) {
-    input[prop] = props.globals.getNode(input[prop], 1);
-}
+});
 
 
 ### Pylon names and station numbers.

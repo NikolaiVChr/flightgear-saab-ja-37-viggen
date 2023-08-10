@@ -2,29 +2,19 @@ var FALSE = 0;
 var TRUE = 1;
 
 
-input = {
-	rmActive:             "autopilot/route-manager/active",
-	rmDist:               "autopilot/route-manager/wp/dist",
-	rmBearing:        "autopilot/route-manager/wp/true-bearing-deg",
-	rmCurrWaypoint:       "autopilot/route-manager/current-wp",
-    nav0GSInRange:    	  "instrumentation/nav[0]/gs-in-range",
-    nav0HasGS:        	  "instrumentation/nav[0]/has-gs",
-    nav0InRange:       	  "instrumentation/nav[0]/in-range",
+var input = utils.property_map({
+    rmActive:           variant.AJS ? "instrumentation/waypoint-indicator/active" : "autopilot/route-manager/active",
+    rmDist:             variant.AJS ? "instrumentation/waypoint-indicator/dist-km" : "autopilot/route-manager/wp/dist",
+    rmBearing:          variant.AJS ? "instrumentation/waypoint-indicator/true-bearing-deg" : "autopilot/route-manager/wp/true-bearing-deg",
+    rmCurrWaypoint:     "autopilot/route-manager/current-wp",
+    nav0GSInRange:      "instrumentation/nav[0]/gs-in-range",
+    nav0HasGS:          "instrumentation/nav[0]/has-gs",
+    nav0InRange:        "instrumentation/nav[0]/in-range",
     rad_alt:            "instrumentation/radar-altimeter/radar-altitude-m",
     rad_alt_ready:      "instrumentation/radar-altimeter/ready",
     alt_aal:            "instrumentation/altimeter/indicated-altitude-aal-meter",
-};
+});
 
-if (variant.AJS) {
-    input.rmActive =    "instrumentation/waypoint-indicator/active";
-    input.rmDist =      "instrumentation/waypoint-indicator/dist-km";
-    input.rmBearing =   "instrumentation/waypoint-indicator/true-bearing-deg";
-}
-
-# setup property nodes for the loop
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-};
 
 #
 # 0 = off

@@ -4,7 +4,7 @@
 #####################################
 
 
-input = {
+var input = utils.property_map({
   elapsed:          "sim/time/elapsed-sec",
   engineRunning:    "engines/engine/running",
   replay:           "sim/replay/replay-state",
@@ -12,7 +12,7 @@ input = {
   airspeed:         "/velocities/airspeed-kt",
   thrust:           "/engines/engine[0]/thrust_lb",                # negative at reverse thrust
   temp:             "fdm/jsbsim/propulsion/engine/outlet-temperature-degc",
-};
+});
 
 ############ global variables #####################
 
@@ -137,20 +137,3 @@ var fire = func {
 		FailureMgr.set_failure_level("systems/generator", 1);# fail generator
 	}
 }
-
-############ init function #####################
-
-var init_fire = func {
-	# init function
-
-	# setup property nodes for the loop
-	foreach(var name; keys(input)) {
-	  input[name] = props.globals.getNode(input[name], 1);
-	}
-}
-
-# start the init function
-#var main_init_listener = setlistener("ja37/supported/initialized", func {
-#	init_fire();
-#	removelistener(main_init_listener);
-#}, 0, 0);

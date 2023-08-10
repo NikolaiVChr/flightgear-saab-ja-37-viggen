@@ -5,18 +5,13 @@
 var FALSE = 0;
 var TRUE = 1;
 
-var input = {
+var input = utils.property_map({
     radar_serv:         "instrumentation/radar/serviceable",
     antenna_angle:      "instrumentation/radar/antenna-angle-norm",
     nose_wow:           "fdm/jsbsim/gear/unit[0]/WOW",
     gear_pos:           "gear/gear/position-norm",
     lock_sound:         "ja37/sound/tones/radar-lock",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-};
-
+});
 
 
 var lock_sound_timer = maketimer(1.1, func { input.lock_sound.setValue(FALSE); });

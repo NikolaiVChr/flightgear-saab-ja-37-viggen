@@ -10,7 +10,7 @@ var find_index = func(val, vec) {
 }
 
 
-var input = {
+var input = utils.property_map({
     trigger:        "/controls/armament/trigger",
     unsafe:         "/controls/armament/trigger-unsafe",
     trigger_m70:    "/controls/armament/trigger-m70",
@@ -36,11 +36,7 @@ var input = {
     start_left:     "/controls/armament/ground-panel/start-left",
     gnd_wpn_knob:   "/controls/armament/ground-panel/weapon-selector-knob",
     gnd_wpn_switch: "/controls/armament/ground-panel/weapon-selector-switch",
-};
-
-foreach (var prop; keys(input)) {
-    input[prop] = props.globals.getNode(input[prop], 1);
-}
+});
 
 
 # This is the TI fire log

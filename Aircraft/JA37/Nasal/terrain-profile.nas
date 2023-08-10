@@ -26,14 +26,9 @@ var last_offset = -1;
 var last_elev = 0;
 
 
-var input = {
+var input = utils.property_map({
     elev: "/ja37/avionics/terrain-height-m",
-};
-
-foreach (var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
-
+});
 
 
 var open_map = func {

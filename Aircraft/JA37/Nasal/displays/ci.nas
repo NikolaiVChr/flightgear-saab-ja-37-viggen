@@ -55,7 +55,7 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var input = {
+var input = utils.property_map({
     heading:        "instrumentation/heading-indicator/indicated-heading-deg",
     roll:           "instrumentation/attitude-indicator/indicated-roll-deg",
     fpv_pitch:      "instrumentation/fpv/pitch-deg",
@@ -86,11 +86,7 @@ var input = {
     comp_shaders:   "sim/rendering/shaders/use-shaders",
     old_shaders1:   "sim/rendering/shaders/quality-level",
     old_shaders2:   "sim/rendering/shaders/model",
-};
-
-foreach(var name; keys(input)) {
-    input[name] = props.globals.getNode(input[name], 1);
-}
+});
 
 
 var canvas_res = 256;   # pixels
