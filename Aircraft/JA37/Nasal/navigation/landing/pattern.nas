@@ -42,6 +42,7 @@ var circle_center = nil;    # approach circle
 var center_dist = nil;      # distance aircraft <-> circle_center
 var circle_dist = nil;      # distance aircraft <-> border of circle
 var tangent_dist = nil;     # distance aircraft <-> tangent point 'LB'
+var last_tangent_dist = 10000;  # to test if we reached 'LB'.
 var center_bearing = nil;   # bearing from aircraft to circle_center
 var tangent_bearing = nil;  # bearing from aircraft to tangent point 'LB'
 
@@ -96,6 +97,9 @@ var _update_circle = func {
     circle_center = geo.Coord.new(appch_pos);
     circle_center.apply_course_distance(appch_heading + 180, final_length);
     circle_center.apply_course_distance(appch_heading - 90 * pattern_side, CIRCLE_RADIUS);
+
+    # circle position changed, reset the 'distance from LB increasing' test.
+    last_tangent_dist = 10000;  # just needs to be >4100
 }
 
 # Choose pattern side based on aircraft position.
@@ -121,6 +125,8 @@ var update_tangent = func {
         tangent_bearing = nil;
         return;
     }
+
+    last_tangent_dist = tangent_dist;
 
     center_dist = ac_pos.distance_to(circle_center);
     circle_dist = math.max(center_dist - CIRCLE_RADIUS, 0);
@@ -184,3 +190,13 @@ var load_runway_ajs = func {
 }
 
 var load_runway = variant.JA ? load_runway_ja : load_runway_ajs;
+
+
+### Misc
+
+# Descent to reach LB at 500m, with a bit of margin.
+var descent_angle = func {
+    var alt = altitude - 500;
+    var dist = math.max(tangent_dist - DESCENT_MARGIN, 0);
+    return math.atan2(alt, dist) * R2D;
+}
