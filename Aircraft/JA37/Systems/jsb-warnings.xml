@@ -203,7 +203,7 @@
         instruments/airspeed/airspeed-kmh lt 375
         instruments/altimeter/altitude-aal-m lt 1200
         <test logic="OR"><!-- above 30m at landing (radar alt, or altimeter if unavailable) -->
-          /ja37/hud/landing-mode eq 0
+          /ja37/mode/landing eq 0
           <test logic="AND">
             instruments/radar-altimeter/ready eq 1
             instruments/radar-altimeter/radar-altitude-m gt 30
@@ -517,7 +517,7 @@
       </test>
       <!-- landing mode inhibit -->
       <test logic="AND" value="1">
-        /ja37/hud/landing-mode eq 1 <!-- should be OPT landing mode -->
+        /ja37/mode/landing eq 1 <!-- should be OPT landing mode -->
         gear/gear-pos-norm eq 1
         systems/mkv/ja-collision/landing-reference-altitude lt 30
       </test>
@@ -525,7 +525,7 @@
         Since high roll disables radar altimeter, this uses a stored radar altitude, with 5sec validity period.
       -->
       <test logic="AND" value="1">
-        /ja37/hud/landing-mode eq 0
+        /ja37/mode/landing eq 0
         systems/mkv/ja-collision/radar-altitude-memory lt 200
         systems/mkv/ja-collision/radar-altitude-memory-valid eq 1
         <test logic="OR">

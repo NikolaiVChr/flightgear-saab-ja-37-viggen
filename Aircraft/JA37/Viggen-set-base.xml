@@ -586,6 +586,7 @@
         <mode>
           <selector-ajs type="int">1</selector-ajs>
           <takeoff type="bool">true</takeoff>
+          <landing type="bool">false</landing>
         </mode>
         <hud>
             <!-- Move HUD glass down (AJS only) -->
@@ -593,7 +594,6 @@
             <position-cmd type="bool">true</position-cmd>
             <units-metric type="bool">false</units-metric>
             <TILS-on type="bool">false</TILS-on>
-            <landing-mode type="bool">false</landing-mode>
             <brightness type="double">1.2</brightness>
             <brightness-si type="double">0.5</brightness-si>
             <brightness-res type="double">0.0</brightness-res>

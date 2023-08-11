@@ -256,7 +256,7 @@
         <switch name="instruments/altimeter/altitude-aal-correction-m">
             <test logic="AND" value="-instruments/altimeter/airbase-altitude-m">
                 <test logic="OR">
-                    /ja37/hud/landing-mode eq 1
+                    /ja37/mode/landing eq 1
                     /ja37/mode/takeoff eq 1
                 </test>
                 /ja37/hud/units-metric eq 0
@@ -302,7 +302,7 @@
             <!-- QFE mode + landing / takeoff -->
             <test logic="AND" value="instruments/altimeter/altitude-asl-from-aal-m">
                 <test logic="OR">
-                    /ja37/hud/landing-mode eq 1
+                    /ja37/mode/landing eq 1
                     /ja37/mode/takeoff eq 1
                 </test>
                 <test logic="OR">

@@ -4,7 +4,7 @@ var TRUE = 1;
 
 var input = utils.property_map({
     selector_ajs:   "/ja37/mode/selector-ajs",
-    landing:        "/ja37/hud/landing-mode",
+    landing:        "/ja37/mode/landing",
     approach:       "/ja37/avionics/approach",
     takeoff:        "/ja37/mode/takeoff",
     fpv_pitch:      "/instrumentation/fpv/pitch-deg",
