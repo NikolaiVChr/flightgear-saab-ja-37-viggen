@@ -6,7 +6,6 @@ var FALSE = 0;
 var input = utils.property_map({
     wp_ind_type:    "instrumentation/waypoint-indicator/type",
     wp_ind_num:     "instrumentation/waypoint-indicator/number",
-    landing_mode:   "ja37/hud/landing-mode",
 });
 
 
@@ -70,7 +69,7 @@ var set_wp_indicator = func(idx) {
     if (type == WP_TYPE.POPUP and route.fix_mode_active())
         type = WP_TYPE.TGT;
 
-    if (type == WP_TYPE.LAND and input.landing_mode.getBoolValue()) {
+    if (type == WP_TYPE.LAND and modes.landing) {
         if (land.mode == 1)
             type = WP_TYPE.LAND_B;
         else

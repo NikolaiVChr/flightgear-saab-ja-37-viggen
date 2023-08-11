@@ -120,7 +120,7 @@ var Landing = {
                             icao   = me.wp[1].id;
                             runway = me.wp[0].id;
                             runway_rw = me.wp[0];
-                            if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
+                            if (modes.landing and runway_rw.ils != nil) {
                                 ils = runway_rw.ils.frequency/100;
                             }
                             head = me.wp[0].heading;
@@ -143,7 +143,7 @@ var Landing = {
                             runway = me.wp.name;
                             runway_coord = me.wp.coord;
                             head = me.wp.heading;
-                            if (getprop("ja37/hud/landing-mode")==TRUE and me.wp.freq != nil) {
+                            if (modes.landing and me.wp.freq != nil) {
                                 ils = me.wp.freq;
                             }
                         }
@@ -155,7 +155,7 @@ var Landing = {
         me.alt             = input.alt_aal.getValue();
         me.alt_rad_enabled = input.rad_alt_ready.getBoolValue();
         me.alt_rad         = me.alt_rad_enabled ? input.rad_alt.getValue():100000;
-        if (getprop("ja37/hud/landing-mode")==TRUE and mode != 4 and ((me.alt < 35) or (me.alt_rad_enabled and me.alt<60 and me.alt_rad<15))) {
+        if (modes.landing and mode != 4 and ((me.alt < 35) or (me.alt_rad_enabled and me.alt<60 and me.alt_rad<15))) {
             printDA("OPT: auto activated");
             mode = 4;
         }
@@ -191,7 +191,7 @@ var Landing = {
         		me.runwayCoord.apply_course_distance(geo.normdeg(me.rectAngle), 4100);
         		me.distCenter = geo.aircraft_position().distance_to(me.runwayCoord);
         		approach_circle = me.runwayCoord;
-                if (getprop("ja37/hud/landing-mode")==FALSE) {
+                if (!modes.landing) {
                     mode = 0;
                     show_waypoint_circle = TRUE;
                 } elsif (mode == 4) {
@@ -230,7 +230,7 @@ var Landing = {
                     show_approach_circle = TRUE;
                     printDA("default mode 1");
                 }
-                if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE) {
+                if (ils != 0 and modes.landing) {
                     setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
                     if (mode > 1) {
                         setprop("ja37/hud/TILS-on", TRUE);
@@ -244,7 +244,7 @@ var Landing = {
                 # Following waypoint
                 setprop("ja37/hud/TILS-on", FALSE);
                 show_waypoint_circle = TRUE;
-                if (getprop("ja37/hud/landing-mode")) {
+                if (modes.landing) {
                     mode = 4;
                 } else {
                     mode = 0;
@@ -253,7 +253,7 @@ var Landing = {
         } else {
             # route-manager not active
             setprop("ja37/hud/TILS-on", FALSE);
-            if (getprop("ja37/hud/landing-mode")) {
+            if (modes.landing) {
                 mode = 4;
             } else {
                 mode = 0;

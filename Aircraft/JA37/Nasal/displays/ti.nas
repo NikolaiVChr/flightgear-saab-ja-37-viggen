@@ -5093,7 +5093,7 @@ var TI = {
 				displays.common.toggleJAdisplays(TRUE);
 			} elsif (displays.common.ti_selection != nil) {
 				displays.common.unsetTISelection();
-			} elsif (getprop("ja37/hud/landing-mode")) {
+			} elsif (modes.landing) {
 				land.noMode();
 			}
 		} elsif (me.active and me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
@@ -5109,7 +5109,7 @@ var TI = {
 					displays.common.toggleJAdisplays(FALSE);
 				} elsif (displays.common.ti_selection != nil) {
 					displays.common.unsetTISelection();
-				} elsif (getprop("ja37/hud/landing-mode")) {
+				} elsif (modes.landing) {
 					land.noMode();
 				}
 			}
