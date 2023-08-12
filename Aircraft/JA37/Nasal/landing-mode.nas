@@ -269,39 +269,3 @@ var land_start = func {
 };
 var lander = Landing.new();
 #var lsnr = setlistener("ja37/supported/initialized", land_start);
-
-var window = screen.window.new(nil, 325, 2, 10);
-#window.fg = [1, 1, 1, 1];
-window.align = "left";
-
-var askTower = func () {
-    var runway_alt = nil;
-    if (runway_rw != nil) {
-        runway_alt = geo.elevation(runway_rw.lat, runway_rw.lon);
-    } elsif (runway_coord != nil) {
-        runway_alt = geo.elevation(runway_coord.lat(), runway_coord.lon());
-    }
-    if (icao != "" and runway != "" and runway_alt != nil) {
-        window.write(icao~" tower; how is the weather at "~runway~"?", 0.0, 1.0, 0.0);
-        
-        var pressure = getprop("environment/pressure-inhg");
-        var qnh = getprop("environment/pressure-sea-level-inhg");
-        var lvl  = getprop("position/altitude-ft");
-        var rlvl = runway_alt * M2FT;
-        var qfe = extrapolate(rlvl, 0, lvl, qnh, pressure);
-        var qfe2 = qfe * 33.863887;
-        window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa.", runway, qfe, qfe2), 0.0, 0.6, 0.6);
-    } else {
-        window.write("To ask tower you must have a airport and runway active in route-manager, and fly near the tower!", 1.0, 0.0, 0.0);
-    }
-};
-
-var extrapolate = func (x, x1, x2, y1, y2) {
-    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
-};
-
-var roundFreq = func(x) {
-  var y = str(x);
-  var a = substr(y, 0, 3)~"."~substr(y, -2);
-  return a;
-};

@@ -1090,7 +1090,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>land.askTower()</script>
+                <script>navigation.askTower()</script>
             </binding>
         </key>
 
