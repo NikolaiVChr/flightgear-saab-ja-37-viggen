@@ -37,23 +37,7 @@ var show_runway_line     = FALSE;
 
 var runway_dist = 0;#NM
 
-var head = 0;#true degs
-
 var approach_circle = nil;#Coord
-
-var runway = "";
-var icao = "";
-var runway_rw = nil;
-var runway_coord = nil;
-var ils = 0;
-
-#
-# -1: no plan started
-#  0: plan running, steerpoint not active
-#  1: plan running, next steerpoint is not runway
-#  2: plan running, next steerpoint is runway
-#
-var has_waypoint = 0;
 
 var debugAll = FALSE;
 
@@ -89,68 +73,12 @@ var Landing = {
     	show_runway_line = FALSE;
     	show_waypoint_circle = FALSE;
     	show_approach_circle = FALSE;
-    	runway = "";
-        icao = "";
     	me.bearing = 0;
-        has_waypoint = -1;
-        runway_rw = nil;
-        runway_coord = nil;
-        ils = 0;
 
         if (input.rmActive.getBoolValue()) {
-            has_waypoint = 0;
             runway_dist = input.rmDist.getValue();
             if (variant.AJS) runway_dist *= 1000*M2NM;
             me.bearing = input.rmBearing.getValue();#true
-
-            if (variant.JA)
-            {
-                me.wp = route.Polygon.primary.getSteerpoint();
-                if (runway_dist != nil and me.bearing != nil and me.wp[0] != nil) {
-                    has_waypoint = 1;
-                    #print("current: "~ghosttype(wp[0]));
-                    if (route.Polygon.primary.type == route.TYPE_RTB) {
-                        if (ghosttype(me.wp[0]) == "airport") {
-                            ils = 0;
-                            icao   = me.wp[0].id;
-                            #has_waypoint = 1;
-                        }
-                        if (ghosttype(me.wp[0]) == "runway") {
-                            ils = 0;
-                            icao   = me.wp[1].id;
-                            runway = me.wp[0].id;
-                            runway_rw = me.wp[0];
-                            if (modes.landing and runway_rw.ils != nil) {
-                                ils = runway_rw.ils.frequency/100;
-                            }
-                            head = me.wp[0].heading;
-                            has_waypoint = 2;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                var idx = route.get_current_idx();
-                me.wp = route.get_current_wpt();
-
-                if (runway_dist != nil and me.bearing != nil and me.wp != nil) {
-                    has_waypoint = 1;
-                    if ((idx & route.WPT.type_mask) == route.WPT.L) {
-                        icao = route.as_airbase(me.wp).name;
-                        if (me.wp.type == route.TYPE.RUNWAY) {
-                            has_waypoint = 2;
-                            runway = me.wp.name;
-                            runway_coord = me.wp.coord;
-                            head = me.wp.heading;
-                            if (modes.landing and me.wp.freq != nil) {
-                                ils = me.wp.freq;
-                            }
-                        }
-                    }
-                }
-            }
-
         }
         me.alt             = input.alt_aal.getValue();
         me.alt_rad_enabled = input.rad_alt_ready.getBoolValue();
@@ -159,34 +87,22 @@ var Landing = {
             printDA("OPT: auto activated");
             mode = 4;
         }
-        if (has_waypoint > 0) {
-        	if (has_waypoint > 1) {
+        if (navigation.has_wpt) {
+        	if (navigation.has_rwy) {
                 #showActiveSteer = FALSE;
         		show_runway_line = TRUE;
         		me.short = getprop("ja37/avionics/approach");
 
         		line = me.short == TRUE?10:20;
 
-        		#me.ILS = input.nav0InRange.getValue() == TRUE and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
-
         		# find approach circle
-                if (variant.JA) {
-                    me.curr = input.rmCurrWaypoint.getValue();
+                me.runwayCoord = geo.Coord.new(navigation.rwy_coord);
+                me.runwayCoord.apply_course_distance(geo.normdeg(navigation.rwy_heading+180), line*1000);
 
-                    me.lat = getprop("autopilot/route-manager/route/wp["~me.curr~"]/latitude-deg");
-                    me.lon = getprop("autopilot/route-manager/route/wp["~me.curr~"]/longitude-deg");
-                    me.runwayCoord = geo.Coord.new();
-                    me.runwayCoord.set_latlon(me.lat,me.lon, geo.aircraft_position().alt()-500);
-                } else {
-                    me.runwayCoord = geo.Coord.new(runway_coord);
-                }
-
-                me.runwayCoord.apply_course_distance(geo.normdeg(head+180), line*1000);
-
-        		me.diff = me.bearing - head;#positive for pos
+        		me.diff = me.bearing - navigation.rwy_heading;#positive for pos
         		me.diff = geo.normdeg180(me.diff);	
         		me.rect = (me.diff>0?90:-90);           
-    			me.rectAngle = head+180+me.rect;
+    			me.rectAngle = navigation.rwy_heading+180+me.rect;
 
         		me.runwayCoord.apply_course_distance(geo.normdeg(me.rectAngle), 4100);
         		me.distCenter = geo.aircraft_position().distance_to(me.runwayCoord);
@@ -230,8 +146,8 @@ var Landing = {
                     show_approach_circle = TRUE;
                     printDA("default mode 1");
                 }
-                if (ils != 0 and modes.landing) {
-                    setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
+                if (navigation.ils and modes.landing) {
+                    setprop("instrumentation/nav[0]/frequencies/selected-mhz", navigation.ils);
                     if (mode > 1) {
                         setprop("ja37/hud/TILS-on", TRUE);
                     } else {
