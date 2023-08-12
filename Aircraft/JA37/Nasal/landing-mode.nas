@@ -33,7 +33,6 @@ var line = 20;
 
 var show_waypoint_circle = FALSE;
 var show_approach_circle = FALSE;
-var show_runway_line     = FALSE;
 
 var runway_dist = 0;#NM
 
@@ -70,7 +69,6 @@ var Landing = {
     },
     
     loop: func {
-    	show_runway_line = FALSE;
     	show_waypoint_circle = FALSE;
     	show_approach_circle = FALSE;
     	me.bearing = 0;
@@ -90,7 +88,6 @@ var Landing = {
         if (navigation.has_wpt) {
         	if (navigation.has_rwy) {
                 #showActiveSteer = FALSE;
-        		show_runway_line = TRUE;
         		me.short = getprop("ja37/avionics/approach");
 
         		line = me.short == TRUE?10:20;

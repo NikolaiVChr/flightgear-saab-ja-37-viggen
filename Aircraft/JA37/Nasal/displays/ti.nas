@@ -4676,7 +4676,7 @@ var TI = {
 	},
 
 	showRunway: func {
-		if (modes.nav_ja != modes.B and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
+		if (modes.nav_ja != modes.B and (land.show_waypoint_circle == TRUE or navigation.has_rwy)) {
 		  me.heading = me.input.heading.getValue();#true
 		  me.rwy_dist = (me.input.rmDist.getValue() or 0) * NM2M;
 		  me.rwy_bearing = (me.input.rmBearing.getValue() or 0) - me.heading;

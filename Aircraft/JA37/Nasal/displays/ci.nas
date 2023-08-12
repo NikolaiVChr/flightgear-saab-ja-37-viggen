@@ -358,7 +358,7 @@ var NavSymbols = {
 
         # Mode restrictions from Beskrivning FPL AJS37 Del 4
         var wpt_visible = (land.show_waypoint_circle and me.mode != MODE.BOMB and me.mode != MODE.AIR);
-        var line_visible = (land.show_runway_line and (me.mode == MODE.SILENT or me.mode == MODE.NORMAL));
+        var line_visible = navigation.has_rwy and (me.mode == MODE.SILENT or me.mode == MODE.NORMAL);
         var appch_circle_visible = (line_visible and land.show_approach_circle);
 
         me.wpt_circle.setVisible(wpt_visible);

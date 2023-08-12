@@ -303,7 +303,7 @@ var Common = {
 			if (me.distance_m != nil) me.distance_m *= NM2M;
 			me.heading = me.input.rmBearing.getValue();
 
-			if (land.show_runway_line) {
+			if (navigation.has_rwy) {
 				me.tgt_heading = navigation.rwy_heading;
 			}
 		}
