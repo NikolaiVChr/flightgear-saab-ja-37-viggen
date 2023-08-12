@@ -460,7 +460,7 @@ var Horizon = {
             # Glideslope position
             # Horizontal
             me.gs_pos[0] = 0;
-            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue() and land.has_waypoint > 1 and land.ils) {
+            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue() and navigation.has_rwy and navigation.ils) {
                 # TILS. Extremely basic 'flight director' (proportional command)
                 var ils_rdl = input.nav_rdl.getValue();
                 me.gs_pos[0] = ils_rdl + input.nav_defl.getValue()*2 - fpv_heading;
@@ -1317,7 +1317,7 @@ var AltitudeBars = {
             me.alt_bars.hide();
             me.alt_boxes.hide();
             # Glideslope indication
-            if (land.has_waypoint > 1 and land.ils and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
+            if (navigation.has_rwy and navigation.ils and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
                 var defl = math.clamp(-input.nav_gs_defl.getValue(), -0.5, 1);
                 me.tils_bars_2.setTranslation(0, 286 + defl*200);
                 me.tils_bars_3.setTranslation(0, 286 + defl*300);

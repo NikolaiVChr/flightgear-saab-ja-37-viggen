@@ -3376,7 +3376,7 @@ var TI = {
 			me.numL = 0;
 			me.numS = 0;
 			foreach(var base; me.basesNear) {
-				if (base["icao"] != land.icao) {
+				if (base["icao"] != navigation.icao) {
 					me.coord = geo.Coord.new();
 					me.coord.set_latlon(base["lat"], base["lon"], base["elev"]);
 					me.distance = me.ac_pos.distance_to(me.coord);
@@ -4480,7 +4480,7 @@ var TI = {
 				me.textBTactType3.setText("T");
 			}
 		}
-		me.icao = land.icao~((land.ils != 0) ?" T":"  ");
+		me.icao = navigation.icao~((navigation.ils) ?" T":"  ");
 		me.textBBase.setText(me.icao);
 
 		me.mode = "";
@@ -4694,18 +4694,18 @@ var TI = {
 		      me.dest_circle.hide();
 		  }
 
-		  if (land.show_runway_line == TRUE) {
+		  if (navigation.has_rwy) {
 		    me.runway_l = land.line*1000;
 		    me.scale = clamp(me.runway_l*M2TEX,10*MM2TEX,1000);#in the real they are always 10mm, cheated abit.
 		    me.approach_line.setScale(1, me.scale);
-		    me.dest.setRotation((180+land.head-me.heading)*D2R);
-		    me.runway_name.setText(land.runway);
-		    me.runway_name.setRotation(-(180+land.head)*D2R);
+		    me.dest.setRotation((180+navigation.rwy_heading-me.heading)*D2R);
+		    me.runway_name.setText(navigation.rwy_name);
+		    me.runway_name.setRotation(-(180+navigation.rwy_heading)*D2R);
 		    me.runway_name.show();
 		    me.approach_line.show();
 		    me.approach_line.update();
-		    if (land.runway_rw != nil and land.runway_rw.length > 0) {
-		    	me.scale = land.runway_rw.length*M2TEX;
+		    if (navigation.rwy.length > 0) {
+		    	me.scale = navigation.rwy.length*M2TEX;
 	    	} else {
 	    		me.scale = 400*M2TEX;
 	    	}

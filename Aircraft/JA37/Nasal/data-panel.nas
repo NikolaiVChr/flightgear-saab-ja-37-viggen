@@ -770,8 +770,8 @@ var disp = func {
         }
       }
     } elsif (settingKnob == KNOB_TILS) {
-      if (land.ils != 0) {
-        display = sprintf("%05d", int(100*land.ils));
+      if (navigation.ils) {
+        display = sprintf("%05d", int(100*navigation.ils));
       } else {
         display = "000000";
       }

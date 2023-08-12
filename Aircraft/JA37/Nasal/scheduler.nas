@@ -42,6 +42,7 @@ var init_loops = func {
         { period: 8, offset: 1, function: ja37.saab37.update_loop, self: ja37.saab37, name: "ja37-medium", },
         { period: 8, offset: 1, function: modes.update, name: "modes", },
         { period: 8, offset: 1, function: displays.common.loop, self: displays.common, name: "common-slow", },
+        { period: 8, offset: 1, function: navigation.rwy_update, name: "runway", },
         { period: 8, offset: 1, function: land.lander.loop, self: land.lander, name: "landing-mode", },
         { period: 8, offset: 1, function: testing.loop, name: "test", },
         { period: 32, offset: 15, function: ja37.saab37.slow_loop, self: ja37.saab37, name: "ja37-slow", arg_dt: 1, },

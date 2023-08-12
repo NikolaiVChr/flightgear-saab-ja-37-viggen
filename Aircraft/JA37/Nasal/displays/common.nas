@@ -304,7 +304,7 @@ var Common = {
 			me.heading = me.input.rmBearing.getValue();
 
 			if (land.show_runway_line) {
-				me.tgt_heading = land.head;
+				me.tgt_heading = navigation.rwy_heading;
 			}
 		}
 

@@ -381,7 +381,7 @@ var NavSymbols = {
 
         if (line_visible) {
             me.set_line_length(land.line*1000, scale);
-            me.line.setRotation((180 + land.head - heading) * D2R);
+            me.line.setRotation((180 + navigation.rwy_heading - heading) * D2R);
         }
         if (appch_circle_visible) {
             me.set_appch_circle_scale(scale);

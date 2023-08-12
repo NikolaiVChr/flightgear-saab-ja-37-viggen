@@ -119,12 +119,12 @@ var Horizon = {
             # locked on forward axis at takeoff
             me.ref_point_offset = 0;
         } elsif (me.mode == HUD.MODE_FINAL_NAV or me.mode == HUD.MODE_FINAL_OPT) {
-            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue() and land.has_waypoint > 1 and land.ils) {
+            if (me.mode == HUD.MODE_FINAL_NAV and input.nav_lock.getBoolValue() and navigation.has_rwy and navigation.ils) {
                 # TILS command
                 var heading = input.nav_rdl.getValue() + input.nav_defl.getValue()*2;
                 me.ref_point_offset = me.bearing_to_offset(heading, fpv_rel_bearing);
-            } elsif (!input.hud_slav.getBoolValue() and land.has_waypoint > 1) {
-                me.ref_point_offset = me.bearing_to_offset(land.head, fpv_rel_bearing);
+            } elsif (!input.hud_slav.getBoolValue() and navigation.has_rwy) {
+                me.ref_point_offset = me.bearing_to_offset(navigation.rwy_heading, fpv_rel_bearing);
             } else {
                 # No runway in route manager, or switch SLAV to on: locked on FPV.
                 me.ref_point_offset = fpv_rel_bearing;
@@ -296,7 +296,7 @@ var AltitudeBars = {
         if (me.mode == HUD.MODE_NAV_DECLUTTER or me.mode == HUD.MODE_FINAL_OPT) return;
 
         if (me.mode == HUD.MODE_FINAL_NAV) {
-            if (land.has_waypoint > 1 and land.ils and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
+            if (navigation.has_rwy and navigation.ils and input.nav_has_gs.getBoolValue() and input.nav_gs_lock.getBoolValue()) {
                 me.set_bars_pos(math.clamp(-input.nav_gs_defl.getValue(), -0.5, 1));
                 me.group.show();
             } else {

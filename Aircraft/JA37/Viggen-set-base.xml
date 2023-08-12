@@ -1799,6 +1799,10 @@
         <tyre>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
         </tyre>
+        <navigation>
+            <file>Aircraft/JA37/Nasal/navigation/nav.nas</file>
+            <file>Aircraft/JA37/Nasal/navigation/runway.nas</file>
+        </navigation>
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>
@@ -1854,9 +1858,6 @@
         <formation>
             <file>Aircraft/Generic/formation.nas</file>
         </formation>
-        <navigation>
-            <file>Aircraft/JA37/Nasal/navigation/nav.nas</file>
-        </navigation>
         <radio_buttons>
             <file>Aircraft/JA37/Nasal/radios/buttons.nas</file>
         </radio_buttons>
