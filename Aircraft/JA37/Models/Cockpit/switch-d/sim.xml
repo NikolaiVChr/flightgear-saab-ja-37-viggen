@@ -17,7 +17,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-sim</tooltip-id>
-                <label>Weapons simulation mode (non functional)</label>
+                <label>Weapons simulation mode (not implemented)</label>
             </binding>
         </hovered>
     </animation>

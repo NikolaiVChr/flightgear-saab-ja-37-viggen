@@ -90,7 +90,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-pedal</tooltip-id>
-                <label>Adjust pedals position (no functionality)</label>
+                <label>Adjust pedals position (non functional)</label>
             </binding>
         </hovered>
     </animation>

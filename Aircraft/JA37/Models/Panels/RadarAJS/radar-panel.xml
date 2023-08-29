@@ -131,7 +131,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>radar-sea</tooltip-id>
-        <label>Doppler radar sea mode (non functional)</label>
+        <label>Doppler radar sea mode (not implemented)</label>
       </binding>
     </hovered>
   </animation>
@@ -203,7 +203,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>radar-pulse</tooltip-id>
-        <label>Radar pulse length (non functional)</label>
+        <label>Radar pulse length (not implemented)</label>
       </binding>
     </hovered>
   </animation>
@@ -266,7 +266,7 @@
       <binding>
         <command>set-tooltip</command>
         <tooltip-id>radar-on</tooltip-id>
-        <label>Restart radar (non functional)</label>
+        <label>Restart radar (not implemented)</label>
       </binding>
     </hovered>
   </animation>

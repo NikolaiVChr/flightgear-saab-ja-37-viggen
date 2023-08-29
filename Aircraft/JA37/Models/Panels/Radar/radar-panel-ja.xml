@@ -45,7 +45,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rdpn</tooltip-id>
-                <label>Radar panel (non functional)</label>
+                <label>Radar panel (not implemented)</label>
             </binding>
         </hovered>
     </animation>

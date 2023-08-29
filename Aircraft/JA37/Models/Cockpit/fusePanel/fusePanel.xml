@@ -125,7 +125,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>fuse3</tooltip-id>
-                <label>Trim system breaker (non functional)</label>
+                <label>Trim system breaker (not implemented)</label>
             </binding>
         </hovered>
     </animation>

@@ -235,7 +235,7 @@
 			<binding>
 				<command>set-tooltip</command>
 				<tooltip-id>tils-channel</tooltip-id>
-				<label>TILS channel (non functional)</label>
+				<label>TILS channel (not implemented)</label>
 			</binding>
 		</hovered>
 	</animation>

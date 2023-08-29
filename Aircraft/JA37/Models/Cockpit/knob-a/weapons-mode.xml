@@ -47,7 +47,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>knob-mod-weap</tooltip-id>
-                <label>Weapons mode (non functional)</label>
+                <label>Weapons mode (not implemented)</label>
             </binding>
         </hovered>
     </animation>

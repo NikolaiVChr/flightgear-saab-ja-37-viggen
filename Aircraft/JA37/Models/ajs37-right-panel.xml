@@ -100,7 +100,7 @@
       <params>
         <prop>instrumentation/dme/switch-position</prop>
         <texture>DME.png</texture>
-        <tooltip-text>No function (legacy from older variants)</tooltip-text>
+        <tooltip-text>No function for this aircraft</tooltip-text>
         <tooltip-id>switch-dme</tooltip-id>
       </params>
     </overlay>
@@ -246,7 +246,7 @@
       <params>
         <prop>ja37/navigation/tils-channel-group</prop>
         <texture>TILS-GROUP.png</texture>
-        <tooltip-text>TILS channel group (non functional)</tooltip-text>
+        <tooltip-text>TILS channel group (not implemented)</tooltip-text>
         <tooltip-id>tils-channel-group</tooltip-id>
       </params>
     </overlay>
