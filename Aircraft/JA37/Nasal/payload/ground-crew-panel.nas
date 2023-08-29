@@ -520,7 +520,7 @@ var Dialog = {
         CanvasKnobAnim.new(
             me.knob_sel_click, input.wpn_sel_knob, 0, 7,
             func { run_settings_check(TRUE); },
-            "knob_sel", "Loaded weapon type (not implemented)"
+            "knob_sel", "Loaded weapon type"
         );
         CanvasKnobAnim.new(
             me.knob_number_click, input.wpn_number, 0, 3, nil,
@@ -545,7 +545,7 @@ var Dialog = {
         CanvasSwitchAnim.new(
             me.switch_sel_click_up, me.switch_sel_click_down, input.wpn_sel_switch, 0, 1,
             func { run_settings_check(TRUE); },
-            "switch_sel", "Loaded weapon type (not implemented)"
+            "switch_sel", "Loaded weapon type"
         );
         CanvasSwitchAnim.new(
             me.switch_side_click_up, me.switch_side_click_down, input.start_left, 0, 1, nil,
