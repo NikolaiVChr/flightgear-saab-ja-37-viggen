@@ -4291,3 +4291,18 @@ Effects: Remove rust effect
 Models: Fix some UVs on main model
 AJS HUD: Add fall time indicator for bomb CCIP
 {Nikolai and others}: Many changes to vectors, missile, damage, and RWR code.
+
+5.3.1 - 2022 December 19
+=====
+missile code updates and bugfixes
+CI: Remove Rb 04 aiming lines for Rb 15 and m/90
+Radar: Don't set armament.contact, done by FCS
+Effects: Fix CI effect name
+
+5.3.2 - 2023 September 09
+=====
+Critical bugfix for FG 2020.4+: Fix conditions in payload dialog
+
+Effects: Fix undefined behaviour in lcd.frag
+Effects: Workaround ALS HUD transparency issue
+Displays: Work around MI/TI brightness issue
