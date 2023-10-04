@@ -13,6 +13,8 @@ var acTimer = 0;
 var flareCount = -1;
 var flareStart = -1;
 
+var crashCode = nil;
+
 ############### Main loop ###############
 
 var input = utils.property_map({
@@ -753,6 +755,13 @@ var Saab37 = {
   },
 
   startSystem: func {
+    if (variant.JA) {
+        crashCode = crash.CrashAndStress.new([0,1,2], {"weightLbs": 35000, "maxG": 10.5, "minG": -4.5}, ["controls/gear1", "controls/gear2", "controls/flight/left-elevon", "controls/flight/right-elevon"]);
+    } else {
+        crashCode = crash.CrashAndStress.new([0,1,2], {"weightLbs": 33000, "maxG": 9, "minG": -3}, ["controls/gear1", "controls/gear2", "controls/flight/left-elevon", "controls/flight/right-elevon"]);
+    }
+    crashCode.start();
+
     # aircraft/display modes
     modes.initialize();
     modes.update();
@@ -1555,7 +1564,7 @@ var repair_msg = "If you need to repair now, then use Menu-Location-SelectAirpor
 var repair = func {
     if(!reload_allowed(repair_msg)) return;
 
-    crash.repair();
+    crashCode.repair();
     failureSys.armAllTriggers();
     setprop("environment/damage", FALSE);
     setprop("ja37/done",0);

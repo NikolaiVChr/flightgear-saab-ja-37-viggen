@@ -20,7 +20,7 @@
     "path": "Nasal/failure/damage.nas"
   },
   "crash-and-stress": {
-    "version": null,
+    "version": "0.1.9",
     "path": "Nasal/failure/crash-and-stress.nas"
   },
   "radar-system": {
