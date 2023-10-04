@@ -1,0 +1,42 @@
+{
+  "vector": {
+    "version": null,
+    "path": "Nasal/vector.nas"
+  },
+  "armament-notification": {
+    "version": null,
+    "path": "Nasal/emesary/ArmamentNotification.nas"
+  },
+  "geo-bridged-transmitter": {
+    "version": null,
+    "path": "Nasal/emesary/GeoBridgedTransmitter.nas"
+  },
+  "missile-code": {
+    "version": null,
+    "path": "Nasal/payload/missiles.nas"
+  },
+  "damage": {
+    "version": null,
+    "path": "Nasal/failure/damage.nas"
+  },
+  "crash-and-stress": {
+    "version": null,
+    "path": "Nasal/failure/crash-and-stress.nas"
+  },
+  "radar-system": {
+    "version": null,
+    "path": "Nasal/radar/radar-system.nas"
+  },
+  "rcs-mand": {
+    "version": null,
+    "path": "Nasal/radar/rcs_mand.nas"
+  },
+  "iff": {
+    "version": null,
+    "path": "Nasal/radar/iff.nas"
+  },
+  "datalink": {
+    "version": null,
+    "path": "Nasal/radios/datalink.nas"
+  }
+}
