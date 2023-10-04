@@ -1,4 +1,3 @@
-
 var rcs_oprf_database = {
     #Revision DEC 09 2022
     # This list contains the mandatory RCS frontal values for OPRF (anno 1997), feel free to add non-OPRF to your aircraft, we don't care.
@@ -22,6 +21,8 @@ var rcs_oprf_database = {
     "Blackbird-SR71A-BigTail":  0.30,
     "MiG-21bis":                3.5,
     "MiG-21MF-75":              3.5,
+    "MiG-23MLD":                5.0,
+    "MiG-23ML":                 5.0,
     "Typhoon":                  0.5,
     "B-1B":                     6,
     "707":                      100,
@@ -32,6 +33,7 @@ var rcs_oprf_database = {
     "C-137R":                   100,
     "RC-137R":                  100,
     "EC-137R":                  110,
+    "E-3R":                     110,
     "E-8R":                     100,
     "KC-10A":                   90,
     "KC-10A-GE":                90,
@@ -69,7 +71,8 @@ var rcs_oprf_database = {
     "s-300":                    0.16,
     "MIM104D":                  0.15,
     "truck":                    0.02,
-    "missile_frigate":          450, 
+    "missile_frigate":          450,
+    "fleet":                    1000, 
     "frigate":                  450,
     "tower":                    0.25,   #gone
     "gci":                      0.50,
@@ -87,11 +90,11 @@ var rcs_oprf_database = {
     "USS-NORMANDY":             450,    
     "USS-LakeChamplain":        450,    
     "USS-OliverPerry":          450,    
-    "USS-SanAntonio":           450,    
+    "USS-SanAntonio":           450,  
 };
 
 
-var ground_assets = ["depot", "ZSU-23-4M", "buk-m2", "SA-6", "S-75", "s-300", "MIM104D", "truck", "tower", "gci", "struct", "point", "hunter"];
+var ground_assets = ["depot", "ZSU-23-4M", "buk-m2", "SA-6", "S-75", "s-300", "s-200", "MIM104D", "truck", "tower", "gci", "struct", "point", "hunter"];
 
 ### Amend table rcs_oprf_database to use real instead of reduced ground assets RCS values.
 #
@@ -106,3 +109,15 @@ var use_real_ground_RCS = func {
         rcs_oprf_database[asset] *= 100;
     }
 }
+
+
+#RADARS:
+#=======
+#JA37       40 3.2     PS 46/A
+#F14        89 3.2     AWG-9
+#F15        80 3.2     APG-63 v1
+#F16        70 3.2     APG-68
+#MIG21       ?   ?
+#E-3R      300 150 
+#AJ37        ?   ?     PS 37
+#M2000      60 3.2     RDY

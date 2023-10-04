@@ -27,7 +27,7 @@ var mlw_max=getprop("payload/d-config/mlw_max"); #
 var auto_flare_caller = getprop("payload/d-config/auto_flare_caller"); # If damage.nas should detect flare releases, or if function is called from somewhere in aircraft
 ############################################################################################################################
 
-
+srand();
 var hp = hp_max;
 setprop("sam/damage", math.max(0,100*hp/hp_max));#used in HUD
 
@@ -60,6 +60,7 @@ var shells = {
     "DEFA 554":          [14,0.060], # 30x113mm Mirage, 220g
     "20mm APDS":         [15,0.030], # CIWS
     "LAU-10":            [16,0.500], # 127mm, ~4-7kg warhead
+    # Max id is 41
 };
 
 # lbs of warheads is explosive+fragmentation+fuse, so total warhead mass.
@@ -136,7 +137,7 @@ var warheads = {
     "R.530":             [67,   55.00,0,0],
     "MK-82AIR":          [68,  192.00,1,0],
     "AIM-9M":            [69,   20.80,0,0],
-    "R-73 RMD-1":        [70,   16.31,0,0],# automat Mig29/su27
+    "R-73 RVV-MD":       [70,   16.31,0,0],# automat su34
     "Meteor":            [71,   55.00,0,0],
     "MICA-EM":           [72,   30.00,0,0], 
     "MICA-IR":           [73,   30.00,0,0], 
@@ -148,7 +149,7 @@ var warheads = {
     "R-55":              [79,   20.06,0,0],
     "R-60":              [80,    6.60,0,0],
     "R-60M":             [81,    7.70,0,0],
-    "R-73E":             [82,   16.31,0,0],
+    "R-73":              [82,   16.31,0,0],# automat mig23/mig29/su-27
     "R-77":              [83,   49.60,0,0],
     "R74":               [84,   16.00,0,0],
     "RB-05A":            [85,  353.00,1,0],
@@ -165,6 +166,8 @@ var warheads = {
     "3M9":               [96,  125.00,0,0],# 3M9M3 Missile used with 2K12/SA-6
     "5V28V":             [97,  478.00,0,0],# Missile used with S-200D/SA-5
     "AIM-9X":            [98,   20.80,0,0],
+    "R-23R":             [99,   55.00,0,0],# mig23 fox 1
+    # Max id is 180
 };
 
 var AIR_RADAR = "air";
@@ -182,9 +185,12 @@ var radar_signatures = {
                 "m2000-5B":                 AIR_RADAR,
                 "MiG-21bis":                AIR_RADAR,
                 "MiG-21MF-75":              AIR_RADAR,
+                "Mig-23MLD":                AIR_RADAR,
                 "MiG-29":                   AIR_RADAR,
                 "SU-27":                    AIR_RADAR,
                 "EC-137R":                  AIR_RADAR,
+                "E-3R":                     AIR_RADAR,
+                "E-3":                      AIR_RADAR,
                 "RC-137R":                  AIR_RADAR,
                 "E-8R":                     AIR_RADAR,
                 "EC-137D":                  AIR_RADAR,
@@ -193,7 +199,7 @@ var radar_signatures = {
                 "s-200":                    "gnd-05",
                 "ZSU-23-4M":                "gnd-23",
                 "S-75":                     "gnd-02",
-                "buk-m2":                   "gnd-11",
+                "buk-m2":                   "gnd-17",
                 "s-300":                    "gnd-20",
                 "MIM104D":                  "gnd-p2",
                 "missile_frigate":          "gnd-nk",
@@ -308,7 +314,7 @@ var DamageRecipient =
                 var radarOn = bits.test(notification.Flags, 0);
                 var thrustOn = bits.test(notification.Flags, 1);
                 var CWIOn = bits.test(notification.Flags, 2);
-                var index = notification.SecondaryKind-21;
+                var index = DamageRecipient.emesaryID2typeID(notification.SecondaryKind);
                 var typ = id2warhead[index];
 
                 if (notification.Kind == MOVE) {
@@ -436,9 +442,9 @@ var DamageRecipient =
                     #
                     if (tacview_supported and tacview.starttime and (getprop("sim/multiplay/txhost") != "mpserver.opredflag.com" or m28_auto)) {
                     var node = getCallsign(notification.RemoteCallsign);
-                      if (node != nil and notification.SecondaryKind > 20) {
+                      if (node != nil and (notification.SecondaryKind > 20 or notification.SecondaryKind < -40)) {
                         # its a warhead
-                        var wh = id2warhead[notification.SecondaryKind - 21];
+                        var wh = id2warhead[DamageRecipient.emesaryID2typeID(notification.SecondaryKind)];
                         var lbs = wh[1];
                         var hitCoord = geo.Coord.new();
                         hitCoord.set_latlon(node.getNode("position/latitude-deg").getValue(), node.getNode("position/longitude-deg").getValue(), node.getNode("position/altitude-ft").getValue()*FT2M+notification.RelativeAltitude);
@@ -475,11 +481,11 @@ var DamageRecipient =
                                 damageLog.push(sprintf("%s hit you with %d %s.", notification.Callsign, hit_count, typ));
                                 nearby_explosion();
                             }
-                        } elsif (notification.SecondaryKind > 20) {
+                        } elsif (notification.SecondaryKind > 20 or notification.SecondaryKind < -40) {
                             # its a warhead
                             if (m28_auto) mig28.engagedBy(notification.Callsign, 1);
                             var dist     = notification.Distance;
-                            var wh = id2warhead[notification.SecondaryKind - 21];
+                            var wh = id2warhead[DamageRecipient.emesaryID2typeID(notification.SecondaryKind)];
                             var type = wh[4];#test code
                             if (wh[3] == 1) {
                                 # cluster munition
@@ -604,7 +610,29 @@ var DamageRecipient =
             return emesary.Transmitter.ReceiptStatus_NotProcessed;
         };
         return new_class;
-    }
+    },
+
+    typeID2emesaryID: func (typeID) {
+      if (typeID <= 100) {
+        return typeID + 21;
+      } elsif (typeID <= 180) {
+        return (typeID - 100) * -1 - 40;
+      } else {
+        print("Missile TypeID too large value, max is 180");
+        return 0;
+      }
+    },
+
+    emesaryID2typeID: func (emesaryID) {
+      if (emesaryID > 20) {
+        return emesaryID - 21;
+      } elsif (emesaryID < -40) {
+        return (emesaryID + 40) * -1 + 100;
+      } else {
+        print("Missile emesaryID not a warhead");
+        return 0;
+      }
+    },
 };
 
 damage_recipient = DamageRecipient.new("DamageRecipient");
@@ -1108,6 +1136,46 @@ var fail_systems = func (probability, factor = 100) {#this factor needs tuning a
               }
           }
       }
+      if (rand() < probability and rand() < probability and getprop("sim/flight-model") == "yasim") {
+          setprop("consumables/fuel/tank[0]/level-norm", 0);
+          setprop("consumables/fuel/tank[1]/level-norm", 0);
+          setprop("consumables/fuel/tank[2]/level-norm", 0);
+          setprop("consumables/fuel/tank[3]/level-norm", 0);
+          setprop("consumables/fuel/tank[4]/level-norm", 0);
+          setprop("consumables/fuel/tank[5]/level-norm", 0);
+          setprop("consumables/fuel/tank[6]/level-norm", 0);
+          setprop("consumables/fuel/tank[7]/level-norm", 0);
+          setprop("consumables/fuel/tank[8]/level-norm", 0);
+          setprop("consumables/fuel/tank[9]/level-norm", 0);
+          setprop("consumables/fuel/tank[10]/level-norm", 0);
+          setprop("consumables/fuel/tank[11]/level-norm", 0);
+          # Somtimes these needs to be set too:
+          setprop("consumables/fuel/tank[0]/level-lbs", 0);
+          setprop("consumables/fuel/tank[1]/level-lbs", 0);
+          setprop("consumables/fuel/tank[2]/level-lbs", 0);
+          setprop("consumables/fuel/tank[3]/level-lbs", 0);
+          setprop("consumables/fuel/tank[4]/level-lbs", 0);
+          setprop("consumables/fuel/tank[5]/level-lbs", 0);
+          setprop("consumables/fuel/tank[6]/level-lbs", 0);
+          setprop("consumables/fuel/tank[7]/level-lbs", 0);
+          setprop("consumables/fuel/tank[8]/level-lbs", 0);
+          setprop("consumables/fuel/tank[9]/level-lbs", 0);
+          setprop("consumables/fuel/tank[10]/level-lbs", 0);
+          setprop("consumables/fuel/tank[11]/level-lbs", 0);
+          # these will make the fraction indicator in fuel dialog not work after relocation, but they are needed:
+          setprop("consumables/fuel/tank[0]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[1]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[2]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[3]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[4]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[5]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[6]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[7]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[8]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[9]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[10]/capacity-m3", 0);
+          setprop("consumables/fuel/tank[11]/capacity-m3", 0);
+      }
 
       return failed;
     }
@@ -1135,6 +1203,51 @@ var repairYasim = func {
     foreach(var failure_mode_id; mode_list) {
       FailureMgr.set_failure_level(failure_mode_id, 0);
     }
+}
+
+var setupYasimEngines = func {
+    if (getprop("engines/engine/n1") != nil and !hasMode("engines/engine")) {
+        var e0 = compat_failure_modes.fail_engine("engine");
+        FailureMgr.add_failure_mode("engines/engine", "Engine 1", e0);
+    }
+    if (getprop("engines/engine[1]/n1") != nil and !hasMode("engines/engine[1]")) {
+        var e1 = compat_failure_modes.fail_engine("engine[1]");
+        FailureMgr.add_failure_mode("engines/engine[1]", "Engine 2", e1);
+    }
+    if (getprop("engines/engine[2]/n1") != nil and !hasMode("engines/engine[2]")) {
+        var e2 = compat_failure_modes.fail_engine("engine[2]");
+        FailureMgr.add_failure_mode("engines/engine[2]", "Engine 3", e2);
+    }
+    if (getprop("engines/engine[3]/n1") != nil and !hasMode("engines/engine[3]")) {
+        var e3 = compat_failure_modes.fail_engine("engine[3]");
+        FailureMgr.add_failure_mode("engines/engine[3]", "Engine 4", e3);
+    }
+    if (getprop("engines/engine[4]/n1") != nil and !hasMode("engines/engine[4]")) {
+        var e4 = compat_failure_modes.fail_engine("engine[4]");
+        FailureMgr.add_failure_mode("engines/engine[4]", "Engine 5", e4);
+    }
+    if (getprop("engines/engine[5]/n1") != nil and !hasMode("engines/engine[5]")) {
+        var e5 = compat_failure_modes.fail_engine("engine[5]");
+        FailureMgr.add_failure_mode("engines/engine[5]", "Engine 6", e5);
+    }
+    if (getprop("engines/engine[6]/n1") != nil and !hasMode("engines/engine[6]")) {
+        var e6 = compat_failure_modes.fail_engine("engine[6]");
+        FailureMgr.add_failure_mode("engines/engine[6]", "Engine 7", e6);
+    }
+    if (getprop("engines/engine[7]/n1") != nil and !hasMode("engines/engine[7]")) {
+        var e7 = compat_failure_modes.fail_engine("engine[7]");
+        FailureMgr.add_failure_mode("engines/engine[7]", "Engine 8", e7);
+    }
+}
+settimer(setupYasimEngines, 150);
+
+var hasMode = func (test) {
+  # Tests if a failure mode exist already
+  var modes = FailureMgr.get_failure_modes();
+  foreach(mode;modes) {
+    if (mode["id"]==test) return 1;
+  }
+  return 0;
 }
 
 setlistener("/sim/signals/reinit", repairYasim);
@@ -1440,6 +1553,19 @@ var writeDamageLog = func {
   io.close(file);
 }
 
+var unitTest = func {
+  for (var i= 0; i<=180;i+=1) {
+    var em = DamageRecipient.typeID2emesaryID(i);
+    var b = DamageRecipient.emesaryID2typeID(em);
+    if (b != i) {
+      print("unit test failed for index "~i);
+      return;
+    }
+  }
+  print("unit test passed");
+}
+#unitTest();
+
 setlistener("sim/signals/exit", writeDamageLog, 0, 0);
 
 #screen.property_display.add("payload/armament/MAW-bearing");
@@ -1455,7 +1581,7 @@ setlistener("sim/signals/exit", writeDamageLog, 0, 0);
 #screen.property_display.add("payload/armament/spike-gnd-02");
 #screen.property_display.add("payload/armament/spike-gnd-05");
 #screen.property_display.add("payload/armament/spike-gnd-06");
-#screen.property_display.add("payload/armament/spike-gnd-11");
+#screen.property_display.add("payload/armament/spike-gnd-17");
 #screen.property_display.add("payload/armament/spike-gnd-23");
 #screen.property_display.add("payload/armament/spike-gnd-p2");
 #screen.property_display.add("payload/armament/spike-gnd-nk");

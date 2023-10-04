@@ -4,19 +4,19 @@
     "path": "Nasal/vector.nas"
   },
   "armament-notification": {
-    "version": null,
+    "version": "1.1.0",
     "path": "Nasal/emesary/ArmamentNotification.nas"
   },
   "geo-bridged-transmitter": {
-    "version": null,
+    "version": "1.0.1",
     "path": "Nasal/emesary/GeoBridgedTransmitter.nas"
   },
   "missile-code": {
-    "version": null,
+    "version": "1.1.2",
     "path": "Nasal/payload/missiles.nas"
   },
   "damage": {
-    "version": null,
+    "version": "1.3.1",
     "path": "Nasal/failure/damage.nas"
   },
   "crash-and-stress": {
@@ -28,15 +28,15 @@
     "path": "Nasal/radar/radar-system.nas"
   },
   "rcs-mand": {
-    "version": null,
+    "version": "1.0.3",
     "path": "Nasal/radar/rcs_mand.nas"
   },
   "iff": {
-    "version": null,
+    "version": "1.1.0",
     "path": "Nasal/radar/iff.nas"
   },
   "datalink": {
-    "version": null,
+    "version": "1.1.0",
     "path": "Nasal/radios/datalink.nas"
   }
 }
