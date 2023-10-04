@@ -1873,6 +1873,7 @@
         </blackout>
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
+            <file>Aircraft/JA37/Nasal/vector-custom.nas</file>
         </vector>
         <dap>
             <file>Aircraft/JA37/Nasal/data-panel.nas</file>

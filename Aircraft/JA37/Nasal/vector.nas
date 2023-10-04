@@ -2,7 +2,7 @@ var Math = {
     #
     # Authors: Nikolai V. Chr, Axel Paccalin.
     #
-    # Version 2.01
+    # Version 2.02
     #
     # When doing euler coords. to cartesian: +x = forw, +y = left,  +z = up.
     # FG struct. coords:                     +x = back, +y = right, +z = up.
@@ -287,13 +287,13 @@ var Math = {
       }
       if (coord1.alt() != coord2.alt()) {
         me.d12 = coord1.direct_distance_to(coord2);
-        me.coord3 = geo.Coord.new(coord1);
-        me.coord3.set_alt(coord1.alt()-me.d12*0.5);# this will increase the area of the triangle so that rounding errors dont get in the way.
-        me.d13 = coord1.alt()-me.coord3.alt();        
         if (me.d12 == 0) {
             # on top of each other, maybe rounding error..
             return 0;
         }
+        me.coord3 = geo.Coord.new(coord1);
+        me.coord3.set_alt(coord1.alt()-me.d12*5);# this will increase the area of the triangle so that rounding errors dont get in the way. Changed to 5 May 2023, which gives more presision than 0.5 when c1 and c2 are very close.
+        me.d13 = coord1.alt()-me.coord3.alt();        
         me.d32 = me.coord3.direct_distance_to(coord2);
         if (math.abs(me.d13)+me.d32 < me.d12) {
             # rounding errors somewhere..one triangle side is longer than other 2 sides combined.
@@ -427,27 +427,6 @@ var Math = {
       return me.orthogonalProjection(me.opposite(me.psdt_tgtOrig), me.psdt_tgtSpeed) / me.magnitudeVector(me.psdt_tgtSpeed);
     },
 
-    # forward and up are vectors defining a 3D frame.
-    # Compute azimuth and elevation of 'vector' in this frame.
-    #
-    # remarks: unpredictable result if up / forward are not orthogonal.
-    # Azimuth and elevation are in radian.
-    # Elevation is the angle (vector, up), 90 if vector and up are aligned, = -90 if opposed.
-    # Azimuth is the angle (vector, forward) after projection orthogonally to 'up'.
-    #
-    vectorAziElevInFwdUpFrame: func(vec, forward, up) {
-        me.elev = 90 - me.angleBetweenVectors(vec, up);
-        vec = me.projVectorOnPlane(up, vec);
-        if (me.magnitudeVector(vec) < 0.0001) {
-            me.azi = 0;
-        } else {
-            me.azi = me.angleBetweenVectors(vec, forward);
-            me.sign = me.dotProduct(up, me.crossProduct(vec, forward));
-            if (me.sign < 0) me.azi = -me.azi;
-        }
-        return [me.azi, me.elev];
-    },
-
 # rotation matrices
 #
 #
@@ -471,43 +450,6 @@ var Math = {
 #
 #
 
-};
-
-
-### Own aircraft position and attitude, stored as XYZ vectors.
-#
-# This allows to compute quickly azimuth / elevation in local frame to a coordinate.
-
-var AircraftPosition = {
-    time_prop: props.globals.getNode("sim/time/elapsed-sec"),
-    last_time: -1,
-
-    update: func {
-        me.ac_pos = geo.aircraft_position();
-        var tmp = aircraftToCart({x: 1000, y: 0, z: 0, });
-        me.xyz_vec_fwd = [
-            tmp.x - me.ac_pos.x(),
-            tmp.y - me.ac_pos.y(),
-            tmp.z - me.ac_pos.z(),
-        ];
-        tmp = aircraftToCart({x: 0, y: 0, z: -1000, });
-        me.xyz_vec_up = [
-            tmp.x - me.ac_pos.x(),
-            tmp.y - me.ac_pos.y(),
-            tmp.z - me.ac_pos.z(),
-        ];
-    },
-
-    coordToLocalAziElev: func(coord) {
-        me.time = me.time_prop.getValue();
-        if (me.time != me.last_time) {
-            me.update();
-            me.last_time = me.time;
-        }
-
-        me.vec = Math.minus(coord.xyz(), me.ac_pos.xyz());
-        return Math.vectorAziElevInFwdUpFrame(me.vec, me.xyz_vec_fwd, me.xyz_vec_up);
-    },
 };
 
 
