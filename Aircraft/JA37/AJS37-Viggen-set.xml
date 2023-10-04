@@ -346,6 +346,7 @@
             <file>Aircraft/JA37/Nasal/radar/ps37_mode.nas</file>
         </ps37_mode>
         <radar>
+            <file>Aircraft/JA37/Nasal/radar/radar-system-database.nas</file>
             <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
             <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
             <file>Aircraft/JA37/Nasal/radar/ps37.nas</file>

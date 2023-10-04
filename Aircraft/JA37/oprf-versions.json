@@ -24,8 +24,12 @@
     "path": "Nasal/failure/crash-and-stress.nas"
   },
   "radar-system": {
-    "version": null,
+    "version": "2.0.1",
     "path": "Nasal/radar/radar-system.nas"
+  },
+  "radar-system-database": {
+    "version": "1.0.9",
+    "path": "Nasal/radar/radar-system-database.nas"
   },
   "rcs-mand": {
     "version": "1.0.3",

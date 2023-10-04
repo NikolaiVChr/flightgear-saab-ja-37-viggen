@@ -383,6 +383,7 @@
             <file>Aircraft/JA37/Nasal/radios/fighter-link.nas</file>
         </fighterlink>
         <radar>
+            <file>Aircraft/JA37/Nasal/radar/radar-system-database.nas</file>
             <file>Aircraft/JA37/Nasal/radar/radar-system.nas</file>
             <file>Aircraft/JA37/Nasal/radar/radar.nas</file>
             <file>Aircraft/JA37/Nasal/radar/ps46.nas</file>
