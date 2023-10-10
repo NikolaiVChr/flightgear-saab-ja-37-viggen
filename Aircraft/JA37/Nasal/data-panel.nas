@@ -1082,7 +1082,7 @@ var serialize = func(m) {
     ret = ret~sprintf("TI,179,%.6f,%.6f|",beLaLo[1],beLaLo[0]);
   }
   ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
-  ret = ret~sprintf("FPLDATA,%d,%d,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"),getprop("ja37/hud/qnh-mode"),getprop("ja37/hud/display-alt-window"),getprop("ja37/hud/display-alt-base"));
+  ret = ret~sprintf("FPLDATA,%d,%d,%d,%d,%d|",getprop("ja37/hud/units-metric"),getprop("ja37/navigation/gps-installed"),getprop("ja37/hud/qnh-mode"),getprop("ja37/hud/display-alt-window"),getprop("ja37/hud/display-alt-base"));
   ret = ret~sprintf("REG,%d,%d,%d,%d|",getprop("ja37/sound/floor-ft"),getprop("fdm/jsbsim/fcs/max-alpha-deg"),getprop("ja37/sound/loadfactor-percent"),getprop("ja37/hud/display-terrain-height"));
   ret = ret~sprintf("FUEL,%d|",getprop("ja37/systems/fuel-warning-extra-percent"));
   ret = ret~sprintf("EP12,%d,%d,%d,%d,%d,%d,%d,%d,%d|",TI.ti.SVYactive,TI.ti.SVYscale,TI.ti.SVYrmax,TI.ti.SVYhmax,TI.ti.SVYsize,TI.ti.SVYinclude,TI.ti.ECMon,TI.ti.lnk99,TI.ti.displayFlight);
