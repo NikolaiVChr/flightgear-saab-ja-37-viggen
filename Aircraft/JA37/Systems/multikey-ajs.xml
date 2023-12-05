@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PropertyList>
+  <!-- Nav/data panels -->
+
+  <key n="78">
+    <name>N</name>
+    <desc>Navpanel</desc>
+
+    <key n="98">
+      <name>b</name>
+      <desc>Waypoint B[1-9]</desc>
+
+      <key n="901">
+        <name>%1u</name>
+        <desc>Waypoint B[1-9]</desc>
+        <exit/>
+        <binding>
+          <command>nasal</command>
+          <script>
+            var wp = int(arg[0]);
+            if (variant.AJS and wp != nil and wp >= 1) navpanel.nav_button(wp);
+          </script>
+        </binding>
+      </key>
+
+      <key n="120">
+        <name>x</name>
+        <desc>Waypoint BX[1-5]</desc>
+
+        <key n="901">
+          <name>%1u</name>
+          <desc>Waypoint BX[1-5]</desc>
+          <exit/>
+          <binding>
+            <command>nasal</command>
+            <script>
+              var wp = int(arg[0]);
+              if (variant.AJS and wp != nil and wp >= 1) {
+                navpanel.bx_button();
+                navpanel.dp_button(wp);
+              }
+            </script>
+          </binding>
+        </key>
+      </key>
+    </key>
+
+    <key n="108">
+      <name>l</name>
+      <desc>Airbase L/LS</desc>
+
+      <key n="108">
+        <name>l</name>
+        <desc>L (destination)</desc>
+        <exit></exit>
+        <binding>
+          <command>nasal</command>
+          <script> if (variant.AJS) navpanel.l_button(); </script>
+        </binding>
+      </key>
+
+      <key n="115">
+        <name>s</name>
+        <desc>LS (departure)</desc>
+        <exit></exit>
+        <binding>
+          <command>nasal</command>
+          <script> if (variant.AJS) navpanel.ls_button(); </script>
+        </binding>
+      </key>
+    </key>
+  </key>
+</PropertyList>

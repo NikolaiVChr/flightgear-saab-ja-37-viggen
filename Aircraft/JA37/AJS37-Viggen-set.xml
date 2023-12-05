@@ -258,8 +258,13 @@
         <key n="67"><!-- C -->
           <repeatable>true</repeatable>
         </key>
+
+        <multikey n="0">
+            <key n="65" include="Aircraft/JA37/Systems/multikey-ajs.xml"/>
+        </multikey>
       </keyboard>
     </input>
+
     <!--**********************************************************************
 
                                           Payload
