@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PropertyList>
+  <!-- General -->
+
   <key n="99">
     <name>c</name>
     <desc>Toggle chocks</desc>
@@ -40,6 +42,23 @@
       <script>ja37.autostarttimer();</script>
     </binding>
   </key>
+
+  <key n="113">
+    <name>q</name>
+    <desc>Eject</desc>
+
+    <key n="33">
+      <name>!</name>
+      <desc>Eject</desc>
+      <exit/>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.eject();</script>
+      </binding>
+    </key>
+  </key>
+
+  <!-- Payload and fuel -->
 
   <key n="76">
     <name>L</name>
