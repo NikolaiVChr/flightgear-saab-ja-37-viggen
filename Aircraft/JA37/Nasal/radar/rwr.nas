@@ -124,14 +124,17 @@ var radar_types = {
     "EC-137R":          { range:200, scan_freq: 450, scan_period: 4.2, scan_length: 0.5, lock_freq: 1900, half_angle: 180 },
     "EC-137D":          "EC-137R",
     "E-3":              "EC-137R",
+    "E-3R":             "EC-137R",
     "A-50":             "EC-137R",
     # Scan: P-40, lock: SNR-125
     "buk-m2":           { range: 120, scan_freq: 400, scan_period: 3.7, scan_length: 0.5, lock_freq: 1750, half_angle: 180 },
+    "buk-m1-2":         "buk-m2",
     "SA-6":             "buk-m2",
     # Scan: P-37, lock: SNR-75
     "S-75":             { range: 200, scan_freq: 375, scan_period: 9.5, scan_length: 0.8, lock_freq: 1650, half_angle: 180 },
     "s-200":            "S-75",
     "s-300":            "S-75",
+    "SA-3":             "S-75",
     # Scan: AN/MPQ-35, lock: AN/
     "MIM104D":          { range: 200, scan_freq: 800, scan_period: 7, scan_length: 0.8, lock_freq: 2000, half_angle: 180 },
     "ZSU-23-4M":        { range: 40, scan_freq: 700, scan_period: 3, scan_length: 0.5, lock_freq: 2400, half_angle: 180 },
