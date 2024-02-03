@@ -107,6 +107,8 @@ var input = utils.property_map({
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedTrueKt:      "fdm/jsbsim/velocities/vtrue-kts",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
+  speedRoll1:       "gear/gear[1]/rollspeed-ms",
+  speedRoll2:       "gear/gear[2]/rollspeed-ms",
   starter:          "controls/engines/engine[0]/starter-cmd",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
@@ -575,8 +577,10 @@ var Saab37 = {
     }
 
     #warning if max rolling speed is exceeded
-    me.max = getprop("limits/vroll");
-    if ((input.wow0.getValue() == TRUE or input.wow2.getValue() == TRUE) and me.max != nil and getprop("instrumentation/airspeed-indicator/indicated-speed-kt") > me.max) {
+    me.max = getprop("limits/vroll") * KT2MPS;
+    if (me.max != nil
+        and ((input.wow1.getBoolValue() and input.speedRoll1.getValue() > me.max)
+             or (input.wow2.getBoolValue() and input.speedRoll2.getValue() > me.max))) {
       screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
     }
 
