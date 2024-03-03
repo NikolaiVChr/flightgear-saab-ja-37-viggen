@@ -375,7 +375,7 @@ var Missile = {
         fireLog.push("Self: "~phrase);
         damage.damageLog.push(phrase);
 
-        if (me.mf) me.weapon.mfFunction = me.mf;
+        if (me.mf != nil) me.weapon.mfFunction = me.mf;
 
         me.station.fireWeapon(0, me.at_everything ? radar.get_complete_list() : nil);
         if (me.release_sound) play_release_sound();
