@@ -113,7 +113,7 @@ name "digit1"
 data 8
 Cube.012
 crease 50.0
-texture "digits-data.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07636 0.0002 0.00025
 -0.05768 0.0002 0.00025
@@ -133,7 +133,7 @@ name "digit10"
 data 8
 Cube.016
 crease 50.0
-texture "digits-data.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07636 0.0002 0.01325
 -0.05768 0.0002 0.01325
@@ -153,7 +153,7 @@ name "digit100"
 data 8
 Cube.017
 crease 50.0
-texture "digits-data.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07636 0.0002 0.02625
 -0.05768 0.0002 0.02625
@@ -173,7 +173,7 @@ name "digit1000"
 data 8
 Cube.018
 crease 50.0
-texture "digits-data.png"
+texture "../Common/digits-data.png"
 numvert 4
 -0.07636 0.0002 0.03925
 -0.05768 0.0002 0.03925
