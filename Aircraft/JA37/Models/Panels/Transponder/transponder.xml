@@ -6,19 +6,11 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>panel</object-name>
+        <object-name>panel_back</object-name>
         <object-name>ident</object-name>
         <!--<object-name>lampRespond</object-name>
         <object-name>lampErr</object-name>-->
-        <object-name>Border</object-name>
         <object-name>test</object-name>
-        <object-name>Dial1</object-name>
-        <object-name>Dial10</object-name>
-        <object-name>Dial100</object-name>
-        <object-name>Dial1000</object-name>
-        <object-name>Knob1</object-name>
-        <object-name>Knob10</object-name>
-        <object-name>Knob100</object-name>
-        <object-name>Knob1000</object-name>
         <object-name>switchMode</object-name>
         <object-name>switchEnable</object-name>
     </effect>
@@ -28,9 +20,19 @@
         <object-name>glass</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-light</inherits-from>
+        <object-name>digit1</object-name>
+        <object-name>digit10</object-name>
+        <object-name>digit100</object-name>
+        <object-name>digit1000</object-name>
+    </effect>
+
     <animation>
-        <type>noshadow</type>
-        <object-name>glass</object-name>
+        <type>material</type>
+        <object-name>panel</object-name>
+        <condition><property>/ja37/effect/swedish-labels</property></condition>
+        <texture>transponder-se.png</texture>
     </animation>
 
     <params>
@@ -54,234 +56,67 @@
 
     <animation>
         <type>material</type>
-        <object-name>Dial1</object-name>
-        <object-name>Dial10</object-name>
-        <object-name>Dial100</object-name>
-        <object-name>Dial1000</object-name>
-        <condition>
-            <property>/instrumentation/transponder/switch-power</property>
-        </condition>
+        <object-name>digit1</object-name>
+        <object-name>digit10</object-name>
+        <object-name>digit100</object-name>
+        <object-name>digit1000</object-name>
         <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop>
-            <green-prop>instrumentation/instrumentation-light/g</green-prop>
-            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>controls/lighting/fr29-norm</factor-prop>
         </emission>
     </animation>
 
     <animation>
-        <type>rotate</type>
-        <object-name>Dial1000</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
-        <property alias="../../params/digit3"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.010171 </z-m>
-            <y-m> -0.01295 </y-m>
-            <x-m>  0.00079415 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>knob</type>
-        <object-name>Knob1000</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
-        <property alias="../../params/digit3"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.010171 </z-m>
-            <y-m> -0.01295 </y-m>
-            <x-m> -0.0004585 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-        <visible>true</visible>
-        <drag-scale-px>20</drag-scale-px>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
-                <property alias="../../../../params/digit3"/>
-                <factor>1</factor>
-                <min>0</min>
-                <max>8</max>
-                <wrap>true</wrap>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>transponder-squawk</tooltip-id>
-                <label>Squawk: %.4d</label>
-                <property>instrumentation/transponder/id-code</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>Dial100</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
-        <property alias="../../params/digit2"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.0028 </z-m>
-            <y-m>  0.00595 </y-m>
-            <x-m>  0.00079415 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>knob</type>
-        <object-name>Knob100</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
-        <property alias="../../params/digit2"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.010171 </z-m>
-            <y-m>  0.00595 </y-m>
-            <x-m> -0.0004585 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-        <visible>true</visible>
-        <drag-scale-px>20</drag-scale-px>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
-                <property alias="../../../../params/digit2"/>
-                <factor>1</factor>
-                <min>0</min>
-                <max>8</max>
-                <wrap>true</wrap>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>transponder-squawk</tooltip-id>
-                <label>Squawk: %.4d</label>
-                <property>instrumentation/transponder/id-code</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>Dial10</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
-        <property alias="../../params/digit1"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.0028 </z-m>
-            <y-m>  0.02485 </y-m>
-            <x-m>  0.00079415 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>knob</type>
-        <object-name>Knob10</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
-        <property alias="../../params/digit1"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.010171 </z-m>
-            <y-m>  0.02485 </y-m>
-            <x-m> -0.0004585 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-        <visible>true</visible>
-        <drag-scale-px>20</drag-scale-px>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
-                <property alias="../../../../params/digit1"/>
-                <factor>1</factor>
-                <min>0</min>
-                <max>8</max>
-                <wrap>true</wrap>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>transponder-squawk</tooltip-id>
-                <label>Squawk: %.4d</label>
-                <property>instrumentation/transponder/id-code</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>Dial1</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
+        <type>textranslate</type>
+        <object-name>digit1</object-name>
         <property alias="../../params/digit0"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.0028 </z-m>
-            <y-m>  0.04375 </y-m>
-            <x-m>  0.00079415 </x-m>
-        </center>
+        <factor>0.083333</factor>
         <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>digit10</object-name>
+        <property alias="../../params/digit1"/>
+        <factor>0.083333</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>digit100</object-name>
+        <property alias="../../params/digit2"/>
+        <factor>0.083333</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>digit1000</object-name>
+        <property alias="../../params/digit3"/>
+        <factor>0.083333</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
         </axis>
     </animation>
 
     <animation>
         <type>knob</type>
-        <object-name>Knob1</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
-        <property alias="../../params/digit0"/>
-        <factor>45</factor>
-        <center>
-            <z-m>  0.010171 </z-m>
-            <y-m>  0.04375 </y-m>
-            <x-m> -0.0004585 </x-m>
-        </center>
-        <axis>
-            <x>  0 </x>
-            <y>  0 </y>
-            <z> -1 </z>
-        </axis>
-        <visible>true</visible>
-        <drag-scale-px>20</drag-scale-px>
+        <object-name>digit1</object-name>
+        <drag-direction>vertical</drag-direction>
         <action>
             <binding>
                 <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
                 <property alias="../../../../params/digit0"/>
-                <factor>1</factor>
                 <min>0</min>
                 <max>8</max>
                 <wrap>true</wrap>
@@ -290,9 +125,71 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>transponder-squawk</tooltip-id>
-                <label>Squawk: %.4d</label>
-                <property>instrumentation/transponder/id-code</property>
+                <tooltip-id>tr_code</tooltip-id>
+                <label>Transponder code</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>digit10</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property alias="../../../../params/digit1"/>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>tr_code</tooltip-id>
+                <label>Transponder code</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>digit100</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property alias="../../../../params/digit2"/>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>tr_code</tooltip-id>
+                <label>Transponder code</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>digit1000</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property alias="../../../../params/digit3"/>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>tr_code</tooltip-id>
+                <label>Transponder code</label>
             </binding>
         </hovered>
     </animation>
@@ -414,7 +311,7 @@
     <animation>
         <type>pick</type>
         <visible>true</visible>
-        <object-name>test</object-name>
+        <object-name>test_pick</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -455,7 +352,7 @@
     <animation>
         <type>pick</type>
         <visible>true</visible>
-        <object-name>ident</object-name>
+        <object-name>ident_pick</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>

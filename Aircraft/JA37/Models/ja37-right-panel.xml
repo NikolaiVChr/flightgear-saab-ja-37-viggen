@@ -138,8 +138,8 @@
     <path>Aircraft/JA37/Models/Panels/Transponder/transponder.xml</path>
     <name>Transponder</name>
     <offsets>
-      <x-m>  0.6725</x-m>
-      <y-m> -0.0770</y-m>
+      <x-m>  0.675</x-m>
+      <y-m> -0.065</y-m>
       <z-m> -0.005</z-m>
     </offsets>
   </model>
@@ -157,7 +157,7 @@
     </overlay>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.7125</x-m>
+      <x-m>  0.715</x-m>
       <y-m> -0.02</y-m>
       <z-m>  0</z-m>
     </offsets>
@@ -167,7 +167,7 @@
     <name>switch-nav-light</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.7125</x-m>
+      <x-m>  0.715</x-m>
       <y-m> -0.08</y-m>
       <z-m>  0</z-m>
     </offsets>
@@ -185,7 +185,7 @@
     </overlay>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.7125</x-m>
+      <x-m>  0.715</x-m>
       <y-m> -0.110</y-m>
       <z-m>  0</z-m>
     </offsets>
