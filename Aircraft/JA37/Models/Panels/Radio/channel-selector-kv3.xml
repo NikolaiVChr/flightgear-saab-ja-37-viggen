@@ -7,6 +7,7 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>panel</object-name>
+        <object-name>panel_back</object-name>
         <object-name>del</object-name>
         <object-name>avb</object-name>
         <object-name>sam</object-name>
@@ -52,7 +53,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit1</object-name>
-        <property>instrumentation/kv3/digit[3]</property>
+        <property>instrumentation/kv3/digit[0]</property>
         <factor>0.083333</factor>
         <axis>
             <x>1</x>
@@ -62,16 +63,6 @@
     <animation>
         <type>textranslate</type>
         <object-name>digit10</object-name>
-        <property>instrumentation/kv3/digit[2]</property>
-        <factor>0.083333</factor>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-        </axis>
-    </animation>
-    <animation>
-        <type>textranslate</type>
-        <object-name>digit100</object-name>
         <property>instrumentation/kv3/digit[1]</property>
         <factor>0.083333</factor>
         <axis>
@@ -81,13 +72,111 @@
     </animation>
     <animation>
         <type>textranslate</type>
-        <object-name>digit1000</object-name>
-        <property>instrumentation/kv3/digit[0]</property>
+        <object-name>digit100</object-name>
+        <property>instrumentation/kv3/digit[2]</property>
         <factor>0.083333</factor>
         <axis>
             <x>1</x>
             <y>0</y>
         </axis>
+    </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>digit1000</object-name>
+        <property>instrumentation/datalink/ident</property>
+        <factor>0.083333</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>digit1000</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/datalink/ident</property>
+                <min>0</min>
+                <max>10</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>kv3_mod</tooltip-id>
+                <label>KV3 Fighter link identifier</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>digit100</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/kv3/digit[2]</property>
+                <min>0</min>
+                <max>10</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>kv3_canal</tooltip-id>
+                <label>KV3 Fighter link canal</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>digit10</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/kv3/digit[1]</property>
+                <min>0</min>
+                <max>10</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>kv3_canal</tooltip-id>
+                <label>KV3 Fighter link canal</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>digit1</object-name>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/kv3/digit[0]</property>
+                <min>0</min>
+                <max>10</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>kv3_canal</tooltip-id>
+                <label>KV3 Fighter link canal</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -107,18 +196,7 @@
                     <value>0</value>
                 </binding>
             </mod-up>
-            <binding>
-                <command>nasal</command>
-                <script>freq_sel.kv3_clear();</script>
-            </binding>
         </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>del</tooltip-id>
-                <label>Clear and input fighter link channel</label>
-            </binding>
-        </hovered>
     </animation>
     <animation>
        <type>translate</type>

@@ -10,7 +10,6 @@ var input = utils.property_map({
     kv1_base:           "instrumentation/kv1/button-bas",
     kv1_button:         "instrumentation/kv1/button-selected",
     kv3_channel:        "instrumentation/datalink/channel",
-    kv3_ident:          "instrumentation/datalink/ident",
 });
 
 
@@ -351,21 +350,6 @@ var kv1_set_new_base = func(digits) {
     update_fr29_freq();
 }
 
-# Datalink channel
-
-var kv3_input_to_channel = func(digits) {
-    # Just concatenate the digits
-    return digits[0]~digits[1]~digits[2]~digits[3];
-}
-
-var kv3_set_new_channel = func(digits) {
-    var channel = num(digits[1]~digits[2]~digits[3]);
-    var ident = num(digits[0]);
-
-    input.kv3_channel.setValue(channel);
-    input.kv3_ident.setValue(ident);
-}
-
 
 ## KV1 input screens
 
@@ -374,10 +358,6 @@ var KV1_DIGIT_OFFSET = 0;
 var KV1_MINUS = 10;
 var KV1_ERROR = 11;
 var KV1_BLANK = 12;
-
-var KV3_DIGIT_OFFSET = 0;
-var KV3_BLANK = 10;
-var KV3_MINUS = 11;
 
 var kv1_freq_input = InputScreen.new("instrumentation/kv1/digit-mhz", 5, KV1Keypad,
     KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
@@ -390,10 +370,6 @@ var kv1_group_input = InputScreen.new("instrumentation/kv1/digit-nr", 3, KV1Keyp
 var kv1_base_input = InputScreen.new("instrumentation/kv1/digit-bas", 3, KV1Keypad,
     KV1_DIGIT_OFFSET, KV1_BLANK, KV1_MINUS, KV1_ERROR,
     kv1_set_new_base, kv1_base_input_validate, TRUE);
-
-var kv3_input = InputScreen.new("instrumentation/kv3/digit", 4, KV1Keypad,
-    KV3_DIGIT_OFFSET, KV3_BLANK, KV3_MINUS, 0,
-    kv3_set_new_channel, nil, FALSE);
 
 # Reset a display to last programmed value when selecting it.
 setlistener(input.kv1_freq, func (node) {
@@ -425,17 +401,12 @@ var kv1_clear_group = func {
 var kv1_clear_base = func {
     if (fr29_on()) kv1_base_input.clear();
 }
-var kv3_clear = func {
-    if (fr29_on()) kv3_input.clear();
-}
-
 # Reset inputs on power on
 setlistener(power.prop.dcBatt2Bool, func (node) {
     if (node.getBoolValue()) {
         kv1_freq_input.reset();
         kv1_group_input.reset();
         kv1_base_input.reset();
-        kv3_input.reset();
     }
 }, 1, 0);
 
@@ -703,12 +674,27 @@ var channel_update_callback = func {
 }
 
 
+### KV3 datalink
+
+var KV3_digits = props.globals.getNode("instrumentation/kv3").getChildren("digit");
+
+var update_dl_channel = func {
+    input.kv3_channel.setValue(
+        KV3_digits[0].getValue()
+        + KV3_digits[1].getValue() * 10
+        + KV3_digits[2].getValue() * 100);
+}
+
+
 
 var init = func {
     me31.init();
     kv1_freq_input.set_content([1,1,8,3,0]);
     kv1_group_input.set_content([0,0,0]);
     kv1_base_input.set_content([0,0,0]);
-    kv3_input.set_content([0,0,0,0]);
     me31.set_content(me31.MODE.FREQ, [1,1,8,3,0]);
+
+    foreach (var prop; KV3_digits) {
+        setlistener(prop, update_dl_channel);
+    }
 }
