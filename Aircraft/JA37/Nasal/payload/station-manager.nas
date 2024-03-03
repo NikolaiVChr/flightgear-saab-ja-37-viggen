@@ -153,14 +153,6 @@ var Station = {
 							}
 							return {};
 						};
-					} elsif (me.weaponName == "RB-99") {
-						mf = func (struct) {
-							if (struct.dist_m != -1 and struct.dist_m*M2NM < 10 and struct.guidance == "sample") {
-								fire_control.fireLog.push("RB-99: Pitbull");
-								return {"guidance": "radar", "abort_midflight_function": 1};
-							}
-							return {};
-						};
 					} elsif (me.weaponName == "MICA-EM") {
 						mf = func (struct) {
 							if (struct.guidance == "inertial" and !struct.hasTarget) {

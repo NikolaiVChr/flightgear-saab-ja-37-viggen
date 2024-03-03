@@ -200,8 +200,10 @@ var Missile = {
     #   fire_multi_press: (bool) Allow firing several weapons without safing the trigger.
     #   can_start_right: (bool) The AJS ground panel L/R switch is taken in account to choose the first fired side.
     #   release_sound: (bool) Play generic drop sound at release (independent from missile.nas engine start sound).
+    #   midflight: (function) Midflight callback from missile.nas
     new: func(type, multi_types=nil, falld_last=0, fire_delay=0, fire_multi_delay=0, hold_trigger=0,
-              at_everything=0, need_lock=0, cycling=1, fire_multi_press=0, can_start_right=0, release_sound=0) {
+              at_everything=0, need_lock=0, cycling=1, fire_multi_press=0, can_start_right=0, release_sound=0,
+              midflight=nil) {
         var w = { parents: [Missile, WeaponLogic.new(type, multi_types)], };
         w.selected = nil;
         w.station = nil;
@@ -217,6 +219,7 @@ var Missile = {
         w.fire_multi_press = fire_multi_press;
         w.can_start_right = can_start_right;
         w.release_sound = release_sound;
+        w.mf = midflight;
 
         if (w.fire_delay > 0 or w.fire_multi_delay > 0) {
             w.release_timer = maketimer(w.fire_delay, w, w.release_weapon);
@@ -371,6 +374,8 @@ var Missile = {
         }
         fireLog.push("Self: "~phrase);
         damage.damageLog.push(phrase);
+
+        if (me.mf) me.weapon.mfFunction = me.mf;
 
         me.station.fireWeapon(0, me.at_everything ? radar.get_complete_list() : nil);
         if (me.release_sound) play_release_sound();
@@ -987,16 +992,24 @@ if (variant.JA) {
 
     # Common missile parameters on JA
     var JA_Missile = {
-        new: func(type) {
-            return Missile.new(type:type, fire_delay: 0.5, hold_trigger:1, need_lock:1);
+        new: func(type, mf=nil) {
+            return Missile.new(type:type, fire_delay: 0.5, hold_trigger:1, need_lock:1, midflight:mf);
         }
+    };
+
+    var rb99_mf = func (state) {
+        if (state.dist_m != -1 and state.dist_m*M2NM < 10 and state.guidance == "sample") {
+            fire_control.fireLog.push("RB-99: Pitbull");
+            return {"guidance": "radar", "abort_midflight_function": 1};
+        }
+        return {};
     };
 
     # List of weapon types.
     var weapons = [
         SubModelWeapon.new(type:"M75"),
         JA_Missile.new("RB-74"),
-        JA_Missile.new("RB-99"),
+        JA_Missile.new("RB-99", rb99_mf),
         JA_Missile.new("RB-71"),
     ];
 
