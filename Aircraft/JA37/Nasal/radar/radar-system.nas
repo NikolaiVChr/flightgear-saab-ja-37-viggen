@@ -49,7 +49,7 @@
 # Needs rcs.nas, missile-code.nas and vector.nas.
 # Optionally datalink.nas and iff.nas
 #
-# GPL 2.0
+# GPL 2.0 or later
 
 
 var AIR = 0;
@@ -252,6 +252,10 @@ var AIToNasal = {
         } else {
         	me.callsign = me.callsign.getValue();
         }
+        if(me.callsign != nil and multiplayer.ignore[me.callsign] == 1) {
+        	me.nextReadTreeFrame();
+		    return;
+		}
         if (me.callsign != nil and me.callsign != "" and me.callsign == DualSeaterCallsign.getValue()) {
         	# Ignore the dual seater
         	me.nextReadTreeFrame();
@@ -811,13 +815,17 @@ var AIContact = {
 	    #print((me.getCoord().alt()*M2FT)~": "~me.get_Callsign()~" / "~me.model~" is type "~me.type);
 
 	    if (enable_tacobject) {
+	    	if (me["tacobj"] != nil) {
+	    		me.tacobj.valid = 0;
+	    	}
 		    me.tacobj = {parents: [tacview.tacobj]};
-	        me.tacobj.tacviewID = left(md5(me.getUnique()),5);
+	        me.tacobj.tacviewID = left(md5(me.getUnique()),6);
 	        me.tacobj.valid = 1;
 	    }
 	},
 
 	update: func (newC) {
+		# will only happen if me.equals() is true
 		if (me.prop.getPath() != newC.prop.getPath()) {
 			me.prop = newC.prop;
 			me.needInit = 1;
@@ -2060,7 +2068,8 @@ var OmniRadar = {
 		if (!me.enabled) return;
 		me.vector_aicontacts_for = [];
 		foreach(contact ; me.vector_aicontacts) {
-			if (!contact.isVisible()) {
+			me.seeSpike = contact.isSpikingMe();# no matter what, if spiking us, we need to see it on rwr.
+			if (!contact.isVisible() and !me.seeSpike) {
 				# This is not expensive as terrain manager set this in a loop.
 				continue;
 			}
@@ -2068,7 +2077,7 @@ var OmniRadar = {
 				continue;
 			}
 			me.rangeDirectNM = contact.getRangeDirect()*M2NM;
-			if (me.rangeDirectNM > me.max_dist_nm) {
+			if (me.rangeDirectNM > me.max_dist_nm and !me.seeSpike) {
 				continue;
 			}
 			me.bearing = contact.getBearing();
@@ -2076,7 +2085,7 @@ var OmniRadar = {
 			me.test = me.bearing+180-me.heading;# The deviation of us seen from his nose
 			me.tp = contact.isTransponderEnable();
 			me.radar = contact.isRadarEnable();
-			me.seeSpike = contact.isSpikingMe();
+			
 			me.seeRadar = me.radar and math.abs(geo.normdeg180(me.test)) < getRadarFieldRadius(contact.getModel());
 			me.seeTp = me.tp and me.rangeDirectNM < me.tp_dist_nm;
             if (me.seeRadar or me.seeSpike or me.seeTp) {

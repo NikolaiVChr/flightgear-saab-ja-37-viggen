@@ -12,27 +12,27 @@
     "path": "Nasal/emesary/GeoBridgedTransmitter.nas"
   },
   "missile-code": {
-    "version": "1.1.2",
+    "version": "1.1.7",
     "path": "Nasal/payload/missiles.nas"
   },
   "station-manager": {
-    "version": "1.1.0",
+    "version": "1.2.1",
     "path": "Nasal/payload/station-manager.nas"
   },
   "damage": {
-    "version": "1.4.4",
+    "version": "1.4.11",
     "path": "Nasal/failure/damage.nas"
   },
   "crash-and-stress": {
-    "version": "0.1.9",
+    "version": "0.1.10",
     "path": "Nasal/failure/crash-and-stress.nas"
   },
   "radar-system": {
-    "version": "2.0.3",
+    "version": "2.0.6",
     "path": "Nasal/radar/radar-system.nas"
   },
   "radar-system-database": {
-    "version": "1.1.10",
+    "version": "1.1.13",
     "path": "Nasal/radar/radar-system-database.nas"
   },
   "rcs-mand": {
@@ -40,11 +40,11 @@
     "path": "Nasal/radar/rcs_mand.nas"
   },
   "iff": {
-    "version": "1.1.0",
+    "version": "1.1.1",
     "path": "Nasal/radar/iff.nas"
   },
   "datalink": {
-    "version": "1.1.0",
+    "version": "1.1.1",
     "path": "Nasal/radios/datalink.nas"
   }
 }

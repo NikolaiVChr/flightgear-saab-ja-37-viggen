@@ -6,7 +6,7 @@
 #
 # Initial implementation: Leto
 #
-# License: GPL 2
+# License: GPL 2.0 or later
 #
 ###############################################
 
@@ -583,7 +583,7 @@ var Pylon = {
 
 	setGUI: func {
 		me.nameGUI = "";
-		if (me.currentSet.showNameInsteadOfCount) {
+		if (me.currentSet["showNameInsteadOfCount"]) {
 			# Only check that something is loaded
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
@@ -591,7 +591,7 @@ var Pylon = {
 					break;
 				}
 			}
-		} elsif (me.currentSet.showLongTypeInsteadOfCount) {
+		} elsif (me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameGUI = me.wapny.typeLong;
@@ -645,7 +645,7 @@ var Pylon = {
 
 	getCurrentShortName: func {
 		me.nameS = "";
-		if (me.currentSet.showNameInsteadOfCount or me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showNameInsteadOfCount"] or me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameS = me.wapny.typeShort;
@@ -681,7 +681,7 @@ var Pylon = {
 	
 	getCurrentSMSName: func {
 		me.nameS = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					if (me.wapny.typeShort != nil) {
@@ -858,7 +858,7 @@ var WPylon = {
 
 	getCurrentShortName: func {
 		me.nameS = "";
-		if (me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameS = me.wapny.typeShort;
@@ -894,7 +894,7 @@ var WPylon = {
 	
 	getCurrentSMSName: func {
 		me.nameS = "";
-		if (me.currentSet.showNameInsteadOfCount or me.currentSet.showLongTypeInsteadOfCount) {
+		if (me.currentSet["showNameInsteadOfCount"] or me.currentSet["showLongTypeInsteadOfCount"]) {
 			foreach(me.wapny;me.weapons) {
 				if (me.wapny != nil) {
 					me.nameS = me.wapny.typeShort;
@@ -990,7 +990,7 @@ var SubModelWeapon = {
 #
 # Attributes:
 #  drag, weight, submodel(s)
-	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable,  operableFunction=nil, alternate=0, podSubModelNumbers=nil, podSubModelTrigger=nil) {
+	new: func (name, munitionMass, maxAmmo, subModelNumbers, tracerSubModelNumbers, trigger, jettisonable, operableFunction=nil, alternate=0, podSubModelNumbers=nil, podSubModelTrigger=nil) {
 		var s = {parents:[SubModelWeapon]};
 		s.type = name;
 		s.typeLong = name;
