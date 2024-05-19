@@ -2,7 +2,7 @@
 # Compute azimuth and elevation of 'vector' in this frame.
 #
 # remarks: unpredictable result if up / forward are not orthogonal.
-# Azimuth and elevation are in radian.
+# Azimuth and elevation are in degrees.
 # Elevation is the angle (vector, up), 90 if vector and up are aligned, = -90 if opposed.
 # Azimuth is the angle (vector, forward) after projection orthogonally to 'up'.
 #
