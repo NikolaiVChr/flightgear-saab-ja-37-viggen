@@ -1887,9 +1887,6 @@
         <gci>
           <file>Aircraft/JA37/Nasal/gci-listener.nas</file>
         </gci>
-        <lm>
-            <file>Aircraft/JA37/Nasal/light-manager.nas</file>
-        </lm>
         <tacview>
             <file>Aircraft/JA37/Nasal/tacview.nas</file>
         </tacview>

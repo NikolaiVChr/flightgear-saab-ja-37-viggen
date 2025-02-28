@@ -820,9 +820,6 @@ var Saab37 = {
       elev.init();
     }
 
-    # Old ALS landing/taxi lights
-    if (!getprop("/ja37/supported/compositor")) lm.light_manager.init();
-
     # Startall the loops
     scheduler.start();
   },
@@ -968,7 +965,6 @@ var test_support = func {
   var version = split(".", versionString);
   var minVersion = split(".", minVersionString);
 
-  setprop("ja37/supported/compositor", lexi_compare(version, [2020,4,0]) >= 0);
   setprop("ja37/supported/canvas-arcs", lexi_compare(version, [2020,4,0]) >= 0);
 
   if (lexi_compare(version, minVersion) < 0) {
