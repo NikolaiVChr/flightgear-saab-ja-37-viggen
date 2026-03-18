@@ -4722,6 +4722,7 @@ var AIM = {
 			}
 
 			me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
+			me.xyz          = {"x":me.launchCoord.x(), "y":me.launchCoord.y(), "z":me.launchCoord.z()};
 			me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
 			# Check for terrain between own weapon and target:
