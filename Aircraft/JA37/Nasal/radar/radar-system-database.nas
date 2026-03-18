@@ -112,6 +112,7 @@ var Database = {
 	"mp-eisenhower":          {hasAirRadar:1, rwrCode:"SH", canFly: 0, isShip: 1, isCarrier: 1, radarHorzRadius: 180, baseThreat:defaultMissileShipThreat},
 	"mp-nimitz":              {hasAirRadar:1, rwrCode:"SH", canFly: 0, isShip: 1, isCarrier: 1, radarHorzRadius: 180, baseThreat:defaultMissileShipThreat},
 	"mp-vinson":              {hasAirRadar:1, rwrCode:"SH", canFly: 0, isShip: 1, isCarrier: 1, radarHorzRadius: 180, baseThreat:defaultMissileShipThreat},
+	"mp-truman":              {hasAirRadar:1, rwrCode:"SH", canFly: 0, isShip: 1, isCarrier: 1, radarHorzRadius: 180, baseThreat:defaultMissileShipThreat},
 # Drones
     "QF-4E":                  {hasAirRadar:1, rwrCode:"F4"},
     "MQ-9":                   {killZone: 15, baseThreat:defaultFighterThreat},

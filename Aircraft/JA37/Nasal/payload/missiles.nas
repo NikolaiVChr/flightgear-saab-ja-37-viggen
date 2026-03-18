@@ -190,7 +190,7 @@ var contactPoint = nil;
 # isValid()       - If this target is valid
 # getElevation()  - Pitch to target from launch vehicle
 # get_bearing()   - Bearing to target from launch vehicle
-# get_Callsign() 
+# get_Callsign()
 # get_range()     - NM
 # get_Coord()
 # get_altitude()  - FT
@@ -1362,7 +1362,7 @@ var AIM = {
 		# do NOT call this after launch
 		# see also release(vect)
 		if (me.status == MISSILE_FLYING) return;
-		me.contacts = vect;		
+		me.contacts = vect;
 	},
 
 	clearTgt: func {
@@ -1630,7 +1630,7 @@ var AIM = {
 		me.model.getNode("heading-deg-prop", 1).setValue(me.hdgN.getPath());
 		me.model.getNode("pitch-deg-prop", 1).setValue(me.pitchN.getPath());
 		me.model.getNode("roll-deg-prop", 1).setValue(me.rollN.getPath());
-		
+
 
 		# Get initial velocity vector (aircraft):
 		me.speed_down_fps = getprop("velocities/speed-down-fps");
@@ -1763,7 +1763,7 @@ var AIM = {
 
 		me.lock_on_sun = 0;
 
-		
+
 
 		if(!sep_thread) {
 			me.flightTimer = maketimer(0, me, me.flight);
@@ -2241,7 +2241,7 @@ var AIM = {
 		me.deploy_prop.setDoubleValue(me.deploy);
 
 		me.thrust_lbf = me.thrust();# pounds force (lbf)
-		
+
 
 		# Jmav remove the # from the line below for cruise missile adjustment:
 		#me.printAlways("guiding=%d  time=%d:  mach=%.3f  alt=%d  %s",me.guiding, me.life_time, me.speed_m, me.alt_ft, me.observing);
@@ -2751,7 +2751,7 @@ var AIM = {
 				me.loft_alt = me.settings.altitude;
 			}
 			if (me.settings["altitude_at"] != nil) {
-				# Altitude above target				
+				# Altitude above target
 				me.settings.altitude_at+=me.Tgt.get_altitude();
 				if (me.loft_alt != me.settings.altitude_at) me.printStats("Loft altitude switched to %d", me.settings.altitude_at);
 				me.loft_alt = me.settings.altitude_at;
@@ -3221,7 +3221,7 @@ var AIM = {
 			me.blep = me.Tgt.getLastGroundTrackBlep();
 			if (me.blep == nil and me.newTargetAssigned) {
 				# TODO: Do not remember what this is for
-				me.t_coord_sampled = me.t_coord;	
+				me.t_coord_sampled = me.t_coord;
 			} elsif (me.blep == nil) {
 				me.free = 1;
 				me.guiding = 0;
@@ -4007,11 +4007,11 @@ var AIM = {
 			me.t_go = me.myMath.dotProduct(me.R_tm,me.R_tm)/me.myMath.dotProduct(me.R_tm, me.V_tm);
 			#printf("time_to_go %.1f, closing %d",me.t_go,me.vert_closing_rate_fps);
 
-			
+
 
 			# Horizontal homing:
 			if (me.guidanceLaw == "LOS") {
-				
+
 				me.K1 =    2.5;
 				me.K2 =   10.0;
 
@@ -4721,9 +4721,8 @@ var AIM = {
 				me.launchCoord.set_xyz(me.geodPos.x, me.geodPos.y, me.geodPos.z);
 			}
 
-			me.potentialCoord = me.tagt.get_Coord();
-			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
-		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
+			me.potentialCoord = me.tagt.get_coord_for_view(me.guidance == "radiation");
+			me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
 			# Check for terrain between own weapon and target:
 			me.terrainGeod = get_cart_ground_intersection(me.xyz, me.directionLOS);
@@ -4746,7 +4745,7 @@ var AIM = {
 	checkForViewInFlight: func (tagt) {
 		if (me.guidance != "gps-laser" and me.guidance != "gps" and me.guidance != "inertial" and me.guidance != "sample") {
 			me.launchCoord = me.coord;
-			me.potentialCoord = tagt.get_Coord();
+			me.potentialCoord = tagt.get_coord_for_view(me.guidance == "radiation");
 			me.xyz          = {"x":me.launchCoord.x(),                  "y":me.launchCoord.y(),                 "z":me.launchCoord.z()};
 		    me.directionLOS = {"x":me.potentialCoord.x()-me.launchCoord.x(),   "y":me.potentialCoord.y()-me.launchCoord.y(),  "z":me.potentialCoord.z()-me.launchCoord.z()};
 
@@ -5043,7 +5042,7 @@ var AIM = {
 
 	goToLock: func {
         me.callsign = damage.processCallsign(me.tagt.get_Callsign());
-        if (multiplayer.ignore[me.callsign] == 1) {
+		if (damage.isIgnoredCallsign(me.callsign)) {
         	me.callsign = "Unknown";
         	if (me.tagt == contact) contact = nil;
         	makesettimer(func me.search(), 0.1);
