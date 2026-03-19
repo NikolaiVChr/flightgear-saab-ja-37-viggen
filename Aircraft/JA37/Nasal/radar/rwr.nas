@@ -481,7 +481,8 @@ missileRecipient.Receive = func(notification) {
     if (!notification.FromIncomingBridge
         or notification.NotificationType != "ArmamentInFlightNotification"
         or notification.RemoteCallsign != callsign
-        or (!input.damage.getBoolValue() and !input.spectator.getBoolValue())) {
+        or (!input.damage.getBoolValue() and !input.spectator.getBoolValue())
+        or damage.isIgnoredCallsign(notification.Callsign)) {
         return emesary.Transmitter.ReceiptStatus_NotProcessed;
     }
 
