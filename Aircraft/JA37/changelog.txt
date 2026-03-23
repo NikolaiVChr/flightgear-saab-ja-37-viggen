@@ -4354,3 +4354,10 @@ Warn about excessive rolling speed based on ground speed, not airspeed.
 Model: Remodel KV3 channel selector and transponder
 MP damage: Actually ignore ignored aircrafts
 Updates to radar, weapons, and MP damage systems from several contributors
+
+
+5.5.0 - 2026 March 23
+=====
+
+This is the same as v5.4.0, plus the following breaking change:
+Add compositor shadows to the fuselage effect - requires FG 2024.1
