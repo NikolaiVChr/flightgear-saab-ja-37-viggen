@@ -4306,3 +4306,51 @@ Critical bugfix for FG 2020.4+: Fix conditions in payload dialog
 Effects: Fix undefined behaviour in lcd.frag
 Effects: Workaround ALS HUD transparency issue
 Displays: Work around MI/TI brightness issue
+
+
+5.4.0 - 2026 March 23
+=====
+
+Notable changes:
+- New custom navigation system for the AJS variant, with flightplan
+  limited to 9 waypoints (as historically), but with additional special waypoints
+  (target / popup / extra waypoints / secondary landing base).
+  Also adds the ability to move target waypoints using the CI and the radar stick
+- Minor sound rework, adding or adjusting sounds for engine (including throttle and startup),
+  gears and speedbrakes, payload jettison, and a few others.
+- Tweaks to engine controls for startup and afterburner.
+
+Misc:
+TI: Fix rounding error in map tiles positioning
+Revert "Disable external views with damage on"
+armament: Adjust some firing delay parameters
+Remove support for FG < 2017.3.1
+Sim: Adjust g load limits
+Effect: Remove compositor light for formation spotlights
+Model: Adjust left panel, add missing switches
+Sim: Adjust random switch positions
+Sim: Improve FCS failures, add pitch gearing failure
+Model: Flood light illuminates instruments
+Sim: Gyros use electrical power
+Model: Merge / simplify some small objects
+Add tacview recorder
+UI: Regroup menu items by categories
+UI: Fully replace default dialogs with custom ones
+Input: Add some multikey commands
+Checklists: Fix master warning conditions
+Sim: Increase MP range to 200nm
+RWR: Different radars are detected at different ranges
+MI: Use recording button (REG) for tacview
+flight recorder: Add chocks property
+Sim: Limit fuel distributor based on g-force, not attitude
+radios: Set Swedish airbase channels by default
+Radar: (Re)add lock tone
+readme: Clarify description of interoperability mode and of extra fuel warning
+model: fix / standardise 'not implemented' tooltips
+Warn about wrong aircraft directory name
+datapanel: Fix export of HUD interop parameters
+doc: Update flight manuals
+Warn about excessive rolling speed based on ground speed, not airspeed.
+Model: Remodel KV3 channel selector and transponder
+MP damage: Actually ignore ignored aircrafts
+Updates to radar, weapons, and MP damage systems from several contributors
