@@ -207,7 +207,7 @@
 	<animation>
 		<type>translate</type>
 		<object-name>command_heading</object-name>
-		<property>instrumentation/radio/heading-indicator-norm</property>
+		<property>instrumentation/nav/heading-needle-deflection-norm</property>
 		<factor>.0175</factor>
 		<axis>
 			<x>0</x>
