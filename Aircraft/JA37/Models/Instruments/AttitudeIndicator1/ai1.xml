@@ -5,29 +5,31 @@
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-        <object-name>glassAI1</object-name>
+        <object-name>glass</object-name>
     </effect>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>ai-ring</object-name>
-        <object-name>CLOCK_mount</object-name>
+        <object-name>mount</object-name>
     </effect>
-    
+
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-gauge</inherits-from>
+        <object-name>face</object-name>
         <object-name>sphere</object-name>
-        <object-name>bank-index</object-name>
-        <object-name>off</object-name>
-        <object-name>level</object-name>
-        <object-name>headingIndicator</object-name>
-        <object-name>glideslopeIndicator</object-name>
+        <object-name>bankindex</object-name>
+        <object-name>flag</object-name>
+        <object-name>command_heading</object-name>
+        <object-name>command_pitch</object-name>
+        <object-name>VSindex</object-name>
+        <object-name>VSdial</object-name>
+        <object-name>skidball</object-name>
     </effect>
 
     <animation>
         <type>pick</type>
         <object-name>sphere</object-name>
-        <object-name>bank-index</object-name>
+        <object-name>bankindex</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -37,10 +39,10 @@
             </binding>
         </hovered>
     </animation>
-    
+
     <animation>
         <type>select</type>
-        <object-name>off</object-name>
+        <object-name>flag</object-name>
         <condition>
             <not>
                 <property>ja37/elec/dc-bus-main-bool</property>
@@ -50,14 +52,19 @@
 
     <animation>
         <type>material</type>
+        <object-name>face</object-name>
         <object-name>sphere</object-name>
-        <object-name>bank-index</object-name>
-        <object-name>off</object-name>
-        <object-name>level</object-name>
+        <object-name>bankindex</object-name>
+        <object-name>flag</object-name>
+        <object-name>command_heading</object-name>
+        <object-name>command_pitch</object-name>
+        <object-name>VSindex</object-name>
+        <object-name>VSdial</object-name>
+        <object-name>skidball</object-name>
         <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
     </animation>
@@ -70,10 +77,11 @@
         </condition>
         <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
         <center>
-            <x-m>-0.02692</x-m>
+            <x-m>-0.040784</x-m>
             <y-m>0</y-m>
-            <z-m>0.0</z-m>
+            <z-m>0.003766</z-m>
         </center>
+
         <axis>
             <x>1</x>
         </axis>
@@ -87,9 +95,9 @@
         </condition>
         <property>instrumentation/attitude-indicator/indicated-pitch-deg</property>
         <center>
-            <x-m>-0.02692</x-m>
+            <x-m>-0.040784</x-m>
             <y-m>0</y-m>
-            <z-m>0.0</z-m>
+            <z-m>0.003766</z-m>
         </center>
         <axis>
             <y>1</y>
@@ -105,9 +113,9 @@
         <property>instrumentation/heading-indicator/indicated-heading-deg</property>
         <factor>-1</factor>
         <center>
-            <x-m>-0.02692</x-m>
+            <x-m>-0.040784</x-m>
             <y-m>0</y-m>
-            <z-m>0.0</z-m>
+            <z-m>0.003766</z-m>
         </center>
         <axis>
             <z>1</z>
@@ -116,11 +124,61 @@
 
     <animation>
         <type>rotate</type>
-        <object-name>bank-index</object-name>
+        <object-name>bankindex</object-name>
         <condition>
             <property>ja37/elec/dc-bus-main-bool</property>
         </condition>
         <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0.003424</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+        </axis>
+    </animation>
+
+    <!-- vertical speed (different scales between JA and AJS) -->
+    <animation>
+        <type>translate</type>
+        <object-name>VSindex</object-name>
+        <property>instrumentation/vertical-speed-indicator/indicated-speed-norm</property>
+        <factor>0.023</factor>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>VSdial</object-name>
+        <property>ja37/systems/variant</property>
+        <factor>-0.03125</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+        </axis>
+    </animation>
+
+    <!-- slip skip ball -->
+
+    <animation>
+        <type>rotate</type>
+        <object-name>skidball</object-name>
+        <property>instrumentation/slip-skid-ball/indicated-slip-skid</property>
+        <!-- indicated-slip-skid is tan(slip-angle)*10. Don't ask.
+            This is 180/pi/10 to convert to degrees. Thanks to the c172p for doing the math for me! -->
+        <factor>-5.729</factor>
+        <min-deg>-11</min-deg>
+        <max-deg>11</max-deg>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0.03</z-m>
+        </center>
         <axis>
             <x>1</x>
         </axis>
@@ -130,7 +188,7 @@
     
     <animation>
         <type>select</type>
-        <object-name>glideslopeIndicator</object-name>
+        <object-name>command_pitch</object-name>
         <condition>
             <property>/ja37/hud/TILS-on</property>
             <property>instrumentation/nav[0]/gs-in-range</property>
@@ -140,7 +198,7 @@
     
     <animation>
         <type>select</type>
-        <object-name>headingIndicator</object-name>
+        <object-name>command_heading</object-name>
         <condition>
             <property>/ja37/hud/TILS-on</property>
         </condition>
@@ -148,7 +206,7 @@
     
 	<animation>
 		<type>translate</type>
-		<object-name>headingIndicator</object-name>
+		<object-name>command_heading</object-name>
 		<property>instrumentation/radio/heading-indicator-norm</property>
 		<factor>.0175</factor>
 		<axis>
@@ -160,7 +218,7 @@
 	
 	<animation>
 		<type>translate</type>
-		<object-name>glideslopeIndicator</object-name>
+		<object-name>command_pitch</object-name>
 		<property>instrumentation/nav/gs-needle-deflection-norm</property>
 		<factor>.0175</factor>
 		<axis>

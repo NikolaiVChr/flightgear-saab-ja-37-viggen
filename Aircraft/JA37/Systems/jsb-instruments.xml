@@ -320,6 +320,28 @@
             <gain>3.2808399</gain>
             <output>/instrumentation/altimeter/indicated-altitude-asl-ft</output>
         </pure_gain>
+
+        <!-- vertical speed (indicator scale is 10m/s for JA, 5m/s for AJS -->
+        <switch name="instruments/vertical-speed/scale-mps">
+            <test value="5">
+                /ja37/systems/variant ne 0
+            </test>
+            <default value="10"/>
+        </switch>
+
+        <fcs_function name="instruments/vertical-speed/speed-norm">
+            <function>
+                <quotient>
+                    <property>/instrumentation/vertical-speed-indicator/indicated-speed-mps</property>
+                    <property>instruments/vertical-speed/scale-mps</property>
+                </quotient>
+            </function>
+            <clipto>
+                <min>-1.2</min>
+                <max>1.2</max>
+            </clipto>
+            <output>/instrumentation/vertical-speed-indicator/indicated-speed-norm</output>
+        </fcs_function>
     </channel>
 
     <channel execrate="4" name="airspeed-indicators">

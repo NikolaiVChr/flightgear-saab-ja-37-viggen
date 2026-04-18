@@ -202,18 +202,10 @@
     <name>Attitude Indicator</name>
     <offsets>
       <x-m>  0.0075</x-m>
-      <y-m> -0.16</y-m>
-      <z-m>  0.2375</z-m>
+      <y-m> -0.155</y-m>
+      <z-m>  0.2</z-m>
     </offsets>
   </model>
-
-  <animation>
-    <type>scale</type>
-    <object-name>Attitude Indicator</object-name>
-    <x-offset>0.50</x-offset>
-    <y-offset>0.90</y-offset>
-    <z-offset>0.90</z-offset>
-  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
@@ -230,8 +222,8 @@
     <name>callsign</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.25</y-m>
-      <z-m> 0.135</z-m>
+      <y-m>-0.26</y-m>
+      <z-m> 0.125</z-m>
     </offsets>
   </model>
 
@@ -258,8 +250,8 @@
     <name>Airspeed</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.24</y-m>
-      <z-m>0.19</z-m>
+      <y-m>-0.26</y-m>
+      <z-m>0.18</z-m>
     </offsets>
   </model>
 
@@ -288,8 +280,8 @@
     <name>A/P</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.235</y-m>
-      <z-m>0.262</z-m>
+      <y-m>-0.255</y-m>
+      <z-m>0.252</z-m>
     </offsets>
   </model>
 
@@ -298,8 +290,8 @@
     <name>A/T</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.228</y-m>
-      <z-m>0.243</z-m>
+      <y-m>-0.248</y-m>
+      <z-m>0.233</z-m>
     </offsets>
   </model>
 
@@ -308,8 +300,8 @@
     <name>A/T alpha</name>
     <offsets>
       <x-m>0</x-m>
-      <y-m>-0.207</y-m>
-      <z-m>0.243</z-m>
+      <y-m>-0.227</y-m>
+      <z-m>0.233</z-m>
     </offsets>
   </model>
 

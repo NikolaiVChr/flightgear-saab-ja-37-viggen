@@ -248,9 +248,9 @@
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>
     <name>Attitude Indicator</name>
     <offsets>
-      <x-m>0</x-m>
-      <y-m>-0.165</y-m>
-      <z-m>0.145</z-m>
+      <x-m>0.0075</x-m>
+      <y-m>-0.155</y-m>
+      <z-m>0.138</z-m>
     </offsets>
   </model>
 
