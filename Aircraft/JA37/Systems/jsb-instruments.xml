@@ -122,6 +122,18 @@
             <output>/instrumentation/altimeter/pressure-alt-meter</output>
         </pure_gain>
 
+        <actuator name="instruments/altimeter/power-flag">
+            <input>/ja37/elec/ac-bus-main-bool</input>
+            <rate_limit>8</rate_limit>
+            <output>/instrumentation/altimeter/power-flag</output>
+        </actuator>
+
+        <actuator name="instruments/altimeter/std-flag">
+          <input>/instrumentation/altimeter/setting-std</input>
+            <rate_limit>6</rate_limit>
+            <output>/instrumentation/altimeter/std-flag</output>
+        </actuator>
+
         <!-- Radar altimeter -->
         <switch name="instruments/radar-altimeter/functional">
             <default value="1"/>
@@ -370,7 +382,7 @@
 
         <actuator name="instruments/airspeed/power-flag">
             <input>/ja37/elec/ac-bus-main-bool</input>
-            <rate_limit>5</rate_limit>
+            <rate_limit>6</rate_limit>
             <output>/instrumentation/airspeed-indicator/power-flag</output>
         </actuator>
 

@@ -211,12 +211,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Altimeter/altimeter.xml</path>
-    <name>Altitude indicator</name>
+    <path>Aircraft/JA37/Models/Instruments/AltimeterJA/altimeter-ja.xml</path>
+    <name>Altimeter</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.265</y-m>
-      <z-m>  0.125</z-m>
+      <x-m> 0.00</x-m>
+      <y-m>-0.275</y-m>
+      <z-m> 0.125</z-m>
     </offsets>
   </model>
 
@@ -225,8 +225,8 @@
     <name>handleLeft</name>
     <offsets>
       <x-m>0.000</x-m>
-      <y-m>-0.215</y-m>
-      <z-m>0.150</z-m>
+      <y-m>-0.22</y-m>
+      <z-m>0.14</z-m>
       <roll-deg>90</roll-deg>
     </offsets>
   </model>
@@ -249,8 +249,8 @@
     <name>Attitude Indicator</name>
     <offsets>
       <x-m>0.0075</x-m>
-      <y-m>-0.155</y-m>
-      <z-m>0.138</z-m>
+      <y-m>-0.16</y-m>
+      <z-m>0.14</z-m>
     </offsets>
   </model>
 
@@ -291,17 +291,6 @@
       <x-m>0</x-m>
       <y-m>-0.13</y-m>
       <z-m>0.04</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/callsign.xml</path>
-    <name>callsign</name>
-    <offsets>
-      <x-m>0</x-m>
-      <y-m>-0.31</y-m>
-      <z-m> 0.14</z-m>
-      <roll-deg>90</roll-deg>
     </offsets>
   </model>
 </PropertyList>
