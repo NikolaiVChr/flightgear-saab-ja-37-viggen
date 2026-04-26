@@ -71,6 +71,15 @@
     <number>0</number>
   </slip-skid-ball>
 
+  <!-- Do NOT use FG default VSI, it simulates a mechanical one which cannot keep up with high V/S.
+       This is replaced by a custom one in jsb-instruments.xml, which outputs to the same properties.
+  <vertical-speed-indicator>
+    <name>vertical-speed-indicator</name>
+    <number>0</number>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+  </vertical-speed-indicator>
+  -->
+
   <!-- main radio FR28 (JA) / FR22 (AJS) -->
   <comm-radio>
     <name>comm</name>

@@ -56,7 +56,7 @@
 				</equals>
 			</condition>
 		</enable>
-		<input>/instrumentation/vertical-speed/indicated-speed-fpm</input>
+		<input>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</input>
 		<reference>
 			<condition>
 				<not-equals>
