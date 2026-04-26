@@ -41,13 +41,20 @@
     </animation>
 
     <animation>
-        <type>select</type>
+        <type>rotate</type>
         <object-name>flag</object-name>
-        <condition>
-            <not>
-                <property>ja37/elec/dc-bus-main-bool</property>
-            </not>
-        </condition>
+        <property>instrumentation/attitude-indicator[0]/power-flag</property>
+        <factor>15</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>-0.02</y-m>
+            <z-m>-0.05</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
     </animation>
 
     <animation>
@@ -143,6 +150,9 @@
     <animation>
         <type>translate</type>
         <object-name>VSindex</object-name>
+        <condition>
+            <property>ja37/elec/dc-bus-main-bool</property>
+        </condition>
         <property>instrumentation/vertical-speed-indicator/indicated-speed-norm</property>
         <factor>0.023</factor>
         <axis>
@@ -195,7 +205,7 @@
             <property>instrumentation/nav[0]/has-gs</property>
         </condition>
     </animation>
-    
+
     <animation>
         <type>select</type>
         <object-name>command_heading</object-name>
@@ -203,29 +213,34 @@
             <property>/ja37/hud/TILS-on</property>
         </condition>
     </animation>
-    
-	<animation>
-		<type>translate</type>
-		<object-name>command_heading</object-name>
-		<property>instrumentation/nav/heading-needle-deflection-norm</property>
-		<factor>.0175</factor>
-		<axis>
-			<x>0</x>
-			<y>1</y>
-			<z>0</z>
-		</axis>
-	</animation>
-	
-	<animation>
-		<type>translate</type>
-		<object-name>command_pitch</object-name>
-		<property>instrumentation/nav/gs-needle-deflection-norm</property>
-		<factor>.0175</factor>
-		<axis>
-			<x>0</x>
-			<y>0</y>
-			<z>1</z>
-		</axis>
-	</animation>
-	
+
+    <animation>
+        <type>translate</type>
+        <object-name>command_heading</object-name>
+        <condition>
+            <property>ja37/elec/dc-bus-main-bool</property>
+        </condition>
+        <property>instrumentation/nav/heading-needle-deflection-norm</property>
+        <factor>.0175</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>command_pitch</object-name>
+        <condition>
+            <property>ja37/elec/dc-bus-main-bool</property>
+        </condition>
+        <property>instrumentation/nav/gs-needle-deflection-norm</property>
+        <factor>.0175</factor>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
 </PropertyList>

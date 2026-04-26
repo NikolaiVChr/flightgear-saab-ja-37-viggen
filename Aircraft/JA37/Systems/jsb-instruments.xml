@@ -370,7 +370,7 @@
 
         <actuator name="instruments/airspeed/power-flag">
             <input>/ja37/elec/ac-bus-main-bool</input>
-            <rate_limit>10</rate_limit>
+            <rate_limit>5</rate_limit>
             <output>/instrumentation/airspeed-indicator/power-flag</output>
         </actuator>
 
@@ -423,6 +423,12 @@
             <gain>5</gain>
             <output>/instrumentation/attitude-indicator[0]/power</output>
         </pure_gain>
+
+        <actuator name="instruments/attitude/power-flag">
+            <input>/ja37/elec/ac-bus-main-bool</input>
+            <rate_limit>10</rate_limit>
+            <output>/instrumentation/attitude-indicator[0]/power-flag</output>
+        </actuator>
 
         <pure_gain name="instruments/attitude-backup/gyro-power">
             <input>/ja37/elec/ac-bus-main-norm</input>

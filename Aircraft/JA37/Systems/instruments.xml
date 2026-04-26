@@ -39,15 +39,44 @@
 
   <heading-indicator>
     <name>heading-indicator</name>
+    <number>0</number>
+    <suction>/instrumentation/heading-indicator[0]/power</suction>
+  </heading-indicator>
+
+  <heading-indicator>
+    <name>heading-indicator</name>
     <number>1</number>
     <suction>/instrumentation/heading-indicator[1]/power</suction>
   </heading-indicator>
 
   <attitude-indicator>
     <name>attitude-indicator</name>
+    <number>0</number>
+    <suction>/instrumentation/attitude-indicator[0]/power</suction>
+  </attitude-indicator>
+
+  <attitude-indicator>
+    <name>attitude-indicator</name>
     <number>1</number>
     <suction>/instrumentation/attitude-indicator[1]/power</suction>
   </attitude-indicator>
+
+  <clock>
+    <name>clock</name>
+    <number>0</number>
+  </clock>
+
+  <slip-skid-ball>
+    <name>slip-skid-ball</name>
+    <number>0</number>
+  </slip-skid-ball>
+
+  <vertical-speed-indicator>
+    <name>vertical-speed-indicator</name>
+    <number>0</number>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+  </vertical-speed-indicator>
+
 
   <!-- main radio FR28 (JA) / FR22 (AJS) -->
   <comm-radio>
@@ -107,36 +136,6 @@
     <power-supply>/instrumentation/comm[1]/power</power-supply>
     <minimum-supply-volts>1.0</minimum-supply-volts>
   </nav-radio>
-
-  <!-- TODO: Below this point is copied from generic-instrumentation.xml, and needs to be adjusted -->
-
-  <attitude-indicator>
-    <name>attitude-indicator</name>
-    <number>0</number>
-    <suction>/instrumentation/attitude-indicator[0]/power</suction>
-  </attitude-indicator>
-
-  <clock>
-    <name>clock</name>
-    <number>0</number>
-  </clock>
-
-  <heading-indicator>
-    <name>heading-indicator</name>
-    <number>0</number>
-    <suction>/instrumentation/heading-indicator[0]/power</suction>
-  </heading-indicator>
-
-  <slip-skid-ball>
-    <name>slip-skid-ball</name>
-    <number>0</number>
-  </slip-skid-ball>
-
-  <vertical-speed-indicator>
-    <name>vertical-speed-indicator</name>
-    <number>0</number>
-    <static-pressure>/systems/static/pressure-inhg</static-pressure>
-  </vertical-speed-indicator>
 
   <gps>
     <name>gps</name>
