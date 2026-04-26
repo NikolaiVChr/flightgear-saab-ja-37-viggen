@@ -71,13 +71,6 @@
     <number>0</number>
   </slip-skid-ball>
 
-  <vertical-speed-indicator>
-    <name>vertical-speed-indicator</name>
-    <number>0</number>
-    <static-pressure>/systems/static/pressure-inhg</static-pressure>
-  </vertical-speed-indicator>
-
-
   <!-- main radio FR28 (JA) / FR22 (AJS) -->
   <comm-radio>
     <name>comm</name>

@@ -151,9 +151,9 @@
         <type>translate</type>
         <object-name>VSindex</object-name>
         <condition>
-            <property>ja37/elec/dc-bus-main-bool</property>
+            <property>ja37/elec/ac-bus-main-bool</property>
         </condition>
-        <property>instrumentation/vertical-speed-indicator/indicated-speed-norm</property>
+        <property>instrumentation/vertical-speed/indicated-speed-norm</property>
         <factor>0.023</factor>
         <axis>
             <x>0</x>

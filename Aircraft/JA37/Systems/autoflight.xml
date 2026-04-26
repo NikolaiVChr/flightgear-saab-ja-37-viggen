@@ -499,10 +499,10 @@
 		<switch name="autoflight/pitch/alt-hold-pre-target">
 			<default value="autoflight/pitch/alt-hold-capture"/>
 			<test value="-1200">
-				/instrumentation/gps/indicated-vertical-speed le -50
+				/instrumentation/vertical-speed/indicated-speed-fpm le -50
 			</test>
 			<test value="1200">
-				/instrumentation/gps/indicated-vertical-speed ge 50
+				/instrumentation/vertical-speed/indicated-speed-fpm ge 50
 			</test>
 		</switch>
 		
@@ -519,13 +519,13 @@
 				autoflight/pitch/alt-hold-active eq 0
 			</test>
 			<test logic="AND" value="1">
-				/instrumentation/gps/indicated-vertical-speed le 2200
-				/instrumentation/gps/indicated-vertical-speed ge -2200
+				/instrumentation/vertical-speed/indicated-speed-fpm le 2200
+				/instrumentation/vertical-speed/indicated-speed-fpm ge -2200
 			</test>
 		</switch>
 		
 		<pure_gain name="autoflight/pitch/alt/vs-clipped">
-			<input>/instrumentation/gps/indicated-vertical-speed</input>
+			<input>/instrumentation/vertical-speed/indicated-speed-fpm</input>
 			<gain>1.0</gain>
 			<clipto> <!-- 750ft maximum deviation -->
 				<min>-5250</min>

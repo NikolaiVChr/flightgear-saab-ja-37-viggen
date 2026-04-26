@@ -333,7 +333,32 @@
             <output>/instrumentation/altimeter/indicated-altitude-asl-ft</output>
         </pure_gain>
 
-        <!-- vertical speed (indicator scale is 10m/s for JA, 5m/s for AJS -->
+
+        <!-- vertical speed
+
+            Computed by ADC. Does not use FG vertical speed indicator instrument,
+            it simulates a mechanical one, which does not handle high vertical speeds well.
+        -->
+
+        <pid name="instruments/vertical-speed/speed-mps">
+            <input>instruments/altimeter/pressure-altitude-m</input>
+            <kd>1</kd>
+            <output>/instrumentation/vertical-speed/indicated-speed-mps</output>
+        </pid>
+
+        <pure_gain name="instruments/vertical-speed/speed-fpm">
+            <input>instruments/vertical-speed/speed-mps</input>
+            <gain>196.85</gain>
+            <output>/instrumentation/vertical-speed/indicated-speed-fpm</output>
+        </pure_gain>
+
+        <pure_gain name="instruments/vertical-speed/speed-kts">
+            <input>instruments/vertical-speed/speed-mps</input>
+            <gain>1.9438</gain>
+            <output>/instrumentation/vertical-speed/indicated-speed-kts</output>
+        </pure_gain>
+
+        <!-- indicator scale is 10m/s for JA, 5m/s for AJS -->
         <switch name="instruments/vertical-speed/scale-mps">
             <test value="5">
                 /ja37/systems/variant ne 0
@@ -344,7 +369,7 @@
         <fcs_function name="instruments/vertical-speed/speed-norm">
             <function>
                 <quotient>
-                    <property>/instrumentation/vertical-speed-indicator/indicated-speed-mps</property>
+                    <property>instruments/vertical-speed/speed-mps</property>
                     <property>instruments/vertical-speed/scale-mps</property>
                 </quotient>
             </function>
@@ -352,7 +377,7 @@
                 <min>-1.2</min>
                 <max>1.2</max>
             </clipto>
-            <output>/instrumentation/vertical-speed-indicator/indicated-speed-norm</output>
+            <output>/instrumentation/vertical-speed/indicated-speed-norm</output>
         </fcs_function>
     </channel>
 

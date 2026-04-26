@@ -1417,9 +1417,6 @@
     </debug-radar>
 
     <instrumentation>
-        <gps n="0">
-		    <indicated-vertical-speed type="double">0</indicated-vertical-speed>
-        </gps>
         <!-- comm radios summary
             JA37D:
             - FR29 main radio -> comm[0]
