@@ -45,7 +45,7 @@ var KT2KMH = 1.85184;
 
 var tile_size = 256;
 
-var type = "light_nolabels";
+var type = "normal";
 
 # index   = zoom level
 # content = meter per pixel of tiles
@@ -92,7 +92,6 @@ var zoomOut = func() {
   M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 }
 
-var maps_base = getprop("/sim/fg-home") ~ '/cache/mapsTI';
 
 # max zoom 18
 # light_all,
@@ -102,10 +101,127 @@ var maps_base = getprop("/sim/fg-home") ~ '/cache/mapsTI';
 # dark_nolabels,
 # dark_only_labels
 
-var makeUrl =
-  string.compileTemplate('https://cartodb-basemaps-c.global.ssl.fastly.net/{type}/{z}/{x}/{y}.png?key=cb1_3rk0_1_a57e877b91880eb19ab64660');
-var makePath =
-  string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
+var MapTileLoader = {
+    # OSM standard for tile names
+    osm_tilepath: string.compileTemplate('/{z}/{x}/{y}.png'),
+
+    # CARTO map parameters
+    url: string.compileTemplate('https://cartodb-basemaps-c.global.ssl.fastly.net/{type}{tilename}?key=cb1_3rk0_1_a57e877b91880eb19ab64660'),
+    cache_path:  getprop("/sim/fg-home") ~ '/cache/mapsTI/',
+
+    url_type: {
+        normal: "light_nolabels",
+        max: "light_all",
+    },
+    cache_type: {
+        normal: "cartoL",
+        max: "cartoLN",
+    },
+    carto_bg_color: {   # Carto map is displayed at half brightness (quarter for night)
+        day: "rgb(128,128,128)",
+        night: "rgb(64,64,64)",
+    },
+
+    custom_tilesets: [],
+
+    blank: "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png",
+    noise: "Aircraft/JA37/Models/Cockpit/TI/noiseTile.png",
+
+
+    init: func {
+        var tilesets = props.globals.getNode("ja37/displays/ti-map", 1).getChildren("tileset");
+        setsize(me.custom_tilesets, size(tilesets));
+
+        forindex (var i; tilesets) {
+            var usage = tilesets[i].getValue("usage");
+
+            me.custom_tilesets[i] = {
+                path: resolvepath(tilesets[i].getValue("path")),
+                usage: {
+                    normal: (usage == nil or usage == "normal"),
+                    max: (usage == nil or usage == "max"),
+                },
+                bg_color: {
+                    day: tilesets[i].getValue("color-day") or "rgb(255,255,255)",
+                    night: tilesets[i].getValue("color-day") or "rgb(128,128,128)",
+                },
+            };
+        }
+    },
+
+    # 'tile' is a canvas image object. The function sets the image and colour.
+    # 'zoom','x','y' are OSM style tile coordinates:
+    #   https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+    # 'type' is the level of detail: either 'normal' or 'max'
+    load_tile: func(tile, zoom, x, y, type, day_mode, download_allowed) {
+        var mode = day_mode ? "day" : "night";
+        var tilename = me.osm_tilepath({x: x, y: y, z: zoom});
+        var path = nil;
+
+        # Lookup custom tilesets
+        foreach (var tileset; me.custom_tilesets) {
+            if (!tileset.usage[type])
+                continue;
+
+            path = tileset.path~tilename;
+
+            if (io.stat(path) == nil)
+                continue;
+
+            # tile found
+            me.set_tile(tile, path, tileset.bg_color[mode]);
+            return;
+        }
+
+        # Lookup cache
+        # TODO: don't cache indefinitely? (CARTO policy asks to cache for 30 days)
+        path = me.cache_path ~ me.cache_type[type] ~ tilename;
+        if (io.stat(path) != nil) {
+            me.set_tile(tile, path, me.carto_bg_color[mode]);
+            return;
+        }
+
+        # Download, if allowed
+        if (download_allowed) {
+            var img_url = me.url({
+                tilename: tilename,
+                type: me.url_type[type],
+            });
+
+            # NB: path was set above to the correct path in cache.
+            http.save(img_url, path)
+                .done(func(r) {
+                    #logprint(LOG_DEBUG, 'received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
+                    #logprint(LOG_DEBUG, str(io.stat(me.img_path) != nil));
+                    me.set_tile(tile, path, me.carto_bg_color[mode])
+                    })
+                .fail(func(r) { me.set_empty_tile(tile, mode) });
+
+            return;
+        }
+
+        # Download disabled -> noise tile
+        me.set_noise_tile(tile, mode);
+    },
+
+    # internal functions
+
+    set_tile: func(tile, path, colour) {
+        tile.set("src", path);
+        tile.set("fill", colour);
+        tile.update();
+    },
+
+    set_empty_tile: func(tile, mode) {
+        me.set_tile(tile, me.blank, me.carto_bg_color[mode]);
+    },
+
+    set_noise_tile: func(tile, mode) {
+        me.set_tile(tile, me.noise, me.carto_bg_color[mode]);
+    },
+};
+
+
 var num_tiles = [5, 5];# must be uneven, 5x5 will ensure we never see edge of map tiles when canvas is 512px high.
 
 var center_tile_offset = [(num_tiles[0] - 1) / 2,(num_tiles[1] - 1) / 2];#(width/tile_size)/2,(height/tile_size)/2];
@@ -200,9 +316,6 @@ var COLOR_GREY       = [0.50,0.50,0.50];# inactive
 var COLOR_GREY_LIGHT = [0.70,0.70,0.70];
 var COLOR_BLACK      = [0.00,0.00,0.00];# active
 var COLOR_GREY_BLUE  = [0.60,0.60,0.85];# flight data
-
-var COLOR_DAY   = "rgb(128,128,128)";# color fill behind map which will modulate to make it darker.
-var COLOR_NIGHT = "rgb( 64, 64, 64)";
 
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
@@ -3351,11 +3464,9 @@ var TI = {
 
 	updateMapNames: func {
 		if (me.mapPlaces == PLACES or me.menuMain == MAIN_MISSION_DATA) {
-			type = "light_all";
-			makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
+			type = "max";
 		} else {
-			type = "light_nolabels";
-			makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
+			type = "normal";
 		}
 	},
 
@@ -5739,16 +5850,13 @@ var TI = {
 
 
 	setupMap: func {
+		MapTileLoader.init();
+
 		me.mapFinal.removeAllChildren();
 		for(var x = 0; x < num_tiles[0]; x += 1) {
 		  	tiles[x] = setsize([], num_tiles[1]);
 		  	for(var y = 0; y < num_tiles[1]; y += 1) {
 		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile").set("z-index", 15);
-		    	if (me.day == TRUE) {
-		    		tiles[x][y].set("fill", COLOR_DAY);
-	    		} else {
-	    			tiles[x][y].set("fill", COLOR_NIGHT);
-	    		}
 	    	}
 		}
 	},
@@ -5767,9 +5875,6 @@ var TI = {
 
 	updateMap: func {
 		# update the map
-		if (lastDay != me.day)  {
-			me.setupMap();
-		}
 		me.rootCenterY = height*0.875-(height*0.875)*me.ownPosition;
 		if (!me.mapSelfCentered) {
 			me.lat_wp   = me.input.latitude.getValue();
@@ -5834,42 +5939,10 @@ var TI = {
 		  				# when close to crossing 180 longitude meridian line, make sure we dont double load the tiles on the negative side of the line.
 		  				xx = xx - me.n;#print(xx~" from "~(xx+me.n));
 		  			}
-					var pos = {
-						z: zoom,
-						x: xx,
-						y: me.center_tile_int[1] + y - me.tile_offset[1],
-						type: type
-					};
 
-					(func {# generator function
-					    var img_path = makePath(pos);
-					    var tile = tiles[x][y];
-					    #logprint(LOG_DEBUG, 'showing ' ~ img_path);
-					    if( io.stat(img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
-					      	var img_url = makeUrl(pos);
-					      	#logprint(LOG_DEBUG, 'requesting ' ~ img_url);
-					      	http.save(img_url, img_path)
-					      		.done(func(r) {
-					      	  		#logprint(LOG_DEBUG, 'received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
-					      	  		#logprint(LOG_DEBUG, str(io.stat(me.img_path) != nil));
-					      	  		tile.set("src", img_path);# this sometimes fails with: 'Cannot find image file' if use me. instead of var.
-					      	  		tile.update();
-					      	  		})
-					          #.done(func {logprint(LOG_DEBUG, 'received image ' ~ img_path); tile.set("src", img_path);})
-					          .fail(func (r) {#logprint(LOG_DEBUG, 'Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
-					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
-					      					tile.update();
-					      					});
-					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
-					      	#logprint(LOG_DEBUG, 'loading ' ~ me.img_path);
-					      	tile.set("src", img_path);
-					      	tile.update();
-					    } else {
-					    	# internet not allowed, so noise tile shown
-					    	tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/noiseTile.png");
-					      	tile.update();
-					    }
-					})();
+					var yy = me.center_tile_int[1] + y - me.tile_offset[1];
+
+					MapTileLoader.load_tile(tiles[x][y], zoom, xx, yy, type, me.day, me.liveMap);
 		  		}
 			}
 

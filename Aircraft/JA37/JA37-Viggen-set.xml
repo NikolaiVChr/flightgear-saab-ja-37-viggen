@@ -319,6 +319,39 @@
         <effect>
             <g-suit type="int">3</g-suit><!-- 1:71 2:79 3:97 -->
         </effect>
+        <displays>
+          <ti-map>
+            <!-- Custom TI tilesets.
+                 Several paths can be added, lower index = higher priority.
+                 Tiles use the OpenStreetMap /zoom/x/y.png name standard.
+                 (https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames)
+                 Zoom levels 6 to 10 are used.
+            -->
+            <tileset n="0"><path>Aircraft/JA37/tiles</path></tileset>
+            <!-- Optional: specify 'normal' or 'max' detail levels (usage depending on TI mode).
+                 If unset, the tileset will be used for both. -->
+            <!--
+            <tileset n="1">
+              <path>Aircraft/JA37/tiles_normal_detail</tile-path>
+              <usage>normal</usage>
+            </tileset>
+            <tileset n="2">
+              <path>Aircraft/JA37/tiles_max_detail</tile-path>
+              <usage>max</usage>
+            </tileset>
+            -->
+            <!-- Optional: specify a color that is mixed with the map.
+              These are the default values: white for day mode (display image as is),
+              grey for night (display at half brightness).-->
+            <!--
+            <tileset n="3">
+              <path>...</path>
+              <color-day>rgb(255,255,255)</color-day>
+              <color-night>rgb(128,128,128)</color-night>
+            </tileset>
+            -->
+          </ti-map>
+        </displays>
     </ja37>
 
     <limits>
