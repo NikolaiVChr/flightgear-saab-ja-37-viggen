@@ -175,6 +175,20 @@
       </visible>
     </text>
 
+    <text>
+      <row>5</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>Map by OpenStreetMap contributors and CARTO</label>
+      <visible>
+        <equals>
+          <property>/ja37/systems/variant</property>
+          <value>0</value>
+        </equals>
+      </visible>
+    </text>
+
     <!-- Radar quality (AJS only) -->
     <slider>
       <row>2</row>
@@ -247,13 +261,13 @@
     <!-- Cursor -->
 
     <hrule>
-      <row>5</row>
+      <row>6</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <checkbox>
-      <row>6</row>
+      <row>7</row>
       <col>0</col>
       <property>controls/displays/arrows-controls-cursor</property>
       <live>true</live>
@@ -263,18 +277,10 @@
     </checkbox>
 
     <text>
-      <row>6</row>
+      <row>7</row>
       <col>1</col>
       <halign>left</halign>
       <label>Arrow keys control radar cursor, Enter clicks / selects</label>
-    </text>
-
-    <text>
-      <row>7</row>
-      <col>0</col>
-      <colspan>2</colspan>
-      <halign>left</halign>
-      <label>Alternative controls for radar cursor:</label>
     </text>
 
     <text>
@@ -282,7 +288,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label> - Add joystick bindings for the cursor through File > Joystick Configuration</label>
+      <label>Alternative controls for radar cursor:</label>
     </text>
 
     <text>
@@ -290,7 +296,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label> - Manually edit joystick configuration files to bind the properties</label>
+      <label> - Add joystick bindings for the cursor through File > Joystick Configuration</label>
     </text>
 
     <text>
@@ -298,7 +304,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label>    /controls/displays/cursor-slew-x</label>
+      <label> - Manually edit joystick configuration files to bind the properties</label>
     </text>
 
     <text>
@@ -306,7 +312,7 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label>    /controls/displays/cursor-slew-y</label>
+      <label>    /controls/displays/cursor-slew-x</label>
     </text>
 
     <text>
@@ -314,11 +320,19 @@
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
-      <label>    /controls/displays/cursor-click</label>
+      <label>    /controls/displays/cursor-slew-y</label>
     </text>
 
     <text>
       <row>13</row>
+      <col>0</col>
+      <colspan>2</colspan>
+      <halign>left</halign>
+      <label>    /controls/displays/cursor-click</label>
+    </text>
+
+    <text>
+      <row>14</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -328,13 +342,13 @@
     <!-- MP damage -->
 
     <hrule>
-      <row>14</row>
+      <row>15</row>
       <col>0</col>
       <colspan>2</colspan>
     </hrule>
 
     <checkbox>
-      <row>15</row>
+      <row>16</row>
       <col>0</col>
       <enable><property>/ja37/on-ground</property></enable>
       <property>/payload/armament/msg</property>
@@ -345,7 +359,7 @@
     </checkbox>
 
     <text>
-      <row>15</row>
+      <row>16</row>
       <col>1</col>
       <halign>left</halign>
       <label>Enable multiplayer damage</label>
@@ -353,28 +367,28 @@
     </text>
 
     <text>
-      <row>16</row>
+      <row>17</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>This option allows to deal and receive damage from other compatible aircrafts,</label>
     </text>
     <text>
-      <row>17</row>
+      <row>18</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>if they have also enabled it. It can only be toggled when stopped on the ground.</label>
     </text>
     <text>
-      <row>18</row>
+      <row>19</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
       <label>Enabling this enforces some realism options, such as blackout, normal simulation</label>
     </text>
     <text>
-      <row>19</row>
+      <row>20</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
@@ -382,7 +396,7 @@
     </text>
 
     <checkbox>
-      <row>20</row>
+      <row>21</row>
       <col>0</col>
       <enable><not><property>/payload/armament/msg</property></not></enable>
       <property>/payload/armament/spectator</property>
@@ -393,14 +407,14 @@
     </checkbox>
 
     <text>
-      <row>20</row>
+      <row>21</row>
       <col>1</col>
       <halign>left</halign>
       <label>Spectator mode</label>
       <enable><not><property>/payload/armament/msg</property></not></enable>
     </text>
     <text>
-      <row>21</row>
+      <row>22</row>
       <col>0</col>
       <colspan>2</colspan>
       <halign>left</halign>
